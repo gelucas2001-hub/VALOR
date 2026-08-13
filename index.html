@@ -438,7 +438,11 @@ const devig   = (o1,o2) => { const a=implied(o1), b=implied(o2), s=a+b; return s
 function derive(M,cfg){
   const ht = matrix(cfg.lh*0.45, cfg.la*0.45, cfg.rho, 6);
   const out = [];
-  const add = (g,label,p,line) => out.push({g,label,p,line,odds:null,oddsOpp:null,id:g+"|"+label});
+  /* push = probabilidad de que la apuesta se anule y devuelvan el dinero
+     (el empate en DNB). Cambia el EV pero NO el Kelly: con la probabilidad
+     condicional, la fracción óptima de Kelly es la misma que resolviendo
+     los tres desenlaces — verificado numéricamente. */
+  const add = (g,label,p,push=0) => out.push({g,label,p,push,odds:null,oddsOpp:null,id:g+"|"+label});
 
   add("1X2","Gana local",            sumIf(M,(i,j)=>i>j));
   add("1X2","Empate",                sumIf(M,(i,j)=>i===j));
@@ -480,11 +484,15 @@ function derive(M,cfg){
     add("Rango","Visitante — "+lbl+" goles", sumIf(M,(i,j)=>j>=lo&&j<=hi));
   });
 
-  // Empate no válido (Draw No Bet): reparte la probabilidad del empate
-  // entre local y visitante, proporcional a lo que ya valían.
+  // Empate no válido (Draw No Bet): la probabilidad que se guarda es la
+  // CONDICIONAL a que no haya empate (pL/(pL+pV)) — así la cuota justa y
+  // el Kelly salen bien. Pero el empate devuelve el dinero, no lo pierde,
+  // así que el EV hay que escalarlo por la probabilidad de que la apuesta
+  // efectivamente resuelva: eso lo hace el campo push en evaluate().
   const pL=sumIf(M,(i,j)=>i>j), pV=sumIf(M,(i,j)=>i<j);
-  add("DNB","Local (empate anula)",     pL/(pL+pV));
-  add("DNB","Visitante (empate anula)", pV/(pL+pV));
+  const pEmpate = Math.max(0, 1 - pL - pV);
+  add("DNB","Local (empate anula)",     pL/(pL+pV), pEmpate);
+  add("DNB","Visitante (empate anula)", pV/(pL+pV), pEmpate);
 
   // Hándicap asiático de líneas .5 — sin empate posible, no hay que
   // resolver el caso "push" (cancha la apuesta) que sí tienen las enteras.
@@ -520,9 +528,10 @@ const FAMILY = {"1X2":"resultado","Doble":"resultado","Goles":"goles","Ambos":"g
                 "Marcador":"resultado","Marcador 1T":"goles","Rango":"goles",
                 "DNB":"resultado","Hándicap":"resultado"};
 
-/* Kelly escalado por confianza. Debajo de 50 no se corre Kelly:
-   la fórmula asume que tu probabilidad es correcta, y con confianza
-   baja eso justamente es lo que no sabés. */
+/* Kelly escalado por la calidad del análisis. Debajo de 50 no se corre
+   Kelly: la fórmula asume que tu probabilidad es correcta, y con datos
+   flojos eso justamente es lo que no sabés. (El campo interno sigue
+   llamándose "conf" para no romper los registros ya guardados.) */
 function kellyFracFor(c){
   if(c>=72) return {f:0.25,  t:"Kelly ¼"};
   if(c>=60) return {f:0.125, t:"Kelly ⅛"};
@@ -541,7 +550,10 @@ function evaluate(mkts,S,m){
     const o = parseFloat(x.odds);
     const fam = FAMILY[x.g];
     if(!o || o<=1) return {...x, e:null, fam};
-    const e = ev(x.p,o);
+    // ev() asume que perder cuesta toda la apuesta. Si el mercado puede
+    // anularse (push), esa parte no se pierde: el EV real es el binario
+    // escalado por la probabilidad de que la apuesta resuelva.
+    const e = ev(x.p,o) * (1 - (x.push||0));
     let dv=null, eFair=null;
     const oo = parseFloat(x.oddsOpp);
     if(oo && oo>1){ dv = devig(o,oo); eFair = x.p - dv.p; }  // ¿sobrevive sin vig?
@@ -790,7 +802,7 @@ function matchCard({m,best,n}){
         <span>EV<b class="${best.e>0?"pos":"neg"}">${sg(best.e)}</b></span>
         <span>Justa<b>@${fair(best.p).toFixed(2)}</b></span>
         <span>Stake<b>${best.stake?mny(best.stake):"—"}</b></span>
-        <span>Conf.<b>${m.conf??65}</b></span>
+        <span>Calidad<b>${m.conf??65}</b></span>
       </div>
       ${best.trap?`<div class="warn">Valor falso: la cuota parece buena, pero al sacarle el margen a la línea la ventaja desaparece.</div>`:""}
     </div>` : `
@@ -932,14 +944,17 @@ function tabModel(m,M,mkts){
 
   return `
   <div class="sliders">
-    <div class="eyebrow" style="margin-bottom:13px">Confianza del análisis</div>
-    ${sl("conf","Confianza (escala el stake, no lo veta)",m.conf??65,30,100,1,m.id,0)}
+    <div class="eyebrow" style="margin-bottom:13px">Calidad del análisis</div>
+    ${sl("conf","Calidad del análisis (escala el stake, no lo veta)",m.conf??65,30,100,1,m.id,0)}
     <div class="ded">
-      Base 100. Restá: <b>15</b> sin xG público confiable (Argentina siempre) ·
+      <b style="color:var(--muted)">No es una probabilidad.</b> Es un puntaje de qué tan
+      buenos son los datos detrás de este análisis — 65 acá NO significa "65% de chance
+      de acertar". La probabilidad del modelo es la que aparece en cada mercado.
+      <br><br>Base 100. Restá: <b>15</b> sin xG público confiable (Argentina siempre) ·
       <b>15</b> competición de alta varianza · <b>15</b> DT con menos de 3 partidos ·
       <b>12</b> baja confirmada de arquero, central, organizador o goleador ·
       <b>10</b> alineación sin confirmar con rotación probable · <b>8</b> fuentes que no coinciden.
-      <br><br>Con ${(m.conf??65)>=72?"esta confianza corre Kelly ¼":(m.conf??65)>=60?"esta confianza corre Kelly ⅛":(m.conf??65)>=50?"esta confianza corre Kelly 1/16":"confianza bajo 50 no se corre Kelly: va monto fijo de 0.5%"}.
+      <br><br>Con ${(m.conf??65)>=72?"esta calidad corre Kelly ¼":(m.conf??65)>=60?"esta calidad corre Kelly ⅛":(m.conf??65)>=50?"esta calidad corre Kelly 1/16":"calidad bajo 50 no se corre Kelly: va monto fijo de 0.5%"}.
     </div>
   </div>
 
@@ -1000,7 +1015,7 @@ function tabData(m){
   return `
   <div class="box"><h3>Notas propias</h3>
     <textarea class="nota-in" data-nota="${m.id}" placeholder="Lesiones, cambios de DT, viajes, motivación — lo que investigues antes de jugar. Se guarda en este celular, no en los datos que trae ESPN.">${esc(notasCache[m.id] || "")}</textarea>
-    <div class="nota-tag">Esto no lo mueve el modelo — es referencia para vos, y para ajustar la Confianza en Modelo.</div>
+    <div class="nota-tag">Esto no lo mueve el modelo — es referencia para vos, y para ajustar la Calidad del análisis en Modelo.</div>
   </div>
   <div class="box"><h3>Forma reciente</h3>
     <div style="font-size:12.5px;margin-bottom:4px;display:flex;align-items:center;gap:7px">${crest(m.homeLogo,"sm")}${esc(m.home)}</div>${fr(m.formH)}
@@ -1376,9 +1391,10 @@ function viewMethod(){
     Si cargás la cuota contraria, la app le saca el margen a la línea y compara contra la probabilidad limpia. A veces el EV positivo existe sólo porque el otro lado está más castigado — eso no es ventaja tuya, es el vig disfrazado. Esos picks salen marcados en rojo.</p>
   </div>
   <div class="box">
-    <h3>Kelly escalado por confianza</h3>
+    <h3>Kelly escalado por calidad del análisis</h3>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
-    Kelly completo maximiza el crecimiento a largo plazo pero asume que tu probabilidad es exacta. Nunca lo es. Por eso la fracción no se elige a mano: la fija la confianza del análisis. Confianza 72 o más corre ¼; entre 60 y 71 corre ⅛; entre 50 y 59 corre 1/16; abajo de 50 no se corre Kelly y va monto fijo de 0.5%. La confianza escala el stake, nunca lo veta: un análisis flojo produce una apuesta chica, no una abstención.</p>
+    Kelly completo maximiza el crecimiento a largo plazo pero asume que tu probabilidad es exacta. Nunca lo es. Por eso la fracción no se elige a mano: la fija la calidad del análisis. Calidad 72 o más corre ¼; entre 60 y 71 corre ⅛; entre 50 y 59 corre 1/16; abajo de 50 no se corre Kelly y va monto fijo de 0.5%. Escala el stake, nunca lo veta: un análisis flojo produce una apuesta chica, no una abstención.
+    <br><br><b style="color:var(--muted-2)">Ojo con el nombre:</b> la calidad del análisis es un puntaje de qué tan sólidos son los datos de entrada, no una probabilidad. Que diga 65 no quiere decir que el modelo acierte el 65% de las veces — para eso está la probabilidad de cada mercado, y ni siquiera esa está validada todavía contra resultados reales.</p>
   </div>
   <div class="box">
     <h3>Correlación</h3>
@@ -1421,11 +1437,11 @@ function viewSettings(){
     <div class="set">
       <label>Topes de exposición</label>
       <button class="btn ${S.caps?"":"ghost"}" id="s-caps">${S.caps?"Activados":"Desactivados"}</button>
-      <p>Si los activás, ninguna jugada supera el 3% de banca — 2% si el partido es de alta volatilidad (eliminación directa, confianza bajo 60, alineación sin confirmar). Apagados, Kelly manda sin techo.</p>
+      <p>Si los activás, ninguna jugada supera el 3% de banca — 2% si el partido es de alta volatilidad (eliminación directa, calidad de análisis bajo 60, alineación sin confirmar). Apagados, Kelly manda sin techo.</p>
     </div>
     <div class="set">
       <label>Fracción de Kelly</label>
-      <p style="margin-top:0">Ya no se elige a mano: la fija la confianza de cada análisis. 72+ corre ¼, 60-71 corre ⅛, 50-59 corre 1/16, y bajo 50 no se corre Kelly. La confianza se ajusta en la pestaña Modelo de cada partido.</p>
+      <p style="margin-top:0">Ya no se elige a mano: la fija la calidad de cada análisis. 72+ corre ¼, 60-71 corre ⅛, 50-59 corre 1/16, y bajo 50 no se corre Kelly. La calidad se ajusta en la pestaña Modelo de cada partido.</p>
     </div>
   </div>
 
@@ -1494,7 +1510,7 @@ document.addEventListener("click", async e=>{
   }
   if(t.id==="s-caps"){ S.caps=!S.caps; await store.set("settings",S); render(); return; }
   if(t.id==="s-xlsx"){
-    const head="Fecha\tLiga\tPartido\tMercado\tTipo\tCasa\tCuota\tProb. modelo\tConfianza\tStake\tHora";
+    const head="Fecha\tLiga\tPartido\tMercado\tTipo\tCasa\tCuota\tProb. modelo\tCalidad\tStake\tHora";
     const rows=LOG.map(b=>[b.date,b.liga||"",b.match,b.label,b.fam||"",b.casa||"",
       b.odds.toFixed(2), b.p.toFixed(4), b.conf??"", b.stake, b.hora||""].join("\t"));
     const tsv=[head,...rows].join("\n");

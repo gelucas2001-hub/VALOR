@@ -979,6 +979,34 @@ async function plantel(slug, teamId){
   return (d.athletes||[]).map(a=>({id:a.id, nombre:a.displayName, pos:a.position?.abbreviation||""}));
 }
 
+// Agrupa el plantel por posición para el acordeón — solo nombre y
+// posición, sin stats: pedirle las stats a los 25-30 de una es
+// justo el gasto que el diseño on-demand evita.
+const POS_GRUPO = {G:"Arqueros", D:"Defensores", M:"Mediocampistas", F:"Delanteros"};
+function agruparPorPosicion(jugadores){
+  const grupos = {};
+  jugadores.forEach(j=>{
+    const g = POS_GRUPO[j.pos] || "Otros";
+    (grupos[g] = grupos[g]||[]).push(j);
+  });
+  const orden = ["Arqueros","Defensores","Mediocampistas","Delanteros","Otros"];
+  return orden.filter(g=>grupos[g]).map(g=>({grupo:g, jugadores:grupos[g]}));
+}
+
+async function cargarPlantel(m){
+  const ui = playerUI[m.id];
+  ui.rosterLoading = true; render();
+  try{
+    const slug = ESPN_SLUG[m.comp];
+    const [pl1, pl2] = await Promise.all([plantel(slug,m.homeId), plantel(slug,m.awayId)]);
+    ui.rosterHome = agruparPorPosicion(pl1);
+    ui.rosterAway = agruparPorPosicion(pl2);
+  }catch(e){
+    ui.rosterErr = "No se pudo traer el plantel: "+e.message;
+  }
+  ui.rosterLoading = false; render();
+}
+
 async function statsCrudos(playerId){
   return cachedFetch(`pstat:${playerId}`, 86400000, () =>
     espnGet(`${ESPN_HOST}/apis/common/v3/sports/soccer/athletes/${playerId}/overview`));
@@ -1050,9 +1078,37 @@ async function elegirJugador(m, playerId, team, nombre){
   ui.loading = false; render();
 }
 
+function filaJugador(m,r){
+  return `<button class="btn ghost" style="text-align:left;display:flex;align-items:center;gap:8px;margin-top:6px" data-psel="${r.id}" data-pteam="${r.team}" data-pname="${esc(r.nombre)}" data-m="${m.id}">
+    ${crest(r.team==="home"?m.homeLogo:m.awayLogo,"sm")}<span style="flex:1">${esc(r.nombre)}</span>
+    <span style="color:var(--muted-2);font-size:11px">${esc(r.pos)}</span>
+  </button>`;
+}
+
+function cajaPlantel(m,equipo,nombre,logo,grupos){
+  return `<div class="box">
+    <h3 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(nombre)}</h3>
+    ${grupos.map(gr=>{
+      const key = m.id+"|plantel|"+equipo+"|"+gr.grupo, open = openGroups.has(key);
+      return `<div class="grp" style="margin-top:6px">
+        <button class="grp-head" style="padding:9px 0" data-grp="${key}">
+          <span>${esc(gr.grupo)}<span class="grp-count">${gr.jugadores.length}</span></span>
+          <svg class="grp-chev ${open?"open":""}" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        ${open?gr.jugadores.map(j=>filaJugador(m,{...j,team:equipo})).join(""):""}
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
 function tabJugadores(m){
   const ui = playerUI[m.id] || (playerUI[m.id] = {q:"", results:[], sel:null, stats:null, loading:false, err:null});
   if(!ESPN_SLUG[m.comp]) return `<div class="empty"><b>No disponible</b><p>No tengo el slug de ESPN para "${esc(m.comp)}".</p></div>`;
+  if(ui.rosterHome===undefined && !ui.rosterLoading){
+    ui.rosterLoading = true;               // marcar ya, sin re-render todavía
+    Promise.resolve().then(()=>cargarPlantel(m));  // recién después de que
+                                                     // termine este render()
+  }
   return `
   <div class="box">
     <h3>Buscar jugador</h3>
@@ -1061,14 +1117,14 @@ function tabJugadores(m){
     ${ui.loading && !ui.sel ? `<div class="nota-tag" style="margin-top:8px">Buscando…</div>` : ""}
     ${ui.err && !ui.sel ? `<div class="warn" style="margin-top:9px">${esc(ui.err)}</div>` : ""}
     ${ui.results.length?`<div style="margin-top:9px">
-      ${ui.results.map(r=>`
-        <button class="btn ghost" style="text-align:left;display:flex;align-items:center;gap:8px;margin-top:6px" data-psel="${r.id}" data-pteam="${r.team}" data-pname="${esc(r.nombre)}" data-m="${m.id}">
-          ${crest(r.team==="home"?m.homeLogo:m.awayLogo,"sm")}<span style="flex:1">${esc(r.nombre)}</span>
-          <span style="color:var(--muted-2);font-size:11px">${esc(r.pos)}</span>
-        </button>`).join("")}
+      ${ui.results.map(r=>filaJugador(m,r)).join("")}
     </div>`:""}
   </div>
-  ${ui.sel ? tabJugadorSel(m,ui) : ""}`;
+  ${ui.sel ? tabJugadorSel(m,ui) : ""}
+  ${ui.rosterLoading?`<div class="box"><p class="nota-tag" style="margin:0">Cargando planteles…</p></div>`:""}
+  ${ui.rosterErr?`<div class="box"><div class="warn" style="margin:0">${esc(ui.rosterErr)}</div></div>`:""}
+  ${ui.rosterHome?cajaPlantel(m,"home",m.home,m.homeLogo,ui.rosterHome):""}
+  ${ui.rosterAway?cajaPlantel(m,"away",m.away,m.awayLogo,ui.rosterAway):""}`;
 }
 
 function tabJugadorSel(m,ui){

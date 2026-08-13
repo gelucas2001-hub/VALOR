@@ -193,10 +193,13 @@ header.top{
 .dh-teams .tm{display:inline-flex;align-items:center;gap:9px;min-width:0}
 .dh-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .nw{white-space:nowrap}
-.tabs{display:flex;gap:2px;padding:14px var(--pad) 0;border-bottom:1px solid var(--line);margin-bottom:2px}
+.tabs{display:flex;gap:2px;padding:14px var(--pad) 0;border-bottom:1px solid var(--line);margin-bottom:2px;
+  overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
 .tab{
   padding:9px 13px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted-2);border-bottom:2px solid transparent;margin-bottom:-1px;
+  white-space:nowrap;flex:0 0 auto;
   font-variation-settings:"wdth" 112,"wght" 600;
 }
 .tab.on{color:var(--brass);border-bottom-color:var(--brass)}

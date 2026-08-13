@@ -77,16 +77,30 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
                             # es mínimo.
 
 # ── competiciones ────────────────────────────────────────────────
-# slug de ESPN → metadata. rho: -0.10 en ligas/fase de grupos regular,
-# -0.14 en llaves de eliminación directa (más varianza).
+# slug de ESPN → metadata.
+#
+# rho (corrección Dixon-Coles): arg.1 = +0.05 MEDIDO, no inventado.
+# Los valores viejos (-0.10 / -0.14) venían del diseño original sin
+# ningún respaldo en datos, y backtest.py mostró que tenían el signo
+# equivocado: con -0.10 el modelo predecía 32.4% de empates cuando la
+# realidad de la temporada fue 26.7%. Validado fuera de muestra —
+# eligiendo rho con los primeros 162 partidos y evaluando en 108 que el
+# ajuste nunca vio, +0.05 da Brier 0.22344 contra 0.22581 de -0.10, y
+# la mejora es monótona en ambos conjuntos.
+#
+# Las copas quedan en 0.00 (Poisson sin corrección): NO están validadas
+# — con 52-56 partidos evaluables no alcanza para ajustar nada. Se pone
+# el neutro en vez del negativo original porque la única competición que
+# sí se pudo medir dice que ese negativo estaba mal. Recalibrar cuando
+# haya más temporada jugada.
 COMPETICIONES = {
-    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.10, "conf": 75,
+    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": 0.05, "conf": 75,
               "corners": 9.4, "fouls": 25.5, "cards": 5.4},
-    "conmebol.libertadores": {"nombre": "CONMEBOL Libertadores", "rho": -0.10, "conf": 65,
+    "conmebol.libertadores": {"nombre": "CONMEBOL Libertadores", "rho": 0.00, "conf": 65,
               "corners": 9.8, "fouls": 24.0, "cards": 5.0},
-    "conmebol.sudamericana": {"nombre": "CONMEBOL Sudamericana", "rho": -0.14, "conf": 65,
+    "conmebol.sudamericana": {"nombre": "CONMEBOL Sudamericana", "rho": 0.00, "conf": 65,
               "corners": 9.6, "fouls": 24.5, "cards": 5.2},
-    "arg.copa": {"nombre": "Copa Argentina", "rho": -0.14, "conf": 60,
+    "arg.copa": {"nombre": "Copa Argentina", "rho": 0.00, "conf": 60,
               "corners": 9.0, "fouls": 26.0, "cards": 5.6},
 }
 

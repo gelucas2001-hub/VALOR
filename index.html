@@ -962,7 +962,7 @@ function tabModel(m,M,mkts){
     <div class="eyebrow" style="margin-bottom:13px">Parámetros — moven todo lo demás</div>
     ${sl("lh","Goles esperados "+esc(m.home),m.lh,0.2,3.5,0.01,m.id)}
     ${sl("la","Goles esperados "+esc(m.away),m.la,0.2,3.5,0.01,m.id)}
-    ${sl("rho","Rho — "+rhoHint(m.comp),m.rho,-0.2,0.1,0.01,m.id)}
+    ${sl("rho","Rho — "+rhoHint(m.comp),m.rho,-0.2,0.2,0.01,m.id)}
     ${sl("corners","Córners totales esperados",m.corners,5,16,0.1,m.id)}
     ${sl("fouls","Faltas totales esperadas",m.fouls,12,36,0.5,m.id)}
     ${sl("cards","Tarjetas totales esperadas",m.cards,1,10,0.1,m.id)}
@@ -991,9 +991,8 @@ const sl=(k,label,v,min,max,step,mid,dec=2)=>`
 
 /* ρ según competición — el prompt v12.3 fija estos valores */
 function rhoHint(comp=""){
-  if(/primera nacional|copa argentina|sudamericana/i.test(comp)) return "eliminación directa / alta varianza: −0.14";
-  if(/premier|liga|serie a|bundesliga|champions/i.test(comp) && /europ/i.test(comp)) return "Europa élite: −0.08";
-  if(/libertadores|profesional|brasileir/i.test(comp)) return "Argentina / Brasil / Libertadores: −0.10";
+  if(/profesional/i.test(comp)) return "medido en backtest: +0.05";
+  if(/libertadores|sudamericana|copa argentina/i.test(comp)) return "sin calibrar — neutro en 0";
   return "corrección de marcadores bajos";
 }
 

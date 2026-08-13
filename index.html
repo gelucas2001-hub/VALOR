@@ -601,7 +601,18 @@ const SEED = [
   home:"Palmeiras", away:"Cerro Porteño", seed:true, conf:68,
   lh:1.52, la:0.82, rho:-0.10, corners:10.2, cornersH:6.1, fouls:22.5, cards:4.8,
   note:"Palmeiras llega con 3 días de descanso, Cerro con 4. Eliminatoria: ritmo prudente esperable.",
-  formH:["D","L","W","W","L"], formA:["L","W","W","L","W"],
+  formH:[
+    {r:"D", rival:"River Plate",       local:false, marcador:"1-1"},
+    {r:"L", rival:"Boca Juniors",      local:true,  marcador:"0-1"},
+    {r:"W", rival:"Sporting Cristal",  local:true,  marcador:"2-0"},
+    {r:"W", rival:"Junior",            local:false, marcador:"3-1"},
+    {r:"L", rival:"Flamengo",          local:true,  marcador:"1-2"}],
+  formA:[
+    {r:"L", rival:"Libertad",          local:false, marcador:"0-2"},
+    {r:"W", rival:"Nacional",          local:true,  marcador:"2-1"},
+    {r:"W", rival:"Sportivo Trinidense",local:true, marcador:"1-0"},
+    {r:"L", rival:"Sporting Cristal",  local:false, marcador:"0-1"},
+    {r:"W", rival:"Junior",            local:true,  marcador:"2-0"}],
   h2h:[
     {d:"20/05/26",h:"Palmeiras",a:"Cerro Porteño",s:"0-1"},
     {d:"29/04/26",h:"Cerro Porteño",a:"Palmeiras",s:"1-1"},
@@ -622,13 +633,13 @@ const SEED = [
   home:"Equipo local", away:"Equipo visitante", ejemplo:true, conf:70,
   lh:1.35, la:1.05, rho:-0.10, corners:9.6, cornersH:5.3, fouls:24.0, cards:5.2,
   note:"Plantilla vacía. Ajustá λ en la pestaña Modelo y cargá las cuotas de tu casa.",
-  formH:["W","D","W","L","D"], formA:["D","L","W","W","D"], h2h:[], tabla:[], preload:{} },
+  formH:[], formA:[], h2h:[], tabla:[], preload:{} },
 
 { id:"m3", date:"2026-08-13", comp:"Copa Argentina · ejemplo", hora:"19:15",
   home:"Equipo local", away:"Equipo visitante", ejemplo:true, conf:55,
   lh:1.18, la:1.12, rho:-0.14, corners:9.1, cornersH:4.7, fouls:25.5, cards:5.6,
   note:"Plantilla vacía.",
-  formH:["L","W","D","W","W"], formA:["W","W","D","L","W"], h2h:[], tabla:[], preload:{} }
+  formH:[], formA:[], h2h:[], tabla:[], preload:{} }
 ];
 
 /* ── helpers de formato ── */
@@ -943,7 +954,14 @@ function rhoHint(comp=""){
 /* ── pestaña datos ── */
 function tabData(m){
   if(m.ejemplo) return `<div class="empty"><b>Plantilla de ejemplo</b><p>Este partido no tiene datos cargados. Conectá la API en Ajustes para que se llenen solos.</p></div>`;
-  const fr = a => `<div class="form-row">${a.map(f=>`<div class="f ${f}">${f}</div>`).join("")}</div>`;
+  const fr = a => a.map(f=>`<div class="h2h">
+    <div class="mt">
+      <span class="f ${f.r}" style="width:20px;height:20px;font-size:9.5px;flex:0 0 auto">${f.r}</span>
+      <span class="nm">${esc(f.rival)}</span>
+      <span class="dt" style="flex:0 0 auto">${f.local?"L":"V"}</span>
+    </div>
+    <span class="sc">${esc(f.marcador)}</span>
+  </div>`).join("");
   const sinExtra = !m.h2h.length && !m.tabla.length;
   // el h2h siempre es entre estos dos equipos, así que el escudo sale de mapear el nombre
   const logoDe = n => n===m.home ? m.homeLogo : n===m.away ? m.awayLogo : "";

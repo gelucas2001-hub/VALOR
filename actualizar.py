@@ -173,8 +173,19 @@ def promedio_condicion(jugados, local):
 
 
 def forma(jugados, n=5):
-    return ["W" if p["gf"] > p["gc"] else ("D" if p["gf"] == p["gc"] else "L")
-            for p in jugados[:n]]
+    """Últimos n partidos con contra quién, de local o visitante, y el
+    resultado — no solo la letra W/D/L, así se puede juzgar si esa forma
+    fue floja porque perdió con candidatos o porque le fue mal con
+    cualquiera."""
+    out = []
+    for p in jugados[:n]:
+        r = "W" if p["gf"] > p["gc"] else ("D" if p["gf"] == p["gc"] else "L")
+        rival = p["away"] if p["local"] else p["home"]
+        out.append({
+            "r": r, "rival": rival, "local": p["local"],
+            "marcador": f'{int(p["gf"])}-{int(p["gc"])}',
+        })
+    return out
 
 
 def tabla_competicion(slug, season):

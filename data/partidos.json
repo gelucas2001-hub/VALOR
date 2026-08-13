@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-13T06:47",
+ "actualizado": "2026-08-13T07:08",
  "requests": 294,
  "partidos": [
   {
@@ -24,18 +24,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Mirassol y Liga de Quito contra toda la red de cruces de CONMEBOL Libertadores esta temporada (6 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "W",
-    "W",
-    "W",
-    "L"
+    {
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Always Ready",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "Liga de Quito",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "W",
+     "rival": "Always Ready",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "L",
+     "rival": "Liga de Quito",
+     "local": false,
+     "marcador": "0-2"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "L",
-    "L",
-    "W"
+    {
+     "r": "W",
+     "rival": "Always Ready",
+     "local": true,
+     "marcador": "3-2"
+    },
+    {
+     "r": "W",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "L",
+     "rival": "Mirassol",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Mirassol",
+     "local": true,
+     "marcador": "2-0"
+    }
    ],
    "h2h": [
     {
@@ -122,18 +172,68 @@
    "cards": 5.2,
    "note": "λ calculados ajustando ataque/defensa de Santos y Macará contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "W",
-    "W",
-    "D",
-    "D"
+    {
+     "r": "W",
+     "rival": "UCV FC",
+     "local": true,
+     "marcador": "4-2"
+    },
+    {
+     "r": "W",
+     "rival": "UCV FC",
+     "local": false,
+     "marcador": "4-1"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo Cuenca",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "D",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "2-2"
+    },
+    {
+     "r": "D",
+     "rival": "Deportivo Recoleta",
+     "local": false,
+     "marcador": "1-1"
+    }
    ],
    "formA": [
-    "D",
-    "D",
-    "D",
-    "W",
-    "W"
+    {
+     "r": "D",
+     "rival": "América de Cali",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "D",
+     "rival": "Alianza Atlético",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "D",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "2-2"
+    },
+    {
+     "r": "W",
+     "rival": "Alianza Atlético",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "W",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "1-0"
+    }
    ],
    "h2h": [],
    "tabla": [
@@ -207,18 +307,68 @@
    "cards": 5.2,
    "note": "λ calculados ajustando ataque/defensa de Vasco da Gama y Club Olimpia contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "D",
-    "W",
-    "L",
-    "W"
+    {
+     "r": "W",
+     "rival": "Independiente Medellín",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Independiente Medellín",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "L",
+     "rival": "Club Olimpia",
+     "local": false,
+     "marcador": "1-3"
+    },
+    {
+     "r": "W",
+     "rival": "Audax Italiano",
+     "local": false,
+     "marcador": "2-1"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "W",
-    "L",
-    "D"
+    {
+     "r": "W",
+     "rival": "Audax Italiano",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "r": "W",
+     "rival": "Vasco da Gama",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Vasco da Gama",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "r": "D",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-0"
+    }
    ],
    "h2h": [
     {
@@ -305,18 +455,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Rosario Central y Corinthians contra toda la red de cruces de CONMEBOL Libertadores esta temporada (6 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "W",
-    "W",
-    "W",
-    "W"
+    {
+     "r": "L",
+     "rival": "Independiente del Valle",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "UCV FC",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "r": "W",
+     "rival": "Libertad",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "UCV FC",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Libertad",
+     "local": false,
+     "marcador": "1-0"
+    }
    ],
    "formA": [
-    "L",
-    "D",
-    "D",
-    "W",
-    "W"
+    {
+     "r": "L",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "r": "D",
+     "rival": "Peñarol",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "D",
+     "rival": "Independiente Santa Fe",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Peñarol",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Santa Fe",
+     "local": true,
+     "marcador": "2-0"
+    }
    ],
    "h2h": [],
    "tabla": [
@@ -390,18 +590,68 @@
    "cards": 5.2,
    "note": "λ calculados ajustando ataque/defensa de Cienciano del Cusco y Botafogo contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (9 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "L",
-    "D",
-    "L",
-    "L"
+    {
+     "r": "W",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "D",
+     "rival": "Juventud",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "L",
+     "rival": "Atlético-MG",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "L",
+     "rival": "Academia Puerto Cabello",
+     "local": false,
+     "marcador": "0-3"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "W",
-    "W",
-    "W"
+    {
+     "r": "W",
+     "rival": "Caracas FC",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Petrolero",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Petrolero",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Racing Club",
+     "local": false,
+     "marcador": "3-2"
+    }
    ],
    "h2h": [],
    "tabla": [
@@ -475,18 +725,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Racing Club y Banfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "L",
-    "D",
-    "W",
-    "L"
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "L",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "r": "D",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "1-2"
+    }
    ],
    "formA": [
-    "L",
-    "D",
-    "W",
-    "L",
-    "W"
+    {
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "r": "D",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Sarmiento (Junín)",
+     "local": true,
+     "marcador": "3-2"
+    },
+    {
+     "r": "L",
+     "rival": "Huracán",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "2-1"
+    }
    ],
    "h2h": [
     {
@@ -706,18 +1006,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Aldosivi y Tigre contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "L",
-    "L",
-    "D",
-    "D"
+    {
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "D",
+     "rival": "Defensa y Justicia",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "D",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "1-1"
+    }
    ],
    "formA": [
-    "W",
-    "D",
-    "W",
-    "L",
-    "D"
+    {
+     "r": "W",
+     "rival": "River Plate",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Racing Club",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "r": "L",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "D",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "1-1"
+    }
    ],
    "h2h": [
     {
@@ -931,18 +1281,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de San Lorenzo y Unión (Santa Fe) contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "L",
-    "W",
-    "L",
-    "D"
+    {
+     "r": "L",
+     "rival": "Huracán",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "r": "L",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Gimnasia (Mendoza)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "D",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "2-2"
+    }
    ],
    "formA": [
-    "L",
-    "W",
-    "L",
-    "D",
-    "L"
+    {
+     "r": "L",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "r": "W",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "D",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": false,
+     "marcador": "0-2"
+    }
    ],
    "h2h": [
     {
@@ -1150,18 +1550,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Estudiantes de La Plata y Gimnasia La Plata contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "L",
-    "W",
-    "L",
-    "L"
+    {
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "L",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Defensa y Justicia",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "L",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "r": "L",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "0-1"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "W",
-    "L",
-    "L"
+    {
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "River Plate",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Racing Club",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "L",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "0-2"
+    }
    ],
    "h2h": [
     {
@@ -1387,18 +1837,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Belgrano (Córdoba) y Independiente Rivadavia contra toda la red de cruces de Liga Profesional Argentina esta temporada (24 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "D",
-    "L",
-    "W",
-    "W"
+    {
+     "r": "W",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "3-2"
+    }
    ],
    "formA": [
-    "W",
-    "L",
-    "W",
-    "D",
-    "L"
+    {
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "W",
+     "rival": "Huracán",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "D",
+     "rival": "Atlético Tucumán",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "L",
+     "rival": "Unión (Santa Fe)",
+     "local": true,
+     "marcador": "1-2"
+    }
    ],
    "h2h": [
     {
@@ -1618,18 +2118,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Newell's Old Boys y Deportivo Riestra contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "D",
-    "L",
-    "W",
-    "D"
+    {
+     "r": "L",
+     "rival": "Defensa y Justicia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "2-2"
+    },
+    {
+     "r": "L",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Vélez Sarsfield",
+     "local": false,
+     "marcador": "1-1"
+    }
    ],
    "formA": [
-    "W",
-    "L",
-    "L",
-    "W",
-    "D"
+    {
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Defensa y Justicia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "W",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "D",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-0"
+    }
    ],
    "h2h": [
     {
@@ -1837,18 +2387,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Platense y Boca Juniors contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "L",
-    "L",
-    "D",
-    "L"
+    {
+     "r": "W",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "0-4"
+    },
+    {
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "D",
+     "rival": "Unión (Santa Fe)",
+     "local": true,
+     "marcador": "2-2"
+    },
+    {
+     "r": "L",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "0-2"
+    }
    ],
    "formA": [
-    "D",
-    "W",
-    "D",
-    "L",
-    "L"
+    {
+     "r": "D",
+     "rival": "Vélez Sarsfield",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "r": "L",
+     "rival": "Huracán",
+     "local": true,
+     "marcador": "2-3"
+    }
    ],
    "h2h": [
     {
@@ -2056,18 +2656,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Sarmiento (Junín) y Huracán contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "W",
-    "L",
-    "L",
-    "L"
+    {
+     "r": "W",
+     "rival": "Atlético Tucumán",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-3"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "2-3"
+    },
+    {
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": false,
+     "marcador": "0-4"
+    }
    ],
    "formA": [
-    "W",
-    "D",
-    "L",
-    "W",
-    "L"
+    {
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "W",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "0-1"
+    }
    ],
    "h2h": [
     {
@@ -2275,18 +2925,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de River Plate y Argentinos Juniors contra toda la red de cruces de Liga Profesional Argentina esta temporada (24 y 23 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "L",
-    "L",
-    "L",
-    "L"
+    {
+     "r": "L",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "2-3"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "W",
-    "W",
-    "D"
+    {
+     "r": "W",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "Belgrano (Córdoba)",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Sarmiento (Junín)",
+     "local": false,
+     "marcador": "3-2"
+    },
+    {
+     "r": "D",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "1-1"
+    }
    ],
    "h2h": [
     {
@@ -2494,18 +3194,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Barracas Central y Rosario Central contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 23 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "W",
-    "W",
-    "W",
-    "L"
+    {
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "1-2"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "D",
-    "L",
-    "L"
+    {
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "L",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "0-1"
+    }
    ],
    "h2h": [
     {
@@ -2713,18 +3463,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Central Córdoba (Santiago del Estero) y Instituto (Córdoba) contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "W",
-    "L",
-    "L",
-    "L"
+    {
+     "r": "W",
+     "rival": "Unión (Santa Fe)",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "1-2"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "W",
-    "L",
-    "W"
+    {
+     "r": "W",
+     "rival": "Gimnasia (Mendoza)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": false,
+     "marcador": "2-0"
+    }
    ],
    "h2h": [
     {
@@ -2932,18 +3732,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Estudiantes de Río Cuarto y Atlético Tucumán contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "D",
-    "L",
-    "W",
-    "L"
+    {
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "D",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "r": "W",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-2"
+    }
    ],
    "formA": [
-    "L",
-    "D",
-    "W",
-    "D",
-    "W"
+    {
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "r": "D",
+     "rival": "Huracán",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    }
    ],
    "h2h": [
     {
@@ -3145,18 +3995,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Lanús y Independiente contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "L",
-    "L",
-    "W",
-    "L"
+    {
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "r": "L",
+     "rival": "Unión (Santa Fe)",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "0-2"
+    }
    ],
    "formA": [
-    "L",
-    "L",
-    "W",
-    "W",
-    "L"
+    {
+     "r": "L",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Newell's Old Boys",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "1-3"
+    }
    ],
    "h2h": [
     {
@@ -3376,18 +4276,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Vélez Sarsfield y Defensa y Justicia contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "W",
-    "W",
-    "W",
-    "L"
+    {
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "r": "W",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "0-1"
+    }
    ],
    "formA": [
-    "W",
-    "L",
-    "W",
-    "D",
-    "L"
+    {
+     "r": "W",
+     "rival": "Newell's Old Boys",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "D",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "1-2"
+    }
    ],
    "h2h": [
     {
@@ -3595,18 +4545,68 @@
    "cards": 5.4,
    "note": "λ calculados ajustando ataque/defensa de Gimnasia (Mendoza) y Talleres (Córdoba) contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "W",
-    "L",
-    "W",
-    "W"
+    {
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Unión (Santa Fe)",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "L",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Defensa y Justicia",
+     "local": true,
+     "marcador": "2-1"
+    }
    ],
    "formA": [
-    "L",
-    "W",
-    "L",
-    "L",
-    "L"
+    {
+     "r": "L",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "0-3"
+    },
+    {
+     "r": "W",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "4-0"
+    },
+    {
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "r": "L",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "0-1"
+    }
    ],
    "h2h": [
     {
@@ -3808,12 +4808,32 @@
    "cards": 5.6,
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo Maipú",
+     "local": true,
+     "marcador": "1-0"
+    }
    ],
    "formA": [
-    "W",
-    "W"
+    {
+     "r": "W",
+     "rival": "Acassuso",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Camioneros",
+     "local": true,
+     "marcador": "4-1"
+    }
    ],
    "h2h": [],
    "tabla": [],
@@ -3842,18 +4862,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Independiente Rivadavia y Fluminense contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "W",
-    "W",
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "Fluminense",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Bolívar",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo La Guaira",
+     "local": false,
+     "marcador": "4-2"
+    },
+    {
+     "r": "D",
+     "rival": "Fluminense",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo La Guaira",
+     "local": true,
+     "marcador": "4-1"
+    }
    ],
    "formA": [
-    "D",
-    "W",
-    "W",
-    "D",
-    "L"
+    {
+     "r": "D",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo La Guaira",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "r": "W",
+     "rival": "Bolívar",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "D",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "L",
+     "rival": "Bolívar",
+     "local": false,
+     "marcador": "0-2"
+    }
    ],
    "h2h": [
     {
@@ -3946,16 +5016,56 @@
    "cards": 5.2,
    "note": "λ calculados ajustando ataque/defensa de Deportivo Recoleta y Boca Juniors contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 3 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "L",
-    "W",
-    "D",
-    "D",
-    "D"
+    {
+     "r": "L",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-3"
+    },
+    {
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Deportivo Cuenca",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "D",
+     "rival": "Santos",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "D",
+     "rival": "Deportivo Cuenca",
+     "local": true,
+     "marcador": "0-0"
+    }
    ],
    "formA": [
-    "W",
-    "L",
-    "W"
+    {
+     "r": "W",
+     "rival": "Deportivo Recoleta",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "r": "L",
+     "rival": "O'Higgins",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "O'Higgins",
+     "local": true,
+     "marcador": "1-0"
+    }
    ],
    "h2h": [
     {
@@ -4036,12 +5146,32 @@
    "cards": 5.6,
    "note": "λ calculados con datos de ESPN: Banfield promedia sus últimos 2 partidos de local, Midland sus últimos 2 de visitante. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "San Martín (Tucumán)",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Real Pilar",
+     "local": true,
+     "marcador": "3-0"
+    }
    ],
    "formA": [
-    "W",
-    "D"
+    {
+     "r": "W",
+     "rival": "Deportivo Morón",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "D",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "1-1"
+    }
    ],
    "h2h": [],
    "tabla": [],
@@ -4070,18 +5200,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Deportes Tolima y Independiente del Valle contra toda la red de cruces de CONMEBOL Libertadores esta temporada (10 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "L",
-    "W",
-    "W",
-    "L"
+    {
+     "r": "D",
+     "rival": "Universitario",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "L",
+     "rival": "Coquimbo Unido",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "r": "W",
+     "rival": "Nacional",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Coquimbo Unido",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "L",
+     "rival": "Nacional",
+     "local": false,
+     "marcador": "1-3"
+    }
    ],
    "formA": [
-    "W",
-    "W",
-    "L",
-    "W",
-    "W"
+    {
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Libertad",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "r": "L",
+     "rival": "UCV FC",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "W",
+     "rival": "Libertad",
+     "local": false,
+     "marcador": "3-2"
+    },
+    {
+     "r": "W",
+     "rival": "UCV FC",
+     "local": true,
+     "marcador": "3-1"
+    }
    ],
    "h2h": [],
    "tabla": [
@@ -4155,18 +5335,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Universidad Católica y Estudiantes de La Plata contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "W",
-    "W",
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Barcelona SC",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Cruzeiro",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Barcelona SC",
+     "local": false,
+     "marcador": "2-1"
+    }
    ],
    "formA": [
-    "D",
-    "W",
-    "L",
-    "D",
-    "D"
+    {
+     "r": "D",
+     "rival": "Universidad Católica",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Medellín",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Flamengo",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "D",
+     "rival": "Cusco FC",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "D",
+     "rival": "Flamengo",
+     "local": true,
+     "marcador": "1-1"
+    }
    ],
    "h2h": [
     {
@@ -4247,16 +5477,56 @@
    "cards": 5.2,
    "note": "λ calculados ajustando ataque/defensa de São Paulo y Bolívar contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 3 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "W",
-    "D",
-    "D",
-    "D"
+    {
+     "r": "D",
+     "rival": "Bolívar",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Boston River",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Millonarios",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "D",
+     "rival": "O'Higgins",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "D",
+     "rival": "Millonarios",
+     "local": false,
+     "marcador": "0-0"
+    }
    ],
    "formA": [
-    "D",
-    "W",
-    "W"
+    {
+     "r": "D",
+     "rival": "São Paulo",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Grêmio",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Grêmio",
+     "local": true,
+     "marcador": "3-2"
+    }
    ],
    "h2h": [
     {
@@ -4337,18 +5607,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Cerro Porteño y Palmeiras contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "W",
-    "W",
-    "W",
-    "D"
+    {
+     "r": "D",
+     "rival": "Palmeiras",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Sporting Cristal",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "W",
+     "rival": "Palmeiras",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Atlético Junior",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Palmeiras",
+     "local": true,
+     "marcador": "1-1"
+    }
    ],
    "formA": [
-    "D",
-    "W",
-    "L",
-    "W",
-    "D"
+    {
+     "r": "D",
+     "rival": "Cerro Porteño",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Atlético Junior",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "r": "L",
+     "rival": "Cerro Porteño",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Sporting Cristal",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Cerro Porteño",
+     "local": false,
+     "marcador": "1-1"
+    }
    ],
    "h2h": [
     {
@@ -4453,18 +5773,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Coquimbo Unido y Platense contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "L",
-    "W",
-    "W",
-    "L"
+    {
+     "r": "D",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "L",
+     "rival": "Nacional",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Deportes Tolima",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Universitario",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Deportes Tolima",
+     "local": false,
+     "marcador": "0-3"
+    }
    ],
    "formA": [
-    "D",
-    "W",
-    "L",
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "Coquimbo Unido",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Corinthians",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "L",
+     "rival": "Independiente Santa Fe",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "D",
+     "rival": "Peñarol",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Santa Fe",
+     "local": true,
+     "marcador": "2-1"
+    }
    ],
    "h2h": [
     {
@@ -4545,18 +5915,68 @@
    "cards": 5.2,
    "note": "λ calculados ajustando ataque/defensa de Atlético-MG y Red Bull Bragantino contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "W",
-    "W",
-    "D",
-    "L"
+    {
+     "r": "W",
+     "rival": "Red Bull Bragantino",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Academia Puerto Cabello",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Cienciano del Cusco",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Juventud",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "L",
+     "rival": "Cienciano del Cusco",
+     "local": false,
+     "marcador": "0-1"
+    }
    ],
    "formA": [
-    "L",
-    "W",
-    "D",
-    "W",
-    "D"
+    {
+     "r": "L",
+     "rival": "Atlético-MG",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Sporting Cristal",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Sporting Cristal",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Carabobo",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-1"
+    }
    ],
    "h2h": [
     {
@@ -4637,12 +6057,32 @@
    "cards": 5.6,
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
-    "W",
-    "W"
+    {
+     "r": "W",
+     "rival": "Defensa y Justicia",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "r": "W",
+     "rival": "San Martín de Formosa",
+     "local": true,
+     "marcador": "1-0"
+    }
    ],
    "formA": [
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "Gimnasia y Esgrima (Jujuy)",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "W",
+     "rival": "Atletico Rafaela",
+     "local": true,
+     "marcador": "3-0"
+    }
    ],
    "h2h": [],
    "tabla": [],
@@ -4671,18 +6111,68 @@
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Flamengo y Cruzeiro contra toda la red de cruces de CONMEBOL Libertadores esta temporada (6 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "D",
-    "W",
-    "W",
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "Cruzeiro",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Cusco FC",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Medellín",
+     "local": true,
+     "marcador": "4-1"
+    }
    ],
    "formA": [
-    "D",
-    "W",
-    "D",
-    "D",
-    "W"
+    {
+     "r": "D",
+     "rival": "Flamengo",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Barcelona SC",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "D",
+     "rival": "Universidad Católica",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "1-0"
+    }
    ],
    "h2h": [
     {
@@ -4763,15 +6253,50 @@
    "cards": 5.2,
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 3 partidos jugados esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
-    "W",
-    "W"
+    {
+     "r": "W",
+     "rival": "Caracas FC",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Caracas FC",
+     "local": true,
+     "marcador": "2-0"
+    }
    ],
    "formA": [
-    "W",
-    "D",
-    "W",
-    "W",
-    "W"
+    {
+     "r": "W",
+     "rival": "Blooming",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "D",
+     "rival": "Red Bull Bragantino",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Carabobo",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "Red Bull Bragantino",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Carabobo",
+     "local": true,
+     "marcador": "1-0"
+    }
    ],
    "h2h": [],
    "tabla": [
@@ -4845,18 +6370,68 @@
    "cards": 5.2,
    "note": "λ calculados ajustando ataque/defensa de Montevideo City Torque y Tigre contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
-    "W",
-    "D",
-    "W",
-    "W",
-    "L"
+    {
+     "r": "W",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Grêmio",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "r": "W",
+     "rival": "Palestino",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-2"
+    }
    ],
    "formA": [
-    "L",
-    "L",
-    "W",
-    "W",
-    "D"
+    {
+     "r": "L",
+     "rival": "Montevideo City Torque",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Nacional",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "r": "W",
+     "rival": "Nacional",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "r": "W",
+     "rival": "Alianza Atlético",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "América de Cali",
+     "local": false,
+     "marcador": "1-1"
+    }
    ],
    "h2h": [
     {

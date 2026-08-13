@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-13T15:53",
+ "actualizado": "2026-08-13T20:03",
  "requests": 294,
  "partidos": [
   {
@@ -154,7 +154,7 @@
     "empate": 3.5,
     "visitante": 5.75,
     "totalLinea": 2.5,
-    "totalOver": 2.35,
+    "totalOver": 2.4,
     "totalUnder": 1.54,
     "hcapLinea": -0.5,
     "hcapLocal": 1.62,
@@ -461,11 +461,11 @@
     "empate": 3.35,
     "visitante": 5.0,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.57,
+    "totalOver": 2.35,
+    "totalUnder": 1.56,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.69,
-    "hcapVisitante": 2.05
+    "hcapLocal": 1.71,
+    "hcapVisitante": 2.0
    },
    "preload": {}
   },
@@ -751,15 +751,15 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.45,
+    "local": 2.5,
     "empate": 3.15,
-    "visitante": 2.95,
+    "visitante": 2.9,
     "totalLinea": 2.5,
-    "totalOver": 1.91,
+    "totalOver": 1.95,
     "totalUnder": 1.8,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.35,
-    "hcapVisitante": 1.53
+    "hcapLocal": 2.4,
+    "hcapVisitante": 1.51
    },
    "preload": {}
   },

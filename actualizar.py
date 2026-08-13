@@ -34,10 +34,35 @@ ARG_TZ = datetime.timezone(datetime.timedelta(hours=-3))
 DIAS_ADELANTE = 7          # próximos N días (incluye hoy) — coincide con
                             # los 7 días que muestra la tira en el frontend
 TEMPORADAS_H2H = 3         # temporadas hacia atrás para el historial directo
-RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion().
+RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
+                            # (Copa Argentina, que no tiene fuerzas.py).
                             # 0.90: el partido 13 atrás pesa ~25% del más
                             # reciente. Gentil a propósito — es un ajuste
                             # fino, no un reemplazo del promedio.
+
+# Competiciones con red de cruces suficiente (todos-contra-varios) como
+# para calibrar la fuerza de ataque/defensa de cada equipo contra la de
+# sus rivales, en vez de solo promediar los partidos propios. Copa
+# Argentina es eliminación directa desde el arranque — no hay red de
+# cruces repetidos, sigue con el promedio simple.
+CON_FUERZAS = {"arg.1", "conmebol.libertadores", "conmebol.sudamericana"}
+VIDA_MEDIA_DIAS = 45       # en fuerzas_equipos(): un partido de hace 45
+                            # días pesa la mitad que uno de hoy; uno de
+                            # hace 90, un cuarto. Por calendario, no por
+                            # ronda, porque acá se mezclan los partidos
+                            # de todos los equipos a la vez.
+MIN_PARTIDOS_FUERZA = 3    # un equipo con menos partidos que esto en toda
+                            # la temporada no tiene fuerza confiable
+PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
+                            # que se suman en fuerzas_equipos() para regularizar.
+                            # Sin esto, un equipo con 1-2 partidos jugados (común
+                            # en Libertadores/Sudamericana, que mezclan fases
+                            # con muy pocos cruces por equipo) puede terminar
+                            # con ataque/defensa disparados a valores absurdos
+                            # (probado: sin este freno salió una defensa de
+                            # 6.07 en Sudamericana). Con muestra grande (Liga
+                            # Profesional, 20+ partidos por equipo) el efecto
+                            # es mínimo.
 
 # ── competiciones ────────────────────────────────────────────────
 # slug de ESPN → metadata. rho: -0.10 en ligas/fase de grupos regular,
@@ -181,6 +206,100 @@ def tabla_competicion(slug, season):
     return por_equipo
 
 
+def resultados_temporada(slug, season, hoy):
+    """Todos los partidos ya jugados de la competición en esta temporada,
+    en un solo pedido (ESPN deja subir el límite con &limit=). Es la data
+    cruda para calibrar fuerzas.py — de acá sale con quién jugó cada
+    equipo y con qué resultado, no solo contra los dos de hoy."""
+    desde = f"{season}0101"
+    hasta = hoy.strftime("%Y%m%d")
+    d = api(f"{SITE_V2}/{slug}/scoreboard?dates={desde}-{hasta}&limit=1000")
+    partidos = []
+    for ev in d.get("events", []):
+        comp = (ev.get("competitions") or [{}])[0]
+        st = comp.get("status", {}).get("type", {})
+        if not st.get("completed"):
+            continue
+        competidores = comp.get("competitors", [])
+        loc = next((c for c in competidores if c.get("homeAway") == "home"), None)
+        vis = next((c for c in competidores if c.get("homeAway") == "away"), None)
+        if not loc or not vis:
+            continue
+        # OJO: acá "score" viene como string plano ("2"), no como el
+        # objeto {"value":...} que da /teams/{id}/schedule — son dos
+        # formas de la API con la misma info representada distinto.
+        try:
+            gh = float(loc.get("score"))
+            ga = float(vis.get("score"))
+        except (TypeError, ValueError):
+            continue
+        try:
+            fecha = datetime.datetime.strptime(ev["date"], "%Y-%m-%dT%H:%MZ").date()
+        except ValueError:
+            continue
+        partidos.append({
+            "fecha": fecha, "home": loc["team"]["id"], "away": vis["team"]["id"],
+            "gh": gh, "ga": ga,
+        })
+    return partidos
+
+
+def fuerzas_equipos(resultados, hoy):
+    """Ataque/defensa de cada equipo, calibrados juntos contra toda la red
+    de cruces de la temporada (no cada uno contra su propia muestra
+    suelta) — el ajuste que le faltaba al promedio simple. Pondera cada
+    partido por antigüedad en días (VIDA_MEDIA_DIAS), así un resultado de
+    hace un mes sigue contando pero mucho menos que uno de la semana
+    pasada. Devuelve (fuerzas, mu_local, mu_visita, partidos_por_equipo);
+    fuerzas = {team_id: (ataque, defensa)}, ambos alrededor de 1.0 = nivel
+    promedio de la competición; >1 ataque fuerte / <1 defensa débil."""
+    if not resultados:
+        return {}, 1.0, 1.0, {}
+
+    pesos = [0.5 ** ((hoy - p["fecha"]).days / VIDA_MEDIA_DIAS) for p in resultados]
+    w_home = sum(pesos)
+    mu_local  = sum(p["gh"] * w for p, w in zip(resultados, pesos)) / w_home
+    mu_visita = sum(p["ga"] * w for p, w in zip(resultados, pesos)) / w_home
+
+    equipos = set()
+    for p in resultados:
+        equipos.add(p["home"]); equipos.add(p["away"])
+    partidos_por_equipo = {t: 0 for t in equipos}
+    for p in resultados:
+        partidos_por_equipo[p["home"]] += 1
+        partidos_por_equipo[p["away"]] += 1
+
+    ataque  = {t: 1.0 for t in equipos}
+    defensa = {t: 1.0 for t in equipos}
+
+    for _ in range(40):
+        # PRIOR_FUERZA "partidos fantasma" con num=den: no mueven la razón
+        # de un equipo con muestra grande, pero empujan a 1.0 (nivel medio)
+        # a uno con 1-2 partidos reales, en vez de dejarlo irse a un extremo.
+        num_a = {t: PRIOR_FUERZA for t in equipos}; den_a = {t: PRIOR_FUERZA for t in equipos}
+        for p, w in zip(resultados, pesos):
+            num_a[p["home"]] += w * p["gh"]; den_a[p["home"]] += w * mu_local  * defensa[p["away"]]
+            num_a[p["away"]] += w * p["ga"]; den_a[p["away"]] += w * mu_visita * defensa[p["home"]]
+        nueva_ataque = {t: (num_a[t]/den_a[t] if den_a[t] > 0 else 1.0) for t in equipos}
+
+        num_d = {t: PRIOR_FUERZA for t in equipos}; den_d = {t: PRIOR_FUERZA for t in equipos}
+        for p, w in zip(resultados, pesos):
+            num_d[p["home"]] += w * p["ga"]; den_d[p["home"]] += w * mu_visita * nueva_ataque[p["away"]]
+            num_d[p["away"]] += w * p["gh"]; den_d[p["away"]] += w * mu_local  * nueva_ataque[p["home"]]
+        nueva_defensa = {t: (num_d[t]/den_d[t] if den_d[t] > 0 else 1.0) for t in equipos}
+
+        # renormalizar a media 1: si no, ataque y defensa derivan juntos
+        # (subir todos los ataques y bajar todas las defensas explica los
+        # mismos goles igual de bien, así que hay que fijar la escala).
+        m_a = sum(nueva_ataque.values())/len(nueva_ataque)
+        m_d = sum(nueva_defensa.values())/len(nueva_defensa)
+        ataque  = {t: v/m_a for t, v in nueva_ataque.items()}
+        defensa = {t: v/m_d for t, v in nueva_defensa.items()}
+
+    fuerzas = {t: (ataque[t], defensa[t]) for t in equipos}
+    return fuerzas, mu_local, mu_visita, partidos_por_equipo
+
+
 def main():
     hoy = datetime.date.today()
     ventana = {(hoy + datetime.timedelta(days=i)).isoformat() for i in range(DIAS_ADELANTE)}
@@ -204,6 +323,15 @@ def main():
         if slug not in cache_tabla:
             cache_tabla[slug] = tabla_competicion(slug, season)
         return cache_tabla[slug]
+
+    cache_fuerzas = {}   # slug -> (fuerzas, mu_local, mu_visita, partidos_por_equipo)
+
+    def get_fuerzas(slug):
+        if slug not in cache_fuerzas:
+            print(f"  · calibrando fuerzas de ataque/defensa — {slug}")
+            resultados = resultados_temporada(slug, season, hoy)
+            cache_fuerzas[slug] = fuerzas_equipos(resultados, hoy)
+        return cache_fuerzas[slug]
 
     for slug, meta in COMPETICIONES.items():
         print(f"· {meta['nombre']} — scoreboard")
@@ -230,26 +358,51 @@ def main():
             jug_loc = get_hist(slug, loc_id)
             jug_vis = get_hist(slug, vis_id)
 
-            cond_loc = promedio_condicion(jug_loc, local=True)   # local jugando de local
-            cond_vis = promedio_condicion(jug_vis, local=False)  # visitante jugando de visitante
-
-            if cond_loc and cond_vis and cond_loc[2] >= 2 and cond_vis[2] >= 2:
-                gf_loc, gc_loc, n_loc = cond_loc
-                gf_vis, gc_vis, n_vis = cond_vis
-                lh = (gf_loc + gc_vis) / 2
-                la = (gf_vis + gc_loc) / 2
-                lh = round(max(0.35, min(3.20, lh)), 3)
-                la = round(max(0.30, min(3.00, la)), 3)
-                n = min(n_loc, n_vis)
-                conf = meta["conf"] - (10 if n < 4 else 0)
-                nota = (f"λ calculados con datos de ESPN: {loc_nombre} promedia sus últimos "
-                        f"{n_loc} partidos de local, {vis_nombre} sus últimos {n_vis} de "
-                        f"visitante. Confirmá alineaciones antes de jugar.")
+            if slug in CON_FUERZAS:
+                # ataque/defensa calibrados contra toda la red de cruces de
+                # la temporada, no solo contra la muestra propia de cada uno.
+                fuerzas, mu_local, mu_visita, pj = get_fuerzas(slug)
+                a_loc, d_loc = fuerzas.get(loc_id, (1.0, 1.0))
+                a_vis, d_vis = fuerzas.get(vis_id, (1.0, 1.0))
+                n_loc, n_vis = pj.get(loc_id, 0), pj.get(vis_id, 0)
+                if n_loc >= MIN_PARTIDOS_FUERZA and n_vis >= MIN_PARTIDOS_FUERZA:
+                    lh = mu_local * a_loc * d_vis
+                    la = mu_visita * a_vis * d_loc
+                    lh = round(max(0.35, min(3.20, lh)), 3)
+                    la = round(max(0.30, min(3.00, la)), 3)
+                    n = min(n_loc, n_vis)
+                    conf = meta["conf"] - (10 if n < 6 else 0)
+                    nota = (f"λ calculados ajustando ataque/defensa de {loc_nombre} y "
+                            f"{vis_nombre} contra toda la red de cruces de {meta['nombre']} "
+                            f"esta temporada ({n_loc} y {n_vis} partidos jugados), pesado por "
+                            f"antigüedad. Confirmá alineaciones antes de jugar.")
+                else:
+                    lh, la, conf = 1.35, 1.10, 45
+                    nota = (f"Sin muestra suficiente en ESPN para calcular λ (menos de "
+                            f"{MIN_PARTIDOS_FUERZA} partidos jugados esta temporada). Los "
+                            "valores son genéricos: ajustalos a mano en Modelo.")
             else:
-                lh, la, conf = 1.35, 1.10, 45
-                nota = ("Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos "
-                        "de local/visitante esta temporada). Los valores son genéricos: "
-                        "ajustalos a mano en Modelo.")
+                # Copa Argentina: eliminación directa, sin red de cruces —
+                # promedio simple ponderado por recencia de la muestra propia.
+                cond_loc = promedio_condicion(jug_loc, local=True)
+                cond_vis = promedio_condicion(jug_vis, local=False)
+                if cond_loc and cond_vis and cond_loc[2] >= 2 and cond_vis[2] >= 2:
+                    gf_loc, gc_loc, n_loc = cond_loc
+                    gf_vis, gc_vis, n_vis = cond_vis
+                    lh = (gf_loc + gc_vis) / 2
+                    la = (gf_vis + gc_loc) / 2
+                    lh = round(max(0.35, min(3.20, lh)), 3)
+                    la = round(max(0.30, min(3.00, la)), 3)
+                    n = min(n_loc, n_vis)
+                    conf = meta["conf"] - (10 if n < 4 else 0)
+                    nota = (f"λ calculados con datos de ESPN: {loc_nombre} promedia sus últimos "
+                            f"{n_loc} partidos de local, {vis_nombre} sus últimos {n_vis} de "
+                            f"visitante. Confirmá alineaciones antes de jugar.")
+                else:
+                    lh, la, conf = 1.35, 1.10, 45
+                    nota = ("Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos "
+                            "de local/visitante esta temporada). Los valores son genéricos: "
+                            "ajustalos a mano en Modelo.")
 
             # ── historial directo: cruces contra este rival en las últimas
             # temporadas de la misma competición ──

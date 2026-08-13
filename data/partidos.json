@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-13T07:08",
- "requests": 294,
+ "actualizado": "2026-08-13T07:42",
+ "requests": 568,
  "partidos": [
   {
    "id": "espn401874073",
@@ -18,10 +18,10 @@
    "la": 0.796,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
-   "cards": 5.0,
+   "corners": 7.3,
+   "cornersH": 3.7,
+   "fouls": 20.0,
+   "cards": 4.0,
    "note": "λ calculados ajustando ataque/defensa de Mirassol y Liga de Quito contra toda la red de cruces de CONMEBOL Libertadores esta temporada (6 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -166,10 +166,10 @@
    "la": 0.991,
    "rho": -0.14,
    "conf": 65,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 13.0,
+   "cornersH": 5.0,
+   "fouls": 19.3,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Santos y Macará contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -301,10 +301,10 @@
    "la": 1.136,
    "rho": -0.14,
    "conf": 65,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 12.3,
+   "cornersH": 5.3,
+   "fouls": 21.7,
+   "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Vasco da Gama y Club Olimpia contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -449,10 +449,10 @@
    "la": 0.624,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
-   "cards": 5.0,
+   "corners": 9.0,
+   "cornersH": 3.7,
+   "fouls": 17.7,
+   "cards": 3.3,
    "note": "λ calculados ajustando ataque/defensa de Rosario Central y Corinthians contra toda la red de cruces de CONMEBOL Libertadores esta temporada (6 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -584,10 +584,10 @@
    "la": 1.302,
    "rho": -0.14,
    "conf": 65,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 7.3,
+   "cornersH": 2.7,
+   "fouls": 22.3,
+   "cards": 4.3,
    "note": "λ calculados ajustando ataque/defensa de Cienciano del Cusco y Botafogo contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (9 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -719,10 +719,10 @@
    "la": 0.888,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 8.3,
+   "cornersH": 4.0,
+   "fouls": 28.3,
+   "cards": 5.3,
    "note": "λ calculados ajustando ataque/defensa de Racing Club y Banfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -1000,10 +1000,10 @@
    "la": 1.087,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 7.0,
+   "cornersH": 4.7,
+   "fouls": 21.3,
+   "cards": 3.7,
    "note": "λ calculados ajustando ataque/defensa de Aldosivi y Tigre contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -1275,10 +1275,10 @@
    "la": 1.091,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 9.3,
+   "cornersH": 3.7,
+   "fouls": 22.7,
+   "cards": 3.3,
    "note": "λ calculados ajustando ataque/defensa de San Lorenzo y Unión (Santa Fe) contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -1544,10 +1544,10 @@
    "la": 1.103,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 4.3,
+   "cornersH": 1.3,
+   "fouls": 22.3,
+   "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Estudiantes de La Plata y Gimnasia La Plata contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -1831,10 +1831,10 @@
    "la": 0.794,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 7.0,
+   "cornersH": 2.3,
+   "fouls": 23.0,
+   "cards": 2.7,
    "note": "λ calculados ajustando ataque/defensa de Belgrano (Córdoba) y Independiente Rivadavia contra toda la red de cruces de Liga Profesional Argentina esta temporada (24 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -2112,10 +2112,10 @@
    "la": 1.104,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 8.0,
+   "cornersH": 4.7,
+   "fouls": 23.7,
+   "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Newell's Old Boys y Deportivo Riestra contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -2381,10 +2381,10 @@
    "la": 1.521,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 8.3,
+   "cornersH": 2.7,
+   "fouls": 27.3,
+   "cards": 4.0,
    "note": "λ calculados ajustando ataque/defensa de Platense y Boca Juniors contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -2650,10 +2650,10 @@
    "la": 1.385,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 8.3,
+   "cornersH": 3.7,
+   "fouls": 23.3,
+   "cards": 3.3,
    "note": "λ calculados ajustando ataque/defensa de Sarmiento (Junín) y Huracán contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -2919,10 +2919,10 @@
    "la": 1.298,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 13.0,
+   "cornersH": 7.3,
+   "fouls": 23.7,
+   "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de River Plate y Argentinos Juniors contra toda la red de cruces de Liga Profesional Argentina esta temporada (24 y 23 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -3188,10 +3188,10 @@
    "la": 0.806,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 8.3,
+   "cornersH": 1.7,
+   "fouls": 25.3,
+   "cards": 4.3,
    "note": "λ calculados ajustando ataque/defensa de Barracas Central y Rosario Central contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 23 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -3457,10 +3457,10 @@
    "la": 1.046,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 9.0,
+   "cornersH": 3.7,
+   "fouls": 27.7,
+   "cards": 6.3,
    "note": "λ calculados ajustando ataque/defensa de Central Córdoba (Santiago del Estero) y Instituto (Córdoba) contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -3726,10 +3726,10 @@
    "la": 0.852,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 12.0,
+   "cornersH": 4.7,
+   "fouls": 24.3,
+   "cards": 3.7,
    "note": "λ calculados ajustando ataque/defensa de Estudiantes de Río Cuarto y Atlético Tucumán contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -3989,10 +3989,10 @@
    "la": 0.699,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 12.7,
+   "cornersH": 4.7,
+   "fouls": 19.3,
+   "cards": 4.0,
    "note": "λ calculados ajustando ataque/defensa de Lanús y Independiente contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -4270,10 +4270,10 @@
    "la": 0.743,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 8.7,
+   "cornersH": 4.3,
+   "fouls": 23.0,
+   "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Vélez Sarsfield y Defensa y Justicia contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -4539,10 +4539,10 @@
    "la": 0.893,
    "rho": -0.1,
    "conf": 75,
-   "corners": 9.4,
-   "cornersH": 5.3,
-   "fouls": 25.5,
-   "cards": 5.4,
+   "corners": 10.0,
+   "cornersH": 5.7,
+   "fouls": 23.0,
+   "cards": 6.0,
    "note": "λ calculados ajustando ataque/defensa de Gimnasia (Mendoza) y Talleres (Córdoba) contra toda la red de cruces de Liga Profesional Argentina esta temporada (20 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -4856,10 +4856,10 @@
    "la": 0.568,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
-   "cards": 5.0,
+   "corners": 8.3,
+   "cornersH": 3.7,
+   "fouls": 23.3,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Independiente Rivadavia y Fluminense contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -5010,10 +5010,10 @@
    "la": 1.322,
    "rho": -0.14,
    "conf": 55,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 8.7,
+   "cornersH": 2.3,
+   "fouls": 22.0,
+   "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Deportivo Recoleta y Boca Juniors contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 3 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -5194,10 +5194,10 @@
    "la": 0.93,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
-   "cards": 5.0,
+   "corners": 16.3,
+   "cornersH": 7.3,
+   "fouls": 16.3,
+   "cards": 3.0,
    "note": "λ calculados ajustando ataque/defensa de Deportes Tolima y Independiente del Valle contra toda la red de cruces de CONMEBOL Libertadores esta temporada (10 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -5329,10 +5329,10 @@
    "la": 0.644,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
-   "cards": 5.0,
+   "corners": 12.3,
+   "cornersH": 4.0,
+   "fouls": 24.3,
+   "cards": 4.3,
    "note": "λ calculados ajustando ataque/defensa de Universidad Católica y Estudiantes de La Plata contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -5471,10 +5471,10 @@
    "la": 0.87,
    "rho": -0.14,
    "conf": 55,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 11.0,
+   "cornersH": 6.0,
+   "fouls": 19.3,
+   "cards": 3.0,
    "note": "λ calculados ajustando ataque/defensa de São Paulo y Bolívar contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 3 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -5601,9 +5601,9 @@
    "la": 0.693,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
+   "corners": 8.0,
+   "cornersH": 3.7,
+   "fouls": 23.0,
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Cerro Porteño y Palmeiras contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
@@ -5767,9 +5767,9 @@
    "la": 0.79,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
+   "corners": 11.3,
+   "cornersH": 6.7,
+   "fouls": 23.7,
    "cards": 5.0,
    "note": "λ calculados ajustando ataque/defensa de Coquimbo Unido y Platense contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
@@ -5909,10 +5909,10 @@
    "la": 0.669,
    "rho": -0.14,
    "conf": 65,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 12.7,
+   "cornersH": 6.0,
+   "fouls": 19.3,
+   "cards": 5.3,
    "note": "λ calculados ajustando ataque/defensa de Atlético-MG y Red Bull Bragantino contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -6105,10 +6105,10 @@
    "la": 0.723,
    "rho": -0.1,
    "conf": 65,
-   "corners": 9.8,
-   "cornersH": 5.5,
-   "fouls": 24.0,
-   "cards": 5.0,
+   "corners": 8.3,
+   "cornersH": 5.3,
+   "fouls": 23.0,
+   "cards": 3.7,
    "note": "λ calculados ajustando ataque/defensa de Flamengo y Cruzeiro contra toda la red de cruces de CONMEBOL Libertadores esta temporada (6 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -6247,10 +6247,10 @@
    "la": 1.1,
    "rho": -0.14,
    "conf": 45,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 8.7,
+   "cornersH": 3.0,
+   "fouls": 24.2,
+   "cards": 3.8,
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 3 partidos jugados esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
     {
@@ -6364,10 +6364,10 @@
    "la": 0.772,
    "rho": -0.14,
    "conf": 65,
-   "corners": 9.6,
-   "cornersH": 5.4,
-   "fouls": 24.5,
-   "cards": 5.2,
+   "corners": 8.7,
+   "cornersH": 4.7,
+   "fouls": 25.0,
+   "cards": 3.0,
    "note": "λ calculados ajustando ataque/defensa de Montevideo City Torque y Tigre contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {

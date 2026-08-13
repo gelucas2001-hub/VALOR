@@ -30,6 +30,18 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 
 OUT = Path("data/partidos.json")
+CACHE_DISCIPLINA = Path("data/cache_disciplina.json")  # event_id -> {team_id:
+                            # {fouls,corners,cards}}. Persiste ENTRE corridas
+                            # (a diferencia de todos los otros caches, que
+                            # son solo de la corrida actual): /summary pesa
+                            # ~400KB por partido — pedirlo de nuevo cada vez
+                            # para partidos que ya terminaron hace rato sería
+                            # tirar minutos de corrida a la basura. Un evento
+                            # ya jugado no cambia, así que cachearlo para
+                            # siempre es seguro.
+DISCIPLINA_N = 3           # últimos N partidos por equipo para córners/
+                            # faltas/tarjetas — más chico que los 5 de forma()
+                            # a propósito, por el costo de /summary.
 ARG_TZ = datetime.timezone(datetime.timedelta(hours=-3))
 DIAS_ADELANTE = 7          # próximos N días (incluye hoy) — coincide con
                             # los 7 días que muestra la tira en el frontend
@@ -143,6 +155,7 @@ def historial(slug, team_id, season=None):
         gh, ga = (gf, gc) if local else (gc, gf)
         jugados.append({
             "fecha": e.get("date", ""),
+            "id": e.get("id", ""),
             "local": local,
             "gf": gf, "gc": gc,
             "rival_id": rival.get("team", {}).get("id", ""),
@@ -215,6 +228,49 @@ def tabla_competicion(slug, season):
         for i in ids:
             por_equipo[i] = info
     return por_equipo
+
+
+def resumen_partido(slug, event_id):
+    """/summary?event=: córners ganados, faltas cometidas y tarjetas de
+    cada equipo en ESE partido puntual. No hay versión masiva de esto
+    (a diferencia del scoreboard con goles) — es un pedido por partido,
+    por eso solo se pide para los últimos partidos de los equipos que
+    juegan esta semana, no para toda la temporada."""
+    d = api(f"{SITE_V2}/{slug}/summary?event={event_id}")
+    out = {}
+    for t in (d.get("boxscore") or {}).get("teams", []) or []:
+        tid = t.get("team", {}).get("id", "")
+        s = {x.get("name"): x.get("displayValue") for x in t.get("statistics", [])}
+        def num(k):
+            try:
+                return float(s.get(k))
+            except (TypeError, ValueError):
+                return None
+        out[tid] = {"fouls": num("foulsCommitted"), "corners": num("wonCorners"),
+                    "cards": (num("yellowCards") or 0) + (num("redCards") or 0)}
+    return out
+
+
+def disciplina_equipo(slug, team_id, jugados, cache_resumen, n=DISCIPLINA_N):
+    """Promedio de córners ganados / faltas cometidas / tarjetas propias
+    en los últimos n partidos jugados. Un pedido por partido (cacheado
+    por event id, así dos equipos que ya se cruzaron entre sí no pagan
+    el mismo partido dos veces)."""
+    corners, fouls, cards, cuenta = 0.0, 0.0, 0.0, 0
+    for p in jugados[:n]:
+        eid = p.get("id")
+        if not eid:
+            continue
+        if eid not in cache_resumen:
+            cache_resumen[eid] = resumen_partido(slug, eid)
+        datos = cache_resumen[eid].get(str(team_id))
+        if not datos or datos["fouls"] is None or datos["corners"] is None:
+            continue
+        corners += datos["corners"]; fouls += datos["fouls"]; cards += datos["cards"]
+        cuenta += 1
+    if cuenta == 0:
+        return None
+    return corners/cuenta, fouls/cuenta, cards/cuenta, cuenta
 
 
 def resultados_temporada(slug, season, hoy):
@@ -344,6 +400,17 @@ def main():
             cache_fuerzas[slug] = fuerzas_equipos(resultados, hoy)
         return cache_fuerzas[slug]
 
+    # cache_resumen persiste ENTRE corridas (a diferencia de cache_hist/
+    # cache_fuerzas, que son solo de esta corrida): un partido ya jugado no
+    # cambia, y /summary es pesado — no tiene sentido repagarlo cada vez.
+    cache_resumen = {}
+    if CACHE_DISCIPLINA.exists():
+        try:
+            cache_resumen = json.loads(CACHE_DISCIPLINA.read_text(encoding="utf-8"))
+        except Exception:
+            cache_resumen = {}
+    resumenes_antes = len(cache_resumen)
+
     for slug, meta in COMPETICIONES.items():
         print(f"· {meta['nombre']} — scoreboard")
         d = api(f"{SITE_V2}/{slug}/scoreboard?dates={desde}-{hasta}")
@@ -441,6 +508,23 @@ def main():
             tabla = info_grupo["filas"] if info_grupo else []
             grupo = info_grupo["grupo"] if info_grupo else ""
 
+            # ── córners/faltas/tarjetas: promedio propio de los últimos
+            # partidos de cada equipo (vía /summary, un pedido por partido),
+            # no la constante fija de toda la competición. Si no hay data
+            # (partido sin boxscore, equipo nuevo), cae a la constante.
+            disc_loc = disciplina_equipo(slug, loc_id, jug_loc, cache_resumen)
+            disc_vis = disciplina_equipo(slug, vis_id, jug_vis, cache_resumen)
+            if disc_loc and disc_vis:
+                c_loc, f_loc, t_loc, _ = disc_loc
+                c_vis, f_vis, t_vis, _ = disc_vis
+                corners  = round(c_loc + c_vis, 1)
+                cornersH = round(c_loc, 1)
+                fouls    = round(f_loc + f_vis, 1)
+                cards    = round(t_loc + t_vis, 1)
+            else:
+                corners, cornersH = meta["corners"], round(meta["corners"] * 0.56, 1)
+                fouls, cards = meta["fouls"], meta["cards"]
+
             partidos.append({
                 "id": f"espn{ev['id']}",
                 "date": fecha, "comp": meta["nombre"], "compLogo": comp_logo, "hora": hora,
@@ -448,9 +532,8 @@ def main():
                 "homeId": loc_id, "awayId": vis_id,
                 "homeLogo": escudo(loc["team"]), "awayLogo": escudo(vis["team"]),
                 "lh": lh, "la": la, "rho": meta["rho"], "conf": conf,
-                "corners": meta["corners"],
-                "cornersH": round(meta["corners"] * 0.56, 1),
-                "fouls": meta["fouls"], "cards": meta["cards"],
+                "corners": corners, "cornersH": cornersH,
+                "fouls": fouls, "cards": cards,
                 "note": nota,
                 "formH": forma(jug_loc), "formA": forma(jug_vis),
                 "h2h": h2h, "tabla": tabla, "grupo": grupo,
@@ -465,10 +548,14 @@ def main():
         "partidos": partidos,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
 
+    CACHE_DISCIPLINA.parent.mkdir(parents=True, exist_ok=True)
+    CACHE_DISCIPLINA.write_text(json.dumps(cache_resumen, ensure_ascii=False), encoding="utf-8")
+
     con_h2h = sum(1 for p in partidos if p["h2h"])
     con_tabla = sum(1 for p in partidos if p["tabla"])
     print(f"\n✓ {len(partidos)} partidos · {con_h2h} con historial directo · "
-          f"{con_tabla} con tabla · {_req_count} requests a ESPN")
+          f"{con_tabla} con tabla · {len(cache_resumen)-resumenes_antes} resúmenes nuevos "
+          f"({len(cache_resumen)} en caché) · {_req_count} requests a ESPN")
 
 
 if __name__ == "__main__":

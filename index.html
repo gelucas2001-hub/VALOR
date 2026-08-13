@@ -119,9 +119,9 @@ header.top{
 /* ── secciones por competición, en la lista del día ── */
 .comp-sec{margin-bottom:6px}
 .comp-sec-head{
-  display:flex;align-items:center;justify-content:space-between;
+  width:100%;display:flex;align-items:center;justify-content:space-between;
   padding:4px 2px 9px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--muted-2);font-variation-settings:"wdth" 112,"wght" 600;
+  color:var(--muted-2);font-variation-settings:"wdth" 112,"wght" 600;text-align:left;
 }
 .comp-sec + .comp-sec .comp-sec-head{border-top:1px solid var(--line-soft);padding-top:16px;margin-top:5px}
 
@@ -582,6 +582,12 @@ const notasCache = {};  // { matchId: "texto libre" } — investigación manual
 const openGroups = new Set();  // "matchId|familia" de las cajas de "cargar
                                 // cuota" que el usuario dejó abiertas. Solo
                                 // de sesión, no hace falta persistirlo.
+const closedComps = new Set(); // "día|competición" que el usuario cerró en
+                                // la lista de partidos. Al revés de
+                                // openGroups: acá arrancan TODAS abiertas
+                                // (el vistazo rápido de "qué hay hoy" tiene
+                                // que seguir funcionando sin tocar nada), y
+                                // se cierra la que no interesa ese día.
 
 /* ═══ datos sembrados ═══
    El primero sale de tus propias capturas (Palmeiras–Cerro, 12/08).
@@ -716,11 +722,17 @@ function viewDay(){
   </div>
 
   <div class="wrap">
-  ${shown.length? agruparPorComp(shown).map(g=>`
+  ${shown.length? agruparPorComp(shown).map(g=>{
+    const key = VIEW.day+"|"+g.comp, open = !closedComps.has(key);
+    return `
     <div class="comp-sec">
-      <div class="comp-sec-head"><span style="display:flex;align-items:center;gap:7px">${crest(g.rows[0].m.compLogo,"sm")}${esc(g.comp)}</span><span class="grp-count">${g.rows.length}</span></div>
-      ${g.rows.map(r=>matchCard(r)).join("")}
-    </div>`).join("") : `
+      <button class="comp-sec-head" data-compclose="${key}">
+        <span style="display:flex;align-items:center;gap:7px">${crest(g.rows[0].m.compLogo,"sm")}${esc(g.comp)}<span class="grp-count">${g.rows.length}</span></span>
+        <svg class="grp-chev ${open?"open":""}" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      ${open?g.rows.map(r=>matchCard(r)).join(""):""}
+    </div>`;
+  }).join("") : `
     <div class="empty"><b>Nada con valor hoy</b>
     <p>Ningún mercado supera el umbral de ${pc(S.minEv)} de EV. No apostar también es una decisión: tocá “Todos los partidos” para revisar a mano.</p></div>`}
   </div>`;
@@ -1377,7 +1389,7 @@ function viewSettings(){
 
 /* ═══════════ EVENTOS ═══════════ */
 document.addEventListener("click", async e=>{
-  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],[data-grp],[data-psel],[data-pbet],#s-export,#s-clear,#s-caps,#s-xlsx");
+  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],[data-grp],[data-compclose],[data-psel],[data-pbet],#s-export,#s-clear,#s-caps,#s-xlsx");
   if(!t) return;
 
   if(t.dataset.nav){ VIEW.nav=t.dataset.nav; VIEW.match=null; return render(); }
@@ -1388,6 +1400,10 @@ document.addEventListener("click", async e=>{
   if(t.dataset.tab){ VIEW.tab=t.dataset.tab; return render(); }
   if(t.dataset.grp){
     openGroups.has(t.dataset.grp) ? openGroups.delete(t.dataset.grp) : openGroups.add(t.dataset.grp);
+    return render();
+  }
+  if(t.dataset.compclose){
+    closedComps.has(t.dataset.compclose) ? closedComps.delete(t.dataset.compclose) : closedComps.add(t.dataset.compclose);
     return render();
   }
   if(t.dataset.psel){

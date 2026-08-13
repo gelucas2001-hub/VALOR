@@ -31,7 +31,8 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 
 OUT = Path("data/partidos.json")
 ARG_TZ = datetime.timezone(datetime.timedelta(hours=-3))
-DIAS_ADELANTE = 5          # próximos N días (incluye hoy)
+DIAS_ADELANTE = 7          # próximos N días (incluye hoy) — coincide con
+                            # los 7 días que muestra la tira en el frontend
 TEMPORADAS_H2H = 3         # temporadas hacia atrás para el historial directo
 
 # ── competiciones ────────────────────────────────────────────────

@@ -116,6 +116,15 @@ header.top{
 }
 .chip.on{background:var(--brass-wash);border-color:var(--brass-deep);color:var(--brass)}
 
+/* ── secciones por competición, en la lista del día ── */
+.comp-sec{margin-bottom:6px}
+.comp-sec-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:4px 2px 9px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted-2);font-variation-settings:"wdth" 112,"wght" 600;
+}
+.comp-sec + .comp-sec .comp-sec-head{border-top:1px solid var(--line-soft);padding-top:16px;margin-top:5px}
+
 /* ── card de partido ── */
 .wrap{padding:14px var(--pad) 0}
 .match{
@@ -124,8 +133,7 @@ header.top{
 }
 .match:active{background:var(--surface-2)}
 .match .head{padding:12px 13px 0}
-.comp{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}
-.comp .lg{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);font-variation-settings:"wdth" 112,"wght" 600}
+.comp{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-bottom:7px}
 .comp .hr{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
 .teams{font-size:16.5px;font-variation-settings:"wdth" 104,"wght" 600;line-height:1.28;
   display:flex;align-items:center;flex-wrap:wrap;gap:2px 0}
@@ -708,17 +716,36 @@ function viewDay(){
   </div>
 
   <div class="wrap">
-  ${shown.length? shown.map(r=>matchCard(r)).join("") : `
+  ${shown.length? agruparPorComp(shown).map(g=>`
+    <div class="comp-sec">
+      <div class="comp-sec-head"><span>${esc(g.comp)}</span><span class="grp-count">${g.rows.length}</span></div>
+      ${g.rows.map(r=>matchCard(r)).join("")}
+    </div>`).join("") : `
     <div class="empty"><b>Nada con valor hoy</b>
     <p>Ningún mercado supera el umbral de ${pc(S.minEv)} de EV. No apostar también es una decisión: tocá “Todos los partidos” para revisar a mano.</p></div>`}
   </div>`;
+}
+
+// Orden fijo de competiciones (el mismo que actualizar.py); lo que no
+// esté en la lista (plantillas de ejemplo, ligas nuevas) va al final,
+// en el orden en que aparece.
+const ORDEN_COMP = ["Liga Profesional Argentina","CONMEBOL Libertadores",
+                     "CONMEBOL Sudamericana","Copa Argentina"];
+function agruparPorComp(rows){
+  const grupos = {};
+  rows.forEach(r=> (grupos[r.m.comp] = grupos[r.m.comp]||[]).push(r));
+  const vistos = new Set();
+  const out = [];
+  ORDEN_COMP.forEach(c=>{ if(grupos[c]){ out.push({comp:c, rows:grupos[c]}); vistos.add(c); } });
+  Object.keys(grupos).forEach(c=>{ if(!vistos.has(c)) out.push({comp:c, rows:grupos[c]}); });
+  return out;
 }
 
 function matchCard({m,best,n}){
   const val = best && best.e>=S.minEv && !best.trap;
   return `<div class="match" data-match="${m.id}">
     <div class="head">
-      <div class="comp"><span class="lg">${esc(m.comp)}</span><span class="hr num">${m.hora}</span></div>
+      <div class="comp"><span class="hr num">${m.hora}</span></div>
       <div class="teams"><span class="tm">${crest(m.homeLogo)}${esc(m.home)}</span><em>vs</em><span class="tm">${crest(m.awayLogo)}${esc(m.away)}</span></div>
     </div>
     ${best ? `

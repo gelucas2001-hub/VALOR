@@ -193,6 +193,22 @@ header.top{
 }
 .tab.on{color:var(--brass);border-bottom-color:var(--brass)}
 
+/* ── acordeón de "cargar cuota" ── */
+.box.grp{padding:0;overflow:hidden}
+.grp-head{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:13px 14px;font-size:12.5px;color:var(--paper);
+  font-variation-settings:"wght" 600;text-align:left;
+}
+.grp-count{
+  font-family:var(--mono);font-size:10.5px;color:var(--muted-2);font-weight:400;
+  margin-left:8px;font-variation-settings:"wght" 400;
+}
+.grp-chev{width:15px;height:15px;stroke:var(--muted-2);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;transition:transform .15s ease;flex:0 0 auto}
+.grp-chev.open{transform:rotate(180deg)}
+.grp-body{padding:0 14px 4px;border-top:1px solid var(--line-soft)}
+
 /* ── card de mercado ── */
 .mkt{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:13px;margin-bottom:10px}
 .mkt.val{border-color:var(--brass-deep)}
@@ -434,6 +450,36 @@ function derive(M,cfg){
   add("1T","1T más de 1.5 goles", sumIf(ht,(i,j)=>i+j>1.5));
   add("1T","Gana local al descanso",sumIf(ht,(i,j)=>i>j));
 
+  // Marcador correcto: los combos más probables listados uno por uno,
+  // el resto (poco probable, tipo 5-1) agrupado por quién ganaba.
+  const marcador = (mx,cap,grupo) => {
+    for(let i=0;i<=cap;i++) for(let j=0;j<=cap;j++) add(grupo, i+"-"+j, mx[i][j]);
+    add(grupo,"Otro resultado (gana local)",     sumIf(mx,(i,j)=>(i>cap||j>cap)&&i>j));
+    add(grupo,"Otro resultado (empate)",         sumIf(mx,(i,j)=>(i>cap||j>cap)&&i===j));
+    add(grupo,"Otro resultado (gana visitante)", sumIf(mx,(i,j)=>(i>cap||j>cap)&&i<j));
+  };
+  marcador(M,3,"Marcador");
+  marcador(ht,2,"Marcador 1T");
+
+  // Rango de goles: otro corte sobre la misma matriz, partido y por equipo.
+  [[0,1,"0-1"],[2,3,"2-3"],[4,6,"4-6"],[7,99,"7+"]].forEach(([lo,hi,lbl])=>
+    add("Rango","Partido — "+lbl+" goles", sumIf(M,(i,j)=>i+j>=lo&&i+j<=hi)));
+  [[0,0,"0"],[1,1,"1"],[2,2,"2"],[3,99,"3+"]].forEach(([lo,hi,lbl])=>{
+    add("Rango","Local — "+lbl+" goles",     sumIf(M,(i)=>i>=lo&&i<=hi));
+    add("Rango","Visitante — "+lbl+" goles", sumIf(M,(i,j)=>j>=lo&&j<=hi));
+  });
+
+  // Empate no válido (Draw No Bet): reparte la probabilidad del empate
+  // entre local y visitante, proporcional a lo que ya valían.
+  const pL=sumIf(M,(i,j)=>i>j), pV=sumIf(M,(i,j)=>i<j);
+  add("DNB","Local (empate anula)",     pL/(pL+pV));
+  add("DNB","Visitante (empate anula)", pV/(pL+pV));
+
+  // Hándicap asiático de líneas .5 — sin empate posible, no hay que
+  // resolver el caso "push" (cancha la apuesta) que sí tienen las enteras.
+  [-2.5,-1.5,-0.5,0.5,1.5].forEach(h=>
+    add("Hándicap", "Local "+(h>0?"+":"")+h, sumIf(M,(i,j)=>(i+h)>j)));
+
   // Córners y faltas: Poisson simple sobre su propio ritmo.
   const poisOver = (lam,n) => { let s=0; for(let k=0;k<=Math.floor(n);k++) s+=pois(k,lam); return 1-s; };
   [8.5,9.5,10.5,11.5].forEach(n=>{
@@ -454,7 +500,9 @@ function derive(M,cfg){
    de tamaño. Solo la de mejor EV por familia lleva stake. */
 const FAMILY = {"1X2":"resultado","Doble":"resultado","Goles":"goles","Ambos":"goles",
                 "Equipo":"goles","1T":"goles","Córners":"córners",
-                "Faltas":"disciplina","Tarjetas":"disciplina"};
+                "Faltas":"disciplina","Tarjetas":"disciplina",
+                "Marcador":"marcador","Marcador 1T":"goles","Rango":"goles",
+                "DNB":"resultado","Hándicap":"resultado"};
 
 /* Kelly escalado por confianza. Debajo de 50 no se corre Kelly:
    la fórmula asume que tu probabilidad es correcta, y con confianza
@@ -523,6 +571,9 @@ const notasCache = {};  // { matchId: "texto libre" } — investigación manual
                          // partidos.json a propósito: actualizar.py reescribe
                          // ese archivo todos los días y borraría cualquier
                          // cosa que se guarde ahí.
+const openGroups = new Set();  // "matchId|familia" de las cajas de "cargar
+                                // cuota" que el usuario dejó abiertas. Solo
+                                // de sesión, no hace falta persistirlo.
 
 /* ═══ datos sembrados ═══
    El primero sale de tus propias capturas (Palmeiras–Cerro, 12/08).
@@ -721,18 +772,26 @@ function tabMarkets(m,mkts){
   `:`<div class="empty"><b>Sin cuotas</b><p>Cargá la cuota de tu casa en cualquier mercado de abajo y aparece el ranking por EV.</p></div>`}
 
   <div class="eyebrow" style="margin:22px 0 9px">Cargar cuota — ${empty.length} mercados sin precio</div>
-  ${groups.map(g=>`
-    <div class="box">
-      <h3>${esc(g)}</h3>
-      ${empty.filter(x=>x.g===g).map(x=>`
-        <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft)">
-          <div style="flex:1;font-size:12.5px;line-height:1.3">${esc(x.label)}
-            <div class="num" style="font-size:11px;color:var(--muted-2);margin-top:2px">modelo ${pc1(x.p)} · justa @${fair(x.p).toFixed(2)}</div>
-          </div>
-          <input class="odds-in" style="width:78px" type="number" step="0.01" min="1.01" placeholder="—"
-                 data-odds="${x.id}" data-m="${m.id}">
-        </div>`).join("")}
-    </div>`).join("")}`;
+  ${groups.map(g=>{
+    const key = m.id+"|"+g, open = openGroups.has(key), items = empty.filter(x=>x.g===g);
+    return `
+    <div class="box grp">
+      <button class="grp-head" data-grp="${key}">
+        <span>${esc(g)}<span class="grp-count">${items.length}</span></span>
+        <svg class="grp-chev ${open?"open":""}" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      ${open?`<div class="grp-body">
+        ${items.map(x=>`
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft)">
+            <div style="flex:1;font-size:12.5px;line-height:1.3">${esc(x.label)}
+              <div class="num" style="font-size:11px;color:var(--muted-2);margin-top:2px">modelo ${pc1(x.p)} · justa @${fair(x.p).toFixed(2)}</div>
+            </div>
+            <input class="odds-in" style="width:78px" type="number" step="0.01" min="1.01" placeholder="—"
+                   data-odds="${x.id}" data-m="${m.id}">
+          </div>`).join("")}
+      </div>`:""}
+    </div>`;
+  }).join("")}`;
 }
 
 function mktCard(m,x,rank){
@@ -1032,7 +1091,7 @@ function viewSettings(){
 
 /* ═══════════ EVENTOS ═══════════ */
 document.addEventListener("click", async e=>{
-  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],#s-export,#s-clear,#s-caps,#s-xlsx");
+  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],[data-grp],#s-export,#s-clear,#s-caps,#s-xlsx");
   if(!t) return;
 
   if(t.dataset.nav){ VIEW.nav=t.dataset.nav; VIEW.match=null; return render(); }
@@ -1041,6 +1100,10 @@ document.addEventListener("click", async e=>{
   if(t.dataset.match){ VIEW.match=t.dataset.match; VIEW.tab="mercados"; return render(); }
   if(t.hasAttribute("data-back")){ VIEW.match=null; return render(); }
   if(t.dataset.tab){ VIEW.tab=t.dataset.tab; return render(); }
+  if(t.dataset.grp){
+    openGroups.has(t.dataset.grp) ? openGroups.delete(t.dataset.grp) : openGroups.add(t.dataset.grp);
+    return render();
+  }
 
   if(t.dataset.bet){
     const m = MATCHES.find(x=>x.id===t.dataset.m);

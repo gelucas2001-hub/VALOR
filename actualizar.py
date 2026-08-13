@@ -5,7 +5,8 @@ Trae partidos de Liga Profesional, Libertadores, Sudamericana y Copa
 Argentina desde la API pública no oficial de ESPN (no necesita key).
 Para cada partido futuro calcula los goles esperados (lambda) de cada
 equipo a partir del promedio de goles a favor/en contra jugando en su
-condición (local de local, visitante de visitante).
+condición (local de local, visitante de visitante), y adjunta escudos,
+historial directo y tabla de posiciones.
 
 Las cuotas NO se traen: se cargan a mano en la app.
 """
@@ -22,16 +23,16 @@ if hasattr(sys.stdout, "reconfigure"):
 # site.api.espn.com es el host "oficial" no documentado; algunas redes lo
 # bloquean (Akamai). site.web.api.espn.com sirve las mismas respuestas y
 # sirve de respaldo automático.
-HOSTS = [
-    "https://site.api.espn.com/apis/site/v2/sports/soccer",
-    "https://site.web.api.espn.com/apis/site/v2/sports/soccer",
-]
+HOSTS = ["https://site.api.espn.com", "https://site.web.api.espn.com"]
+SITE_V2 = "apis/site/v2/sports/soccer"      # scoreboard, teams/{id}/schedule
+CORE_V2 = "apis/v2/sports/soccer"           # standings
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 
 OUT = Path("data/partidos.json")
 ARG_TZ = datetime.timezone(datetime.timedelta(hours=-3))
 DIAS_ADELANTE = 5          # próximos N días (incluye hoy)
+TEMPORADAS_H2H = 3         # temporadas hacia atrás para el historial directo
 
 # ── competiciones ────────────────────────────────────────────────
 # slug de ESPN → metadata. rho: -0.10 en ligas/fase de grupos regular,
@@ -76,11 +77,23 @@ def fecha_hora_arg(iso_utc):
     return local.date().isoformat(), local.strftime("%H:%M")
 
 
-def historial(slug, team_id):
-    """/teams/{id}/schedule de la competición: partidos jugados esta
-    temporada, con condición (local/visitante) y goles a favor/en contra.
-    Devuelve (lista_jugados, forma_ultimos_5)."""
-    d = api(f"{slug}/teams/{team_id}/schedule")
+def escudo(team):
+    """El logo viene como 'logo' (scoreboard) o 'logos':[{href}] (standings)."""
+    if team.get("logo"):
+        return team["logo"]
+    for l in team.get("logos") or []:
+        if "dark" not in (l.get("rel") or []):
+            return l.get("href")
+    return ""
+
+
+def historial(slug, team_id, season=None):
+    """/teams/{id}/schedule: partidos ya jugados, con condición, goles y rival.
+    season=None trae la temporada en curso."""
+    q = f"{SITE_V2}/{slug}/teams/{team_id}/schedule"
+    if season:
+        q += f"?season={season}"
+    d = api(q)
     jugados = []
     for e in d.get("events", []):
         comp = (e.get("competitions") or [{}])[0]
@@ -96,16 +109,19 @@ def historial(slug, team_id):
         gc = (rival.get("score") or {}).get("value")
         if gf is None or gc is None:
             continue
+        local = propio.get("homeAway") == "home"
+        gh, ga = (gf, gc) if local else (gc, gf)
         jugados.append({
             "fecha": e.get("date", ""),
-            "local": propio.get("homeAway") == "home",
+            "local": local,
             "gf": gf, "gc": gc,
+            "rival_id": rival.get("team", {}).get("id", ""),
+            "home": propio["team"]["displayName"] if local else rival["team"]["displayName"],
+            "away": rival["team"]["displayName"] if local else propio["team"]["displayName"],
+            "marcador": f"{int(gh)}-{int(ga)}",
         })
     jugados.sort(key=lambda x: x["fecha"], reverse=True)
-    forma = []
-    for p in jugados[:5]:
-        forma.append("W" if p["gf"] > p["gc"] else ("D" if p["gf"] == p["gc"] else "L"))
-    return jugados, forma
+    return jugados
 
 
 def promedio_condicion(jugados, local):
@@ -119,6 +135,40 @@ def promedio_condicion(jugados, local):
     return gf, gc, len(sub)
 
 
+def forma(jugados, n=5):
+    return ["W" if p["gf"] > p["gc"] else ("D" if p["gf"] == p["gc"] else "L")
+            for p in jugados[:n]]
+
+
+def tabla_competicion(slug, season):
+    """/standings: devuelve {team_id: [filas del grupo]} para poder mostrar
+    la zona del equipo que juega. En liga sin grupos ESPN igual devuelve
+    'children', así que el manejo es el mismo."""
+    d = api(f"{CORE_V2}/{slug}/standings?season={season}")
+    por_equipo = {}
+    for grupo in d.get("children", []) or []:
+        entries = (grupo.get("standings") or {}).get("entries") or []
+        filas, ids = [], []
+        for e in entries:
+            t = e.get("team", {})
+            s = {x.get("name"): x for x in e.get("stats", [])}
+            val = lambda k: int((s.get(k) or {}).get("value") or 0)
+            filas.append({
+                "t": t.get("displayName", ""),
+                "id": t.get("id", ""),
+                "logo": escudo(t),
+                "pts": val("points"), "pj": val("gamesPlayed"),
+                "g": val("wins"), "e": val("ties"), "p": val("losses"),
+                "gf": val("pointsFor"),
+            })
+            ids.append(t.get("id", ""))
+        filas.sort(key=lambda f: (-f["pts"], -f["gf"]))
+        info = {"grupo": grupo.get("name", ""), "filas": filas}
+        for i in ids:
+            por_equipo[i] = info
+    return por_equipo
+
+
 def main():
     hoy = datetime.date.today()
     ventana = {(hoy + datetime.timedelta(days=i)).isoformat() for i in range(DIAS_ADELANTE)}
@@ -126,19 +176,26 @@ def main():
     # respecto al día calendario argentino en partidos nocturnos.
     desde = (hoy - datetime.timedelta(days=1)).strftime("%Y%m%d")
     hasta = (hoy + datetime.timedelta(days=DIAS_ADELANTE)).strftime("%Y%m%d")
+    season = hoy.year
 
     partidos = []
-    cache_hist = {}   # (slug, team_id) -> (jugados, forma) — no pedir 2 veces el mismo equipo
+    cache_hist = {}    # (slug, team_id, season) -> jugados
+    cache_tabla = {}   # slug -> {team_id: info de grupo}
 
-    def get_hist(slug, tid):
-        k = (slug, tid)
+    def get_hist(slug, tid, yr=None):
+        k = (slug, tid, yr)
         if k not in cache_hist:
-            cache_hist[k] = historial(slug, tid)
+            cache_hist[k] = historial(slug, tid, yr)
         return cache_hist[k]
+
+    def get_tabla(slug):
+        if slug not in cache_tabla:
+            cache_tabla[slug] = tabla_competicion(slug, season)
+        return cache_tabla[slug]
 
     for slug, meta in COMPETICIONES.items():
         print(f"· {meta['nombre']} — scoreboard")
-        d = api(f"{slug}/scoreboard?dates={desde}-{hasta}")
+        d = api(f"{SITE_V2}/{slug}/scoreboard?dates={desde}-{hasta}")
         for ev in d.get("events", []):
             comp = (ev.get("competitions") or [{}])[0]
             st = comp.get("status", {}).get("type", {})
@@ -157,8 +214,8 @@ def main():
             loc_id, vis_id = loc["team"]["id"], vis["team"]["id"]
             loc_nombre, vis_nombre = loc["team"]["displayName"], vis["team"]["displayName"]
 
-            jug_loc, form_loc = get_hist(slug, loc_id)
-            jug_vis, form_vis = get_hist(slug, vis_id)
+            jug_loc = get_hist(slug, loc_id)
+            jug_vis = get_hist(slug, vis_id)
 
             cond_loc = promedio_condicion(jug_loc, local=True)   # local jugando de local
             cond_vis = promedio_condicion(jug_vis, local=False)  # visitante jugando de visitante
@@ -181,17 +238,46 @@ def main():
                         "de local/visitante esta temporada). Los valores son genéricos: "
                         "ajustalos a mano en Modelo.")
 
+            # ── historial directo: cruces contra este rival en las últimas
+            # temporadas de la misma competición ──
+            h2h = []
+            for yr in range(season, season - TEMPORADAS_H2H, -1):
+                previos = jug_loc if yr == season else get_hist(slug, loc_id, yr)
+                for p in previos:
+                    if p["rival_id"] == vis_id:
+                        dd = p["fecha"][:10]
+                        h2h.append({
+                            "d": f"{dd[8:10]}/{dd[5:7]}/{dd[2:4]}",
+                            "h": p["home"], "a": p["away"], "s": p["marcador"],
+                        })
+            vistos_h2h, h2h_unico = set(), []
+            for x in h2h:
+                k = (x["d"], x["s"])
+                if k not in vistos_h2h:
+                    vistos_h2h.add(k)
+                    h2h_unico.append(x)
+            h2h = h2h_unico[:5]
+
+            # ── tabla de posiciones de la zona donde juegan ──
+            tablas = get_tabla(slug)
+            info_grupo = tablas.get(loc_id) or tablas.get(vis_id)
+            tabla = info_grupo["filas"] if info_grupo else []
+            grupo = info_grupo["grupo"] if info_grupo else ""
+
             partidos.append({
                 "id": f"espn{ev['id']}",
                 "date": fecha, "comp": meta["nombre"], "hora": hora,
                 "home": loc_nombre, "away": vis_nombre,
+                "homeId": loc_id, "awayId": vis_id,
+                "homeLogo": escudo(loc["team"]), "awayLogo": escudo(vis["team"]),
                 "lh": lh, "la": la, "rho": meta["rho"], "conf": conf,
                 "corners": meta["corners"],
                 "cornersH": round(meta["corners"] * 0.56, 1),
                 "fouls": meta["fouls"], "cards": meta["cards"],
                 "note": nota,
-                "formH": form_loc, "formA": form_vis,
-                "h2h": [], "tabla": [], "preload": {},
+                "formH": forma(jug_loc), "formA": forma(jug_vis),
+                "h2h": h2h, "tabla": tabla, "grupo": grupo,
+                "preload": {},
             })
 
     partidos.sort(key=lambda p: (p["date"], p["hora"]))
@@ -202,7 +288,10 @@ def main():
         "partidos": partidos,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print(f"\n✓ {len(partidos)} partidos · {_req_count} requests a ESPN")
+    con_h2h = sum(1 for p in partidos if p["h2h"])
+    con_tabla = sum(1 for p in partidos if p["tabla"])
+    print(f"\n✓ {len(partidos)} partidos · {con_h2h} con historial directo · "
+          f"{con_tabla} con tabla · {_req_count} requests a ESPN")
 
 
 if __name__ == "__main__":

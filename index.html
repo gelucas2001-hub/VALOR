@@ -208,6 +208,14 @@ header.top{
   padding:7px 9px;font-family:var(--mono);font-size:15px;text-align:center;
 }
 .odds-in:focus{outline:none;border-color:var(--brass-deep);background:var(--ink-2)}
+.nota-in{
+  width:100%;background:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:10px;font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--paper);
+  resize:vertical;min-height:64px;
+}
+.nota-in::placeholder{color:var(--muted-2)}
+.nota-in:focus{outline:none;border-color:var(--brass-deep);background:var(--ink-2)}
+.nota-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-top:8px}
 .mkt.corr{opacity:.62}
 .fam{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-top:3px;font-variation-settings:"wdth" 112,"wght" 600}
 .mode{font-size:10.5px;color:var(--muted-2);margin-top:9px;letter-spacing:.04em}
@@ -510,6 +518,11 @@ let LOG = [];
 let VIEW = {nav:"fecha", day:"2026-08-12", match:null, tab:"mercados", filter:"valor"};
 let MATCHES = [];
 const oddsCache = {};   // { matchId: { marketId: {odds, oddsOpp} } }
+const notasCache = {};  // { matchId: "texto libre" } — investigación manual
+                         // (lesiones, DT, contexto). Vive aparte de data/
+                         // partidos.json a propósito: actualizar.py reescribe
+                         // ese archivo todos los días y borraría cualquier
+                         // cosa que se guarde ahí.
 
 /* ═══ datos sembrados ═══
    El primero sale de tus propias capturas (Palmeiras–Cerro, 12/08).
@@ -834,6 +847,10 @@ function tabData(m){
   const logoDe = n => n===m.home ? m.homeLogo : n===m.away ? m.awayLogo : "";
   const juega  = t => t.id===m.homeId || t.id===m.awayId || t.t===m.home || t.t===m.away;
   return `
+  <div class="box"><h3>Notas propias</h3>
+    <textarea class="nota-in" data-nota="${m.id}" placeholder="Lesiones, cambios de DT, viajes, motivación — lo que investigues antes de jugar. Se guarda en este celular, no en los datos que trae ESPN.">${esc(notasCache[m.id] || "")}</textarea>
+    <div class="nota-tag">Esto no lo mueve el modelo — es referencia para vos, y para ajustar la Confianza en Modelo.</div>
+  </div>
   <div class="box"><h3>Forma reciente</h3>
     <div style="font-size:12.5px;margin-bottom:4px;display:flex;align-items:center;gap:7px">${crest(m.homeLogo,"sm")}${esc(m.home)}</div>${fr(m.formH)}
     <div style="font-size:12.5px;margin:13px 0 4px;display:flex;align-items:center;gap:7px">${crest(m.awayLogo,"sm")}${esc(m.away)}</div>${fr(m.formA)}
@@ -1100,6 +1117,11 @@ document.addEventListener("change", async e=>{
     S[map[t.id]] = t.id==="s-casa" ? t.value : parseFloat(t.value);
     await store.set("settings",S);
     if(t.id==="s-bank") document.getElementById("brandTag").textContent = tagLine();
+    return;
+  }
+  if(t.dataset.nota){
+    notasCache[t.dataset.nota] = t.value.trim();
+    await store.set("notas",notasCache);
   }
 });
 
@@ -1111,6 +1133,7 @@ const tagLine = () => `${FEED} · umbral ${pc(S.minEv)}${S.caps?" · topes on":"
   const s=await store.get("settings"); if(s) S={...S,...s};
   const l=await store.get("log");      if(l) LOG=l;
   const o=await store.get("odds");     if(o) Object.assign(oddsCache,o);
+  const nt=await store.get("notas");   if(nt) Object.assign(notasCache,nt);
   MATCHES = JSON.parse(JSON.stringify(SEED));
   // Datos reales si el cron ya los escribió; si no, los de ejemplo.
   try{

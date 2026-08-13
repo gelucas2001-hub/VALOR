@@ -745,9 +745,10 @@ function viewMatch(id){
   const m = MATCHES.find(x=>x.id===id); if(!m) return "";
   const {M,mkts} = model(m);
   let body="";
-  if(VIEW.tab==="mercados") body = tabMarkets(m,mkts);
-  if(VIEW.tab==="modelo")   body = tabModel(m,M,mkts);
-  if(VIEW.tab==="datos")    body = tabData(m);
+  if(VIEW.tab==="mercados")   body = tabMarkets(m,mkts);
+  if(VIEW.tab==="modelo")     body = tabModel(m,M,mkts);
+  if(VIEW.tab==="datos")      body = tabData(m);
+  if(VIEW.tab==="jugadores")  body = tabJugadores(m);
   return `
   <div class="detail-head">
     <button class="back" data-back>← Fecha</button>
@@ -755,7 +756,7 @@ function viewMatch(id){
     <div class="dh-meta">${esc(m.comp)} · ${m.hora} · <span class="nw">λ L ${m.lh.toFixed(2)}</span> · <span class="nw">V ${m.la.toFixed(2)}</span></div>
   </div>
   <div class="tabs">
-    ${["mercados","modelo","datos"].map(t=>`<button class="tab ${VIEW.tab===t?"on":""}" data-tab="${t}">${t}</button>`).join("")}
+    ${["mercados","jugadores","modelo","datos"].map(t=>`<button class="tab ${VIEW.tab===t?"on":""}" data-tab="${t}">${t}</button>`).join("")}
   </div>
   <div class="wrap">${body}</div>`;
 }
@@ -936,6 +937,208 @@ function tabData(m){
   </div>`:""}`;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   JUGADORES — mercados por jugador, on-demand.
+   No toca actualizar.py ni corre en el pipeline: se busca y se trae
+   en vivo, desde el navegador, solo cuando el usuario lo pide. ESPN
+   tiene CORS abierto para esto (verificado), así que no hace falta
+   proxy ni server propio.
+   ═══════════════════════════════════════════════════════════ */
+
+// slug de ESPN por nombre de competición — el mismo mapeo que usa
+// actualizar.py, pero acá porque el front no tiene el slug guardado.
+const ESPN_SLUG = {
+  "Liga Profesional Argentina": "arg.1",
+  "CONMEBOL Libertadores": "conmebol.libertadores",
+  "CONMEBOL Sudamericana": "conmebol.sudamericana",
+  "Copa Argentina": "arg.copa",
+};
+const ESPN_HOST = "https://site.web.api.espn.com"; // host con CORS abierto
+
+const playerUI = {};   // { matchId: {q, results, sel, stats, loading, err} }
+const podds = {};      // { "matchId|marketId": {odds, oddsOpp} } — cuotas de jugador
+
+async function espnGet(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  return r.json();
+}
+// Cachea en localStorage con vencimiento — evita repetir el mismo
+// pedido si se busca al mismo jugador/plantel más de una vez por día.
+async function cachedFetch(key, ttlMs, fetcher){
+  const hit = await store.get(key);
+  if(hit && hit.t && (Date.now()-hit.t) < ttlMs) return hit.v;
+  const v = await fetcher();
+  await store.set(key, {t:Date.now(), v});
+  return v;
+}
+
+async function plantel(slug, teamId){
+  const d = await cachedFetch(`roster:${slug}:${teamId}`, 86400000, () =>
+    espnGet(`${ESPN_HOST}/apis/site/v2/sports/soccer/${slug}/teams/${teamId}/roster`));
+  return (d.athletes||[]).map(a=>({id:a.id, nombre:a.displayName, pos:a.position?.abbreviation||""}));
+}
+
+async function statsCrudos(playerId){
+  return cachedFetch(`pstat:${playerId}`, 86400000, () =>
+    espnGet(`${ESPN_HOST}/apis/common/v3/sports/soccer/athletes/${playerId}/overview`));
+}
+
+// De la respuesta cruda, saca el split de ESTA competición (por slug) y
+// lo convierte en un objeto {starts, foulsCommitted, ...} con nombres.
+function splitDe(overview, slug){
+  const s = overview?.statistics;
+  if(!s?.splits) return null;
+  const sp = s.splits.find(x=>x.leagueSlug===slug);
+  if(!sp) return null;
+  const obj = {};
+  s.names.forEach((n,i)=> obj[n] = Number(sp.stats[i])||0);
+  return obj;
+}
+
+const UMBRAL_STARTS = 3; // menos que esto, la tasa por partido es poco confiable
+
+function mercadosJugador(st){
+  const n = st?.starts||0;
+  if(!st || n===0) return {n:0, items:[]};
+  const over = (lam,k) => { let s=0; for(let i=0;i<=Math.floor(k);i++) s+=pois(i,lam); return 1-s; };
+  const items = [];
+  const add = (label,lam,k) => items.push({label, p: over(lam,k), lam});
+  const anytime = (label,lam) => items.push({label, p: 1-pois(0,lam), lam});
+  [0.5,1.5,2.5].forEach(k=> add("Remates más de "+k, st.totalShots/n, k));
+  [0.5,1.5].forEach(k=> add("Remates al arco más de "+k, st.shotsOnTarget/n, k));
+  anytime("Anotará en cualquier momento", st.totalGoals/n);
+  anytime("Recibirá tarjeta", (st.yellowCards+st.redCards)/n);
+  [0.5,1.5].forEach(k=> add("Faltas cometidas más de "+k, st.foulsCommitted/n, k));
+  [0.5,1.5].forEach(k=> add("Le harán falta más de "+k, st.foulsSuffered/n, k));
+  items.forEach((x,i)=> x.id="J"+i+"|"+x.label);
+  return {n, items};
+}
+
+async function buscarJugadores(m, q){
+  const ui = playerUI[m.id];
+  ui.loading = true; ui.err = null; render();
+  try{
+    const slug = ESPN_SLUG[m.comp];
+    if(!slug) throw new Error("Competición sin slug conocido.");
+    const [pl1, pl2] = await Promise.all([
+      plantel(slug, m.homeId).then(l=>l.map(p=>({...p, team:"home"}))),
+      plantel(slug, m.awayId).then(l=>l.map(p=>({...p, team:"away"}))),
+    ]);
+    const qq = q.trim().toLowerCase();
+    ui.results = qq.length<2 ? [] : [...pl1,...pl2]
+      .filter(p=>p.nombre.toLowerCase().includes(qq)).slice(0,8);
+  }catch(e){
+    ui.err = "No se pudo buscar: "+e.message;
+    ui.results = [];
+  }
+  ui.loading = false; render();
+}
+
+async function elegirJugador(m, playerId, team, nombre){
+  const ui = playerUI[m.id];
+  ui.sel = {id:playerId, team, nombre}; ui.stats = null; ui.loading = true; ui.err = null; render();
+  try{
+    const slug = ESPN_SLUG[m.comp];
+    const overview = await statsCrudos(playerId);
+    const split = splitDe(overview, slug);
+    ui.stats = mercadosJugador(split);
+    ui.stats.starts = split?.starts||0;
+  }catch(e){
+    ui.err = "No se pudieron traer las estadísticas: "+e.message;
+  }
+  ui.loading = false; render();
+}
+
+function tabJugadores(m){
+  const ui = playerUI[m.id] || (playerUI[m.id] = {q:"", results:[], sel:null, stats:null, loading:false, err:null});
+  if(!ESPN_SLUG[m.comp]) return `<div class="empty"><b>No disponible</b><p>No tengo el slug de ESPN para "${esc(m.comp)}".</p></div>`;
+  return `
+  <div class="box">
+    <h3>Buscar jugador</h3>
+    <input class="odds-in" style="text-align:left" type="text" autocomplete="off"
+           placeholder="Nombre — ${esc(m.home)} o ${esc(m.away)}" value="${esc(ui.q)}" data-pq="${m.id}">
+    ${ui.loading && !ui.sel ? `<div class="nota-tag" style="margin-top:8px">Buscando…</div>` : ""}
+    ${ui.err && !ui.sel ? `<div class="warn" style="margin-top:9px">${esc(ui.err)}</div>` : ""}
+    ${ui.results.length?`<div style="margin-top:9px">
+      ${ui.results.map(r=>`
+        <button class="btn ghost" style="text-align:left;display:flex;align-items:center;gap:8px;margin-top:6px" data-psel="${r.id}" data-pteam="${r.team}" data-pname="${esc(r.nombre)}" data-m="${m.id}">
+          ${crest(r.team==="home"?m.homeLogo:m.awayLogo,"sm")}<span style="flex:1">${esc(r.nombre)}</span>
+          <span style="color:var(--muted-2);font-size:11px">${esc(r.pos)}</span>
+        </button>`).join("")}
+    </div>`:""}
+  </div>
+  ${ui.sel ? tabJugadorSel(m,ui) : ""}`;
+}
+
+function tabJugadorSel(m,ui){
+  if(ui.loading) return `<div class="box"><p class="nota-tag" style="margin:0">Trayendo estadísticas de ${esc(ui.sel.nombre)}…</p></div>`;
+  if(ui.err) return `<div class="box"><h3>${esc(ui.sel.nombre)}</h3><div class="warn">${esc(ui.err)}</div></div>`;
+  const st = ui.stats;
+  if(!st || st.n===0) return `<div class="box"><h3>${esc(ui.sel.nombre)}</h3>
+    <p style="color:var(--muted-2);font-size:12.5px;line-height:1.5;margin:0">Sin arranques registrados en ${esc(m.comp)} esta temporada — puede que recién llegue, o que no haya sido titular todavía. No hay muestra para calcular mercados.</p></div>`;
+  const logo = ui.sel.team==="home" ? m.homeLogo : m.awayLogo;
+  return `
+  <div class="box">
+    <h3 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(ui.sel.nombre)}</h3>
+    ${st.n<UMBRAL_STARTS?`<div class="warn" style="margin-bottom:11px">Solo ${st.n} arranque${st.n===1?"":"s"} en ${esc(m.comp)} esta temporada — la tasa por partido es poco confiable todavía. Cargá la cuota igual si querés, pero sabé que el modelo tiene poco para pararse.</div>`
+      :`<p class="nota-tag" style="margin:0 0 11px">Sobre ${st.n} arranques en ${esc(m.comp)} esta temporada.</p>`}
+    ${st.items.map(x=>mktCardJugador(m,x)).join("")}
+  </div>`;
+}
+
+// Misma cuenta que usa evaluate() para los mercados de equipo, pero
+// para un solo mercado de jugador — la usan tanto el render (mktCardJugador)
+// como el click de "Registrar", así el stake no se calcula en dos lugares.
+function evaluarJugador(m,x){
+  const key = m.id+"|"+x.id;
+  const cur = podds[key] || {};
+  const o = parseFloat(cur.odds);
+  const K = kellyFracFor(m.conf ?? 65);
+  let e=null, stake=0, mode="—", trap=false, eFair=null, dv=null;
+  if(o && o>1){
+    e = ev(x.p,o);
+    const oo = parseFloat(cur.oddsOpp);
+    if(oo && oo>1){ dv = devig(o,oo); eFair = x.p-dv.p; }
+    trap = eFair!==null && e>0 && eFair<0;
+    if(trap || e<=0){ stake=0; mode = e<=0?"sin stake · EV negativo":"sin stake · valor falso"; }
+    else if(e>=S.minEv){ stake = K.f===null ? S.bank*0.005 : S.bank*kelly(x.p,o)*K.f; mode = K.t; }
+    else { stake = S.bank*0.005; mode = "fijo 0.5% · precio bien puesto"; }
+    stake = Math.round(stake);
+  }
+  return {o, e, stake, mode, trap, dv, val: e!==null && e>=S.minEv && !trap,
+          sanity: e!==null && e>0.25};
+}
+
+function mktCardJugador(m,x){
+  const key = m.id+"|"+x.id;
+  const cur = podds[key] || {};
+  const {o,e,stake,mode,trap,dv,val,sanity} = evaluarJugador(m,x);
+  return `<div class="mkt ${val?"val":""}" style="margin-bottom:9px">
+    <div class="pick-row">
+      <div class="pick-name">${esc(x.label)}</div>
+      ${o?`<div class="pick-odds ${val?"pos":e<0?"neg":""}">@${o.toFixed(2)}</div>`:""}
+    </div>
+    <div class="fam" style="margin-top:2px">modelo ${pc1(x.p)} · justa @${fair(x.p).toFixed(2)}</div>
+    <div class="io">
+      <div><label>Cuota</label><input class="odds-in" type="number" step="0.01" min="1.01" value="${cur.odds??""}" placeholder="—" data-podds="${x.id}" data-m="${m.id}"></div>
+      <div><label>Cuota contraria</label><input class="odds-in" type="number" step="0.01" min="1.01" value="${cur.oddsOpp??""}" placeholder="para sacar vig" data-poppodds="${x.id}" data-m="${m.id}"></div>
+    </div>
+    ${e!==null?`
+    <div class="mkt-grid">
+      <div><small>EV</small><b class="${e>0?"pos":"neg"}">${sg(e)}</b></div>
+      <div><small>Justa</small><b>@${fair(x.p).toFixed(2)}</b></div>
+      <div><small>Stake</small><b>${stake?mny(stake):"—"}</b></div>
+      <div><small>Margen</small><b>${dv?pc1(dv.over):"—"}</b></div>
+    </div>
+    <div class="mode num">${esc(mode)}</div>
+    ${trap?`<div class="warn">Valor falso: sin margen esto no rinde.</div>`:""}
+    ${sanity?`<div class="warn">EV de ${sg(e)}. Con la muestra chica de un jugador, esto es mucho más probable que sea la tasa mal estimada que una joya real — mirá cuántos arranques tiene antes de creerlo.</div>`:""}
+    <button class="btn ${val?"":"ghost"}" data-pbet="${x.id}" data-m="${m.id}" ${stake?"":"disabled"}>Registrar ${stake?mny(stake):""}</button>
+    `:""}
+  </div>`;
+}
+
 /* ── pantalla: registro ── */
 function viewLog(){
   const done = LOG.filter(b=>b.result==="W"||b.result==="L");
@@ -1091,7 +1294,7 @@ function viewSettings(){
 
 /* ═══════════ EVENTOS ═══════════ */
 document.addEventListener("click", async e=>{
-  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],[data-grp],#s-export,#s-clear,#s-caps,#s-xlsx");
+  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],[data-grp],[data-psel],[data-pbet],#s-export,#s-clear,#s-caps,#s-xlsx");
   if(!t) return;
 
   if(t.dataset.nav){ VIEW.nav=t.dataset.nav; VIEW.match=null; return render(); }
@@ -1103,6 +1306,24 @@ document.addEventListener("click", async e=>{
   if(t.dataset.grp){
     openGroups.has(t.dataset.grp) ? openGroups.delete(t.dataset.grp) : openGroups.add(t.dataset.grp);
     return render();
+  }
+  if(t.dataset.psel){
+    const m = MATCHES.find(x=>x.id===t.dataset.m);
+    return elegirJugador(m, t.dataset.psel, t.dataset.pteam, t.dataset.pname);
+  }
+  if(t.dataset.pbet){
+    const m = MATCHES.find(x=>x.id===t.dataset.m);
+    const ui = playerUI[m.id];
+    const x = ui?.stats?.items?.find(k=>k.id===t.dataset.pbet);
+    if(!x) return;
+    const r = evaluarJugador(m,x);
+    if(!r.stake) return;
+    LOG.push({id:"b"+Date.now(), match:m.home+" vs "+m.away, label:ui.sel.nombre+" — "+x.label,
+      liga:m.comp, hora:m.hora, conf:m.conf??65, fam:"jugador", casa:S.casa,
+      odds:r.o, stake:r.stake, ev:r.e, p:x.p, result:"P", closing:null, date:m.date});
+    await store.set("log",LOG);
+    t.textContent="Registrada ✓"; t.disabled=true;
+    return;
   }
 
   if(t.dataset.bet){
@@ -1170,6 +1391,29 @@ document.addEventListener("input", async e=>{
   if(t.dataset.close){
     const b=LOG.find(x=>x.id===t.dataset.close);
     if(b){ b.closing=parseFloat(t.value)||null; await store.set("log",LOG); }
+    return;
+  }
+  if(t.dataset.pq){
+    const mid=t.dataset.pq, q=t.value;
+    (playerUI[mid]||(playerUI[mid]={q:"",results:[],sel:null,stats:null,loading:false,err:null})).q=q;
+    clearTimeout(window._t4); window._t4=setTimeout(()=>{
+      const m=MATCHES.find(x=>x.id===mid);
+      buscarJugadores(m,q).then(()=>{
+        const el=document.querySelector(`[data-pq="${mid}"]`);
+        if(el){ el.focus(); el.setSelectionRange?.(el.value.length,el.value.length); }
+      });
+    },350);
+    return;
+  }
+  if(t.dataset.podds||t.dataset.poppodds){
+    const id=t.dataset.podds||t.dataset.poppodds, mid=t.dataset.m, key=mid+"|"+id;
+    const cur=podds[key]||{};
+    podds[key]={...cur, [t.dataset.podds?"odds":"oddsOpp"]: parseFloat(t.value)||null};
+    clearTimeout(window._t5); window._t5=setTimeout(()=>{
+      const a=document.activeElement, k=a&&(a.dataset.podds||a.dataset.poppodds), which=a&&a.dataset.podds?"podds":"poppodds";
+      render();
+      if(k){ const el=document.querySelector(`[data-${which}="${k}"]`); if(el){ el.focus(); el.setSelectionRange?.(el.value.length,el.value.length);} }
+    },700);
     return;
   }
 });

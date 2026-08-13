@@ -119,6 +119,51 @@ def fecha_hora_arg(iso_utc):
     return local.date().isoformat(), local.strftime("%H:%M")
 
 
+def americana_a_decimal(cuota):
+    """Cuota americana ('-140','+250') a decimal ('1.71','3.50')."""
+    try:
+        am = float(cuota)
+    except (TypeError, ValueError):
+        return None
+    return round(1 + am / 100, 2) if am > 0 else round(1 + 100 / abs(am), 2)
+
+
+def mercado_referencia(comp):
+    """Cuota de mercado que trae ESPN (DraftKings) en el propio scoreboard
+    — cero requests extra. OJO: DraftKings no opera en Argentina, esto NO
+    es una cuota apostable acá. Es solo una referencia para comparar contra
+    lo que ofrece tu casa real y detectar precios raros — nunca reemplaza
+    la carga manual."""
+    o = next((x for x in (comp.get("odds") or []) if isinstance(x, dict) and x.get("provider")), None)
+    if not o:
+        return None
+
+    def cierre(rama):
+        return americana_a_decimal((rama or {}).get("close", {}).get("odds"))
+
+    ml = o.get("moneyline") or {}
+    ps = o.get("pointSpread") or {}
+    tot = o.get("total") or {}
+
+    def linea(rama, prefijo=""):
+        s = (rama or {}).get("close", {}).get("line", "")
+        try:
+            return float(s[len(prefijo):]) if s else None
+        except ValueError:
+            return None
+
+    ref = {
+        "prov": o["provider"].get("name", ""),
+        "local": cierre(ml.get("home")), "empate": cierre(ml.get("draw")),
+        "visitante": cierre(ml.get("away")),
+        "totalLinea": linea(tot.get("over"), "o"),
+        "totalOver": cierre(tot.get("over")), "totalUnder": cierre(tot.get("under")),
+        "hcapLinea": linea(ps.get("home")),
+        "hcapLocal": cierre(ps.get("home")), "hcapVisitante": cierre(ps.get("away")),
+    }
+    return ref if any(v is not None for k, v in ref.items() if k != "prov") else None
+
+
 def escudo(team):
     """El logo viene como 'logo' (scoreboard) o 'logos':[{href}] (standings)."""
     if team.get("logo"):
@@ -442,6 +487,7 @@ def main():
 
             loc_id, vis_id = loc["team"]["id"], vis["team"]["id"]
             loc_nombre, vis_nombre = loc["team"]["displayName"], vis["team"]["displayName"]
+            mercado = mercado_referencia(comp)
 
             jug_loc = get_hist(slug, loc_id)
             jug_vis = get_hist(slug, vis_id)
@@ -547,6 +593,7 @@ def main():
                 "note": nota,
                 "formH": forma(jug_loc), "formA": forma(jug_vis),
                 "h2h": h2h, "tabla": tabla, "grupo": grupo,
+                "mercado": mercado,
                 "preload": {},
             })
 

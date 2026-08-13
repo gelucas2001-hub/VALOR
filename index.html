@@ -831,6 +831,9 @@ function tabMarkets(m,mkts){
   `:`<div class="empty"><b>Sin cuotas</b><p>Cargá la cuota de tu casa en cualquier mercado de abajo y aparece el ranking por EV.</p></div>`}
 
   <div class="eyebrow" style="margin:22px 0 9px">Cargar cuota — ${empty.length} mercados sin precio</div>
+  ${m.mercado?`<p style="font-size:11px;color:var(--muted-2);line-height:1.5;margin:-4px 0 12px">
+    "mercado" = cuota de referencia (DraftKings, vía ESPN) — no operan en Argentina, no es apostable acá.
+    Sirve para comparar contra lo que te ofrece tu casa, nunca para cargar directo.</p>`:""}
   ${groups.map(g=>{
     const key = m.id+"|"+g, open = openGroups.has(key), items = empty.filter(x=>x.g===g);
     return `
@@ -840,17 +843,40 @@ function tabMarkets(m,mkts){
         <svg class="grp-chev ${open?"open":""}" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       ${open?`<div class="grp-body">
-        ${items.map(x=>`
+        ${items.map(x=>{
+          const ref = refMercado(m,x);
+          return `
           <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft)">
             <div style="flex:1;font-size:12.5px;line-height:1.3">${esc(x.label)}
-              <div class="num" style="font-size:11px;color:var(--muted-2);margin-top:2px">modelo ${pc1(x.p)} · justa @${fair(x.p).toFixed(2)}</div>
+              <div class="num" style="font-size:11px;color:var(--muted-2);margin-top:2px">modelo ${pc1(x.p)} · justa @${fair(x.p).toFixed(2)}${ref!=null?` · mercado @${ref.toFixed(2)}`:""}</div>
             </div>
             <input class="odds-in" style="width:78px" type="number" step="0.01" min="1.01" placeholder="—"
                    data-odds="${x.id}" data-m="${m.id}">
-          </div>`).join("")}
+          </div>`;}).join("")}
       </div>`:""}
     </div>`;
   }).join("")}`;
+}
+
+// Cuota de referencia (DraftKings) para un mercado puntual, si aplica —
+// solo 1X2, el total con la línea que DraftKings eligió, y el hándicap
+// local con esa misma línea. El resto de los 98 mercados no tiene con
+// qué compararse y queda sin referencia, así nomás.
+function refMercado(m,x){
+  const r = m.mercado; if(!r) return null;
+  if(x.g==="1X2"){
+    if(x.label==="Gana local") return r.local;
+    if(x.label==="Empate") return r.empate;
+    if(x.label==="Gana visitante") return r.visitante;
+  }
+  if(x.g==="Goles" && r.totalLinea!=null){
+    if(x.label==="Más de "+r.totalLinea+" goles") return r.totalOver;
+    if(x.label==="Menos de "+r.totalLinea+" goles") return r.totalUnder;
+  }
+  if(x.g==="Hándicap" && r.hcapLinea!=null){
+    if(x.label==="Local "+(r.hcapLinea>0?"+":"")+r.hcapLinea) return r.hcapLocal;
+  }
+  return null;
 }
 
 function mktCard(m,x,rank){

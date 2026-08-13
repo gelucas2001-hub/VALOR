@@ -476,8 +476,7 @@ function evaluate(mkts,S,m){
 }
 
 /* ── estado ── */
-let S = { bank:50000, minEv:0.04, maxOdds:8, cur:"$", casa:"", caps:false,
-          apiKey:"", apiHost:"v3.football.api-sports.io" };
+let S = { bank:50000, minEv:0.04, maxOdds:8, cur:"$", casa:"", caps:false };
 let LOG = [];
 let VIEW = {nav:"fecha", day:"2026-08-12", match:null, tab:"mercados", filter:"valor"};
 let MATCHES = [];
@@ -957,18 +956,6 @@ function viewSettings(){
   </div>
 
   <div class="box">
-    <h3>Conexión de datos</h3>
-    <div class="set"><label>Proveedor</label>
-      <select id="s-prov"><option>API-Football (api-sports.io)</option></select></div>
-    <div class="set"><label>API key</label><input type="password" id="s-key" value="${esc(S.apiKey)}" placeholder="pegá tu clave"></div>
-    <button class="btn ghost" id="s-test">Probar conexión</button>
-    <div id="s-out"></div>
-    <p style="margin-top:14px">Endpoints que usa: <code>/fixtures?date=</code> para la fecha, <code>/odds</code> para las cuotas, <code>/fixtures/headtohead</code> para el H2H, <code>/standings</code> para posiciones, <code>/teams/statistics</code> para estimar λ.</p>
-    <p>Los goles esperados salen de los promedios de la temporada: λ local = ataque local × defensa visitante × media de la liga. Con la clave puesta, eso se calcula solo y los sliders quedan como ajuste fino.</p>
-    <p style="color:var(--rust)">Si el navegador bloquea la llamada por CORS, necesitás un proxy mínimo — un Worker de Cloudflare de 10 líneas alcanza.</p>
-  </div>
-
-  <div class="box">
     <h3>Datos</h3>
     <button class="btn ghost" id="s-xlsx">Copiar bloque para Registro_Apuestas.xlsx</button>
     <button class="btn ghost" id="s-export">Exportar todo (JSON)</button>
@@ -980,7 +967,7 @@ function viewSettings(){
 
 /* ═══════════ EVENTOS ═══════════ */
 document.addEventListener("click", async e=>{
-  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],#s-test,#s-export,#s-clear,#s-caps,#s-xlsx");
+  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],#s-export,#s-clear,#s-caps,#s-xlsx");
   if(!t) return;
 
   if(t.dataset.nav){ VIEW.nav=t.dataset.nav; VIEW.match=null; return render(); }
@@ -1026,7 +1013,6 @@ document.addEventListener("click", async e=>{
     out.download="valor-registro.json"; out.click(); return;
   }
   if(t.id==="s-clear"){ if(confirm("¿Borrar todo el registro?")){ LOG=[]; await store.set("log",LOG); render(); } return; }
-  if(t.id==="s-test"){ return testApi(); }
 });
 
 document.addEventListener("input", async e=>{
@@ -1061,50 +1047,13 @@ document.addEventListener("input", async e=>{
 });
 
 document.addEventListener("change", async e=>{
-  const t=e.target, map={"s-bank":"bank","s-ev":"minEv","s-max":"maxOdds","s-key":"apiKey","s-casa":"casa"};
+  const t=e.target, map={"s-bank":"bank","s-ev":"minEv","s-max":"maxOdds","s-casa":"casa"};
   if(map[t.id]){
-    S[map[t.id]] = (t.id==="s-key"||t.id==="s-casa") ? t.value : parseFloat(t.value);
+    S[map[t.id]] = t.id==="s-casa" ? t.value : parseFloat(t.value);
     await store.set("settings",S);
     if(t.id==="s-bank") document.getElementById("brandTag").textContent = tagLine();
   }
 });
-
-/* ── conexión API (se enchufa cuando tengas la clave) ── */
-async function testApi(){
-  const out=document.getElementById("s-out");
-  const key=document.getElementById("s-key").value.trim();
-  if(!key){ out.innerHTML=`<div class="warn" style="margin-top:10px">Falta la clave.</div>`; return; }
-  out.innerHTML=`<div class="warn info" style="margin-top:10px">Consultando…</div>`;
-  try{
-    const r=await fetch(`https://${S.apiHost}/status`,{headers:{"x-apisports-key":key}});
-    const d=await r.json();
-    if(d.response?.account){
-      const q=d.response.requests;
-      out.innerHTML=`<div class="warn info" style="margin-top:10px">Conectado. Consultas hoy: ${q.current}/${q.limit_day}. Ya podés traer la fecha real.</div>`;
-      S.apiKey=key; await store.set("settings",S);
-    } else {
-      out.innerHTML=`<div class="warn" style="margin-top:10px">Respondió pero sin cuenta válida. Revisá la clave.</div>`;
-    }
-  }catch(err){
-    out.innerHTML=`<div class="warn" style="margin-top:10px">No se pudo conectar: ${esc(err.message)}. Casi seguro es CORS — necesitás el proxy.</div>`;
-  }
-}
-
-/* Cuando tengas la clave, esta función reemplaza el SEED.
-   Devuelve partidos con la misma forma que usa la app. */
-async function fetchDay(iso){
-  const h={"x-apisports-key":S.apiKey};
-  const r=await fetch(`https://${S.apiHost}/fixtures?date=${iso}`,{headers:h});
-  const d=await r.json();
-  return d.response.map(f=>({
-    id:"api"+f.fixture.id, date:iso, comp:f.league.name,
-    hora:new Date(f.fixture.date).toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit"}),
-    home:f.teams.home.name, away:f.teams.away.name,
-    // λ provisorios: reemplazar con /teams/statistics (ataque × defensa × media liga)
-    lh:1.35, la:1.10, rho:-0.05, corners:9.8, cornersH:5.2, fouls:23.5, cards:5.0,
-    note:"", formH:[], formA:[], h2h:[], tabla:[], preload:{}
-  }));
-}
 
 let FEED = "datos de ejemplo";
 const tagLine = () => `${FEED} · umbral ${pc(S.minEv)}${S.caps?" · topes on":""}`;

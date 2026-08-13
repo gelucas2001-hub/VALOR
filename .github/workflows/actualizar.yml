@@ -1,0 +1,35 @@
+# Guardar en:  .github/workflows/actualizar.yml
+name: Actualizar partidos
+
+on:
+  schedule:
+    # 09:00 y 15:00 hora Argentina (UTC-3) → 12:00 y 18:00 UTC
+    - cron: "0 12 * * *"
+    - cron: "0 18 * * *"
+  workflow_dispatch:        # botón para correrlo a mano cuando quieras
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Traer datos y calcular lambdas
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+        run: python actualizar.py
+
+      - name: Guardar cambios
+        run: |
+          git config user.name  "valor-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "datos: $(date -u '+%Y-%m-%d %H:%M')"
+          git push

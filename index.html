@@ -191,7 +191,7 @@ header.top{
 .dh-teams{font-size:22px;font-variation-settings:"wdth" 106,"wght" 700;line-height:1.2;margin:6px 0 5px;
   display:flex;align-items:center;flex-wrap:wrap;gap:4px 0}
 .dh-teams .tm{display:inline-flex;align-items:center;gap:9px;min-width:0}
-.dh-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.dh-meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .nw{white-space:nowrap}
 .tabs{display:flex;gap:2px;padding:14px var(--pad) 0;border-bottom:1px solid var(--line);margin-bottom:2px}
 .tab{
@@ -718,7 +718,7 @@ function viewDay(){
   <div class="wrap">
   ${shown.length? agruparPorComp(shown).map(g=>`
     <div class="comp-sec">
-      <div class="comp-sec-head"><span>${esc(g.comp)}</span><span class="grp-count">${g.rows.length}</span></div>
+      <div class="comp-sec-head"><span style="display:flex;align-items:center;gap:7px">${crest(g.rows[0].m.compLogo,"sm")}${esc(g.comp)}</span><span class="grp-count">${g.rows.length}</span></div>
       ${g.rows.map(r=>matchCard(r)).join("")}
     </div>`).join("") : `
     <div class="empty"><b>Nada con valor hoy</b>
@@ -780,7 +780,7 @@ function viewMatch(id){
   <div class="detail-head">
     <button class="back" data-back>← Fecha</button>
     <div class="dh-teams"><span class="tm">${crest(m.homeLogo,"lg")}${esc(m.home)}</span><span style="color:var(--muted-2);font-variation-settings:'wght' 400;margin:0 9px">vs</span><span class="tm">${crest(m.awayLogo,"lg")}${esc(m.away)}</span></div>
-    <div class="dh-meta">${esc(m.comp)} · ${m.hora} · <span class="nw">λ L ${m.lh.toFixed(2)}</span> · <span class="nw">V ${m.la.toFixed(2)}</span></div>
+    <div class="dh-meta">${crest(m.compLogo,"sm")} ${esc(m.comp)} · ${m.hora} · <span class="nw">λ L ${m.lh.toFixed(2)}</span> · <span class="nw">V ${m.la.toFixed(2)}</span></div>
   </div>
   <div class="tabs">
     ${["mercados","jugadores","modelo","datos"].map(t=>`<button class="tab ${VIEW.tab===t?"on":""}" data-tab="${t}">${t}</button>`).join("")}

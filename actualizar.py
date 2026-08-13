@@ -208,6 +208,7 @@ def main():
     for slug, meta in COMPETICIONES.items():
         print(f"· {meta['nombre']} — scoreboard")
         d = api(f"{SITE_V2}/{slug}/scoreboard?dates={desde}-{hasta}")
+        comp_logo = escudo((d.get("leagues") or [{}])[0])
         for ev in d.get("events", []):
             comp = (ev.get("competitions") or [{}])[0]
             st = comp.get("status", {}).get("type", {})
@@ -278,7 +279,7 @@ def main():
 
             partidos.append({
                 "id": f"espn{ev['id']}",
-                "date": fecha, "comp": meta["nombre"], "hora": hora,
+                "date": fecha, "comp": meta["nombre"], "compLogo": comp_logo, "hora": hora,
                 "home": loc_nombre, "away": vis_nombre,
                 "homeId": loc_id, "awayId": vis_id,
                 "homeLogo": escudo(loc["team"]), "awayLogo": escudo(vis["team"]),

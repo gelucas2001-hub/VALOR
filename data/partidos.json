@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-13T03:16",
- "requests": 174,
+ "actualizado": "2026-08-13T03:38",
+ "requests": 288,
  "partidos": [
   {
    "id": "espn401874073",
@@ -13,7 +13,7 @@
    "awayId": "4816",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9169.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4816.png",
-   "lh": 1.333,
+   "lh": 1.386,
    "la": 0.3,
    "rho": -0.1,
    "conf": 55,
@@ -110,8 +110,8 @@
    "awayId": "18439",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2674.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18439.png",
-   "lh": 1.25,
-   "la": 1.125,
+   "lh": 1.316,
+   "la": 1.118,
    "rho": -0.14,
    "conf": 65,
    "corners": 9.6,
@@ -194,8 +194,8 @@
    "awayId": "2675",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3454.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2675.png",
-   "lh": 1.5,
-   "la": 0.875,
+   "lh": 1.535,
+   "la": 0.844,
    "rho": -0.14,
    "conf": 65,
    "corners": 9.6,
@@ -291,8 +291,8 @@
    "awayId": "874",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/874.png",
-   "lh": 1.167,
-   "la": 0.667,
+   "lh": 1.255,
+   "la": 0.649,
    "rho": -0.1,
    "conf": 55,
    "corners": 9.8,
@@ -375,8 +375,8 @@
    "awayId": "6086",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3372.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6086.png",
-   "lh": 1.4,
-   "la": 1.7,
+   "lh": 1.439,
+   "la": 1.69,
    "rho": -0.14,
    "conf": 55,
    "corners": 9.6,
@@ -459,8 +459,8 @@
    "awayId": "235",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
-   "lh": 1.256,
-   "la": 0.961,
+   "lh": 1.169,
+   "la": 0.986,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -689,8 +689,8 @@
    "awayId": "7767",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
-   "lh": 0.672,
-   "la": 0.889,
+   "lh": 0.718,
+   "la": 0.949,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -913,8 +913,8 @@
    "awayId": "20",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
-   "lh": 1.467,
-   "la": 1.358,
+   "lh": 1.414,
+   "la": 1.29,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -1131,8 +1131,8 @@
    "awayId": "9",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
-   "lh": 1.22,
-   "la": 0.818,
+   "lh": 1.212,
+   "la": 0.871,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -1367,8 +1367,8 @@
    "awayId": "9744",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-   "lh": 1.071,
-   "la": 0.929,
+   "lh": 1.095,
+   "la": 0.873,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -1597,8 +1597,8 @@
    "awayId": "17702",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
-   "lh": 1.006,
-   "la": 0.711,
+   "lh": 1.062,
+   "la": 0.666,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -1815,8 +1815,8 @@
    "awayId": "5",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-   "lh": 0.85,
-   "la": 1.5,
+   "lh": 0.874,
+   "la": 1.641,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -2033,8 +2033,8 @@
    "awayId": "10",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-   "lh": 1.067,
-   "la": 1.0,
+   "lh": 1.115,
+   "la": 1.092,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -2251,8 +2251,8 @@
    "awayId": "3",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
-   "lh": 1.361,
-   "la": 1.147,
+   "lh": 1.261,
+   "la": 1.198,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -2469,8 +2469,8 @@
    "awayId": "17",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-   "lh": 1.101,
-   "la": 0.99,
+   "lh": 1.102,
+   "la": 0.946,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -2687,8 +2687,8 @@
    "awayId": "2975",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-   "lh": 1.05,
-   "la": 0.9,
+   "lh": 1.0,
+   "la": 0.985,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -2905,8 +2905,8 @@
    "awayId": "9785",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-   "lh": 0.95,
-   "la": 0.95,
+   "lh": 0.818,
+   "la": 0.938,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -3117,8 +3117,8 @@
    "awayId": "11",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-   "lh": 1.182,
-   "la": 0.845,
+   "lh": 1.089,
+   "la": 0.779,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -3347,8 +3347,8 @@
    "awayId": "8950",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
-   "lh": 1.278,
-   "la": 0.929,
+   "lh": 1.372,
+   "la": 0.877,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -3565,8 +3565,8 @@
    "awayId": "19",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
-   "lh": 1.009,
-   "la": 0.945,
+   "lh": 1.037,
+   "la": 0.978,
    "rho": -0.1,
    "conf": 75,
    "corners": 9.4,
@@ -3764,6 +3764,1121 @@
     }
    ],
    "grupo": "Group A",
+   "preload": {}
+  },
+  {
+   "id": "espn401896916",
+   "date": "2026-08-18",
+   "comp": "Copa Argentina",
+   "hora": "17:00",
+   "home": "Deportivo Riestra",
+   "away": "Gimnasia La Plata",
+   "homeId": "17702",
+   "awayId": "9",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": -0.14,
+   "conf": 45,
+   "corners": 9.0,
+   "cornersH": 5.0,
+   "fouls": 26.0,
+   "cards": 5.6,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    "D",
+    "W"
+   ],
+   "formA": [
+    "W",
+    "W"
+   ],
+   "h2h": [],
+   "tabla": [],
+   "grupo": "",
+   "preload": {}
+  },
+  {
+   "id": "espn401874156",
+   "date": "2026-08-18",
+   "comp": "CONMEBOL Libertadores",
+   "hora": "19:00",
+   "home": "Independiente Rivadavia",
+   "away": "Fluminense",
+   "homeId": "9744",
+   "awayId": "3445",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3445.png",
+   "lh": 1.515,
+   "la": 0.535,
+   "rho": -0.1,
+   "conf": 55,
+   "corners": 9.8,
+   "cornersH": 5.5,
+   "fouls": 24.0,
+   "cards": 5.0,
+   "note": "λ calculados con datos de ESPN: Independiente Rivadavia promedia sus últimos 3 partidos de local, Fluminense sus últimos 3 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "D",
+    "W",
+    "W",
+    "D",
+    "W"
+   ],
+   "formA": [
+    "D",
+    "W",
+    "W",
+    "D",
+    "L"
+   ],
+   "h2h": [
+    {
+     "d": "11/08/26",
+     "h": "Fluminense",
+     "a": "Independiente Rivadavia",
+     "s": "0-0"
+    },
+    {
+     "d": "07/05/26",
+     "h": "Independiente Rivadavia",
+     "a": "Fluminense",
+     "s": "1-1"
+    },
+    {
+     "d": "16/04/26",
+     "h": "Fluminense",
+     "a": "Independiente Rivadavia",
+     "s": "1-2"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 16,
+     "pj": 6,
+     "g": 5,
+     "e": 1,
+     "p": 0,
+     "gf": 15
+    },
+    {
+     "t": "Fluminense",
+     "id": "3445",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3445.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 7
+    },
+    {
+     "t": "Bolívar",
+     "id": "2681",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2681.png",
+     "pts": 5,
+     "pj": 6,
+     "g": 1,
+     "e": 2,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "Deportivo La Guaira",
+     "id": "17090",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17090.png",
+     "pts": 3,
+     "pj": 6,
+     "g": 0,
+     "e": 3,
+     "p": 3,
+     "gf": 6
+    }
+   ],
+   "grupo": "Group C",
+   "preload": {}
+  },
+  {
+   "id": "espn401903231",
+   "date": "2026-08-18",
+   "comp": "CONMEBOL Sudamericana",
+   "hora": "19:00",
+   "home": "Deportivo Recoleta",
+   "away": "Boca Juniors",
+   "homeId": "22517",
+   "awayId": "5",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/22517.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": -0.14,
+   "conf": 45,
+   "corners": 9.6,
+   "cornersH": 5.4,
+   "fouls": 24.5,
+   "cards": 5.2,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    "L",
+    "W",
+    "D",
+    "D",
+    "D"
+   ],
+   "formA": [
+    "W",
+    "L",
+    "W"
+   ],
+   "h2h": [
+    {
+     "d": "11/08/26",
+     "h": "Boca Juniors",
+     "a": "Deportivo Recoleta",
+     "s": "3-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Deportivo Recoleta",
+     "id": "22517",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/22517.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 1,
+     "e": 5,
+     "p": 0,
+     "gf": 6
+    },
+    {
+     "t": "Santos",
+     "id": "2674",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2674.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 1,
+     "e": 4,
+     "p": 1,
+     "gf": 8
+    },
+    {
+     "t": "San Lorenzo",
+     "id": "18",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 1,
+     "e": 4,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Deportivo Cuenca",
+     "id": "4812",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4812.png",
+     "pts": 6,
+     "pj": 6,
+     "g": 1,
+     "e": 3,
+     "p": 2,
+     "gf": 3
+    }
+   ],
+   "grupo": "Group D",
+   "preload": {}
+  },
+  {
+   "id": "espn401872289",
+   "date": "2026-08-18",
+   "comp": "Copa Argentina",
+   "hora": "21:15",
+   "home": "Banfield",
+   "away": "Midland",
+   "homeId": "235",
+   "awayId": "10109",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10109.png",
+   "lh": 1.474,
+   "la": 1.026,
+   "rho": -0.14,
+   "conf": 50,
+   "corners": 9.0,
+   "cornersH": 5.0,
+   "fouls": 26.0,
+   "cards": 5.6,
+   "note": "λ calculados con datos de ESPN: Banfield promedia sus últimos 2 partidos de local, Midland sus últimos 2 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "D",
+    "W"
+   ],
+   "formA": [
+    "W",
+    "D"
+   ],
+   "h2h": [],
+   "tabla": [],
+   "grupo": "",
+   "preload": {}
+  },
+  {
+   "id": "espn401874152",
+   "date": "2026-08-18",
+   "comp": "CONMEBOL Libertadores",
+   "hora": "21:30",
+   "home": "Deportes Tolima",
+   "away": "Independiente del Valle",
+   "homeId": "5489",
+   "awayId": "17086",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
+   "lh": 1.575,
+   "la": 0.578,
+   "rho": -0.1,
+   "conf": 55,
+   "corners": 9.8,
+   "cornersH": 5.5,
+   "fouls": 24.0,
+   "cards": 5.0,
+   "note": "λ calculados con datos de ESPN: Deportes Tolima promedia sus últimos 5 partidos de local, Independiente del Valle sus últimos 3 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "D",
+    "L",
+    "W",
+    "W",
+    "L"
+   ],
+   "formA": [
+    "W",
+    "W",
+    "L",
+    "W",
+    "W"
+   ],
+   "h2h": [],
+   "tabla": [
+    {
+     "t": "Coquimbo Unido",
+     "id": "8186",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8186.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
+     "t": "Nacional",
+     "id": "2684",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2684.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 7
+    },
+    {
+     "t": "Deportes Tolima",
+     "id": "5489",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 7
+    },
+    {
+     "t": "Universitario",
+     "id": "2685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2685.png",
+     "pts": 6,
+     "pj": 6,
+     "g": 1,
+     "e": 3,
+     "p": 2,
+     "gf": 5
+    }
+   ],
+   "grupo": "Group B",
+   "preload": {}
+  },
+  {
+   "id": "espn401874163",
+   "date": "2026-08-18",
+   "comp": "CONMEBOL Libertadores",
+   "hora": "21:30",
+   "home": "Universidad Católica",
+   "away": "Estudiantes de La Plata",
+   "homeId": "885",
+   "awayId": "8",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/885.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
+   "lh": 1.018,
+   "la": 0.614,
+   "rho": -0.1,
+   "conf": 55,
+   "corners": 9.8,
+   "cornersH": 5.5,
+   "fouls": 24.0,
+   "cards": 5.0,
+   "note": "λ calculados con datos de ESPN: Universidad Católica promedia sus últimos 3 partidos de local, Estudiantes de La Plata sus últimos 3 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "D",
+    "W",
+    "W",
+    "D",
+    "W"
+   ],
+   "formA": [
+    "D",
+    "W",
+    "L",
+    "D",
+    "D"
+   ],
+   "h2h": [
+    {
+     "d": "12/08/26",
+     "h": "Estudiantes de La Plata",
+     "a": "Universidad Católica",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Universidad Católica",
+     "id": "885",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/885.png",
+     "pts": 13,
+     "pj": 6,
+     "g": 4,
+     "e": 1,
+     "p": 1,
+     "gf": 8
+    },
+    {
+     "t": "Cruzeiro",
+     "id": "2022",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2022.png",
+     "pts": 11,
+     "pj": 6,
+     "g": 3,
+     "e": 2,
+     "p": 1,
+     "gf": 8
+    },
+    {
+     "t": "Boca Juniors",
+     "id": "5",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "Barcelona SC",
+     "id": "2686",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2686.png",
+     "pts": 3,
+     "pj": 6,
+     "g": 1,
+     "e": 0,
+     "p": 5,
+     "gf": 2
+    }
+   ],
+   "grupo": "Group D",
+   "preload": {}
+  },
+  {
+   "id": "espn401903294",
+   "date": "2026-08-18",
+   "comp": "CONMEBOL Sudamericana",
+   "hora": "21:30",
+   "home": "São Paulo",
+   "away": "Bolívar",
+   "homeId": "2026",
+   "awayId": "2681",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2026.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2681.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": -0.14,
+   "conf": 45,
+   "corners": 9.6,
+   "cornersH": 5.4,
+   "fouls": 24.5,
+   "cards": 5.2,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    "D",
+    "W",
+    "D",
+    "D",
+    "D"
+   ],
+   "formA": [
+    "D",
+    "W",
+    "W"
+   ],
+   "h2h": [
+    {
+     "d": "12/08/26",
+     "h": "Bolívar",
+     "a": "São Paulo",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "São Paulo",
+     "id": "2026",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2026.png",
+     "pts": 12,
+     "pj": 6,
+     "g": 3,
+     "e": 3,
+     "p": 0,
+     "gf": 6
+    },
+    {
+     "t": "O'Higgins",
+     "id": "6072",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6072.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
+     "t": "Millonarios",
+     "id": "5484",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5484.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 7
+    },
+    {
+     "t": "Boston River",
+     "id": "9999",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9999.png",
+     "pts": 3,
+     "pj": 6,
+     "g": 1,
+     "e": 0,
+     "p": 5,
+     "gf": 5
+    }
+   ],
+   "grupo": "Group C",
+   "preload": {}
+  },
+  {
+   "id": "espn401874155",
+   "date": "2026-08-19",
+   "comp": "CONMEBOL Libertadores",
+   "hora": "19:00",
+   "home": "Cerro Porteño",
+   "away": "Palmeiras",
+   "homeId": "2671",
+   "awayId": "2029",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2671.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2029.png",
+   "lh": 1.0,
+   "la": 0.851,
+   "rho": -0.1,
+   "conf": 55,
+   "corners": 9.8,
+   "cornersH": 5.5,
+   "fouls": 24.0,
+   "cards": 5.0,
+   "note": "λ calculados con datos de ESPN: Cerro Porteño promedia sus últimos 3 partidos de local, Palmeiras sus últimos 3 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "D",
+    "W",
+    "W",
+    "W",
+    "D"
+   ],
+   "formA": [
+    "D",
+    "W",
+    "L",
+    "W",
+    "D"
+   ],
+   "h2h": [
+    {
+     "d": "12/08/26",
+     "h": "Palmeiras",
+     "a": "Cerro Porteño",
+     "s": "1-1"
+    },
+    {
+     "d": "21/05/26",
+     "h": "Palmeiras",
+     "a": "Cerro Porteño",
+     "s": "0-1"
+    },
+    {
+     "d": "30/04/26",
+     "h": "Cerro Porteño",
+     "a": "Palmeiras",
+     "s": "1-1"
+    },
+    {
+     "d": "08/05/25",
+     "h": "Cerro Porteño",
+     "a": "Palmeiras",
+     "s": "0-2"
+    },
+    {
+     "d": "10/04/25",
+     "h": "Palmeiras",
+     "a": "Cerro Porteño",
+     "s": "1-0"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Cerro Porteño",
+     "id": "2671",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2671.png",
+     "pts": 13,
+     "pj": 6,
+     "g": 4,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Palmeiras",
+     "id": "2029",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2029.png",
+     "pts": 11,
+     "pj": 6,
+     "g": 3,
+     "e": 2,
+     "p": 1,
+     "gf": 10
+    },
+    {
+     "t": "Sporting Cristal",
+     "id": "2673",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2673.png",
+     "pts": 6,
+     "pj": 6,
+     "g": 2,
+     "e": 0,
+     "p": 4,
+     "gf": 6
+    },
+    {
+     "t": "Atlético Junior",
+     "id": "4815",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4815.png",
+     "pts": 4,
+     "pj": 6,
+     "g": 1,
+     "e": 1,
+     "p": 4,
+     "gf": 5
+    }
+   ],
+   "grupo": "Group F",
+   "preload": {}
+  },
+  {
+   "id": "espn401874143",
+   "date": "2026-08-19",
+   "comp": "CONMEBOL Libertadores",
+   "hora": "19:00",
+   "home": "Coquimbo Unido",
+   "away": "Platense",
+   "homeId": "8186",
+   "awayId": "7764",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8186.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
+   "lh": 1.517,
+   "la": 1.149,
+   "rho": -0.1,
+   "conf": 55,
+   "corners": 9.8,
+   "cornersH": 5.5,
+   "fouls": 24.0,
+   "cards": 5.0,
+   "note": "λ calculados con datos de ESPN: Coquimbo Unido promedia sus últimos 3 partidos de local, Platense sus últimos 3 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "D",
+    "L",
+    "W",
+    "W",
+    "L"
+   ],
+   "formA": [
+    "D",
+    "W",
+    "L",
+    "D",
+    "W"
+   ],
+   "h2h": [
+    {
+     "d": "12/08/26",
+     "h": "Platense",
+     "a": "Coquimbo Unido",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Coquimbo Unido",
+     "id": "8186",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8186.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
+     "t": "Nacional",
+     "id": "2684",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2684.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 7
+    },
+    {
+     "t": "Deportes Tolima",
+     "id": "5489",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 7
+    },
+    {
+     "t": "Universitario",
+     "id": "2685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2685.png",
+     "pts": 6,
+     "pj": 6,
+     "g": 1,
+     "e": 3,
+     "p": 2,
+     "gf": 5
+    }
+   ],
+   "grupo": "Group B",
+   "preload": {}
+  },
+  {
+   "id": "espn401902714",
+   "date": "2026-08-19",
+   "comp": "CONMEBOL Sudamericana",
+   "hora": "19:00",
+   "home": "Atlético-MG",
+   "away": "Red Bull Bragantino",
+   "homeId": "7632",
+   "awayId": "6079",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7632.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6079.png",
+   "lh": 1.052,
+   "la": 0.987,
+   "rho": -0.14,
+   "conf": 55,
+   "corners": 9.6,
+   "cornersH": 5.4,
+   "fouls": 24.5,
+   "cards": 5.2,
+   "note": "λ calculados con datos de ESPN: Atlético-MG promedia sus últimos 3 partidos de local, Red Bull Bragantino sus últimos 4 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "W",
+    "W",
+    "W",
+    "D",
+    "L"
+   ],
+   "formA": [
+    "L",
+    "W",
+    "D",
+    "W",
+    "D"
+   ],
+   "h2h": [
+    {
+     "d": "12/08/26",
+     "h": "Red Bull Bragantino",
+     "a": "Atlético-MG",
+     "s": "0-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Atlético-MG",
+     "id": "7632",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7632.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
+     "t": "Cienciano del Cusco",
+     "id": "3372",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3372.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Juventud",
+     "id": "8416",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8416.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 1,
+     "e": 4,
+     "p": 1,
+     "gf": 10
+    },
+    {
+     "t": "Academia Puerto Cabello",
+     "id": "18995",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18995.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 6
+    }
+   ],
+   "grupo": "Group B",
+   "preload": {}
+  },
+  {
+   "id": "espn401896387",
+   "date": "2026-08-19",
+   "comp": "Copa Argentina",
+   "hora": "19:15",
+   "home": "Racing Club",
+   "away": "Belgrano (Córdoba)",
+   "homeId": "15",
+   "awayId": "4",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": -0.14,
+   "conf": 45,
+   "corners": 9.0,
+   "cornersH": 5.0,
+   "fouls": 26.0,
+   "cards": 5.6,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    "W",
+    "W"
+   ],
+   "formA": [
+    "D",
+    "W"
+   ],
+   "h2h": [],
+   "tabla": [],
+   "grupo": "",
+   "preload": {}
+  },
+  {
+   "id": "espn401874141",
+   "date": "2026-08-19",
+   "comp": "CONMEBOL Libertadores",
+   "hora": "21:30",
+   "home": "Flamengo",
+   "away": "Cruzeiro",
+   "homeId": "819",
+   "awayId": "2022",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/819.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2022.png",
+   "lh": 1.502,
+   "la": 0.483,
+   "rho": -0.1,
+   "conf": 55,
+   "corners": 9.8,
+   "cornersH": 5.5,
+   "fouls": 24.0,
+   "cards": 5.0,
+   "note": "λ calculados con datos de ESPN: Flamengo promedia sus últimos 3 partidos de local, Cruzeiro sus últimos 3 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "D",
+    "W",
+    "W",
+    "D",
+    "W"
+   ],
+   "formA": [
+    "D",
+    "W",
+    "D",
+    "D",
+    "W"
+   ],
+   "h2h": [
+    {
+     "d": "13/08/26",
+     "h": "Cruzeiro",
+     "a": "Flamengo",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Flamengo",
+     "id": "819",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/819.png",
+     "pts": 16,
+     "pj": 6,
+     "g": 5,
+     "e": 1,
+     "p": 0,
+     "gf": 14
+    },
+    {
+     "t": "Estudiantes de La Plata",
+     "id": "8",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Independiente Medellín",
+     "id": "2690",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2690.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "Cusco FC",
+     "id": "11995",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11995.png",
+     "pts": 1,
+     "pj": 6,
+     "g": 0,
+     "e": 1,
+     "p": 5,
+     "gf": 4
+    }
+   ],
+   "grupo": "Group A",
+   "preload": {}
+  },
+  {
+   "id": "espn401903232",
+   "date": "2026-08-19",
+   "comp": "CONMEBOL Sudamericana",
+   "hora": "21:30",
+   "home": "Independiente Santa Fe",
+   "away": "River Plate",
+   "homeId": "5488",
+   "awayId": "16",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5488.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": -0.14,
+   "conf": 45,
+   "corners": 9.6,
+   "cornersH": 5.4,
+   "fouls": 24.5,
+   "cards": 5.2,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    "W",
+    "W"
+   ],
+   "formA": [
+    "W",
+    "D",
+    "W",
+    "W",
+    "W"
+   ],
+   "h2h": [],
+   "tabla": [
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 14,
+     "pj": 6,
+     "g": 4,
+     "e": 2,
+     "p": 0,
+     "gf": 9
+    },
+    {
+     "t": "Red Bull Bragantino",
+     "id": "6079",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6079.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 12
+    },
+    {
+     "t": "Carabobo",
+     "id": "6037",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6037.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 3,
+     "e": 0,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "Blooming",
+     "id": "6047",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6047.png",
+     "pts": 1,
+     "pj": 6,
+     "g": 0,
+     "e": 1,
+     "p": 5,
+     "gf": 3
+    }
+   ],
+   "grupo": "Group H",
+   "preload": {}
+  },
+  {
+   "id": "espn401902571",
+   "date": "2026-08-19",
+   "comp": "CONMEBOL Sudamericana",
+   "hora": "21:30",
+   "home": "Montevideo City Torque",
+   "away": "Tigre",
+   "homeId": "19002",
+   "awayId": "7767",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19002.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+   "lh": 1.409,
+   "la": 1.054,
+   "rho": -0.14,
+   "conf": 65,
+   "corners": 9.6,
+   "cornersH": 5.4,
+   "fouls": 24.5,
+   "cards": 5.2,
+   "note": "λ calculados con datos de ESPN: Montevideo City Torque promedia sus últimos 4 partidos de local, Tigre sus últimos 4 de visitante. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    "W",
+    "D",
+    "W",
+    "W",
+    "L"
+   ],
+   "formA": [
+    "L",
+    "L",
+    "W",
+    "W",
+    "D"
+   ],
+   "h2h": [
+    {
+     "d": "12/08/26",
+     "h": "Tigre",
+     "a": "Montevideo City Torque",
+     "s": "0-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Montevideo City Torque",
+     "id": "19002",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19002.png",
+     "pts": 13,
+     "pj": 6,
+     "g": 4,
+     "e": 1,
+     "p": 1,
+     "gf": 11
+    },
+    {
+     "t": "Grêmio",
+     "id": "6273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6273.png",
+     "pts": 11,
+     "pj": 6,
+     "g": 3,
+     "e": 2,
+     "p": 1,
+     "gf": 8
+    },
+    {
+     "t": "Deportivo Riestra",
+     "id": "17702",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
+     "pts": 5,
+     "pj": 6,
+     "g": 1,
+     "e": 2,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "Palestino",
+     "id": "4422",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4422.png",
+     "pts": 3,
+     "pj": 6,
+     "g": 0,
+     "e": 3,
+     "p": 3,
+     "gf": 1
+    }
+   ],
+   "grupo": "Group F",
    "preload": {}
   }
  ]

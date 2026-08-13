@@ -34,6 +34,10 @@ ARG_TZ = datetime.timezone(datetime.timedelta(hours=-3))
 DIAS_ADELANTE = 7          # próximos N días (incluye hoy) — coincide con
                             # los 7 días que muestra la tira en el frontend
 TEMPORADAS_H2H = 3         # temporadas hacia atrás para el historial directo
+RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion().
+                            # 0.90: el partido 13 atrás pesa ~25% del más
+                            # reciente. Gentil a propósito — es un ajuste
+                            # fino, no un reemplazo del promedio.
 
 # ── competiciones ────────────────────────────────────────────────
 # slug de ESPN → metadata. rho: -0.10 en ligas/fase de grupos regular,
@@ -127,12 +131,19 @@ def historial(slug, team_id, season=None):
 
 def promedio_condicion(jugados, local):
     """Promedio de goles a favor/en contra restringido a los partidos
-    jugados en la condición pedida (local=True → de local)."""
+    jugados en la condición pedida (local=True → de local), ponderado por
+    recencia: cada partido pesa RECENCY_ALPHA^antigüedad (0 = el más
+    reciente). Se rankea por antigüedad relativa, no por fecha calendario,
+    para que copas con fechas espaciadas no distorsionen el decaimiento.
+    Con pocos partidos el efecto es chico casi por definición (poco donde
+    aplicar el descuento); con historial largo sí pesa la forma actual."""
     sub = [p for p in jugados if p["local"] == local]
     if not sub:
         return None
-    gf = sum(p["gf"] for p in sub) / len(sub)
-    gc = sum(p["gc"] for p in sub) / len(sub)
+    pesos = [RECENCY_ALPHA ** i for i in range(len(sub))]
+    tot = sum(pesos)
+    gf = sum(p["gf"] * w for p, w in zip(sub, pesos)) / tot
+    gc = sum(p["gc"] * w for p, w in zip(sub, pesos)) / tot
     return gf, gc, len(sub)
 
 

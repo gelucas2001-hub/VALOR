@@ -512,7 +512,12 @@ function derive(M,cfg){
 const FAMILY = {"1X2":"resultado","Doble":"resultado","Goles":"goles","Ambos":"goles",
                 "Equipo":"goles","1T":"goles","Córners":"córners",
                 "Faltas":"disciplina","Tarjetas":"disciplina",
-                "Marcador":"marcador","Marcador 1T":"goles","Rango":"goles",
+                // Marcador correcto va con "resultado", no en familia propia:
+                // un 1-0 es un subconjunto estricto de "gana local" y de
+                // "doble oportunidad 1X" — si sale, ganan las dos. Con
+                // familia propia se podía stakear las dos a la vez, que es
+                // exactamente lo que este sistema existe para evitar.
+                "Marcador":"resultado","Marcador 1T":"goles","Rango":"goles",
                 "DNB":"resultado","Hándicap":"resultado"};
 
 /* Kelly escalado por confianza. Debajo de 50 no se corre Kelly:
@@ -1529,6 +1534,7 @@ document.addEventListener("input", async e=>{
     const id=t.dataset.podds||t.dataset.poppodds, mid=t.dataset.m, key=mid+"|"+id;
     const cur=podds[key]||{};
     podds[key]={...cur, [t.dataset.podds?"odds":"oddsOpp"]: parseFloat(t.value)||null};
+    await store.set("podds",podds);   // igual que oddsCache: si no, se pierden al cerrar
     clearTimeout(window._t5); window._t5=setTimeout(()=>{
       const a=document.activeElement, k=a&&(a.dataset.podds||a.dataset.poppodds), which=a&&a.dataset.podds?"podds":"poppodds";
       render();
@@ -1561,6 +1567,7 @@ const tagLine = () => `${FEED} · umbral ${pc(S.minEv)}${S.caps?" · topes on":"
   const l=await store.get("log");      if(l) LOG=l;
   const o=await store.get("odds");     if(o) Object.assign(oddsCache,o);
   const nt=await store.get("notas");   if(nt) Object.assign(notasCache,nt);
+  const po=await store.get("podds");   if(po) Object.assign(podds,po);
   MATCHES = JSON.parse(JSON.stringify(SEED));
   // Datos reales si el cron ya los escribió; si no, los de ejemplo.
   try{

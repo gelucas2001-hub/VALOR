@@ -237,6 +237,13 @@ def resumen_partido(slug, event_id):
     por eso solo se pide para los últimos partidos de los equipos que
     juegan esta semana, no para toda la temporada."""
     d = api(f"{SITE_V2}/{slug}/summary?event={event_id}")
+    # Distinguir "ESPN respondió pero no tiene stats de ese partido" (out
+    # vacío o con None → cachear, no va a cambiar nunca) de "el pedido
+    # falló" (devuelve None → NO cachear, hay que reintentar la próxima).
+    # Sin esto, un error de red pasajero envenenaba el caché persistente
+    # para siempre: ese partido no se volvía a pedir nunca más.
+    if not d or "boxscore" not in d:
+        return None
     out = {}
     for t in (d.get("boxscore") or {}).get("teams", []) or []:
         tid = t.get("team", {}).get("id", "")
@@ -262,7 +269,10 @@ def disciplina_equipo(slug, team_id, jugados, cache_resumen, n=DISCIPLINA_N):
         if not eid:
             continue
         if eid not in cache_resumen:
-            cache_resumen[eid] = resumen_partido(slug, eid)
+            r = resumen_partido(slug, eid)
+            if r is None:      # pedido fallido: no cachear, reintentar la próxima
+                continue
+            cache_resumen[eid] = r
         datos = cache_resumen[eid].get(str(team_id))
         if not datos or datos["fouls"] is None or datos["corners"] is None:
             continue

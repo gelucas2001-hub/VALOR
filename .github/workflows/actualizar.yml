@@ -22,8 +22,6 @@ jobs:
           python-version: "3.12"
 
       - name: Traer datos y calcular lambdas
-        env:
-          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
         run: python actualizar.py
 
       - name: Guardar cambios

@@ -1,240 +1,198 @@
 #!/usr/bin/env python3
 """
 VALOR — actualizador de datos
-Trae partidos de Liga Profesional, Libertadores y Sudamericana desde
-API-Football, calcula los goles esperados (lambda) de cada equipo a partir
-de su rendimiento separado por localía, y escribe data/partidos.json.
+Trae partidos de Liga Profesional, Libertadores, Sudamericana y Copa
+Argentina desde la API pública no oficial de ESPN (no necesita key).
+Para cada partido futuro calcula los goles esperados (lambda) de cada
+equipo a partir del promedio de goles a favor/en contra jugando en su
+condición (local de local, visitante de visitante).
 
 Las cuotas NO se traen: se cargan a mano en la app.
-
-Presupuesto de requests: ~15-25/día. El free tier da 100/día.
 """
 
-import os, json, sys, datetime, time
+import json, sys, datetime, time
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
-KEY  = os.environ.get("API_FOOTBALL_KEY", "").strip()
-HOST = "v3.football.api-sports.io"
-OUT  = Path("data/partidos.json")
-CACHE = Path("data/cache_ligas.json")
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+
+# site.api.espn.com es el host "oficial" no documentado; algunas redes lo
+# bloquean (Akamai). site.web.api.espn.com sirve las mismas respuestas y
+# sirve de respaldo automático.
+HOSTS = [
+    "https://site.api.espn.com/apis/site/v2/sports/soccer",
+    "https://site.web.api.espn.com/apis/site/v2/sports/soccer",
+]
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
+
+OUT = Path("data/partidos.json")
+ARG_TZ = datetime.timezone(datetime.timedelta(hours=-3))
+DIAS_ADELANTE = 5          # próximos N días (incluye hoy)
 
 # ── competiciones ────────────────────────────────────────────────
-# Los IDs de API-Football. Si alguno no devuelve nada, verificalo en
-# https://dashboard.api-football.com  →  Leagues
-LIGAS = {
-    128: {"nombre": "Liga Profesional Argentina", "rho": -0.10, "conf": 75,
-          "corners": 9.4, "fouls": 25.5, "cards": 5.4},
-    13:  {"nombre": "CONMEBOL Libertadores",      "rho": -0.10, "conf": 65,
-          "corners": 9.8, "fouls": 24.0, "cards": 5.0},
-    11:  {"nombre": "CONMEBOL Sudamericana",      "rho": -0.14, "conf": 65,
-          "corners": 9.6, "fouls": 24.5, "cards": 5.2},
-    130: {"nombre": "Copa Argentina",             "rho": -0.14, "conf": 60,
-          "corners": 9.0, "fouls": 26.0, "cards": 5.6},
+# slug de ESPN → metadata. rho: -0.10 en ligas/fase de grupos regular,
+# -0.14 en llaves de eliminación directa (más varianza).
+COMPETICIONES = {
+    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.10, "conf": 75,
+              "corners": 9.4, "fouls": 25.5, "cards": 5.4},
+    "conmebol.libertadores": {"nombre": "CONMEBOL Libertadores", "rho": -0.10, "conf": 65,
+              "corners": 9.8, "fouls": 24.0, "cards": 5.0},
+    "conmebol.sudamericana": {"nombre": "CONMEBOL Sudamericana", "rho": -0.14, "conf": 65,
+              "corners": 9.6, "fouls": 24.5, "cards": 5.2},
+    "arg.copa": {"nombre": "Copa Argentina", "rho": -0.14, "conf": 60,
+              "corners": 9.0, "fouls": 26.0, "cards": 5.6},
 }
-
-DIAS_ADELANTE = 4          # cuántos días de fixtures traer
-SEASON = datetime.date.today().year
 
 _req_count = 0
 
 def api(path):
-    """Una llamada a la API, contando el gasto."""
+    """GET a la API de ESPN. Prueba site.api.espn.com y si falla cae a
+    site.web.api.espn.com."""
     global _req_count
-    if not KEY:
-        raise SystemExit("Falta API_FOOTBALL_KEY en el entorno.")
-    _req_count += 1
-    r = Request(f"https://{HOST}/{path}", headers={"x-apisports-key": KEY})
-    try:
-        with urlopen(r, timeout=25) as resp:
-            d = json.loads(resp.read().decode())
-    except (HTTPError, URLError) as e:
-        print(f"  ! error en {path}: {e}", file=sys.stderr)
-        return {"response": []}
-    if d.get("errors"):
-        print(f"  ! API devolvió errores en {path}: {d['errors']}", file=sys.stderr)
-    time.sleep(0.4)                      # respetar rate limit
-    return d
-
-
-def perfil_liga(liga_id):
-    """
-    De /standings sale, en UNA sola request, el rendimiento de todos los
-    equipos separado en local y visitante. Con eso se calculan las medias
-    de la liga y la fuerza relativa de cada equipo.
-    """
-    d = api(f"standings?league={liga_id}&season={SEASON}")
-    equipos, gl_tot, gv_tot, pj_tot = {}, 0.0, 0.0, 0
-
-    for liga in d.get("response", []):
-        for grupo in liga.get("league", {}).get("standings", []):
-            for fila in grupo:
-                t = fila["team"]
-                h, a = fila.get("home", {}), fila.get("away", {})
-                pjh, pja = h.get("played", 0), a.get("played", 0)
-                if pjh + pja == 0:
-                    continue
-                equipos[t["id"]] = {
-                    "nombre": t["name"],
-                    "gf_local":  h.get("goals", {}).get("for", 0),
-                    "gc_local":  h.get("goals", {}).get("against", 0),
-                    "pj_local":  pjh,
-                    "gf_visita": a.get("goals", {}).get("for", 0),
-                    "gc_visita": a.get("goals", {}).get("against", 0),
-                    "pj_visita": pja,
-                }
-                gl_tot += h.get("goals", {}).get("for", 0)
-                gv_tot += a.get("goals", {}).get("for", 0)
-                pj_tot += pjh
-
-    if pj_tot < 4:                       # muestra insuficiente
-        return None
-    return {
-        "media_local":  gl_tot / pj_tot,
-        "media_visita": gv_tot / pj_tot,
-        "equipos": equipos,
-    }
-
-
-def lambdas(perfil, id_local, id_visita):
-    """
-    lambda_local = ataque del local (como local) x flojera defensiva del
-    visitante (como visitante) x media de goles de local de la liga.
-
-    Ojo: el rendimiento ya sale de partidos como local, así que la ventaja
-    de localía YA está adentro. No se suma de nuevo.
-    """
-    if not perfil:
-        return None
-    E = perfil["equipos"]
-    L, V = E.get(id_local), E.get(id_visita)
-    if not L or not V or L["pj_local"] < 2 or V["pj_visita"] < 2:
-        return None
-
-    ml, mv = perfil["media_local"], perfil["media_visita"]
-    if ml <= 0 or mv <= 0:
-        return None
-
-    ataque_L   = (L["gf_local"]  / L["pj_local"])  / ml
-    defensa_V  = (V["gc_visita"] / V["pj_visita"]) / ml
-    ataque_V   = (V["gf_visita"] / V["pj_visita"]) / mv
-    defensa_L  = (L["gc_local"]  / L["pj_local"])  / mv
-
-    lh = ataque_L * defensa_V * ml
-    la = ataque_V * defensa_L * mv
-
-    # Techo y piso: la muestra corta produce números absurdos.
-    lh = max(0.35, min(3.20, lh))
-    la = max(0.30, min(3.00, la))
-    n  = min(L["pj_local"], V["pj_visita"])
-    return round(lh, 3), round(la, 3), n
-
-
-def forma(equipo_id, n=5):
-    """Últimos n resultados. 1 request por equipo — el gasto más grande."""
-    d = api(f"fixtures?team={equipo_id}&last={n}")
-    out = []
-    for f in d.get("response", []):
-        if f["fixture"]["status"]["short"] not in ("FT", "AET", "PEN"):
+    last_err = None
+    for host in HOSTS:
+        _req_count += 1
+        r = Request(f"{host}/{path}", headers={"User-Agent": UA, "Accept": "application/json"})
+        try:
+            with urlopen(r, timeout=25) as resp:
+                d = json.loads(resp.read().decode())
+            time.sleep(0.2)
+            return d
+        except (HTTPError, URLError) as e:
+            last_err = e
             continue
-        gh, ga = f["goals"]["home"], f["goals"]["away"]
-        if gh is None:
-            continue
-        local = f["teams"]["home"]["id"] == equipo_id
-        gp, gc = (gh, ga) if local else (ga, gh)
-        out.append("W" if gp > gc else ("D" if gp == gc else "L"))
-    return out[:n]
+    print(f"  ! error en {path}: {last_err}", file=sys.stderr)
+    return {}
 
 
-def h2h(a, b, n=5):
-    d = api(f"fixtures/headtohead?h2h={a}-{b}&last={n}")
-    out = []
-    for f in d.get("response", []):
-        gh, ga = f["goals"]["home"], f["goals"]["away"]
-        if gh is None:
+def fecha_hora_arg(iso_utc):
+    """'2026-08-14T23:30Z' → ('2026-08-14', '20:30') en hora argentina."""
+    dt = datetime.datetime.strptime(iso_utc, "%Y-%m-%dT%H:%MZ").replace(tzinfo=datetime.timezone.utc)
+    local = dt.astimezone(ARG_TZ)
+    return local.date().isoformat(), local.strftime("%H:%M")
+
+
+def historial(slug, team_id):
+    """/teams/{id}/schedule de la competición: partidos jugados esta
+    temporada, con condición (local/visitante) y goles a favor/en contra.
+    Devuelve (lista_jugados, forma_ultimos_5)."""
+    d = api(f"{slug}/teams/{team_id}/schedule")
+    jugados = []
+    for e in d.get("events", []):
+        comp = (e.get("competitions") or [{}])[0]
+        st = comp.get("status", {}).get("type", {})
+        if not st.get("completed"):
             continue
-        out.append({
-            "d": f["fixture"]["date"][:10].split("-")[::-1][0] + "/" +
-                 f["fixture"]["date"][5:7] + "/" + f["fixture"]["date"][2:4],
-            "h": f["teams"]["home"]["name"],
-            "a": f["teams"]["away"]["name"],
-            "s": f"{gh}-{ga}",
+        competidores = comp.get("competitors", [])
+        propio = next((c for c in competidores if c.get("team", {}).get("id") == str(team_id)), None)
+        rival  = next((c for c in competidores if c.get("team", {}).get("id") != str(team_id)), None)
+        if not propio or not rival:
+            continue
+        gf = (propio.get("score") or {}).get("value")
+        gc = (rival.get("score") or {}).get("value")
+        if gf is None or gc is None:
+            continue
+        jugados.append({
+            "fecha": e.get("date", ""),
+            "local": propio.get("homeAway") == "home",
+            "gf": gf, "gc": gc,
         })
-    return out
+    jugados.sort(key=lambda x: x["fecha"], reverse=True)
+    forma = []
+    for p in jugados[:5]:
+        forma.append("W" if p["gf"] > p["gc"] else ("D" if p["gf"] == p["gc"] else "L"))
+    return jugados, forma
+
+
+def promedio_condicion(jugados, local):
+    """Promedio de goles a favor/en contra restringido a los partidos
+    jugados en la condición pedida (local=True → de local)."""
+    sub = [p for p in jugados if p["local"] == local]
+    if not sub:
+        return None
+    gf = sum(p["gf"] for p in sub) / len(sub)
+    gc = sum(p["gc"] for p in sub) / len(sub)
+    return gf, gc, len(sub)
 
 
 def main():
     hoy = datetime.date.today()
-    fechas = [(hoy + datetime.timedelta(days=i)).isoformat()
-              for i in range(DIAS_ADELANTE)]
+    ventana = {(hoy + datetime.timedelta(days=i)).isoformat() for i in range(DIAS_ADELANTE)}
+    # margen de un día a cada lado: la fecha UTC de ESPN puede correrse
+    # respecto al día calendario argentino en partidos nocturnos.
+    desde = (hoy - datetime.timedelta(days=1)).strftime("%Y%m%d")
+    hasta = (hoy + datetime.timedelta(days=DIAS_ADELANTE)).strftime("%Y%m%d")
 
-    # Perfiles de liga: cambian lento, se cachean por 3 días.
-    cache = {}
-    if CACHE.exists():
-        try:
-            cache = json.loads(CACHE.read_text(encoding="utf-8"))
-        except Exception:
-            cache = {}
-    vencido = cache.get("_fecha", "") < (hoy - datetime.timedelta(days=3)).isoformat()
+    partidos = []
+    cache_hist = {}   # (slug, team_id) -> (jugados, forma) — no pedir 2 veces el mismo equipo
 
-    perfiles = {}
-    for lid in LIGAS:
-        k = str(lid)
-        if not vencido and k in cache:
-            perfiles[lid] = cache[k]
-            print(f"· perfil {LIGAS[lid]['nombre']} — desde caché")
-        else:
-            print(f"· perfil {LIGAS[lid]['nombre']} — consultando")
-            perfiles[lid] = perfil_liga(lid)
-            cache[k] = perfiles[lid]
-    cache["_fecha"] = hoy.isoformat()
-    CACHE.parent.mkdir(parents=True, exist_ok=True)
-    CACHE.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+    def get_hist(slug, tid):
+        k = (slug, tid)
+        if k not in cache_hist:
+            cache_hist[k] = historial(slug, tid)
+        return cache_hist[k]
 
-    partidos, vistos = [], set()
-    for lid, meta in LIGAS.items():
-        for fecha in fechas:
-            d = api(f"fixtures?league={lid}&season={SEASON}&date={fecha}")
-            for f in d.get("response", []):
-                fid = f["fixture"]["id"]
-                if fid in vistos:
-                    continue
-                vistos.add(fid)
+    for slug, meta in COMPETICIONES.items():
+        print(f"· {meta['nombre']} — scoreboard")
+        d = api(f"{slug}/scoreboard?dates={desde}-{hasta}")
+        for ev in d.get("events", []):
+            comp = (ev.get("competitions") or [{}])[0]
+            st = comp.get("status", {}).get("type", {})
+            if st.get("state") != "pre":          # solo partidos no jugados
+                continue
+            competidores = comp.get("competitors", [])
+            loc = next((c for c in competidores if c.get("homeAway") == "home"), None)
+            vis = next((c for c in competidores if c.get("homeAway") == "away"), None)
+            if not loc or not vis:
+                continue
 
-                loc, vis = f["teams"]["home"], f["teams"]["away"]
-                lam = lambdas(perfiles.get(lid), loc["id"], vis["id"])
+            fecha, hora = fecha_hora_arg(ev["date"])
+            if fecha not in ventana:
+                continue
 
-                if lam:
-                    lh, la, n = lam
-                    conf = meta["conf"] - (10 if n < 4 else 0)
-                    nota = f"λ calculados sobre {n} partidos de local/visitante. Confirmá alineaciones antes de jugar."
-                else:
-                    lh, la, conf = 1.35, 1.10, 45
-                    nota = "Sin muestra suficiente para calcular λ. Los valores son genéricos: ajustalos a mano en Modelo."
+            loc_id, vis_id = loc["team"]["id"], vis["team"]["id"]
+            loc_nombre, vis_nombre = loc["team"]["displayName"], vis["team"]["displayName"]
 
-                partidos.append({
-                    "id": f"api{fid}",
-                    "date": f["fixture"]["date"][:10],
-                    "comp": meta["nombre"],
-                    "hora": f["fixture"]["date"][11:16],
-                    "home": loc["name"], "away": vis["name"],
-                    "homeId": loc["id"], "awayId": vis["id"],
-                    "lh": lh, "la": la, "rho": meta["rho"], "conf": conf,
-                    "corners": meta["corners"],
-                    "cornersH": round(meta["corners"] * 0.56, 1),
-                    "fouls": meta["fouls"], "cards": meta["cards"],
-                    "note": nota,
-                    "formH": [], "formA": [], "h2h": [], "tabla": [],
-                    "preload": {},
-                })
+            jug_loc, form_loc = get_hist(slug, loc_id)
+            jug_vis, form_vis = get_hist(slug, vis_id)
 
-    # Detalle solo para los partidos de HOY: no gastar en los de pasado mañana.
-    de_hoy = [p for p in partidos if p["date"] == hoy.isoformat()][:6]
-    for p in de_hoy:
-        p["formH"] = forma(p["homeId"])
-        p["formA"] = forma(p["awayId"])
-        p["h2h"]   = h2h(p["homeId"], p["awayId"])
+            cond_loc = promedio_condicion(jug_loc, local=True)   # local jugando de local
+            cond_vis = promedio_condicion(jug_vis, local=False)  # visitante jugando de visitante
+
+            if cond_loc and cond_vis and cond_loc[2] >= 2 and cond_vis[2] >= 2:
+                gf_loc, gc_loc, n_loc = cond_loc
+                gf_vis, gc_vis, n_vis = cond_vis
+                lh = (gf_loc + gc_vis) / 2
+                la = (gf_vis + gc_loc) / 2
+                lh = round(max(0.35, min(3.20, lh)), 3)
+                la = round(max(0.30, min(3.00, la)), 3)
+                n = min(n_loc, n_vis)
+                conf = meta["conf"] - (10 if n < 4 else 0)
+                nota = (f"λ calculados con datos de ESPN: {loc_nombre} promedia sus últimos "
+                        f"{n_loc} partidos de local, {vis_nombre} sus últimos {n_vis} de "
+                        f"visitante. Confirmá alineaciones antes de jugar.")
+            else:
+                lh, la, conf = 1.35, 1.10, 45
+                nota = ("Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos "
+                        "de local/visitante esta temporada). Los valores son genéricos: "
+                        "ajustalos a mano en Modelo.")
+
+            partidos.append({
+                "id": f"espn{ev['id']}",
+                "date": fecha, "comp": meta["nombre"], "hora": hora,
+                "home": loc_nombre, "away": vis_nombre,
+                "lh": lh, "la": la, "rho": meta["rho"], "conf": conf,
+                "corners": meta["corners"],
+                "cornersH": round(meta["corners"] * 0.56, 1),
+                "fouls": meta["fouls"], "cards": meta["cards"],
+                "note": nota,
+                "formH": form_loc, "formA": form_vis,
+                "h2h": [], "tabla": [], "preload": {},
+            })
 
     partidos.sort(key=lambda p: (p["date"], p["hora"]))
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -244,7 +202,7 @@ def main():
         "partidos": partidos,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    print(f"\n✓ {len(partidos)} partidos · {_req_count} requests gastadas de 100")
+    print(f"\n✓ {len(partidos)} partidos · {_req_count} requests a ESPN")
 
 
 if __name__ == "__main__":

@@ -146,17 +146,34 @@ header.top{
 .crest.sm{width:17px;height:17px}
 
 /* ── el pick destacado ── */
-.top-pick{margin:11px 13px 13px;padding:11px 12px;border-radius:var(--r-sm);background:var(--ink-2);border:1px solid var(--line-soft)}
-.top-pick.val{border-color:var(--brass-deep);background:linear-gradient(180deg,var(--brass-wash),transparent 70%),var(--ink-2)}
+.top-pick{margin:11px 0 0;padding:0}
+.top-pick.val{background:none}
 .pick-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .pick-name{font-size:13.5px;font-variation-settings:"wdth" 102,"wght" 600;line-height:1.3}
 .pick-odds{font-family:var(--mono);font-size:16px;font-weight:500;white-space:nowrap}
+.pick-ev{font-family:var(--mono);font-size:21px;font-weight:500;white-space:nowrap;letter-spacing:-.01em}
 .pick-meta{display:flex;gap:14px;margin-top:9px;flex-wrap:wrap}
 .pick-meta span{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2)}
 .pick-meta b{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:-.01em;display:block;margin-top:1px;color:var(--paper);text-transform:none;letter-spacing:0}
 .pos{color:var(--brass) !important}
 .neg{color:var(--rust) !important}
-.odds-empty{margin:11px 13px 13px;font-size:11.5px;color:var(--muted-2);letter-spacing:.02em}
+.odds-empty{margin:11px 0 0;font-size:11.5px;color:var(--muted-2);letter-spacing:.02em}
+
+/* ── bloque de oportunidad: fijo arriba de las tabs, el mismo en
+   cualquier pestaña en la que estés. La idea entera de este bloque es
+   que la mirada encuentre en 1 segundo "¿hay algo acá o no?" antes de
+   ponerse a leer 98 mercados. ── */
+.opp{margin:14px var(--pad) 0;padding:14px 15px;border-radius:var(--r);border:1px solid var(--line-soft)}
+.opp.val{border-color:var(--brass-deep);background:linear-gradient(180deg,var(--brass-wash),transparent 65%),var(--surface)}
+.opp.none{background:var(--surface)}
+.opp.empty{background:var(--ink-2);border-style:dashed}
+.opp-eyebrow{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);font-variation-settings:"wdth" 115,"wght" 600}
+.opp.val .opp-eyebrow{color:var(--brass)}
+.opp-ev{font-family:var(--mono);font-size:34px;font-weight:500;line-height:1.05;margin:3px 0 2px;letter-spacing:-.01em}
+.opp-market{font-size:14px;font-variation-settings:"wdth" 104,"wght" 600;margin-bottom:9px}
+.opp-line{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap}
+.opp-line b{color:var(--paper);font-weight:500}
+.opp-empty-txt{font-size:12.5px;color:var(--muted-2);line-height:1.5}
 
 /* ─────────────────────────────────────────────
    FIRMA: la barra de brecha.
@@ -806,11 +823,11 @@ function matchCard({m,best,n}){
     <div class="top-pick ${val?"val":""}">
       <div class="pick-row">
         <div class="pick-name">${esc(best.label)}</div>
-        <div class="pick-odds ${val?"pos":""}">@${best.o.toFixed(2)}</div>
+        <div class="pick-ev ${best.e>0?"pos":"neg"}">${sg(best.e)}</div>
       </div>
       ${gapBar(best.p,best.o,best.dv)}
       <div class="pick-meta">
-        <span>EV<b class="${best.e>0?"pos":"neg"}">${sg(best.e)}</b></span>
+        <span>Cuota<b>@${best.o.toFixed(2)}</b></span>
         <span>Justa<b>@${fair(best.p).toFixed(2)}</b></span>
         <span>Stake<b>${best.stake?mny(best.stake):"—"}</b></span>
         <span>Calidad<b>${m.conf??65}</b></span>
@@ -818,6 +835,53 @@ function matchCard({m,best,n}){
       ${best.trap?`<div class="warn">Valor falso: la cuota parece buena, pero al sacarle el margen a la línea la ventaja desaparece.</div>`:""}
     </div>` : `
     <div class="odds-empty">Sin cuotas — tocá para cargar</div>`}
+  </div>`;
+}
+
+/* ── bloque de oportunidad: arriba de las tabs, el mismo pase lo que
+   pase abajo. Tres estados — sin cuotas, sin valor, valor — para que la
+   mirada encuentre en 1 segundo "¿hay algo acá?" antes de leer 98
+   mercados. Usa la MISMA lógica de "mejor mercado" que ya usa la lista
+   del día (matchCard), para no mostrar cosas distintas en cada lado. */
+function oportunidad(m,mkts){
+  const priced = mkts.filter(x=>x.e!==null);
+  const best = mkts.find(x=>x.e!==null && x.o<=S.maxOdds) || null;
+
+  if(!priced.length) return `
+  <div class="opp empty">
+    <div class="opp-eyebrow">Sin cuotas cargadas</div>
+    <p class="opp-empty-txt" style="margin:6px 0 0">Cargá una cuota en Mercados y acá aparece si el modelo encuentra valor.</p>
+  </div>`;
+
+  if(!best) return `
+  <div class="opp none">
+    <div class="opp-eyebrow">Sin valor por ahora</div>
+    <p class="opp-empty-txt" style="margin:6px 0 0">Las cuotas cargadas superan la cuota máxima considerada (@${S.maxOdds}) — ajustala en Ajustes si querés evaluarlas igual.</p>
+  </div>`;
+
+  const val = best.e>=S.minEv && !best.trap;
+  if(val) return `
+  <div class="opp val">
+    <div class="opp-eyebrow">Oportunidad principal</div>
+    <div class="opp-ev pos">${sg(best.e)}</div>
+    <div class="opp-market">${esc(best.label)}</div>
+    <div class="opp-line">
+      <span>Cuota <b>@${best.o.toFixed(2)}</b></span>
+      <span>Justa <b>@${fair(best.p).toFixed(2)}</b></span>
+      <span>Stake <b>${best.stake?mny(best.stake):"—"}</b></span>
+    </div>
+  </div>`;
+
+  const motivo = best.trap ? "Valor falso: sin margen esto no rinde."
+    : best.e<=0 ? "El modelo no encuentra ventaja a las cuotas actuales."
+    : `Por debajo del umbral de ${pc(S.minEv)} para correr Kelly — el precio ya está bien puesto.`;
+  return `
+  <div class="opp none">
+    <div class="opp-eyebrow">Sin valor por ahora</div>
+    <div class="opp-ev ${best.e>0?"pos":"neg"}" style="opacity:.7">${sg(best.e)}</div>
+    <div class="opp-market" style="color:var(--muted)">${esc(best.label)}</div>
+    <div class="opp-line"><span>Cuota <b>@${best.o.toFixed(2)}</b></span></div>
+    <p class="opp-empty-txt" style="margin:9px 0 0">${motivo} No apostar también es una decisión.</p>
   </div>`;
 }
 
@@ -836,6 +900,7 @@ function viewMatch(id){
     <div class="dh-teams"><span class="tm">${crest(m.homeLogo,"lg")}${esc(m.home)}</span><span style="color:var(--muted-2);font-variation-settings:'wght' 400;margin:0 9px">vs</span><span class="tm">${crest(m.awayLogo,"lg")}${esc(m.away)}</span></div>
     <div class="dh-meta">${crest(m.compLogo,"sm")} ${esc(m.comp)} · ${m.hora} · <span class="nw">λ L ${m.lh.toFixed(2)}</span> · <span class="nw">V ${m.la.toFixed(2)}</span></div>
   </div>
+  ${oportunidad(m,mkts)}
   <div class="tabs">
     ${["mercados","jugadores","modelo","datos"].map(t=>`<button class="tab ${VIEW.tab===t?"on":""}" data-tab="${t}">${t}</button>`).join("")}
   </div>

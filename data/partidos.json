@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-14T15:08",
+ "actualizado": "2026-08-14T20:01",
  "requests": 294,
  "partidos": [
   {
@@ -283,15 +283,15 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.8,
+    "local": 1.83,
     "empate": 3.4,
-    "visitante": 4.9,
+    "visitante": 4.6,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.57,
+    "totalOver": 2.2,
+    "totalUnder": 1.62,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.74,
-    "hcapVisitante": 1.95
+    "hcapLocal": 1.77,
+    "hcapVisitante": 1.91
    },
    "preload": {}
   },
@@ -570,15 +570,15 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.1,
-    "empate": 2.85,
-    "visitante": 2.55,
+    "local": 3.15,
+    "empate": 2.8,
+    "visitante": 2.6,
     "totalLinea": 1.5,
-    "totalOver": 1.62,
+    "totalOver": 1.65,
     "totalUnder": 2.15,
     "hcapLinea": 0.5,
     "hcapLocal": 1.49,
-    "hcapVisitante": 2.4
+    "hcapVisitante": 2.45
    },
    "preload": {}
   },
@@ -851,15 +851,15 @@
    "grupo": "Group A",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.5,
-    "empate": 2.9,
-    "visitante": 3.05,
+    "local": 2.55,
+    "empate": 2.95,
+    "visitante": 3.1,
     "totalLinea": 1.5,
-    "totalOver": 1.51,
-    "totalUnder": 2.4,
+    "totalOver": 1.53,
+    "totalUnder": 2.45,
     "hcapLinea": -0.5,
     "hcapLocal": 2.4,
-    "hcapVisitante": 1.49
+    "hcapVisitante": 1.5
    },
    "preload": {}
   },
@@ -1151,14 +1151,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 2.1,
-    "empate": 2.9,
+    "empate": 2.95,
     "visitante": 4.1,
     "totalLinea": 1.5,
     "totalOver": 1.51,
-    "totalUnder": 2.4,
+    "totalUnder": 2.45,
     "hcapLinea": -0.5,
     "hcapLocal": 2.0,
-    "hcapVisitante": 1.69
+    "hcapVisitante": 1.71
    },
    "preload": {}
   },
@@ -1445,13 +1445,13 @@
     "prov": "DraftKings",
     "local": 1.95,
     "empate": 3.1,
-    "visitante": 4.2,
+    "visitante": 4.3,
     "totalLinea": 1.5,
     "totalOver": 1.5,
-    "totalUnder": 2.4,
+    "totalUnder": 2.45,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.91,
-    "hcapVisitante": 1.74
+    "hcapLocal": 1.87,
+    "hcapVisitante": 1.8
    },
    "preload": {}
   },
@@ -3129,15 +3129,15 @@
    "grupo": "Group A",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.6,
+    "local": 3.8,
     "empate": 3.05,
-    "visitante": 2.15,
+    "visitante": 2.1,
     "totalLinea": 1.5,
-    "totalOver": 1.54,
-    "totalUnder": 2.3,
+    "totalOver": 1.53,
+    "totalUnder": 2.35,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.65,
-    "hcapVisitante": 2.05
+    "hcapLocal": 1.69,
+    "hcapVisitante": 2.0
    },
    "preload": {}
   },
@@ -3404,15 +3404,15 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.85,
+    "local": 2.9,
     "empate": 2.75,
     "visitante": 2.75,
     "totalLinea": 1.5,
-    "totalOver": 1.59,
-    "totalUnder": 2.15,
+    "totalOver": 1.61,
+    "totalUnder": 2.2,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.41,
-    "hcapVisitante": 2.55
+    "hcapLocal": 1.42,
+    "hcapVisitante": 2.6
    },
    "preload": {}
   },
@@ -4627,15 +4627,15 @@
    "grupo": "Group D",
    "mercado": {
     "prov": "DraftKings",
-    "local": 5.25,
-    "empate": 3.6,
-    "visitante": 1.65,
+    "local": 4.7,
+    "empate": 3.75,
+    "visitante": 1.67,
     "totalLinea": 2.5,
     "totalOver": 1.91,
     "totalUnder": 1.77,
     "hcapLinea": 0.5,
-    "hcapLocal": 2.15,
-    "hcapVisitante": 1.57
+    "hcapLocal": 2.1,
+    "hcapVisitante": 1.61
    },
    "preload": {}
   },
@@ -4840,7 +4840,7 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.9,
+    "local": 2.95,
     "empate": 3.05,
     "visitante": 2.45,
     "totalLinea": 2.5,
@@ -5314,15 +5314,15 @@
    "grupo": "Group F",
    "mercado": {
     "prov": "DraftKings",
-    "local": 5.0,
-    "empate": 3.45,
-    "visitante": 1.69,
+    "local": 4.8,
+    "empate": 3.4,
+    "visitante": 1.71,
     "totalLinea": 2.5,
     "totalOver": 2.15,
     "totalUnder": 1.61,
     "hcapLinea": 0.5,
-    "hcapLocal": 2.05,
-    "hcapVisitante": 1.62
+    "hcapLocal": 2.0,
+    "hcapVisitante": 1.67
    },
    "preload": {}
   },
@@ -5831,15 +5831,15 @@
    "grupo": "Group A",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.59,
+    "local": 1.62,
     "empate": 3.45,
-    "visitante": 6.0,
+    "visitante": 5.5,
     "totalLinea": 2.5,
     "totalOver": 1.91,
     "totalUnder": 1.77,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.54,
-    "hcapVisitante": 2.2
+    "hcapLocal": 1.57,
+    "hcapVisitante": 2.15
    },
    "preload": {}
   },
@@ -6451,7 +6451,7 @@
     "visitante": 2.9,
     "totalLinea": 2.5,
     "totalOver": 2.1,
-    "totalUnder": 1.65,
+    "totalUnder": 1.62,
     "hcapLinea": -0.5,
     "hcapLocal": 2.3,
     "hcapVisitante": 1.5
@@ -6906,7 +6906,18 @@
     }
    ],
    "grupo": "Group E",
-   "mercado": null,
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.13,
+    "empate": 8.0,
+    "visitante": 14.0,
+    "totalLinea": 3.5,
+    "totalOver": 1.8,
+    "totalUnder": 1.87,
+    "hcapLinea": -2.5,
+    "hcapLocal": 1.95,
+    "hcapVisitante": 1.69
+   },
    "preload": {}
   }
  ]

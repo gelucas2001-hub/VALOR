@@ -1750,28 +1750,28 @@ function refreshVerdictIfActive(){
 document.addEventListener("click", e => {
   const navBtn = e.target.closest("nav.bottom-nav button");
   if(navBtn){
-    VIEW.tab = navBtn.dataset.nav;
+    VIEW.tab = navBtn.getAttribute("data-nav") || navBtn.dataset.nav;
     VIEW.matchId = null;
     render(); return;
   }
   const dayBtn = e.target.closest("[data-day]");
   if(dayBtn){
-    VIEW.day = dayBtn.dataset.day;
+    VIEW.day = dayBtn.getAttribute("data-day") || dayBtn.dataset.day;
     render(); return;
   }
   const sortBtn = e.target.closest("[data-sort]");
   if(sortBtn){
-    VIEW.sortBy = sortBtn.dataset.sort;
+    VIEW.sortBy = sortBtn.getAttribute("data-sort") || sortBtn.dataset.sort;
     render(); return;
   }
   const standPill = e.target.closest("[data-setstand]");
   if(standPill){
-    VIEW.standingsTab = standPill.dataset.setstand;
+    VIEW.standingsTab = standPill.getAttribute("data-setstand") || standPill.dataset.setstand;
     render(); return;
   }
   const matchCard = e.target.closest("[data-match]");
   if(matchCard && !e.target.closest("input") && !e.target.closest("button")){
-    VIEW.matchId = matchCard.dataset.match;
+    VIEW.matchId = matchCard.getAttribute("data-match") || matchCard.dataset.match;
     VIEW.subtab = "mercados";
     VIEW.standingsTab = "auto";
     render(); return;
@@ -1783,33 +1783,34 @@ document.addEventListener("click", e => {
   }
   const subtabBtn = e.target.closest("[data-subtab]");
   if(subtabBtn){
-    VIEW.subtab = subtabBtn.dataset.subtab;
+    VIEW.subtab = subtabBtn.getAttribute("data-subtab") || subtabBtn.dataset.subtab;
     render(); return;
   }
   const mktCatBtn = e.target.closest("[data-mktcat]");
   if(mktCatBtn){
-    VIEW.mktCategory = mktCatBtn.dataset.mktcat;
+    VIEW.mktCategory = mktCatBtn.getAttribute("data-mktcat") || mktCatBtn.dataset.mktcat;
     render(); return;
   }
   const filterBtn = e.target.closest("[data-f]");
   if(filterBtn){
-    VIEW.filter = filterBtn.dataset.f;
+    VIEW.filter = filterBtn.getAttribute("data-f") || filterBtn.dataset.f;
     render(); return;
   }
   const perffBtn = e.target.closest("[data-perff]");
   if(perffBtn){
-    VIEW.perfFilter = perffBtn.dataset.perff;
+    VIEW.perfFilter = perffBtn.getAttribute("data-perff") || perffBtn.dataset.perff;
     render(); return;
   }
   const compClose = e.target.closest("[data-compclose]");
   if(compClose){
-    const k = compClose.dataset.compclose;
+    const k = compClose.getAttribute("data-compclose") || compClose.dataset.compclose;
     if(closedComps.has(k)) closedComps.delete(k); else closedComps.add(k);
     render(); return;
   }
   const addCombo = e.target.closest("[data-add-combo]");
   if(addCombo){
-    const [matchId, marketId, label, odds, prob] = addCombo.dataset.addcombo.split("|");
+    const raw = addCombo.getAttribute("data-add-combo") || addCombo.dataset.addCombo || "";
+    const [matchId, marketId, label, odds, prob] = raw.split("|");
     const m = MATCHES.find(x=>x.id===matchId);
     const idx = COMBO.findIndex(c=>c.matchId===matchId && c.marketId===marketId);
     if(idx>=0){
@@ -1828,7 +1829,8 @@ document.addEventListener("click", e => {
   }
   const removeLeg = e.target.closest("[data-remove-leg]");
   if(removeLeg){
-    const [mid, mktId] = removeLeg.dataset.removeleg.split("|");
+    const raw = removeLeg.getAttribute("data-remove-leg") || removeLeg.dataset.removeLeg || "";
+    const [mid, mktId] = raw.split("|");
     COMBO = COMBO.filter(c=> !(c.matchId===mid && c.marketId===mktId));
     store.set("combo", COMBO);
     render(); return;
@@ -1850,7 +1852,8 @@ document.addEventListener("click", e => {
   }
   const savePick = e.target.closest("[data-savepick]");
   if(savePick){
-    const [mid, mktId, label, odds, stake, evVal] = savePick.dataset.savepick.split("|");
+    const raw = savePick.getAttribute("data-savepick") || savePick.dataset.savepick || "";
+    const [mid, mktId, label, odds, stake, evVal] = raw.split("|");
     const m = MATCHES.find(x=>x.id===mid);
     LOG.push({
       id: "bet_" + Date.now(),
@@ -1872,7 +1875,8 @@ document.addEventListener("click", e => {
   }
   const resBtn = e.target.closest("[data-res]");
   if(resBtn){
-    const id = resBtn.dataset.res, v = resBtn.dataset.v;
+    const id = resBtn.getAttribute("data-res") || resBtn.dataset.res;
+    const v = resBtn.getAttribute("data-v") || resBtn.dataset.v;
     const item = LOG.find(x=>x.id===id);
     if(item){ item.result = v; store.set("log", LOG); render(); }
     return;
@@ -1890,15 +1894,42 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("input", e => {
-  if(e.target.dataset.odds){
-    const mid = e.target.dataset.m, mktId = e.target.dataset.odds;
+  const oddsAttr = e.target.getAttribute("data-odds");
+  if(oddsAttr){
+    const mid = e.target.getAttribute("data-m"), mktId = oddsAttr;
     const v = parseFloat(e.target.value);
     ODDS[mid+"__"+mktId] = (!isNaN(v) && v>1) ? v : null;
     store.set("odds", ODDS);
+    
+    // Actualización reactiva de la celda individual sin perder foco
+    const cell = e.target.closest(".odds-card-cell");
+    if(cell){
+      const m = MATCHES.find(x=>x.id===mid);
+      if(m){
+        const {mkts} = model(m);
+        const x = mkts.find(k=>k.id===mktId);
+        if(x){
+          cell.classList.toggle("has-val", x.e !== null && x.e >= S.minEv);
+          let evBadge = cell.querySelector(".badge-ev");
+          if(x.e !== null){
+            if(!evBadge){
+              evBadge = document.createElement("span");
+              cell.appendChild(evBadge);
+            }
+            evBadge.className = `badge-ev ${x.e>=S.minEv?"pos":"neg"}`;
+            evBadge.textContent = `${x.e>0?"+":""}${Math.round(x.e*100)}% EV`;
+          } else if(evBadge){
+            evBadge.remove();
+          }
+        }
+      }
+    }
+
     refreshVerdictIfActive();
   }
-  if(e.target.dataset.close){
-    const id = e.target.dataset.close;
+  const closeAttr = e.target.getAttribute("data-close");
+  if(closeAttr){
+    const id = closeAttr;
     const v = parseFloat(e.target.value);
     const item = LOG.find(x=>x.id===id);
     if(item){

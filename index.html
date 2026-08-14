@@ -12,10 +12,12 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ─────────────────────────────────────────────────────────
-   VALOR — Apple Sports & Minimalist-UI Architecture
+   VALOR — Quantitative Sports Architecture & Design System
    ───────────────────────────────────────────────────────── */
 :root {
   --bg-app: #000000;
@@ -40,6 +42,7 @@
   --emerald-wash: rgba(48, 209, 88, 0.12);
   
   --amber: #FF9F0A;
+  --amber-wash: rgba(255, 159, 10, 0.12);
   --coral: #FF453A;
   
   --r-group: 22px;
@@ -49,8 +52,8 @@
   --r-pill: 999px;
   --pad: 16px;
   
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  --font-mono: "SF Mono", "JetBrains Mono", "Menlo", monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", monospace;
   
   --ease-touch: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -240,8 +243,119 @@ header.top {
   font-size: 11px; font-weight: 700; color: var(--text-muted);
   font-family: var(--font-mono); flex: 0 0 auto;
 }
-.crest-fallback.lg { width: 56px; height: 56px; font-size: 16px; }
-.crest-fallback.sm { width: 22px; height: 22px; font-size: 9.5px; }
+/* ── Radar Cuantitativo de Oportunidades (Top Picks) ── */
+.radar-section {
+  margin-bottom: 22px;
+}
+.radar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6px 10px;
+}
+.radar-header-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--cyan);
+}
+.radar-pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
+}
+.radar-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .radar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .radar-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.radar-card {
+  background: var(--bg-group);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+  position: relative; overflow: hidden;
+  transition: transform 120ms ease, border-color 120ms ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.radar-card:hover {
+  border-color: rgba(0, 210, 255, 0.35);
+  transform: translateY(-2px);
+}
+.radar-card-top {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11.5px; color: var(--text-muted);
+}
+.radar-card-match {
+  display: flex; align-items: center; gap: 8px; font-weight: 700; color: #FFFFFF;
+}
+.radar-card-pick {
+  font-size: 16px; font-weight: 800; color: #FFFFFF; line-height: 1.2;
+}
+
+/* ── Medidores de Probabilidad y Barras Visuales de Confianza ── */
+.prob-meter-wrap {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; margin: 4px 0 2px;
+}
+.prob-meter-track {
+  height: 6px; background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-pill); overflow: hidden; position: relative;
+}
+.prob-meter-fill {
+  height: 100%; border-radius: var(--r-pill);
+}
+.prob-meter-fill.conf-high {
+  background: var(--emerald);
+}
+.prob-meter-fill.conf-mid {
+  background: var(--cyan);
+}
+.prob-meter-fill.conf-low {
+  background: var(--text-subtle);
+}
+
+.prob-meter-info {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 11px;
+}
+.prob-meter-pct.conf-high { color: var(--emerald); font-weight: 800; }
+.prob-meter-pct.conf-mid { color: var(--cyan); font-weight: 800; }
+.prob-meter-pct.conf-low { color: var(--text-muted); font-weight: 700; }
+
+.prob-meter-conf {
+  font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-subtle); font-weight: 700;
+}
+
+/* ── Termómetro Dual de Goles Esperados (xG Balance Bar) ── */
+.xg-meter-box {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  margin-top: 12px;
+}
+.xg-meter-labels {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 11.5px; margin-bottom: 6px;
+}
+.xg-dual-bar {
+  display: flex; height: 8px; border-radius: var(--r-pill); overflow: hidden;
+  background: rgba(255, 255, 255, 0.06); gap: 2px;
+}
+.xg-bar-home {
+  background: var(--cyan); border-radius: var(--r-pill) 0 0 var(--r-pill);
+}
+.xg-bar-away {
+  background: var(--amber); border-radius: 0 var(--r-pill) var(--r-pill) 0;
+}
 
 /* ── Centro de Partido (Match Hub) ── */
 .btn-back {
@@ -252,7 +366,7 @@ header.top {
 .btn-back:hover { color: #FFFFFF; }
 
 .match-billboard {
-  padding: 14px var(--pad) 20px; text-align: center;
+  padding: 14px var(--pad) 16px; text-align: center;
 }
 .billboard-comp {
   display: inline-flex; align-items: center; gap: 6px;
@@ -261,7 +375,7 @@ header.top {
 }
 .billboard-teams {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-  gap: 12px; margin-bottom: 12px;
+  gap: 12px; margin-bottom: 4px;
 }
 .billboard-team {
   display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -381,7 +495,7 @@ header.top {
   padding: 12px 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   position: relative;
   transition: border-color 140ms ease, background-color 140ms ease;
 }
@@ -405,7 +519,7 @@ header.top {
 }
 .cell-combo-btn {
   font-size: 12px; font-weight: 800; color: var(--text-muted);
-  width: 22px; height: 22px; border-radius: 50%;
+  width: 24px; height: 24px; border-radius: 50%;
   background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
   display: inline-flex; align-items: center; justify-content: center;
   flex-shrink: 0; transition: all 120ms ease; cursor: pointer;
@@ -415,16 +529,9 @@ header.top {
   background: var(--cyan); color: #000000; border-color: var(--cyan); font-weight: 800;
 }
 
-.odds-cell-metrics {
-  display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--font-mono); font-size: 11px;
-}
-.odds-prob-badge { color: var(--emerald); font-weight: 700; }
-.odds-fair-text { color: var(--text-subtle); }
-
 .odds-target-rule {
-  background: rgba(0, 210, 255, 0.08);
-  border: 1px solid rgba(0, 210, 255, 0.22);
+  background: rgba(0, 210, 255, 0.06);
+  border: 1px solid rgba(0, 210, 255, 0.18);
   border-radius: var(--r-sm);
   padding: 4px 6px; font-size: 11px; color: var(--cyan);
   font-family: var(--font-mono); font-weight: 700; text-align: center;
@@ -432,7 +539,7 @@ header.top {
 
 .odds-input-pill {
   width: 100%; background: var(--bg-input); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 6px 4px; font-family: var(--font-mono);
+  border-radius: var(--r-sm); padding: 7px 6px; font-family: var(--font-mono);
   font-size: 13px; font-weight: 700; text-align: center; color: var(--text-main);
   transition: all 120ms ease;
 }
@@ -964,7 +1071,29 @@ function getMatchDays() {
 
 /* ── VISTAS ── */
 
-/* 1. Vista Cartelera Principal (Apple Sports Scoreboard) */
+function getRadarPicks(){
+  const todays = MATCHES.filter(m=>m.date===VIEW.day);
+  const picks = [];
+  todays.forEach(m => {
+    const {mkts} = model(m);
+    const topProj = getTopModelProjections(m, mkts);
+    const bestVal = mkts.find(x=>x.e!==null && x.e>=S.minEv) || null;
+    const primary = bestVal || topProj[0];
+    if(primary) {
+      picks.push({
+        m,
+        pick: primary,
+        isVal: bestVal !== null,
+        minOdd: minTargetOdds(primary.p).toFixed(2),
+        pct: Math.round(primary.p * 100)
+      });
+    }
+  });
+  picks.sort((a,b) => (b.pick.e || 0) - (a.pick.e || 0) || b.pct - a.pct);
+  return picks.slice(0, 3);
+}
+
+/* 1. Vista Cartelera Principal (Apple Sports Scoreboard + Value Radar) */
 function viewDay(){
   const days = getMatchDays();
   if(!VIEW.day || !days.some(d=>d.iso===VIEW.day)) {
@@ -980,6 +1109,7 @@ function viewDay(){
   });
 
   const grouped = agruparPorComp(rows);
+  const radarPicks = getRadarPicks();
 
   return `
   <div class="date-switcher-apple">
@@ -991,6 +1121,60 @@ function viewDay(){
   </div>
 
   <div class="wrap">
+    ${radarPicks.length ? `
+    <div class="radar-section">
+      <div class="radar-header">
+        <div class="radar-header-title">
+          <span class="radar-pulse-dot"></span>
+          <span>Radar Cuantitativo del Día</span>
+        </div>
+        <small style="font-size:11px;color:var(--text-muted)">Top Oportunidades</small>
+      </div>
+
+      <div class="radar-grid">
+        ${radarPicks.map(({m, pick, isVal, minOdd, pct}) => {
+          const isCombo = COMBO.some(c=>c.matchId===m.id && c.marketId===pick.id);
+          const confClass = pct >= 70 ? "conf-high" : pct >= 55 ? "conf-mid" : "conf-low";
+          const confLabel = pct >= 70 ? "Alta Confianza" : pct >= 55 ? "Confianza Media" : "Moderada";
+          return `
+          <div class="radar-card" data-id="${m.id}" role="button" tabindex="0" aria-label="Ver partido ${esc(m.home)} vs ${esc(m.away)}">
+            <div class="radar-card-top">
+              <div class="radar-card-match">
+                ${crest(m.homeLogo, m.home, "sm")}
+                <span style="font-size:13px">${esc(m.home)} vs ${esc(m.away)}</span>
+                ${crest(m.awayLogo, m.away, "sm")}
+              </div>
+              <span style="font-family:var(--font-mono);font-size:12px">${m.hora} hs</span>
+            </div>
+
+            <div class="radar-card-pick">${esc(pick.label)}</div>
+
+            <div class="prob-meter-wrap">
+              <div class="prob-meter-info">
+                <span class="prob-meter-pct ${confClass}">${pct}% Probabilidad</span>
+                <span class="prob-meter-conf">${confLabel}</span>
+              </div>
+              <div class="prob-meter-track">
+                <div class="prob-meter-fill ${confClass}" style="width:${pct}%"></div>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:4px">
+              <div style="font-family:var(--font-mono);font-size:12px;color:var(--cyan);font-weight:700">
+                ${isVal ? `+${Math.round(pick.e*100)}% EV @${pick.o.toFixed(2)}` : `Buscar ≥ @${minOdd}`}
+              </div>
+              <button class="cell-combo-btn ${isCombo?"on":""}"
+                      data-add-combo="${m.id}|${pick.id}|${pick.label}|${pick.o||minOdd}|${pick.p}"
+                      title="${isCombo?"Quitar de combinada":"Sumar a combinada"}"
+                      aria-label="Sumar a combinada">
+                ${isCombo?"✓":"+"}
+              </button>
+            </div>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>` : ""}
+
     ${rows.length ? grouped.map(g=>`
       <div class="league-section">
         <div class="league-section-header">
@@ -1078,6 +1262,10 @@ function viewMatch(id){
   const minOddRecom = p1 ? minTargetOdds(p1.p).toFixed(2) : null;
   const isCombo = p1 && COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
 
+  const totalXg = m.lh + m.la || 1;
+  const homeXgPct = Math.round((m.lh / totalXg) * 100);
+  const awayXgPct = 100 - homeXgPct;
+
   return `
   <div class="match-hub-layout">
     <div class="match-hub-sidebar">
@@ -1109,6 +1297,18 @@ function viewMatch(id){
             ${crest(m.awayLogo, m.away, "lg")}
             <span class="billboard-team-name">${esc(m.away)}</span>
             <span class="billboard-team-xg">${m.la.toFixed(1)} xG proyectado</span>
+          </div>
+        </div>
+
+        <!-- Termómetro Dual de Goles Esperados (xG) -->
+        <div class="xg-meter-box">
+          <div class="xg-meter-labels">
+            <span style="color:var(--cyan);font-weight:700">${esc(m.home)}: ${m.lh.toFixed(1)} xG (${homeXgPct}%)</span>
+            <span style="color:var(--amber);font-weight:700">${esc(m.away)}: ${m.la.toFixed(1)} xG (${awayXgPct}%)</span>
+          </div>
+          <div class="xg-dual-bar">
+            <div class="xg-bar-home" style="width:${homeXgPct}%"></div>
+            <div class="xg-bar-away" style="width:${awayXgPct}%"></div>
           </div>
         </div>
       </div>
@@ -1187,6 +1387,10 @@ function renderOddsCell(m, x, customTitle=null){
   const label = customTitle || x.label;
   const minOdd = minTargetOdds(x.p).toFixed(2);
   const fairOdd = fair(x.p).toFixed(2);
+  const pct = Math.round(x.p * 100);
+  const confClass = pct >= 70 ? "conf-high" : pct >= 55 ? "conf-mid" : "conf-low";
+  const confLabel = pct >= 70 ? "Alta Confianza" : pct >= 55 ? "Confianza Media" : "Moderada";
+
   return `
   <div class="odds-card-cell ${val?"has-val":""}">
     <div class="odds-cell-header">
@@ -1198,21 +1402,30 @@ function renderOddsCell(m, x, customTitle=null){
         ${isCombo?"✓":"+"}
       </button>
     </div>
-    <div class="odds-cell-metrics">
-      <span class="odds-prob-badge">${Math.round(x.p*100)}%</span>
-      <span class="odds-fair-text">Justa @${fairOdd}</span>
+
+    <!-- Barra Visual de Probabilidad y Nivel de Confianza -->
+    <div class="prob-meter-wrap">
+      <div class="prob-meter-info">
+        <span class="prob-meter-pct ${confClass}">${pct}% Probabilidad</span>
+        <span class="prob-meter-conf">${confLabel}</span>
+      </div>
+      <div class="prob-meter-track">
+        <div class="prob-meter-fill ${confClass}" style="width:${pct}%"></div>
+      </div>
     </div>
+
     <div class="odds-target-rule">
-      Entrar: <b>≥ @${minOdd}</b>
+      Justa: <b>@${fairOdd}</b> · Entrar: <b>≥ @${minOdd}</b>
     </div>
+
     <input class="odds-input-pill" type="number" step="0.01" min="1.01" inputmode="decimal"
-           placeholder="Tu Cuota" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}"
+           placeholder="Cargar tu cuota (@)" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}"
            aria-label="Tu cuota para ${esc(label)} en ${esc(m.home)} vs ${esc(m.away)}">
     ${x.e!==null ? `<span class="badge-ev ${x.e>=S.minEv?"pos":"neg"}">${x.e>0?"+":""}${Math.round(x.e*100)}% EV</span>` : ""}
   </div>`;
 }
 
-/* Subpestaña Mercados con Tablero Deportivo Limpio */
+/* Subpestaña Mercados con Tablero Cuantitativo Completo (Sin marcadores exactos) */
 function tabMercados(m, mkts){
   const find = id => mkts.find(x=>x.id===id) || {id, label:id, p:0.5, e:null, userOdd:null};
   
@@ -1224,10 +1437,14 @@ function tabMercados(m, mkts){
   const mD_12 = find("Doble|Doble oportunidad 12");
   const mD_X2 = find("Doble|Doble oportunidad X2");
 
-  const mG_O25 = find("Goles|Más de 2.5 goles");
-  const mG_U25 = find("Goles|Menos de 2.5 goles");
+  const mG_O05 = find("Goles|Más de 0.5 goles");
+  const mG_U05 = find("Goles|Menos de 0.5 goles");
   const mG_O15 = find("Goles|Más de 1.5 goles");
   const mG_U15 = find("Goles|Menos de 1.5 goles");
+  const mG_O25 = find("Goles|Más de 2.5 goles");
+  const mG_U25 = find("Goles|Menos de 2.5 goles");
+  const mG_O35 = find("Goles|Más de 3.5 goles");
+  const mG_U35 = find("Goles|Menos de 3.5 goles");
 
   const mB_Yes = find("Ambos|Ambos marcan — sí");
   const mB_No = find("Ambos|Ambos marcan — no");
@@ -1235,14 +1452,12 @@ function tabMercados(m, mkts){
   const m1T_O05 = find("1T|1T más de 0.5 goles");
   const m1T_U05 = find("1T|1T menos de 0.5 goles");
 
-  const topMarcadores = mkts.filter(x=>x.g==="Marcador").sort((a,b)=>b.p-a.p).slice(0, 6);
-
   return `
   <!-- Bloque 1: Ganador del Partido (1X2) -->
   <div class="market-block">
     <div class="market-block-header">
       <div class="eyebrow" style="color:var(--cyan)">Resultado Final (1X2)</div>
-      <small style="font-size:11px;color:var(--text-muted)">90 minutos</small>
+      <small style="font-size:11px;color:var(--text-muted)">90 minutos reglamentarios</small>
     </div>
     <div class="grid-3-col">
       ${renderOddsCell(m, m1X2_H, m.home)}
@@ -1255,35 +1470,48 @@ function tabMercados(m, mkts){
   <div class="market-block">
     <div class="market-block-header">
       <div class="eyebrow" style="color:var(--cyan)">Doble Oportunidad</div>
-      <small style="font-size:11px;color:var(--text-muted)">Alta probabilidad</small>
+      <small style="font-size:11px;color:var(--text-muted)">Cobertura doble</small>
     </div>
     <div class="grid-3-col">
-      ${renderOddsCell(m, mD_1X, "1X (Local/Emp)")}
+      ${renderOddsCell(m, mD_1X, "1X (Local o Emp)")}
       ${renderOddsCell(m, mD_12, "12 (Cualquiera)")}
-      ${renderOddsCell(m, mD_X2, "X2 (Emp/Vis)")}
+      ${renderOddsCell(m, mD_X2, "X2 (Emp o Vis)")}
     </div>
   </div>
 
-  <!-- Bloque 3: Total de Goles -->
+  <!-- Bloque 3: Líneas de Total de Goles -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">Total de Goles (Líneas 2.5 y 1.5)</div>
-      <small style="font-size:11px;color:var(--text-muted)">Partidos</small>
+      <div class="eyebrow" style="color:var(--cyan)">Líneas de Total de Goles</div>
+      <small style="font-size:11px;color:var(--text-muted)">Over / Under</small>
     </div>
-    <div class="grid-2-col" style="margin-bottom:8px">
+    
+    <div class="grid-2-col" style="margin-bottom:10px">
+      ${renderOddsCell(m, mG_O05, "Más de 0.5 goles")}
+      ${renderOddsCell(m, mG_U05, "Menos de 0.5 goles")}
+    </div>
+    
+    <div class="grid-2-col" style="margin-bottom:10px">
+      ${renderOddsCell(m, mG_O15, "Más de 1.5 goles")}
+      ${renderOddsCell(m, mG_U15, "Menos de 1.5 goles")}
+    </div>
+
+    <div class="grid-2-col" style="margin-bottom:10px">
       ${renderOddsCell(m, mG_O25, "Más de 2.5 goles")}
       ${renderOddsCell(m, mG_U25, "Menos de 2.5 goles")}
     </div>
+
     <div class="grid-2-col">
-      ${renderOddsCell(m, mG_O15, "Más de 1.5 goles")}
-      ${renderOddsCell(m, mG_U15, "Menos de 1.5 goles")}
+      ${renderOddsCell(m, mG_O35, "Más de 3.5 goles")}
+      ${renderOddsCell(m, mG_U35, "Menos de 3.5 goles")}
     </div>
   </div>
 
   <!-- Bloque 4: Ambos Equipos Marcan -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">Ambos Equipos Marcan</div>
+      <div class="eyebrow" style="color:var(--cyan)">Ambos Equipos Marcan (BTTS)</div>
+      <small style="font-size:11px;color:var(--text-muted)">Gol de ambos</small>
     </div>
     <div class="grid-2-col">
       ${renderOddsCell(m, mB_Yes, "Ambos Marcan — Sí")}
@@ -1291,25 +1519,15 @@ function tabMercados(m, mkts){
     </div>
   </div>
 
-  <!-- Bloque 5: Primer Tiempo (1T) -->
+  <!-- Bloque 5: Primer Tiempo (1T Goles) -->
   <div class="market-block">
     <div class="market-block-header">
       <div class="eyebrow" style="color:var(--cyan)">Primer Tiempo (1T)</div>
+      <small style="font-size:11px;color:var(--text-muted)">Primeros 45 min</small>
     </div>
     <div class="grid-2-col">
       ${renderOddsCell(m, m1T_O05, "1T Más de 0.5")}
       ${renderOddsCell(m, m1T_U05, "1T Menos de 0.5")}
-    </div>
-  </div>
-
-  <!-- Bloque 6: Marcadores Más Probables -->
-  <div class="market-block">
-    <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">Marcadores Más Probables</div>
-      <small style="font-size:11px;color:var(--text-muted)">Poisson</small>
-    </div>
-    <div class="grid-3-col">
-      ${topMarcadores.map(x=> renderOddsCell(m, x, x.label)).join("")}
     </div>
   </div>`;
 }

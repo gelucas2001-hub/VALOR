@@ -1147,7 +1147,7 @@ function viewMatch(id){
           <div style="display:flex;align-items:center;gap:8px">
             ${p1 ? `
             <button class="btn-card-combo ${isCombo ? "on" : ""}"
-                    data-add-combo="${m.id}|${p1.id}|${p1.label}|${p1MinOdd}|${p1.p}"
+                    data-add-combo="${m.id}|${p1.id}|${p1.label}|${minOddRecom}|${p1.p}"
                     title="${isCombo ? "Quitar de combinada" : "Sumar a combinada"}">
               ${isCombo ? "✓ En Boleta" : "+ Combo"}
             </button>` : ""}
@@ -1958,25 +1958,37 @@ function refreshVerdictIfActive(){
   const p1 = topProj[0] || null;
   const minOddRecom = p1 ? minTargetOdds(p1.p).toFixed(2) : "1.80";
 
-  const card = document.querySelector(".verdict-card");
+  const card = document.querySelector(".golden-verdict-card");
   if(card){
-    card.className = `verdict-card ${val?"val":""}`;
-    const pill = card.querySelector(".verdict-pill");
-    if(pill){
-      pill.className = `verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}`;
-      pill.textContent = val ? "✨ OPORTUNIDAD DETECTADA" : best?.e<=0 ? "⚠️ SIN VENTAJA EN TU CUOTA" : "🎯 JUGADA RECOMENDADA";
+    const tag = card.querySelector(".golden-tag");
+    if(tag){
+      tag.textContent = val ? "Ventaja Cuantitativa Detectada" : best?.e<=0 ? "Sin Ventaja en tu Cuota" : "Pronóstico Principal del Modelo";
+      tag.style.color = val ? "var(--cyan)" : best?.e<=0 ? "var(--coral)" : "var(--text-muted)";
     }
-    const title = card.querySelector(".verdict-title");
-    if(title) title.textContent = best ? best.label : topProj[0]?.label || "Cargar cuota";
+    const title = card.querySelector(".golden-pick-title");
+    if(title) title.textContent = best ? best.label : p1 ? p1.label : "Analizar Cuotas";
     
-    const grid = card.querySelector(".verdict-grid");
+    const grid = card.querySelector(".golden-metrics-grid");
     if(grid){
       grid.innerHTML = `
-        <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-        <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-        <div class="verdict-cell"><small>${best?"Ventaja Real":"Regla de Entrada"}</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}% EV`:`≥ @${minOddRecom}`}</b></div>
+        <div class="golden-metric">
+          <small>${best ? "Tu Cuota" : "Cuota Justa"}</small>
+          <b class="cyan">@${(best ? best.o : fair(p1?.p || 0.5)).toFixed(2)}</b>
+        </div>
+        <div class="golden-metric">
+          <small>Probabilidad</small>
+          <b class="green">${Math.round((best ? best.p : (p1?.p || 0.5)) * 100)}%</b>
+        </div>
+        <div class="golden-metric">
+          <small>${best ? "Ventaja Real" : "Regla de Entrada"}</small>
+          <b class="${best?.e > 0 ? "cyan" : ""}">
+            ${best ? `${best.e > 0 ? "+" : ""}${Math.round(best.e * 100)}% EV` : `≥ @${minOddRecom}`}
+          </b>
+        </div>
       `;
     }
+    const arg = card.querySelector(".golden-argument");
+    if(arg) arg.textContent = generarArgumento(m, best, topProj);
   }
 }
 

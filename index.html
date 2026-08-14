@@ -94,7 +94,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; }
   font-weight: 700; color: var(--text-subtle);
 }
 
-/* ── Encabezado Principal Flotante ── */
+/* ── Encabezado Principal ── */
 header.top {
   position: sticky; top: 0; z-index: 40;
   background: rgba(7, 11, 20, 0.92);
@@ -146,7 +146,7 @@ header.top {
 .day.has::after { content: ""; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--cyan); margin: 4px auto 0; }
 .day.on.has::after { background: #03131F; }
 
-/* ── Barra de Ordenamiento Inteligente ── */
+/* ── Barra de Ordenamiento ── */
 .sort-bar {
   display: flex; align-items: center; justify-content: space-between;
   padding: 10px var(--pad) 4px; gap: 8px;
@@ -161,7 +161,7 @@ header.top {
 }
 .sort-btn.on { background: var(--bg-card); color: var(--cyan); box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
 
-/* ── Tarjeta Protagonista: "La Oportunidad Destacada" ── */
+/* ── Tarjeta Protagonista ── */
 .hero-pick {
   margin: 10px var(--pad) 0; padding: 18px; border-radius: var(--r-card);
   background: linear-gradient(180deg, rgba(0, 210, 255, 0.12) 0%, var(--bg-surface) 60%);
@@ -213,7 +213,7 @@ header.top {
 .ledger-card b { display: block; font-family: var(--font-mono); font-size: 17px; font-weight: 700; margin-top: 2px; color: var(--text-main); }
 .ledger-card b.cyan { color: var(--cyan); }
 
-/* ── Filtros Rápidos ── */
+/* ── Filtros ── */
 .filters { display: flex; gap: 8px; padding: 12px var(--pad) 4px; flex-wrap: wrap; }
 .chip {
   padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid var(--border);
@@ -321,13 +321,13 @@ header.top {
 
 .verdict-title { font-size: 22px; font-weight: 800; line-height: 1.2; margin: 4px 0 14px; }
 .verdict-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
   background: var(--bg-input); padding: 12px 8px; border-radius: var(--r-md);
   border: 1px solid var(--border-subtle); margin-bottom: 14px;
 }
 .verdict-cell { text-align: center; }
 .verdict-cell small { font-size: 9.5px; text-transform: uppercase; color: var(--text-subtle); display: block; font-weight: 600; }
-.verdict-cell b { font-family: var(--font-mono); font-size: 14.5px; font-weight: 600; display: block; margin-top: 2px; }
+.verdict-cell b { font-family: var(--font-mono); font-size: 15px; font-weight: 600; display: block; margin-top: 2px; }
 .verdict-cell b.cyan { color: var(--cyan); }
 .verdict-cell b.green { color: var(--emerald); }
 .verdict-cell b.coral { color: var(--coral); }
@@ -347,13 +347,13 @@ header.top {
   border-radius: var(--r-pill); border: 1px solid var(--border);
 }
 .subtab-pill {
-  flex: 1; padding: 8px 8px; font-size: 12px; font-weight: 700; color: var(--text-muted);
+  flex: 1; padding: 8px 6px; font-size: 11.5px; font-weight: 700; color: var(--text-muted);
   border-radius: var(--r-pill); text-align: center; transition: all 140ms ease;
   min-height: 38px; display: flex; align-items: center; justify-content: center;
 }
 .subtab-pill.on { background: var(--bg-surface); color: var(--cyan); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
-/* ── Mercados & Carga Rápida ── */
+/* ── Mercados & Filas Limpias (Sin textos rotos) ── */
 .quick-odds-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
   margin: 12px 0 16px;
@@ -380,41 +380,64 @@ header.top {
 .mkt-cat-chip.on { background: var(--cyan-wash); color: var(--cyan); border-color: rgba(0, 210, 255, 0.35); }
 
 .market-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
   padding: 12px 14px; background: var(--bg-surface); border: 1px solid var(--border);
   border-radius: var(--r-md); margin-bottom: 8px;
 }
+.market-info { flex: 1; min-width: 0; }
+.market-title { font-size: 14.5px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.market-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-family: var(--font-mono); }
+.market-actions { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+
 .odds-input {
-  width: 80px; background: var(--bg-input); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 8px 8px; font-family: var(--font-mono);
-  font-size: 15px; font-weight: 700; text-align: center; color: var(--text-main);
+  width: 76px; background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 8px 4px; font-family: var(--font-mono);
+  font-size: 14px; font-weight: 700; text-align: center; color: var(--text-main);
 }
 .odds-input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.25); }
-.btn-star-save {
-  padding: 8px; border-radius: var(--r-sm); background: var(--bg-input);
-  border: 1px solid var(--border); color: var(--text-muted); font-size: 14px;
-  display: grid; place-items: center; transition: all 120ms ease;
+
+.btn-add-combo {
+  padding: 6px 10px; border-radius: var(--r-sm); background: var(--bg-input);
+  border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 4px; transition: all 120ms ease;
 }
-.btn-star-save:active { transform: scale(0.92); color: var(--cyan); }
+.btn-add-combo.on { background: var(--cyan-wash); border-color: rgba(0, 210, 255, 0.4); color: var(--cyan); }
+.btn-add-combo:active { transform: scale(0.94); }
+
+.badge-ev {
+  display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 6px;
+  border-radius: 4px; font-family: var(--font-mono); margin-left: 6px;
+}
+.badge-ev.pos { background: var(--cyan-wash); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.3); }
+.badge-ev.neg { background: rgba(255, 255, 255, 0.05); color: var(--text-subtle); }
 
 /* ── Tablas de Posiciones & Promedios ── */
+.standings-pills {
+  display: flex; gap: 6px; overflow-x: auto; padding: 6px 0 12px; scrollbar-width: none;
+}
+.standings-pill {
+  padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--border);
+  background: var(--bg-input); font-size: 12px; font-weight: 700; color: var(--text-muted);
+  white-space: nowrap; transition: all 120ms ease;
+}
+.standings-pill.on { background: var(--cyan); color: #03131F; border-color: var(--cyan); }
+
 .standings-table {
-  width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px;
+  width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px;
 }
 .standings-table th {
-  text-align: center; padding: 8px 6px; font-size: 10.5px; color: var(--text-muted);
+  text-align: center; padding: 8px 4px; font-size: 10.5px; color: var(--text-muted);
   border-bottom: 1px solid var(--border); text-transform: uppercase;
 }
 .standings-table th.left, .standings-table td.left { text-align: left; }
 .standings-table td {
-  padding: 10px 6px; text-align: center; border-bottom: 1px solid var(--border-subtle);
+  padding: 9px 4px; text-align: center; border-bottom: 1px solid var(--border-subtle);
   font-family: var(--font-mono); font-size: 12.5px;
 }
 .standings-table tr.highlight {
-  background: rgba(0, 210, 255, 0.12); font-weight: 700; color: var(--cyan);
+  background: rgba(0, 210, 255, 0.12); font-weight: 700;
 }
-.standings-table tr.highlight td { color: var(--text-main); }
-.standings-table tr.highlight td.team-cell { color: var(--cyan); font-weight: 700; }
+.standings-table tr.highlight td.team-cell span { color: var(--cyan); font-weight: 700; }
 
 .team-cell {
   display: flex; align-items: center; gap: 8px; font-family: var(--font-sans);
@@ -455,6 +478,18 @@ header.top {
 .perf-box b.cyan { color: var(--cyan); }
 
 .spark-svg { width: 100%; height: 56px; margin: 12px 0 4px; overflow: visible; }
+
+/* ── Boleta de Combinadas Limpia ── */
+.combo-slip-card {
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.12), var(--bg-surface) 60%);
+  border: 1px solid rgba(0, 210, 255, 0.35); border-radius: var(--r-card);
+  padding: 18px 16px; margin-bottom: 16px; box-shadow: var(--shadow-card);
+}
+.combo-leg-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: var(--bg-input); padding: 10px 12px; border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle); margin-bottom: 8px;
+}
 
 /* ── Botones ── */
 .btn-primary {
@@ -558,7 +593,7 @@ nav.bottom-nav span { font-size: 10px; font-weight: 700; text-transform: upperca
 
 <script>
 /* ═══════════════════════════════════════════════════════════
-   VALOR — Motor Cuantitativo (Dixon-Coles + EV + Kelly)
+   VALOR — Motor Cuantitativo & Gestión de Datos
    ═══════════════════════════════════════════════════════════ */
 
 const _mem = {};
@@ -602,20 +637,10 @@ const ev      = (p,o) => p*o - 1;
 const fair    = p => p>0 ? 1/p : Infinity;
 const kelly   = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
 
-/* Estimación de cuota de mercado base (~5% overround) si no hay personalizada */
-function getBenchmarkMarketOdds(p, mktId){
-  if(p<=0.01) return 25.0;
-  const f = 1/p;
-  // Margen de casa estándar 5.5%
-  let bookmakerOdds = f * 0.945;
-  // En mercados con desajustes del modelo, se detecta ventaja
-  return parseFloat(bookmakerOdds.toFixed(2));
-}
-
 function derive(M,cfg){
   const ht = matrix(cfg.lh*0.45, cfg.la*0.45, cfg.rho, 6);
   const out = [];
-  const add = (g,label,p,push=0,test=null) => out.push({g,label,p,push,test,odds:null,id:g+"|"+label});
+  const add = (g,label,p,push=0,test=null) => out.push({g,label,p,push,test,id:g+"|"+label});
 
   add("1X2","Gana local",            sumIf(M,(i,j)=>i>j),  0, (i,j)=>i>j);
   add("1X2","Empate",                sumIf(M,(i,j)=>i===j),0, (i,j)=>i===j);
@@ -657,12 +682,21 @@ let MATCHES = [];
 let ODDS = {};
 let LOG = [];
 let COMBO = [];
-let NOTAS = {};
+let TABLAS = {};
 let ANALISIS = {};
-let EQUIPOS = {};
 let METHOD_STEP = 0;
 
-let VIEW = { tab:"fecha", matchId:null, day:null, filter:"todos", sortBy:"ev", subtab:"mercados", mktCategory:"populares", perfFilter:"todos" };
+let VIEW = {
+  tab:"fecha",
+  matchId:null,
+  day:null,
+  filter:"todos",
+  sortBy:"ev",
+  subtab:"mercados",
+  mktCategory:"populares",
+  perfFilter:"todos",
+  standingsTab:"auto"
+};
 const closedComps = new Set();
 
 function kellyFracFor(c){
@@ -672,7 +706,7 @@ function kellyFracFor(c){
   return {f:0.005, name:"Monto fijo 0.5%"};
 }
 
-/* Evaluación de mercados con cuota personalizada o cuota de mercado base */
+/* Evaluación de mercados con cuota personalizada del usuario */
 function evaluate(mkts, S, m){
   const conf = m?.conf ?? 65;
   const kf = kellyFracFor(conf);
@@ -681,13 +715,16 @@ function evaluate(mkts, S, m){
   return mkts.map(x=>{
     const userOdd = ODDS[m?.id+"__"+x.id];
     const isCustom = userOdd && userOdd > 1;
-    const o = isCustom ? userOdd : getBenchmarkMarketOdds(x.p, x.id);
+    if(!isCustom){
+      return {...x, o:null, isCustom:false, e:null, stake:0, solid:false};
+    }
+    const o = userOdd;
     const e = x.push ? (x.p*(o-1) - (1-x.p-x.push)) : ev(x.p, o);
     const k = kelly(x.p, o);
     const rawStake = Math.round(S.bank * k * kf.f);
     const maxStake = Math.round(S.bank * maxStakePct);
     const stake = e>=S.minEv ? Math.min(rawStake, maxStake) : 0;
-    return {...x, o, isCustom, userOdd: isCustom ? userOdd : null, e, stake, k, solid: e>=S.minEv};
+    return {...x, o, isCustom:true, userOdd, e, stake, k, solid: e>=S.minEv};
   });
 }
 
@@ -710,12 +747,12 @@ function generarArgumento(m, best, topProj){
   if(an?.veredicto) return an.veredicto;
 
   if(best && best.e !== null && best.e >= S.minEv) {
-    return `Detectamos ventaja de +${Math.round(best.e*100)}% en "${best.label}". El modelo estima ${Math.round(best.p*100)}% de probabilidad (cuota justa @${fair(best.p).toFixed(2)}) frente a una cuota de @${best.o.toFixed(2)}.`;
+    return `Detectamos ventaja de +${Math.round(best.e*100)}% en "${best.label}". El modelo estima ${Math.round(best.p*100)}% de probabilidad (cuota justa @${fair(best.p).toFixed(2)}) frente a tu cuota cargada de @${best.o.toFixed(2)}.`;
   }
   
   if(topProj && topProj.length) {
     const p1 = topProj[0];
-    return `El modelo proyecta a ${m.home} con ${m.lh.toFixed(1)} xG y a ${m.away} con ${m.la.toFixed(1)} xG. La jugada más probable es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad · cuota justa @${fair(p1.p).toFixed(2)}).`;
+    return `El modelo proyecta a ${m.home} con ${m.lh.toFixed(1)} xG y a ${m.away} con ${m.la.toFixed(1)} xG. La jugada principal recomendada es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad · cuota justa @${fair(p1.p).toFixed(2)}).`;
   }
 
   return `Partido por ${m.comp}. Estimamos un promedio de ${m.lh.toFixed(1)} goles para ${m.home} y ${m.la.toFixed(1)} para ${m.away}.`;
@@ -737,7 +774,7 @@ function getMatchDays() {
 
 /* ── VISTAS ── */
 
-/* 1. Vista Partidos con Selector de Ordenamiento */
+/* 1. Vista Partidos */
 function viewDay(){
   const days = getMatchDays();
   if(!VIEW.day || !days.some(d=>d.iso===VIEW.day)) {
@@ -752,7 +789,6 @@ function viewDay(){
     return {m, best, topProj, nVal: mkts.filter(x=>x.solid).length};
   });
 
-  // Ordenamiento dinámico
   if(VIEW.sortBy === "ev") {
     rows.sort((a,b)=> ((b.best?.e||-1) - (a.best?.e||-1)));
   } else if(VIEW.sortBy === "prob") {
@@ -785,7 +821,7 @@ function viewDay(){
   ${topDelDia?`
   <div class="hero-pick" data-match="${topDelDia.m.id}">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="hero-pick-tag">${topDelDia.best?"✨ Mejor Oportunidad":"🎯 Proyección Destacada"}</div>
+      <div class="hero-pick-tag">${topDelDia.best?"✨ Oportunidad Detectada":"🎯 Proyección Destacada"}</div>
       <span class="${topDelDia.best?"val-badge":"badge-rec"}">
         ${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% Ventaja`:`${Math.round((topDelDia.topProj[0]?.p||0.5)*100)}% Probabilidad`}
       </span>
@@ -797,9 +833,9 @@ function viewDay(){
     </div>
     <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Analizar partido")}</div>
     <div class="hero-stats-grid">
-      <div class="hero-stat"><small>Cuota</small><b class="cyan">@${(topDelDia.best?topDelDia.best.o:fair(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="hero-stat"><small>Cuota Justa</small><b>@${fair(topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+      <div class="hero-stat"><small>${topDelDia.best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(topDelDia.best?topDelDia.best.o:fair(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
       <div class="hero-stat"><small>Probabilidad</small><b class="green">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
+      <div class="hero-stat"><small>Ventaja</small><b class="${topDelDia.best?"cyan":""}">${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}%`:"Por evaluar"}</b></div>
     </div>
     <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best, topDelDia.topProj))}</p>
   </div>`:""}
@@ -882,14 +918,13 @@ function viewMatch(id){
 
   <div class="verdict-card ${val?"val":""}">
     <div class="verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}">
-      ${val?"✨ OPORTUNIDAD RECOMENDADA":best?.e<=0?"⚠️ CUOTA BAJA / SIN VENTAJA":"🎯 JUGADA PRINCIPAL"}
+      ${val?"✨ OPORTUNIDAD DETECTADA":best?.e<=0?"⚠️ SIN VENTAJA EN TU CUOTA":"🎯 JUGADA RECOMENDADA"}
     </div>
     <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
     <div class="verdict-grid">
-      <div class="verdict-cell"><small>${best?.isCustom?"Tu Cuota":"Cuota Base"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+      <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
       <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-      <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
+      <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"Por evaluar"}</b></div>
     </div>
     
     <div class="argument-box">
@@ -924,7 +959,7 @@ function viewMatch(id){
   </div>`;
 }
 
-/* Subpestaña Mercados con Cuota Base + Cuota Personalizada */
+/* Subpestaña Mercados con Carga Limpia */
 function tabMercados(m, mkts){
   const odd1 = ODDS[m.id+"__1X2|Gana local"] || "";
   const oddX = ODDS[m.id+"__1X2|Empate"] || "";
@@ -938,7 +973,7 @@ function tabMercados(m, mkts){
   else if(VIEW.mktCategory==="marcador") filtered = mkts.filter(x=>x.g==="Marcador");
 
   return `
-  <div class="eyebrow" style="margin:6px 0 8px">⚡ Calculadora 1X2 (Poné la cuota de tu casa de apuestas)</div>
+  <div class="eyebrow" style="margin:6px 0 8px">⚡ Carga Rápida 1X2 (Tus Cuotas)</div>
   <div class="quick-odds-grid">
     <div class="quick-odd-box">
       <small>${esc(m.home)}</small>
@@ -957,7 +992,7 @@ function tabMercados(m, mkts){
     </div>
   </div>
 
-  <div class="eyebrow" style="margin:10px 0 6px">Todos los Mercados</div>
+  <div class="eyebrow" style="margin:10px 0 6px">Explorar Opciones</div>
   <div class="mkt-cat-chips">
     <button class="mkt-cat-chip ${VIEW.mktCategory==="populares"?"on":""}" data-mktcat="populares">🔥 Populares</button>
     <button class="mkt-cat-chip ${VIEW.mktCategory==="goles"?"on":""}" data-mktcat="goles">⚽ Goles & Ambos</button>
@@ -970,39 +1005,108 @@ function tabMercados(m, mkts){
   <div style="margin-top:8px">
     ${filtered.map(x=>{
       const isSaved = LOG.some(b=>b.matchId===m.id && b.marketId===x.id);
+      const isCombo = COMBO.some(c=>c.matchId===m.id && c.marketId===x.id);
       return `
       <div class="market-row">
-        <div style="flex:1">
-          <div style="font-size:14px;font-weight:700">${esc(x.label)}</div>
-          <div class="num" style="font-size:12px;color:var(--text-muted);margin-top:2px">
-            Probabilidad: ${Math.round(x.p*100)}% · Cuota justa: <b style="color:var(--text-main)">@${fair(x.p).toFixed(2)}</b>
-            ${x.e!==null?` · <b style="color:${x.e>0?"var(--cyan)":"var(--coral)"}">Ventaja ${x.e>0?"+":""}${Math.round(x.e*100)}%</b>`:""}
+        <div class="market-info">
+          <div class="market-title">${esc(x.label)}</div>
+          <div class="market-sub">
+            Prob: <b>${Math.round(x.p*100)}%</b> · Justa: <b>@${fair(x.p).toFixed(2)}</b>
+            ${x.e!==null?`<span class="badge-ev ${x.e>=S.minEv?"pos":"neg"}">${x.e>0?"+":""}${Math.round(x.e*100)}% EV</span>`:""}
           </div>
         </div>
-        <input class="odds-input" type="number" step="0.01" min="1.01" inputmode="decimal"
-               placeholder="@${x.o.toFixed(2)}" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}">
-        <button class="btn-star-save ${isSaved?"on":""}" title="Guardar en mi Historial"
-                data-savepick="${m.id}|${x.id}|${x.label}|${x.o.toFixed(2)}|${x.stake||Math.round(S.bank*0.01)}|${x.e||0}">
-          ${isSaved?"⭐":"☆"}
-        </button>
+        <div class="market-actions">
+          <input class="odds-input" type="number" step="0.01" min="1.01" inputmode="decimal"
+                 placeholder="Cuota" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}">
+          <button class="btn-add-combo ${isCombo?"on":""}" data-add-combo="${m.id}|${x.id}|${x.label}|${x.o||fair(x.p).toFixed(2)}|${x.p}">
+            ${isCombo?"✓":"+ Combo"}
+          </button>
+        </div>
       </div>`;
     }).join("")}
   </div>`;
 }
 
-/* Subpestaña Tablas de Posiciones, Promedios y Copas */
+/* Subpestaña Tablas de Posiciones: Zonas A y B, Anual y Promedios */
 function tabPosiciones(m){
-  const tabla = m.tabla || [];
   const esArg = /profesional|argentina/i.test(m.comp);
-  const esCopa = /libertadores|sudamericana/i.test(m.comp);
+  
+  if(esArg){
+    // Determinar zona por defecto del partido
+    let activeTab = VIEW.standingsTab;
+    if(activeTab === "auto"){
+      const inA = (TABLAS["Zona A"]||[]).some(t=>t.t===m.home || t.t===m.away);
+      activeTab = inA ? "Zona A" : "Zona B";
+    }
 
+    const rows = TABLAS[activeTab] || [];
+
+    return `
+    <div class="perf-card">
+      <div class="eyebrow" style="color:var(--cyan);margin-bottom:8px">🏆 Liga Profesional Argentina</div>
+      <div class="standings-pills">
+        <button class="standings-pill ${activeTab==="Zona A"?"on":""}" data-setstand="Zona A">Zona A</button>
+        <button class="standings-pill ${activeTab==="Zona B"?"on":""}" data-setstand="Zona B">Zona B</button>
+        <button class="standings-pill ${activeTab==="Anual"?"on":""}" data-setstand="Anual">Tabla Anual</button>
+        <button class="standings-pill ${activeTab==="Promedios"?"on":""}" data-setstand="Promedios">Promedios (Descenso)</button>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th class="left"># Equipo</th>
+              ${activeTab==="Promedios" ? `
+                <th>PROM</th>
+                <th>PTS</th>
+                <th>PJ</th>
+              ` : `
+                <th>PTS</th>
+                <th>PJ</th>
+                <th>G</th>
+                <th>E</th>
+                <th>P</th>
+                <th>DIF</th>
+              `}
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map((t, idx)=>{
+              const isMatchTeam = t.t === m.home || t.t === m.away;
+              return `
+              <tr class="${isMatchTeam ? "highlight" : ""}">
+                <td class="left team-cell">
+                  <span style="font-size:11px;color:var(--text-muted);width:16px">${idx+1}</span>
+                  ${crest(t.logo, t.t, "sm")}
+                  <span>${esc(t.t)}</span>
+                </td>
+                ${activeTab==="Promedios" ? `
+                  <td><b style="color:var(--cyan)">${t.prom}</b></td>
+                  <td>${t.pts_tot}</td>
+                  <td>${t.pj_tot}</td>
+                ` : `
+                  <td><b>${t.pts}</b></td>
+                  <td>${t.pj}</td>
+                  <td>${t.g}</td>
+                  <td>${t.e}</td>
+                  <td>${t.p}</td>
+                  <td>${t.dif}</td>
+                `}
+              </tr>`;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  }
+
+  // Copas Internacionales (Libertadores / Sudamericana)
+  const tabla = m.tabla || [];
   return `
   <div class="perf-card">
-    <div class="eyebrow" style="color:var(--cyan);margin-bottom:6px">
-      ${esCopa ? "🏆 Fase de Grupos" : "🏆 Tabla de Posiciones"} · ${esc(m.comp)}
-    </div>
+    <div class="eyebrow" style="color:var(--cyan);margin-bottom:6px">🏆 Fase de Grupos · ${esc(m.comp)}</div>
     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px">
-      Posición de ${esc(m.home)} y ${esc(m.away)} en la tabla actual.
+      Posición de ${esc(m.home)} y ${esc(m.away)} en su grupo.
     </p>
 
     ${tabla.length ? `
@@ -1021,7 +1125,7 @@ function tabPosiciones(m){
         </thead>
         <tbody>
           ${tabla.map((t, idx)=>{
-            const isMatchTeam = t.id === m.homeId || t.id === m.awayId || t.t === m.home || t.t === m.away;
+            const isMatchTeam = t.t === m.home || t.t === m.away;
             return `
             <tr class="${isMatchTeam ? "highlight" : ""}">
               <td class="left team-cell">
@@ -1042,26 +1146,7 @@ function tabPosiciones(m){
     </div>` : `
       <p style="font-size:13px;color:var(--text-muted)">Tabla no disponible para esta ronda de eliminación directa.</p>
     `}
-  </div>
-
-  ${esArg ? `
-  <div class="perf-card">
-    <div class="eyebrow" style="color:var(--amber);margin-bottom:6px">⚠️ Tabla de Promedios y Descenso</div>
-    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 12px">
-      Contexto de permanencia en primera división (Liga Profesional Argentina).
-    </p>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid var(--border-subtle)">
-        <span>${esc(m.home)}</span>
-        <span class="num">Promedio: <b>1.380</b> (Zona Segura)</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px">
-        <span>${esc(m.away)}</span>
-        <span class="num">Promedio: <b>1.120</b> (Compromiso Bajo)</span>
-      </div>
-    </div>
-  </div>` : ""}
-  `;
+  </div>`;
 }
 
 /* Subpestaña Análisis */
@@ -1241,7 +1326,7 @@ function viewLog(){
   </div>`;
 }
 
-/* 4. Vista de Combinadas */
+/* 4. Vista de Combinadas (Boleta Limpia) */
 function comboCalc(legs){
   if(!legs.length) return {o:0, p:0, e:0, stake:0, avisos:[]};
   const porPartido = {};
@@ -1274,56 +1359,69 @@ function comboCalc(legs){
 }
 
 function viewCombo(){
-  const allLegs = [];
-  MATCHES.forEach(m=>{
-    const {mkts} = model(m);
-    mkts.filter(x=>x.o && x.o>1).forEach(x=>{
-      allLegs.push({matchId:m.id, marketId:x.id, label:x.label, o:x.o, p:x.p, e:x.e, test:x.test, match:`${m.home} vs ${m.away}`});
-    });
-  });
-
-  const selectedLegs = COMBO.map(c=> allLegs.find(l=>l.matchId===c.matchId && l.marketId===c.marketId)).filter(Boolean);
-  const calc = comboCalc(selectedLegs);
+  const calc = comboCalc(COMBO);
 
   return `
   <div class="wrap">
     <div class="perf-header">
-      <h2>Armador de Combinadas</h2>
-      <p>Calcula la probabilidad real sin trampas de combinadas</p>
+      <h2>Boleta de Combinadas</h2>
+      <p>Armá tu jugada combinada calculando la probabilidad conjunta real</p>
     </div>
 
-    ${selectedLegs.length ? `
-    <div class="verdict-card ${calc.e>=S.minEv?"val":""}" style="margin:0 0 16px">
-      <div class="verdict-pill ${calc.e>=S.minEv?"cyan":"neutral"}">
-        ${calc.e>=S.minEv?"✨ COMBINADA CON VENTAJA":"COMBINADA ARMADA"}
+    ${COMBO.length ? `
+    <div class="combo-slip-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span class="eyebrow" style="color:var(--cyan)">${COMBO.length} ${COMBO.length===1?"SELECCIÓN":"SELECCIONES"}</span>
+        <button class="chip" style="min-height:auto;padding:4px 10px;font-size:11px" data-combo-clear>Vaciar Boleta</button>
       </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+        ${COMBO.map(l=>`
+        <div class="combo-leg-item">
+          <div>
+            <div style="font-size:13.5px;font-weight:700">${esc(l.label)}</div>
+            <small style="color:var(--text-muted);font-size:11.5px">${esc(l.match)} · Prob: ${Math.round(l.p*100)}%</small>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <b class="num" style="color:var(--cyan);font-size:14px">@${parseFloat(l.o).toFixed(2)}</b>
+            <button style="color:var(--coral);font-size:14px;padding:4px" data-remove-leg="${l.matchId}|${l.marketId}">✕</button>
+          </div>
+        </div>`).join("")}
+      </div>
+
       <div class="verdict-grid">
         <div class="verdict-cell"><small>Cuota Total</small><b class="cyan">@${calc.o.toFixed(2)}</b></div>
         <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round(calc.p*100)}%</b></div>
         <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"cyan":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
-        <div class="verdict-cell"><small>Monto</small><b>${calc.stake?mny(calc.stake):"—"}</b></div>
       </div>
-      ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12.5px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
-      <button class="btn-ghost" data-combo-clear style="margin-top:6px">Vaciar Selección</button>
-    </div>`:""}
+      
+      ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
+    </div>` : `
+    <div class="empty-state" style="padding:24px 16px 36px">
+      <div class="empty-state-icon">⚡</div>
+      <h3>Tu boleta de combinadas está vacía</h3>
+      <p>Entrá a cualquier partido y tocá <b>"+ Combo"</b> en los pronósticos que te gusten para sumarlos a esta boleta.</p>
+    </div>`}
 
-    <div class="eyebrow" style="margin-bottom:10px">Opciones Disponibles (${allLegs.length})</div>
-    ${allLegs.length ? allLegs.map(l=>{
-      const on = COMBO.some(c=>c.matchId===l.matchId && c.marketId===l.marketId);
+    <div class="eyebrow" style="margin:16px 0 10px">Sugerencias del Día para Combinar</div>
+    ${MATCHES.filter(m=>m.date===VIEW.day).map(m=>{
+      const {mkts} = model(m);
+      const topProj = getTopModelProjections(m, mkts);
+      if(!topProj.length) return "";
+      const p1 = topProj[0];
+      const isSelected = COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
       return `
-      <div class="market-row" style="cursor:pointer" data-legpick="${l.matchId}|${l.marketId}">
+      <div class="market-row">
         <div style="flex:1">
-          <div style="font-size:14px;font-weight:700">${esc(l.label)}</div>
-          <small style="color:var(--text-muted)">${esc(l.match)} · Probabilidad: ${Math.round(l.p*100)}%</small>
+          <div style="font-size:14px;font-weight:700">${esc(p1.label)}</div>
+          <small style="color:var(--text-muted)">${esc(m.home)} vs ${esc(m.away)} · Prob: ${Math.round(p1.p*100)}%</small>
         </div>
-        <button class="chip ${on?"on":""}">${on?"✓ Seleccionada":`@${l.o.toFixed(2)}`}</button>
+        <button class="btn-add-combo ${isSelected?"on":""}"
+                data-add-combo="${m.id}|${p1.id}|${p1.label}|${fair(p1.p).toFixed(2)}|${p1.p}">
+          ${isSelected?"✓ En Boleta":"+ Sumar @"+fair(p1.p).toFixed(2)}
+        </button>
       </div>`;
-    }).join("") : `
-      <div class="empty-state">
-        <div class="empty-state-icon">⚡</div>
-        <h3>No hay cuotas disponibles</h3>
-        <p>Explorá los partidos para armar tus combinadas inteligentes.</p>
-      </div>`}
+    }).join("")}
   </div>`;
 }
 
@@ -1480,7 +1578,7 @@ function refreshVerdictIfActive(){
     const pill = card.querySelector(".verdict-pill");
     if(pill){
       pill.className = `verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}`;
-      pill.textContent = val ? "✨ OPORTUNIDAD RECOMENDADA" : best?.e<=0 ? "⚠️ CUOTA BAJA / SIN VENTAJA" : "🎯 JUGADA PRINCIPAL";
+      pill.textContent = val ? "✨ OPORTUNIDAD DETECTADA" : best?.e<=0 ? "⚠️ SIN VENTAJA EN TU CUOTA" : "🎯 JUGADA RECOMENDADA";
     }
     const title = card.querySelector(".verdict-title");
     if(title) title.textContent = best ? best.label : topProj[0]?.label || "Cargar cuota";
@@ -1488,10 +1586,9 @@ function refreshVerdictIfActive(){
     const grid = card.querySelector(".verdict-grid");
     if(grid){
       grid.innerHTML = `
-        <div class="verdict-cell"><small>${best?.isCustom?"Tu Cuota":"Cuota Base"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-        <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+        <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
         <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-        <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
+        <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"Por evaluar"}</b></div>
       `;
     }
   }
@@ -1515,10 +1612,16 @@ document.addEventListener("click", e => {
     VIEW.sortBy = sortBtn.dataset.sort;
     render(); return;
   }
+  const standPill = e.target.closest("[data-setstand]");
+  if(standPill){
+    VIEW.standingsTab = standPill.dataset.setstand;
+    render(); return;
+  }
   const matchCard = e.target.closest("[data-match]");
   if(matchCard && !e.target.closest("input") && !e.target.closest("button")){
     VIEW.matchId = matchCard.dataset.match;
     VIEW.subtab = "mercados";
+    VIEW.standingsTab = "auto";
     render(); return;
   }
   const backBtn = e.target.closest("[data-back]");
@@ -1551,6 +1654,36 @@ document.addEventListener("click", e => {
     const k = compClose.dataset.compclose;
     if(closedComps.has(k)) closedComps.delete(k); else closedComps.add(k);
     render(); return;
+  }
+  const addCombo = e.target.closest("[data-add-combo]");
+  if(addCombo){
+    const [matchId, marketId, label, odds, prob] = addCombo.dataset.addcombo.split("|");
+    const m = MATCHES.find(x=>x.id===matchId);
+    const idx = COMBO.findIndex(c=>c.matchId===matchId && c.marketId===marketId);
+    if(idx>=0){
+      COMBO.splice(idx, 1);
+    } else {
+      COMBO.push({
+        matchId, marketId, label,
+        odds: parseFloat(odds)||1.5,
+        o: parseFloat(odds)||1.5,
+        p: parseFloat(prob)||0.5,
+        match: m ? `${m.home} vs ${m.away}` : "Partido"
+      });
+    }
+    store.set("combo", COMBO);
+    render(); return;
+  }
+  const removeLeg = e.target.closest("[data-remove-leg]");
+  if(removeLeg){
+    const [mid, mktId] = removeLeg.dataset.removeleg.split("|");
+    COMBO = COMBO.filter(c=> !(c.matchId===mid && c.marketId===mktId));
+    store.set("combo", COMBO);
+    render(); return;
+  }
+  const comboClear = e.target.closest("[data-combo-clear]");
+  if(comboClear){
+    COMBO = []; store.set("combo", COMBO); render(); return;
   }
   const nextMethod = e.target.closest("[data-method-next]");
   if(nextMethod){
@@ -1591,19 +1724,6 @@ document.addEventListener("click", e => {
     const item = LOG.find(x=>x.id===id);
     if(item){ item.result = v; store.set("log", LOG); render(); }
     return;
-  }
-  const legPick = e.target.closest("[data-legpick]");
-  if(legPick){
-    const [matchId, marketId] = legPick.dataset.legpick.split("|");
-    const idx = COMBO.findIndex(c=>c.matchId===matchId && c.marketId===marketId);
-    if(idx>=0) COMBO.splice(idx,1);
-    else COMBO.push({matchId, marketId});
-    store.set("combo", COMBO);
-    render(); return;
-  }
-  const comboClear = e.target.closest("[data-combo-clear]");
-  if(comboClear){
-    COMBO = []; store.set("combo", COMBO); render(); return;
   }
   const saveSetBtn = e.target.closest("#saveSettings");
   if(saveSetBtn){
@@ -1654,13 +1774,13 @@ document.addEventListener("input", e => {
   }catch(e){}
 
   try{
-    const r = await fetch("data/analisis.json?t="+Date.now());
-    if(r.ok) ANALISIS = await r.json();
+    const r = await fetch("data/tablas.json?t="+Date.now());
+    if(r.ok) TABLAS = await r.json();
   }catch(e){}
 
   try{
-    const r = await fetch("data/equipos.json?t="+Date.now());
-    if(r.ok) EQUIPOS = await r.json();
+    const r = await fetch("data/analisis.json?t="+Date.now());
+    if(r.ok) ANALISIS = await r.json();
   }catch(e){}
 
   render();

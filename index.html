@@ -14,16 +14,16 @@
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ─────────────────────────────────────────────────────────
-   VALOR — Sistema de Diseño: Asesor Inteligente (Élite)
-   Paleta: Obsidiana Profunda + Verde Menta + Oro Valor + Coral
+   VALOR — Sistema de Diseño: Asesor Inteligente de Apuestas
+   Alineado con frontend-design, emil-design-eng y copywriting
    ───────────────────────────────────────────────────────── */
 :root {
   --bg-dark: #080C14;
   --bg-card: #121927;
-  --bg-card-hover: #172033;
+  --bg-card-hover: #172133;
   --bg-card-pressed: #1B263B;
   --bg-input: #0B101A;
   
@@ -74,7 +74,7 @@ body {
   font-variation-settings: "wdth" 100, "wght" 450;
   font-size: 15px;
   line-height: 1.5;
-  padding-bottom: 84px;
+  padding-bottom: 88px;
   overscroll-behavior-y: contain;
   -webkit-font-smoothing: antialiased;
   max-width: 560px;
@@ -97,35 +97,37 @@ button { background: none; border: none; padding: 0; cursor: pointer; }
 /* ── Encabezado Principal ── */
 header.top {
   position: sticky; top: 0; z-index: 40;
-  background: rgba(8, 12, 20, 0.88);
+  background: rgba(8, 12, 20, 0.92);
   backdrop-filter: blur(16px);
   padding: calc(env(safe-area-inset-top) + 12px) var(--pad) 12px;
   border-bottom: 1px solid var(--border);
 }
 .brand { display: flex; align-items: center; justify-content: space-between; }
-.brand-title { display: flex; align-items: center; gap: 8px; }
+.brand-title { display: flex; align-items: center; gap: 9px; }
 .brand-logo-icon {
-  width: 26px; height: 26px; border-radius: 7px;
+  width: 28px; height: 28px; border-radius: 8px;
   background: linear-gradient(135deg, var(--mint), var(--mint-dark));
   display: flex; align-items: center; justify-content: center;
-  color: #04140D; font-weight: 800; font-size: 15px;
+  color: #04140D; font-weight: 800; font-size: 16px;
+  box-shadow: 0 2px 10px rgba(0, 229, 153, 0.35);
 }
-.brand h1 { margin: 0; font-size: 20px; letter-spacing: .12em; font-variation-settings: "wdth" 120, "wght" 800; }
+.brand h1 { margin: 0; font-size: 20px; letter-spacing: .14em; font-variation-settings: "wdth" 120, "wght" 800; }
 .brand h1 span { color: var(--mint); }
 .brand-badge {
-  font-size: 11px; padding: 4px 9px; border-radius: var(--r-pill);
-  background: var(--mint-wash); color: var(--mint); font-weight: 600;
+  font-size: 11px; padding: 4px 10px; border-radius: var(--r-pill);
+  background: var(--mint-wash); color: var(--mint); font-weight: 700;
   border: 1px solid rgba(0, 229, 153, 0.25);
 }
 
-/* ── Tira de Días (Selector de Fechas) ── */
+/* ── Tira de Días ── */
 .days { display: flex; gap: 8px; overflow-x: auto; padding: 14px var(--pad) 6px; scrollbar-width: none; }
 .days::-webkit-scrollbar { display: none; }
 .day {
   flex: 0 0 auto; min-width: 54px; padding: 8px 10px; border-radius: var(--r-md);
   background: var(--bg-card); border: 1px solid var(--border); text-align: center;
-  transition: all .15s ease;
+  transition: transform 120ms ease, background-color 150ms ease, border-color 150ms ease;
 }
+.day:active { transform: scale(0.96); }
 .day b { display: block; font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--text-main); }
 .day i { display: block; font-style: normal; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; }
 .day.on {
@@ -139,11 +141,13 @@ header.top {
 /* ── Tarjeta Protagonista: "La Jugada Destacada del Día" ── */
 .hero-pick {
   margin: 12px var(--pad) 0; padding: 18px 16px; border-radius: var(--r-lg);
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(18, 25, 39, 0.95) 70%);
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(18, 25, 39, 0.96) 65%);
   border: 1px solid var(--gold-border);
   box-shadow: var(--shadow-card);
-  position: relative; overflow: hidden;
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: transform 120ms ease;
 }
+.hero-pick:active { transform: scale(0.985); }
 .hero-pick::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
@@ -191,13 +195,13 @@ header.top {
 .ledger-card b { display: block; font-family: var(--font-mono); font-size: 17px; font-weight: 600; margin-top: 3px; color: var(--text-main); }
 .ledger-card b.mint { color: var(--mint); }
 
-/* ── Filtros Rápidos ── */
+/* ── Filtros y Chips ── */
 .filters { display: flex; gap: 8px; padding: 14px var(--pad) 4px; flex-wrap: wrap; }
 .chip {
   padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid var(--border);
   background: var(--bg-card); font-size: 12.5px; color: var(--text-muted); font-weight: 600;
   min-height: 40px; display: inline-flex; align-items: center; gap: 6px;
-  transition: all .15s ease;
+  transition: transform 120ms ease, background-color 150ms ease, color 150ms ease;
 }
 .chip.on {
   background: var(--mint-wash); border-color: rgba(0, 229, 153, 0.4);
@@ -215,17 +219,22 @@ header.top {
 .match-card {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg);
   padding: 14px 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);
-  transition: transform .12s ease, border-color .15s ease;
+  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), border-color 150ms ease;
   position: relative; cursor: pointer;
 }
 .match-card:active { transform: scale(0.985); background: var(--bg-card-pressed); }
-.match-card.has-val { border-color: rgba(245, 158, 11, 0.35); }
+.match-card.has-val { border-color: rgba(245, 158, 11, 0.4); }
 
 .match-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .match-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); font-weight: 500; }
 .val-badge {
   font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: var(--r-pill);
   background: var(--gold-wash); color: var(--gold); border: 1px solid var(--gold-border);
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.badge-rec {
+  font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: var(--r-pill);
+  background: var(--mint-wash); color: var(--mint); border: 1px solid rgba(0, 229, 153, 0.3);
   text-transform: uppercase; letter-spacing: .06em;
 }
 
@@ -243,19 +252,19 @@ header.top {
 .match-pick-label { font-variation-settings: "wght" 600; color: var(--text-main); }
 .match-pick-odds { font-family: var(--font-mono); font-size: 14px; font-weight: 600; color: var(--mint); }
 
-.crest { width: 24px; height: 24px; object-fit: contain; flex: 0 0 auto; }
-.crest.lg { width: 44px; height: 44px; }
+.crest { width: 26px; height: 26px; object-fit: contain; flex: 0 0 auto; }
+.crest.lg { width: 48px; height: 48px; }
 .crest.sm { width: 18px; height: 18px; }
 
 /* ── Vista Detalle de Partido ── */
 .detail-header {
   padding: 10px var(--pad) 14px;
-  background: linear-gradient(180deg, rgba(0, 229, 153, 0.05) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 229, 153, 0.06) 0%, transparent 100%);
 }
 .btn-back {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 13px; font-weight: 600; color: var(--text-muted); padding: 6px 0;
-  margin-bottom: 8px;
+  margin-bottom: 8px; min-height: 40px;
 }
 .matchup-hero {
   display: flex; align-items: center; justify-content: space-around;
@@ -265,7 +274,7 @@ header.top {
 .matchup-team span { font-size: 15px; font-variation-settings: "wght" 700; line-height: 1.2; }
 .matchup-vs {
   font-size: 13px; font-weight: 700; color: var(--text-subtle);
-  background: var(--bg-card); width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-card); width: 34px; height: 34px; border-radius: 50%;
   display: grid; place-items: center; border: 1px solid var(--border);
 }
 
@@ -311,47 +320,71 @@ header.top {
 .argument-box h4 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
 .argument-box p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--text-main); }
 
-/* ── Pestañas de Detalle ── */
-.subtabs {
-  display: flex; gap: 6px; padding: 14px var(--pad) 0; overflow-x: auto;
-  border-bottom: 1px solid var(--border); scrollbar-width: none;
+/* ── Carga Rápida de Cuotas (1X2 + Principales) ── */
+.quick-odds-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  margin: 12px 0 16px;
 }
-.subtabs::-webkit-scrollbar { display: none; }
-.subtab {
-  padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--text-muted);
-  border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap;
-  transition: all .15s ease;
+.quick-odd-box {
+  background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 10px 8px; text-align: center;
 }
-.subtab.on { color: var(--mint); border-bottom-color: var(--mint); }
+.quick-odd-box small { font-size: 11px; color: var(--text-muted); display: block; font-weight: 600; margin-bottom: 4px; }
+.quick-odd-in {
+  width: 100%; background: transparent; border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 8px 4px; font-family: var(--font-mono);
+  font-size: 16px; font-weight: 700; text-align: center; color: var(--text-main);
+}
+.quick-odd-in:focus { outline: none; border-color: var(--mint); box-shadow: var(--ring); }
 
-/* ── Formulario y Acordeones de Mercados ── */
-.market-box {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md);
-  margin-bottom: 10px; overflow: hidden;
+/* ── Pestañas Segmentadas en Detalle (Pill Style) ── */
+.subtabs-pill-wrap { padding: 14px var(--pad) 0; }
+.subtabs-pill {
+  display: flex; gap: 4px; background: var(--bg-input); padding: 4px;
+  border-radius: var(--r-pill); border: 1px solid var(--border);
 }
-.market-header {
-  width: 100%; display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 16px; font-size: 13.5px; font-weight: 700; color: var(--text-main);
-  text-align: left;
+.subtab-pill {
+  flex: 1; padding: 8px 12px; font-size: 12.5px; font-weight: 700; color: var(--text-muted);
+  border-radius: var(--r-pill); text-align: center; transition: all 150ms ease;
+  min-height: 38px; display: flex; align-items: center; justify-content: center;
 }
-.market-header:active { background: var(--bg-card-hover); }
+.subtab-pill.on { background: var(--bg-card); color: var(--mint); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+
+/* ── Mercados por Categorías ── */
+.mkt-cat-chips { display: flex; gap: 6px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
+.mkt-cat-chips::-webkit-scrollbar { display: none; }
+.mkt-cat-chip {
+  padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--border);
+  background: var(--bg-card); font-size: 11.5px; font-weight: 600; color: var(--text-muted);
+  white-space: nowrap; transition: all 120ms ease;
+}
+.mkt-cat-chip.on { background: var(--mint-wash); color: var(--mint); border-color: rgba(0, 229, 153, 0.4); }
+
 .market-row {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  padding: 10px 16px; border-top: 1px solid var(--border-soft);
+  padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-md); margin-bottom: 8px;
 }
 .odds-input {
-  width: 84px; background: var(--bg-input); border: 1px solid var(--border);
+  width: 86px; background: var(--bg-input); border: 1px solid var(--border);
   border-radius: var(--r-sm); padding: 8px 10px; font-family: var(--font-mono);
-  font-size: 15px; font-weight: 600; text-align: center; color: var(--text-main);
+  font-size: 15px; font-weight: 700; text-align: center; color: var(--text-main);
 }
 .odds-input:focus { outline: none; border-color: var(--mint); box-shadow: var(--ring); }
 
-/* ── Pestaña de Método (Guía Interactiva como en las capturas) ── */
-.method-container { padding: 18px var(--pad) 0; }
-.method-progress {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 18px;
+/* ── Círculos de Forma Reciente ── */
+.form-badge {
+  width: 22px; height: 22px; border-radius: 50%; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700;
+  color: #fff; margin-right: 4px;
 }
+.form-badge.W { background: #10B981; }
+.form-badge.D { background: #F59E0B; }
+.form-badge.L { background: #EF4444; }
+
+/* ── Pestaña de Método (Guía Interactiva) ── */
+.method-container { padding: 18px var(--pad) 0; }
+.method-progress { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .method-dots { display: flex; gap: 6px; }
 .method-dot { width: 24px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.15); transition: all .2s; }
 .method-dot.active { background: var(--mint); width: 36px; }
@@ -380,7 +413,32 @@ header.top {
   flex: 0 0 auto; margin-top: 2px;
 }
 
-/* ── Botones de Acción Primarios y Secundarios ── */
+/* ── Pestaña de Rendimiento Completa (Con Sparkline + CLV) ── */
+.tracker-container { padding: 14px var(--pad) 0; }
+.perf-header { margin-bottom: 14px; }
+.perf-header h2 { margin: 0; font-size: 22px; font-variation-settings: "wght" 800; }
+.perf-header p { margin: 4px 0 0; font-size: 12.5px; color: var(--text-muted); }
+
+.perf-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 18px 16px; box-shadow: var(--shadow-card); margin-bottom: 16px;
+}
+.perf-stat-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+.perf-big-pct { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--mint); }
+.perf-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.perf-box {
+  background: var(--bg-input); border: 1px solid var(--border-soft);
+  border-radius: var(--r-md); padding: 10px 8px; text-align: center;
+}
+.perf-box small { font-size: 9.5px; text-transform: uppercase; color: var(--text-subtle); display: block; }
+.perf-box b { font-family: var(--font-mono); font-size: 16px; font-weight: 600; display: block; margin-top: 2px; }
+.perf-box b.win { color: var(--mint); }
+.perf-box b.loss { color: var(--coral); }
+.perf-box b.gold { color: var(--gold); }
+
+.spark-svg { width: 100%; height: 56px; margin: 12px 0 4px; overflow: visible; }
+
+/* ── Botones de Acción ── */
 .btn-primary {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; padding: 14px 20px; border-radius: var(--r-md);
@@ -397,31 +455,12 @@ header.top {
   border: 1px solid var(--border); min-height: 44px;
 }
 .btn-ghost:active { background: var(--bg-card-hover); color: var(--text-main); }
-
-/* ── Pestaña de Rendimiento (Como en la captura 5) ── */
-.tracker-container { padding: 14px var(--pad) 0; }
-.perf-header { margin-bottom: 14px; }
-.perf-header h2 { margin: 0; font-size: 22px; font-variation-settings: "wght" 800; }
-.perf-header p { margin: 4px 0 0; font-size: 12.5px; color: var(--text-muted); }
-
-.perf-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg);
-  padding: 18px 16px; box-shadow: var(--shadow-card); margin-bottom: 16px;
+.btn-save-pick {
+  background: var(--gold-wash); border: 1px solid var(--gold-border); color: var(--gold);
+  font-weight: 700; font-size: 13px; padding: 8px 14px; border-radius: var(--r-pill);
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
 }
-.perf-stat-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
-.perf-big-pct { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--mint); }
-.perf-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.perf-box {
-  background: var(--bg-input); border: 1px solid var(--border-soft);
-  border-radius: var(--r-md); padding: 10px; text-align: center;
-}
-.perf-box small { font-size: 10px; text-transform: uppercase; color: var(--text-subtle); display: block; }
-.perf-box b { font-family: var(--font-mono); font-size: 18px; font-weight: 600; display: block; margin-top: 2px; }
-.perf-box b.win { color: var(--mint); }
-.perf-box b.loss { color: var(--coral); }
-
-.filter-pills { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
-.filter-pills::-webkit-scrollbar { display: none; }
+.btn-save-pick:active { transform: scale(0.97); }
 
 /* ── Barra de Navegación Inferior (5 Tabs fijas) ── */
 nav.bottom-nav {
@@ -436,17 +475,15 @@ nav.bottom-nav {
 }
 nav.bottom-nav button {
   padding: 10px 0 11px; display: flex; flex-direction: column; align-items: center;
-  gap: 4px; color: var(--text-subtle); transition: all .15s ease;
+  gap: 4px; color: var(--text-subtle); transition: color 150ms ease;
   min-height: 48px;
 }
 nav.bottom-nav button.on { color: var(--mint); }
 nav.bottom-nav svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 nav.bottom-nav span { font-size: 10px; letter-spacing: .04em; font-weight: 600; text-transform: uppercase; }
 
-/* ── Estados Vacíos Elegantes ── */
-.empty-state {
-  text-align: center; padding: 48px 24px; color: var(--text-muted);
-}
+/* ── Estados Vacíos ── */
+.empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
 .empty-state-icon {
   width: 52px; height: 52px; border-radius: 50%;
   background: var(--bg-card); border: 1px solid var(--border);
@@ -456,7 +493,7 @@ nav.bottom-nav span { font-size: 10px; letter-spacing: .04em; font-weight: 600; 
 .empty-state h3 { margin: 0 0 6px; font-size: 16px; color: var(--text-main); font-variation-settings: "wght" 700; }
 .empty-state p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
 
-/* Animaciones suaves */
+/* Animaciones */
 @media (prefers-reduced-motion: no-preference) {
   .hero-pick, .match-card, .verdict-card, .method-card, .perf-card {
     animation: fadeInSlide .28s cubic-bezier(0.16, 1, 0.3, 1) backwards;
@@ -476,7 +513,7 @@ nav.bottom-nav span { font-size: 10px; letter-spacing: .04em; font-weight: 600; 
       <div class="brand-logo-icon">V</div>
       <h1>VA<span>L</span>OR</h1>
     </div>
-    <div class="brand-badge" id="brandTag">Asesor Inteligente</div>
+    <div class="brand-badge">Asesor Inteligente</div>
   </div>
 </header>
 
@@ -551,12 +588,11 @@ const ev      = (p,o) => p*o - 1;
 const fair    = p => p>0 ? 1/p : Infinity;
 const implied = o => o>0 ? 1/o : 0;
 const kelly   = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
-const devig   = (o1,o2) => { const a=implied(o1), b=implied(o2), s=a+b; return s>0?{p:a/s,over:s-1}:null; };
 
 function derive(M,cfg){
   const ht = matrix(cfg.lh*0.45, cfg.la*0.45, cfg.rho, 6);
   const out = [];
-  const add = (g,label,p,push=0,test=null) => out.push({g,label,p,push,test,odds:null,oddsOpp:null,id:g+"|"+label});
+  const add = (g,label,p,push=0,test=null) => out.push({g,label,p,push,test,odds:null,id:g+"|"+label});
 
   add("1X2","Gana local",            sumIf(M,(i,j)=>i>j),  0, (i,j)=>i>j);
   add("1X2","Empate",                sumIf(M,(i,j)=>i===j),0, (i,j)=>i===j);
@@ -581,19 +617,8 @@ function derive(M,cfg){
 
   const marcador = (mx,cap,grupo) => {
     for(let i=0;i<=cap;i++) for(let j=0;j<=cap;j++) add(grupo, i+"-"+j, mx[i][j]);
-    add(grupo,"Otro resultado (gana local)",     sumIf(mx,(i,j)=>(i>cap||j>cap)&&i>j));
-    add(grupo,"Otro resultado (empate)",         sumIf(mx,(i,j)=>(i>cap||j>cap)&&i===j));
-    add(grupo,"Otro resultado (gana visitante)", sumIf(mx,(i,j)=>(i>cap||j>cap)&&i<j));
   };
   marcador(M,3,"Marcador");
-  marcador(ht,2,"Marcador 1T");
-
-  [[0,1,"0-1"],[2,3,"2-3"],[4,6,"4-6"],[7,99,"7+"]].forEach(([lo,hi,lbl])=>
-    add("Rango","Partido — "+lbl+" goles", sumIf(M,(i,j)=>i+j>=lo&&i+j<=hi)));
-  [[0,0,"0"],[1,1,"1"],[2,2,"2"],[3,99,"3+"]].forEach(([lo,hi,lbl])=>{
-    add("Rango","Local — "+lbl+" goles",     sumIf(M,(i)=>i>=lo&&i<=hi));
-    add("Rango","Visitante — "+lbl+" goles", sumIf(M,(i,j)=>j>=lo&&j<=hi));
-  });
 
   const dnbH = sumIf(M,(i,j)=>i>j), dnbA = sumIf(M,(i,j)=>i<j), dnbDraw = sumIf(M,(i,j)=>i===j);
   if(dnbH+dnbA>0){
@@ -612,14 +637,11 @@ let COMBO = [];
 let NOTAS = {};
 let ANALISIS = {};
 let EQUIPOS = {};
-let CALIB = {};
 let METHOD_STEP = 0;
 
-let VIEW = { tab:"fecha", matchId:null, day:null, filter:"todos", subtab:"mercados", perfFilter:"todos" };
-const openGroups = new Set();
+let VIEW = { tab:"fecha", matchId:null, day:null, filter:"todos", subtab:"mercados", mktCategory:"populares", perfFilter:"todos" };
 const closedComps = new Set();
 
-/* ── Carga y Persistencia ── */
 function kellyFracFor(c){
   if(c>=72) return {f:0.25, name:"1/4 Kelly"};
   if(c>=60) return {f:0.125, name:"1/8 Kelly"};
@@ -645,30 +667,36 @@ function model(m){
   const M = matrix(m.lh, m.la, rho);
   const raw = derive(M, {lh:m.lh, la:m.la, rho});
   const mkts = evaluate(raw, S, m);
-  mkts.sort((a,b)=> (b.e??-999) - (a.e??-999));
-  return {M, mkts};
+  return {M, mkts, raw};
 }
 
-/* ── Generador Inteligente de Explicaciones en Lenguaje Humano ── */
-function generarArgumento(m, best){
+/* ── Proyecciones Fuertes del Modelo (Siempre disponibles) ── */
+function getTopModelProjections(m, mkts){
+  const valid = mkts.filter(x=>x.p>=0.35 && !x.id.startsWith("Marcador|"));
+  valid.sort((a,b)=>b.p-a.p);
+  return valid.slice(0, 3);
+}
+
+/* ── Generador Inteligente de Argumentos ── */
+function generarArgumento(m, best, topProj){
   const an = ANALISIS[m.id];
   if(an?.veredicto) return an.veredicto;
 
-  if(!best || best.e === null) {
-    return `Partido programado por ${m.comp}. El modelo estima un promedio de ${m.lh.toFixed(1)} goles para ${m.home} y ${m.la.toFixed(1)} para ${m.away}. Ingresá las cuotas para evaluar si hay ventaja.`;
+  if(best && best.e !== null && best.e >= S.minEv) {
+    return `El modelo detecta una ventaja del +${Math.round(best.e*100)}% en "${best.label}". La probabilidad estadística calculada es del ${Math.round(best.p*100)}% frente a una cuota justa de @${fair(best.p).toFixed(2)}, superando lo ofrecido por la casa de apuestas.`;
   }
-  if(best.e >= S.minEv) {
-    return `El modelo detecta una ventaja del ${Math.round(best.e*100)}% en "${best.label}". La probabilidad calculada es del ${Math.round(best.p*100)}% frente a una cuota justa de @${fair(best.p).toFixed(2)}, superando lo ofrecido por el mercado.`;
+  
+  if(topProj && topProj.length) {
+    const p1 = topProj[0];
+    return `El modelo proyecta a ${m.home} con un xG de ${m.lh.toFixed(1)} y a ${m.away} con ${m.la.toFixed(1)}. La tendencia más sólida según las probabilidades es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad estimada · cuota justa @${fair(p1.p).toFixed(2)}).`;
   }
-  if(best.e <= 0) {
-    return `A las cuotas actuales, el mercado no ofrece ventaja matemática para este cruce. La probabilidad estimada no compensa el margen de la casa.`;
-  }
-  return `Cuota equilibrada con la probabilidad del modelo. Sin ventaja clara suficiente para asumir riesgo.`;
+
+  return `Partido por ${m.comp}. El modelo estima un promedio de ${m.lh.toFixed(1)} goles para ${m.home} y ${m.la.toFixed(1)} para ${m.away}. Ingresá las cuotas para evaluar ventaja.`;
 }
 
-/* ── Vistas ── */
+/* ── VISTAS ── */
 
-/* 1. Vista de Partidos */
+/* 1. Vista Partidos */
 function viewDay(){
   const days=[]; const base=new Date((MATCHES[0]?.date||VIEW.day)+"T12:00:00");
   for(let i=0;i<7;i++){
@@ -681,14 +709,17 @@ function viewDay(){
   const todays = MATCHES.filter(m=>m.date===VIEW.day);
   const rows = todays.map(m=>{
     const {mkts}=model(m);
-    const best = mkts.find(x=>x.e!==null && x.o<=S.maxOdds) || null;
-    return {m,best,n:mkts.filter(x=>x.solid).length};
+    const best = mkts.find(x=>x.e!==null && x.e>=S.minEv && x.o<=S.maxOdds) || null;
+    const topProj = getTopModelProjections(m, mkts);
+    return {m, best, topProj, nVal: mkts.filter(x=>x.solid).length};
   });
-  const withVal = rows.filter(r=>r.best && r.best.e>=S.minEv);
+  const withVal = rows.filter(r=>r.best);
   const shown = VIEW.filter==="valor" ? withVal : rows;
   const avg = withVal.length ? withVal.reduce((s,r)=>s+r.best.e,0)/withVal.length : 0;
   const tot = withVal.reduce((s,r)=>s+(r.best.stake||0),0);
-  const topDelDia = withVal.length ? withVal.slice().sort((a,b)=>b.best.e-a.best.e)[0] : null;
+  
+  // Pick del Día
+  const topDelDia = withVal.length ? withVal.slice().sort((a,b)=>b.best.e-a.best.e)[0] : (rows[0]||null);
 
   return `
   <div class="days">${days.map(d=>`
@@ -699,21 +730,23 @@ function viewDay(){
   ${topDelDia?`
   <div class="hero-pick" data-match="${topDelDia.m.id}">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="hero-tag">✨ Oportunidad del Día</div>
-      <span class="val-badge">+${Math.round(topDelDia.best.e*100)}% Ventaja</span>
+      <div class="hero-tag">${topDelDia.best?"✨ Oportunidad de Valor":"🎯 Proyección Destacada"}</div>
+      <span class="${topDelDia.best?"val-badge":"badge-rec"}">
+        ${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% Valor`:`${Math.round((topDelDia.topProj[0]?.p||0.5)*100)}% Prob`}
+      </span>
     </div>
     <div class="hero-matchup">
       ${crest(topDelDia.m.homeLogo,"sm")} <span>${esc(topDelDia.m.home)}</span>
       <em>vs</em>
       <span>${esc(topDelDia.m.away)}</span> ${crest(topDelDia.m.awayLogo,"sm")}
     </div>
-    <div class="hero-bet-title">${esc(topDelDia.best.label)}</div>
+    <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Cargar cuotas")}</div>
     <div class="hero-stats-grid">
-      <div class="hero-stat"><small>Tu Cuota</small><b class="green">@${topDelDia.best.o.toFixed(2)}</b></div>
-      <div class="hero-stat"><small>Cuota Justa</small><b>@${fair(topDelDia.best.p).toFixed(2)}</b></div>
-      <div class="hero-stat"><small>Probabilidad</small><b class="gold">${Math.round(topDelDia.best.p*100)}%</b></div>
+      <div class="hero-stat"><small>Tu Cuota</small><b class="green">${topDelDia.best?`@${topDelDia.best.o.toFixed(2)}`:"—"}</b></div>
+      <div class="hero-stat"><small>Cuota Justa</small><b>@${fair(topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+      <div class="hero-stat"><small>Probabilidad</small><b class="gold">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
     </div>
-    <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best))}</p>
+    <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best, topDelDia.topProj))}</p>
   </div>`:""}
 
   <div class="ledger-grid">
@@ -723,7 +756,7 @@ function viewDay(){
   </div>
 
   <div class="filters">
-    <button class="chip ${VIEW.filter==="valor"?"on":""}" data-f="valor">🔥 Solo con valor</button>
+    <button class="chip ${VIEW.filter==="valor"?"on":""}" data-f="valor">🔥 Solo con valor (${withVal.length})</button>
     <button class="chip ${VIEW.filter==="todos"?"on":""}" data-f="todos">Todos los partidos (${rows.length})</button>
   </div>
 
@@ -741,19 +774,20 @@ function viewDay(){
   }).join("") : `
     <div class="empty-state">
       <div class="empty-state-icon">🛡️</div>
-      <h3>Sin oportunidades de valor</h3>
-      <p>Ningún mercado supera el umbral del ${Math.round(S.minEv*100)}% de ventaja. No apostar cuando no hay ventaja es cuidar tu capital.</p>
+      <h3>Sin oportunidades de valor cargadas</h3>
+      <p>Tocá cualquier partido para ingresar las cuotas de tu casa y ver si hay ventaja real.</p>
     </div>`}
   </div>`;
 }
 
-function matchCard({m,best}){
+function matchCard({m,best,topProj}){
   const val = best && best.e>=S.minEv;
+  const p1 = topProj && topProj[0];
   return `
   <div class="match-card ${val?"has-val":""}" data-match="${m.id}">
     <div class="match-top">
       <span class="match-time">${m.hora} hs · ${esc(m.comp)}</span>
-      ${val ? `<span class="val-badge">+${Math.round(best.e*100)}% Valor</span>` : `<span style="font-size:11px;color:var(--text-subtle)">${best?`Cuota @${best.o.toFixed(2)}`:"Sin cuotas"}</span>`}
+      ${val ? `<span class="val-badge">+${Math.round(best.e*100)}% Valor</span>` : p1 ? `<span class="badge-rec">${Math.round(p1.p*100)}% ${esc(p1.label)}</span>` : `<span style="font-size:11px;color:var(--text-subtle)">Tocar para analizar</span>`}
     </div>
     <div class="match-teams">
       <div class="team-row">
@@ -766,8 +800,8 @@ function matchCard({m,best}){
       </div>
     </div>
     <div class="match-footer">
-      <span class="match-pick-label">${best?esc(best.label):"Tocar para ver y cargar cuotas"}</span>
-      <span class="match-pick-odds">${best?`@${best.o.toFixed(2)}`:"→"}</span>
+      <span class="match-pick-label">${best ? esc(best.label) : p1 ? `Cuota justa: @${fair(p1.p).toFixed(2)}` : "Cargar cuotas"}</span>
+      <span class="match-pick-odds">${best ? `@${best.o.toFixed(2)}` : "Analizar →"}</span>
     </div>
   </div>`;
 }
@@ -776,8 +810,9 @@ function matchCard({m,best}){
 function viewMatch(id){
   const m = MATCHES.find(x=>x.id===id); if(!m) return "";
   const {M,mkts} = model(m);
-  const best = mkts.find(x=>x.e!==null && x.o<=S.maxOdds) || null;
-  const val = best && best.e>=S.minEv;
+  const best = mkts.find(x=>x.e!==null && x.e>=S.minEv && x.o<=S.maxOdds) || null;
+  const topProj = getTopModelProjections(m, mkts);
+  const val = best !== null;
 
   return `
   <div class="detail-header">
@@ -790,74 +825,176 @@ function viewMatch(id){
   </div>
 
   <div class="verdict-card ${val?"val":""}">
-    <div class="verdict-pill ${val?"gold":best?.e<=0?"coral":"neutral"}">
-      ${val?"✨ PICK DE VALOR DETECTADO":best?.e<=0?"⚠️ SIN VENTAJA MATEMÁTICA":"📊 CUOTA ALINEADA AL MERCADO"}
+    <div class="verdict-pill ${val?"gold":best?.e<=0?"coral":"mint"}">
+      ${val?"✨ PICK DE VALOR DETECTADO":best?.e<=0?"⚠️ SIN VENTAJA MATEMÁTICA":"🎯 PROYECCIÓN PRINCIPAL DEL MODELO"}
     </div>
-    <div class="verdict-title">${best?esc(best.label):"Cargá una cuota abajo para analizar"}</div>
-    ${best?`
+    <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
     <div class="verdict-grid">
-      <div class="verdict-cell"><small>Tu Cuota</small><b class="green">@${best.o.toFixed(2)}</b></div>
-      <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best.p).toFixed(2)}</b></div>
-      <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round(best.p*100)}%</b></div>
-      <div class="verdict-cell"><small>Ventaja</small><b class="${best.e>0?"green":"coral"}">${best.e>0?"+":""}${Math.round(best.e*100)}%</b></div>
-    </div>`:""}
+      <div class="verdict-cell"><small>Tu Cuota</small><b class="green">${best?`@${best.o.toFixed(2)}`:"—"}</b></div>
+      <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+      <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
+      <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"green":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
+    </div>
     
     <div class="argument-box ${val?"gold":""}">
       <h4>💡 El Argumento del Asesor</h4>
-      <p>${esc(generarArgumento(m, best))}</p>
+      <p>${esc(generarArgumento(m, best, topProj))}</p>
     </div>
 
     ${best?.stake?`
     <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:10px 14px;border-radius:var(--r-md);border:1px solid var(--border)">
-      <span style="font-size:12.5px;color:var(--text-muted)">Apuesta sugerida (Kelly)</span>
-      <span class="num" style="font-size:16px;font-weight:700;color:var(--mint)">${mny(best.stake)}</span>
+      <div>
+        <span style="font-size:12.5px;color:var(--text-muted);display:block">Apuesta sugerida (Kelly)</span>
+        <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
+      </div>
+      <span class="num" style="font-size:18px;font-weight:700;color:var(--mint)">${mny(best.stake)}</span>
     </div>`:""}
   </div>
 
-  <div class="subtabs">
-    <button class="subtab ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Recomendadas</button>
-    <button class="subtab ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Estadísticas & H2H</button>
-    <button class="subtab ${VIEW.subtab==="modelo"?"on":""}" data-subtab="modelo">Matriz & xG</button>
+  <div class="subtabs-pill-wrap">
+    <div class="subtabs-pill">
+      <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
+      <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis</button>
+      <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Estadísticas</button>
+      <button class="subtab-pill ${VIEW.subtab==="modelo"?"on":""}" data-subtab="modelo">Matriz</button>
+    </div>
   </div>
 
   <div class="wrap">
     ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
+    ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
     ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
     ${VIEW.subtab==="modelo" ? tabModelo(m, M, mkts) : ""}
   </div>`;
 }
 
+/* Subpestaña Mercados con Carga Rápida y Filtro por Categorías */
 function tabMercados(m, mkts){
-  const groups = [...new Set(mkts.map(x=>x.g))];
+  const odd1 = ODDS[m.id+"__1X2|Gana local"] || "";
+  const oddX = ODDS[m.id+"__1X2|Empate"] || "";
+  const odd2 = ODDS[m.id+"__1X2|Gana visitante"] || "";
+
+  let filtered = mkts;
+  if(VIEW.mktCategory==="populares") filtered = mkts.filter(x=>["1X2|Gana local","1X2|Empate","1X2|Gana visitante","Goles|Más de 2.5 goles","Goles|Menos de 2.5 goles","Ambos|Ambos marcan — sí","Doble|Doble oportunidad 1X"].includes(x.id));
+  else if(VIEW.mktCategory==="goles") filtered = mkts.filter(x=>x.g==="Goles" || x.g==="Ambos" || x.g==="Rango");
+  else if(VIEW.mktCategory==="1x2") filtered = mkts.filter(x=>x.g==="1X2" || x.g==="Doble" || x.g==="DNB");
+  else if(VIEW.mktCategory==="1t") filtered = mkts.filter(x=>x.g==="1T");
+  else if(VIEW.mktCategory==="marcador") filtered = mkts.filter(x=>x.g==="Marcador");
+
   return `
-  <div style="margin-bottom:14px">
-    <div class="eyebrow" style="margin-bottom:8px">Cargar Cuotas de tu Casa</div>
-    ${groups.map(g=>{
-      const items = mkts.filter(x=>x.g===g);
-      return `
-      <div class="market-box">
-        <div class="market-header"><span>${esc(g)}</span><small class="num" style="color:var(--text-muted)">${items.length} líneas</small></div>
-        ${items.map(x=>`
-        <div class="market-row">
-          <div style="flex:1">
-            <div style="font-size:13px;font-weight:600">${esc(x.label)}</div>
-            <small class="num" style="color:var(--text-muted)">Prob. modelo: ${Math.round(x.p*100)}% · Justa: @${fair(x.p).toFixed(2)}</small>
-          </div>
-          <input class="odds-input" type="number" step="0.01" min="1.01" placeholder="—"
-                 value="${x.o||""}" data-odds="${x.id}" data-m="${m.id}">
-        </div>`).join("")}
-      </div>`;
-    }).join("")}
+  <div class="eyebrow" style="margin:6px 0 8px">⚡ Carga Rápida 1X2</div>
+  <div class="quick-odds-grid">
+    <div class="quick-odd-box">
+      <small>${esc(m.home)}</small>
+      <input class="quick-odd-in" type="number" step="0.01" min="1.01" inputmode="decimal"
+             value="${odd1}" placeholder="1" data-odds="1X2|Gana local" data-m="${m.id}">
+    </div>
+    <div class="quick-odd-box">
+      <small>Empate</small>
+      <input class="quick-odd-in" type="number" step="0.01" min="1.01" inputmode="decimal"
+             value="${oddX}" placeholder="X" data-odds="1X2|Empate" data-m="${m.id}">
+    </div>
+    <div class="quick-odd-box">
+      <small>${esc(m.away)}</small>
+      <input class="quick-odd-in" type="number" step="0.01" min="1.01" inputmode="decimal"
+             value="${odd2}" placeholder="2" data-odds="1X2|Gana visitante" data-m="${m.id}">
+    </div>
+  </div>
+
+  <div class="eyebrow" style="margin:10px 0 6px">Explorar Todos los Mercados</div>
+  <div class="mkt-cat-chips">
+    <button class="mkt-cat-chip ${VIEW.mktCategory==="populares"?"on":""}" data-mktcat="populares">🔥 Populares</button>
+    <button class="mkt-cat-chip ${VIEW.mktCategory==="goles"?"on":""}" data-mktcat="goles">⚽ Goles & Ambos</button>
+    <button class="mkt-cat-chip ${VIEW.mktCategory==="1x2"?"on":""}" data-mktcat="1x2">🛡️ 1X2 & Doble</button>
+    <button class="mkt-cat-chip ${VIEW.mktCategory==="1t"?"on":""}" data-mktcat="1t">⏱️ Primer Tiempo</button>
+    <button class="mkt-cat-chip ${VIEW.mktCategory==="marcador"?"on":""}" data-mktcat="marcador">🔢 Marcadores</button>
+    <button class="mkt-cat-chip ${VIEW.mktCategory==="todos"?"on":""}" data-mktcat="todos">📋 Ver Todos</button>
+  </div>
+
+  <div style="margin-top:8px">
+    ${filtered.map(x=>`
+    <div class="market-row">
+      <div style="flex:1">
+        <div style="font-size:13.5px;font-weight:700">${esc(x.label)}</div>
+        <div class="num" style="font-size:11.5px;color:var(--text-muted);margin-top:2px">
+          Prob: ${Math.round(x.p*100)}% · Cuota Justa: <b style="color:var(--text-main)">@${fair(x.p).toFixed(2)}</b>
+          ${x.e!==null?` · <b style="color:${x.e>0?"var(--mint)":"var(--coral)"}">EV ${x.e>0?"+":""}${Math.round(x.e*100)}%</b>`:""}
+        </div>
+      </div>
+      <input class="odds-input" type="number" step="0.01" min="1.01" inputmode="decimal"
+             placeholder="—" value="${x.o||""}" data-odds="${x.id}" data-m="${m.id}">
+    </div>`).join("")}
   </div>`;
 }
 
-function tabDatos(m){
+/* Subpestaña Análisis Cualitativo */
+function tabAnalisis(m, topProj){
   const an = ANALISIS[m.id];
+  return `
+  <div class="perf-card">
+    <div class="eyebrow" style="color:var(--mint);margin-bottom:8px">🧠 Informe del Asesor</div>
+    <h3 style="margin:0 0 10px;font-size:17px">${esc(m.home)} vs ${esc(m.away)}</h3>
+    <p style="font-size:13.5px;line-height:1.6;color:var(--text-muted);margin:0 0 14px">
+      ${esc(an?.contexto || an?.veredicto || generarArgumento(m, null, topProj))}
+    </p>
+    ${an?.veredicto && an.contexto ? `
+    <div class="argument-box gold">
+      <h4>Veredicto Editorial</h4>
+      <p>${esc(an.veredicto)}</p>
+    </div>`:""}
+  </div>
+
+  <div class="perf-card">
+    <div class="eyebrow" style="margin-bottom:8px">📊 Proyecciones Automáticas del Cruce</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--border-soft);padding-bottom:6px">
+        <span>Goles Esperados (xG)</span>
+        <b class="num">${esc(m.home)} ${m.lh.toFixed(1)} - ${m.la.toFixed(1)} ${esc(m.away)}</b>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--border-soft);padding-bottom:6px">
+        <span>Córners Promedio Estimados</span>
+        <b class="num">${m.corners ? m.corners.toFixed(1) : "7.5"}</b>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px">
+        <span>Tarjetas / Fricción Esperada</span>
+        <b class="num">${m.cards ? m.cards.toFixed(1) : "4.0"}</b>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* Subpestaña Estadísticas & Forma */
+function tabDatos(m){
   const eqH = EQUIPOS[m.homeId], eqA = EQUIPOS[m.awayId];
   return `
-  ${an?`<div class="perf-card"><h3>Análisis específico del cruce</h3><p style="font-size:13px;line-height:1.5;color:var(--text-muted)">${esc(an.contexto||an.veredicto)}</p></div>`:""}
-  ${eqH?`<div class="perf-card"><h3>${crest(m.homeLogo,"sm")} ${esc(m.home)}</h3><p style="font-size:13px;color:var(--text-muted)">${esc(eqH.resumen||"")}</p></div>`:""}
-  ${eqA?`<div class="perf-card"><h3>${crest(m.awayLogo,"sm")} ${esc(m.away)}</h3><p style="font-size:13px;color:var(--text-muted)">${esc(eqA.resumen||"")}</p></div>`:""}
+  <div class="perf-card">
+    <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
+      ${crest(m.homeLogo,"sm")} Forma Reciente de ${esc(m.home)}
+    </h3>
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+      ${m.formH?.length ? m.formH.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
+    </div>
+    ${m.formH?.length ? m.formH.map(f=>`
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--border-soft)">
+        <span>${f.local?"(L)":"(V)"} vs ${esc(f.rival)}</span>
+        <b class="num">${f.marcador}</b>
+      </div>`).join("") : ""}
+  </div>
+
+  <div class="perf-card">
+    <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
+      ${crest(m.awayLogo,"sm")} Forma Reciente de ${esc(m.away)}
+    </h3>
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+      ${m.formA?.length ? m.formA.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
+    </div>
+    ${m.formA?.length ? m.formA.map(f=>`
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--border-soft)">
+        <span>${f.local?"(L)":"(V)"} vs ${esc(f.rival)}</span>
+        <b class="num">${f.marcador}</b>
+      </div>`).join("") : ""}
+  </div>
+
   <div class="perf-card">
     <h3>Historial Directo (H2H)</h3>
     ${m.h2h?.length? m.h2h.map(h=>`
@@ -868,11 +1005,12 @@ function tabDatos(m){
   </div>`;
 }
 
+/* Subpestaña Matriz */
 function tabModelo(m, M, mkts){
   return `
   <div class="perf-card">
     <h3>Matriz de Probabilidades (Dixon-Coles)</h3>
-    <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px">Probabilidades estimadas para cada marcador exacto según el xG de cada equipo.</p>
+    <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px">Probabilidades de cada marcador exacto según el xG asignado.</p>
     <div style="overflow-x:auto">
       <table style="width:100%;font-family:var(--font-mono);font-size:12px;border-collapse:collapse;text-align:center">
         <tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
@@ -886,7 +1024,194 @@ function tabModelo(m, M, mkts){
   </div>`;
 }
 
-/* 3. Vista de Método / Guía Educativa (Exactamente como en tus capturas) */
+/* 3. Vista de Rendimiento Completa (Con Sparkline + CLV Tracker) */
+function viewLog(){
+  const done = LOG.filter(b=>b.result==="W"||b.result==="L");
+  const staked = done.reduce((s,b)=>s+b.stake,0);
+  const ret = done.reduce((s,b)=>s+(b.result==="W"?b.stake*b.odds:0),0);
+  const prof = ret-staked;
+  const roi = staked ? prof/staked : 0;
+  const wins = LOG.filter(b=>b.result==="W").length;
+  const losses = LOG.filter(b=>b.result==="L").length;
+  const total = wins + losses;
+  const winRate = total>0 ? Math.round((wins/total)*100) : 0;
+  
+  const clvs = LOG.filter(b=>b.closing>1).map(b=>b.odds/b.closing-1);
+  const clv = clvs.length ? clvs.reduce((a,b)=>a+b,0)/clvs.length : null;
+
+  // Gráfica Sparkline
+  let cum = 0;
+  const pts = done.map(b=>{ cum += b.result==="W"? b.stake*(b.odds-1) : -b.stake; return cum; });
+  let spark = "";
+  if(pts.length>1){
+    const mx = Math.max(...pts, 0), mn = Math.min(...pts, 0), rg = (mx-mn) || 1;
+    const d = pts.map((p,i)=>`${(i/(pts.length-1)*100).toFixed(1)},${(48-((p-mn)/rg)*44).toFixed(1)}`).join(" ");
+    const zero = (48-((0-mn)/rg)*44).toFixed(1);
+    spark = `<svg class="spark-svg" viewBox="0 0 100 52" preserveAspectRatio="none">
+      <line x1="0" y1="${zero}" x2="100" y2="${zero}" stroke="rgba(255,255,255,0.15)" stroke-width=".6"/>
+      <polyline points="${d}" fill="none" stroke="${prof>=0?"#00E599":"#EF4444"}" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
+    </svg>`;
+  }
+
+  let filteredLog = LOG;
+  if(VIEW.perfFilter==="W") filteredLog = LOG.filter(x=>x.result==="W");
+  else if(VIEW.perfFilter==="L") filteredLog = LOG.filter(x=>x.result==="L");
+  else if(VIEW.perfFilter==="P") filteredLog = LOG.filter(x=>x.result==="P");
+
+  return `
+  <div class="tracker-container">
+    <div class="perf-header">
+      <h2>Pronósticos Guardados</h2>
+      <p>Tus picks, tu historial y tu rendimiento medido</p>
+    </div>
+
+    <div class="perf-card">
+      <div class="perf-stat-row">
+        <div>
+          <small class="eyebrow">Efectividad</small>
+          <div class="perf-big-pct">${winRate}%</div>
+        </div>
+        <div style="text-align:right">
+          <small class="eyebrow">Balance Neto</small>
+          <div class="num" style="font-size:22px;font-weight:700;color:${prof>=0?"var(--mint)":"var(--coral)"}">
+            ${prof>=0?"+":""}${mny(prof)}
+          </div>
+        </div>
+      </div>
+
+      ${spark}
+
+      <div class="perf-boxes" style="margin-top:10px">
+        <div class="perf-box"><small>ROI</small><b class="${roi>=0?"win":"loss"}">${done.length?`${roi>=0?"+":""}${Math.round(roi*100)}%`:"—"}</b></div>
+        <div class="perf-box"><small>Aciertos / Fallos</small><b>${wins} / ${losses}</b></div>
+        <div class="perf-box"><small>CLV Medio</small><b class="${clv>0?"gold":""}">${clv!==null?`${clv>0?"+":""}${Math.round(clv*100)}%`:"—"}</b></div>
+      </div>
+    </div>
+
+    <div class="filters" style="padding:0 0 12px">
+      <button class="chip ${VIEW.perfFilter==="todos"?"on":""}" data-perff="todos">Todos (${LOG.length})</button>
+      <button class="chip ${VIEW.perfFilter==="P"?"on":""}" data-perff="P">Pendientes</button>
+      <button class="chip ${VIEW.perfFilter==="W"?"on":""}" data-perff="W">Acertados</button>
+      <button class="chip ${VIEW.perfFilter==="L"?"on":""}" data-perff="L">Fallidos</button>
+    </div>
+
+    ${filteredLog.length ? filteredLog.slice().reverse().map(b=>`
+    <div class="match-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:14.5px;font-weight:700">${esc(b.label)}</span>
+        <span class="num" style="font-size:16px;font-weight:700;color:var(--mint)">@${b.odds.toFixed(2)}</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">
+        ${esc(b.match)} · Stake: <b>${mny(b.stake)}</b> ${b.ev?`· EV inicial: +${Math.round(b.ev*100)}%`:""}
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <input class="odds-input" style="width:100%;text-align:left;font-size:12px;padding:6px 10px"
+               type="number" step="0.01" placeholder="Cuota de cierre (para medir CLV)"
+               value="${b.closing||""}" data-close="${b.id}">
+      </div>
+
+      <div style="display:flex;gap:6px">
+        <button class="chip ${b.result==="W"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="W">✓ Ganada</button>
+        <button class="chip ${b.result==="L"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="L">✕ Perdida</button>
+        <button class="chip ${b.result==="P"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="P">⏳ Pendiente</button>
+      </div>
+    </div>`).join("") : `
+      <div class="empty-state">
+        <div class="empty-state-icon">📋</div>
+        <h3>No tienes pronósticos guardados</h3>
+        <p>Cuando un partido tenga un pick de valor, tocá "Guardar en mi Historial" para registrarlo.</p>
+      </div>`}
+  </div>`;
+}
+
+/* 4. Vista de Combinadas (Combo Builder Interactivo) */
+function comboCalc(legs){
+  if(!legs.length) return {o:0, p:0, e:0, stake:0, avisos:[]};
+  const porPartido = {};
+  legs.forEach(l=> (porPartido[l.matchId] = porPartido[l.matchId]||[]).push(l));
+
+  let pConjunta = 1, oTotal = 1, avisos = [];
+  Object.entries(porPartido).forEach(([mid, ls])=>{
+    const m = MATCHES.find(x=>x.id===mid);
+    if(!m) return;
+    const {M} = model(m);
+    if(ls.length===1){
+      pConjunta *= ls[0].p; oTotal *= ls[0].o;
+    } else {
+      const tests = ls.map(l=>l.test).filter(Boolean);
+      if(tests.length === ls.length){
+        const pExacta = sumIf(M, (i,j)=> tests.every(t=>t(i,j)));
+        pConjunta *= pExacta;
+      } else {
+        pConjunta *= ls.reduce((acc,x)=>acc*x.p, 1);
+      }
+      oTotal *= ls.reduce((acc,x)=>acc*x.o, 1);
+      avisos.push(`Combinada del mismo partido en ${m.home} vs ${m.away}: Probabilidad conjunta calculada sobre la matriz exacta.`);
+    }
+  });
+
+  const e = pConjunta * oTotal - 1;
+  const k = kelly(pConjunta, oTotal);
+  const stake = e>=S.minEv ? Math.round(S.bank * k * 0.125) : 0;
+  return {o:oTotal, p:pConjunta, e, stake, avisos};
+}
+
+function viewCombo(){
+  const allLegs = [];
+  MATCHES.forEach(m=>{
+    const {mkts} = model(m);
+    mkts.filter(x=>x.o && x.o>1).forEach(x=>{
+      allLegs.push({matchId:m.id, marketId:x.id, label:x.label, o:x.o, p:x.p, e:x.e, test:x.test, match:`${m.home} vs ${m.away}`});
+    });
+  });
+
+  const selectedLegs = COMBO.map(c=> allLegs.find(l=>l.matchId===c.matchId && l.marketId===c.marketId)).filter(Boolean);
+  const calc = comboCalc(selectedLegs);
+
+  return `
+  <div class="wrap">
+    <div class="perf-header">
+      <h2>Armador de Combinadas</h2>
+      <p>Calcula la probabilidad conjunta real sin trampas de correlación</p>
+    </div>
+
+    ${selectedLegs.length ? `
+    <div class="verdict-card ${calc.e>=S.minEv?"val":""}" style="margin:0 0 16px">
+      <div class="verdict-pill ${calc.e>=S.minEv?"gold":"neutral"}">
+        ${calc.e>=S.minEv?"✨ COMBINADA CON VALOR REAL":"COMBINADA ARMADA"}
+      </div>
+      <div class="verdict-grid">
+        <div class="verdict-cell"><small>Cuota Total</small><b class="green">@${calc.o.toFixed(2)}</b></div>
+        <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round(calc.p*100)}%</b></div>
+        <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"green":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
+        <div class="verdict-cell"><small>Monto</small><b>${calc.stake?mny(calc.stake):"—"}</b></div>
+      </div>
+      ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
+      <button class="btn-ghost" data-combo-clear style="margin-top:6px">Vaciar Selección</button>
+    </div>`:""}
+
+    <div class="eyebrow" style="margin-bottom:10px">Patas Disponibles (${allLegs.length} con cuota)</div>
+    ${allLegs.length ? allLegs.map(l=>{
+      const on = COMBO.some(c=>c.matchId===l.matchId && c.marketId===l.marketId);
+      return `
+      <div class="market-row" style="cursor:pointer" data-legpick="${l.matchId}|${l.marketId}">
+        <div style="flex:1">
+          <div style="font-size:13.5px;font-weight:700">${esc(l.label)}</div>
+          <small style="color:var(--text-muted)">${esc(l.match)} · Prob: ${Math.round(l.p*100)}%</small>
+        </div>
+        <button class="chip ${on?"on":""}">${on?"✓ Seleccionada":`@${l.o.toFixed(2)}`}</button>
+      </div>`;
+    }).join("") : `
+      <div class="empty-state">
+        <div class="empty-state-icon">⚡</div>
+        <h3>No hay cuotas cargadas</h3>
+        <p>Cargá cuotas en los partidos de hoy para empezar a armar tus combinadas inteligentes.</p>
+      </div>`}
+  </div>`;
+}
+
+/* 5. Vista de Método / Guía Educativa */
 const METODOS = [
   {
     cat: "MODELO RENTABLE",
@@ -894,7 +1219,7 @@ const METODOS = [
     p: "No existe ningún sistema que garantice ganancias absolutas. La rentabilidad se construye tomando mejores decisiones con ventaja matemática de forma consistente a largo plazo.",
     tags: ["Enfoque a largo plazo", "Sin promesas de ganancia", "Decisiones informadas"],
     items: [
-      "Buscamos desajustes entre la cuota de la casa y la probabilidad real.",
+      "Buscamos desajustes entre la cuota de la casa y la probabilidad real calculada.",
       "Apostamos únicamente cuando el Valor Esperado (EV) es positivo.",
       "Gestionamos el capital con criterio para soportar rachas negativas."
     ]
@@ -962,83 +1287,6 @@ function viewMethod(){
   </div>`;
 }
 
-/* 4. Vista de Rendimiento / Historial (Como en tu captura 5) */
-function viewLog(){
-  const wins = LOG.filter(b=>b.result==="W").length;
-  const losses = LOG.filter(b=>b.result==="L").length;
-  const total = wins + losses;
-  const winRate = total>0 ? Math.round((wins/total)*100) : 0;
-  const net = LOG.reduce((s,b)=> s + (b.result==="W"? b.stake*(b.odds-1) : b.result==="L"? -b.stake : 0), 0);
-
-  return `
-  <div class="tracker-container">
-    <div class="perf-header">
-      <h2>Pronósticos Guardados</h2>
-      <p>Tus picks, tu historial y tu rendimiento real</p>
-    </div>
-
-    <div class="perf-card">
-      <div class="perf-stat-row">
-        <div>
-          <small class="eyebrow">Efectividad</small>
-          <div class="perf-big-pct">${winRate}%</div>
-        </div>
-        <div style="text-align:right">
-          <small class="eyebrow">Balance Neto</small>
-          <div class="num" style="font-size:20px;font-weight:700;color:${net>=0?"var(--mint)":"var(--coral)"}">${net>=0?"+":""}${mny(net)}</div>
-        </div>
-      </div>
-
-      <div class="perf-boxes">
-        <div class="perf-box"><small>Aciertos</small><b class="win">${wins}</b></div>
-        <div class="perf-box"><small>Fallos</small><b class="loss">${losses}</b></div>
-      </div>
-    </div>
-
-    <div class="filter-pills">
-      <button class="chip ${VIEW.perfFilter==="todos"?"on":""}" data-perff="todos">Todos (${LOG.length})</button>
-      <button class="chip ${VIEW.perfFilter==="P"?"on":""}" data-perff="P">Pendientes</button>
-      <button class="chip ${VIEW.perfFilter==="W"?"on":""}" data-perff="W">Acertados</button>
-      <button class="chip ${VIEW.perfFilter==="L"?"on":""}" data-perff="L">Fallidos</button>
-    </div>
-
-    ${LOG.length? LOG.slice().reverse().map(b=>`
-    <div class="match-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <span style="font-size:14px;font-weight:700">${esc(b.label)}</span>
-        <span class="num" style="font-size:15px;font-weight:600;color:var(--mint)">@${b.odds.toFixed(2)}</span>
-      </div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${esc(b.match)} · Stake ${mny(b.stake)}</div>
-      <div style="display:flex;gap:6px">
-        <button class="chip ${b.result==="W"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="W">✓ Acertada</button>
-        <button class="chip ${b.result==="L"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="L">✕ Fallida</button>
-        <button class="chip ${b.result==="P"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="P">⏳ Pendiente</button>
-      </div>
-    </div>`).join("") : `
-      <div class="empty-state">
-        <div class="empty-state-icon">📋</div>
-        <h3>No tienes pronósticos guardados</h3>
-        <p>Cuando encuentres un pick de valor en un partido, guardalo para seguir tu historial.</p>
-      </div>`}
-  </div>`;
-}
-
-/* 5. Vista de Combinadas */
-function viewCombo(){
-  return `
-  <div class="wrap">
-    <div class="perf-header">
-      <h2>Armador de Combinadas</h2>
-      <p>Calcula la probabilidad conjunta real sin trampas de correlación</p>
-    </div>
-    <div class="empty-state">
-      <div class="empty-state-icon">⚡</div>
-      <h3>Combinadas Inteligentes</h3>
-      <p>Cargá cuotas en los partidos del día para armar combinadas que tengan valor esperado real.</p>
-    </div>
-  </div>`;
-}
-
 /* 6. Vista de Ajustes */
 function viewSettings(){
   return `
@@ -1052,8 +1300,8 @@ function viewSettings(){
       <div style="margin-bottom:14px">
         <label class="eyebrow" style="display:block;margin-bottom:6px">Umbral Mínimo de Ventaja (EV)</label>
         <select class="odds-input" style="width:100%;text-align:left" id="s-ev">
-          <option value="0.02" ${S.minEv==0.02?"selected":""}>2% (Más jugadas)</option>
-          <option value="0.04" ${S.minEv==0.04?"selected":""}>4% (Recomendado)</option>
+          <option value="0.02" ${S.minEv==0.02?"selected":""}>2% (Más oportunidades)</option>
+          <option value="0.04" ${S.minEv==0.04?"selected":""}>4% (Recomendado estándar)</option>
           <option value="0.08" ${S.minEv==0.08?"selected":""}>8% (Ultra selectivo)</option>
         </select>
       </div>
@@ -1062,7 +1310,7 @@ function viewSettings(){
   </div>`;
 }
 
-/* ── Utilidades de Ayuda ── */
+/* ── Utilidades ── */
 const esc = s => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const mny = n => "$" + Math.round(n).toLocaleString("es-AR");
 const crest = (url, size="") => url ? `<img class="crest ${size}" src="${url}" alt="" loading="lazy" onerror="this.style.display='none'">` : "";
@@ -1077,7 +1325,7 @@ function agruparPorComp(rows){
   return out;
 }
 
-/* ── Render y Enrutamiento ── */
+/* ── Render y Navegación ── */
 function render(){
   const app = document.getElementById("app");
   if(VIEW.matchId) {
@@ -1095,7 +1343,7 @@ function render(){
   window.scrollTo(0,0);
 }
 
-/* ── Delegación de Eventos ── */
+/* ── Eventos ── */
 document.addEventListener("click", e => {
   const navBtn = e.target.closest("nav.bottom-nav button");
   if(navBtn){
@@ -1124,9 +1372,19 @@ document.addEventListener("click", e => {
     VIEW.subtab = subtabBtn.dataset.subtab;
     render(); return;
   }
+  const mktCatBtn = e.target.closest("[data-mktcat]");
+  if(mktCatBtn){
+    VIEW.mktCategory = mktCatBtn.dataset.mktcat;
+    render(); return;
+  }
   const filterBtn = e.target.closest("[data-f]");
   if(filterBtn){
     VIEW.filter = filterBtn.dataset.f;
+    render(); return;
+  }
+  const perffBtn = e.target.closest("[data-perff]");
+  if(perffBtn){
+    VIEW.perfFilter = perffBtn.dataset.perff;
     render(); return;
   }
   const compClose = e.target.closest("[data-compclose]");
@@ -1146,12 +1404,56 @@ document.addEventListener("click", e => {
     if(METHOD_STEP > 0) { METHOD_STEP--; render(); }
     return;
   }
+  const savePick = e.target.closest("[data-savepick]");
+  if(savePick){
+    const [mid, mktId, label, odds, stake, evVal] = savePick.dataset.savepick.split("|");
+    const m = MATCHES.find(x=>x.id===mid);
+    LOG.push({
+      id: "bet_" + Date.now(),
+      matchId: mid,
+      match: m ? `${m.home} vs ${m.away}` : "Partido",
+      label,
+      odds: parseFloat(odds),
+      stake: parseFloat(stake),
+      ev: parseFloat(evVal),
+      closing: null,
+      result: "P",
+      date: new Date().toISOString().slice(0,10)
+    });
+    store.set("log", LOG);
+    savePick.innerText = "✓ ¡Guardado en Historial!";
+    setTimeout(()=>{ VIEW.tab = "registro"; VIEW.matchId = null; render(); }, 600);
+    return;
+  }
   const resBtn = e.target.closest("[data-res]");
   if(resBtn){
     const id = resBtn.dataset.res, v = resBtn.dataset.v;
     const item = LOG.find(x=>x.id===id);
     if(item){ item.result = v; store.set("log", LOG); render(); }
     return;
+  }
+  const legPick = e.target.closest("[data-legpick]");
+  if(legPick){
+    const [matchId, marketId] = legPick.dataset.legpick.split("|");
+    const idx = COMBO.findIndex(c=>c.matchId===matchId && c.marketId===marketId);
+    if(idx>=0) COMBO.splice(idx,1);
+    else COMBO.push({matchId, marketId});
+    store.set("combo", COMBO);
+    render(); return;
+  }
+  const comboClear = e.target.closest("[data-combo-clear]");
+  if(comboClear){
+    COMBO = []; store.set("combo", COMBO); render(); return;
+  }
+  const saveSetBtn = e.target.closest("#saveSettings");
+  if(saveSetBtn){
+    const b = parseFloat(document.getElementById("s-bank").value);
+    const evTh = parseFloat(document.getElementById("s-ev").value);
+    if(!isNaN(b) && b>0) S.bank = b;
+    if(!isNaN(evTh)) S.minEv = evTh;
+    store.set("settings", S);
+    alert("¡Ajustes guardados correctamente!");
+    VIEW.tab = "fecha"; render(); return;
   }
 });
 
@@ -1162,6 +1464,15 @@ document.addEventListener("input", e => {
     ODDS[mid+"__"+mktId] = (!isNaN(v) && v>1) ? v : null;
     store.set("odds", ODDS);
   }
+  if(e.target.dataset.close){
+    const id = e.target.dataset.close;
+    const v = parseFloat(e.target.value);
+    const item = LOG.find(x=>x.id===id);
+    if(item){
+      item.closing = (!isNaN(v) && v>1) ? v : null;
+      store.set("log", LOG);
+    }
+  }
 });
 
 /* ── Arranque ── */
@@ -1169,6 +1480,7 @@ document.addEventListener("input", e => {
   S = (await store.get("settings")) || S;
   ODDS = (await store.get("odds")) || {};
   LOG = (await store.get("log")) || [];
+  COMBO = (await store.get("combo")) || [];
 
   try{
     const r = await fetch("data/partidos.json?t="+Date.now());

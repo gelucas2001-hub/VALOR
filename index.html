@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ─────────────────────────────────────────────────────────
-   VALOR — Sistema de Diseño: Asesor Inteligente de Apuestas
+   VALOR — Sistema de Diseño: Asesor Inteligente (Élite)
    Alineado con frontend-design, emil-design-eng y copywriting
    ───────────────────────────────────────────────────────── */
 :root {
@@ -119,7 +119,16 @@ header.top {
   border: 1px solid rgba(0, 229, 153, 0.25);
 }
 
-/* ── Tira de Días ── */
+/* ── Transición de Pantalla Suave ── */
+#app {
+  animation: appFade .15s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+@keyframes appFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Tira de Días Dinámica ── */
 .days { display: flex; gap: 8px; overflow-x: auto; padding: 14px var(--pad) 6px; scrollbar-width: none; }
 .days::-webkit-scrollbar { display: none; }
 .day {
@@ -183,7 +192,7 @@ header.top {
   border-top: 1px solid var(--border-soft); padding-top: 10px; margin: 0;
 }
 
-/* ── Barra Resumen / Métricas Rápidas ── */
+/* ── Barra Resumen ── */
 .ledger-grid {
   margin: 12px var(--pad) 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
 }
@@ -255,6 +264,15 @@ header.top {
 .crest { width: 26px; height: 26px; object-fit: contain; flex: 0 0 auto; }
 .crest.lg { width: 48px; height: 48px; }
 .crest.sm { width: 18px; height: 18px; }
+.crest-fallback {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: var(--text-muted);
+  font-family: var(--font-mono); flex: 0 0 auto;
+}
+.crest-fallback.lg { width: 48px; height: 48px; font-size: 14px; }
+.crest-fallback.sm { width: 18px; height: 18px; font-size: 8.5px; }
 
 /* ── Vista Detalle de Partido ── */
 .detail-header {
@@ -320,7 +338,7 @@ header.top {
 .argument-box h4 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
 .argument-box p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--text-main); }
 
-/* ── Carga Rápida de Cuotas (1X2 + Principales) ── */
+/* ── Carga Rápida de Cuotas ── */
 .quick-odds-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
   margin: 12px 0 16px;
@@ -361,16 +379,22 @@ header.top {
 .mkt-cat-chip.on { background: var(--mint-wash); color: var(--mint); border-color: rgba(0, 229, 153, 0.4); }
 
 .market-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
   padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--r-md); margin-bottom: 8px;
 }
 .odds-input {
-  width: 86px; background: var(--bg-input); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 8px 10px; font-family: var(--font-mono);
+  width: 80px; background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 8px 8px; font-family: var(--font-mono);
   font-size: 15px; font-weight: 700; text-align: center; color: var(--text-main);
 }
 .odds-input:focus { outline: none; border-color: var(--mint); box-shadow: var(--ring); }
+.btn-star-save {
+  padding: 8px; border-radius: var(--r-sm); background: var(--bg-input);
+  border: 1px solid var(--border); color: var(--text-muted); font-size: 14px;
+  display: grid; place-items: center; transition: all 120ms ease;
+}
+.btn-star-save:active { transform: scale(0.92); color: var(--gold); }
 
 /* ── Círculos de Forma Reciente ── */
 .form-badge {
@@ -413,7 +437,7 @@ header.top {
   flex: 0 0 auto; margin-top: 2px;
 }
 
-/* ── Pestaña de Rendimiento Completa (Con Sparkline + CLV) ── */
+/* ── Pestaña de Rendimiento Completa (Con Sparkline + CLV Tracker) ── */
 .tracker-container { padding: 14px var(--pad) 0; }
 .perf-header { margin-bottom: 14px; }
 .perf-header h2 { margin: 0; font-size: 22px; font-variation-settings: "wght" 800; }
@@ -492,17 +516,6 @@ nav.bottom-nav span { font-size: 10px; letter-spacing: .04em; font-weight: 600; 
 }
 .empty-state h3 { margin: 0 0 6px; font-size: 16px; color: var(--text-main); font-variation-settings: "wght" 700; }
 .empty-state p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
-
-/* Animaciones */
-@media (prefers-reduced-motion: no-preference) {
-  .hero-pick, .match-card, .verdict-card, .method-card, .perf-card {
-    animation: fadeInSlide .28s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-  }
-  @keyframes fadeInSlide {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-}
 </style>
 </head>
 <body>
@@ -649,15 +662,20 @@ function kellyFracFor(c){
   return {f:0.005, name:"Monto fijo 0.5%"};
 }
 
+/* Hard cap de 4% de bankroll por apuesta individual */
 function evaluate(mkts, S, m){
   const conf = m?.conf ?? 65;
   const kf = kellyFracFor(conf);
+  const maxStakePct = 0.04; 
+
   return mkts.map(x=>{
     const o = ODDS[m?.id+"__"+x.id];
     if(!o || o<=1) return {...x, o:null, e:null, stake:0};
     const e = x.push ? (x.p*(o-1) - (1-x.p-x.push)) : ev(x.p, o);
     const k = kelly(x.p, o);
-    const stake = e>=S.minEv ? Math.round(S.bank * k * kf.f) : 0;
+    const rawStake = Math.round(S.bank * k * kf.f);
+    const maxStake = Math.round(S.bank * maxStakePct);
+    const stake = e>=S.minEv ? Math.min(rawStake, maxStake) : 0;
     return {...x, o, e, stake, k, solid: e>=S.minEv};
   });
 }
@@ -670,7 +688,7 @@ function model(m){
   return {M, mkts, raw};
 }
 
-/* ── Proyecciones Fuertes del Modelo (Siempre disponibles) ── */
+/* ── Proyecciones Fuertes del Modelo ── */
 function getTopModelProjections(m, mkts){
   const valid = mkts.filter(x=>x.p>=0.35 && !x.id.startsWith("Marcador|"));
   valid.sort((a,b)=>b.p-a.p);
@@ -683,29 +701,41 @@ function generarArgumento(m, best, topProj){
   if(an?.veredicto) return an.veredicto;
 
   if(best && best.e !== null && best.e >= S.minEv) {
-    return `El modelo detecta una ventaja del +${Math.round(best.e*100)}% en "${best.label}". La probabilidad estadística calculada es del ${Math.round(best.p*100)}% frente a una cuota justa de @${fair(best.p).toFixed(2)}, superando lo ofrecido por la casa de apuestas.`;
+    return `El modelo detecta una ventaja del +${Math.round(best.e*100)}% en "${best.label}". La probabilidad calculada es del ${Math.round(best.p*100)}% frente a una cuota justa de @${fair(best.p).toFixed(2)}, superando lo ofrecido por el mercado.`;
   }
   
   if(topProj && topProj.length) {
     const p1 = topProj[0];
-    return `El modelo proyecta a ${m.home} con un xG de ${m.lh.toFixed(1)} y a ${m.away} con ${m.la.toFixed(1)}. La tendencia más sólida según las probabilidades es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad estimada · cuota justa @${fair(p1.p).toFixed(2)}).`;
+    return `El modelo proyecta a ${m.home} con un xG de ${m.lh.toFixed(1)} y a ${m.away} con ${m.la.toFixed(1)}. La tendencia principal según el modelo es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad estimada · cuota justa @${fair(p1.p).toFixed(2)}).`;
   }
 
   return `Partido por ${m.comp}. El modelo estima un promedio de ${m.lh.toFixed(1)} goles para ${m.home} y ${m.la.toFixed(1)} para ${m.away}. Ingresá las cuotas para evaluar ventaja.`;
+}
+
+/* ── Tira de Fechas Dinámica ── */
+function getMatchDays() {
+  const dates = [...new Set(MATCHES.map(m=>m.date))].sort();
+  if(!dates.length) {
+    const hoy = new Date().toISOString().slice(0,10);
+    return [{ iso: hoy, n: new Date().getDate(), w: "hoy", has: false }];
+  }
+  return dates.map(iso=>{
+    const [y,m,d] = iso.split("-").map(Number);
+    const dt = new Date(y, m-1, d, 12, 0, 0);
+    const w = ["dom","lun","mar","mié","jue","vie","sáb"][dt.getDay()];
+    return { iso, n: d, w, has: true };
+  });
 }
 
 /* ── VISTAS ── */
 
 /* 1. Vista Partidos */
 function viewDay(){
-  const days=[]; const base=new Date((MATCHES[0]?.date||VIEW.day)+"T12:00:00");
-  for(let i=0;i<7;i++){
-    const d=new Date(base); d.setDate(base.getDate()+i);
-    const iso=d.toISOString().slice(0,10);
-    days.push({iso, n:d.getDate(),
-      w:["dom","lun","mar","mié","jue","vie","sáb"][d.getDay()],
-      has: MATCHES.some(m=>m.date===iso)});
+  const days = getMatchDays();
+  if(!VIEW.day || !days.some(d=>d.iso===VIEW.day)) {
+    VIEW.day = days[0]?.iso || new Date().toISOString().slice(0,10);
   }
+
   const todays = MATCHES.filter(m=>m.date===VIEW.day);
   const rows = todays.map(m=>{
     const {mkts}=model(m);
@@ -718,7 +748,6 @@ function viewDay(){
   const avg = withVal.length ? withVal.reduce((s,r)=>s+r.best.e,0)/withVal.length : 0;
   const tot = withVal.reduce((s,r)=>s+(r.best.stake||0),0);
   
-  // Pick del Día
   const topDelDia = withVal.length ? withVal.slice().sort((a,b)=>b.best.e-a.best.e)[0] : (rows[0]||null);
 
   return `
@@ -736,9 +765,9 @@ function viewDay(){
       </span>
     </div>
     <div class="hero-matchup">
-      ${crest(topDelDia.m.homeLogo,"sm")} <span>${esc(topDelDia.m.home)}</span>
+      ${crest(topDelDia.m.homeLogo, topDelDia.m.home, "sm")} <span>${esc(topDelDia.m.home)}</span>
       <em>vs</em>
-      <span>${esc(topDelDia.m.away)}</span> ${crest(topDelDia.m.awayLogo,"sm")}
+      <span>${esc(topDelDia.m.away)}</span> ${crest(topDelDia.m.awayLogo, topDelDia.m.away, "sm")}
     </div>
     <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Cargar cuotas")}</div>
     <div class="hero-stats-grid">
@@ -766,7 +795,7 @@ function viewDay(){
     return `
     <div style="margin-bottom:8px">
       <button class="comp-header" data-compclose="${key}">
-        <span style="display:flex;align-items:center;gap:8px">${crest(g.rows[0].m.compLogo,"sm")}${esc(g.comp)}</span>
+        <span style="display:flex;align-items:center;gap:8px">${crest(g.rows[0].m.compLogo, g.comp, "sm")}${esc(g.comp)}</span>
         <span class="eyebrow">${g.rows.length} partidos</span>
       </button>
       ${open? g.rows.map(r=>matchCard(r)).join("") : ""}
@@ -791,11 +820,11 @@ function matchCard({m,best,topProj}){
     </div>
     <div class="match-teams">
       <div class="team-row">
-        <div class="team-info">${crest(m.homeLogo)}${esc(m.home)}</div>
+        <div class="team-info">${crest(m.homeLogo, m.home)}${esc(m.home)}</div>
         <span class="team-xg">xG ${m.lh.toFixed(1)}</span>
       </div>
       <div class="team-row">
-        <div class="team-info">${crest(m.awayLogo)}${esc(m.away)}</div>
+        <div class="team-info">${crest(m.awayLogo, m.away)}${esc(m.away)}</div>
         <span class="team-xg">xG ${m.la.toFixed(1)}</span>
       </div>
     </div>
@@ -818,9 +847,9 @@ function viewMatch(id){
   <div class="detail-header">
     <button class="btn-back" data-back>← Volver a Partidos</button>
     <div class="matchup-hero">
-      <div class="matchup-team">${crest(m.homeLogo,"lg")}<span>${esc(m.home)}</span><small class="num" style="color:var(--text-muted)">xG ${m.lh.toFixed(1)}</small></div>
+      <div class="matchup-team">${crest(m.homeLogo, m.home, "lg")}<span>${esc(m.home)}</span><small class="num" style="color:var(--text-muted)">xG ${m.lh.toFixed(1)}</small></div>
       <div class="matchup-vs">VS</div>
-      <div class="matchup-team">${crest(m.awayLogo,"lg")}<span>${esc(m.away)}</span><small class="num" style="color:var(--text-muted)">xG ${m.la.toFixed(1)}</small></div>
+      <div class="matchup-team">${crest(m.awayLogo, m.away, "lg")}<span>${esc(m.away)}</span><small class="num" style="color:var(--text-muted)">xG ${m.la.toFixed(1)}</small></div>
     </div>
   </div>
 
@@ -912,18 +941,25 @@ function tabMercados(m, mkts){
   </div>
 
   <div style="margin-top:8px">
-    ${filtered.map(x=>`
-    <div class="market-row">
-      <div style="flex:1">
-        <div style="font-size:13.5px;font-weight:700">${esc(x.label)}</div>
-        <div class="num" style="font-size:11.5px;color:var(--text-muted);margin-top:2px">
-          Prob: ${Math.round(x.p*100)}% · Cuota Justa: <b style="color:var(--text-main)">@${fair(x.p).toFixed(2)}</b>
-          ${x.e!==null?` · <b style="color:${x.e>0?"var(--mint)":"var(--coral)"}">EV ${x.e>0?"+":""}${Math.round(x.e*100)}%</b>`:""}
+    ${filtered.map(x=>{
+      const isSaved = LOG.some(b=>b.matchId===m.id && b.marketId===x.id);
+      return `
+      <div class="market-row">
+        <div style="flex:1">
+          <div style="font-size:13.5px;font-weight:700">${esc(x.label)}</div>
+          <div class="num" style="font-size:11.5px;color:var(--text-muted);margin-top:2px">
+            Prob: ${Math.round(x.p*100)}% · Cuota Justa: <b style="color:var(--text-main)">@${fair(x.p).toFixed(2)}</b>
+            ${x.e!==null?` · <b style="color:${x.e>0?"var(--mint)":"var(--coral)"}">EV ${x.e>0?"+":""}${Math.round(x.e*100)}%</b>`:""}
+          </div>
         </div>
-      </div>
-      <input class="odds-input" type="number" step="0.01" min="1.01" inputmode="decimal"
-             placeholder="—" value="${x.o||""}" data-odds="${x.id}" data-m="${m.id}">
-    </div>`).join("")}
+        <input class="odds-input" type="number" step="0.01" min="1.01" inputmode="decimal"
+               placeholder="—" value="${x.o||""}" data-odds="${x.id}" data-m="${m.id}">
+        <button class="btn-star-save ${isSaved?"on":""}" title="Guardar en mi Historial"
+                data-savepick="${m.id}|${x.id}|${x.label}|${x.o||fair(x.p).toFixed(2)}|${x.stake||Math.round(S.bank*0.01)}|${x.e||0}">
+          ${isSaved?"⭐":"☆"}
+        </button>
+      </div>`;
+    }).join("")}
   </div>`;
 }
 
@@ -965,11 +1001,10 @@ function tabAnalisis(m, topProj){
 
 /* Subpestaña Estadísticas & Forma */
 function tabDatos(m){
-  const eqH = EQUIPOS[m.homeId], eqA = EQUIPOS[m.awayId];
   return `
   <div class="perf-card">
     <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
-      ${crest(m.homeLogo,"sm")} Forma Reciente de ${esc(m.home)}
+      ${crest(m.homeLogo, m.home, "sm")} Forma Reciente de ${esc(m.home)}
     </h3>
     <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
       ${m.formH?.length ? m.formH.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
@@ -983,7 +1018,7 @@ function tabDatos(m){
 
   <div class="perf-card">
     <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
-      ${crest(m.awayLogo,"sm")} Forma Reciente de ${esc(m.away)}
+      ${crest(m.awayLogo, m.away, "sm")} Forma Reciente de ${esc(m.away)}
     </h3>
     <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
       ${m.formA?.length ? m.formA.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
@@ -1024,7 +1059,7 @@ function tabModelo(m, M, mkts){
   </div>`;
 }
 
-/* 3. Vista de Rendimiento Completa (Con Sparkline + CLV Tracker) */
+/* 3. Vista de Rendimiento Completa */
 function viewLog(){
   const done = LOG.filter(b=>b.result==="W"||b.result==="L");
   const staked = done.reduce((s,b)=>s+b.stake,0);
@@ -1107,7 +1142,7 @@ function viewLog(){
 
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <input class="odds-input" style="width:100%;text-align:left;font-size:12px;padding:6px 10px"
-               type="number" step="0.01" placeholder="Cuota de cierre (para medir CLV)"
+               type="number" step="0.01" inputmode="decimal" placeholder="Cuota de cierre (para medir CLV)"
                value="${b.closing||""}" data-close="${b.id}">
       </div>
 
@@ -1298,7 +1333,7 @@ function viewSettings(){
         <input class="odds-input" style="width:100%;text-align:left" type="number" id="s-bank" value="${S.bank}">
       </div>
       <div style="margin-bottom:14px">
-        <label class="eyebrow" style="display:block;margin-bottom:6px">Umbral Mínimo de Ventaja (EV)</label>
+        <label class="eyebrow" style="display:block;margin-bottom:6px">Exigencia de Valor Mínimo</label>
         <select class="odds-input" style="width:100%;text-align:left" id="s-ev">
           <option value="0.02" ${S.minEv==0.02?"selected":""}>2% (Más oportunidades)</option>
           <option value="0.04" ${S.minEv==0.04?"selected":""}>4% (Recomendado estándar)</option>
@@ -1313,7 +1348,11 @@ function viewSettings(){
 /* ── Utilidades ── */
 const esc = s => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const mny = n => "$" + Math.round(n).toLocaleString("es-AR");
-const crest = (url, size="") => url ? `<img class="crest ${size}" src="${url}" alt="" loading="lazy" onerror="this.style.display='none'">` : "";
+const crest = (url, name="", size="") => {
+  const initials = (name || "EQ").slice(0,3).toUpperCase();
+  if(!url) return `<span class="crest-fallback ${size}">${initials}</span>`;
+  return `<img class="crest ${size}" src="${url}" alt="${esc(name)}" loading="lazy" onerror="this.outerHTML='<span class=\\'crest-fallback ${size}\\'>${initials}</span>'">`;
+};
 
 const ORDEN_COMP = ["Liga Profesional Argentina","CONMEBOL Libertadores","CONMEBOL Sudamericana","Copa Argentina"];
 function agruparPorComp(rows){
@@ -1343,6 +1382,38 @@ function render(){
   window.scrollTo(0,0);
 }
 
+/* ── Actualización Reactiva de Veredicto en Detalle ── */
+function refreshVerdictIfActive(){
+  if(!VIEW.matchId) return;
+  const m = MATCHES.find(x=>x.id===VIEW.matchId); if(!m) return;
+  const {mkts} = model(m);
+  const best = mkts.find(x=>x.e!==null && x.e>=S.minEv && x.o<=S.maxOdds) || null;
+  const topProj = getTopModelProjections(m, mkts);
+  const val = best !== null;
+
+  const card = document.querySelector(".verdict-card");
+  if(card){
+    card.className = `verdict-card ${val?"val":""}`;
+    const pill = card.querySelector(".verdict-pill");
+    if(pill){
+      pill.className = `verdict-pill ${val?"gold":best?.e<=0?"coral":"mint"}`;
+      pill.textContent = val ? "✨ PICK DE VALOR DETECTADO" : best?.e<=0 ? "⚠️ SIN VENTAJA MATEMÁTICA" : "🎯 PROYECCIÓN PRINCIPAL DEL MODELO";
+    }
+    const title = card.querySelector(".verdict-title");
+    if(title) title.textContent = best ? best.label : topProj[0]?.label || "Cargar cuota";
+    
+    const grid = card.querySelector(".verdict-grid");
+    if(grid){
+      grid.innerHTML = `
+        <div class="verdict-cell"><small>Tu Cuota</small><b class="green">${best?`@${best.o.toFixed(2)}`:"—"}</b></div>
+        <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+        <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
+        <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"green":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
+      `;
+    }
+  }
+}
+
 /* ── Eventos ── */
 document.addEventListener("click", e => {
   const navBtn = e.target.closest("nav.bottom-nav button");
@@ -1357,7 +1428,7 @@ document.addEventListener("click", e => {
     render(); return;
   }
   const matchCard = e.target.closest("[data-match]");
-  if(matchCard && !e.target.closest("input")){
+  if(matchCard && !e.target.closest("input") && !e.target.closest("button")){
     VIEW.matchId = matchCard.dataset.match;
     VIEW.subtab = "mercados";
     render(); return;
@@ -1411,18 +1482,19 @@ document.addEventListener("click", e => {
     LOG.push({
       id: "bet_" + Date.now(),
       matchId: mid,
+      marketId: mktId,
       match: m ? `${m.home} vs ${m.away}` : "Partido",
       label,
       odds: parseFloat(odds),
-      stake: parseFloat(stake),
-      ev: parseFloat(evVal),
+      stake: parseFloat(stake) || Math.round(S.bank * 0.01),
+      ev: parseFloat(evVal) || 0,
       closing: null,
       result: "P",
       date: new Date().toISOString().slice(0,10)
     });
     store.set("log", LOG);
     savePick.innerText = "✓ ¡Guardado en Historial!";
-    setTimeout(()=>{ VIEW.tab = "registro"; VIEW.matchId = null; render(); }, 600);
+    setTimeout(()=>{ VIEW.tab = "registro"; VIEW.matchId = null; render(); }, 500);
     return;
   }
   const resBtn = e.target.closest("[data-res]");
@@ -1463,6 +1535,7 @@ document.addEventListener("input", e => {
     const v = parseFloat(e.target.value);
     ODDS[mid+"__"+mktId] = (!isNaN(v) && v>1) ? v : null;
     store.set("odds", ODDS);
+    refreshVerdictIfActive();
   }
   if(e.target.dataset.close){
     const id = e.target.dataset.close;

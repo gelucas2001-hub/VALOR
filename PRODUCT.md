@@ -28,8 +28,8 @@ Un **copiloto analítico de decisiones, no una calculadora árida ni un canal de
 ## Operating Context
 
 - Pipeline diario (`actualizar.py`): extrae fixtures, resultados, tablas y estadísticas disciplinarias (córners, tarjetas, faltas) desde la API pública de ESPN y genera `data/partidos.json` y `data/tablas.json`.
-- Cuotas de mercado: el sistema precarga cuotas base de referencia para recomendaciones instantáneas, permitiendo ingresar cuotas personalizadas de casas locales (Betsson, Betano, etc.) con recálculo dinámico en vivo.
-- Frontend (`index.html`): Progressive Web App (PWA) de archivo único, instalable en dispositivos móviles con identidad visual exclusiva (Obsidian Navy `#070B14` y Electric Cyan `#00D2FF`), navegación táctil flotante y cumplimiento estricto de las directivas de diseño de **Impeccable**.
+- Regla de Cuota Mínima Objetivo: el sistema calcula automáticamente la cuota umbral de entrada rentable ($\ge (1 + E_{min}) / p$) para cada mercado, permitiendo al usuario saber de inmediato a partir de qué número apostar en su bookie (Bet365, Betano, etc.) sin obligarlo a tipear cuotas a mano.
+- Frontend (`index.html`): Progressive Web App (PWA) de archivo único, instalable en móviles y con layout adaptativo multipanel para desktop (Obsidian Navy `#070B14`, Electric Cyan `#00D2FF` y Emerald Titanium `#10B981`), navegación táctil flotante y cumplimiento estricto de las directivas de diseño de **Impeccable**.
 
 ## Capabilities and Constraints
 

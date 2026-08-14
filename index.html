@@ -506,6 +506,44 @@ header.top {
   background: var(--cyan);
   border-color: var(--cyan);
   font-weight: 800;
+.odds-target-rule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin: 5px 0 6px;
+}
+.odds-trigger-badge {
+  font-size: 11px;
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  background: var(--cyan-wash);
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 210, 255, 0.28);
+  font-weight: 700;
+}
+.btn-card-combo {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: var(--r-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 120ms ease;
+  min-height: 26px;
+  cursor: pointer;
+}
+.btn-card-combo:active { transform: scale(0.92); }
+.btn-card-combo.on {
+  background: var(--cyan);
+  color: #03131F;
+  border-color: var(--cyan);
+  font-weight: 800;
 }
 
 /* ── Físicas de Micro-Animación & Delight ── */
@@ -927,9 +965,10 @@ function matrix(lh,la,rho,max=9){
 const sumIf = (m,f) => { let s=0; for(let i=0;i<m.length;i++) for(let j=0;j<m.length;j++) if(f(i,j)) s+=m[i][j]; return s; };
 
 /* ── Finanzas y Valor Esperado ── */
-const ev      = (p,o) => p*o - 1;
-const fair    = p => p>0 ? 1/p : Infinity;
-const kelly   = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
+const ev            = (p,o) => p*o - 1;
+const fair          = p => p>0 ? 1/p : Infinity;
+const minTargetOdds = (p, minEv = (S?.minEv||0.05)) => p>0 ? (1 + minEv)/p : Infinity;
+const kelly         = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
 
 function derive(M,cfg){
   const ht = matrix(cfg.lh*0.45, cfg.la*0.45, cfg.rho, 6);
@@ -1076,7 +1115,8 @@ function generarArgumento(m, best, topProj){
   
   if(topProj && topProj.length) {
     const p1 = topProj[0];
-    return `El modelo proyecta a ${m.home} con ${m.lh.toFixed(1)} xG y a ${m.away} con ${m.la.toFixed(1)} xG. La jugada principal recomendada es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad · cuota justa @${fair(p1.p).toFixed(2)}).`;
+    const targetMin = minTargetOdds(p1.p).toFixed(2);
+    return `El modelo proyecta a ${m.home} con ${m.lh.toFixed(1)} xG y a ${m.away} con ${m.la.toFixed(1)} xG. La jugada recomendada es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad). Conviene apostar si en tu casa de apuestas encontrás una cuota de @${targetMin} o superior.`;
   }
 
   return `Partido por ${m.comp}. Estimamos un promedio de ${m.lh.toFixed(1)} goles para ${m.home} y ${m.la.toFixed(1)} para ${m.away}.`;
@@ -1143,7 +1183,7 @@ function viewDay(){
   </div>
 
   ${topDelDia?`
-  <div class="hero-pick" data-match="${topDelDia.m.id}">
+  <div class="hero-pick" data-id="${topDelDia.m.id}" role="button" tabindex="0">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div class="hero-pick-tag">${topDelDia.best?"✨ Oportunidad Detectada":"🎯 Proyección Destacada"}</div>
       <span class="${topDelDia.best?"val-badge":"badge-rec"}">
@@ -1159,7 +1199,7 @@ function viewDay(){
     <div class="hero-stats-grid">
       <div class="hero-stat"><small>${topDelDia.best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(topDelDia.best?topDelDia.best.o:fair(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
       <div class="hero-stat"><small>Probabilidad</small><b class="green">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
-      <div class="hero-stat"><small>Ventaja</small><b class="${topDelDia.best?"cyan":""}">${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}%`:"Por evaluar"}</b></div>
+      <div class="hero-stat"><small>${topDelDia.best?"Ventaja Real":"Entrar a partir de"}</small><b class="${topDelDia.best?"cyan":""}">${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% EV`:`≥ @${minTargetOdds(topDelDia.topProj[0]?.p||0.5).toFixed(2)}`}</b></div>
     </div>
     <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best, topDelDia.topProj))}</p>
   </div>`:""}
@@ -1199,6 +1239,8 @@ function viewDay(){
 function matchCard({m,best,topProj}){
   const val = best && best.e>=S.minEv;
   const p1 = topProj && topProj[0];
+  const p1MinOdd = p1 ? minTargetOdds(p1.p).toFixed(2) : null;
+  const isCombo = p1 && COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
   return `
   <div class="match-card ${val?"has-val":""}" data-id="${m.id}" role="button" tabindex="0" aria-label="Partido ${esc(m.home)} vs ${esc(m.away)}">
     <div class="match-top">
@@ -1215,9 +1257,23 @@ function matchCard({m,best,topProj}){
         <span class="team-xg">xG ${m.la.toFixed(1)}</span>
       </div>
     </div>
-    <div class="match-footer">
-      <span class="match-pick-label">${best ? esc(best.label) : p1 ? `Cuota justa: @${fair(p1.p).toFixed(2)}` : "Ver opciones"}</span>
-      <span class="match-pick-odds">${best ? `@${best.o.toFixed(2)}` : "Ver partido →"}</span>
+    <div class="match-footer" style="display:flex;justify-content:space-between;align-items:center">
+      <div style="flex:1;overflow:hidden">
+        <span class="match-pick-label" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+          ${best ? esc(best.label) : p1 ? `Entrar si paga: <b>≥ @${p1MinOdd}</b>` : "Ver opciones"}
+        </span>
+        <small style="display:block;font-size:11px;color:var(--text-muted)">Justa: @${p1 ? fair(p1.p).toFixed(2) : "—"}</small>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        ${p1 ? `
+        <button class="btn-card-combo ${isCombo?"on":""}"
+                data-add-combo="${m.id}|${p1.id}|${p1.label}|${p1MinOdd}|${p1.p}"
+                title="${isCombo?"Quitar de combinada":"Sumar a combinada"}"
+                aria-label="${isCombo?"Quitar de combinada":"Sumar a combinada"}">
+          ${isCombo?"✓ En Boleta":"+ Combo"}
+        </button>` : ""}
+        <span class="match-pick-odds">${best ? `@${best.o.toFixed(2)}` : "Ver →"}</span>
+      </div>
     </div>
   </div>`;
 }
@@ -1229,6 +1285,8 @@ function viewMatch(id){
   const best = mkts.find(x=>x.e!==null && x.e>=S.minEv && x.o<=S.maxOdds) || null;
   const topProj = getTopModelProjections(m, mkts);
   const val = best !== null;
+  const p1 = topProj[0] || null;
+  const minOddRecom = p1 ? minTargetOdds(p1.p).toFixed(2) : null;
 
   return `
   <div class="match-detail-layout">
@@ -1250,7 +1308,7 @@ function viewMatch(id){
         <div class="verdict-grid">
           <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
           <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-          <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"Por evaluar"}</b></div>
+          <div class="verdict-cell"><small>${best?"Ventaja Real":"Regla de Entrada"}</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}% EV`:`≥ @${minOddRecom||"1.80"}`}</b></div>
         </div>
         
         <div class="argument-box">
@@ -1265,7 +1323,14 @@ function viewMatch(id){
             <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
           </div>
           <span class="num" style="font-size:20px;font-weight:700;color:var(--cyan)">${mny(best.stake)}</span>
-        </div>`:""}
+        </div>`: (p1 ? `
+        <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:12px 16px;border-radius:var(--r-md);border:1px solid var(--border)">
+          <div>
+            <span style="font-size:12px;color:var(--text-muted);display:block">Asignación sugerida (2% de banca)</span>
+            <span style="font-size:11.5px;color:var(--cyan);font-weight:600">Buscá cuota ≥ @${minOddRecom}</span>
+          </div>
+          <span class="num" style="font-size:18px;font-weight:700;color:var(--text-main)">${mny(Math.round(S.bank * 0.02))}</span>
+        </div>` : "")}
       </div>
     </div>
 
@@ -1294,17 +1359,22 @@ function renderOddsCell(m, x, customTitle=null){
   const isCombo = COMBO.some(c=>c.matchId===m.id && c.marketId===x.id);
   const val = x.e !== null && x.e >= S.minEv;
   const label = customTitle || x.label;
+  const minOdd = minTargetOdds(x.p).toFixed(2);
+  const fairOdd = fair(x.p).toFixed(2);
   return `
   <div class="odds-card-cell ${val?"has-val":""}">
     <button class="cell-combo-btn ${isCombo?"on":""}"
-            data-add-combo="${m.id}|${x.id}|${x.label}|${x.o||fair(x.p).toFixed(2)}|${x.p}"
+            data-add-combo="${m.id}|${x.id}|${x.label}|${x.o||minOdd}|${x.p}"
             title="${isCombo?"Quitar de combinada":"Sumar a combinada"}"
             aria-label="${isCombo?"Quitar "+esc(label)+" de combinada":"Sumar "+esc(label)+" a combinada"}">
       ${isCombo?"✓":"+ Combo"}
     </button>
     <div class="odds-label-name">${esc(label)}</div>
     <div class="odds-prob-badge">${Math.round(x.p*100)}% prob</div>
-    <div class="odds-fair-text">Justa @${fair(x.p).toFixed(2)}</div>
+    <div class="odds-target-rule">
+      <small style="color:var(--text-muted);font-size:10.5px">Justa @${fairOdd}</small>
+      <span class="odds-trigger-badge">Entrar: <b>≥ @${minOdd}</b></span>
+    </div>
     <input class="odds-input-pill" type="number" step="0.01" min="1.01" inputmode="decimal"
            placeholder="Tu Cuota" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}"
            aria-label="Tu cuota para ${esc(label)} en ${esc(m.home)} vs ${esc(m.away)}">
@@ -2051,7 +2121,6 @@ function agruparPorComp(rows){
   return out;
 }
 
-/* ── Actualización Reactiva de Veredicto ── */
 function refreshVerdictIfActive(){
   if(!VIEW.matchId) return;
   const m = MATCHES.find(x=>x.id===VIEW.matchId); if(!m) return;
@@ -2059,6 +2128,8 @@ function refreshVerdictIfActive(){
   const best = mkts.find(x=>x.e!==null && x.e>=S.minEv && x.o<=S.maxOdds) || null;
   const topProj = getTopModelProjections(m, mkts);
   const val = best !== null;
+  const p1 = topProj[0] || null;
+  const minOddRecom = p1 ? minTargetOdds(p1.p).toFixed(2) : "1.80";
 
   const card = document.querySelector(".verdict-card");
   if(card){
@@ -2076,7 +2147,7 @@ function refreshVerdictIfActive(){
       grid.innerHTML = `
         <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
         <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-        <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"Por evaluar"}</b></div>
+        <div class="verdict-cell"><small>${best?"Ventaja Real":"Regla de Entrada"}</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}% EV`:`≥ @${minOddRecom}`}</b></div>
       `;
     }
   }

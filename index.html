@@ -445,26 +445,69 @@ header.top {
   color: var(--text-main);
   transition: all 120ms ease;
 }
+.odds-input-pill {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 4px;
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-main);
+  transition: all 120ms ease;
+}
 .odds-input-pill:focus {
   outline: none;
   border-color: var(--cyan);
   box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.3);
 }
-.cell-combo-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 11px;
-  color: var(--text-subtle);
-  padding: 2px 5px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.04);
+
+.odds-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-main);
   transition: all 120ms ease;
 }
-.cell-combo-btn.on {
-  color: var(--cyan);
-  background: var(--cyan-wash);
+.odds-input:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.25);
 }
+
+.cell-combo-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding: 5px 9px;
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  min-height: 28px;
+  min-width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 120ms ease;
+}
+.cell-combo-btn:active { transform: scale(0.92); }
+.cell-combo-btn.on {
+  color: #03131F;
+  background: var(--cyan);
+  border-color: var(--cyan);
+  font-weight: 800;
+}
+
 .badge-ev {
   display: inline-block;
   font-size: 10px;
@@ -482,9 +525,9 @@ header.top {
   display: flex; gap: 6px; overflow-x: auto; padding: 6px 0 12px; scrollbar-width: none;
 }
 .standings-pill {
-  padding: 6px 14px; border-radius: var(--r-pill); border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: var(--r-pill); border: 1px solid var(--border);
   background: var(--bg-input); font-size: 12px; font-weight: 700; color: var(--text-muted);
-  white-space: nowrap; transition: all 120ms ease;
+  white-space: nowrap; transition: all 120ms ease; min-height: 38px; display: inline-flex; align-items: center;
 }
 .standings-pill.on { background: var(--cyan); color: #03131F; border-color: var(--cyan); }
 
@@ -587,9 +630,53 @@ header.top {
 }
 .btn-save-pick:active { transform: scale(0.97); }
 
+/* ── Toast de Notificaciones y Deshacer ── */
+#toast-container {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + 76px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: calc(100% - 32px);
+  max-width: 480px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--bg-surface);
+  border: 1px solid rgba(0, 210, 255, 0.35);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--text-main);
+  pointer-events: auto;
+  animation: toastIn 0.2s var(--ease-touch) backwards;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.toast-undo-btn {
+  background: var(--cyan-wash);
+  color: var(--cyan);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  font-weight: 700;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+}
+.toast-undo-btn:active { transform: scale(0.95); }
+
 /* ── Barra de Navegación Flotante ── */
 nav.bottom-nav {
-  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + 12px);
+  left: 50%; transform: translateX(-50%);
   max-width: 520px; width: calc(100% - 24px); z-index: 50;
   background: rgba(14, 22, 38, 0.94);
   backdrop-filter: blur(20px);
@@ -606,9 +693,9 @@ nav.bottom-nav button {
 }
 nav.bottom-nav button.on { color: var(--cyan); }
 nav.bottom-nav svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-nav.bottom-nav span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
 
-/* ── Estados Vacíos ── */
+/* ── Estados Vacíos y de Carga ── */
 .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
 .empty-state-icon {
   width: 52px; height: 52px; border-radius: 50%;
@@ -618,6 +705,17 @@ nav.bottom-nav span { font-size: 10px; font-weight: 700; text-transform: upperca
 }
 .empty-state h3 { margin: 0 0 6px; font-size: 16px; color: var(--text-main); font-weight: 700; }
 .empty-state p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+
+.skeleton-box {
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
+  background-size: 200% 100%;
+  animation: skeletonPulse 1.5s infinite;
+  border-radius: var(--r-md);
+}
+@keyframes skeletonPulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 </style>
 </head>
 <body>
@@ -633,6 +731,8 @@ nav.bottom-nav span { font-size: 10px; font-weight: 700; text-transform: upperca
 </header>
 
 <main id="app"></main>
+
+<div id="toast-container"></div>
 
 <nav class="bottom-nav">
   <button data-nav="fecha" class="on" aria-current="page">
@@ -751,6 +851,36 @@ let COMBO = [];
 let TABLAS = {};
 let ANALISIS = {};
 let METHOD_STEP = 0;
+
+let TOAST_TIMER = null;
+let LAST_COMBO_BACKUP = null;
+let BOOT_ERROR = null;
+let IS_BOOTING = true;
+
+function showToast(msg, undoAction = null) {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+  if (TOAST_TIMER) clearTimeout(TOAST_TIMER);
+  
+  container.innerHTML = `
+    <div class="toast">
+      <span>${esc(msg)}</span>
+      ${undoAction ? `<button class="toast-undo-btn" id="toast-undo">Deshacer</button>` : ""}
+    </div>
+  `;
+  if (undoAction) {
+    const btn = document.getElementById("toast-undo");
+    if (btn) {
+      btn.onclick = () => {
+        undoAction();
+        container.innerHTML = "";
+      };
+    }
+  }
+  TOAST_TIMER = setTimeout(() => {
+    container.innerHTML = "";
+  }, 4000);
+}
 
 let VIEW = {
   tab:"fecha",
@@ -1570,18 +1700,18 @@ const METODOS = [
     tags: ["Largo plazo", "Decisiones con ventaja", "Sin azar a ciegas"],
     items: [
       "Buscamos cuando la casa de apuestas se equivoca y paga una cuota alta.",
-      "Apostamos solo cuando el número está a nuestro favor.",
+      "Apostamos solo cuando el número está a nuestro favor (+EV).",
       "Cuidamos el dinero para que una mala racha no nos deje afuera."
     ]
   },
   {
     cat: "GESTIÓN DE DINERO",
-    title: "Cuidá tu saldo",
+    title: "Cuidá tu saldo (Banca)",
     p: "La diferencia entre quien gana y quien pierde en las apuestas suele ser la disciplina con el dinero, no acertar un partido aislado.",
     tags: ["Protección de banca", "Apuestas chicas (1-4%)", "Cero impulsos"],
     items: [
       "No pongas todo tu saldo en una sola jugada.",
-      "Destiná entre el 1% y el 4% de tu saldo por cada oportunidad.",
+      "Destiná entre el 1% y el 4% de tu saldo por cada oportunidad (Criterio de Kelly).",
       "Evita hacer combinadas gigantescas de 8 partidos que casi nunca salen."
     ]
   },
@@ -1629,35 +1759,99 @@ function viewMethod(){
         </button>
       </div>
     </div>
+
+    <div class="eyebrow" style="margin:20px 0 10px">Glosario Rápido de Términos</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="perf-card" style="margin-bottom:0;padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <b style="font-size:14px;color:var(--cyan)">xG (Goles Esperados)</b>
+          <span class="badge-ev pos">Métrica Base</span>
+        </div>
+        <p style="margin:0;font-size:12.5px;color:var(--text-muted);line-height:1.5">
+          Mide la calidad de las ocasiones de gol generadas y concedidas por cada equipo según su posición de remate y contexto histórico.
+        </p>
+      </div>
+
+      <div class="perf-card" style="margin-bottom:0;padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <b style="font-size:14px;color:var(--emerald)">Cuota Justa (Fair Odds)</b>
+          <span class="badge-ev pos">Sin Comisión</span>
+        </div>
+        <p style="margin:0;font-size:12.5px;color:var(--text-muted);line-height:1.5">
+          La probabilidad real convertida en cuota matemática pura (1 / Probabilidad), eliminando el margen de beneficio de la casa.
+        </p>
+      </div>
+
+      <div class="perf-card" style="margin-bottom:0;padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <b style="font-size:14px;color:var(--cyan)">+EV (Valor Esperado)</b>
+          <span class="badge-ev pos">Nuestra Ventaja</span>
+        </div>
+        <p style="margin:0;font-size:12.5px;color:var(--text-muted);line-height:1.5">
+          Aparece cuando la cuota que paga la casa es mayor a la cuota justa calculada. A largo plazo, apostar sistemáticamente a cuotas con +EV es lo que genera rentabilidad.
+        </p>
+      </div>
+    </div>
   </div>`;
 }
 
 /* 6. Vista de Banca / Ajustes */
 function viewSettings(){
+  const sBank = S.bank || 100000;
+  const stake1 = Math.round(sBank * 0.01);
+  const stake2 = Math.round(sBank * 0.02);
+  const stake4 = Math.round(sBank * 0.04);
+
   return `
   <div class="wrap">
     <div class="perf-header">
       <h2>Tu Banca y Preferencias</h2>
-      <p>Configurá tu presupuesto para que el asesor calcule montos exactos</p>
+      <p>Configurá tu presupuesto para que el asesor calcule montos exactos y seguros</p>
     </div>
+    
     <div class="perf-card">
       <div style="margin-bottom:16px">
-        <label class="eyebrow" style="display:block;margin-bottom:6px">Tu Saldo Total ($)</label>
+        <label class="eyebrow" style="display:block;margin-bottom:6px">Tu Saldo Total ($ ARS)</label>
         <input class="odds-input" style="width:100%;text-align:left" type="number" id="s-bank" value="${S.bank}">
-        <small style="font-size:12px;color:var(--text-muted);display:block;margin-top:4px">Usamos esto para sugerirte montos seguros (1-4% por jugada).</small>
+        <small style="font-size:12px;color:var(--text-muted);display:block;margin-top:5px">
+          Usamos este saldo para calcular los montos de Kelly sugeridos en cada partido.
+        </small>
       </div>
+
       <div style="margin-bottom:18px">
-        <label class="eyebrow" style="display:block;margin-bottom:6px">Exigencia de Ventaja</label>
+        <label class="eyebrow" style="display:block;margin-bottom:6px">Filtro de Ventaja Mínima (+EV)</label>
         <select class="odds-input" style="width:100%;text-align:left" id="s-ev">
-          <option value="0.02" ${S.minEv==0.02?"selected":""}>2% (Más partidos sugeridos)</option>
-          <option value="0.04" ${S.minEv==0.04?"selected":""}>4% (Recomendado estándar)</option>
-          <option value="0.08" ${S.minEv==0.08?"selected":""}>8% (Muy selectivo / Solo las mejores)</option>
+          <option value="0.02" ${S.minEv==0.02?"selected":""}>2% · Más partidos sugeridos</option>
+          <option value="0.04" ${S.minEv==0.04?"selected":""}>4% · Recomendado estándar</option>
+          <option value="0.08" ${S.minEv==0.08?"selected":""}>8% · Muy selectivo (Solo oportunidades top)</option>
         </select>
       </div>
+
       <button class="btn-primary" id="saveSettings">
         <span>Guardar Cambios</span>
         <span class="btn-icon-circle">✓</span>
       </button>
+    </div>
+
+    <div class="eyebrow" style="margin:20px 0 10px">Guía de Asignación de Capital</div>
+    <div class="perf-card" style="padding:16px">
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;text-align:center">
+        <div class="perf-box">
+          <small>Stake Bajo (1%)</small>
+          <b style="color:var(--text-main);font-size:14px">${mny(stake1)}</b>
+        </div>
+        <div class="perf-box">
+          <small>Stake Medio (2%)</small>
+          <b style="color:var(--cyan);font-size:14px">${mny(stake2)}</b>
+        </div>
+        <div class="perf-box">
+          <small>Tope Kelly (4%)</small>
+          <b style="color:var(--emerald);font-size:14px">${mny(stake4)}</b>
+        </div>
+      </div>
+      <p style="margin:12px 0 0;font-size:12.5px;color:var(--text-muted);line-height:1.5;text-align:center">
+        🛡️ El modelo nunca te recomendará apostar más del 4% de tu banca en un solo evento para blindar tu capital frente a rachas negativas.
+      </p>
     </div>
   </div>`;
 }
@@ -1709,24 +1903,6 @@ function agruparPorComp(rows){
   return out;
 }
 
-/* ── Render y Navegación ── */
-function render(){
-  const app = document.getElementById("app");
-  if(VIEW.matchId) {
-    app.innerHTML = viewMatch(VIEW.matchId);
-  } else {
-    if(VIEW.tab === "fecha") app.innerHTML = viewDay();
-    if(VIEW.tab === "combo") app.innerHTML = viewCombo();
-    if(VIEW.tab === "registro") app.innerHTML = viewLog();
-    if(VIEW.tab === "metodo") app.innerHTML = viewMethod();
-    if(VIEW.tab === "ajustes") app.innerHTML = viewSettings();
-  }
-  document.querySelectorAll("nav.bottom-nav button").forEach(b=>{
-    b.classList.toggle("on", !VIEW.matchId && b.dataset.nav === VIEW.tab);
-  });
-  window.scrollTo(0,0);
-}
-
 /* ── Actualización Reactiva de Veredicto ── */
 function refreshVerdictIfActive(){
   if(!VIEW.matchId) return;
@@ -1758,7 +1934,55 @@ function refreshVerdictIfActive(){
   }
 }
 
-/* ── Eventos ── */
+/* ── Render y Navegación ── */
+function render(){
+  const app = document.getElementById("app");
+  if(IS_BOOTING) {
+    app.innerHTML = `
+      <div class="wrap" style="padding-top:20px">
+        <div class="skeleton-box" style="height:140px;margin-bottom:14px"></div>
+        <div class="skeleton-box" style="height:50px;margin-bottom:14px"></div>
+        <div class="skeleton-box" style="height:110px;margin-bottom:10px"></div>
+        <div class="skeleton-box" style="height:110px;margin-bottom:10px"></div>
+      </div>
+    `;
+    return;
+  }
+
+  if(BOOT_ERROR) {
+    app.innerHTML = `
+      <div class="wrap" style="padding-top:32px">
+        <div class="perf-card" style="text-align:center;padding:32px 20px">
+          <div class="empty-state-icon" style="color:var(--coral);border-color:rgba(239,68,68,0.3)">⚠️</div>
+          <h3 style="color:var(--text-main);margin-bottom:8px">Error al cargar datos</h3>
+          <p style="color:var(--text-muted);margin-bottom:20px;font-size:13.5px">${esc(BOOT_ERROR)}</p>
+          <button class="btn-primary" id="btn-retry-boot" style="max-width:240px;margin:0 auto;justify-content:center">
+            <span>Reintentar Conexión</span>
+          </button>
+        </div>
+      </div>
+    `;
+    const btnRetry = document.getElementById("btn-retry-boot");
+    if(btnRetry) btnRetry.onclick = () => init();
+    return;
+  }
+
+  if(VIEW.matchId) {
+    app.innerHTML = viewMatch(VIEW.matchId);
+  } else {
+    if(VIEW.tab === "fecha") app.innerHTML = viewDay();
+    if(VIEW.tab === "combo") app.innerHTML = viewCombo();
+    if(VIEW.tab === "registro") app.innerHTML = viewLog();
+    if(VIEW.tab === "metodo") app.innerHTML = viewMethod();
+    if(VIEW.tab === "ajustes") app.innerHTML = viewSettings();
+  }
+  document.querySelectorAll("nav.bottom-nav button").forEach(b=>{
+    b.classList.toggle("on", !VIEW.matchId && b.dataset.nav === VIEW.tab);
+  });
+  window.scrollTo(0,0);
+}
+
+/* ── Eventos Globales Delegados ── */
 document.addEventListener("click", e => {
   const navBtn = e.target.closest("nav.bottom-nav button");
   if(navBtn){
@@ -1766,27 +1990,25 @@ document.addEventListener("click", e => {
     VIEW.matchId = null;
     render(); return;
   }
-  const dayBtn = e.target.closest("[data-day]");
+  const dayBtn = e.target.closest(".day");
   if(dayBtn){
     VIEW.day = dayBtn.getAttribute("data-day") || dayBtn.dataset.day;
     render(); return;
   }
-  const sortBtn = e.target.closest("[data-sort]");
+  const sortBtn = e.target.closest(".sort-btn");
   if(sortBtn){
     VIEW.sortBy = sortBtn.getAttribute("data-sort") || sortBtn.dataset.sort;
     render(); return;
   }
-  const standPill = e.target.closest("[data-setstand]");
-  if(standPill){
-    VIEW.standingsTab = standPill.getAttribute("data-setstand") || standPill.dataset.setstand;
-    render(); return;
+  const matchCard = e.target.closest(".match-card");
+  if(matchCard && !e.target.closest("button") && !e.target.closest("input")){
+    const mid = matchCard.getAttribute("data-id") || matchCard.dataset.id;
+    if(mid) { VIEW.matchId = mid; render(); return; }
   }
-  const matchCard = e.target.closest("[data-match]");
-  if(matchCard && !e.target.closest("input") && !e.target.closest("button")){
-    VIEW.matchId = matchCard.getAttribute("data-match") || matchCard.dataset.match;
-    VIEW.subtab = "mercados";
-    VIEW.standingsTab = "auto";
-    render(); return;
+  const heroPick = e.target.closest(".hero-pick");
+  if(heroPick && !e.target.closest("button")){
+    const mid = heroPick.getAttribute("data-id") || heroPick.dataset.id;
+    if(mid) { VIEW.matchId = mid; render(); return; }
   }
   const backBtn = e.target.closest("[data-back]");
   if(backBtn){
@@ -1796,6 +2018,11 @@ document.addEventListener("click", e => {
   const subtabBtn = e.target.closest("[data-subtab]");
   if(subtabBtn){
     VIEW.subtab = subtabBtn.getAttribute("data-subtab") || subtabBtn.dataset.subtab;
+    render(); return;
+  }
+  const standingsBtn = e.target.closest("[data-standingstab]");
+  if(standingsBtn){
+    VIEW.standingsTab = standingsBtn.getAttribute("data-standingstab") || standingsBtn.dataset.standingstab;
     render(); return;
   }
   const mktCatBtn = e.target.closest("[data-mktcat]");
@@ -1835,6 +2062,7 @@ document.addEventListener("click", e => {
         p: parseFloat(prob)||0.5,
         match: m ? `${m.home} vs ${m.away}` : "Partido"
       });
+      showToast(`+ Sumado a la boleta: ${label}`);
     }
     store.set("combo", COMBO);
     render(); return;
@@ -1849,7 +2077,21 @@ document.addEventListener("click", e => {
   }
   const comboClear = e.target.closest("[data-combo-clear]");
   if(comboClear){
-    COMBO = []; store.set("combo", COMBO); render(); return;
+    if(COMBO.length > 0){
+      LAST_COMBO_BACKUP = [...COMBO];
+      COMBO = [];
+      store.set("combo", COMBO);
+      render();
+      showToast("Boleta de combinadas vaciada", () => {
+        if(LAST_COMBO_BACKUP && LAST_COMBO_BACKUP.length){
+          COMBO = [...LAST_COMBO_BACKUP];
+          store.set("combo", COMBO);
+          render();
+          showToast("✓ Boleta restaurada");
+        }
+      });
+    }
+    return;
   }
   const nextMethod = e.target.closest("[data-method-next]");
   if(nextMethod){
@@ -1882,7 +2124,8 @@ document.addEventListener("click", e => {
     });
     store.set("log", LOG);
     savePick.innerText = "✓ ¡Guardado!";
-    setTimeout(()=>{ VIEW.tab = "registro"; VIEW.matchId = null; render(); }, 500);
+    showToast(`✓ Pick guardado en tu Historial (${label})`);
+    setTimeout(()=>{ VIEW.tab = "registro"; VIEW.matchId = null; render(); }, 600);
     return;
   }
   const resBtn = e.target.closest("[data-res]");
@@ -1900,7 +2143,7 @@ document.addEventListener("click", e => {
     if(!isNaN(b) && b>0) S.bank = b;
     if(!isNaN(evTh)) S.minEv = evTh;
     store.set("settings", S);
-    alert("¡Ajustes guardados correctamente!");
+    showToast("✓ ¡Ajustes y banca guardados!");
     VIEW.tab = "fecha"; render(); return;
   }
 });
@@ -1952,11 +2195,17 @@ document.addEventListener("input", e => {
 });
 
 /* ── Arranque ── */
-(async function init(){
-  S = (await store.get("settings")) || S;
-  ODDS = (await store.get("odds")) || {};
-  LOG = (await store.get("log")) || [];
-  COMBO = (await store.get("combo")) || [];
+async function init(){
+  IS_BOOTING = true;
+  BOOT_ERROR = null;
+  render();
+
+  try{
+    S = (await store.get("settings")) || S;
+    ODDS = (await store.get("odds")) || {};
+    LOG = (await store.get("log")) || [];
+    COMBO = (await store.get("combo")) || [];
+  }catch(e){}
 
   try{
     const r = await fetch("data/partidos.json?t="+Date.now());
@@ -1978,8 +2227,13 @@ document.addEventListener("input", e => {
     if(r.ok) ANALISIS = await r.json();
   }catch(e){}
 
+  buildLogoMap();
+
+  IS_BOOTING = false;
   render();
-})();
+}
+
+init();
 </script>
 </body>
 </html>

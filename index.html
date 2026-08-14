@@ -360,7 +360,7 @@ nav{
   position:fixed;bottom:0;left:0;right:0;z-index:50;
   background:rgba(15,20,26,.96);backdrop-filter:blur(14px);
   border-top:1px solid var(--line);
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:repeat(5,1fr);
   padding-bottom:env(safe-area-inset-bottom);
 }
 nav button{padding:11px 0 12px;display:grid;place-items:center;gap:4px;color:var(--muted-2)}
@@ -391,6 +391,7 @@ nav span{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;font-vari
 
 <nav>
   <button data-nav="fecha" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Fecha</span></button>
+  <button data-nav="combo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><span>Combo</span></button>
   <button data-nav="registro"><svg viewBox="0 0 24 24"><path d="M4 5h16v15l-8-4-8 4z"/></svg><span>Registro</span></button>
   <button data-nav="metodo"><svg viewBox="0 0 24 24"><path d="M4 19V9M9.5 19V5M15 19v-7M20.5 19v-11"/></svg><span>Método</span></button>
   <button data-nav="ajustes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/></svg><span>Ajustes</span></button>
@@ -458,24 +459,30 @@ function derive(M,cfg){
   /* push = probabilidad de que la apuesta se anule y devuelvan el dinero
      (el empate en DNB). Cambia el EV pero NO el Kelly: con la probabilidad
      condicional, la fracción óptima de Kelly es la misma que resolviendo
-     los tres desenlaces — verificado numéricamente. */
-  const add = (g,label,p,push=0) => out.push({g,label,p,push,odds:null,oddsOpp:null,id:g+"|"+label});
+     los tres desenlaces — verificado numéricamente.
+     test = la condición (i,j)=>bool sobre LA MISMA matriz M, cuando el
+     mercado sale directo de M (no de ht ni de una probabilidad
+     condicional). Se guarda para poder calcular la conjunta EXACTA de dos
+     mercados del mismo partido en una combinada — dos test AND-eados y
+     sumados sobre M da la probabilidad real, no el producto p1×p2 que
+     asume independencia y sería mentira dentro del mismo partido. */
+  const add = (g,label,p,push=0,test=null) => out.push({g,label,p,push,test,odds:null,oddsOpp:null,id:g+"|"+label});
 
-  add("1X2","Gana local",            sumIf(M,(i,j)=>i>j));
-  add("1X2","Empate",                sumIf(M,(i,j)=>i===j));
-  add("1X2","Gana visitante",        sumIf(M,(i,j)=>i<j));
-  add("Doble","Doble oportunidad 1X",sumIf(M,(i,j)=>i>=j));
-  add("Doble","Doble oportunidad X2",sumIf(M,(i,j)=>i<=j));
-  add("Doble","Doble oportunidad 12",sumIf(M,(i,j)=>i!==j));
+  add("1X2","Gana local",            sumIf(M,(i,j)=>i>j),  0, (i,j)=>i>j);
+  add("1X2","Empate",                sumIf(M,(i,j)=>i===j),0, (i,j)=>i===j);
+  add("1X2","Gana visitante",        sumIf(M,(i,j)=>i<j),  0, (i,j)=>i<j);
+  add("Doble","Doble oportunidad 1X",sumIf(M,(i,j)=>i>=j), 0, (i,j)=>i>=j);
+  add("Doble","Doble oportunidad X2",sumIf(M,(i,j)=>i<=j), 0, (i,j)=>i<=j);
+  add("Doble","Doble oportunidad 12",sumIf(M,(i,j)=>i!==j),0, (i,j)=>i!==j);
   [0.5,1.5,2.5,3.5].forEach(n=>{
-    add("Goles","Más de "+n+" goles",  sumIf(M,(i,j)=>i+j>n));
-    add("Goles","Menos de "+n+" goles",sumIf(M,(i,j)=>i+j<n));
+    add("Goles","Más de "+n+" goles",  sumIf(M,(i,j)=>i+j>n), 0, (i,j)=>i+j>n);
+    add("Goles","Menos de "+n+" goles",sumIf(M,(i,j)=>i+j<n), 0, (i,j)=>i+j<n);
   });
-  add("Ambos","Ambos marcan — sí",sumIf(M,(i,j)=>i>0&&j>0));
-  add("Ambos","Ambos marcan — no",sumIf(M,(i,j)=>i===0||j===0));
+  add("Ambos","Ambos marcan — sí",sumIf(M,(i,j)=>i>0&&j>0),   0, (i,j)=>i>0&&j>0);
+  add("Ambos","Ambos marcan — no",sumIf(M,(i,j)=>i===0||j===0),0, (i,j)=>i===0||j===0);
   [0.5,1.5,2.5].forEach(n=>{
-    add("Equipo","Local más de "+n,    sumIf(M,(i)=>i>n));
-    add("Equipo","Visitante más de "+n,sumIf(M,(i,j)=>j>n));
+    add("Equipo","Local más de "+n,    sumIf(M,(i)=>i>n),   0, (i,j)=>i>n);
+    add("Equipo","Visitante más de "+n,sumIf(M,(i,j)=>j>n), 0, (i,j)=>j>n);
   });
   add("1T","1T más de 0.5 goles", sumIf(ht,(i,j)=>i+j>0.5));
   add("1T","1T menos de 0.5 goles",sumIf(ht,(i,j)=>i+j<0.5));
@@ -514,7 +521,7 @@ function derive(M,cfg){
   // Hándicap asiático de líneas .5 — sin empate posible, no hay que
   // resolver el caso "push" (cancha la apuesta) que sí tienen las enteras.
   [-2.5,-1.5,-0.5,0.5,1.5].forEach(h=>
-    add("Hándicap", "Local "+(h>0?"+":"")+h, sumIf(M,(i,j)=>(i+h)>j)));
+    add("Hándicap", "Local "+(h>0?"+":"")+h, sumIf(M,(i,j)=>(i+h)>j), 0, (i,j)=>(i+h)>j));
 
   // Córners y faltas: Poisson simple sobre su propio ritmo.
   const poisOver = (lam,n) => { let s=0; for(let k=0;k<=Math.floor(n);k++) s+=pois(k,lam); return 1-s; };
@@ -605,6 +612,57 @@ function evaluate(mkts,S,m){
   return out;
 }
 
+/* ── combinadas ──
+   Todas las patas ya priceadas de todos los partidos, para elegir de ahí.
+   Cada pata guarda su propio "test" (si lo tiene) para poder calcular la
+   conjunta exacta cuando dos patas elegidas son del mismo partido. */
+function legsDisponibles(){
+  const out = [];
+  for(const m of MATCHES){
+    const {mkts} = model(m);
+    mkts.filter(x=>x.e!==null).forEach(x=>{
+      out.push({matchId:m.id, match:m.home+" vs "+m.away, hora:m.hora, comp:m.comp,
+                 marketId:x.id, g:x.g, label:x.label, o:x.o, p:x.p, e:x.e, test:x.test});
+    });
+  }
+  return out;
+}
+
+/* Probabilidad y cuota de la combinada. Patas del MISMO partido: si las
+   dos tienen "test", se suma la matriz con las dos condiciones a la vez
+   (conjunta exacta, no p1×p2 — eso estaría mal, no son independientes
+   dentro de un mismo partido). Patas de partidos distintos: sí son
+   independientes de verdad, ahí el producto es correcto. */
+function comboCalc(legs){
+  if(!legs.length) return null;
+  const porPartido = {};
+  legs.forEach(l=> (porPartido[l.matchId]=porPartido[l.matchId]||[]).push(l));
+  let pTotal=1, oddsTotal=1, calidadMin=100;
+  const avisos=[];
+  for(const mid in porPartido){
+    const m = MATCHES.find(x=>x.id===mid);
+    const grupo = porPartido[mid];
+    calidadMin = Math.min(calidadMin, m.conf??65);
+    if(grupo.length===1){
+      pTotal *= grupo[0].p;
+    } else if(grupo.every(l=>l.test)){
+      const Mx = matrix(m.lh,m.la,m.rho);
+      pTotal *= sumIf(Mx,(i,j)=> grupo.every(l=>l.test(i,j)));
+      const familias = new Set(grupo.map(l=>FAMILY[l.g]));
+      if(familias.size < grupo.length) avisos.push(
+        `${m.home} vs ${m.away}: estas patas miden casi lo mismo — la cuota combinada rara vez compensa lo poco que diversifican.`);
+    } else {
+      grupo.forEach(l=> pTotal *= l.p);
+      avisos.push(`${m.home} vs ${m.away}: alguna pata (córners/faltas/tarjetas/marcador/1T) no tiene conjunta exacta acá — se asume independencia entre ellas, es aproximado.`);
+    }
+    grupo.forEach(l=> oddsTotal *= l.o);
+  }
+  const e = pTotal*oddsTotal - 1;
+  const K = kellyFracFor(calidadMin);
+  const stake = e>=S.minEv ? Math.round(S.bank * kelly(pTotal,oddsTotal) * (K.f??0.0625)) : 0;
+  return {pTotal, oddsTotal, calidadMin, avisos, e, stake, n:legs.length};
+}
+
 /* ── estado ── */
 let S = { bank:50000, minEv:0.04, maxOdds:8, cur:"$", casa:"", caps:false };
 let LOG = [];
@@ -636,6 +694,9 @@ const closedComps = new Set(); // "día|competición" que el usuario cerró en
                                 // (el vistazo rápido de "qué hay hoy" tiene
                                 // que seguir funcionando sin tocar nada), y
                                 // se cierra la que no interesa ese día.
+let COMBO = [];   // [{matchId, marketId}] — las patas elegidas para armar
+                   // una combinada. Solo de sesión, se vacía al registrar
+                   // o si el usuario la borra.
 
 /* ═══ datos sembrados ═══
    El primero sale de tus propias capturas (Palmeiras–Cerro, 12/08).
@@ -716,6 +777,7 @@ const app = document.getElementById("app");
 const render = () => {
   const v = VIEW;
   if(v.nav==="fecha")    app.innerHTML = v.match ? viewMatch(v.match) : viewDay();
+  if(v.nav==="combo")    app.innerHTML = viewCombo();
   if(v.nav==="registro") app.innerHTML = viewLog();
   if(v.nav==="metodo")   app.innerHTML = viewMethod();
   if(v.nav==="ajustes")  app.innerHTML = viewSettings();
@@ -1403,6 +1465,62 @@ function mktCardJugador(m,x){
   </div>`;
 }
 
+/* ── pantalla: combinadas ── */
+function viewCombo(){
+  const legs = legsDisponibles();
+  // si alguna pata elegida ya no tiene cuota cargada (la borraron), se cae sola
+  const elegidas = COMBO.map(c=>legs.find(l=>l.matchId===c.matchId && l.marketId===c.marketId)).filter(Boolean);
+  if(elegidas.length !== COMBO.length) COMBO = elegidas.map(l=>({matchId:l.matchId, marketId:l.marketId}));
+
+  const calc = elegidas.length>=2 ? comboCalc(elegidas) : null;
+
+  const porPartido = {};
+  legs.forEach(l=> (porPartido[l.matchId]=porPartido[l.matchId]||[]).push(l));
+
+  return `
+  <div class="wrap">
+  <div class="eyebrow" style="margin-bottom:9px">Combinadas</div>
+  <p style="font-size:12.5px;color:var(--muted-2);line-height:1.6;margin:0 0 14px">
+    Elegí 2 o más mercados ya priceados. Si son del mismo partido, la probabilidad conjunta sale directo de la matriz — no del producto de las dos cuotas, que ahí estaría mal.</p>
+
+  ${!elegidas.length?`<div class="empty"><b>Sin patas elegidas</b><p>Cargá cuotas en algún partido (pestaña Mercados) y elegilas en la lista de abajo.</p></div>`:""}
+  ${elegidas.length===1?`<div class="box"><p style="margin:0;font-size:12.5px;color:var(--muted-2)">Elegiste 1 pata — con una sola es una apuesta simple, no una combinada. Elegí otra más para verla acá.</p></div>`:""}
+
+  ${calc?`
+    <div class="opp ${calc.e>=S.minEv?"val":"none"}">
+      <div class="opp-eyebrow">Combinada — ${calc.n} patas</div>
+      <div class="opp-ev ${calc.e>0?"pos":"neg"}">${sg(calc.e)}</div>
+      <div class="opp-line">
+        <span>Cuota combinada <b>@${calc.oddsTotal.toFixed(2)}</b></span>
+        <span>Justa <b>@${fair(calc.pTotal).toFixed(2)}</b></span>
+        <span>Prob. conjunta <b>${pc1(calc.pTotal)}</b></span>
+        <span>Stake <b>${calc.stake?mny(calc.stake):"—"}</b></span>
+      </div>
+      ${calc.avisos.map(a=>`<div class="warn info" style="margin-top:9px">${esc(a)}</div>`).join("")}
+      <button class="btn ${calc.e>=S.minEv?"":"ghost"}" data-combo-reg style="margin-top:12px" ${calc.stake?"":"disabled"}>Registrar combinada ${calc.stake?mny(calc.stake):""}</button>
+      <button class="btn ghost" data-combo-clear style="margin-top:8px">Vaciar</button>
+    </div>`:""}
+
+  <div class="eyebrow" style="margin:20px 0 9px">Patas disponibles (con cuota cargada)</div>
+  ${!legs.length?`<p style="font-size:12.5px;color:var(--muted-2);line-height:1.6">Todavía no cargaste ninguna cuota en ningún partido. Andá a Fecha → un partido → Mercados, cargá algo, y reaparece acá.</p>`:""}
+  ${Object.entries(porPartido).map(([mid,ls])=>{
+    const m = MATCHES.find(x=>x.id===mid);
+    return `<div class="box">
+      <h3 style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:13.5px;font-variation-settings:'wdth' 104,'wght' 600;color:var(--paper)">
+        ${crest(m.homeLogo,"sm")}${esc(m.home)}<em style="color:var(--muted-2);font-style:normal;font-weight:400;font-size:11px">vs</em>${esc(m.away)}${crest(m.awayLogo,"sm")}
+      </h3>
+      ${ls.map(l=>{
+        const on = COMBO.some(c=>c.matchId===l.matchId && c.marketId===l.marketId);
+        return `<button class="btn ${on?"":"ghost"}" style="text-align:left;display:flex;align-items:center;gap:8px;margin-top:7px;padding:9px 10px" data-legpick="${l.matchId}|${l.marketId}">
+          <span style="flex:1;font-size:12.5px">${esc(l.label)}</span>
+          <span class="num" style="font-size:11px;${on?"color:#171106":"color:var(--muted-2)"}">@${l.o.toFixed(2)} · EV ${sg(l.e)}</span>
+        </button>`;
+      }).join("")}
+    </div>`;
+  }).join("")}
+  </div>`;
+}
+
 /* ── pantalla: registro ── */
 function viewLog(){
   const done = LOG.filter(b=>b.result==="W"||b.result==="L");
@@ -1559,7 +1677,7 @@ function viewSettings(){
 
 /* ═══════════ EVENTOS ═══════════ */
 document.addEventListener("click", async e=>{
-  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],[data-grp],[data-compclose],[data-psel],[data-pbet],#s-export,#s-clear,#s-caps,#s-xlsx");
+  const t = e.target.closest("[data-nav],[data-day],[data-f],[data-match],[data-back],[data-tab],[data-bet],[data-res],[data-grp],[data-compclose],[data-psel],[data-pbet],[data-legpick],[data-combo-reg],[data-combo-clear],#s-export,#s-clear,#s-caps,#s-xlsx");
   if(!t) return;
 
   if(t.dataset.nav){ VIEW.nav=t.dataset.nav; VIEW.match=null; return render(); }
@@ -1593,6 +1711,34 @@ document.addEventListener("click", async e=>{
     await store.set("log",LOG);
     t.textContent="Registrada ✓"; t.disabled=true;
     return;
+  }
+
+  if(t.dataset.legpick){
+    // el id de mercado YA trae "|" adentro (ej "1X2|Gana local"), así que
+    // separar matchId acá tiene que cortar solo en el primer "|" — un
+    // split("|") normal se comía el resto y truncaba el marketId.
+    const sep = t.dataset.legpick.indexOf("|");
+    const matchId = t.dataset.legpick.slice(0,sep), marketId = t.dataset.legpick.slice(sep+1);
+    const i = COMBO.findIndex(c=>c.matchId===matchId && c.marketId===marketId);
+    if(i>=0) COMBO.splice(i,1); else COMBO.push({matchId,marketId});
+    return render();
+  }
+  if(t.hasAttribute("data-combo-clear")){ COMBO=[]; return render(); }
+  if(t.hasAttribute("data-combo-reg")){
+    const legs = legsDisponibles();
+    const elegidas = COMBO.map(c=>legs.find(l=>l.matchId===c.matchId && l.marketId===c.marketId)).filter(Boolean);
+    const calc = comboCalc(elegidas);
+    if(!calc || !calc.stake) return;
+    LOG.push({id:"b"+Date.now(),
+      match: [...new Set(elegidas.map(l=>l.match))].join(" + "),
+      label: elegidas.map(l=>l.label).join(" + "),
+      liga: "Combinada · "+elegidas.length+" patas", hora:"", conf:calc.calidadMin,
+      fam:"combinada", casa:S.casa,
+      odds:calc.oddsTotal, stake:calc.stake, ev:calc.e, p:calc.pTotal,
+      result:"P", closing:null, date:new Date().toISOString().slice(0,10)});
+    await store.set("log",LOG);
+    COMBO=[];
+    return render();
   }
 
   if(t.dataset.bet){

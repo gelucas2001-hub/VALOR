@@ -1,56 +1,38 @@
 ---
 name: VALOR
-description: Asesor deportivo cuantitativo con modelo matemático de Dixon-Coles y gestión de banca con criterio de Kelly.
+description: Copiloto cuantitativo de apuestas deportivas con modelo Dixon-Coles y diseño inspirado en Apple Sports y Minimalist UI.
 colors:
-  pitch-black: "#000000"
-  graphite-surface: "#121214"
-  graphite-card: "#18181B"
-  graphite-card-hover: "#222226"
-  graphite-input: "#0C0C0E"
-  border: "rgba(255, 255, 255, 0.09)"
+  bg-app: "#000000"
+  bg-gradient-top: "#060E1E"
+  bg-group: "#161618"
+  bg-card: "#1C1C1E"
+  bg-card-hover: "#252528"
+  bg-input: "#121214"
+  border: "rgba(255, 255, 255, 0.08)"
   border-subtle: "rgba(255, 255, 255, 0.05)"
-  text-main: "#FFFFFF"
-  text-muted: "#A1A1AA"
-  text-subtle: "#71717A"
-  cyan: "#00D2FF"
-  cyan-dark: "#0284C7"
-  cyan-wash: "rgba(0, 210, 255, 0.12)"
-  emerald: "#30D158"
-  emerald-wash: "rgba(48, 209, 88, 0.12)"
-  amber: "#FF9F0A"
-  coral: "#FF453A"
-  coral-wash: "rgba(255, 69, 58, 0.12)"
-  text-on-cyan: "#03131F"
+  divider: "rgba(255, 255, 255, 0.06)"
+  text-primary: "#FFFFFF"
+  text-secondary: "#8E8E93"
+  text-tertiary: "#636366"
+  accent-green: "#30D158"
+  accent-green-wash: "rgba(48, 209, 88, 0.12)"
+  accent-cyan: "#00D2FF"
+  accent-cyan-wash: "rgba(0, 210, 255, 0.12)"
+  accent-red: "#FF453A"
+  accent-red-wash: "rgba(255, 69, 58, 0.12)"
 typography:
-  headline:
-    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
-    fontSize: "22px"
-    fontWeight: 800
-    lineHeight: 1.2
-  title:
-    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
-    fontSize: "16px"
-    fontWeight: 700
-    lineHeight: 1.3
-  body:
-    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
-    fontSize: "15px"
-    fontWeight: 450
-    lineHeight: 1.5
-  label:
-    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
-    fontSize: "10.5px"
-    fontWeight: 700
-    letterSpacing: "0.09em"
+  sans:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif"
+    trackingHeadline: "-0.03em"
+    trackingBody: "-0.01em"
   mono:
-    fontFamily: "IBM Plex Mono, ui-monospace, monospace"
-    fontSize: "14px"
-    fontWeight: 600
+    fontFamily: "'SF Mono', 'JetBrains Mono', 'Menlo', ui-monospace, monospace"
 ---
 
-# Sistema de Diseño VALOR
+# Sistema de Diseño VALOR (Apple Sports + Minimalist UI)
 
-## Principios Visuales
-1. **Claridad & Autoridad**: Ninguna ornamentación innecesaria. Cada número y porcentaje está respaldado por el motor cuantitativo.
-2. **Cero Resplandor Falso (No Glows)**: Sombras de elevación neutras (`rgba(0, 0, 0, 0.5)`), contraste tonal nítido y bordes precisos.
-3. **Ergonomía Táctil**: Altura mínima de tap targets de 44px, espaciado uniforme y retroalimentación reactiva inmediata.
+## Principios Fundamentales
+1. **Anatomía Horizontal Simétrica**: El partido se lee de izquierda a derecha (Local - Centro Hora/Línea - Visitante).
+2. **Grouped Inset Containers**: Partidos agrupados dentro de un contenedor por liga, separados por hairlines de 0.5px.
+3. **Cero Emojis Infantiles**: Se utiliza tipografía limpia, micro-badges y tracking estricto.
+4. **Color Semántico Estricto**: Verde para valor positivo (+EV), Cian/Blanco para acciones, Rojo para riesgo.

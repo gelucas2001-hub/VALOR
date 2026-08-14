@@ -12,84 +12,68 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ─────────────────────────────────────────────────────────
-   VALOR — Identidad Apple Sports Ultra-Clean
-   (Pitch Black · Graphite Zinc · Electric Cyan · Emerald)
+   VALOR — Apple Sports & Minimalist-UI Architecture
    ───────────────────────────────────────────────────────── */
 :root {
-  --bg-dark: #000000;
-  --bg-surface: #121214;
-  --bg-card: #18181B;
-  --bg-card-hover: #222226;
-  --bg-input: #0C0C0E;
+  --bg-app: #000000;
+  --bg-group: #161618;
+  --bg-card: #1C1C1E;
+  --bg-card-hover: #242428;
+  --bg-input: #121214;
+  --bg-pill: rgba(255, 255, 255, 0.08);
   
-  --border: rgba(255, 255, 255, 0.09);
+  --border: rgba(255, 255, 255, 0.08);
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-focus: #00D2FF;
   
   --text-main: #FFFFFF;
-  --text-muted: #A1A1AA;
-  --text-subtle: #71717A;
+  --text-muted: #8E8E93;
+  --text-subtle: #636366;
   
   --cyan: #00D2FF;
-  --cyan-dark: #0284C7;
   --cyan-wash: rgba(0, 210, 255, 0.12);
   
   --emerald: #30D158;
   --emerald-wash: rgba(48, 209, 88, 0.12);
-  --emerald-border: rgba(48, 209, 88, 0.35);
   
   --amber: #FF9F0A;
-  --amber-wash: rgba(255, 159, 10, 0.12);
-  
   --coral: #FF453A;
-  --coral-wash: rgba(255, 69, 58, 0.12);
   
-  --r-card: 18px;
+  --r-group: 22px;
+  --r-card: 16px;
   --r-md: 12px;
   --r-sm: 8px;
   --r-pill: 999px;
   --pad: 16px;
   
-  --font-sans: "Archivo", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "Menlo", monospace;
   
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.6);
-  --shadow-elevated: 0 12px 36px rgba(0, 0, 0, 0.8);
   --ease-touch: cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* ── Superficies del Navegador ── */
-::selection { background: rgba(0, 210, 255, 0.3); color: #FFFFFF; }
-input, select, textarea { caret-color: var(--cyan); }
-input:focus-visible, button:focus-visible, select:focus-visible {
-  outline: 2px solid var(--cyan); outline-offset: 2px;
-}
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; }
 body {
-  background: #000000;
+  background: radial-gradient(120% 60% at 50% 0%, #061122 0%, #000000 70%), #000000;
+  background-attachment: fixed;
   color: var(--text-main);
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.5;
+  letter-spacing: -0.015em;
   padding-bottom: 96px;
   overscroll-behavior-y: contain;
   -webkit-font-smoothing: antialiased;
-  max-width: 540px;
+  max-width: 560px;
   margin: 0 auto;
   min-height: 100dvh;
   position: relative;
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
 }
 
 button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
@@ -97,139 +81,136 @@ button { background: none; border: none; padding: 0; cursor: pointer; }
 .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 .eyebrow {
   font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
-  font-weight: 700; color: var(--text-subtle);
+  font-weight: 700; color: var(--text-muted);
 }
 
-/* ── Encabezado Principal ── */
+/* ── Encabezado Principal Apple Sports ── */
 header.top {
   position: sticky; top: 0; z-index: 40;
-  background: rgba(0, 0, 0, 0.88);
+  background: rgba(6, 17, 34, 0.85);
   backdrop-filter: blur(24px);
-  padding: calc(env(safe-area-inset-top) + 14px) var(--pad) 14px;
+  padding: calc(env(safe-area-inset-top) + 12px) var(--pad) 12px;
   border-bottom: 1px solid var(--border);
 }
 .brand { display: flex; align-items: center; justify-content: space-between; }
-.brand-title { display: flex; align-items: center; gap: 10px; }
-.brand-logo-icon {
-  width: 32px; height: 32px; border-radius: 9px;
-  background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
-  display: flex; align-items: center; justify-content: center;
-  color: #03131F; font-weight: 800; font-size: 17px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+.brand-title { display: flex; align-items: center; gap: 8px; }
+.brand h1 {
+  margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.04em;
+  color: #FFFFFF;
 }
-.brand h1 { margin: 0; font-size: 20px; letter-spacing: .12em; font-weight: 800; }
-.brand h1 span { color: var(--cyan); }
 .brand-badge {
-  font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--border);
-}
-
-/* ── Transición Suave ── */
-#app {
-  animation: appFade .16s var(--ease-touch) backwards;
-}
-@keyframes appFade {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Tira de Días ── */
-.days { display: flex; gap: 8px; overflow-x: auto; padding: 14px var(--pad) 8px; scrollbar-width: none; }
-.days::-webkit-scrollbar { display: none; }
-.day {
-  flex: 0 0 auto; min-width: 54px; padding: 10px 8px; border-radius: var(--r-md);
-  background: var(--bg-surface); border: 1px solid var(--border); text-align: center;
-  transition: transform 120ms ease, background-color 140ms ease, color 140ms ease;
-}
-.day:active { transform: scale(0.96); }
-.day b { display: block; font-family: var(--font-mono); font-size: 16px; font-weight: 700; color: var(--text-main); }
-.day i { display: block; font-style: normal; font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; }
-.day.on {
-  background: #FFFFFF; border-color: #FFFFFF; color: #000000;
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.15);
-}
-.day.on b, .day.on i { color: #000000; }
-.day.has::after { content: ""; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--cyan); margin: 4px auto 0; }
-.day.on.has::after { background: #000000; }
-
-/* ── Tarjeta Protagonista ── */
-.hero-pick {
-  margin: 6px var(--pad) 14px; padding: 18px; border-radius: var(--r-card);
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-card);
-  cursor: pointer; position: relative; overflow: hidden;
-  transition: transform 120ms var(--ease-touch);
-}
-.hero-pick:active { transform: scale(0.985); }
-.hero-pick-tag {
+  font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: var(--r-pill);
+  background: var(--bg-pill); color: var(--text-main); border: 1px solid var(--border);
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 4px 10px; border-radius: var(--r-pill);
-  background: var(--cyan-wash); border: 1px solid rgba(0, 210, 255, 0.3);
-  color: var(--cyan); font-size: 11px; font-weight: 700; letter-spacing: .04em;
-}
-.hero-matchup {
-  display: flex; align-items: center; gap: 10px; margin: 12px 0 6px;
-  font-size: 16px; font-weight: 700; color: var(--text-main);
-}
-.hero-matchup em { font-style: normal; color: var(--text-subtle); font-size: 13px; font-weight: 400; }
-.hero-bet-title {
-  font-size: 20px; font-weight: 800; color: var(--text-main);
-  line-height: 1.25; margin-bottom: 12px;
-}
-.hero-stats-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  background: var(--bg-input); padding: 12px 8px; border-radius: var(--r-md);
-  border: 1px solid var(--border-subtle); margin-bottom: 12px;
-}
-.hero-stat { text-align: center; }
-.hero-stat small { display: block; font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
-.hero-stat b { display: block; font-family: var(--font-mono); font-size: 15px; font-weight: 700; margin-top: 2px; }
-.hero-stat b.cyan { color: var(--cyan); }
-.hero-stat b.green { color: var(--emerald); }
-.hero-desc {
-  font-size: 13px; line-height: 1.55; color: var(--text-muted);
-  border-top: 1px solid var(--border-subtle); padding-top: 10px; margin: 0;
 }
 
-/* ── Lista de Partidos ── */
-.wrap { padding: 8px var(--pad) 0; }
-.comp-header {
+/* ── Selector de Fechas Apple (Text Switcher) ── */
+.date-switcher-apple {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; padding: 12px var(--pad) 14px;
+}
+.date-tab-apple {
+  background: none; border: none; font-size: 14px; font-weight: 600;
+  color: var(--text-muted); padding: 6px 14px; border-radius: var(--r-pill);
+  transition: all 140ms ease; cursor: pointer;
+}
+.date-tab-apple:hover { color: #FFFFFF; }
+.date-tab-apple.on {
+  color: #FFFFFF; font-weight: 700; background: var(--bg-pill);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* ── Cartelera de Partidos (Grouped Inset Box) ── */
+.wrap { padding: 4px var(--pad) 0; }
+.league-section { margin-bottom: 22px; }
+.league-section-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 4px 8px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--text-muted); font-weight: 700; width: 100%; text-align: left;
+  padding: 4px 6px 10px;
 }
-.match-card {
-  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-card);
-  padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow-card);
-  transition: transform 120ms var(--ease-touch), background-color 140ms ease;
-  position: relative; cursor: pointer;
+.league-section-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted);
 }
-.match-card:active { transform: scale(0.985); background: var(--bg-card-hover); }
-.match-card.has-val { border-color: rgba(0, 210, 255, 0.4); background: linear-gradient(180deg, rgba(0, 210, 255, 0.05), var(--bg-surface)); }
-
-.match-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.match-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); font-weight: 600; }
-.val-badge {
-  font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: var(--r-pill);
-  background: var(--cyan-wash); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.4);
-}
-.badge-rec {
-  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--border);
+.league-section-count {
+  font-size: 11px; font-weight: 600; color: var(--text-subtle);
+  text-transform: uppercase; letter-spacing: 0.05em;
 }
 
-.match-teams { display: flex; flex-direction: column; gap: 12px; }
-.team-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.team-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.team-name { font-size: 16px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.team-xg { font-family: var(--font-mono); font-size: 12.5px; color: var(--text-muted); font-weight: 600; }
+.match-group-card {
+  background: var(--bg-group);
+  border: 1px solid var(--border);
+  border-radius: var(--r-group);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
 
-.crest { width: 32px; height: 32px; object-fit: contain; flex: 0 0 auto; }
+.match-row-apple {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 16px 14px;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+  position: relative;
+}
+.match-row-apple:hover { background-color: var(--bg-card); }
+.match-row-apple:active { background-color: var(--bg-card-hover); }
+
+.team-col-left {
+  display: flex; align-items: center; gap: 12px; min-width: 0;
+}
+.team-col-left .team-name {
+  font-size: 15px; font-weight: 700; color: #FFFFFF;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.team-col-left .team-sub {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted);
+  font-weight: 500; margin-top: 1px;
+}
+
+.match-center-col {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 0 10px; text-align: center; min-width: 90px;
+}
+.match-time-apple {
+  font-family: var(--font-mono); font-size: 13.5px; font-weight: 700;
+  color: #FFFFFF; letter-spacing: -0.02em;
+}
+.match-line-badge {
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+  color: var(--cyan); background: var(--cyan-wash);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  padding: 2px 7px; border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+.match-line-badge.green {
+  color: var(--emerald); background: var(--emerald-wash);
+  border-color: rgba(48, 209, 88, 0.25);
+}
+
+.team-col-right {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 12px; text-align: right; min-width: 0;
+}
+.team-col-right .team-name {
+  font-size: 15px; font-weight: 700; color: #FFFFFF;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.team-col-right .team-sub {
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted);
+  font-weight: 500; margin-top: 1px;
+}
+
+.match-divider-apple {
+  height: 0.5px; background: var(--border-subtle); margin: 0 14px;
+}
+
+.crest { width: 34px; height: 34px; object-fit: contain; flex: 0 0 auto; }
 .crest.lg { width: 56px; height: 56px; }
 .crest.sm { width: 22px; height: 22px; }
 .crest-fallback {
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 34px; height: 34px; border-radius: 50%;
   background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: var(--text-muted);
@@ -238,105 +219,137 @@ header.top {
 .crest-fallback.lg { width: 56px; height: 56px; font-size: 16px; }
 .crest-fallback.sm { width: 22px; height: 22px; font-size: 9.5px; }
 
-/* ── Vista Detalle de Partido ── */
-.detail-header { padding: 10px var(--pad) 14px; }
+/* ── Centro de Partido (Match Hub) ── */
 .btn-back {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 13.5px; font-weight: 600; color: var(--text-muted); padding: 6px 0;
-  margin-bottom: 8px; min-height: 40px;
+  font-size: 13.5px; font-weight: 600; color: var(--text-muted);
+  padding: 6px 0; min-height: 38px; transition: color 120ms ease;
 }
-.matchup-hero {
-  display: flex; align-items: center; justify-content: space-around;
-  padding: 14px 0 6px; text-align: center;
-}
-.matchup-team { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
-.matchup-team span { font-size: 16px; font-weight: 700; line-height: 1.2; }
-.matchup-vs {
-  font-size: 12px; font-weight: 800; color: var(--text-subtle);
-  background: var(--bg-surface); width: 36px; height: 36px; border-radius: 50%;
-  display: grid; place-items: center; border: 1px solid var(--border);
-}
+.btn-back:hover { color: #FFFFFF; }
 
-/* ── Veredicto del Asesor ── */
-.verdict-card {
-  margin: 14px var(--pad) 0; padding: 20px 18px; border-radius: var(--r-card);
-  background: var(--bg-surface); border: 1px solid var(--border); box-shadow: var(--shadow-card);
+.match-billboard {
+  padding: 14px var(--pad) 20px; text-align: center;
 }
-.verdict-card.val {
-  background: linear-gradient(180deg, rgba(0, 210, 255, 0.12), var(--bg-surface) 60%);
-  border-color: rgba(0, 210, 255, 0.4);
-}
-.verdict-pill {
+.billboard-comp {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 4px 11px; border-radius: var(--r-pill);
-  font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
-  margin-bottom: 8px;
+  font-size: 11.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;
 }
-.verdict-pill.cyan { background: var(--cyan-wash); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.35); }
-.verdict-pill.coral { background: var(--coral-wash); color: var(--coral); border: 1px solid rgba(239, 68, 68, 0.3); }
-.verdict-pill.neutral { background: rgba(255, 255, 255, 0.08); color: var(--text-main); }
+.billboard-teams {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: 12px; margin-bottom: 12px;
+}
+.billboard-team {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.billboard-team-name {
+  font-size: 16px; font-weight: 800; color: #FFFFFF; line-height: 1.2;
+}
+.billboard-team-xg {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+  font-weight: 600;
+}
+.billboard-time-center {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.billboard-kickoff {
+  font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: #FFFFFF;
+}
 
-.verdict-title { font-size: 22px; font-weight: 800; line-height: 1.2; margin: 4px 0 14px; }
-.verdict-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  background: var(--bg-input); padding: 12px 8px; border-radius: var(--r-md);
-  border: 1px solid var(--border-subtle); margin-bottom: 14px;
+/* ── Golden Verdict Card (La Oportunidad Clave) ── */
+.golden-verdict-card {
+  margin: 0 var(--pad) 16px;
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 210, 255, 0.35);
+  border-radius: 20px;
+  padding: 20px 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
 }
-.verdict-cell { text-align: center; }
-.verdict-cell small { font-size: 9.5px; text-transform: uppercase; color: var(--text-subtle); display: block; font-weight: 600; }
-.verdict-cell b { font-family: var(--font-mono); font-size: 15px; font-weight: 600; display: block; margin-top: 2px; }
-.verdict-cell b.cyan { color: var(--cyan); }
-.verdict-cell b.green { color: var(--emerald); }
-.verdict-cell b.coral { color: var(--coral); }
+.golden-verdict-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--emerald));
+}
+.golden-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+.golden-pick-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.golden-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 12px 8px;
+  margin-bottom: 14px;
+}
+.golden-metric { text-align: center; }
+.golden-metric small {
+  display: block; font-size: 10px; font-weight: 600;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px;
+}
+.golden-metric b {
+  display: block; font-family: var(--font-mono); font-size: 16px; font-weight: 700;
+}
+.golden-metric b.cyan { color: var(--cyan); }
+.golden-metric b.green { color: var(--emerald); }
 
-.argument-box {
-  background: var(--cyan-wash);
-  border-radius: var(--r-md);
-  padding: 14px 16px;
-  border: 1px solid rgba(0, 210, 255, 0.2);
-  margin-top: 14px;
+.golden-argument {
+  font-size: 13.5px; line-height: 1.6; color: var(--text-muted); margin: 0 0 14px;
 }
-.argument-box h4 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--cyan); }
-.argument-box p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--text-main); }
+.golden-bank-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-input); border: 1px solid var(--border-subtle);
+  border-radius: 12px; padding: 12px 14px;
+}
 
 /* ── Pestañas en Detalle ── */
-.subtabs-pill-wrap { padding: 14px var(--pad) 0; }
+.subtabs-pill-wrap { padding: 4px var(--pad) 0; }
 .subtabs-pill {
   display: flex; gap: 4px; background: var(--bg-input); padding: 4px;
   border-radius: var(--r-pill); border: 1px solid var(--border);
 }
 .subtab-pill {
-  flex: 1; padding: 8px 6px; font-size: 11.5px; font-weight: 700; color: var(--text-muted);
+  flex: 1; padding: 8px 6px; font-size: 12px; font-weight: 700; color: var(--text-muted);
   border-radius: var(--r-pill); text-align: center; transition: all 140ms ease;
   min-height: 38px; display: flex; align-items: center; justify-content: center;
 }
-.subtab-pill.on { background: #FFFFFF; color: #000000; font-weight: 800; box-shadow: 0 2px 8px rgba(255,255,255,0.15); }
+.subtab-pill.on {
+  background: #FFFFFF; color: #000000; font-weight: 800;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+}
 
 /* ── Tablero Deportivo de Mercados (Sleek Betting Board) ── */
 .market-block {
-  background: var(--bg-surface);
+  background: var(--bg-group);
   border: 1px solid var(--border);
-  border-radius: var(--r-card);
+  border-radius: var(--r-group);
   padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow-card);
+  margin-bottom: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 .market-block-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
 }
-.grid-3-col {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-.grid-2-col {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
+.grid-3-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.grid-2-col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
 .odds-card-cell {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -358,206 +371,85 @@ header.top {
 }
 
 .odds-cell-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 4px;
-  min-height: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 4px; min-height: 24px;
 }
 .odds-label-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-main);
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  text-align: left;
+  font-size: 13px; font-weight: 700; color: var(--text-main);
+  line-height: 1.2; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; flex: 1; text-align: left;
 }
 .cell-combo-btn {
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--text-muted);
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 120ms ease;
-  cursor: pointer;
+  font-size: 12px; font-weight: 800; color: var(--text-muted);
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 120ms ease; cursor: pointer;
 }
 .cell-combo-btn:active { transform: scale(0.88); }
 .cell-combo-btn.on {
-  background: var(--cyan);
-  color: #000000;
-  border-color: var(--cyan);
-  font-weight: 800;
+  background: var(--cyan); color: #000000; border-color: var(--cyan); font-weight: 800;
 }
 
 .odds-cell-metrics {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 11px;
 }
-.odds-prob-badge {
-  color: var(--emerald);
-  font-weight: 700;
-}
-.odds-fair-text {
-  color: var(--text-subtle);
-}
+.odds-prob-badge { color: var(--emerald); font-weight: 700; }
+.odds-fair-text { color: var(--text-subtle); }
 
 .odds-target-rule {
   background: rgba(0, 210, 255, 0.08);
   border: 1px solid rgba(0, 210, 255, 0.22);
   border-radius: var(--r-sm);
-  padding: 4px 6px;
-  font-size: 11px;
-  color: var(--cyan);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  text-align: center;
+  padding: 4px 6px; font-size: 11px; color: var(--cyan);
+  font-family: var(--font-mono); font-weight: 700; text-align: center;
 }
 
 .odds-input-pill {
-  width: 100%;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 6px 4px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
-  text-align: center;
-  color: var(--text-main);
+  width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 6px 4px; font-family: var(--font-mono);
+  font-size: 13px; font-weight: 700; text-align: center; color: var(--text-main);
   transition: all 120ms ease;
 }
 .odds-input-pill:focus {
-  outline: none;
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.25);
-}
-
-.odds-input {
-  width: 100%;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: 10px 12px;
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--text-main);
-  transition: all 120ms ease;
-}
-.odds-input:focus {
-  outline: none;
-  border-color: var(--cyan);
-  box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.25);
+  outline: none; border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.25);
 }
 
 .btn-card-combo {
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 10px;
-  border-radius: var(--r-pill);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 120ms ease;
-  min-height: 26px;
-  cursor: pointer;
+  border: 1px solid var(--border); color: var(--text-muted);
+  font-size: 11px; font-weight: 700; padding: 5px 10px;
+  border-radius: var(--r-pill); display: inline-flex;
+  align-items: center; gap: 4px; transition: all 120ms ease;
+  min-height: 26px; cursor: pointer;
 }
 .btn-card-combo:active { transform: scale(0.92); }
 .btn-card-combo.on {
-  background: var(--cyan);
-  color: #03131F;
-  border-color: var(--cyan);
-  font-weight: 800;
+  background: var(--cyan); color: #03131F; border-color: var(--cyan); font-weight: 800;
 }
 
 .filters {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 8px;
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 8px;
 }
 .filters::-webkit-scrollbar { display: none; }
 .chip {
-  padding: 8px 14px;
-  border-radius: var(--r-pill);
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 12.5px;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 120ms ease;
+  padding: 8px 14px; border-radius: var(--r-pill); background: var(--bg-group);
+  border: 1px solid var(--border); color: var(--text-muted); font-size: 12.5px;
+  font-weight: 700; cursor: pointer; white-space: nowrap; display: inline-flex;
+  align-items: center; gap: 6px; transition: all 120ms ease;
 }
 .chip:active { transform: scale(0.96); }
 .chip.on {
-  background: #FFFFFF;
-  color: #000000;
-  border-color: #FFFFFF;
+  background: #FFFFFF; color: #000000; border-color: #FFFFFF;
   box-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
 }
 
-/* ── Físicas de Micro-Animación & Delight ── */
-@keyframes valuePop {
-  0% { transform: scale(0.98); }
-  50% { transform: scale(1.02); }
-  100% { transform: scale(1); }
-}
-
-@keyframes badgePop {
-  0% { transform: scale(0.7); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.odds-card-cell.has-val {
-  background: var(--bg-card-hover);
-  border-color: rgba(0, 210, 255, 0.45);
-  animation: valuePop 0.28s var(--ease-touch);
-}
-
 .badge-ev.pos {
-  background: var(--cyan-wash);
-  color: var(--cyan);
+  background: var(--cyan-wash); color: var(--cyan);
   border: 1px solid rgba(0, 210, 255, 0.3);
-  animation: badgePop 0.2s var(--ease-touch);
 }
-
 .badge-ev.neg { background: rgba(255, 255, 255, 0.05); color: var(--text-subtle); }
-
-.combo-advantage-banner {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(0, 210, 255, 0.12));
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  color: #F8FAFC;
-  padding: 8px 12px;
-  border-radius: var(--r-sm);
-  font-size: 11.5px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 12px;
-  animation: badgePop 0.25s var(--ease-touch);
-}
 
 /* ── Tablas de Posiciones & Promedios ── */
 .standings-pills {
@@ -568,7 +460,7 @@ header.top {
   background: var(--bg-input); font-size: 12px; font-weight: 700; color: var(--text-muted);
   white-space: nowrap; transition: all 120ms ease; min-height: 38px; display: inline-flex; align-items: center;
 }
-.standings-pill.on { background: var(--cyan); color: #03131F; border-color: var(--cyan); }
+.standings-pill.on { background: #FFFFFF; color: #000000; font-weight: 800; border-color: #FFFFFF; }
 
 .standings-table {
   width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px;
@@ -582,25 +474,13 @@ header.top {
   padding: 9px 4px; text-align: center; border-bottom: 1px solid var(--border-subtle);
   font-family: var(--font-mono); font-size: 12.5px;
 }
-.standings-table tr.highlight {
-  background: rgba(0, 210, 255, 0.12); font-weight: 700;
-}
+.standings-table tr.highlight { background: rgba(0, 210, 255, 0.12); font-weight: 700; }
 .standings-table tr.highlight td.team-cell span { color: var(--cyan); font-weight: 700; }
 
 .team-cell {
   display: flex; align-items: center; gap: 8px; font-family: var(--font-sans);
   font-size: 13px; font-weight: 600; text-align: left;
 }
-
-/* ── Círculos de Forma Reciente ── */
-.form-badge {
-  width: 22px; height: 22px; border-radius: 50%; display: inline-flex;
-  align-items: center; justify-content: center; font-size: 10.5px; font-weight: 700;
-  color: #fff; margin-right: 4px;
-}
-.form-badge.W { background: #10B981; }
-.form-badge.D { background: #F59E0B; }
-.form-badge.L { background: #EF4444; }
 
 /* ── Pestaña de Rendimiento ── */
 .tracker-container { padding: 14px var(--pad) 0; }
@@ -609,8 +489,8 @@ header.top {
 .perf-header p { margin: 4px 0 0; font-size: 13px; color: var(--text-muted); }
 
 .perf-card {
-  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-card);
-  padding: 18px 16px; box-shadow: var(--shadow-card); margin-bottom: 16px;
+  background: var(--bg-group); border: 1px solid var(--border); border-radius: var(--r-group);
+  padding: 18px 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); margin-bottom: 16px;
 }
 .perf-stat-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
 .perf-big-pct { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--cyan); }
@@ -621,143 +501,49 @@ header.top {
 }
 .perf-box small { font-size: 9.5px; text-transform: uppercase; color: var(--text-subtle); display: block; font-weight: 600; }
 .perf-box b { font-family: var(--font-mono); font-size: 16px; font-weight: 600; display: block; margin-top: 2px; }
-.perf-box b.win { color: var(--emerald); }
-.perf-box b.loss { color: var(--coral); }
-.perf-box b.cyan { color: var(--cyan); }
-
-.spark-svg { width: 100%; height: 56px; margin: 12px 0 4px; overflow: visible; }
 
 /* ── Boleta de Combinadas Limpia ── */
 .combo-slip-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-card);
-  padding: 18px 16px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow-card);
+  background: var(--bg-group); border: 1px solid var(--border); border-radius: var(--r-group);
+  padding: 18px 16px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 .combo-leg-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background: var(--bg-card);
-  padding: 10px 12px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--border-subtle);
-  margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: var(--bg-card); padding: 10px 12px; border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle); margin-bottom: 8px;
 }
 .market-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: 12px 14px;
-  margin-bottom: 8px;
-  transition: all 120ms ease;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--bg-group); border: 1px solid var(--border); border-radius: var(--r-md);
+  padding: 12px 14px; margin-bottom: 8px; transition: all 120ms ease;
 }
-.market-row:hover {
-  background: var(--bg-card-hover);
-}
+.market-row:hover { background: var(--bg-card-hover); }
 .btn-add-combo {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
-  color: var(--text-main);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: var(--r-pill);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 120ms ease;
+  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
+  color: var(--text-main); font-size: 12px; font-weight: 700; padding: 6px 12px;
+  border-radius: var(--r-pill); cursor: pointer; white-space: nowrap; transition: all 120ms ease;
 }
 .btn-add-combo:active { transform: scale(0.95); }
-.btn-add-combo.on {
-  background: var(--cyan);
-  color: #000000;
-  border-color: var(--cyan);
-  font-weight: 800;
-}
+.btn-add-combo.on { background: var(--cyan); color: #000000; border-color: var(--cyan); font-weight: 800; }
 
-/* ── Botones ── */
 .btn-primary {
   display: flex; align-items: center; justify-content: space-between;
   width: 100%; padding: 14px 18px; border-radius: var(--r-pill);
-  background: var(--cyan); color: #03131F; font-size: 14.5px; font-weight: 800;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-  transition: transform 120ms ease, background-color 140ms ease;
-  min-height: 50px;
+  background: #FFFFFF; color: #000000; font-size: 14.5px; font-weight: 800;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+  transition: transform 120ms ease; min-height: 48px;
 }
-.btn-primary:active { transform: scale(0.98); background: var(--cyan-dark); color: #fff; }
-.btn-icon-circle {
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(3, 19, 31, 0.15); display: flex; align-items: center;
-  justify-content: center; font-size: 14px; font-weight: 800;
-}
-
-.btn-ghost {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 12px 16px; border-radius: var(--r-pill);
-  background: transparent; color: var(--text-muted); font-size: 13.5px; font-weight: 600;
-  border: 1px solid var(--border); min-height: 44px;
-}
-.btn-ghost:active { background: var(--bg-card); color: var(--text-main); }
+.btn-primary:active { transform: scale(0.98); }
 .btn-save-pick {
   background: var(--cyan-wash); border: 1px solid rgba(0, 210, 255, 0.35); color: var(--cyan);
-  font-weight: 700; font-size: 12.5px; padding: 7px 14px; border-radius: var(--r-pill);
-  display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+  font-weight: 700; font-size: 12px; padding: 6px 12px; border-radius: var(--r-pill);
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
 }
 .btn-save-pick:active { transform: scale(0.97); }
 
-/* ── Toast de Notificaciones y Deshacer ── */
-#toast-container {
-  position: fixed;
-  bottom: calc(env(safe-area-inset-bottom) + 76px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  width: calc(100% - 32px);
-  max-width: 480px;
-  pointer-events: none;
-}
-.toast {
-  background: var(--bg-surface);
-  border: 1px solid rgba(0, 210, 255, 0.35);
-  border-radius: var(--r-md);
-  padding: 12px 16px;
-  box-shadow: var(--shadow-elevated);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 13.5px;
-  color: var(--text-main);
-  pointer-events: auto;
-  animation: toastIn 0.2s var(--ease-touch) backwards;
-}
-@keyframes toastIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.toast-undo-btn {
-  background: var(--cyan-wash);
-  color: var(--cyan);
-  border: 1px solid rgba(0, 210, 255, 0.3);
-  font-weight: 700;
-  font-size: 12px;
-  padding: 5px 12px;
-  border-radius: var(--r-pill);
-  cursor: pointer;
-}
-.toast-undo-btn:active { transform: scale(0.95); }
-
-/* ── Barra de Navegación Flotante ── */
+/* ── Barra de Navegación Flotante Apple ── */
 nav.bottom-nav {
-  position: fixed;
-  bottom: calc(env(safe-area-inset-bottom) + 12px);
+  position: fixed; bottom: calc(env(safe-area-inset-bottom) + 12px);
   left: 50%; transform: translateX(-50%);
   max-width: 520px; width: calc(100% - 24px); z-index: 50;
   background: rgba(18, 18, 20, 0.94);
@@ -778,65 +564,41 @@ nav.bottom-nav button.on svg { stroke: var(--cyan); }
 nav.bottom-nav svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
 
-/* ── Estados Vacíos y de Carga ── */
+/* ── Toast de Notificaciones ── */
+#toast-container {
+  position: fixed; bottom: calc(env(safe-area-inset-bottom) + 76px);
+  left: 50%; transform: translateX(-50%); z-index: 100;
+  width: calc(100% - 32px); max-width: 480px; pointer-events: none;
+}
+.toast {
+  background: var(--bg-card); border: 1px solid rgba(0, 210, 255, 0.35);
+  border-radius: var(--r-md); padding: 12px 16px; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; font-size: 13.5px; color: var(--text-main); pointer-events: auto;
+}
 .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
 .empty-state-icon {
-  width: 52px; height: 52px; border-radius: 50%;
-  background: var(--bg-surface); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px; color: var(--text-subtle); font-size: 22px;
+  width: 48px; height: 48px; border-radius: 50%; background: var(--bg-card);
+  border: 1px solid var(--border); display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 14px; font-size: 20px; color: var(--text-subtle);
 }
-.empty-state h3 { margin: 0 0 6px; font-size: 16px; color: var(--text-main); font-weight: 700; }
-.empty-state p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+.empty-state h3 { margin: 0 0 6px; font-size: 17px; color: var(--text-main); font-weight: 700; }
+.empty-state p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--text-muted); }
 
-.skeleton-box {
-  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-card) 50%, var(--bg-surface) 75%);
-  background-size: 200% 100%;
-  animation: skeletonPulse 1.5s infinite;
-  border-radius: var(--r-md);
-}
-@keyframes skeletonPulse {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* ── Modo Adaptativo Responsive (Desktop & Tablet Terminal) ── */
+/* ── Modo Desktop ── */
 .desktop-nav { display: none; }
-
 @media (min-width: 840px) {
   body {
-    max-width: 1040px;
-    border-left: none;
-    border-right: none;
-    padding-bottom: 40px;
+    max-width: 1040px; border-left: none; border-right: none; padding-bottom: 40px;
   }
   header.top {
-    padding: 16px 0;
-    max-width: 1040px;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-  }
-  .brand {
-    gap: 20px;
+    padding: 16px 0; max-width: 1040px; margin: 0 auto; left: 0; right: 0;
   }
   .desktop-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--bg-surface);
-    padding: 4px;
-    border-radius: var(--r-pill);
-    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px; background: var(--bg-group);
+    padding: 4px; border-radius: var(--r-pill); border: 1px solid var(--border);
   }
   .desktop-nav button {
-    padding: 7px 16px;
-    border-radius: var(--r-pill);
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--text-muted);
-    transition: all 140ms ease;
-  }
   .desktop-nav button:hover {
     color: var(--text-main);
   }
@@ -1140,25 +902,36 @@ function generarArgumento(m, best, topProj){
 
 function getMatchDays() {
   const dates = [...new Set(MATCHES.map(m=>m.date))].sort();
-  if(!dates.length) {
-    const hoy = new Date().toISOString().slice(0,10);
-    return [{ iso: hoy, n: new Date().getDate(), w: "hoy", has: false }];
-  }
+  const hoyIso = new Date().toISOString().slice(0,10);
+  if(!dates.length) return [{ iso: hoyIso, label: "Hoy", has: false }];
+
+  const hoyDt = new Date();
+  hoyDt.setHours(12,0,0,0);
+
   return dates.map(iso=>{
     const [y,m,d] = iso.split("-").map(Number);
     const dt = new Date(y, m-1, d, 12, 0, 0);
-    const w = ["dom","lun","mar","mié","jue","vie","sáb"][dt.getDay()];
-    return { iso, n: d, w, has: true };
+    const diffDays = Math.round((dt - hoyDt) / (1000 * 60 * 60 * 24));
+    
+    let label = "";
+    if(diffDays === -1) label = "Ayer";
+    else if(diffDays === 0) label = "Hoy";
+    else if(diffDays === 1) label = "Mañana";
+    else {
+      const w = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"][dt.getDay()];
+      label = `${w} ${d}`;
+    }
+    return { iso, label, has: true };
   });
 }
 
 /* ── VISTAS ── */
 
-/* 1. Vista Partidos (Apple Sports Clean) */
+/* 1. Vista Cartelera Principal (Apple Sports Scoreboard) */
 function viewDay(){
   const days = getMatchDays();
   if(!VIEW.day || !days.some(d=>d.iso===VIEW.day)) {
-    VIEW.day = days[0]?.iso || new Date().toISOString().slice(0,10);
+    VIEW.day = days.find(d=>d.label==="Hoy")?.iso || days[0]?.iso || new Date().toISOString().slice(0,10);
   }
 
   const todays = MATCHES.filter(m=>m.date===VIEW.day);
@@ -1169,105 +942,82 @@ function viewDay(){
     return {m, best, topProj, nVal: mkts.filter(x=>x.solid).length};
   });
 
-  const withVal = rows.filter(r=>r.best);
-  const topDelDia = withVal.length ? withVal[0] : (rows[0]||null);
-  const showHero = rows.length > 1 && topDelDia;
+  const grouped = agruparPorComp(rows);
 
   return `
-  <div class="days">${days.map(d=>`
-    <button class="day ${d.iso===VIEW.day?"on":""} ${d.has?"has":""}" data-day="${d.iso}">
-      <b>${d.n}</b><i>${d.w}</i>
-    </button>`).join("")}</div>
-
-  ${showHero?`
-  <div class="hero-pick" data-id="${topDelDia.m.id}" role="button" tabindex="0">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="hero-pick-tag">${topDelDia.best?"✨ Oportunidad Detectada":"🎯 Proyección Destacada"}</div>
-      <span class="${topDelDia.best?"val-badge":"badge-rec"}">
-        ${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% Ventaja`:`${Math.round((topDelDia.topProj[0]?.p||0.5)*100)}% Probabilidad`}
-      </span>
-    </div>
-    <div class="hero-matchup">
-      ${crest(topDelDia.m.homeLogo, topDelDia.m.home, "sm")} <span>${esc(topDelDia.m.home)}</span>
-      <em>vs</em>
-      <span>${esc(topDelDia.m.away)}</span> ${crest(topDelDia.m.awayLogo, topDelDia.m.away, "sm")}
-    </div>
-    <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Analizar partido")}</div>
-    <div class="hero-stats-grid">
-      <div class="hero-stat"><small>${topDelDia.best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(topDelDia.best?topDelDia.best.o:fair(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="hero-stat"><small>Probabilidad</small><b class="green">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
-      <div class="hero-stat"><small>${topDelDia.best?"Ventaja Real":"Entrar a partir de"}</small><b class="${topDelDia.best?"cyan":""}">${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% EV`:`≥ @${minTargetOdds(topDelDia.topProj[0]?.p||0.5).toFixed(2)}`}</b></div>
-    </div>
-    <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best, topDelDia.topProj))}</p>
-  </div>`:""}
+  <div class="date-switcher-apple">
+    ${days.map(d=>`
+      <button class="date-tab-apple ${d.iso===VIEW.day?"on":""}" data-day="${d.iso}">
+        ${esc(d.label)}
+      </button>
+    `).join("")}
+  </div>
 
   <div class="wrap">
-  ${rows.length? agruparPorComp(rows).map(g=>{
-    const key = VIEW.day+"|"+g.comp, open = !closedComps.has(key);
-    return `
-    <div style="margin-bottom:14px">
-      <button class="comp-header" data-compclose="${key}">
-        <span style="display:flex;align-items:center;gap:8px">${crest(g.rows[0].m.compLogo, g.comp, "sm")}${esc(g.comp)}</span>
-        <span class="eyebrow">${g.rows.length} ${g.rows.length===1?"partido":"partidos"}</span>
-      </button>
-      ${open? `<div class="matches-grid">${g.rows.map(r=>matchCard(r)).join("")}</div>` : ""}
-    </div>`;
-  }).join("") : `
-    <div class="empty-state">
-      <div class="empty-state-icon">🛡️</div>
-      <h3>No hay partidos en esta fecha</h3>
-      <p>Probá seleccionando otro día en la barra superior para ver los próximos encuentros.</p>
-    </div>`}
+    ${rows.length ? grouped.map(g=>`
+      <div class="league-section">
+        <div class="league-section-header">
+          <div class="league-section-title">
+            ${crest(g.rows[0].m.compLogo, g.comp, "sm")}
+            <span>${esc(g.comp)}</span>
+          </div>
+          <span class="league-section-count">${g.rows.length} ${g.rows.length===1?"partido":"partidos"}</span>
+        </div>
+
+        <div class="match-group-card">
+          ${g.rows.map((r, idx)=> `
+            ${idx > 0 ? `<div class="match-divider-apple"></div>` : ""}
+            ${matchRowApple(r)}
+          `).join("")}
+        </div>
+      </div>
+    `).join("") : `
+      <div class="empty-state">
+        <div class="empty-state-icon">🛡️</div>
+        <h3>No hay partidos en esta fecha</h3>
+        <p>Seleccioná otra fecha en la barra superior para ver los próximos encuentros programados.</p>
+      </div>`}
   </div>`;
 }
 
-function matchCard({m,best,topProj}){
+function matchRowApple({m, best, topProj}){
   const val = best && best.e>=S.minEv;
   const p1 = topProj && topProj[0];
   const p1MinOdd = p1 ? minTargetOdds(p1.p).toFixed(2) : null;
-  const isCombo = p1 && COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
-  const fairOdd = p1 ? fair(p1.p).toFixed(2) : null;
+  
+  const keyLabel = best ? `${best.label} @${best.o.toFixed(2)}` : p1 ? `${p1.label} ≥ @${p1MinOdd}` : "Analizar";
 
   return `
-  <div class="match-card ${val?"has-val":""}" data-id="${m.id}" role="button" tabindex="0" aria-label="Partido ${esc(m.home)} vs ${esc(m.away)}">
-    <div class="match-top">
-      <span class="match-time">⏱️ ${m.hora} hs</span>
-      ${val ? `<span class="val-badge">✨ +${Math.round(best.e*100)}% Ventaja</span>` : p1 ? `<span class="badge-rec">🎯 ${esc(p1.label)} · ${Math.round(p1.p*100)}%</span>` : `<span style="font-size:12px;color:var(--text-subtle)">Tocar para ver</span>`}
-    </div>
-    <div class="match-teams">
-      <div class="team-row">
-        <div class="team-info">${crest(m.homeLogo, m.home)}${esc(m.home)}</div>
-        <span class="team-xg">xG ${m.lh.toFixed(1)}</span>
-      </div>
-      <div class="team-row">
-        <div class="team-info">${crest(m.awayLogo, m.away)}${esc(m.away)}</div>
-        <span class="team-xg">xG ${m.la.toFixed(1)}</span>
+  <div class="match-row-apple ${val?"has-val":""}" data-id="${m.id}" role="button" tabindex="0" aria-label="Partido ${esc(m.home)} vs ${esc(m.away)}">
+    <!-- Local -->
+    <div class="team-col-left">
+      ${crest(m.homeLogo, m.home, "md")}
+      <div style="min-width:0">
+        <div class="team-name" title="${esc(m.home)}">${esc(m.home)}</div>
+        <div class="team-sub">xG ${m.lh.toFixed(1)}</div>
       </div>
     </div>
-    <div class="match-footer" style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--border-subtle)">
-      <div style="flex:1;min-width:0;padding-right:10px">
-        <span class="match-pick-label" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13.5px">
-          ${best ? `Tu cuota: <b style="color:var(--cyan)">@${best.o.toFixed(2)}</b>` : p1 ? `Entrar si paga: <b style="color:var(--cyan)">≥ @${p1MinOdd}</b>` : "Ver opciones"}
-        </span>
-        <small style="display:block;font-size:11px;color:var(--text-muted);margin-top:2px">
-          ${p1 ? `Cuota justa: @${fairOdd}` : ""}
-        </small>
+
+    <!-- Centro: Hora y Línea Cuantitativa -->
+    <div class="match-center-col">
+      <span class="match-time-apple">${m.hora} hs</span>
+      <span class="match-line-badge ${val?"green":""}" title="${val?"Ventaja detectada":"Pronóstico principal"}">
+        ${esc(keyLabel)}
+      </span>
+    </div>
+
+    <!-- Visitante -->
+    <div class="team-col-right">
+      <div style="min-width:0">
+        <div class="team-name" title="${esc(m.away)}">${esc(m.away)}</div>
+        <div class="team-sub">xG ${m.la.toFixed(1)}</div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-        ${p1 ? `
-        <button class="btn-card-combo ${isCombo?"on":""}"
-                data-add-combo="${m.id}|${p1.id}|${p1.label}|${p1MinOdd}|${p1.p}"
-                title="${isCombo?"Quitar de combinada":"Sumar a combinada"}"
-                aria-label="${isCombo?"Quitar de combinada":"Sumar a combinada"}">
-          ${isCombo?"✓ En Boleta":"+ Combo"}
-        </button>` : ""}
-        <span class="match-pick-odds" style="font-size:13px;color:var(--cyan);font-weight:700">Ver →</span>
-      </div>
+      ${crest(m.awayLogo, m.away, "md")}
     </div>
   </div>`;
 }
 
-/* 2. Vista Detalle de Partido */
+/* 2. Centro de Partido (Match Hub) */
 function viewMatch(id){
   const m = MATCHES.find(x=>x.id===id); if(!m) return "";
   const {M,mkts} = model(m);
@@ -1276,69 +1026,102 @@ function viewMatch(id){
   const val = best !== null;
   const p1 = topProj[0] || null;
   const minOddRecom = p1 ? minTargetOdds(p1.p).toFixed(2) : null;
+  const isCombo = p1 && COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
 
   return `
-  <div class="match-detail-layout">
-    <div class="match-detail-sidebar">
-      <div class="detail-header">
-        <button class="btn-back" data-back title="Volver a la lista de partidos (Esc)">← Volver a Partidos</button>
-        <div class="matchup-hero">
-          <div class="matchup-team">${crest(m.homeLogo, m.home, "lg")}<span>${esc(m.home)}</span><small class="num" style="color:var(--text-muted)">xG ${m.lh.toFixed(1)}</small></div>
-          <div class="matchup-vs">VS</div>
-          <div class="matchup-team">${crest(m.awayLogo, m.away, "lg")}<span>${esc(m.away)}</span><small class="num" style="color:var(--text-muted)">xG ${m.la.toFixed(1)}</small></div>
-        </div>
+  <div class="match-hub-layout">
+    <!-- Botón Volver -->
+    <div style="padding:10px var(--pad) 0">
+      <button class="btn-back" data-back title="Volver a la lista de partidos (Esc)">← Volver a Partidos</button>
+    </div>
+
+    <!-- Billboard Monumental del Partido -->
+    <div class="match-billboard">
+      <div class="billboard-comp">
+        ${crest(m.compLogo, m.comp, "sm")}
+        <span>${esc(m.comp)}</span>
       </div>
 
-      <div class="verdict-card ${val?"val":""}">
-        <div class="verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}">
-          ${val?"✨ OPORTUNIDAD DETECTADA":best?.e<=0?"⚠️ SIN VENTAJA EN TU CUOTA":"🎯 JUGADA RECOMENDADA"}
-        </div>
-        <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
-        <div class="verdict-grid">
-          <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-          <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-          <div class="verdict-cell"><small>${best?"Ventaja Real":"Regla de Entrada"}</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}% EV`:`≥ @${minOddRecom||"1.80"}`}</b></div>
-        </div>
-        
-        <div class="argument-box">
-          <h4>💡 ¿Por qué conviene?</h4>
-          <p>${esc(generarArgumento(m, best, topProj))}</p>
+      <div class="billboard-teams">
+        <div class="billboard-team">
+          ${crest(m.homeLogo, m.home, "lg")}
+          <span class="billboard-team-name">${esc(m.home)}</span>
+          <span class="billboard-team-xg">${m.lh.toFixed(1)} xG proyectado</span>
         </div>
 
-        ${best?.stake?`
-        <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:12px 16px;border-radius:var(--r-md);border:1px solid var(--border)">
-          <div>
-            <span style="font-size:12px;color:var(--text-muted);display:block">Monto sugerido (Kelly)</span>
-            <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
-          </div>
-          <span class="num" style="font-size:20px;font-weight:700;color:var(--cyan)">${mny(best.stake)}</span>
-        </div>`: (p1 ? `
-        <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:12px 16px;border-radius:var(--r-md);border:1px solid var(--border)">
-          <div>
-            <span style="font-size:12px;color:var(--text-muted);display:block">Asignación sugerida (2% de banca)</span>
-            <span style="font-size:11.5px;color:var(--cyan);font-weight:600">Buscá cuota ≥ @${minOddRecom}</span>
-          </div>
-          <span class="num" style="font-size:18px;font-weight:700;color:var(--text-main)">${mny(Math.round(S.bank * 0.02))}</span>
-        </div>` : "")}
+        <div class="billboard-time-center">
+          <span class="billboard-kickoff">${m.hora} hs</span>
+          <span style="font-size:11.5px;color:var(--text-muted)">Hoy</span>
+        </div>
+
+        <div class="billboard-team">
+          ${crest(m.awayLogo, m.away, "lg")}
+          <span class="billboard-team-name">${esc(m.away)}</span>
+          <span class="billboard-team-xg">${m.la.toFixed(1)} xG proyectado</span>
+        </div>
       </div>
     </div>
 
-    <div class="match-detail-content">
-      <div class="subtabs-pill-wrap" style="padding-top:0">
-        <div class="subtabs-pill">
-          <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
-          <button class="subtab-pill ${VIEW.subtab==="posiciones"?"on":""}" data-subtab="posiciones">Posiciones</button>
-          <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis</button>
-          <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Estadísticas</button>
+    <!-- Golden Verdict Card (La Oportunidad Clave) -->
+    <div class="golden-verdict-card">
+      <span class="golden-tag">${val ? "Ventaja Cuantitativa Detectada" : "Pronóstico Principal del Modelo"}</span>
+      <div class="golden-pick-title">${esc(best ? best.label : p1 ? p1.label : "Analizar Cuotas")}</div>
+      
+      <div class="golden-metrics-grid">
+        <div class="golden-metric">
+          <small>${best ? "Tu Cuota" : "Cuota Justa"}</small>
+          <b class="cyan">@${(best ? best.o : fair(p1?.p || 0.5)).toFixed(2)}</b>
+        </div>
+        <div class="golden-metric">
+          <small>Probabilidad</small>
+          <b class="green">${Math.round((best ? best.p : (p1?.p || 0.5)) * 100)}%</b>
+        </div>
+        <div class="golden-metric">
+          <small>${best ? "Ventaja Real" : "Regla de Entrada"}</small>
+          <b class="${best?.e > 0 ? "cyan" : ""}">
+            ${best ? `${best.e > 0 ? "+" : ""}${Math.round(best.e * 100)}% EV` : `≥ @${minOddRecom || "1.80"}`}
+          </b>
         </div>
       </div>
 
-      <div class="wrap" style="padding-top:10px">
-        ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
-        ${VIEW.subtab==="posiciones" ? tabPosiciones(m) : ""}
-        ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
-        ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
+      <p class="golden-argument">${esc(generarArgumento(m, best, topProj))}</p>
+
+      <div class="golden-bank-bar">
+        <div>
+          <span style="font-size:11.5px;color:var(--text-muted);display:block">Asignación sugerida</span>
+          <span style="font-size:13.5px;font-weight:700;color:#FFFFFF">
+            ${best?.stake ? `${mny(best.stake)} (Kelly)` : `${mny(Math.round(S.bank * 0.02))} (Fijo 2%)`}
+          </span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${p1 ? `
+          <button class="btn-card-combo ${isCombo ? "on" : ""}"
+                  data-add-combo="${m.id}|${p1.id}|${p1.label}|${p1MinOdd}|${p1.p}"
+                  title="${isCombo ? "Quitar de combinada" : "Sumar a combinada"}">
+            ${isCombo ? "✓ En Boleta" : "+ Combo"}
+          </button>` : ""}
+          <button class="btn-save-pick" data-savepick="${m.id}|${best ? best.id : p1?.id}|${best ? best.label : p1?.label}|${best ? best.o : minOddRecom}|${best ? best.stake : Math.round(S.bank*0.02)}|${best ? best.e : 0}">
+            Guardar Pick
+          </button>
+        </div>
       </div>
+    </div>
+
+    <!-- Pestañas Segmentadas del Partido -->
+    <div class="subtabs-pill-wrap">
+      <div class="subtabs-pill">
+        <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
+        <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis & xG</button>
+        <button class="subtab-pill ${VIEW.subtab==="posiciones"?"on":""}" data-subtab="posiciones">Posiciones</button>
+        <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Disciplina</button>
+      </div>
+    </div>
+
+    <div class="wrap" style="padding-top:14px">
+      ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
+      ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
+      ${VIEW.subtab==="posiciones" ? tabPosiciones(m) : ""}
+      ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
     </div>
   </div>`;
 }
@@ -1404,7 +1187,7 @@ function tabMercados(m, mkts){
   <!-- Bloque 1: Ganador del Partido (1X2) -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">🏆 Resultado Final (1X2)</div>
+      <div class="eyebrow" style="color:var(--cyan)">Resultado Final (1X2)</div>
       <small style="font-size:11px;color:var(--text-muted)">90 minutos</small>
     </div>
     <div class="grid-3-col">
@@ -1417,7 +1200,7 @@ function tabMercados(m, mkts){
   <!-- Bloque 2: Doble Oportunidad -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">🛡️ Doble Oportunidad</div>
+      <div class="eyebrow" style="color:var(--cyan)">Doble Oportunidad</div>
       <small style="font-size:11px;color:var(--text-muted)">Alta probabilidad</small>
     </div>
     <div class="grid-3-col">
@@ -1430,7 +1213,7 @@ function tabMercados(m, mkts){
   <!-- Bloque 3: Total de Goles -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">⚽ Total de Goles (Líneas 2.5 y 1.5)</div>
+      <div class="eyebrow" style="color:var(--cyan)">Total de Goles (Líneas 2.5 y 1.5)</div>
       <small style="font-size:11px;color:var(--text-muted)">Partidos</small>
     </div>
     <div class="grid-2-col" style="margin-bottom:8px">
@@ -1446,7 +1229,7 @@ function tabMercados(m, mkts){
   <!-- Bloque 4: Ambos Equipos Marcan -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">🤝 Ambos Equipos Marcan</div>
+      <div class="eyebrow" style="color:var(--cyan)">Ambos Equipos Marcan</div>
     </div>
     <div class="grid-2-col">
       ${renderOddsCell(m, mB_Yes, "Ambos Marcan — Sí")}
@@ -1457,7 +1240,7 @@ function tabMercados(m, mkts){
   <!-- Bloque 5: Primer Tiempo (1T) -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">⏱️ Primer Tiempo (1T)</div>
+      <div class="eyebrow" style="color:var(--cyan)">Primer Tiempo (1T)</div>
     </div>
     <div class="grid-2-col">
       ${renderOddsCell(m, m1T_O05, "1T Más de 0.5")}
@@ -1468,7 +1251,7 @@ function tabMercados(m, mkts){
   <!-- Bloque 6: Marcadores Más Probables -->
   <div class="market-block">
     <div class="market-block-header">
-      <div class="eyebrow" style="color:var(--cyan)">🔢 Marcadores Más Probables</div>
+      <div class="eyebrow" style="color:var(--cyan)">Marcadores Más Probables</div>
       <small style="font-size:11px;color:var(--text-muted)">Poisson</small>
     </div>
     <div class="grid-3-col">
@@ -1493,7 +1276,7 @@ function tabPosiciones(m){
 
     return `
     <div class="perf-card">
-      <div class="eyebrow" style="color:var(--cyan);margin-bottom:8px">🏆 Liga Profesional Argentina</div>
+      <div class="eyebrow" style="color:var(--cyan);margin-bottom:8px">LIGA PROFESIONAL ARGENTINA</div>
       <div class="standings-pills">
         <button class="standings-pill ${activeTab==="Zona A"?"on":""}" data-setstand="Zona A">Zona A</button>
         <button class="standings-pill ${activeTab==="Zona B"?"on":""}" data-setstand="Zona B">Zona B</button>
@@ -1554,7 +1337,7 @@ function tabPosiciones(m){
   const tabla = m.tabla || [];
   return `
   <div class="perf-card">
-    <div class="eyebrow" style="color:var(--cyan);margin-bottom:6px">🏆 Fase de Grupos · ${esc(m.comp)}</div>
+    <div class="eyebrow" style="color:var(--cyan);margin-bottom:6px">FASE DE GRUPOS · ${esc(m.comp)}</div>
     <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px">
       Posición de ${esc(m.home)} y ${esc(m.away)} en su grupo.
     </p>
@@ -1604,7 +1387,7 @@ function tabAnalisis(m, topProj){
   const an = ANALISIS[m.id];
   return `
   <div class="perf-card">
-    <div class="eyebrow" style="color:var(--cyan);margin-bottom:8px">🧠 La Lectura del Partido</div>
+    <div class="eyebrow" style="color:var(--cyan);margin-bottom:8px">LECTURA TÁCTICA & ANÁLISIS</div>
     <h3 style="margin:0 0 10px;font-size:18px">${esc(m.home)} vs ${esc(m.away)}</h3>
     <p style="font-size:14px;line-height:1.6;color:var(--text-muted);margin:0 0 14px">
       ${esc(an?.contexto || an?.veredicto || generarArgumento(m, null, topProj))}
@@ -1617,7 +1400,7 @@ function tabAnalisis(m, topProj){
   </div>
 
   <div class="perf-card">
-    <div class="eyebrow" style="margin-bottom:8px">📊 Proyecciones Clave</div>
+    <div class="eyebrow" style="margin-bottom:8px">PROYECCIONES CLAVE</div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="display:flex;justify-content:space-between;font-size:13.5px;border-bottom:1px solid var(--border-subtle);padding-bottom:6px">
         <span>Goles Esperados (xG)</span>
@@ -1748,7 +1531,7 @@ function viewLog(){
       ${spark}
 
       <div class="perf-boxes" style="margin-top:10px">
-        <div class="perf-box"><small>Rendimiento (ROI)</small><b class="${roi>=0?"win":"loss"}">${done.length?`${roi>=0?"+":""}${Math.round(roi*100)}%`:"—"}</b></div>
+        <div class="perf-box"><small>Rendimiento (ROI)</small><b>${done.length?`${roi>=0?"+":""}${Math.round(roi*100)}%`:"—"}</b></div>
         <div class="perf-box"><small>Aciertos / Fallos</small><b>${wins} / ${losses}</b></div>
         <div class="perf-box"><small>Ventaja de Cierre</small><b class="${clv>0?"cyan":""}">${clv!==null?`${clv>0?"+":""}${Math.round(clv*100)}%`:"—"}</b></div>
       </div>
@@ -1764,7 +1547,7 @@ function viewLog(){
     ${filteredLog.length ? filteredLog.slice().reverse().map(b=>{
       const evFmt = (b.ev && b.ev > 0 && b.ev < 5) ? `· Ventaja: +${Math.round(b.ev*100)}%` : "";
       return `
-    <div class="match-card">
+    <div class="market-block">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <span style="font-size:15px;font-weight:700">${esc(b.label)}</span>
         <span class="num" style="font-size:16px;font-weight:700;color:var(--cyan)">@${b.odds.toFixed(2)}</span>
@@ -1774,22 +1557,22 @@ function viewLog(){
       </div>
 
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-        <input class="odds-input" style="width:100%;text-align:left;font-size:12px;padding:8px 12px"
+        <input class="odds-input-pill" style="width:100%;text-align:left;font-size:12px;padding:8px 12px"
                type="number" step="0.01" inputmode="decimal" placeholder="Cuota de cierre de la casa (opcional)"
                value="${b.closing||""}" data-close="${b.id}">
       </div>
 
       <div style="display:flex;gap:6px">
-        <button class="chip ${b.result==="W"?"on":""}" style="flex:1;justify-content:center;padding:8px 4px" data-res="${b.id}" data-v="W">✓ Ganada</button>
-        <button class="chip ${b.result==="L"?"on":""}" style="flex:1;justify-content:center;padding:8px 4px" data-res="${b.id}" data-v="L">✕ Perdida</button>
-        <button class="chip ${b.result==="P"?"on":""}" style="flex:1;justify-content:center;padding:8px 4px" data-res="${b.id}" data-v="P">⏳ En juego</button>
+        <button class="chip ${b.result==="W"?"on":""}" style="flex:1;justify-content:center;padding:8px 4px" data-res="${b.id}" data-v="W">Ganada</button>
+        <button class="chip ${b.result==="L"?"on":""}" style="flex:1;justify-content:center;padding:8px 4px" data-res="${b.id}" data-v="L">Perdida</button>
+        <button class="chip ${b.result==="P"?"on":""}" style="flex:1;justify-content:center;padding:8px 4px" data-res="${b.id}" data-v="P">En juego</button>
       </div>
     </div>`;
     }).join("") : `
       <div class="empty-state">
         <div class="empty-state-icon">📋</div>
         <h3>Sin pronósticos guardados</h3>
-        <p>Cuando veas un pick que te guste, tocá "Guardar en mi Historial" para llevar la cuenta.</p>
+        <p>Cuando veas un pick que te guste, tocá "Guardar Pick" para llevar la cuenta.</p>
       </div>`}
   </div>`;
 }
@@ -1859,16 +1642,10 @@ function viewCombo(){
             </div>`).join("")}
           </div>
 
-          ${calc.e >= S.minEv ? `
-          <div class="combo-advantage-banner">
-            <span>⚡</span>
-            <span><b>¡VENTAJA CUANTITATIVA DETECTADA!</b> (+${Math.round(calc.e*100)}% EV)</span>
-          </div>` : ""}
-
-          <div class="verdict-grid">
-            <div class="verdict-cell"><small>Cuota Total</small><b class="cyan">@${calc.o.toFixed(2)}</b></div>
-            <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round(calc.p*100)}%</b></div>
-            <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"cyan":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
+          <div class="golden-metrics-grid">
+            <div class="golden-metric"><small>Cuota Total</small><b class="cyan">@${calc.o.toFixed(2)}</b></div>
+            <div class="golden-metric"><small>Probabilidad</small><b class="green">${Math.round(calc.p*100)}%</b></div>
+            <div class="golden-metric"><small>Ventaja</small><b class="${calc.e>0?"cyan":""}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
           </div>
           
           ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
@@ -2168,7 +1945,7 @@ function render(){
     app.innerHTML = `
       <div class="wrap" style="padding-top:32px">
         <div class="perf-card" style="text-align:center;padding:32px 20px">
-          <div class="empty-state-icon" style="color:var(--coral);border-color:rgba(239,68,68,0.3)">⚠️</div>
+          <div class="empty-state-icon" style="color:var(--coral);border-color:rgba(255,69,58,0.3)">⚠️</div>
           <h3 style="color:var(--text-main);margin-bottom:8px">Error al cargar datos</h3>
           <p style="color:var(--text-muted);margin-bottom:20px;font-size:13.5px">${esc(BOOT_ERROR)}</p>
           <button class="btn-primary" id="btn-retry-boot" style="max-width:240px;margin:0 auto;justify-content:center">
@@ -2205,22 +1982,19 @@ document.addEventListener("click", e => {
     VIEW.matchId = null;
     render(); return;
   }
-  const dayBtn = e.target.closest(".day");
+  const dayBtn = e.target.closest("[data-day]");
   if(dayBtn){
     VIEW.day = dayBtn.getAttribute("data-day") || dayBtn.dataset.day;
-    render();
-    const activeDayEl = document.querySelector(`.day[data-day="${VIEW.day}"]`);
-    if(activeDayEl) activeDayEl.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    return;
+    render(); return;
   }
   const sortBtn = e.target.closest(".sort-btn");
   if(sortBtn){
     VIEW.sortBy = sortBtn.getAttribute("data-sort") || sortBtn.dataset.sort;
     render(); return;
   }
-  const matchCard = e.target.closest(".match-card");
-  if(matchCard && !e.target.closest("button") && !e.target.closest("input")){
-    const mid = matchCard.getAttribute("data-id") || matchCard.dataset.id;
+  const matchRow = e.target.closest(".match-row-apple, .match-card");
+  if(matchRow && !e.target.closest("button") && !e.target.closest("input")){
+    const mid = matchRow.getAttribute("data-id") || matchRow.dataset.id;
     if(mid) { VIEW.matchId = mid; render(); return; }
   }
   const heroPick = e.target.closest(".hero-pick");
@@ -2238,9 +2012,9 @@ document.addEventListener("click", e => {
     VIEW.subtab = subtabBtn.getAttribute("data-subtab") || subtabBtn.dataset.subtab;
     render(); return;
   }
-  const standingsBtn = e.target.closest("[data-standingstab]");
+  const standingsBtn = e.target.closest("[data-setstand], [data-standingstab]");
   if(standingsBtn){
-    VIEW.standingsTab = standingsBtn.getAttribute("data-standingstab") || standingsBtn.dataset.standingstab;
+    VIEW.standingsTab = standingsBtn.getAttribute("data-setstand") || standingsBtn.getAttribute("data-standingstab") || standingsBtn.dataset.setstand;
     render(); return;
   }
   const mktCatBtn = e.target.closest("[data-mktcat]");

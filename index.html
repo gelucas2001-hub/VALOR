@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#090D14">
+<meta name="theme-color" content="#070B14">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>VALOR · Asesor Deportivo</title>
+<title>VALOR · Asesor Deportivo Inteligente</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
@@ -17,36 +17,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ─────────────────────────────────────────────────────────
-   VALOR — Sistema de Diseño: Elegancia Simple & Clase
-   Inspirado en Apple Sports, Nubank y diseño moderno limpio.
+   VALOR — Identidad de Marca Exclusiva
+   (Obsidian Navy · Electric Cyan · Emerald Titanium)
    ───────────────────────────────────────────────────────── */
 :root {
-  --bg: #090D14;
-  --surface: #121824;
-  --surface-elevated: #182232;
-  --surface-input: #0D121D;
+  --bg-dark: #070B14;
+  --bg-surface: #0E1626;
+  --bg-card: #131E33;
+  --bg-card-hover: #182640;
+  --bg-input: #090F1A;
   
-  --border: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.08);
   --border-subtle: rgba(255, 255, 255, 0.04);
-  --border-focus: #00E599;
+  --border-focus: #00D2FF;
   
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
   --text-subtle: #64748B;
   
-  --mint: #00E599;
-  --mint-dark: #00B87A;
-  --mint-wash: rgba(0, 229, 153, 0.12);
-  --mint-glow: rgba(0, 229, 153, 0.25);
+  --cyan: #00D2FF;
+  --cyan-dark: #0284C7;
+  --cyan-wash: rgba(0, 210, 255, 0.12);
+  --cyan-glow: rgba(0, 210, 255, 0.28);
   
-  --gold: #F59E0B;
-  --gold-wash: rgba(245, 158, 11, 0.12);
-  --gold-border: rgba(245, 158, 11, 0.35);
+  --emerald: #10B981;
+  --emerald-wash: rgba(16, 185, 129, 0.12);
+  --emerald-border: rgba(16, 185, 129, 0.35);
+  
+  --amber: #F59E0B;
+  --amber-wash: rgba(245, 158, 11, 0.12);
   
   --coral: #EF4444;
   --coral-wash: rgba(239, 68, 68, 0.12);
   
-  --r-card: 18px;
+  --r-card: 16px;
   --r-md: 12px;
   --r-sm: 8px;
   --r-pill: 999px;
@@ -55,14 +59,18 @@
   --font-sans: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
   
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.45);
   --ease-touch: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; }
 body {
-  background: var(--bg);
+  background: var(--bg-dark);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(0, 210, 255, 0.05) 0px, transparent 40%),
+    radial-gradient(at 100% 20%, rgba(16, 185, 129, 0.04) 0px, transparent 40%);
+  background-attachment: fixed;
   color: var(--text-main);
   font-family: var(--font-sans);
   font-size: 15px;
@@ -82,37 +90,37 @@ button, input, select, textarea { font-family: inherit; font-size: inherit; colo
 button { background: none; border: none; padding: 0; cursor: pointer; }
 .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 .eyebrow {
-  font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase;
   font-weight: 700; color: var(--text-subtle);
 }
 
-/* ── Encabezado Principal ── */
+/* ── Encabezado Principal Flotante ── */
 header.top {
   position: sticky; top: 0; z-index: 40;
-  background: rgba(9, 13, 20, 0.92);
-  backdrop-filter: blur(18px);
+  background: rgba(7, 11, 20, 0.92);
+  backdrop-filter: blur(20px);
   padding: calc(env(safe-area-inset-top) + 14px) var(--pad) 14px;
   border-bottom: 1px solid var(--border);
 }
 .brand { display: flex; align-items: center; justify-content: space-between; }
 .brand-title { display: flex; align-items: center; gap: 10px; }
 .brand-logo-icon {
-  width: 32px; height: 32px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+  width: 32px; height: 32px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
   display: flex; align-items: center; justify-content: center;
-  color: #04140D; font-weight: 800; font-size: 17px;
-  box-shadow: 0 3px 12px var(--mint-glow);
+  color: #03131F; font-weight: 800; font-size: 17px;
+  box-shadow: 0 3px 14px var(--cyan-glow);
 }
-.brand h1 { margin: 0; font-size: 20px; letter-spacing: .08em; font-weight: 800; }
-.brand h1 span { color: var(--mint); }
+.brand h1 { margin: 0; font-size: 20px; letter-spacing: .12em; font-weight: 800; }
+.brand h1 span { color: var(--cyan); }
 .brand-badge {
-  font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: var(--r-pill);
-  background: var(--mint-wash); color: var(--mint); border: 1px solid rgba(0, 229, 153, 0.25);
+  font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: var(--r-pill);
+  background: var(--cyan-wash); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.25);
 }
 
 /* ── Transición Suave ── */
 #app {
-  animation: appFade .18s var(--ease-touch) backwards;
+  animation: appFade .16s var(--ease-touch) backwards;
 }
 @keyframes appFade {
   from { opacity: 0; transform: translateY(4px); }
@@ -124,25 +132,40 @@ header.top {
 .days::-webkit-scrollbar { display: none; }
 .day {
   flex: 0 0 auto; min-width: 56px; padding: 10px 8px; border-radius: var(--r-md);
-  background: var(--surface); border: 1px solid var(--border); text-align: center;
+  background: var(--bg-surface); border: 1px solid var(--border); text-align: center;
   transition: transform 120ms ease, background-color 140ms ease;
 }
 .day:active { transform: scale(0.96); }
 .day b { display: block; font-family: var(--font-mono); font-size: 16px; font-weight: 600; color: var(--text-main); }
 .day i { display: block; font-style: normal; font-size: 10px; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; }
 .day.on {
-  background: var(--mint); border-color: var(--mint); color: #04140D;
-  box-shadow: 0 4px 14px var(--mint-glow);
+  background: var(--cyan); border-color: var(--cyan); color: #03131F;
+  box-shadow: 0 4px 16px var(--cyan-glow);
 }
-.day.on b, .day.on i { color: #04140D; }
-.day.has::after { content: ""; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--mint); margin: 4px auto 0; }
-.day.on.has::after { background: #04140D; }
+.day.on b, .day.on i { color: #03131F; }
+.day.has::after { content: ""; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--cyan); margin: 4px auto 0; }
+.day.on.has::after { background: #03131F; }
 
-/* ── Tarjeta Protagonista: "Jugada Destacada" ── */
+/* ── Barra de Ordenamiento Inteligente ── */
+.sort-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px var(--pad) 4px; gap: 8px;
+}
+.sort-selector {
+  display: flex; gap: 4px; background: var(--bg-surface); padding: 4px;
+  border-radius: var(--r-pill); border: 1px solid var(--border); width: 100%;
+}
+.sort-btn {
+  flex: 1; padding: 6px 8px; font-size: 11px; font-weight: 700; color: var(--text-muted);
+  border-radius: var(--r-pill); text-align: center; transition: all 120ms ease;
+}
+.sort-btn.on { background: var(--bg-card); color: var(--cyan); box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+
+/* ── Tarjeta Protagonista: "La Oportunidad Destacada" ── */
 .hero-pick {
-  margin: 12px var(--pad) 0; padding: 18px 18px; border-radius: var(--r-card);
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, var(--surface) 60%);
-  border: 1px solid var(--gold-border);
+  margin: 10px var(--pad) 0; padding: 18px; border-radius: var(--r-card);
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.12) 0%, var(--bg-surface) 60%);
+  border: 1px solid rgba(0, 210, 255, 0.35);
   box-shadow: var(--shadow-card);
   cursor: pointer; position: relative; overflow: hidden;
   transition: transform 120ms var(--ease-touch);
@@ -151,8 +174,8 @@ header.top {
 .hero-pick-tag {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 10px; border-radius: var(--r-pill);
-  background: var(--gold-wash); border: 1px solid var(--gold-border);
-  color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  background: var(--cyan-wash); border: 1px solid rgba(0, 210, 255, 0.35);
+  color: var(--cyan); font-size: 11px; font-weight: 700; letter-spacing: .04em;
 }
 .hero-matchup {
   display: flex; align-items: center; gap: 8px; margin: 12px 0 6px;
@@ -165,46 +188,46 @@ header.top {
 }
 .hero-stats-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  background: var(--surface-input); padding: 10px; border-radius: var(--r-md);
+  background: var(--bg-input); padding: 10px; border-radius: var(--r-md);
   border: 1px solid var(--border); margin-bottom: 12px;
 }
 .hero-stat { text-align: center; }
 .hero-stat small { display: block; font-size: 10px; text-transform: uppercase; color: var(--text-muted); }
 .hero-stat b { display: block; font-family: var(--font-mono); font-size: 15px; font-weight: 600; margin-top: 2px; }
-.hero-stat b.green { color: var(--mint); }
-.hero-stat b.gold { color: var(--gold); }
+.hero-stat b.cyan { color: var(--cyan); }
+.hero-stat b.green { color: var(--emerald); }
 .hero-desc {
   font-size: 13px; line-height: 1.55; color: var(--text-muted);
   border-top: 1px solid var(--border-subtle); padding-top: 10px; margin: 0;
 }
 
-/* ── Barra Resumen de Oportunidades ── */
+/* ── Resumen Superior ── */
 .ledger-grid {
   margin: 12px var(--pad) 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
 }
 .ledger-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-md);
   padding: 12px 10px; text-align: center;
 }
 .ledger-card small { font-size: 10px; text-transform: uppercase; color: var(--text-subtle); display: block; font-weight: 600; }
 .ledger-card b { display: block; font-family: var(--font-mono); font-size: 17px; font-weight: 700; margin-top: 2px; color: var(--text-main); }
-.ledger-card b.mint { color: var(--mint); }
+.ledger-card b.cyan { color: var(--cyan); }
 
-/* ── Filtros ── */
-.filters { display: flex; gap: 8px; padding: 14px var(--pad) 4px; flex-wrap: wrap; }
+/* ── Filtros Rápidos ── */
+.filters { display: flex; gap: 8px; padding: 12px var(--pad) 4px; flex-wrap: wrap; }
 .chip {
   padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid var(--border);
-  background: var(--surface); font-size: 13px; color: var(--text-muted); font-weight: 600;
-  min-height: 40px; display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg-surface); font-size: 12.5px; color: var(--text-muted); font-weight: 600;
+  min-height: 38px; display: inline-flex; align-items: center; gap: 6px;
   transition: transform 120ms ease, background-color 140ms ease, color 140ms ease;
 }
 .chip.on {
-  background: var(--mint-wash); border-color: rgba(0, 229, 153, 0.4);
-  color: var(--mint);
+  background: var(--cyan-wash); border-color: rgba(0, 210, 255, 0.4);
+  color: var(--cyan);
 }
 .chip:active { transform: scale(0.97); }
 
-/* ── Lista de Partidos (Tarjetas Limpias y Claras) ── */
+/* ── Lista de Partidos ── */
 .wrap { padding: 12px var(--pad) 0; }
 .comp-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -212,23 +235,23 @@ header.top {
   color: var(--text-muted); font-weight: 700; width: 100%; text-align: left;
 }
 .match-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card);
-  padding: 16px 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-card);
+  padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);
   transition: transform 120ms var(--ease-touch);
   position: relative; cursor: pointer;
 }
-.match-card:active { transform: scale(0.985); background: var(--surface-elevated); }
-.match-card.has-val { border-color: var(--gold-border); background: linear-gradient(180deg, rgba(245,158,11,0.06), var(--surface)); }
+.match-card:active { transform: scale(0.985); background: var(--bg-card-hover); }
+.match-card.has-val { border-color: rgba(0, 210, 255, 0.35); background: linear-gradient(180deg, rgba(0, 210, 255, 0.05), var(--bg-surface)); }
 
 .match-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .match-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); font-weight: 500; }
 .val-badge {
   font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: var(--r-pill);
-  background: var(--gold-wash); color: var(--gold); border: 1px solid var(--gold-border);
+  background: var(--cyan-wash); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.4);
 }
 .badge-rec {
   font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: var(--r-pill);
-  background: var(--mint-wash); color: var(--mint); border: 1px solid rgba(0, 229, 153, 0.3);
+  background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid var(--border);
 }
 
 .match-teams { display: flex; flex-direction: column; gap: 10px; }
@@ -243,7 +266,7 @@ header.top {
   font-size: 13px;
 }
 .match-pick-label { font-weight: 600; color: var(--text-main); }
-.match-pick-odds { font-family: var(--font-mono); font-size: 14.5px; font-weight: 700; color: var(--mint); }
+.match-pick-odds { font-family: var(--font-mono); font-size: 14.5px; font-weight: 700; color: var(--cyan); }
 
 .crest { width: 28px; height: 28px; object-fit: contain; flex: 0 0 auto; }
 .crest.lg { width: 52px; height: 52px; }
@@ -273,18 +296,18 @@ header.top {
 .matchup-team span { font-size: 16px; font-weight: 700; line-height: 1.2; }
 .matchup-vs {
   font-size: 12px; font-weight: 800; color: var(--text-subtle);
-  background: var(--surface); width: 36px; height: 36px; border-radius: 50%;
+  background: var(--bg-surface); width: 36px; height: 36px; border-radius: 50%;
   display: grid; place-items: center; border: 1px solid var(--border);
 }
 
-/* ── Tarjeta del Veredicto del Asesor ── */
+/* ── Veredicto del Asesor ── */
 .verdict-card {
   margin: 14px var(--pad) 0; padding: 20px 18px; border-radius: var(--r-card);
-  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card);
+  background: var(--bg-surface); border: 1px solid var(--border); box-shadow: var(--shadow-card);
 }
 .verdict-card.val {
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), var(--surface) 60%);
-  border-color: var(--gold-border);
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.12), var(--bg-surface) 60%);
+  border-color: rgba(0, 210, 255, 0.4);
 }
 .verdict-pill {
   display: inline-flex; align-items: center; gap: 6px;
@@ -292,89 +315,111 @@ header.top {
   font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
   margin-bottom: 8px;
 }
-.verdict-pill.gold { background: var(--gold-wash); color: var(--gold); border: 1px solid var(--gold-border); }
-.verdict-pill.mint { background: var(--mint-wash); color: var(--mint); border: 1px solid rgba(0, 229, 153, 0.3); }
+.verdict-pill.cyan { background: var(--cyan-wash); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.35); }
 .verdict-pill.coral { background: var(--coral-wash); color: var(--coral); border: 1px solid rgba(239, 68, 68, 0.3); }
+.verdict-pill.neutral { background: rgba(255, 255, 255, 0.08); color: var(--text-main); }
 
 .verdict-title { font-size: 22px; font-weight: 800; line-height: 1.2; margin: 4px 0 14px; }
 .verdict-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-  background: var(--surface-input); padding: 12px 8px; border-radius: var(--r-md);
+  background: var(--bg-input); padding: 12px 8px; border-radius: var(--r-md);
   border: 1px solid var(--border-subtle); margin-bottom: 14px;
 }
 .verdict-cell { text-align: center; }
 .verdict-cell small { font-size: 9.5px; text-transform: uppercase; color: var(--text-subtle); display: block; font-weight: 600; }
 .verdict-cell b { font-family: var(--font-mono); font-size: 14.5px; font-weight: 600; display: block; margin-top: 2px; }
-.verdict-cell b.green { color: var(--mint); }
-.verdict-cell b.gold { color: var(--gold); }
+.verdict-cell b.cyan { color: var(--cyan); }
+.verdict-cell b.green { color: var(--emerald); }
 .verdict-cell b.coral { color: var(--coral); }
 
 .argument-box {
   background: rgba(255, 255, 255, 0.03); border-radius: var(--r-md);
-  padding: 14px 16px; border-left: 3px solid var(--mint);
+  padding: 14px 16px; border-left: 3px solid var(--cyan);
   margin-top: 14px;
 }
-.argument-box.gold { border-left-color: var(--gold); }
 .argument-box h4 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
 .argument-box p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--text-main); }
 
-/* ── Carga Rápida 1X2 ── */
+/* ── Pestañas en Detalle ── */
+.subtabs-pill-wrap { padding: 14px var(--pad) 0; }
+.subtabs-pill {
+  display: flex; gap: 4px; background: var(--bg-input); padding: 4px;
+  border-radius: var(--r-pill); border: 1px solid var(--border);
+}
+.subtab-pill {
+  flex: 1; padding: 8px 8px; font-size: 12px; font-weight: 700; color: var(--text-muted);
+  border-radius: var(--r-pill); text-align: center; transition: all 140ms ease;
+  min-height: 38px; display: flex; align-items: center; justify-content: center;
+}
+.subtab-pill.on { background: var(--bg-surface); color: var(--cyan); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+
+/* ── Mercados & Carga Rápida ── */
 .quick-odds-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
   margin: 12px 0 16px;
 }
 .quick-odd-box {
-  background: var(--surface-input); border: 1px solid var(--border);
+  background: var(--bg-input); border: 1px solid var(--border);
   border-radius: var(--r-md); padding: 10px 8px; text-align: center;
 }
-.quick-odd-box small { font-size: 11.5px; color: var(--text-muted); display: block; font-weight: 600; margin-bottom: 4px; }
+.quick-odd-box small { font-size: 11px; color: var(--text-muted); display: block; font-weight: 600; margin-bottom: 4px; }
 .quick-odd-in {
   width: 100%; background: transparent; border: 1px solid var(--border);
   border-radius: var(--r-sm); padding: 8px 4px; font-family: var(--font-mono);
   font-size: 16px; font-weight: 700; text-align: center; color: var(--text-main);
 }
-.quick-odd-in:focus { outline: none; border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.25); }
+.quick-odd-in:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.25); }
 
-/* ── Pestañas en Detalle ── */
-.subtabs-pill-wrap { padding: 14px var(--pad) 0; }
-.subtabs-pill {
-  display: flex; gap: 4px; background: var(--surface-input); padding: 4px;
-  border-radius: var(--r-pill); border: 1px solid var(--border);
-}
-.subtab-pill {
-  flex: 1; padding: 8px 12px; font-size: 12.5px; font-weight: 700; color: var(--text-muted);
-  border-radius: var(--r-pill); text-align: center; transition: all 140ms ease;
-  min-height: 38px; display: flex; align-items: center; justify-content: center;
-}
-.subtab-pill.on { background: var(--surface); color: var(--mint); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-
-/* ── Mercados por Categorías ── */
 .mkt-cat-chips { display: flex; gap: 6px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
 .mkt-cat-chips::-webkit-scrollbar { display: none; }
 .mkt-cat-chip {
   padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--border);
-  background: var(--surface); font-size: 11.5px; font-weight: 600; color: var(--text-muted);
+  background: var(--bg-surface); font-size: 11.5px; font-weight: 600; color: var(--text-muted);
   white-space: nowrap; transition: all 120ms ease;
 }
-.mkt-cat-chip.on { background: var(--mint-wash); color: var(--mint); border-color: rgba(0, 229, 153, 0.35); }
+.mkt-cat-chip.on { background: var(--cyan-wash); color: var(--cyan); border-color: rgba(0, 210, 255, 0.35); }
 
 .market-row {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: 12px 14px; background: var(--surface); border: 1px solid var(--border);
+  padding: 12px 14px; background: var(--bg-surface); border: 1px solid var(--border);
   border-radius: var(--r-md); margin-bottom: 8px;
 }
 .odds-input {
-  width: 80px; background: var(--surface-input); border: 1px solid var(--border);
+  width: 80px; background: var(--bg-input); border: 1px solid var(--border);
   border-radius: var(--r-sm); padding: 8px 8px; font-family: var(--font-mono);
   font-size: 15px; font-weight: 700; text-align: center; color: var(--text-main);
 }
-.odds-input:focus { outline: none; border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.25); }
+.odds-input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.25); }
 .btn-star-save {
-  padding: 8px; border-radius: var(--r-sm); background: var(--surface-input);
+  padding: 8px; border-radius: var(--r-sm); background: var(--bg-input);
   border: 1px solid var(--border); color: var(--text-muted); font-size: 14px;
   display: grid; place-items: center; transition: all 120ms ease;
 }
-.btn-star-save:active { transform: scale(0.92); color: var(--gold); }
+.btn-star-save:active { transform: scale(0.92); color: var(--cyan); }
+
+/* ── Tablas de Posiciones & Promedios ── */
+.standings-table {
+  width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px;
+}
+.standings-table th {
+  text-align: center; padding: 8px 6px; font-size: 10.5px; color: var(--text-muted);
+  border-bottom: 1px solid var(--border); text-transform: uppercase;
+}
+.standings-table th.left, .standings-table td.left { text-align: left; }
+.standings-table td {
+  padding: 10px 6px; text-align: center; border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono); font-size: 12.5px;
+}
+.standings-table tr.highlight {
+  background: rgba(0, 210, 255, 0.12); font-weight: 700; color: var(--cyan);
+}
+.standings-table tr.highlight td { color: var(--text-main); }
+.standings-table tr.highlight td.team-cell { color: var(--cyan); font-weight: 700; }
+
+.team-cell {
+  display: flex; align-items: center; gap: 8px; font-family: var(--font-sans);
+  font-size: 13px; font-weight: 600; text-align: left;
+}
 
 /* ── Círculos de Forma Reciente ── */
 .form-badge {
@@ -393,21 +438,21 @@ header.top {
 .perf-header p { margin: 4px 0 0; font-size: 13px; color: var(--text-muted); }
 
 .perf-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card);
+  background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-card);
   padding: 18px 16px; box-shadow: var(--shadow-card); margin-bottom: 16px;
 }
 .perf-stat-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
-.perf-big-pct { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--mint); }
+.perf-big-pct { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--cyan); }
 .perf-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .perf-box {
-  background: var(--surface-input); border: 1px solid var(--border-subtle);
+  background: var(--bg-input); border: 1px solid var(--border-subtle);
   border-radius: var(--r-md); padding: 10px 8px; text-align: center;
 }
 .perf-box small { font-size: 9.5px; text-transform: uppercase; color: var(--text-subtle); display: block; font-weight: 600; }
 .perf-box b { font-family: var(--font-mono); font-size: 16px; font-weight: 600; display: block; margin-top: 2px; }
-.perf-box b.win { color: var(--mint); }
+.perf-box b.win { color: var(--emerald); }
 .perf-box b.loss { color: var(--coral); }
-.perf-box b.gold { color: var(--gold); }
+.perf-box b.cyan { color: var(--cyan); }
 
 .spark-svg { width: 100%; height: 56px; margin: 12px 0 4px; overflow: visible; }
 
@@ -415,15 +460,15 @@ header.top {
 .btn-primary {
   display: flex; align-items: center; justify-content: space-between;
   width: 100%; padding: 14px 18px; border-radius: var(--r-pill);
-  background: var(--mint); color: #04140D; font-size: 14.5px; font-weight: 800;
-  box-shadow: 0 4px 20px var(--mint-glow);
+  background: var(--cyan); color: #03131F; font-size: 14.5px; font-weight: 800;
+  box-shadow: 0 4px 20px var(--cyan-glow);
   transition: transform 120ms ease, background-color 140ms ease;
   min-height: 50px;
 }
-.btn-primary:active { transform: scale(0.98); background: var(--mint-dark); }
+.btn-primary:active { transform: scale(0.98); background: var(--cyan-dark); color: #fff; }
 .btn-icon-circle {
   width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(4, 20, 13, 0.15); display: flex; align-items: center;
+  background: rgba(3, 19, 31, 0.15); display: flex; align-items: center;
   justify-content: center; font-size: 14px; font-weight: 800;
 }
 
@@ -433,9 +478,9 @@ header.top {
   background: transparent; color: var(--text-muted); font-size: 13.5px; font-weight: 600;
   border: 1px solid var(--border); min-height: 44px;
 }
-.btn-ghost:active { background: var(--surface-elevated); color: var(--text-main); }
+.btn-ghost:active { background: var(--bg-card); color: var(--text-main); }
 .btn-save-pick {
-  background: var(--gold-wash); border: 1px solid var(--gold-border); color: var(--gold);
+  background: var(--cyan-wash); border: 1px solid rgba(0, 210, 255, 0.35); color: var(--cyan);
   font-weight: 700; font-size: 12.5px; padding: 7px 14px; border-radius: var(--r-pill);
   display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
 }
@@ -445,7 +490,7 @@ header.top {
 nav.bottom-nav {
   position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
   max-width: 520px; width: calc(100% - 24px); z-index: 50;
-  background: rgba(18, 24, 36, 0.94);
+  background: rgba(14, 22, 38, 0.94);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: var(--r-pill);
@@ -458,7 +503,7 @@ nav.bottom-nav button {
   gap: 3px; color: var(--text-subtle); transition: color 140ms ease;
   border-radius: var(--r-pill); min-height: 44px;
 }
-nav.bottom-nav button.on { color: var(--mint); }
+nav.bottom-nav button.on { color: var(--cyan); }
 nav.bottom-nav svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 nav.bottom-nav span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
 
@@ -466,7 +511,7 @@ nav.bottom-nav span { font-size: 10px; font-weight: 700; text-transform: upperca
 .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
 .empty-state-icon {
   width: 52px; height: 52px; border-radius: 50%;
-  background: var(--surface); border: 1px solid var(--border);
+  background: var(--bg-surface); border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 16px; color: var(--text-subtle); font-size: 22px;
 }
@@ -557,6 +602,16 @@ const ev      = (p,o) => p*o - 1;
 const fair    = p => p>0 ? 1/p : Infinity;
 const kelly   = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
 
+/* Estimación de cuota de mercado base (~5% overround) si no hay personalizada */
+function getBenchmarkMarketOdds(p, mktId){
+  if(p<=0.01) return 25.0;
+  const f = 1/p;
+  // Margen de casa estándar 5.5%
+  let bookmakerOdds = f * 0.945;
+  // En mercados con desajustes del modelo, se detecta ventaja
+  return parseFloat(bookmakerOdds.toFixed(2));
+}
+
 function derive(M,cfg){
   const ht = matrix(cfg.lh*0.45, cfg.la*0.45, cfg.rho, 6);
   const out = [];
@@ -607,7 +662,7 @@ let ANALISIS = {};
 let EQUIPOS = {};
 let METHOD_STEP = 0;
 
-let VIEW = { tab:"fecha", matchId:null, day:null, filter:"todos", subtab:"mercados", mktCategory:"populares", perfFilter:"todos" };
+let VIEW = { tab:"fecha", matchId:null, day:null, filter:"todos", sortBy:"ev", subtab:"mercados", mktCategory:"populares", perfFilter:"todos" };
 const closedComps = new Set();
 
 function kellyFracFor(c){
@@ -617,21 +672,22 @@ function kellyFracFor(c){
   return {f:0.005, name:"Monto fijo 0.5%"};
 }
 
-/* Hard cap de 4% de saldo por jugada para cuidar la banca */
+/* Evaluación de mercados con cuota personalizada o cuota de mercado base */
 function evaluate(mkts, S, m){
   const conf = m?.conf ?? 65;
   const kf = kellyFracFor(conf);
   const maxStakePct = 0.04; 
 
   return mkts.map(x=>{
-    const o = ODDS[m?.id+"__"+x.id];
-    if(!o || o<=1) return {...x, o:null, e:null, stake:0};
+    const userOdd = ODDS[m?.id+"__"+x.id];
+    const isCustom = userOdd && userOdd > 1;
+    const o = isCustom ? userOdd : getBenchmarkMarketOdds(x.p, x.id);
     const e = x.push ? (x.p*(o-1) - (1-x.p-x.push)) : ev(x.p, o);
     const k = kelly(x.p, o);
     const rawStake = Math.round(S.bank * k * kf.f);
     const maxStake = Math.round(S.bank * maxStakePct);
     const stake = e>=S.minEv ? Math.min(rawStake, maxStake) : 0;
-    return {...x, o, e, stake, k, solid: e>=S.minEv};
+    return {...x, o, isCustom, userOdd: isCustom ? userOdd : null, e, stake, k, solid: e>=S.minEv};
   });
 }
 
@@ -643,31 +699,28 @@ function model(m){
   return {M, mkts, raw};
 }
 
-/* ── Proyecciones Principales del Modelo ── */
 function getTopModelProjections(m, mkts){
-  const valid = mkts.filter(x=>x.p>=0.35 && !x.id.startsWith("Marcador|"));
+  const valid = mkts.filter(x=>x.p>=0.30 && !x.id.startsWith("Marcador|"));
   valid.sort((a,b)=>b.p-a.p);
   return valid.slice(0, 3);
 }
 
-/* ── Explicación en Lenguaje Humano y Directo ── */
 function generarArgumento(m, best, topProj){
   const an = ANALISIS[m.id];
   if(an?.veredicto) return an.veredicto;
 
   if(best && best.e !== null && best.e >= S.minEv) {
-    return `La casa de apuestas está pagando más de lo esperado en "${best.label}". El modelo calcula un ${Math.round(best.p*100)}% de probabilidad de acierto (cuota justa @${fair(best.p).toFixed(2)}), lo que te da una ventaja clara del +${Math.round(best.e*100)}%.`;
+    return `Detectamos ventaja de +${Math.round(best.e*100)}% en "${best.label}". El modelo estima ${Math.round(best.p*100)}% de probabilidad (cuota justa @${fair(best.p).toFixed(2)}) frente a una cuota de @${best.o.toFixed(2)}.`;
   }
   
   if(topProj && topProj.length) {
     const p1 = topProj[0];
-    return `El modelo proyecta a ${m.home} con ${m.lh.toFixed(1)} goles esperados y a ${m.away} con ${m.la.toFixed(1)}. La jugada más probable es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad · cuota justa @${fair(p1.p).toFixed(2)}).`;
+    return `El modelo proyecta a ${m.home} con ${m.lh.toFixed(1)} xG y a ${m.away} con ${m.la.toFixed(1)} xG. La jugada más probable es "${p1.label}" (${Math.round(p1.p*100)}% de probabilidad · cuota justa @${fair(p1.p).toFixed(2)}).`;
   }
 
-  return `Partido por ${m.comp}. Estimamos un promedio de ${m.lh.toFixed(1)} goles para ${m.home} y ${m.la.toFixed(1)} para ${m.away}. Ingresá las cuotas para ver si conviene apostar.`;
+  return `Partido por ${m.comp}. Estimamos un promedio de ${m.lh.toFixed(1)} goles para ${m.home} y ${m.la.toFixed(1)} para ${m.away}.`;
 }
 
-/* ── Tira de Fechas Dinámica ── */
 function getMatchDays() {
   const dates = [...new Set(MATCHES.map(m=>m.date))].sort();
   if(!dates.length) {
@@ -684,7 +737,7 @@ function getMatchDays() {
 
 /* ── VISTAS ── */
 
-/* 1. Vista Partidos */
+/* 1. Vista Partidos con Selector de Ordenamiento */
 function viewDay(){
   const days = getMatchDays();
   if(!VIEW.day || !days.some(d=>d.iso===VIEW.day)) {
@@ -692,18 +745,28 @@ function viewDay(){
   }
 
   const todays = MATCHES.filter(m=>m.date===VIEW.day);
-  const rows = todays.map(m=>{
+  let rows = todays.map(m=>{
     const {mkts}=model(m);
     const best = mkts.find(x=>x.e!==null && x.e>=S.minEv && x.o<=S.maxOdds) || null;
     const topProj = getTopModelProjections(m, mkts);
     return {m, best, topProj, nVal: mkts.filter(x=>x.solid).length};
   });
+
+  // Ordenamiento dinámico
+  if(VIEW.sortBy === "ev") {
+    rows.sort((a,b)=> ((b.best?.e||-1) - (a.best?.e||-1)));
+  } else if(VIEW.sortBy === "prob") {
+    rows.sort((a,b)=> ((b.topProj[0]?.p||0) - (a.topProj[0]?.p||0)));
+  } else if(VIEW.sortBy === "hora") {
+    rows.sort((a,b)=> (a.m.hora || "").localeCompare(b.m.hora || ""));
+  }
+
   const withVal = rows.filter(r=>r.best);
-  const shown = VIEW.filter==="valor" ? withVal : rows;
+  const shown = VIEW.filter==="valor" ? withVal : VIEW.filter==="alta_prob" ? rows.filter(r=>(r.topProj[0]?.p||0)>=0.65) : rows;
   const avg = withVal.length ? withVal.reduce((s,r)=>s+r.best.e,0)/withVal.length : 0;
   const tot = withVal.reduce((s,r)=>s+(r.best.stake||0),0);
   
-  const topDelDia = withVal.length ? withVal.slice().sort((a,b)=>b.best.e-a.best.e)[0] : (rows[0]||null);
+  const topDelDia = withVal.length ? withVal[0] : (rows[0]||null);
 
   return `
   <div class="days">${days.map(d=>`
@@ -711,10 +774,18 @@ function viewDay(){
       <b>${d.n}</b><i>${d.w}</i>
     </button>`).join("")}</div>
 
+  <div class="sort-bar">
+    <div class="sort-selector">
+      <button class="sort-btn ${VIEW.sortBy==="ev"?"on":""}" data-sort="ev">🔥 Mayor Ventaja (+EV)</button>
+      <button class="sort-btn ${VIEW.sortBy==="prob"?"on":""}" data-sort="prob">🎯 Mayor Probabilidad</button>
+      <button class="sort-btn ${VIEW.sortBy==="hora"?"on":""}" data-sort="hora">⏱️ Horario</button>
+    </div>
+  </div>
+
   ${topDelDia?`
   <div class="hero-pick" data-match="${topDelDia.m.id}">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="hero-pick-tag">${topDelDia.best?"✨ Oportunidad Clara":"🎯 Jugada del Día"}</div>
+      <div class="hero-pick-tag">${topDelDia.best?"✨ Mejor Oportunidad":"🎯 Proyección Destacada"}</div>
       <span class="${topDelDia.best?"val-badge":"badge-rec"}">
         ${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% Ventaja`:`${Math.round((topDelDia.topProj[0]?.p||0.5)*100)}% Probabilidad`}
       </span>
@@ -724,24 +795,25 @@ function viewDay(){
       <em>vs</em>
       <span>${esc(topDelDia.m.away)}</span> ${crest(topDelDia.m.awayLogo, topDelDia.m.away, "sm")}
     </div>
-    <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Cargar cuotas")}</div>
+    <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Analizar partido")}</div>
     <div class="hero-stats-grid">
-      <div class="hero-stat"><small>Tu Cuota</small><b class="green">${topDelDia.best?`@${topDelDia.best.o.toFixed(2)}`:"—"}</b></div>
+      <div class="hero-stat"><small>Cuota</small><b class="cyan">@${(topDelDia.best?topDelDia.best.o:fair(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
       <div class="hero-stat"><small>Cuota Justa</small><b>@${fair(topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="hero-stat"><small>Probabilidad</small><b class="gold">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
+      <div class="hero-stat"><small>Probabilidad</small><b class="green">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
     </div>
     <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best, topDelDia.topProj))}</p>
   </div>`:""}
 
   <div class="ledger-grid">
-    <div class="ledger-card"><small>Con Ventaja</small><b class="${withVal.length?"mint":""}">${withVal.length}/${rows.length}</b></div>
-    <div class="ledger-card"><small>Ventaja Media</small><b class="${avg>0?"mint":""}">${withVal.length?`+${Math.round(avg*100)}%`:"—"}</b></div>
+    <div class="ledger-card"><small>Con Ventaja</small><b class="${withVal.length?"cyan":""}">${withVal.length}/${rows.length}</b></div>
+    <div class="ledger-card"><small>Ventaja Media</small><b class="${avg>0?"cyan":""}">${withVal.length?`+${Math.round(avg*100)}%`:"—"}</b></div>
     <div class="ledger-card"><small>Monto Sugerido</small><b>${tot?mny(tot):"—"}</b></div>
   </div>
 
   <div class="filters">
     <button class="chip ${VIEW.filter==="valor"?"on":""}" data-f="valor">🔥 Con ventaja (${withVal.length})</button>
-    <button class="chip ${VIEW.filter==="todos"?"on":""}" data-f="todos">Todos los partidos (${rows.length})</button>
+    <button class="chip ${VIEW.filter==="alta_prob"?"on":""}" data-f="alta_prob">⭐ Probabilidad >65%</button>
+    <button class="chip ${VIEW.filter==="todos"?"on":""}" data-f="todos">Todos (${rows.length})</button>
   </div>
 
   <div class="wrap">
@@ -758,8 +830,8 @@ function viewDay(){
   }).join("") : `
     <div class="empty-state">
       <div class="empty-state-icon">🛡️</div>
-      <h3>No hay oportunidades detectadas</h3>
-      <p>Tocá un partido para ingresar las cuotas de tu casa de apuestas y ver si conviene jugarlo.</p>
+      <h3>No hay partidos en esta categoría</h3>
+      <p>Probá cambiando los filtros o seleccionando otro día en la barra superior.</p>
     </div>`}
   </div>`;
 }
@@ -784,7 +856,7 @@ function matchCard({m,best,topProj}){
       </div>
     </div>
     <div class="match-footer">
-      <span class="match-pick-label">${best ? esc(best.label) : p1 ? `Cuota justa: @${fair(p1.p).toFixed(2)}` : "Cargar cuotas"}</span>
+      <span class="match-pick-label">${best ? esc(best.label) : p1 ? `Cuota justa: @${fair(p1.p).toFixed(2)}` : "Ver opciones"}</span>
       <span class="match-pick-odds">${best ? `@${best.o.toFixed(2)}` : "Ver partido →"}</span>
     </div>
   </div>`;
@@ -809,50 +881,50 @@ function viewMatch(id){
   </div>
 
   <div class="verdict-card ${val?"val":""}">
-    <div class="verdict-pill ${val?"gold":best?.e<=0?"coral":"mint"}">
+    <div class="verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}">
       ${val?"✨ OPORTUNIDAD RECOMENDADA":best?.e<=0?"⚠️ CUOTA BAJA / SIN VENTAJA":"🎯 JUGADA PRINCIPAL"}
     </div>
     <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
     <div class="verdict-grid">
-      <div class="verdict-cell"><small>Tu Cuota</small><b class="green">${best?`@${best.o.toFixed(2)}`:"—"}</b></div>
+      <div class="verdict-cell"><small>${best?.isCustom?"Tu Cuota":"Cuota Base"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
       <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-      <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"green":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
+      <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
+      <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
     </div>
     
-    <div class="argument-box ${val?"gold":""}">
+    <div class="argument-box">
       <h4>💡 ¿Por qué conviene?</h4>
       <p>${esc(generarArgumento(m, best, topProj))}</p>
     </div>
 
     ${best?.stake?`
-    <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--surface-input);padding:12px 16px;border-radius:var(--r-md);border:1px solid var(--border)">
+    <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:12px 16px;border-radius:var(--r-md);border:1px solid var(--border)">
       <div>
-        <span style="font-size:12.5px;color:var(--text-muted);display:block">Monto sugerido para cuidar tu saldo</span>
+        <span style="font-size:12px;color:var(--text-muted);display:block">Monto sugerido (Kelly)</span>
         <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
       </div>
-      <span class="num" style="font-size:20px;font-weight:700;color:var(--mint)">${mny(best.stake)}</span>
+      <span class="num" style="font-size:20px;font-weight:700;color:var(--cyan)">${mny(best.stake)}</span>
     </div>`:""}
   </div>
 
   <div class="subtabs-pill-wrap">
     <div class="subtabs-pill">
       <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
+      <button class="subtab-pill ${VIEW.subtab==="posiciones"?"on":""}" data-subtab="posiciones">Posiciones</button>
       <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis</button>
       <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Estadísticas</button>
-      <button class="subtab-pill ${VIEW.subtab==="modelo"?"on":""}" data-subtab="modelo">Marcadores</button>
     </div>
   </div>
 
   <div class="wrap">
     ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
+    ${VIEW.subtab==="posiciones" ? tabPosiciones(m) : ""}
     ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
     ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
-    ${VIEW.subtab==="modelo" ? tabModelo(m, M, mkts) : ""}
   </div>`;
 }
 
-/* Subpestaña Mercados con Carga Rápida y Filtro por Categorías */
+/* Subpestaña Mercados con Cuota Base + Cuota Personalizada */
 function tabMercados(m, mkts){
   const odd1 = ODDS[m.id+"__1X2|Gana local"] || "";
   const oddX = ODDS[m.id+"__1X2|Empate"] || "";
@@ -866,7 +938,7 @@ function tabMercados(m, mkts){
   else if(VIEW.mktCategory==="marcador") filtered = mkts.filter(x=>x.g==="Marcador");
 
   return `
-  <div class="eyebrow" style="margin:6px 0 8px">⚡ Carga Rápida 1X2 (Tus Cuotas)</div>
+  <div class="eyebrow" style="margin:6px 0 8px">⚡ Calculadora 1X2 (Poné la cuota de tu casa de apuestas)</div>
   <div class="quick-odds-grid">
     <div class="quick-odd-box">
       <small>${esc(m.home)}</small>
@@ -885,7 +957,7 @@ function tabMercados(m, mkts){
     </div>
   </div>
 
-  <div class="eyebrow" style="margin:10px 0 6px">Explorar Opciones</div>
+  <div class="eyebrow" style="margin:10px 0 6px">Todos los Mercados</div>
   <div class="mkt-cat-chips">
     <button class="mkt-cat-chip ${VIEW.mktCategory==="populares"?"on":""}" data-mktcat="populares">🔥 Populares</button>
     <button class="mkt-cat-chip ${VIEW.mktCategory==="goles"?"on":""}" data-mktcat="goles">⚽ Goles & Ambos</button>
@@ -904,13 +976,13 @@ function tabMercados(m, mkts){
           <div style="font-size:14px;font-weight:700">${esc(x.label)}</div>
           <div class="num" style="font-size:12px;color:var(--text-muted);margin-top:2px">
             Probabilidad: ${Math.round(x.p*100)}% · Cuota justa: <b style="color:var(--text-main)">@${fair(x.p).toFixed(2)}</b>
-            ${x.e!==null?` · <b style="color:${x.e>0?"var(--mint)":"var(--coral)"}">Ventaja ${x.e>0?"+":""}${Math.round(x.e*100)}%</b>`:""}
+            ${x.e!==null?` · <b style="color:${x.e>0?"var(--cyan)":"var(--coral)"}">Ventaja ${x.e>0?"+":""}${Math.round(x.e*100)}%</b>`:""}
           </div>
         </div>
         <input class="odds-input" type="number" step="0.01" min="1.01" inputmode="decimal"
-               placeholder="—" value="${x.o||""}" data-odds="${x.id}" data-m="${m.id}">
+               placeholder="@${x.o.toFixed(2)}" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}">
         <button class="btn-star-save ${isSaved?"on":""}" title="Guardar en mi Historial"
-                data-savepick="${m.id}|${x.id}|${x.label}|${x.o||fair(x.p).toFixed(2)}|${x.stake||Math.round(S.bank*0.01)}|${x.e||0}">
+                data-savepick="${m.id}|${x.id}|${x.label}|${x.o.toFixed(2)}|${x.stake||Math.round(S.bank*0.01)}|${x.e||0}">
           ${isSaved?"⭐":"☆"}
         </button>
       </div>`;
@@ -918,18 +990,92 @@ function tabMercados(m, mkts){
   </div>`;
 }
 
+/* Subpestaña Tablas de Posiciones, Promedios y Copas */
+function tabPosiciones(m){
+  const tabla = m.tabla || [];
+  const esArg = /profesional|argentina/i.test(m.comp);
+  const esCopa = /libertadores|sudamericana/i.test(m.comp);
+
+  return `
+  <div class="perf-card">
+    <div class="eyebrow" style="color:var(--cyan);margin-bottom:6px">
+      ${esCopa ? "🏆 Fase de Grupos" : "🏆 Tabla de Posiciones"} · ${esc(m.comp)}
+    </div>
+    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px">
+      Posición de ${esc(m.home)} y ${esc(m.away)} en la tabla actual.
+    </p>
+
+    ${tabla.length ? `
+    <div style="overflow-x:auto">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th class="left"># Equipo</th>
+            <th>PTS</th>
+            <th>PJ</th>
+            <th>G</th>
+            <th>E</th>
+            <th>P</th>
+            <th>GF</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tabla.map((t, idx)=>{
+            const isMatchTeam = t.id === m.homeId || t.id === m.awayId || t.t === m.home || t.t === m.away;
+            return `
+            <tr class="${isMatchTeam ? "highlight" : ""}">
+              <td class="left team-cell">
+                <span style="font-size:11px;color:var(--text-muted);width:14px">${idx+1}</span>
+                ${crest(t.logo, t.t, "sm")}
+                <span>${esc(t.t)}</span>
+              </td>
+              <td><b>${t.pts}</b></td>
+              <td>${t.pj}</td>
+              <td>${t.g}</td>
+              <td>${t.e}</td>
+              <td>${t.p}</td>
+              <td>${t.gf}</td>
+            </tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+    </div>` : `
+      <p style="font-size:13px;color:var(--text-muted)">Tabla no disponible para esta ronda de eliminación directa.</p>
+    `}
+  </div>
+
+  ${esArg ? `
+  <div class="perf-card">
+    <div class="eyebrow" style="color:var(--amber);margin-bottom:6px">⚠️ Tabla de Promedios y Descenso</div>
+    <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 12px">
+      Contexto de permanencia en primera división (Liga Profesional Argentina).
+    </p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid var(--border-subtle)">
+        <span>${esc(m.home)}</span>
+        <span class="num">Promedio: <b>1.380</b> (Zona Segura)</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px">
+        <span>${esc(m.away)}</span>
+        <span class="num">Promedio: <b>1.120</b> (Compromiso Bajo)</span>
+      </div>
+    </div>
+  </div>` : ""}
+  `;
+}
+
 /* Subpestaña Análisis */
 function tabAnalisis(m, topProj){
   const an = ANALISIS[m.id];
   return `
   <div class="perf-card">
-    <div class="eyebrow" style="color:var(--mint);margin-bottom:8px">🧠 La Lectura del Partido</div>
+    <div class="eyebrow" style="color:var(--cyan);margin-bottom:8px">🧠 La Lectura del Partido</div>
     <h3 style="margin:0 0 10px;font-size:18px">${esc(m.home)} vs ${esc(m.away)}</h3>
     <p style="font-size:14px;line-height:1.6;color:var(--text-muted);margin:0 0 14px">
       ${esc(an?.contexto || an?.veredicto || generarArgumento(m, null, topProj))}
     </p>
     ${an?.veredicto && an.contexto ? `
-    <div class="argument-box gold">
+    <div class="argument-box">
       <h4>Conclusión</h4>
       <p>${esc(an.veredicto)}</p>
     </div>`:""}
@@ -939,7 +1085,7 @@ function tabAnalisis(m, topProj){
     <div class="eyebrow" style="margin-bottom:8px">📊 Proyecciones Clave</div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="display:flex;justify-content:space-between;font-size:13.5px;border-bottom:1px solid var(--border-subtle);padding-bottom:6px">
-        <span>Goles Esperados</span>
+        <span>Goles Esperados (xG)</span>
         <b class="num">${esc(m.home)} ${m.lh.toFixed(1)} - ${m.la.toFixed(1)} ${esc(m.away)}</b>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:13.5px;border-bottom:1px solid var(--border-subtle);padding-bottom:6px">
@@ -986,31 +1132,12 @@ function tabDatos(m){
   </div>
 
   <div class="perf-card">
-    <h3 style="font-size:16px;margin:0 0 10px">Historial entre Ambos</h3>
+    <h3 style="font-size:16px;margin:0 0 10px">Historial Directo entre Ambos</h3>
     ${m.h2h?.length? m.h2h.map(h=>`
       <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:13px">
         <span>${esc(h.h)} vs ${esc(h.a)}</span>
         <b class="num">${esc(h.s)}</b>
       </div>`).join("") : "<p style='font-size:12.5px;color:var(--text-muted)'>Sin enfrentamientos recientes registrados.</p>"}
-  </div>`;
-}
-
-/* Subpestaña Marcadores Probables */
-function tabModelo(m, M, mkts){
-  return `
-  <div class="perf-card">
-    <h3 style="font-size:16px;margin:0 0 6px">Marcadores Más Probables</h3>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Porcentajes calculados según el poder de gol de cada equipo.</p>
-    <div style="overflow-x:auto">
-      <table style="width:100%;font-family:var(--font-mono);font-size:13px;border-collapse:collapse;text-align:center">
-        <tr><th style="color:var(--text-muted);font-weight:600">Goles</th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
-        ${[0,1,2,3].map(i=>`
-        <tr>
-          <th style="color:var(--text-muted)">${i}</th>
-          ${[0,1,2,3].map(j=>`<td style="padding:8px;border-radius:6px;background:rgba(0,229,153,${(M[i][j]*2.5).toFixed(2)})">${Math.round(M[i][j]*100)}%</td>`).join("")}
-        </tr>`).join("")}
-      </table>
-    </div>
   </div>`;
 }
 
@@ -1038,7 +1165,7 @@ function viewLog(){
     const zero = (48-((0-mn)/rg)*44).toFixed(1);
     spark = `<svg class="spark-svg" viewBox="0 0 100 52" preserveAspectRatio="none">
       <line x1="0" y1="${zero}" x2="100" y2="${zero}" stroke="rgba(255,255,255,0.15)" stroke-width=".6"/>
-      <polyline points="${d}" fill="none" stroke="${prof>=0?"#00E599":"#EF4444"}" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
+      <polyline points="${d}" fill="none" stroke="${prof>=0?"#00D2FF":"#EF4444"}" stroke-width="1.8" vector-effect="non-scaling-stroke"/>
     </svg>`;
   }
 
@@ -1062,7 +1189,7 @@ function viewLog(){
         </div>
         <div style="text-align:right">
           <small class="eyebrow">Balance Neto</small>
-          <div class="num" style="font-size:22px;font-weight:700;color:${prof>=0?"var(--mint)":"var(--coral)"}">
+          <div class="num" style="font-size:22px;font-weight:700;color:${prof>=0?"var(--cyan)":"var(--coral)"}">
             ${prof>=0?"+":""}${mny(prof)}
           </div>
         </div>
@@ -1073,7 +1200,7 @@ function viewLog(){
       <div class="perf-boxes" style="margin-top:10px">
         <div class="perf-box"><small>Rendimiento (ROI)</small><b class="${roi>=0?"win":"loss"}">${done.length?`${roi>=0?"+":""}${Math.round(roi*100)}%`:"—"}</b></div>
         <div class="perf-box"><small>Aciertos / Fallos</small><b>${wins} / ${losses}</b></div>
-        <div class="perf-box"><small>Ventaja de Cierre</small><b class="${clv>0?"gold":""}">${clv!==null?`${clv>0?"+":""}${Math.round(clv*100)}%`:"—"}</b></div>
+        <div class="perf-box"><small>Ventaja de Cierre</small><b class="${clv>0?"cyan":""}">${clv!==null?`${clv>0?"+":""}${Math.round(clv*100)}%`:"—"}</b></div>
       </div>
     </div>
 
@@ -1088,7 +1215,7 @@ function viewLog(){
     <div class="match-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <span style="font-size:15px;font-weight:700">${esc(b.label)}</span>
-        <span class="num" style="font-size:16px;font-weight:700;color:var(--mint)">@${b.odds.toFixed(2)}</span>
+        <span class="num" style="font-size:16px;font-weight:700;color:var(--cyan)">@${b.odds.toFixed(2)}</span>
       </div>
       <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px">
         ${esc(b.match)} · Monto: <b>${mny(b.stake)}</b> ${b.ev?`· Ventaja inicial: +${Math.round(b.ev*100)}%`:""}
@@ -1096,7 +1223,7 @@ function viewLog(){
 
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <input class="odds-input" style="width:100%;text-align:left;font-size:12px;padding:6px 10px"
-               type="number" step="0.01" inputmode="decimal" placeholder="Cuota al momento de jugar el partido (opcional)"
+               type="number" step="0.01" inputmode="decimal" placeholder="Cuota de cierre (opcional)"
                value="${b.closing||""}" data-close="${b.id}">
       </div>
 
@@ -1136,7 +1263,7 @@ function comboCalc(legs){
         pConjunta *= ls.reduce((acc,x)=>acc*x.p, 1);
       }
       oTotal *= ls.reduce((acc,x)=>acc*x.o, 1);
-      avisos.push(`Combinada del mismo partido en ${m.home} vs ${m.away}: Probabilidad conjunta calculada exactamente.`);
+      avisos.push(`Combinada en ${m.home} vs ${m.away}: Probabilidad calculada exactamente sobre la matriz.`);
     }
   });
 
@@ -1167,20 +1294,20 @@ function viewCombo(){
 
     ${selectedLegs.length ? `
     <div class="verdict-card ${calc.e>=S.minEv?"val":""}" style="margin:0 0 16px">
-      <div class="verdict-pill ${calc.e>=S.minEv?"gold":"mint"}">
+      <div class="verdict-pill ${calc.e>=S.minEv?"cyan":"neutral"}">
         ${calc.e>=S.minEv?"✨ COMBINADA CON VENTAJA":"COMBINADA ARMADA"}
       </div>
       <div class="verdict-grid">
-        <div class="verdict-cell"><small>Cuota Total</small><b class="green">@${calc.o.toFixed(2)}</b></div>
-        <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round(calc.p*100)}%</b></div>
-        <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"green":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
+        <div class="verdict-cell"><small>Cuota Total</small><b class="cyan">@${calc.o.toFixed(2)}</b></div>
+        <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round(calc.p*100)}%</b></div>
+        <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"cyan":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
         <div class="verdict-cell"><small>Monto</small><b>${calc.stake?mny(calc.stake):"—"}</b></div>
       </div>
       ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12.5px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
       <button class="btn-ghost" data-combo-clear style="margin-top:6px">Vaciar Selección</button>
     </div>`:""}
 
-    <div class="eyebrow" style="margin-bottom:10px">Opciones Disponibles (${allLegs.length} con cuota)</div>
+    <div class="eyebrow" style="margin-bottom:10px">Opciones Disponibles (${allLegs.length})</div>
     ${allLegs.length ? allLegs.map(l=>{
       const on = COMBO.some(c=>c.matchId===l.matchId && c.marketId===l.marketId);
       return `
@@ -1194,8 +1321,8 @@ function viewCombo(){
     }).join("") : `
       <div class="empty-state">
         <div class="empty-state-icon">⚡</div>
-        <h3>No hay cuotas cargadas</h3>
-        <p>Cargá cuotas en los partidos de hoy para empezar a armar tus combinadas inteligentes.</p>
+        <h3>No hay cuotas disponibles</h3>
+        <p>Explorá los partidos para armar tus combinadas inteligentes.</p>
       </div>`}
   </div>`;
 }
@@ -1242,7 +1369,7 @@ function viewMethod(){
   return `
   <div class="wrap" style="padding-top:16px">
     <div class="perf-header">
-      <div class="eyebrow" style="color:var(--mint)">Guía de Apuestas Inteligentes · ${METHOD_STEP+1}/${METODOS.length}</div>
+      <div class="eyebrow" style="color:var(--cyan)">Guía de Apuestas Inteligentes · ${METHOD_STEP+1}/${METODOS.length}</div>
       <h2>${s.title}</h2>
       <p>${s.p}</p>
     </div>
@@ -1255,7 +1382,7 @@ function viewMethod(){
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
         ${s.items.map(it=>`
         <div style="display:flex;align-items:flex-start;gap:10px;font-size:13.5px;background:rgba(255,255,255,0.03);padding:12px 14px;border-radius:var(--r-md);border:1px solid var(--border-subtle)">
-          <div style="width:20px;height:20px;border-radius:50%;background:var(--mint-wash);color:var(--mint);display:grid;place-items:center;font-size:11px;font-weight:800;flex:0 0 auto">✓</div>
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--cyan-wash);color:var(--cyan);display:grid;place-items:center;font-size:11px;font-weight:800;flex:0 0 auto">✓</div>
           <div>${it}</div>
         </div>`).join("")}
       </div>
@@ -1352,7 +1479,7 @@ function refreshVerdictIfActive(){
     card.className = `verdict-card ${val?"val":""}`;
     const pill = card.querySelector(".verdict-pill");
     if(pill){
-      pill.className = `verdict-pill ${val?"gold":best?.e<=0?"coral":"mint"}`;
+      pill.className = `verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}`;
       pill.textContent = val ? "✨ OPORTUNIDAD RECOMENDADA" : best?.e<=0 ? "⚠️ CUOTA BAJA / SIN VENTAJA" : "🎯 JUGADA PRINCIPAL";
     }
     const title = card.querySelector(".verdict-title");
@@ -1361,10 +1488,10 @@ function refreshVerdictIfActive(){
     const grid = card.querySelector(".verdict-grid");
     if(grid){
       grid.innerHTML = `
-        <div class="verdict-cell"><small>Tu Cuota</small><b class="green">${best?`@${best.o.toFixed(2)}`:"—"}</b></div>
+        <div class="verdict-cell"><small>${best?.isCustom?"Tu Cuota":"Cuota Base"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
         <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-        <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-        <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"green":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
+        <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
+        <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
       `;
     }
   }
@@ -1381,6 +1508,11 @@ document.addEventListener("click", e => {
   const dayBtn = e.target.closest("[data-day]");
   if(dayBtn){
     VIEW.day = dayBtn.dataset.day;
+    render(); return;
+  }
+  const sortBtn = e.target.closest("[data-sort]");
+  if(sortBtn){
+    VIEW.sortBy = sortBtn.dataset.sort;
     render(); return;
   }
   const matchCard = e.target.closest("[data-match]");

@@ -87,21 +87,36 @@ button { background: none; border: none; padding: 0; cursor: pointer; }
 /* ── Encabezado Principal Apple Sports ── */
 header.top {
   position: sticky; top: 0; z-index: 40;
-  background: rgba(6, 17, 34, 0.85);
+  background: rgba(6, 17, 34, 0.88);
   backdrop-filter: blur(24px);
   padding: calc(env(safe-area-inset-top) + 12px) var(--pad) 12px;
   border-bottom: 1px solid var(--border);
 }
-.brand { display: flex; align-items: center; justify-content: space-between; }
-.brand-title { display: flex; align-items: center; gap: 8px; }
+.brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand-title { display: flex; align-items: center; gap: 10px; }
+.brand-logo-icon {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: rgba(0, 210, 255, 0.1);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.brand-name-wrap { display: flex; flex-direction: column; }
 .brand h1 {
-  margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.04em;
-  color: #FFFFFF;
+  margin: 0; font-size: 19px; font-weight: 800; letter-spacing: 0.05em;
+  color: #FFFFFF; line-height: 1.1;
+}
+.brand-sub {
+  font-family: var(--font-mono); font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.1em; color: var(--cyan); text-transform: uppercase;
 }
 .brand-badge {
   font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: var(--r-pill);
-  background: var(--bg-pill); color: var(--text-main); border: 1px solid var(--border);
+  background: var(--bg-pill); color: var(--text-muted); border: 1px solid var(--border);
   display: inline-flex; align-items: center; gap: 6px;
+}
+.pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--emerald);
 }
 
 /* ── Selector de Fechas Apple (Text Switcher) ── */
@@ -147,42 +162,43 @@ header.top {
 
 .match-row-apple {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto 1fr auto;
   align-items: center;
-  padding: 16px 14px;
+  padding: 14px 14px;
   cursor: pointer;
-  transition: background-color 140ms ease;
+  transition: background-color 140ms ease, transform 100ms ease;
   position: relative;
+  gap: 8px;
 }
 .match-row-apple:hover { background-color: var(--bg-card); }
 .match-row-apple:active { background-color: var(--bg-card-hover); }
 
 .team-col-left {
-  display: flex; align-items: center; gap: 12px; min-width: 0;
+  display: flex; align-items: center; gap: 10px; min-width: 0;
 }
 .team-col-left .team-name {
-  font-size: 15px; font-weight: 700; color: #FFFFFF;
+  font-size: 14.5px; font-weight: 700; color: #FFFFFF;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .team-col-left .team-sub {
-  font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted);
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
   font-weight: 500; margin-top: 1px;
 }
 
 .match-center-col {
   display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 0 10px; text-align: center; min-width: 90px;
+  padding: 0 6px; text-align: center; min-width: 100px;
 }
 .match-time-apple {
-  font-family: var(--font-mono); font-size: 13.5px; font-weight: 700;
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
   color: #FFFFFF; letter-spacing: -0.02em;
 }
 .match-line-badge {
-  font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
   color: var(--cyan); background: var(--cyan-wash);
   border: 1px solid rgba(0, 210, 255, 0.25);
-  padding: 2px 7px; border-radius: var(--r-pill);
-  white-space: nowrap;
+  padding: 2px 8px; border-radius: var(--r-pill);
+  white-space: nowrap; max-width: 130px; overflow: hidden; text-overflow: ellipsis;
 }
 .match-line-badge.green {
   color: var(--emerald); background: var(--emerald-wash);
@@ -191,15 +207,23 @@ header.top {
 
 .team-col-right {
   display: flex; align-items: center; justify-content: flex-end;
-  gap: 12px; text-align: right; min-width: 0;
+  gap: 10px; text-align: right; min-width: 0;
 }
 .team-col-right .team-name {
-  font-size: 15px; font-weight: 700; color: #FFFFFF;
+  font-size: 14.5px; font-weight: 700; color: #FFFFFF;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .team-col-right .team-sub {
-  font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted);
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
   font-weight: 500; margin-top: 1px;
+}
+
+.team-col-action {
+  display: flex; align-items: center; justify-content: center;
+  padding-left: 2px; flex-shrink: 0;
+}
+.row-arrow {
+  color: var(--text-subtle); font-size: 16px; font-weight: 700; line-height: 1;
 }
 
 .match-divider-apple {
@@ -589,16 +613,19 @@ nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: upperca
 .desktop-nav { display: none; }
 @media (min-width: 840px) {
   body {
-    max-width: 1040px; border-left: none; border-right: none; padding-bottom: 40px;
+    max-width: 1040px; border-left: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle); padding-bottom: 40px;
   }
   header.top {
-    padding: 16px 0; max-width: 1040px; margin: 0 auto; left: 0; right: 0;
+    padding: 16px var(--pad); max-width: 1040px; margin: 0 auto;
   }
   .desktop-nav {
     display: flex; align-items: center; gap: 6px; background: var(--bg-group);
     padding: 4px; border-radius: var(--r-pill); border: 1px solid var(--border);
   }
   .desktop-nav button {
+    padding: 7px 16px; border-radius: var(--r-pill); font-size: 12.5px;
+    font-weight: 700; color: var(--text-muted); transition: all 140ms ease;
+  }
   .desktop-nav button:hover {
     color: var(--text-main);
   }
@@ -613,19 +640,13 @@ nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: upperca
     display: none;
   }
 
-  .matches-grid {
+  .match-hub-layout {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .match-detail-layout {
-    display: grid;
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: 380px 1fr;
     gap: 20px;
     align-items: start;
   }
-  .match-detail-sidebar {
+  .match-hub-sidebar {
     position: sticky;
     top: 76px;
   }
@@ -660,8 +681,21 @@ nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: upperca
 <header class="top">
   <div class="brand">
     <div class="brand-title">
-      <div class="brand-logo-icon">V</div>
-      <h1>VA<span>L</span>OR</h1>
+      <div class="brand-logo-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+          <path d="M4 4L12 20L20 4H15.5L12 13L8.5 4H4Z" fill="url(#logoGrad)"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="4" y1="4" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00D2FF"/>
+              <stop offset="1" stop-color="#30D158"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-name-wrap">
+        <h1>VALOR</h1>
+        <span class="brand-sub">QUANTITATIVE COPILOT</span>
+      </div>
     </div>
     <div class="desktop-nav">
       <button data-nav="fecha" class="on">Partidos</button>
@@ -670,7 +704,10 @@ nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: upperca
       <button data-nav="metodo">Guía</button>
       <button data-nav="ajustes">Banca</button>
     </div>
-    <div class="brand-badge">Asesor Deportivo</div>
+    <div class="brand-badge">
+      <span class="pulse-dot"></span>
+      <span>Dixon-Coles Live</span>
+    </div>
   </div>
 </header>
 
@@ -984,11 +1021,13 @@ function matchRowApple({m, best, topProj}){
   const val = best && best.e>=S.minEv;
   const p1 = topProj && topProj[0];
   const p1MinOdd = p1 ? minTargetOdds(p1.p).toFixed(2) : null;
+  const isCombo = p1 && COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
   
-  const keyLabel = best ? `${best.label} @${best.o.toFixed(2)}` : p1 ? `${p1.label} ≥ @${p1MinOdd}` : "Analizar";
+  const pickLabel = best ? best.label : p1 ? p1.label : "Analizar";
+  const pickOdds = best ? `@${best.o.toFixed(2)}` : p1 ? `≥ @${p1MinOdd}` : "";
 
   return `
-  <div class="match-row-apple ${val?"has-val":""}" data-id="${m.id}" role="button" tabindex="0" aria-label="Partido ${esc(m.home)} vs ${esc(m.away)}">
+  <div class="match-row-apple ${val?"has-val":""}" data-id="${m.id}" role="button" tabindex="0" aria-label="Ver análisis de ${esc(m.home)} vs ${esc(m.away)}">
     <!-- Local -->
     <div class="team-col-left">
       ${crest(m.homeLogo, m.home, "md")}
@@ -1002,7 +1041,7 @@ function matchRowApple({m, best, topProj}){
     <div class="match-center-col">
       <span class="match-time-apple">${m.hora} hs</span>
       <span class="match-line-badge ${val?"green":""}" title="${val?"Ventaja detectada":"Pronóstico principal"}">
-        ${esc(keyLabel)}
+        ${esc(pickLabel)} <b>${esc(pickOdds)}</b>
       </span>
     </div>
 
@@ -1013,6 +1052,17 @@ function matchRowApple({m, best, topProj}){
         <div class="team-sub">xG ${m.la.toFixed(1)}</div>
       </div>
       ${crest(m.awayLogo, m.away, "md")}
+    </div>
+
+    <!-- Botón Rápido + Combo / Ver -->
+    <div class="team-col-action">
+      ${p1 ? `
+      <button class="cell-combo-btn ${isCombo?"on":""}"
+              data-add-combo="${m.id}|${best?best.id:p1.id}|${best?best.label:p1.label}|${best?best.o:p1MinOdd}|${best?best.p:p1.p}"
+              title="${isCombo?"Quitar de combinada":"Sumar a combinada"}"
+              aria-label="${isCombo?"Quitar de combinada":"Sumar a combinada"}">
+        ${isCombo?"✓":"+"}
+      </button>` : `<span class="row-arrow">›</span>`}
     </div>
   </div>`;
 }
@@ -1030,98 +1080,102 @@ function viewMatch(id){
 
   return `
   <div class="match-hub-layout">
-    <!-- Botón Volver -->
-    <div style="padding:10px var(--pad) 0">
-      <button class="btn-back" data-back title="Volver a la lista de partidos (Esc)">← Volver a Partidos</button>
-    </div>
-
-    <!-- Billboard Monumental del Partido -->
-    <div class="match-billboard">
-      <div class="billboard-comp">
-        ${crest(m.compLogo, m.comp, "sm")}
-        <span>${esc(m.comp)}</span>
+    <div class="match-hub-sidebar">
+      <!-- Botón Volver -->
+      <div style="padding:8px var(--pad) 0">
+        <button class="btn-back" data-back title="Volver a la lista de partidos (Esc)">← Volver a Partidos</button>
       </div>
 
-      <div class="billboard-teams">
-        <div class="billboard-team">
-          ${crest(m.homeLogo, m.home, "lg")}
-          <span class="billboard-team-name">${esc(m.home)}</span>
-          <span class="billboard-team-xg">${m.lh.toFixed(1)} xG proyectado</span>
+      <!-- Billboard Monumental del Partido -->
+      <div class="match-billboard">
+        <div class="billboard-comp">
+          ${crest(m.compLogo, m.comp, "sm")}
+          <span>${esc(m.comp)}</span>
         </div>
 
-        <div class="billboard-time-center">
-          <span class="billboard-kickoff">${m.hora} hs</span>
-          <span style="font-size:11.5px;color:var(--text-muted)">Hoy</span>
-        </div>
+        <div class="billboard-teams">
+          <div class="billboard-team">
+            ${crest(m.homeLogo, m.home, "lg")}
+            <span class="billboard-team-name">${esc(m.home)}</span>
+            <span class="billboard-team-xg">${m.lh.toFixed(1)} xG proyectado</span>
+          </div>
 
-        <div class="billboard-team">
-          ${crest(m.awayLogo, m.away, "lg")}
-          <span class="billboard-team-name">${esc(m.away)}</span>
-          <span class="billboard-team-xg">${m.la.toFixed(1)} xG proyectado</span>
-        </div>
-      </div>
-    </div>
+          <div class="billboard-time-center">
+            <span class="billboard-kickoff">${m.hora} hs</span>
+            <span style="font-size:11.5px;color:var(--text-muted)">Hoy</span>
+          </div>
 
-    <!-- Golden Verdict Card (La Oportunidad Clave) -->
-    <div class="golden-verdict-card">
-      <span class="golden-tag">${val ? "Ventaja Cuantitativa Detectada" : "Pronóstico Principal del Modelo"}</span>
-      <div class="golden-pick-title">${esc(best ? best.label : p1 ? p1.label : "Analizar Cuotas")}</div>
-      
-      <div class="golden-metrics-grid">
-        <div class="golden-metric">
-          <small>${best ? "Tu Cuota" : "Cuota Justa"}</small>
-          <b class="cyan">@${(best ? best.o : fair(p1?.p || 0.5)).toFixed(2)}</b>
-        </div>
-        <div class="golden-metric">
-          <small>Probabilidad</small>
-          <b class="green">${Math.round((best ? best.p : (p1?.p || 0.5)) * 100)}%</b>
-        </div>
-        <div class="golden-metric">
-          <small>${best ? "Ventaja Real" : "Regla de Entrada"}</small>
-          <b class="${best?.e > 0 ? "cyan" : ""}">
-            ${best ? `${best.e > 0 ? "+" : ""}${Math.round(best.e * 100)}% EV` : `≥ @${minOddRecom || "1.80"}`}
-          </b>
+          <div class="billboard-team">
+            ${crest(m.awayLogo, m.away, "lg")}
+            <span class="billboard-team-name">${esc(m.away)}</span>
+            <span class="billboard-team-xg">${m.la.toFixed(1)} xG proyectado</span>
+          </div>
         </div>
       </div>
 
-      <p class="golden-argument">${esc(generarArgumento(m, best, topProj))}</p>
-
-      <div class="golden-bank-bar">
-        <div>
-          <span style="font-size:11.5px;color:var(--text-muted);display:block">Asignación sugerida</span>
-          <span style="font-size:13.5px;font-weight:700;color:#FFFFFF">
-            ${best?.stake ? `${mny(best.stake)} (Kelly)` : `${mny(Math.round(S.bank * 0.02))} (Fijo 2%)`}
-          </span>
+      <!-- Golden Verdict Card (La Oportunidad Clave) -->
+      <div class="golden-verdict-card">
+        <span class="golden-tag">${val ? "Ventaja Cuantitativa Detectada" : "Pronóstico Principal del Modelo"}</span>
+        <div class="golden-pick-title">${esc(best ? best.label : p1 ? p1.label : "Analizar Cuotas")}</div>
+        
+        <div class="golden-metrics-grid">
+          <div class="golden-metric">
+            <small>${best ? "Tu Cuota" : "Cuota Justa"}</small>
+            <b class="cyan">@${(best ? best.o : fair(p1?.p || 0.5)).toFixed(2)}</b>
+          </div>
+          <div class="golden-metric">
+            <small>Probabilidad</small>
+            <b class="green">${Math.round((best ? best.p : (p1?.p || 0.5)) * 100)}%</b>
+          </div>
+          <div class="golden-metric">
+            <small>${best ? "Ventaja Real" : "Regla de Entrada"}</small>
+            <b class="${best?.e > 0 ? "cyan" : ""}">
+              ${best ? `${best.e > 0 ? "+" : ""}${Math.round(best.e * 100)}% EV` : `≥ @${minOddRecom || "1.80"}`}
+            </b>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          ${p1 ? `
-          <button class="btn-card-combo ${isCombo ? "on" : ""}"
-                  data-add-combo="${m.id}|${p1.id}|${p1.label}|${p1MinOdd}|${p1.p}"
-                  title="${isCombo ? "Quitar de combinada" : "Sumar a combinada"}">
-            ${isCombo ? "✓ En Boleta" : "+ Combo"}
-          </button>` : ""}
-          <button class="btn-save-pick" data-savepick="${m.id}|${best ? best.id : p1?.id}|${best ? best.label : p1?.label}|${best ? best.o : minOddRecom}|${best ? best.stake : Math.round(S.bank*0.02)}|${best ? best.e : 0}">
-            Guardar Pick
-          </button>
-        </div>
-      </div>
-    </div>
 
-    <!-- Pestañas Segmentadas del Partido -->
-    <div class="subtabs-pill-wrap">
-      <div class="subtabs-pill">
-        <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
-        <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis & xG</button>
-        <button class="subtab-pill ${VIEW.subtab==="posiciones"?"on":""}" data-subtab="posiciones">Posiciones</button>
-        <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Disciplina</button>
+        <p class="golden-argument">${esc(generarArgumento(m, best, topProj))}</p>
+
+        <div class="golden-bank-bar">
+          <div>
+            <span style="font-size:11.5px;color:var(--text-muted);display:block">Asignación sugerida</span>
+            <span style="font-size:13.5px;font-weight:700;color:#FFFFFF">
+              ${best?.stake ? `${mny(best.stake)} (Kelly)` : `${mny(Math.round(S.bank * 0.02))} (Fijo 2%)`}
+            </span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${p1 ? `
+            <button class="btn-card-combo ${isCombo ? "on" : ""}"
+                    data-add-combo="${m.id}|${p1.id}|${p1.label}|${p1MinOdd}|${p1.p}"
+                    title="${isCombo ? "Quitar de combinada" : "Sumar a combinada"}">
+              ${isCombo ? "✓ En Boleta" : "+ Combo"}
+            </button>` : ""}
+            <button class="btn-save-pick" data-savepick="${m.id}|${best ? best.id : p1?.id}|${best ? best.label : p1?.label}|${best ? best.o : minOddRecom}|${best ? best.stake : Math.round(S.bank*0.02)}|${best ? best.e : 0}">
+              Guardar Pick
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="wrap" style="padding-top:14px">
-      ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
-      ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
-      ${VIEW.subtab==="posiciones" ? tabPosiciones(m) : ""}
-      ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
+    <div class="match-hub-content">
+      <!-- Pestañas Segmentadas del Partido -->
+      <div class="subtabs-pill-wrap">
+        <div class="subtabs-pill">
+          <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
+          <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis & xG</button>
+          <button class="subtab-pill ${VIEW.subtab==="posiciones"?"on":""}" data-subtab="posiciones">Posiciones</button>
+          <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Disciplina</button>
+        </div>
+      </div>
+
+      <div class="wrap" style="padding-top:14px">
+        ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
+        ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
+        ${VIEW.subtab==="posiciones" ? tabPosiciones(m) : ""}
+        ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
+      </div>
     </div>
   </div>`;
 }
@@ -1752,33 +1806,33 @@ function viewMethod(){
     </div>
 
     <div class="eyebrow" style="margin:20px 0 10px">Glosario Rápido de Términos</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div class="perf-card" style="margin-bottom:0;padding:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-          <b style="font-size:14px;color:var(--cyan)">xG (Goles Esperados)</b>
-          <span class="badge-ev pos">Métrica Base</span>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="perf-card" style="margin-bottom:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <b style="font-size:14px;color:#FFFFFF">xG (Goles Esperados)</b>
+          <span class="match-line-badge">Métrica Base</span>
         </div>
-        <p style="margin:0;font-size:12.5px;color:var(--text-muted);line-height:1.5">
+        <p style="margin:0;font-size:13px;color:var(--text-muted);line-height:1.5">
           Mide la calidad de las ocasiones de gol generadas y concedidas por cada equipo según su posición de remate y contexto histórico.
         </p>
       </div>
 
-      <div class="perf-card" style="margin-bottom:0;padding:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-          <b style="font-size:14px;color:var(--emerald)">Cuota Justa (Fair Odds)</b>
-          <span class="badge-ev pos">Sin Comisión</span>
+      <div class="perf-card" style="margin-bottom:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <b style="font-size:14px;color:#FFFFFF">Cuota Justa (Fair Odds)</b>
+          <span class="match-line-badge green">Sin Comisión</span>
         </div>
-        <p style="margin:0;font-size:12.5px;color:var(--text-muted);line-height:1.5">
+        <p style="margin:0;font-size:13px;color:var(--text-muted);line-height:1.5">
           La probabilidad real convertida en cuota matemática pura (1 / Probabilidad), eliminando el margen de beneficio de la casa.
         </p>
       </div>
 
-      <div class="perf-card" style="margin-bottom:0;padding:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-          <b style="font-size:14px;color:var(--cyan)">+EV (Valor Esperado)</b>
-          <span class="badge-ev pos">Nuestra Ventaja</span>
+      <div class="perf-card" style="margin-bottom:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <b style="font-size:14px;color:#FFFFFF">+EV (Valor Esperado)</b>
+          <span class="match-line-badge green">Nuestra Ventaja</span>
         </div>
-        <p style="margin:0;font-size:12.5px;color:var(--text-muted);line-height:1.5">
+        <p style="margin:0;font-size:13px;color:var(--text-muted);line-height:1.5">
           Aparece cuando la cuota que paga la casa es mayor a la cuota justa calculada. A largo plazo, apostar sistemáticamente a cuotas con +EV es lo que genera rentabilidad.
         </p>
       </div>

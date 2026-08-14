@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#080C14">
+<meta name="theme-color" content="#06090F">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,22 +14,27 @@
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ─────────────────────────────────────────────────────────
-   VALOR — Sistema de Diseño: Asesor Inteligente (Élite)
-   Alineado con frontend-design, emil-design-eng y copywriting
+   VALOR — Sistema de Diseño: High-End Agency Architecture
+   (Double-Bezel · Ethereal Glass · Spring Physics)
    ───────────────────────────────────────────────────────── */
 :root {
-  --bg-dark: #080C14;
-  --bg-card: #121927;
-  --bg-card-hover: #172133;
-  --bg-card-pressed: #1B263B;
-  --bg-input: #0B101A;
+  --bg-base: #06090F;
+  --bg-shell: #0C111C;
+  --bg-core: #111827;
+  --bg-core-hover: #162033;
+  --bg-core-pressed: #1B263B;
+  --bg-input: #080D16;
   
-  --border: rgba(255, 255, 255, 0.08);
+  --border-shell: rgba(255, 255, 255, 0.06);
+  --border-core: rgba(255, 255, 255, 0.09);
   --border-soft: rgba(255, 255, 255, 0.04);
   --border-focus: #00E599;
+  
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --inner-highlight-subtle: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
@@ -38,126 +43,156 @@
   --mint: #00E599;
   --mint-dark: #00B87A;
   --mint-wash: rgba(0, 229, 153, 0.12);
-  --mint-glow: rgba(0, 229, 153, 0.25);
+  --mint-glow: rgba(0, 229, 153, 0.28);
   
   --gold: #F59E0B;
   --gold-dark: #D97706;
   --gold-wash: rgba(245, 158, 11, 0.14);
-  --gold-border: rgba(245, 158, 11, 0.4);
+  --gold-border: rgba(245, 158, 11, 0.38);
   
   --coral: #EF4444;
   --coral-wash: rgba(239, 68, 68, 0.12);
   
-  --petrol: #38BDF8;
-  --petrol-wash: rgba(56, 189, 248, 0.12);
-  
-  --r-sm: 8px;
+  --r-outer: 22px;
+  --r-inner: 18px;
   --r-md: 14px;
-  --r-lg: 20px;
+  --r-sm: 8px;
   --r-pill: 100px;
   --pad: 16px;
   
   --font-sans: "Archivo", system-ui, -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   
-  --shadow-card: 0 4px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --shadow-float: 0 12px 32px -8px rgba(0, 0, 0, 0.7);
-  --ring: 0 0 0 3px rgba(0, 229, 153, 0.35);
+  --shadow-ambient: 0 12px 36px -8px rgba(0, 0, 0, 0.65);
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; }
 body {
-  background: var(--bg-dark);
+  background: var(--bg-base);
+  background-image: 
+    radial-gradient(at 10% 0%, rgba(0, 229, 153, 0.06) 0px, transparent 50%),
+    radial-gradient(at 90% 15%, rgba(245, 158, 11, 0.05) 0px, transparent 45%);
+  background-attachment: fixed;
   color: var(--text-main);
   font-family: var(--font-sans);
   font-variation-settings: "wdth" 100, "wght" 450;
   font-size: 15px;
   line-height: 1.5;
-  padding-bottom: 88px;
+  padding-bottom: 92px;
   overscroll-behavior-y: contain;
   -webkit-font-smoothing: antialiased;
   max-width: 560px;
   margin: 0 auto;
   min-height: 100vh;
   position: relative;
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border-shell);
+  border-right: 1px solid var(--border-shell);
 }
 
 button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
 button { background: none; border: none; padding: 0; cursor: pointer; }
 .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
 .eyebrow {
-  font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+  font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
   font-variation-settings: "wdth" 115, "wght" 700; color: var(--text-subtle);
 }
 .hide { display: none !important; }
 
-/* ── Encabezado Principal ── */
+/* ── Encabezado Flotante (Glass Topbar) ── */
 header.top {
   position: sticky; top: 0; z-index: 40;
-  background: rgba(8, 12, 20, 0.92);
-  backdrop-filter: blur(16px);
+  background: rgba(6, 9, 15, 0.88);
+  backdrop-filter: blur(20px);
   padding: calc(env(safe-area-inset-top) + 12px) var(--pad) 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-shell);
 }
 .brand { display: flex; align-items: center; justify-content: space-between; }
-.brand-title { display: flex; align-items: center; gap: 9px; }
+.brand-title { display: flex; align-items: center; gap: 10px; }
 .brand-logo-icon {
-  width: 28px; height: 28px; border-radius: 8px;
+  width: 30px; height: 30px; border-radius: 9px;
   background: linear-gradient(135deg, var(--mint), var(--mint-dark));
   display: flex; align-items: center; justify-content: center;
-  color: #04140D; font-weight: 800; font-size: 16px;
-  box-shadow: 0 2px 10px rgba(0, 229, 153, 0.35);
+  color: #04140D; font-weight: 900; font-size: 16px;
+  box-shadow: 0 4px 14px var(--mint-glow);
 }
-.brand h1 { margin: 0; font-size: 20px; letter-spacing: .14em; font-variation-settings: "wdth" 120, "wght" 800; }
+.brand h1 { margin: 0; font-size: 20px; letter-spacing: .15em; font-variation-settings: "wdth" 120, "wght" 800; }
 .brand h1 span { color: var(--mint); }
 .brand-badge {
-  font-size: 11px; padding: 4px 10px; border-radius: var(--r-pill);
+  font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 4px 11px; border-radius: var(--r-pill);
   background: var(--mint-wash); color: var(--mint); font-weight: 700;
   border: 1px solid rgba(0, 229, 153, 0.25);
 }
 
-/* ── Transición de Pantalla Suave ── */
+/* ── Transición Suave entre Pantallas ── */
 #app {
-  animation: appFade .15s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: appEnter .16s var(--ease-spring) backwards;
 }
-@keyframes appFade {
+@keyframes appEnter {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Tira de Días Dinámica ── */
+/* ── Tira de Fechas (Horizontal Date Strip) ── */
 .days { display: flex; gap: 8px; overflow-x: auto; padding: 14px var(--pad) 6px; scrollbar-width: none; }
 .days::-webkit-scrollbar { display: none; }
 .day {
   flex: 0 0 auto; min-width: 54px; padding: 8px 10px; border-radius: var(--r-md);
-  background: var(--bg-card); border: 1px solid var(--border); text-align: center;
-  transition: transform 120ms ease, background-color 150ms ease, border-color 150ms ease;
+  background: var(--bg-core); border: 1px solid var(--border-shell); text-align: center;
+  box-shadow: var(--inner-highlight-subtle);
+  transition: transform 140ms var(--ease-spring), background-color 150ms ease, border-color 150ms ease;
 }
 .day:active { transform: scale(0.96); }
 .day b { display: block; font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--text-main); }
-.day i { display: block; font-style: normal; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; }
+.day i { display: block; font-style: normal; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; }
 .day.on {
   background: var(--mint); border-color: var(--mint); color: #04140D;
-  box-shadow: 0 4px 14px rgba(0, 229, 153, 0.3);
+  box-shadow: 0 4px 16px var(--mint-glow);
 }
 .day.on b, .day.on i { color: #04140D; }
 .day.has::after { content: ""; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--mint); margin: 4px auto 0; }
 .day.on.has::after { background: #04140D; }
 
-/* ── Tarjeta Protagonista: "La Jugada Destacada del Día" ── */
-.hero-pick {
-  margin: 12px var(--pad) 0; padding: 18px 16px; border-radius: var(--r-lg);
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(18, 25, 39, 0.96) 65%);
-  border: 1px solid var(--gold-border);
-  box-shadow: var(--shadow-card);
-  position: relative; overflow: hidden; cursor: pointer;
-  transition: transform 120ms ease;
+/* ── Doble Bisel (Double-Bezel Architecture) ── */
+.bezel-shell {
+  background: var(--bg-shell);
+  border: 1px solid var(--border-shell);
+  border-radius: var(--r-outer);
+  padding: 3px;
+  box-shadow: var(--shadow-ambient);
+  margin-bottom: 12px;
 }
-.hero-pick:active { transform: scale(0.985); }
-.hero-pick::before {
+.bezel-core {
+  background: var(--bg-core);
+  border: 1px solid var(--border-core);
+  border-radius: var(--r-inner);
+  padding: 16px;
+  box-shadow: var(--inner-highlight);
+  position: relative;
+}
+
+/* ── Tarjeta Protagonista: "La Oportunidad del Día" ── */
+.hero-bezel {
+  margin: 12px var(--pad) 0;
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.18), var(--bg-shell));
+  border: 1px solid var(--gold-border);
+  border-radius: var(--r-outer);
+  padding: 3px;
+  box-shadow: 0 8px 32px -4px rgba(245, 158, 11, 0.15);
+  cursor: pointer;
+  transition: transform 140ms var(--ease-spring);
+}
+.hero-bezel:active { transform: scale(0.985); }
+.hero-core {
+  background: linear-gradient(180deg, rgba(18, 25, 39, 0.95), #0E1420);
+  border-radius: var(--r-inner);
+  padding: 18px 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  position: relative; overflow: hidden;
+}
+.hero-core::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
@@ -165,7 +200,7 @@ header.top {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 10px; border-radius: var(--r-pill);
   background: var(--gold-wash); border: 1px solid var(--gold-border);
-  color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  color: var(--gold); font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
   text-transform: uppercase;
 }
 .hero-matchup {
@@ -179,8 +214,8 @@ header.top {
 }
 .hero-stats-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  background: rgba(11, 16, 26, 0.6); padding: 10px; border-radius: var(--r-md);
-  border: 1px solid var(--border); margin-bottom: 12px;
+  background: var(--bg-input); padding: 10px; border-radius: var(--r-md);
+  border: 1px solid var(--border-soft); margin-bottom: 12px;
 }
 .hero-stat { text-align: center; }
 .hero-stat small { display: block; font-size: 9.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
@@ -192,59 +227,72 @@ header.top {
   border-top: 1px solid var(--border-soft); padding-top: 10px; margin: 0;
 }
 
-/* ── Barra Resumen ── */
+/* ── Barra Resumen (Ledger Grid) ── */
 .ledger-grid {
   margin: 12px var(--pad) 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
 }
 .ledger-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md);
-  padding: 12px 10px; text-align: center; box-shadow: var(--shadow-card);
+  background: var(--bg-core); border: 1px solid var(--border-shell); border-radius: var(--r-md);
+  padding: 12px 10px; text-align: center; box-shadow: var(--inner-highlight-subtle);
 }
-.ledger-card small { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-subtle); display: block; }
-.ledger-card b { display: block; font-family: var(--font-mono); font-size: 17px; font-weight: 600; margin-top: 3px; color: var(--text-main); }
+.ledger-card small { font-size: 9.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-subtle); display: block; }
+.ledger-card b { display: block; font-family: var(--font-mono); font-size: 17px; font-weight: 700; margin-top: 3px; color: var(--text-main); }
 .ledger-card b.mint { color: var(--mint); }
 
 /* ── Filtros y Chips ── */
 .filters { display: flex; gap: 8px; padding: 14px var(--pad) 4px; flex-wrap: wrap; }
 .chip {
-  padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid var(--border);
-  background: var(--bg-card); font-size: 12.5px; color: var(--text-muted); font-weight: 600;
+  padding: 8px 14px; border-radius: var(--r-pill); border: 1px solid var(--border-shell);
+  background: var(--bg-core); font-size: 12.5px; color: var(--text-muted); font-weight: 600;
   min-height: 40px; display: inline-flex; align-items: center; gap: 6px;
-  transition: transform 120ms ease, background-color 150ms ease, color 150ms ease;
+  box-shadow: var(--inner-highlight-subtle);
+  transition: transform 120ms var(--ease-spring), background-color 150ms ease, color 150ms ease;
 }
 .chip.on {
-  background: var(--mint-wash); border-color: rgba(0, 229, 153, 0.4);
+  background: var(--mint-wash); border-color: rgba(0, 229, 153, 0.35);
   color: var(--mint);
 }
 .chip:active { transform: scale(0.97); }
 
-/* ── Lista de Partidos ── */
+/* ── Lista de Partidos con Double-Bezel ── */
 .wrap { padding: 12px var(--pad) 0; }
 .comp-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 4px 8px; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+  padding: 12px 4px 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
   color: var(--text-muted); font-variation-settings: "wght" 700; width: 100%; text-align: left;
 }
-.match-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg);
-  padding: 14px 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);
-  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), border-color 150ms ease;
-  position: relative; cursor: pointer;
+.match-card-outer {
+  background: var(--bg-shell);
+  border: 1px solid var(--border-shell);
+  border-radius: var(--r-outer);
+  padding: 2.5px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-ambient);
+  transition: transform 120ms var(--ease-spring);
+  cursor: pointer;
 }
-.match-card:active { transform: scale(0.985); background: var(--bg-card-pressed); }
-.match-card.has-val { border-color: rgba(245, 158, 11, 0.4); }
+.match-card-outer:active { transform: scale(0.985); }
+.match-card-outer.has-val { border-color: var(--gold-border); background: linear-gradient(180deg, rgba(245,158,11,0.1), var(--bg-shell)); }
+
+.match-card-inner {
+  background: var(--bg-core);
+  border: 1px solid var(--border-core);
+  border-radius: var(--r-inner);
+  padding: 14px 16px;
+  box-shadow: var(--inner-highlight);
+}
 
 .match-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .match-time { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); font-weight: 500; }
 .val-badge {
-  font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: var(--r-pill);
+  font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: var(--r-pill);
   background: var(--gold-wash); color: var(--gold); border: 1px solid var(--gold-border);
-  text-transform: uppercase; letter-spacing: .06em;
+  text-transform: uppercase; letter-spacing: .08em;
 }
 .badge-rec {
-  font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: var(--r-pill);
+  font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: var(--r-pill);
   background: var(--mint-wash); color: var(--mint); border: 1px solid rgba(0, 229, 153, 0.3);
-  text-transform: uppercase; letter-spacing: .06em;
+  text-transform: uppercase; letter-spacing: .08em;
 }
 
 .match-teams { display: flex; flex-direction: column; gap: 8px; }
@@ -259,25 +307,24 @@ header.top {
   font-size: 12px;
 }
 .match-pick-label { font-variation-settings: "wght" 600; color: var(--text-main); }
-.match-pick-odds { font-family: var(--font-mono); font-size: 14px; font-weight: 600; color: var(--mint); }
+.match-pick-odds { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--mint); }
 
 .crest { width: 26px; height: 26px; object-fit: contain; flex: 0 0 auto; }
-.crest.lg { width: 48px; height: 48px; }
+.crest.lg { width: 50px; height: 50px; }
 .crest.sm { width: 18px; height: 18px; }
 .crest-fallback {
   width: 26px; height: 26px; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.07); border: 1px solid var(--border-shell);
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 10px; font-weight: 700; color: var(--text-muted);
   font-family: var(--font-mono); flex: 0 0 auto;
 }
-.crest-fallback.lg { width: 48px; height: 48px; font-size: 14px; }
+.crest-fallback.lg { width: 50px; height: 50px; font-size: 15px; }
 .crest-fallback.sm { width: 18px; height: 18px; font-size: 8.5px; }
 
 /* ── Vista Detalle de Partido ── */
 .detail-header {
   padding: 10px var(--pad) 14px;
-  background: linear-gradient(180deg, rgba(0, 229, 153, 0.06) 0%, transparent 100%);
 }
 .btn-back {
   display: inline-flex; align-items: center; gap: 6px;
@@ -291,24 +338,36 @@ header.top {
 .matchup-team { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
 .matchup-team span { font-size: 15px; font-variation-settings: "wght" 700; line-height: 1.2; }
 .matchup-vs {
-  font-size: 13px; font-weight: 700; color: var(--text-subtle);
-  background: var(--bg-card); width: 34px; height: 34px; border-radius: 50%;
-  display: grid; place-items: center; border: 1px solid var(--border);
+  font-size: 12px; font-weight: 800; color: var(--text-subtle);
+  background: var(--bg-core); width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; border: 1px solid var(--border-shell);
+  box-shadow: var(--inner-highlight-subtle);
 }
 
 /* ── Tarjeta de Diagnóstico / Veredicto ── */
-.verdict-card {
-  margin: 14px var(--pad) 0; padding: 18px 16px; border-radius: var(--r-lg);
-  background: var(--bg-card); border: 1px solid var(--border); box-shadow: var(--shadow-card);
+.verdict-shell {
+  margin: 14px var(--pad) 0;
+  background: var(--bg-shell);
+  border: 1px solid var(--border-shell);
+  border-radius: var(--r-outer);
+  padding: 3px;
+  box-shadow: var(--shadow-ambient);
 }
-.verdict-card.val {
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), var(--bg-card) 60%);
+.verdict-shell.val {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.16), var(--bg-shell));
   border-color: var(--gold-border);
+}
+.verdict-core {
+  background: var(--bg-core);
+  border: 1px solid var(--border-core);
+  border-radius: var(--r-inner);
+  padding: 18px 16px;
+  box-shadow: var(--inner-highlight);
 }
 .verdict-pill {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 10px; border-radius: var(--r-pill);
-  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
   margin-bottom: 8px;
 }
 .verdict-pill.gold { background: var(--gold-wash); color: var(--gold); border: 1px solid var(--gold-border); }
@@ -323,9 +382,9 @@ header.top {
   border: 1px solid var(--border-soft); margin-bottom: 12px;
 }
 .verdict-cell { text-align: center; }
-.verdict-cell small { font-size: 9.5px; text-transform: uppercase; color: var(--text-subtle); display: block; }
+.verdict-cell small { font-size: 9px; text-transform: uppercase; color: var(--text-subtle); display: block; }
 .verdict-cell b { font-family: var(--font-mono); font-size: 14px; font-weight: 600; display: block; margin-top: 2px; }
-.verdict-cell b.mint { color: var(--mint); }
+.verdict-cell b.green { color: var(--mint); }
 .verdict-cell b.gold { color: var(--gold); }
 .verdict-cell b.coral { color: var(--coral); }
 
@@ -335,63 +394,63 @@ header.top {
   margin-top: 12px;
 }
 .argument-box.gold { border-left-color: var(--gold); }
-.argument-box h4 { margin: 0 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
+.argument-box h4 { margin: 0 0 4px; font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
 .argument-box p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--text-main); }
 
-/* ── Carga Rápida de Cuotas ── */
+/* ── Carga Rápida 1X2 ── */
 .quick-odds-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
   margin: 12px 0 16px;
 }
 .quick-odd-box {
-  background: var(--bg-input); border: 1px solid var(--border);
+  background: var(--bg-input); border: 1px solid var(--border-shell);
   border-radius: var(--r-md); padding: 10px 8px; text-align: center;
 }
 .quick-odd-box small { font-size: 11px; color: var(--text-muted); display: block; font-weight: 600; margin-bottom: 4px; }
 .quick-odd-in {
-  width: 100%; background: transparent; border: 1px solid var(--border);
+  width: 100%; background: transparent; border: 1px solid var(--border-shell);
   border-radius: var(--r-sm); padding: 8px 4px; font-family: var(--font-mono);
   font-size: 16px; font-weight: 700; text-align: center; color: var(--text-main);
 }
-.quick-odd-in:focus { outline: none; border-color: var(--mint); box-shadow: var(--ring); }
+.quick-odd-in:focus { outline: none; border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.25); }
 
 /* ── Pestañas Segmentadas en Detalle (Pill Style) ── */
 .subtabs-pill-wrap { padding: 14px var(--pad) 0; }
 .subtabs-pill {
   display: flex; gap: 4px; background: var(--bg-input); padding: 4px;
-  border-radius: var(--r-pill); border: 1px solid var(--border);
+  border-radius: var(--r-pill); border: 1px solid var(--border-shell);
 }
 .subtab-pill {
-  flex: 1; padding: 8px 12px; font-size: 12.5px; font-weight: 700; color: var(--text-muted);
-  border-radius: var(--r-pill); text-align: center; transition: all 150ms ease;
+  flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; color: var(--text-muted);
+  border-radius: var(--r-pill); text-align: center; transition: all 140ms var(--ease-spring);
   min-height: 38px; display: flex; align-items: center; justify-content: center;
 }
-.subtab-pill.on { background: var(--bg-card); color: var(--mint); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.subtab-pill.on { background: var(--bg-core); color: var(--mint); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
 /* ── Mercados por Categorías ── */
 .mkt-cat-chips { display: flex; gap: 6px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
 .mkt-cat-chips::-webkit-scrollbar { display: none; }
 .mkt-cat-chip {
-  padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--border);
-  background: var(--bg-card); font-size: 11.5px; font-weight: 600; color: var(--text-muted);
+  padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--border-shell);
+  background: var(--bg-core); font-size: 11px; font-weight: 600; color: var(--text-muted);
   white-space: nowrap; transition: all 120ms ease;
 }
-.mkt-cat-chip.on { background: var(--mint-wash); color: var(--mint); border-color: rgba(0, 229, 153, 0.4); }
+.mkt-cat-chip.on { background: var(--mint-wash); color: var(--mint); border-color: rgba(0, 229, 153, 0.35); }
 
 .market-row {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: 12px 14px; background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: var(--r-md); margin-bottom: 8px;
+  padding: 12px 14px; background: var(--bg-core); border: 1px solid var(--border-shell);
+  border-radius: var(--r-md); margin-bottom: 8px; box-shadow: var(--inner-highlight-subtle);
 }
 .odds-input {
-  width: 80px; background: var(--bg-input); border: 1px solid var(--border);
+  width: 80px; background: var(--bg-input); border: 1px solid var(--border-shell);
   border-radius: var(--r-sm); padding: 8px 8px; font-family: var(--font-mono);
   font-size: 15px; font-weight: 700; text-align: center; color: var(--text-main);
 }
-.odds-input:focus { outline: none; border-color: var(--mint); box-shadow: var(--ring); }
+.odds-input:focus { outline: none; border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.25); }
 .btn-star-save {
   padding: 8px; border-radius: var(--r-sm); background: var(--bg-input);
-  border: 1px solid var(--border); color: var(--text-muted); font-size: 14px;
+  border: 1px solid var(--border-shell); color: var(--text-muted); font-size: 14px;
   display: grid; place-items: center; transition: all 120ms ease;
 }
 .btn-star-save:active { transform: scale(0.92); color: var(--gold); }
@@ -412,17 +471,14 @@ header.top {
 .method-dots { display: flex; gap: 6px; }
 .method-dot { width: 24px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.15); transition: all .2s; }
 .method-dot.active { background: var(--mint); width: 36px; }
-.method-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg);
-  padding: 24px 20px; box-shadow: var(--shadow-card);
-}
+
 .method-icon-circle {
   width: 52px; height: 52px; border-radius: 50%;
   background: var(--mint-wash); border: 1px solid rgba(0, 229, 153, 0.3);
   display: flex; align-items: center; justify-content: center;
   color: var(--mint); font-size: 24px; margin-bottom: 16px;
 }
-.method-category { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); font-weight: 700; }
+.method-category { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--mint); font-weight: 700; }
 .method-h2 { font-size: 24px; font-variation-settings: "wght" 800; line-height: 1.2; margin: 6px 0 14px; }
 .method-p { font-size: 14px; line-height: 1.6; color: var(--text-muted); margin: 0 0 18px; }
 .method-checklist { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
@@ -437,16 +493,12 @@ header.top {
   flex: 0 0 auto; margin-top: 2px;
 }
 
-/* ── Pestaña de Rendimiento Completa (Con Sparkline + CLV Tracker) ── */
+/* ── Pestaña de Rendimiento Completa ── */
 .tracker-container { padding: 14px var(--pad) 0; }
 .perf-header { margin-bottom: 14px; }
 .perf-header h2 { margin: 0; font-size: 22px; font-variation-settings: "wght" 800; }
 .perf-header p { margin: 4px 0 0; font-size: 12.5px; color: var(--text-muted); }
 
-.perf-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg);
-  padding: 18px 16px; box-shadow: var(--shadow-card); margin-bottom: 16px;
-}
 .perf-stat-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
 .perf-big-pct { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--mint); }
 .perf-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -462,55 +514,62 @@ header.top {
 
 .spark-svg { width: 100%; height: 56px; margin: 12px 0 4px; overflow: visible; }
 
-/* ── Botones de Acción ── */
+/* ── Botones de Acción (Nested Island Button Architecture) ── */
 .btn-primary {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 14px 20px; border-radius: var(--r-md);
-  background: var(--mint); color: #04140D; font-size: 14.5px; font-weight: 700;
-  letter-spacing: .04em; box-shadow: 0 6px 20px rgba(0, 229, 153, 0.35);
-  transition: transform .12s ease, background-color .15s ease;
-  min-height: 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 12px 14px 12px 20px; border-radius: var(--r-pill);
+  background: var(--mint); color: #04140D; font-size: 14px; font-weight: 800;
+  letter-spacing: .04em; box-shadow: 0 6px 24px var(--mint-glow);
+  transition: transform 140ms var(--ease-spring), background-color 150ms ease;
+  min-height: 50px;
 }
 .btn-primary:active { transform: scale(0.98); background: var(--mint-dark); }
+.btn-icon-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(4, 20, 13, 0.15); display: flex; align-items: center;
+  justify-content: center; font-size: 14px; font-weight: 800;
+}
+
 .btn-ghost {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; padding: 12px 16px; border-radius: var(--r-md);
+  width: 100%; padding: 12px 16px; border-radius: var(--r-pill);
   background: transparent; color: var(--text-muted); font-size: 13.5px; font-weight: 600;
-  border: 1px solid var(--border); min-height: 44px;
+  border: 1px solid var(--border-shell); min-height: 44px;
 }
-.btn-ghost:active { background: var(--bg-card-hover); color: var(--text-main); }
+.btn-ghost:active { background: var(--bg-core-hover); color: var(--text-main); }
 .btn-save-pick {
   background: var(--gold-wash); border: 1px solid var(--gold-border); color: var(--gold);
-  font-weight: 700; font-size: 13px; padding: 8px 14px; border-radius: var(--r-pill);
+  font-weight: 700; font-size: 12.5px; padding: 7px 14px; border-radius: var(--r-pill);
   display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
 }
 .btn-save-pick:active { transform: scale(0.97); }
 
-/* ── Barra de Navegación Inferior (5 Tabs fijas) ── */
+/* ── Barra de Navegación Flotante (Floating Glass Island Nav) ── */
 nav.bottom-nav {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  max-width: 560px; width: 100%; z-index: 50;
-  background: rgba(8, 12, 20, 0.92);
-  backdrop-filter: blur(16px);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+  max-width: 520px; width: calc(100% - 24px); z-index: 50;
+  background: rgba(11, 17, 27, 0.92);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--border-core);
+  border-radius: var(--r-pill);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), var(--inner-highlight);
   display: grid; grid-template-columns: repeat(5, 1fr);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding: 4px 6px;
 }
 nav.bottom-nav button {
-  padding: 10px 0 11px; display: flex; flex-direction: column; align-items: center;
-  gap: 4px; color: var(--text-subtle); transition: color 150ms ease;
-  min-height: 48px;
+  padding: 8px 0; display: flex; flex-direction: column; align-items: center;
+  gap: 3px; color: var(--text-subtle); transition: color 140ms ease;
+  border-radius: var(--r-pill); min-height: 44px;
 }
 nav.bottom-nav button.on { color: var(--mint); }
-nav.bottom-nav svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-nav.bottom-nav span { font-size: 10px; letter-spacing: .04em; font-weight: 600; text-transform: uppercase; }
+nav.bottom-nav svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+nav.bottom-nav span { font-size: 9.5px; letter-spacing: .06em; font-weight: 700; text-transform: uppercase; }
 
 /* ── Estados Vacíos ── */
 .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
 .empty-state-icon {
   width: 52px; height: 52px; border-radius: 50%;
-  background: var(--bg-card); border: 1px solid var(--border);
+  background: var(--bg-core); border: 1px solid var(--border-shell);
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 16px; color: var(--text-subtle); font-size: 22px;
 }
@@ -729,7 +788,7 @@ function getMatchDays() {
 
 /* ── VISTAS ── */
 
-/* 1. Vista Partidos */
+/* 1. Vista Partidos con Double-Bezel */
 function viewDay(){
   const days = getMatchDays();
   if(!VIEW.day || !days.some(d=>d.iso===VIEW.day)) {
@@ -757,25 +816,27 @@ function viewDay(){
     </button>`).join("")}</div>
 
   ${topDelDia?`
-  <div class="hero-pick" data-match="${topDelDia.m.id}">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="hero-tag">${topDelDia.best?"✨ Oportunidad de Valor":"🎯 Proyección Destacada"}</div>
-      <span class="${topDelDia.best?"val-badge":"badge-rec"}">
-        ${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% Valor`:`${Math.round((topDelDia.topProj[0]?.p||0.5)*100)}% Prob`}
-      </span>
+  <div class="hero-bezel" data-match="${topDelDia.m.id}">
+    <div class="hero-core">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="hero-tag">${topDelDia.best?"✨ Oportunidad de Valor":"🎯 Proyección Destacada"}</div>
+        <span class="${topDelDia.best?"val-badge":"badge-rec"}">
+          ${topDelDia.best?`+${Math.round(topDelDia.best.e*100)}% Valor`:`${Math.round((topDelDia.topProj[0]?.p||0.5)*100)}% Prob`}
+        </span>
+      </div>
+      <div class="hero-matchup">
+        ${crest(topDelDia.m.homeLogo, topDelDia.m.home, "sm")} <span>${esc(topDelDia.m.home)}</span>
+        <em>vs</em>
+        <span>${esc(topDelDia.m.away)}</span> ${crest(topDelDia.m.awayLogo, topDelDia.m.away, "sm")}
+      </div>
+      <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Cargar cuotas")}</div>
+      <div class="hero-stats-grid">
+        <div class="hero-stat"><small>Tu Cuota</small><b class="green">${topDelDia.best?`@${topDelDia.best.o.toFixed(2)}`:"—"}</b></div>
+        <div class="hero-stat"><small>Cuota Justa</small><b>@${fair(topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+        <div class="hero-stat"><small>Probabilidad</small><b class="gold">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
+      </div>
+      <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best, topDelDia.topProj))}</p>
     </div>
-    <div class="hero-matchup">
-      ${crest(topDelDia.m.homeLogo, topDelDia.m.home, "sm")} <span>${esc(topDelDia.m.home)}</span>
-      <em>vs</em>
-      <span>${esc(topDelDia.m.away)}</span> ${crest(topDelDia.m.awayLogo, topDelDia.m.away, "sm")}
-    </div>
-    <div class="hero-bet-title">${esc(topDelDia.best?topDelDia.best.label:topDelDia.topProj[0]?.label||"Cargar cuotas")}</div>
-    <div class="hero-stats-grid">
-      <div class="hero-stat"><small>Tu Cuota</small><b class="green">${topDelDia.best?`@${topDelDia.best.o.toFixed(2)}`:"—"}</b></div>
-      <div class="hero-stat"><small>Cuota Justa</small><b>@${fair(topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="hero-stat"><small>Probabilidad</small><b class="gold">${Math.round((topDelDia.best?topDelDia.best.p:(topDelDia.topProj[0]?.p||0.5))*100)}%</b></div>
-    </div>
-    <p class="hero-desc">${esc(generarArgumento(topDelDia.m, topDelDia.best, topDelDia.topProj))}</p>
   </div>`:""}
 
   <div class="ledger-grid">
@@ -813,29 +874,31 @@ function matchCard({m,best,topProj}){
   const val = best && best.e>=S.minEv;
   const p1 = topProj && topProj[0];
   return `
-  <div class="match-card ${val?"has-val":""}" data-match="${m.id}">
-    <div class="match-top">
-      <span class="match-time">${m.hora} hs · ${esc(m.comp)}</span>
-      ${val ? `<span class="val-badge">+${Math.round(best.e*100)}% Valor</span>` : p1 ? `<span class="badge-rec">${Math.round(p1.p*100)}% ${esc(p1.label)}</span>` : `<span style="font-size:11px;color:var(--text-subtle)">Tocar para analizar</span>`}
-    </div>
-    <div class="match-teams">
-      <div class="team-row">
-        <div class="team-info">${crest(m.homeLogo, m.home)}${esc(m.home)}</div>
-        <span class="team-xg">xG ${m.lh.toFixed(1)}</span>
+  <div class="match-card-outer ${val?"has-val":""}" data-match="${m.id}">
+    <div class="match-card-inner">
+      <div class="match-top">
+        <span class="match-time">${m.hora} hs · ${esc(m.comp)}</span>
+        ${val ? `<span class="val-badge">+${Math.round(best.e*100)}% Valor</span>` : p1 ? `<span class="badge-rec">${Math.round(p1.p*100)}% ${esc(p1.label)}</span>` : `<span style="font-size:11px;color:var(--text-subtle)">Tocar para analizar</span>`}
       </div>
-      <div class="team-row">
-        <div class="team-info">${crest(m.awayLogo, m.away)}${esc(m.away)}</div>
-        <span class="team-xg">xG ${m.la.toFixed(1)}</span>
+      <div class="match-teams">
+        <div class="team-row">
+          <div class="team-info">${crest(m.homeLogo, m.home)}${esc(m.home)}</div>
+          <span class="team-xg">xG ${m.lh.toFixed(1)}</span>
+        </div>
+        <div class="team-row">
+          <div class="team-info">${crest(m.awayLogo, m.away)}${esc(m.away)}</div>
+          <span class="team-xg">xG ${m.la.toFixed(1)}</span>
+        </div>
       </div>
-    </div>
-    <div class="match-footer">
-      <span class="match-pick-label">${best ? esc(best.label) : p1 ? `Cuota justa: @${fair(p1.p).toFixed(2)}` : "Cargar cuotas"}</span>
-      <span class="match-pick-odds">${best ? `@${best.o.toFixed(2)}` : "Analizar →"}</span>
+      <div class="match-footer">
+        <span class="match-pick-label">${best ? esc(best.label) : p1 ? `Cuota justa: @${fair(p1.p).toFixed(2)}` : "Cargar cuotas"}</span>
+        <span class="match-pick-odds">${best ? `@${best.o.toFixed(2)}` : "Analizar →"}</span>
+      </div>
     </div>
   </div>`;
 }
 
-/* 2. Vista Detalle de Partido */
+/* 2. Vista Detalle de Partido con Double-Bezel */
 function viewMatch(id){
   const m = MATCHES.find(x=>x.id===id); if(!m) return "";
   const {M,mkts} = model(m);
@@ -853,31 +916,33 @@ function viewMatch(id){
     </div>
   </div>
 
-  <div class="verdict-card ${val?"val":""}">
-    <div class="verdict-pill ${val?"gold":best?.e<=0?"coral":"mint"}">
-      ${val?"✨ PICK DE VALOR DETECTADO":best?.e<=0?"⚠️ SIN VENTAJA MATEMÁTICA":"🎯 PROYECCIÓN PRINCIPAL DEL MODELO"}
-    </div>
-    <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
-    <div class="verdict-grid">
-      <div class="verdict-cell"><small>Tu Cuota</small><b class="green">${best?`@${best.o.toFixed(2)}`:"—"}</b></div>
-      <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-      <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"green":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
-    </div>
-    
-    <div class="argument-box ${val?"gold":""}">
-      <h4>💡 El Argumento del Asesor</h4>
-      <p>${esc(generarArgumento(m, best, topProj))}</p>
-    </div>
-
-    ${best?.stake?`
-    <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:10px 14px;border-radius:var(--r-md);border:1px solid var(--border)">
-      <div>
-        <span style="font-size:12.5px;color:var(--text-muted);display:block">Apuesta sugerida (Kelly)</span>
-        <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
+  <div class="verdict-shell ${val?"val":""}">
+    <div class="verdict-core">
+      <div class="verdict-pill ${val?"gold":best?.e<=0?"coral":"mint"}">
+        ${val?"✨ PICK DE VALOR DETECTADO":best?.e<=0?"⚠️ SIN VENTAJA MATEMÁTICA":"🎯 PROYECCIÓN PRINCIPAL DEL MODELO"}
       </div>
-      <span class="num" style="font-size:18px;font-weight:700;color:var(--mint)">${mny(best.stake)}</span>
-    </div>`:""}
+      <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
+      <div class="verdict-grid">
+        <div class="verdict-cell"><small>Tu Cuota</small><b class="green">${best?`@${best.o.toFixed(2)}`:"—"}</b></div>
+        <div class="verdict-cell"><small>Cuota Justa</small><b>@${fair(best?best.p:(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+        <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
+        <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"green":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"—"}</b></div>
+      </div>
+      
+      <div class="argument-box ${val?"gold":""}">
+        <h4>💡 El Argumento del Asesor</h4>
+        <p>${esc(generarArgumento(m, best, topProj))}</p>
+      </div>
+
+      ${best?.stake?`
+      <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:10px 14px;border-radius:var(--r-md);border:1px solid var(--border-shell)">
+        <div>
+          <span style="font-size:12px;color:var(--text-muted);display:block">Apuesta sugerida (Kelly)</span>
+          <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
+        </div>
+        <span class="num" style="font-size:18px;font-weight:700;color:var(--mint)">${mny(best.stake)}</span>
+      </div>`:""}
+    </div>
   </div>
 
   <div class="subtabs-pill-wrap">
@@ -967,33 +1032,37 @@ function tabMercados(m, mkts){
 function tabAnalisis(m, topProj){
   const an = ANALISIS[m.id];
   return `
-  <div class="perf-card">
-    <div class="eyebrow" style="color:var(--mint);margin-bottom:8px">🧠 Informe del Asesor</div>
-    <h3 style="margin:0 0 10px;font-size:17px">${esc(m.home)} vs ${esc(m.away)}</h3>
-    <p style="font-size:13.5px;line-height:1.6;color:var(--text-muted);margin:0 0 14px">
-      ${esc(an?.contexto || an?.veredicto || generarArgumento(m, null, topProj))}
-    </p>
-    ${an?.veredicto && an.contexto ? `
-    <div class="argument-box gold">
-      <h4>Veredicto Editorial</h4>
-      <p>${esc(an.veredicto)}</p>
-    </div>`:""}
+  <div class="bezel-shell">
+    <div class="bezel-core">
+      <div class="eyebrow" style="color:var(--mint);margin-bottom:8px">🧠 Informe del Asesor</div>
+      <h3 style="margin:0 0 10px;font-size:17px">${esc(m.home)} vs ${esc(m.away)}</h3>
+      <p style="font-size:13.5px;line-height:1.6;color:var(--text-muted);margin:0 0 14px">
+        ${esc(an?.contexto || an?.veredicto || generarArgumento(m, null, topProj))}
+      </p>
+      ${an?.veredicto && an.contexto ? `
+      <div class="argument-box gold">
+        <h4>Veredicto Editorial</h4>
+        <p>${esc(an.veredicto)}</p>
+      </div>`:""}
+    </div>
   </div>
 
-  <div class="perf-card">
-    <div class="eyebrow" style="margin-bottom:8px">📊 Proyecciones Automáticas del Cruce</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--border-soft);padding-bottom:6px">
-        <span>Goles Esperados (xG)</span>
-        <b class="num">${esc(m.home)} ${m.lh.toFixed(1)} - ${m.la.toFixed(1)} ${esc(m.away)}</b>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--border-soft);padding-bottom:6px">
-        <span>Córners Promedio Estimados</span>
-        <b class="num">${m.corners ? m.corners.toFixed(1) : "7.5"}</b>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px">
-        <span>Tarjetas / Fricción Esperada</span>
-        <b class="num">${m.cards ? m.cards.toFixed(1) : "4.0"}</b>
+  <div class="bezel-shell">
+    <div class="bezel-core">
+      <div class="eyebrow" style="margin-bottom:8px">📊 Proyecciones del Cruce</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--border-soft);padding-bottom:6px">
+          <span>Goles Esperados (xG)</span>
+          <b class="num">${esc(m.home)} ${m.lh.toFixed(1)} - ${m.la.toFixed(1)} ${esc(m.away)}</b>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;border-bottom:1px solid var(--border-soft);padding-bottom:6px">
+          <span>Córners Promedio Estimados</span>
+          <b class="num">${m.corners ? m.corners.toFixed(1) : "7.5"}</b>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px">
+          <span>Tarjetas / Fricción Esperada</span>
+          <b class="num">${m.cards ? m.cards.toFixed(1) : "4.0"}</b>
+        </div>
       </div>
     </div>
   </div>`;
@@ -1002,59 +1071,67 @@ function tabAnalisis(m, topProj){
 /* Subpestaña Estadísticas & Forma */
 function tabDatos(m){
   return `
-  <div class="perf-card">
-    <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
-      ${crest(m.homeLogo, m.home, "sm")} Forma Reciente de ${esc(m.home)}
-    </h3>
-    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
-      ${m.formH?.length ? m.formH.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
+  <div class="bezel-shell">
+    <div class="bezel-core">
+      <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
+        ${crest(m.homeLogo, m.home, "sm")} Forma Reciente de ${esc(m.home)}
+      </h3>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        ${m.formH?.length ? m.formH.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
+      </div>
+      ${m.formH?.length ? m.formH.map(f=>`
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--border-soft)">
+          <span>${f.local?"(L)":"(V)"} vs ${esc(f.rival)}</span>
+          <b class="num">${f.marcador}</b>
+        </div>`).join("") : ""}
     </div>
-    ${m.formH?.length ? m.formH.map(f=>`
-      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--border-soft)">
-        <span>${f.local?"(L)":"(V)"} vs ${esc(f.rival)}</span>
-        <b class="num">${f.marcador}</b>
-      </div>`).join("") : ""}
   </div>
 
-  <div class="perf-card">
-    <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
-      ${crest(m.awayLogo, m.away, "sm")} Forma Reciente de ${esc(m.away)}
-    </h3>
-    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
-      ${m.formA?.length ? m.formA.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
+  <div class="bezel-shell">
+    <div class="bezel-core">
+      <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px">
+        ${crest(m.awayLogo, m.away, "sm")} Forma Reciente de ${esc(m.away)}
+      </h3>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        ${m.formA?.length ? m.formA.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin historial</span>"}
+      </div>
+      ${m.formA?.length ? m.formA.map(f=>`
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--border-soft)">
+          <span>${f.local?"(L)":"(V)"} vs ${esc(f.rival)}</span>
+          <b class="num">${f.marcador}</b>
+        </div>`).join("") : ""}
     </div>
-    ${m.formA?.length ? m.formA.map(f=>`
-      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12.5px;border-bottom:1px solid var(--border-soft)">
-        <span>${f.local?"(L)":"(V)"} vs ${esc(f.rival)}</span>
-        <b class="num">${f.marcador}</b>
-      </div>`).join("") : ""}
   </div>
 
-  <div class="perf-card">
-    <h3>Historial Directo (H2H)</h3>
-    ${m.h2h?.length? m.h2h.map(h=>`
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-soft);font-size:12.5px">
-        <span>${esc(h.h)} vs ${esc(h.a)}</span>
-        <b class="num">${esc(h.s)}</b>
-      </div>`).join("") : "<p style='font-size:12px;color:var(--text-muted)'>Sin cruces recientes registrados.</p>"}
+  <div class="bezel-shell">
+    <div class="bezel-core">
+      <h3>Historial Directo (H2H)</h3>
+      ${m.h2h?.length? m.h2h.map(h=>`
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-soft);font-size:12.5px">
+          <span>${esc(h.h)} vs ${esc(h.a)}</span>
+          <b class="num">${esc(h.s)}</b>
+        </div>`).join("") : "<p style='font-size:12px;color:var(--text-muted)'>Sin cruces recientes registrados.</p>"}
+    </div>
   </div>`;
 }
 
 /* Subpestaña Matriz */
 function tabModelo(m, M, mkts){
   return `
-  <div class="perf-card">
-    <h3>Matriz de Probabilidades (Dixon-Coles)</h3>
-    <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px">Probabilidades de cada marcador exacto según el xG asignado.</p>
-    <div style="overflow-x:auto">
-      <table style="width:100%;font-family:var(--font-mono);font-size:12px;border-collapse:collapse;text-align:center">
-        <tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
-        ${[0,1,2,3].map(i=>`
-        <tr>
-          <th style="color:var(--text-muted)">${i}</th>
-          ${[0,1,2,3].map(j=>`<td style="padding:6px;background:rgba(0,229,153,${(M[i][j]*2.5).toFixed(2)})">${Math.round(M[i][j]*100)}%</td>`).join("")}
-        </tr>`).join("")}
-      </table>
+  <div class="bezel-shell">
+    <div class="bezel-core">
+      <h3>Matriz de Probabilidades (Dixon-Coles)</h3>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px">Probabilidades de cada marcador exacto según el xG asignado.</p>
+      <div style="overflow-x:auto">
+        <table style="width:100%;font-family:var(--font-mono);font-size:12px;border-collapse:collapse;text-align:center">
+          <tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+          ${[0,1,2,3].map(i=>`
+          <tr>
+            <th style="color:var(--text-muted)">${i}</th>
+            ${[0,1,2,3].map(j=>`<td style="padding:6px;background:rgba(0,229,153,${(M[i][j]*2.5).toFixed(2)})">${Math.round(M[i][j]*100)}%</td>`).join("")}
+          </tr>`).join("")}
+        </table>
+      </div>
     </div>
   </div>`;
 }
@@ -1074,7 +1151,6 @@ function viewLog(){
   const clvs = LOG.filter(b=>b.closing>1).map(b=>b.odds/b.closing-1);
   const clv = clvs.length ? clvs.reduce((a,b)=>a+b,0)/clvs.length : null;
 
-  // Gráfica Sparkline
   let cum = 0;
   const pts = done.map(b=>{ cum += b.result==="W"? b.stake*(b.odds-1) : -b.stake; return cum; });
   let spark = "";
@@ -1100,26 +1176,28 @@ function viewLog(){
       <p>Tus picks, tu historial y tu rendimiento medido</p>
     </div>
 
-    <div class="perf-card">
-      <div class="perf-stat-row">
-        <div>
-          <small class="eyebrow">Efectividad</small>
-          <div class="perf-big-pct">${winRate}%</div>
-        </div>
-        <div style="text-align:right">
-          <small class="eyebrow">Balance Neto</small>
-          <div class="num" style="font-size:22px;font-weight:700;color:${prof>=0?"var(--mint)":"var(--coral)"}">
-            ${prof>=0?"+":""}${mny(prof)}
+    <div class="bezel-shell" style="margin-bottom:16px">
+      <div class="bezel-core">
+        <div class="perf-stat-row">
+          <div>
+            <small class="eyebrow">Efectividad</small>
+            <div class="perf-big-pct">${winRate}%</div>
+          </div>
+          <div style="text-align:right">
+            <small class="eyebrow">Balance Neto</small>
+            <div class="num" style="font-size:22px;font-weight:700;color:${prof>=0?"var(--mint)":"var(--coral)"}">
+              ${prof>=0?"+":""}${mny(prof)}
+            </div>
           </div>
         </div>
-      </div>
 
-      ${spark}
+        ${spark}
 
-      <div class="perf-boxes" style="margin-top:10px">
-        <div class="perf-box"><small>ROI</small><b class="${roi>=0?"win":"loss"}">${done.length?`${roi>=0?"+":""}${Math.round(roi*100)}%`:"—"}</b></div>
-        <div class="perf-box"><small>Aciertos / Fallos</small><b>${wins} / ${losses}</b></div>
-        <div class="perf-box"><small>CLV Medio</small><b class="${clv>0?"gold":""}">${clv!==null?`${clv>0?"+":""}${Math.round(clv*100)}%`:"—"}</b></div>
+        <div class="perf-boxes" style="margin-top:10px">
+          <div class="perf-box"><small>ROI</small><b class="${roi>=0?"win":"loss"}">${done.length?`${roi>=0?"+":""}${Math.round(roi*100)}%`:"—"}</b></div>
+          <div class="perf-box"><small>Aciertos / Fallos</small><b>${wins} / ${losses}</b></div>
+          <div class="perf-box"><small>CLV Medio</small><b class="${clv>0?"gold":""}">${clv!==null?`${clv>0?"+":""}${Math.round(clv*100)}%`:"—"}</b></div>
+        </div>
       </div>
     </div>
 
@@ -1131,25 +1209,27 @@ function viewLog(){
     </div>
 
     ${filteredLog.length ? filteredLog.slice().reverse().map(b=>`
-    <div class="match-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <span style="font-size:14.5px;font-weight:700">${esc(b.label)}</span>
-        <span class="num" style="font-size:16px;font-weight:700;color:var(--mint)">@${b.odds.toFixed(2)}</span>
-      </div>
-      <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">
-        ${esc(b.match)} · Stake: <b>${mny(b.stake)}</b> ${b.ev?`· EV inicial: +${Math.round(b.ev*100)}%`:""}
-      </div>
+    <div class="match-card-outer">
+      <div class="match-card-inner">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:14.5px;font-weight:700">${esc(b.label)}</span>
+          <span class="num" style="font-size:16px;font-weight:700;color:var(--mint)">@${b.odds.toFixed(2)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">
+          ${esc(b.match)} · Stake: <b>${mny(b.stake)}</b> ${b.ev?`· EV inicial: +${Math.round(b.ev*100)}%`:""}
+        </div>
 
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-        <input class="odds-input" style="width:100%;text-align:left;font-size:12px;padding:6px 10px"
-               type="number" step="0.01" inputmode="decimal" placeholder="Cuota de cierre (para medir CLV)"
-               value="${b.closing||""}" data-close="${b.id}">
-      </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <input class="odds-input" style="width:100%;text-align:left;font-size:12px;padding:6px 10px"
+                 type="number" step="0.01" inputmode="decimal" placeholder="Cuota de cierre (para medir CLV)"
+                 value="${b.closing||""}" data-close="${b.id}">
+        </div>
 
-      <div style="display:flex;gap:6px">
-        <button class="chip ${b.result==="W"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="W">✓ Ganada</button>
-        <button class="chip ${b.result==="L"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="L">✕ Perdida</button>
-        <button class="chip ${b.result==="P"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="P">⏳ Pendiente</button>
+        <div style="display:flex;gap:6px">
+          <button class="chip ${b.result==="W"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="W">✓ Ganada</button>
+          <button class="chip ${b.result==="L"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="L">✕ Perdida</button>
+          <button class="chip ${b.result==="P"?"on":""}" style="flex:1;justify-content:center" data-res="${b.id}" data-v="P">⏳ Pendiente</button>
+        </div>
       </div>
     </div>`).join("") : `
       <div class="empty-state">
@@ -1160,7 +1240,7 @@ function viewLog(){
   </div>`;
 }
 
-/* 4. Vista de Combinadas (Combo Builder Interactivo) */
+/* 4. Vista de Combinadas */
 function comboCalc(legs){
   if(!legs.length) return {o:0, p:0, e:0, stake:0, avisos:[]};
   const porPartido = {};
@@ -1212,18 +1292,20 @@ function viewCombo(){
     </div>
 
     ${selectedLegs.length ? `
-    <div class="verdict-card ${calc.e>=S.minEv?"val":""}" style="margin:0 0 16px">
-      <div class="verdict-pill ${calc.e>=S.minEv?"gold":"neutral"}">
-        ${calc.e>=S.minEv?"✨ COMBINADA CON VALOR REAL":"COMBINADA ARMADA"}
+    <div class="verdict-shell ${calc.e>=S.minEv?"val":""}" style="margin:0 0 16px">
+      <div class="verdict-core">
+        <div class="verdict-pill ${calc.e>=S.minEv?"gold":"neutral"}">
+          ${calc.e>=S.minEv?"✨ COMBINADA CON VALOR REAL":"COMBINADA ARMADA"}
+        </div>
+        <div class="verdict-grid">
+          <div class="verdict-cell"><small>Cuota Total</small><b class="green">@${calc.o.toFixed(2)}</b></div>
+          <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round(calc.p*100)}%</b></div>
+          <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"green":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
+          <div class="verdict-cell"><small>Monto</small><b>${calc.stake?mny(calc.stake):"—"}</b></div>
+        </div>
+        ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
+        <button class="btn-ghost" data-combo-clear style="margin-top:6px">Vaciar Selección</button>
       </div>
-      <div class="verdict-grid">
-        <div class="verdict-cell"><small>Cuota Total</small><b class="green">@${calc.o.toFixed(2)}</b></div>
-        <div class="verdict-cell"><small>Probabilidad</small><b class="gold">${Math.round(calc.p*100)}%</b></div>
-        <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"green":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
-        <div class="verdict-cell"><small>Monto</small><b>${calc.stake?mny(calc.stake):"—"}</b></div>
-      </div>
-      ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
-      <button class="btn-ghost" data-combo-clear style="margin-top:6px">Vaciar Selección</button>
     </div>`:""}
 
     <div class="eyebrow" style="margin-bottom:10px">Patas Disponibles (${allLegs.length} con cuota)</div>
@@ -1294,29 +1376,32 @@ function viewMethod(){
       </div>
     </div>
 
-    <div class="method-card">
-      <div class="method-icon-circle">📈</div>
-      <div class="method-category">${s.cat}</div>
-      <div class="method-h2">${s.title}</div>
-      <p class="method-p">${s.p}</p>
+    <div class="bezel-shell">
+      <div class="bezel-core">
+        <div class="method-icon-circle">📈</div>
+        <div class="method-category">${s.cat}</div>
+        <div class="method-h2">${s.title}</div>
+        <p class="method-p">${s.p}</p>
 
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
-        ${s.tags.map(t=>`<span class="chip" style="font-size:11px;min-height:auto;padding:5px 10px">${t}</span>`).join("")}
-      </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
+          ${s.tags.map(t=>`<span class="chip" style="font-size:11px;min-height:auto;padding:5px 10px">${t}</span>`).join("")}
+        </div>
 
-      <div class="method-checklist">
-        ${s.items.map(it=>`
-        <div class="method-item">
-          <div class="method-check">✓</div>
-          <div>${it}</div>
-        </div>`).join("")}
-      </div>
+        <div class="method-checklist">
+          ${s.items.map(it=>`
+          <div class="method-item">
+            <div class="method-check">✓</div>
+            <div>${it}</div>
+          </div>`).join("")}
+        </div>
 
-      <div style="display:flex;gap:10px">
-        ${METHOD_STEP>0?`<button class="btn-ghost" data-method-prev style="flex:1">← Anterior</button>`:""}
-        <button class="btn-primary" data-method-next style="flex:2">
-          ${METHOD_STEP<METODOS.length-1?"Siguiente →":"¡Comenzar a Analizar!"}
-        </button>
+        <div style="display:flex;gap:10px">
+          ${METHOD_STEP>0?`<button class="btn-ghost" data-method-prev style="flex:1">← Anterior</button>`:""}
+          <button class="btn-primary" data-method-next style="flex:2">
+            <span>${METHOD_STEP<METODOS.length-1?"Siguiente":"¡Comenzar a Analizar!"}</span>
+            <span class="btn-icon-circle">→</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>`;
@@ -1327,20 +1412,25 @@ function viewSettings(){
   return `
   <div class="wrap">
     <div class="perf-header"><h2>Configuración</h2><p>Ajustes de banca y parámetros</p></div>
-    <div class="perf-card">
-      <div style="margin-bottom:14px">
-        <label class="eyebrow" style="display:block;margin-bottom:6px">Tu Banca / Saldo Total ($)</label>
-        <input class="odds-input" style="width:100%;text-align:left" type="number" id="s-bank" value="${S.bank}">
+    <div class="bezel-shell">
+      <div class="bezel-core">
+        <div style="margin-bottom:14px">
+          <label class="eyebrow" style="display:block;margin-bottom:6px">Tu Banca / Saldo Total ($)</label>
+          <input class="odds-input" style="width:100%;text-align:left" type="number" id="s-bank" value="${S.bank}">
+        </div>
+        <div style="margin-bottom:14px">
+          <label class="eyebrow" style="display:block;margin-bottom:6px">Exigencia de Valor Mínimo</label>
+          <select class="odds-input" style="width:100%;text-align:left" id="s-ev">
+            <option value="0.02" ${S.minEv==0.02?"selected":""}>2% (Más oportunidades)</option>
+            <option value="0.04" ${S.minEv==0.04?"selected":""}>4% (Recomendado estándar)</option>
+            <option value="0.08" ${S.minEv==0.08?"selected":""}>8% (Ultra selectivo)</option>
+          </select>
+        </div>
+        <button class="btn-primary" id="saveSettings">
+          <span>Guardar Cambios</span>
+          <span class="btn-icon-circle">✓</span>
+        </button>
       </div>
-      <div style="margin-bottom:14px">
-        <label class="eyebrow" style="display:block;margin-bottom:6px">Exigencia de Valor Mínimo</label>
-        <select class="odds-input" style="width:100%;text-align:left" id="s-ev">
-          <option value="0.02" ${S.minEv==0.02?"selected":""}>2% (Más oportunidades)</option>
-          <option value="0.04" ${S.minEv==0.04?"selected":""}>4% (Recomendado estándar)</option>
-          <option value="0.08" ${S.minEv==0.08?"selected":""}>8% (Ultra selectivo)</option>
-        </select>
-      </div>
-      <button class="btn-primary" id="saveSettings">Guardar Cambios</button>
     </div>
   </div>`;
 }
@@ -1391,9 +1481,8 @@ function refreshVerdictIfActive(){
   const topProj = getTopModelProjections(m, mkts);
   const val = best !== null;
 
-  const card = document.querySelector(".verdict-card");
+  const card = document.querySelector(".verdict-core");
   if(card){
-    card.className = `verdict-card ${val?"val":""}`;
     const pill = card.querySelector(".verdict-pill");
     if(pill){
       pill.className = `verdict-pill ${val?"gold":best?.e<=0?"coral":"mint"}`;
@@ -1493,7 +1582,7 @@ document.addEventListener("click", e => {
       date: new Date().toISOString().slice(0,10)
     });
     store.set("log", LOG);
-    savePick.innerText = "✓ ¡Guardado en Historial!";
+    savePick.innerText = "✓ ¡Guardado!";
     setTimeout(()=>{ VIEW.tab = "registro"; VIEW.matchId = null; render(); }, 500);
     return;
   }

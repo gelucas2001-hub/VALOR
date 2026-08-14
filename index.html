@@ -716,6 +716,97 @@ nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: upperca
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ── Modo Adaptativo Responsive (Desktop & Tablet Terminal) ── */
+.desktop-nav { display: none; }
+
+@media (min-width: 840px) {
+  body {
+    max-width: 1040px;
+    border-left: none;
+    border-right: none;
+    padding-bottom: 40px;
+  }
+  header.top {
+    padding: 16px 0;
+    max-width: 1040px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+  .brand {
+    gap: 20px;
+  }
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-surface);
+    padding: 4px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--border);
+  }
+  .desktop-nav button {
+    padding: 7px 16px;
+    border-radius: var(--r-pill);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all 140ms ease;
+  }
+  .desktop-nav button:hover {
+    color: var(--text-main);
+  }
+  .desktop-nav button.on {
+    background: var(--cyan);
+    color: #03131F;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+  
+  nav.bottom-nav {
+    display: none;
+  }
+
+  .matches-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .match-detail-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .match-detail-sidebar {
+    position: sticky;
+    top: 76px;
+  }
+
+  .combo-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  #toast-container {
+    bottom: 24px;
+    right: 24px;
+    left: auto;
+    transform: none;
+    max-width: 380px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -725,6 +816,13 @@ nav.bottom-nav span { font-size: 11px; font-weight: 700; text-transform: upperca
     <div class="brand-title">
       <div class="brand-logo-icon">V</div>
       <h1>VA<span>L</span>OR</h1>
+    </div>
+    <div class="desktop-nav">
+      <button data-nav="fecha" class="on">Partidos</button>
+      <button data-nav="combo">Combo</button>
+      <button data-nav="registro">Historial</button>
+      <button data-nav="metodo">Guía</button>
+      <button data-nav="ajustes">Banca</button>
     </div>
     <div class="brand-badge">Asesor Deportivo</div>
   </div>
@@ -1052,12 +1150,12 @@ function viewDay(){
   ${shown.length? agruparPorComp(shown).map(g=>{
     const key = VIEW.day+"|"+g.comp, open = !closedComps.has(key);
     return `
-    <div style="margin-bottom:8px">
+    <div style="margin-bottom:12px">
       <button class="comp-header" data-compclose="${key}">
         <span style="display:flex;align-items:center;gap:8px">${crest(g.rows[0].m.compLogo, g.comp, "sm")}${esc(g.comp)}</span>
         <span class="eyebrow">${g.rows.length} partidos</span>
       </button>
-      ${open? g.rows.map(r=>matchCard(r)).join("") : ""}
+      ${open? `<div class="matches-grid">${g.rows.map(r=>matchCard(r)).join("")}</div>` : ""}
     </div>`;
   }).join("") : `
     <div class="empty-state">
@@ -1072,7 +1170,7 @@ function matchCard({m,best,topProj}){
   const val = best && best.e>=S.minEv;
   const p1 = topProj && topProj[0];
   return `
-  <div class="match-card ${val?"has-val":""}" data-match="${m.id}">
+  <div class="match-card ${val?"has-val":""}" data-id="${m.id}" role="button" tabindex="0" aria-label="Partido ${esc(m.home)} vs ${esc(m.away)}">
     <div class="match-top">
       <span class="match-time">${m.hora} hs · ${esc(m.comp)}</span>
       ${val ? `<span class="val-badge">+${Math.round(best.e*100)}% Ventaja</span>` : p1 ? `<span class="badge-rec">${Math.round(p1.p*100)}% ${esc(p1.label)}</span>` : `<span style="font-size:12px;color:var(--text-subtle)">Tocar para ver</span>`}
@@ -1103,55 +1201,61 @@ function viewMatch(id){
   const val = best !== null;
 
   return `
-  <div class="detail-header">
-    <button class="btn-back" data-back>← Volver a Partidos</button>
-    <div class="matchup-hero">
-      <div class="matchup-team">${crest(m.homeLogo, m.home, "lg")}<span>${esc(m.home)}</span><small class="num" style="color:var(--text-muted)">xG ${m.lh.toFixed(1)}</small></div>
-      <div class="matchup-vs">VS</div>
-      <div class="matchup-team">${crest(m.awayLogo, m.away, "lg")}<span>${esc(m.away)}</span><small class="num" style="color:var(--text-muted)">xG ${m.la.toFixed(1)}</small></div>
-    </div>
-  </div>
-
-  <div class="verdict-card ${val?"val":""}">
-    <div class="verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}">
-      ${val?"✨ OPORTUNIDAD DETECTADA":best?.e<=0?"⚠️ SIN VENTAJA EN TU CUOTA":"🎯 JUGADA RECOMENDADA"}
-    </div>
-    <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
-    <div class="verdict-grid">
-      <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
-      <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
-      <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"Por evaluar"}</b></div>
-    </div>
-    
-    <div class="argument-box">
-      <h4>💡 ¿Por qué conviene?</h4>
-      <p>${esc(generarArgumento(m, best, topProj))}</p>
-    </div>
-
-    ${best?.stake?`
-    <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:12px 16px;border-radius:var(--r-md);border:1px solid var(--border)">
-      <div>
-        <span style="font-size:12px;color:var(--text-muted);display:block">Monto sugerido (Kelly)</span>
-        <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
+  <div class="match-detail-layout">
+    <div class="match-detail-sidebar">
+      <div class="detail-header">
+        <button class="btn-back" data-back title="Volver a la lista de partidos (Esc)">← Volver a Partidos</button>
+        <div class="matchup-hero">
+          <div class="matchup-team">${crest(m.homeLogo, m.home, "lg")}<span>${esc(m.home)}</span><small class="num" style="color:var(--text-muted)">xG ${m.lh.toFixed(1)}</small></div>
+          <div class="matchup-vs">VS</div>
+          <div class="matchup-team">${crest(m.awayLogo, m.away, "lg")}<span>${esc(m.away)}</span><small class="num" style="color:var(--text-muted)">xG ${m.la.toFixed(1)}</small></div>
+        </div>
       </div>
-      <span class="num" style="font-size:20px;font-weight:700;color:var(--cyan)">${mny(best.stake)}</span>
-    </div>`:""}
-  </div>
 
-  <div class="subtabs-pill-wrap">
-    <div class="subtabs-pill">
-      <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
-      <button class="subtab-pill ${VIEW.subtab==="posiciones"?"on":""}" data-subtab="posiciones">Posiciones</button>
-      <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis</button>
-      <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Estadísticas</button>
+      <div class="verdict-card ${val?"val":""}">
+        <div class="verdict-pill ${val?"cyan":best?.e<=0?"coral":"neutral"}">
+          ${val?"✨ OPORTUNIDAD DETECTADA":best?.e<=0?"⚠️ SIN VENTAJA EN TU CUOTA":"🎯 JUGADA RECOMENDADA"}
+        </div>
+        <div class="verdict-title">${esc(best?best.label:topProj[0]?.label||"Cargar cuota")}</div>
+        <div class="verdict-grid">
+          <div class="verdict-cell"><small>${best?"Tu Cuota":"Cuota Justa"}</small><b class="cyan">@${(best?best.o:fair(topProj[0]?.p||0.5)).toFixed(2)}</b></div>
+          <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round((best?best.p:(topProj[0]?.p||0.5))*100)}%</b></div>
+          <div class="verdict-cell"><small>Ventaja</small><b class="${best?.e>0?"cyan":best?"coral":""}">${best?`${best.e>0?"+":""}${Math.round(best.e*100)}%`:"Por evaluar"}</b></div>
+        </div>
+        
+        <div class="argument-box">
+          <h4>💡 ¿Por qué conviene?</h4>
+          <p>${esc(generarArgumento(m, best, topProj))}</p>
+        </div>
+
+        ${best?.stake?`
+        <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-input);padding:12px 16px;border-radius:var(--r-md);border:1px solid var(--border)">
+          <div>
+            <span style="font-size:12px;color:var(--text-muted);display:block">Monto sugerido (Kelly)</span>
+            <button class="btn-save-pick" data-savepick="${m.id}|${best.id}|${best.label}|${best.o}|${best.stake}|${best.e}">⭐ Guardar en mi Historial</button>
+          </div>
+          <span class="num" style="font-size:20px;font-weight:700;color:var(--cyan)">${mny(best.stake)}</span>
+        </div>`:""}
+      </div>
     </div>
-  </div>
 
-  <div class="wrap">
-    ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
-    ${VIEW.subtab==="posiciones" ? tabPosiciones(m) : ""}
-    ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
-    ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
+    <div class="match-detail-content">
+      <div class="subtabs-pill-wrap" style="padding-top:0">
+        <div class="subtabs-pill">
+          <button class="subtab-pill ${VIEW.subtab==="mercados"?"on":""}" data-subtab="mercados">Mercados</button>
+          <button class="subtab-pill ${VIEW.subtab==="posiciones"?"on":""}" data-subtab="posiciones">Posiciones</button>
+          <button class="subtab-pill ${VIEW.subtab==="analisis"?"on":""}" data-subtab="analisis">Análisis</button>
+          <button class="subtab-pill ${VIEW.subtab==="datos"?"on":""}" data-subtab="datos">Estadísticas</button>
+        </div>
+      </div>
+
+      <div class="wrap" style="padding-top:10px">
+        ${VIEW.subtab==="mercados" ? tabMercados(m, mkts) : ""}
+        ${VIEW.subtab==="posiciones" ? tabPosiciones(m) : ""}
+        ${VIEW.subtab==="analisis" ? tabAnalisis(m, topProj) : ""}
+        ${VIEW.subtab==="datos" ? tabDatos(m) : ""}
+      </div>
+    </div>
   </div>`;
 }
 
@@ -1164,14 +1268,16 @@ function renderOddsCell(m, x, customTitle=null){
   <div class="odds-card-cell ${val?"has-val":""}">
     <button class="cell-combo-btn ${isCombo?"on":""}"
             data-add-combo="${m.id}|${x.id}|${x.label}|${x.o||fair(x.p).toFixed(2)}|${x.p}"
-            title="${isCombo?"Quitar de combinada":"Sumar a combinada"}">
+            title="${isCombo?"Quitar de combinada":"Sumar a combinada"}"
+            aria-label="${isCombo?"Quitar "+esc(label)+" de combinada":"Sumar "+esc(label)+" a combinada"}">
       ${isCombo?"✓":"+ Combo"}
     </button>
     <div class="odds-label-name">${esc(label)}</div>
     <div class="odds-prob-badge">${Math.round(x.p*100)}% prob</div>
     <div class="odds-fair-text">Justa @${fair(x.p).toFixed(2)}</div>
     <input class="odds-input-pill" type="number" step="0.01" min="1.01" inputmode="decimal"
-           placeholder="Tu Cuota" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}">
+           placeholder="Tu Cuota" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}"
+           aria-label="Tu cuota para ${esc(label)} en ${esc(m.home)} vs ${esc(m.away)}">
     ${x.e!==null ? `<span class="badge-ev ${x.e>=S.minEv?"pos":"neg"}">${x.e>0?"+":""}${Math.round(x.e*100)}% EV</span>` : ""}
   </div>`;
 }
@@ -1634,60 +1740,66 @@ function viewCombo(){
       <p>Armá tu jugada combinada calculando la probabilidad conjunta real</p>
     </div>
 
-    ${COMBO.length ? `
-    <div class="combo-slip-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <span class="eyebrow" style="color:var(--cyan)">${COMBO.length} ${COMBO.length===1?"SELECCIÓN":"SELECCIONES"}</span>
-        <button class="chip" style="min-height:auto;padding:4px 10px;font-size:11px" data-combo-clear>Vaciar Boleta</button>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
-        ${COMBO.map(l=>`
-        <div class="combo-leg-item">
-          <div>
-            <div style="font-size:13.5px;font-weight:700">${esc(l.label)}</div>
-            <small style="color:var(--text-muted);font-size:11.5px">${esc(l.match)} · Prob: ${Math.round(l.p*100)}%</small>
+    <div class="combo-layout">
+      <div>
+        ${COMBO.length ? `
+        <div class="combo-slip-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span class="eyebrow" style="color:var(--cyan)">${COMBO.length} ${COMBO.length===1?"SELECCIÓN":"SELECCIONES"}</span>
+            <button class="chip" style="min-height:auto;padding:4px 10px;font-size:11px" data-combo-clear>Vaciar Boleta</button>
           </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <b class="num" style="color:var(--cyan);font-size:14px">@${parseFloat(l.o).toFixed(2)}</b>
-            <button style="color:var(--coral);font-size:14px;padding:4px" data-remove-leg="${l.matchId}|${l.marketId}">✕</button>
+
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+            ${COMBO.map(l=>`
+            <div class="combo-leg-item">
+              <div>
+                <div style="font-size:13.5px;font-weight:700">${esc(l.label)}</div>
+                <small style="color:var(--text-muted);font-size:11.5px">${esc(l.match)} · Prob: ${Math.round(l.p*100)}%</small>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <b class="num" style="color:var(--cyan);font-size:14px">@${parseFloat(l.o).toFixed(2)}</b>
+                <button style="color:var(--coral);font-size:14px;padding:4px" data-remove-leg="${l.matchId}|${l.marketId}">✕</button>
+              </div>
+            </div>`).join("")}
           </div>
-        </div>`).join("")}
+
+          <div class="verdict-grid">
+            <div class="verdict-cell"><small>Cuota Total</small><b class="cyan">@${calc.o.toFixed(2)}</b></div>
+            <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round(calc.p*100)}%</b></div>
+            <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"cyan":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
+          </div>
+          
+          ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
+        </div>` : `
+        <div class="empty-state" style="padding:24px 16px 36px">
+          <div class="empty-state-icon">⚡</div>
+          <h3>Tu boleta de combinadas está vacía</h3>
+          <p>Entrá a cualquier partido y tocá <b>"+ Combo"</b> en los pronósticos que te gusten para sumarlos a esta boleta.</p>
+        </div>`}
       </div>
 
-      <div class="verdict-grid">
-        <div class="verdict-cell"><small>Cuota Total</small><b class="cyan">@${calc.o.toFixed(2)}</b></div>
-        <div class="verdict-cell"><small>Probabilidad</small><b class="green">${Math.round(calc.p*100)}%</b></div>
-        <div class="verdict-cell"><small>Ventaja</small><b class="${calc.e>0?"cyan":"coral"}">${calc.e>0?"+":""}${Math.round(calc.e*100)}%</b></div>
+      <div>
+        <div class="eyebrow" style="margin:0 0 10px">Sugerencias del Día para Combinar</div>
+        ${MATCHES.filter(m=>m.date===VIEW.day).map(m=>{
+          const {mkts} = model(m);
+          const topProj = getTopModelProjections(m, mkts);
+          if(!topProj.length) return "";
+          const p1 = topProj[0];
+          const isSelected = COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
+          return `
+          <div class="market-row">
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:700">${esc(p1.label)}</div>
+              <small style="color:var(--text-muted)">${esc(m.home)} vs ${esc(m.away)} · Prob: ${Math.round(p1.p*100)}%</small>
+            </div>
+            <button class="btn-add-combo ${isSelected?"on":""}"
+                    data-add-combo="${m.id}|${p1.id}|${p1.label}|${fair(p1.p).toFixed(2)}|${p1.p}">
+              ${isSelected?"✓ En Boleta":"+ Sumar @"+fair(p1.p).toFixed(2)}
+            </button>
+          </div>`;
+        }).join("")}
       </div>
-      
-      ${calc.avisos.map(a=>`<div class="argument-box" style="font-size:12px;margin-bottom:8px">💡 ${esc(a)}</div>`).join("")}
-    </div>` : `
-    <div class="empty-state" style="padding:24px 16px 36px">
-      <div class="empty-state-icon">⚡</div>
-      <h3>Tu boleta de combinadas está vacía</h3>
-      <p>Entrá a cualquier partido y tocá <b>"+ Combo"</b> en los pronósticos que te gusten para sumarlos a esta boleta.</p>
-    </div>`}
-
-    <div class="eyebrow" style="margin:16px 0 10px">Sugerencias del Día para Combinar</div>
-    ${MATCHES.filter(m=>m.date===VIEW.day).map(m=>{
-      const {mkts} = model(m);
-      const topProj = getTopModelProjections(m, mkts);
-      if(!topProj.length) return "";
-      const p1 = topProj[0];
-      const isSelected = COMBO.some(c=>c.matchId===m.id && c.marketId===p1.id);
-      return `
-      <div class="market-row">
-        <div style="flex:1">
-          <div style="font-size:14px;font-weight:700">${esc(p1.label)}</div>
-          <small style="color:var(--text-muted)">${esc(m.home)} vs ${esc(m.away)} · Prob: ${Math.round(p1.p*100)}%</small>
-        </div>
-        <button class="btn-add-combo ${isSelected?"on":""}"
-                data-add-combo="${m.id}|${p1.id}|${p1.label}|${fair(p1.p).toFixed(2)}|${p1.p}">
-          ${isSelected?"✓ En Boleta":"+ Sumar @"+fair(p1.p).toFixed(2)}
-        </button>
-      </div>`;
-    }).join("")}
+    </div>
   </div>`;
 }
 
@@ -1976,15 +2088,15 @@ function render(){
     if(VIEW.tab === "metodo") app.innerHTML = viewMethod();
     if(VIEW.tab === "ajustes") app.innerHTML = viewSettings();
   }
-  document.querySelectorAll("nav.bottom-nav button").forEach(b=>{
-    b.classList.toggle("on", !VIEW.matchId && b.dataset.nav === VIEW.tab);
+  document.querySelectorAll("nav.bottom-nav button, .desktop-nav button").forEach(b=>{
+    b.classList.toggle("on", !VIEW.matchId && (b.getAttribute("data-nav") === VIEW.tab || b.dataset.nav === VIEW.tab));
   });
   window.scrollTo(0,0);
 }
 
 /* ── Eventos Globales Delegados ── */
 document.addEventListener("click", e => {
-  const navBtn = e.target.closest("nav.bottom-nav button");
+  const navBtn = e.target.closest("nav.bottom-nav button, .desktop-nav button");
   if(navBtn){
     VIEW.tab = navBtn.getAttribute("data-nav") || navBtn.dataset.nav;
     VIEW.matchId = null;
@@ -2191,6 +2303,13 @@ document.addEventListener("input", e => {
       item.closing = (!isNaN(v) && v>1) ? v : null;
       store.set("log", LOG);
     }
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && VIEW.matchId){
+    VIEW.matchId = null;
+    render();
   }
 });
 

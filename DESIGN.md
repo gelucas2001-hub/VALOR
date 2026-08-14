@@ -20,6 +20,7 @@ colors:
   amber: "#F59E0B"
   coral: "#EF4444"
   coral-wash: "rgba(239, 68, 68, 0.12)"
+  text-on-cyan: "#03131F"
 typography:
   headline:
     fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"

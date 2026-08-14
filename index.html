@@ -593,6 +593,17 @@ let S = { bank:50000, minEv:0.04, maxOdds:8, cur:"$", casa:"", caps:false };
 let LOG = [];
 let VIEW = {nav:"fecha", day:"2026-08-12", match:null, tab:"mercados", filter:"valor"};
 let MATCHES = [];
+let EQUIPOS = {};    // { teamId: {equipo, actualizado, resumen, forma,
+                      //   localVisita, bajas:[], fichajes:[]} } — contexto
+                      // lento por equipo (DT, lesiones, fichajes, forma
+                      // interpretada), se reusa en todos los partidos de
+                      // ese equipo. Nunca lo escribe actualizar.py — se
+                      // carga a mano (con ayuda de Claude investigando) y
+                      // se commitea aparte, en data/equipos.json.
+let ANALISIS = {};   // { matchId: {actualizado, contexto, veredicto} } —
+                      // lo específico de ESE cruce, más allá de lo que ya
+                      // dicen las estadísticas. Mismo espíritu: nunca lo
+                      // toca el cron, vive en data/analisis.json.
 const oddsCache = {};   // { matchId: { marketId: {odds, oddsOpp} } }
 const notasCache = {};  // { matchId: "texto libre" } — investigación manual
                          // (lesiones, DT, contexto). Vive aparte de data/
@@ -1011,7 +1022,34 @@ function tabData(m){
   // el h2h siempre es entre estos dos equipos, así que el escudo sale de mapear el nombre
   const logoDe = n => n===m.home ? m.homeLogo : n===m.away ? m.awayLogo : "";
   const juega  = t => t.id===m.homeId || t.id===m.awayId || t.t===m.home || t.t===m.away;
+
+  // Análisis cualitativo, investigado a mano (no lo escribe actualizar.py).
+  // equipos.json es por equipo — se reusa en todos los partidos de ese
+  // equipo, no se vuelve a investigar el mismo DT o la misma lesión cada
+  // semana. analisis.json es lo específico de este cruce puntual. Si
+  // ninguno tiene entrada para este partido, no se renderiza nada — cero
+  // peso agregado a la interfaz.
+  const cajaEquipo = (nombre, logo, e) => !e ? "" : `<div class="box">
+    <h3 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(nombre)}</h3>
+    ${e.resumen?`<p style="font-size:13px;line-height:1.6;color:var(--paper);margin:0 0 10px">${esc(e.resumen)}</p>`:""}
+    ${e.forma?`<p style="font-size:12.5px;line-height:1.55;color:var(--muted);margin:0 0 8px"><b style="color:var(--muted-2)">Forma —</b> ${esc(e.forma)}</p>`:""}
+    ${e.localVisita?`<p style="font-size:12.5px;line-height:1.55;color:var(--muted);margin:0 0 8px"><b style="color:var(--muted-2)">Local/visitante —</b> ${esc(e.localVisita)}</p>`:""}
+    ${e.bajas?.length?`<p style="font-size:12.5px;line-height:1.6;color:var(--muted);margin:0 0 6px"><b style="color:var(--muted-2)">Bajas —</b> ${e.bajas.map(esc).join(" · ")}</p>`:""}
+    ${e.fichajes?.length?`<p style="font-size:12.5px;line-height:1.6;color:var(--muted);margin:0"><b style="color:var(--muted-2)">Mercado —</b> ${e.fichajes.map(esc).join(" · ")}</p>`:""}
+    ${e.actualizado?`<div class="nota-tag" style="margin-top:10px">Investigado ${esc(e.actualizado)}</div>`:""}
+  </div>`;
+  const an = ANALISIS[m.id];
+  const cajaAnalisis = !an ? "" : `<div class="box">
+    <h3>Análisis del cruce</h3>
+    ${an.contexto?`<p style="font-size:13px;line-height:1.6;color:var(--paper);margin:0 0 10px">${esc(an.contexto)}</p>`:""}
+    ${an.veredicto?`<p style="font-size:13px;line-height:1.6;color:var(--brass);margin:0"><b>Veredicto —</b> ${esc(an.veredicto)}</p>`:""}
+    ${an.actualizado?`<div class="nota-tag" style="margin-top:10px">Investigado ${esc(an.actualizado)}</div>`:""}
+  </div>`;
+
   return `
+  ${cajaEquipo(m.home, m.homeLogo, EQUIPOS[m.homeId])}
+  ${cajaEquipo(m.away, m.awayLogo, EQUIPOS[m.awayId])}
+  ${cajaAnalisis}
   <div class="box"><h3>Notas propias</h3>
     <textarea class="nota-in" data-nota="${m.id}" placeholder="Lesiones, cambios de DT, viajes, motivación — lo que investigues antes de jugar. Se guarda en este celular, no en los datos que trae ESPN.">${esc(notasCache[m.id] || "")}</textarea>
     <div class="nota-tag">Esto no lo mueve el modelo — es referencia para vos, y para ajustar la Calidad del análisis en Modelo.</div>
@@ -1624,6 +1662,17 @@ const tagLine = () => `${FEED} · umbral ${pc(S.minEv)}${S.caps?" · topes on":"
       }
     }
   }catch(e){ /* sin archivo todavía: seguimos con el seed */ }
+  // Análisis cualitativo: propio (investigado a mano, no lo escribe
+  // actualizar.py). Si no hay archivo o está vacío, no pasa nada — las
+  // cajas de Datos simplemente no aparecen.
+  try{
+    const r = await fetch("data/equipos.json?t="+Date.now());
+    if(r.ok) EQUIPOS = await r.json();
+  }catch(e){ /* sin archivo todavía */ }
+  try{
+    const r = await fetch("data/analisis.json?t="+Date.now());
+    if(r.ok) ANALISIS = await r.json();
+  }catch(e){ /* sin archivo todavía */ }
   document.getElementById("brandTag").textContent = tagLine();
   render();
 })();

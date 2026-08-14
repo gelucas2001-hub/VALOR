@@ -1,0 +1,10 @@
+{
+  "_schema": {
+    "_comentario": "Análisis específico de UN cruce puntual — lo que la estadística sola no ve (motivación, contexto de tabla, algo raro de esta semana). actualizar.py nunca escribe este archivo. Clave = mismo id de partido que usa data/partidos.json (formato espnNNNNNNNNN).",
+    "_ejemplo": {
+      "actualizado": "2026-08-13",
+      "contexto": "Por qué este partido en particular, más allá de los números",
+      "veredicto": "Lectura final: hacia dónde inclina esto el análisis"
+    }
+  }
+}

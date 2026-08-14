@@ -7,7 +7,7 @@ colors:
   bg-group: "#161618"
   bg-card: "#1C1C1E"
   bg-card-hover: "#252528"
-  bg-input: "#121214"
+  bg-input: "#0E121A"
   border: "rgba(255, 255, 255, 0.08)"
   border-subtle: "rgba(255, 255, 255, 0.05)"
   divider: "rgba(255, 255, 255, 0.06)"
@@ -22,11 +22,11 @@ colors:
   accent-red-wash: "rgba(255, 69, 58, 0.12)"
 typography:
   sans:
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif"
-    trackingHeadline: "-0.03em"
+    fontFamily: "'Outfit', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif"
+    trackingHeadline: "-0.02em"
     trackingBody: "-0.01em"
   mono:
-    fontFamily: "'SF Mono', 'JetBrains Mono', 'Menlo', ui-monospace, monospace"
+    fontFamily: "'JetBrains Mono', 'SF Mono', monospace"
 ---
 
 # Sistema de Diseño VALOR (Apple Sports + Minimalist UI)

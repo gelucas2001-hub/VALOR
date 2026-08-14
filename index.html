@@ -506,6 +506,7 @@ header.top {
   background: var(--cyan);
   border-color: var(--cyan);
   font-weight: 800;
+}
 .odds-target-rule {
   display: flex;
   flex-direction: column;
@@ -1257,14 +1258,14 @@ function matchCard({m,best,topProj}){
         <span class="team-xg">xG ${m.la.toFixed(1)}</span>
       </div>
     </div>
-    <div class="match-footer" style="display:flex;justify-content:space-between;align-items:center">
-      <div style="flex:1;overflow:hidden">
+    <div class="match-footer" style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-subtle)">
+      <div style="flex:1;min-width:0;padding-right:10px">
         <span class="match-pick-label" style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-          ${best ? esc(best.label) : p1 ? `Entrar si paga: <b>≥ @${p1MinOdd}</b>` : "Ver opciones"}
+          ${best ? esc(best.label) : p1 ? `Entrar si paga: <b style="color:var(--cyan)">≥ @${p1MinOdd}</b>` : "Ver opciones"}
         </span>
         <small style="display:block;font-size:11px;color:var(--text-muted)">Justa: @${p1 ? fair(p1.p).toFixed(2) : "—"}</small>
       </div>
-      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         ${p1 ? `
         <button class="btn-card-combo ${isCombo?"on":""}"
                 data-add-combo="${m.id}|${p1.id}|${p1.label}|${p1MinOdd}|${p1.p}"

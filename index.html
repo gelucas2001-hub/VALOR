@@ -1185,20 +1185,25 @@ function tabAnalisis(m, topProj){
   </div>`;
 }
 
-/* Subpestaña Estadísticas */
+/* Subpestaña Estadísticas con Escudos */
 function tabDatos(m){
+  buildLogoMap();
   return `
   <div class="perf-card">
     <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px;font-size:16px">
       ${crest(m.homeLogo, m.home, "sm")} Últimos Partidos de ${esc(m.home)}
     </h3>
-    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
       ${m.formH?.length ? m.formH.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin datos</span>"}
     </div>
     ${m.formH?.length ? m.formH.map(f=>`
-      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--border-subtle)">
-        <span>${f.local?"(Local)":"(Visita)"} vs ${esc(f.rival)}</span>
-        <b class="num">${f.marcador}</b>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:13px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--text-muted);width:42px">${f.local?"(Local)":"(Visita)"}</span>
+          ${crest(getTeamLogo(f.rival), f.rival, "sm")}
+          <span style="font-weight:600">${esc(f.rival)}</span>
+        </div>
+        <b class="num" style="font-size:13.5px">${f.marcador}</b>
       </div>`).join("") : ""}
   </div>
 
@@ -1206,22 +1211,32 @@ function tabDatos(m){
     <h3 style="display:flex;align-items:center;gap:8px;margin:0 0 12px;font-size:16px">
       ${crest(m.awayLogo, m.away, "sm")} Últimos Partidos de ${esc(m.away)}
     </h3>
-    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
       ${m.formA?.length ? m.formA.map(f=>`<span class="form-badge ${f.r}">${f.r}</span>`).join("") : "<span>Sin datos</span>"}
     </div>
     ${m.formA?.length ? m.formA.map(f=>`
-      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--border-subtle)">
-        <span>${f.local?"(Local)":"(Visita)"} vs ${esc(f.rival)}</span>
-        <b class="num">${f.marcador}</b>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:13px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--text-muted);width:42px">${f.local?"(Local)":"(Visita)"}</span>
+          ${crest(getTeamLogo(f.rival), f.rival, "sm")}
+          <span style="font-weight:600">${esc(f.rival)}</span>
+        </div>
+        <b class="num" style="font-size:13.5px">${f.marcador}</b>
       </div>`).join("") : ""}
   </div>
 
   <div class="perf-card">
-    <h3 style="font-size:16px;margin:0 0 10px">Historial Directo entre Ambos</h3>
+    <h3 style="font-size:16px;margin:0 0 12px">Historial Directo entre Ambos</h3>
     ${m.h2h?.length? m.h2h.map(h=>`
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:13px">
-        <span>${esc(h.h)} vs ${esc(h.a)}</span>
-        <b class="num">${esc(h.s)}</b>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border-subtle);font-size:13px">
+        <div style="display:flex;align-items:center;gap:8px">
+          ${crest(getTeamLogo(h.h), h.h, "sm")}
+          <span style="font-weight:600">${esc(h.h)}</span>
+          <span style="color:var(--text-subtle);font-size:11px">vs</span>
+          ${crest(getTeamLogo(h.a), h.a, "sm")}
+          <span style="font-weight:600">${esc(h.a)}</span>
+        </div>
+        <b class="num" style="font-size:14px;color:var(--cyan)">${esc(h.s)}</b>
       </div>`).join("") : "<p style='font-size:12.5px;color:var(--text-muted)'>Sin enfrentamientos recientes registrados.</p>"}
   </div>`;
 }
@@ -1534,6 +1549,34 @@ const crest = (url, name="", size="") => {
   if(!url) return `<span class="crest-fallback ${size}">${initials}</span>`;
   return `<img class="crest ${size}" src="${url}" alt="${esc(name)}" loading="lazy" onerror="this.outerHTML='<span class=\\'crest-fallback ${size}\\'>${initials}</span>'">`;
 };
+
+const LOGO_MAP = {};
+function buildLogoMap(){
+  MATCHES.forEach(m => {
+    if(m.home && m.homeLogo) LOGO_MAP[m.home.toLowerCase().trim()] = m.homeLogo;
+    if(m.away && m.awayLogo) LOGO_MAP[m.away.toLowerCase().trim()] = m.awayLogo;
+    if(m.tabla) {
+      m.tabla.forEach(t => {
+        if(t.t && t.logo) LOGO_MAP[t.t.toLowerCase().trim()] = t.logo;
+      });
+    }
+  });
+  Object.values(TABLAS).forEach(list => {
+    if(Array.isArray(list)) {
+      list.forEach(t => {
+        if(t.t && t.logo) LOGO_MAP[t.t.toLowerCase().trim()] = t.logo;
+      });
+    }
+  });
+}
+
+function getTeamLogo(name){
+  if(!name) return "";
+  const key = name.toLowerCase().trim();
+  if(LOGO_MAP[key]) return LOGO_MAP[key];
+  const foundKey = Object.keys(LOGO_MAP).find(k => k.includes(key) || key.includes(k));
+  return foundKey ? LOGO_MAP[foundKey] : "";
+}
 
 const ORDEN_COMP = ["Liga Profesional Argentina","CONMEBOL Libertadores","CONMEBOL Sudamericana","Copa Argentina"];
 function agruparPorComp(rows){

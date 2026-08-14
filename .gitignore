@@ -1,0 +1,7 @@
+# Herramientas locales
+.claude/
+.impeccable/
+
+# Python
+__pycache__/
+*.pyc

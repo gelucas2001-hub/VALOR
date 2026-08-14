@@ -31,7 +31,7 @@
   --line-soft:#212C36;
   --paper:#E9E7E2;
   --muted:#8496A5;
-  --muted-2:#5F707E;
+  --muted-2:#7A8D9B;
   --brass:#E0A93C;
   --brass-deep:#8A6415;
   --brass-wash:rgba(224,169,60,.10);
@@ -39,6 +39,10 @@
   --rust-wash:rgba(196,89,63,.10);
   --petrol:#4A8395;
   --petrol-wash:rgba(74,131,149,.12);
+  --ink-on-brass:#171106;
+  --ink-on-brass-soft:rgba(23,17,6,.65);
+  --warn-text:#E6BCB1;
+  --warn-info-text:#BBD6DE;
 
   --r:10px;
   --r-sm:6px;
@@ -46,6 +50,16 @@
 
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+
+  /* peso físico: instrumento tallado, no tarjetas de cartón */
+  --sheen:rgba(255,255,255,.28);
+  --sheen-soft:rgba(255,255,255,.14);
+  --shadow-inner:rgba(255,255,255,.04);
+  --shadow-deep:rgba(0,0,0,.6);
+  --shadow-card:inset 0 1px 0 var(--shadow-inner),0 1px 0 rgba(0,0,0,.4),0 10px 26px -14px var(--shadow-deep);
+  --shadow-brass:0 0 0 1px var(--brass-deep);
+  --shadow-lift:0 -10px 26px -14px var(--shadow-deep);
+  --ring:0 0 0 3px rgba(224,169,60,.35);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
@@ -59,6 +73,10 @@ body{
   padding-bottom:78px;
   overscroll-behavior-y:contain;
   -webkit-font-smoothing:antialiased;
+  max-width:560px;
+  margin:0 auto;
+  min-height:100vh;
+  position:relative;
 }
 button,input,select{font-family:inherit;font-size:inherit;color:inherit}
 button{background:none;border:none;padding:0;cursor:pointer}
@@ -72,8 +90,11 @@ button{background:none;border:none;padding:0;cursor:pointer}
 /* ── chrome ── */
 header.top{
   position:sticky;top:0;z-index:40;
-  background:linear-gradient(180deg,var(--ink) 72%,rgba(15,20,26,0));
+  background:
+    radial-gradient(120% 100% at 0% 0%,rgba(224,169,60,.07),transparent 55%),
+    linear-gradient(180deg,var(--ink) 72%,rgba(15,20,26,0));
   padding:calc(env(safe-area-inset-top) + 12px) var(--pad) 10px;
+  max-width:560px;
 }
 .brand{display:flex;align-items:baseline;gap:9px}
 .brand h1{
@@ -92,10 +113,22 @@ header.top{
 }
 .day b{display:block;font-family:var(--mono);font-size:15px;font-weight:500}
 .day i{display:block;font-style:normal;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-top:1px}
-.day.on{background:var(--brass);border-color:var(--brass);color:#171106}
-.day.on i{color:rgba(23,17,6,.65)}
+.day.on{background:var(--brass);border-color:var(--brass);color:var(--ink-on-brass);box-shadow:var(--shadow-brass)}
+.day.on i{color:var(--ink-on-brass-soft)}
 .day.has::after{content:"";display:block;width:3px;height:3px;border-radius:50%;background:var(--brass);margin:4px auto 0}
-.day.on.has::after{background:#171106}
+.day.on.has::after{background:var(--ink-on-brass)}
+
+/* ── plan de hoy: el mejor pick del día entero, antes de la barra resumen ── */
+.today-top{
+  margin:12px var(--pad) 0;padding:12px 14px;border-radius:var(--r);
+  border:1px solid var(--brass-deep);
+  background:linear-gradient(180deg,var(--brass-wash),transparent 65%),var(--surface);
+}
+.today-top-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:3px}
+.today-top-teams{font-size:14px;font-variation-settings:"wdth" 104,"wght" 600;color:var(--paper)}
+.today-top-teams em{font-style:normal;color:var(--muted-2);margin:0 4px;font-variation-settings:"wght" 400}
+.today-top-ev{font-family:var(--mono);font-size:17px;font-weight:500;white-space:nowrap}
+.today-top-mkt{font-size:12px;color:var(--muted);margin-top:4px}
 
 /* ── barra resumen ── */
 .ledger{
@@ -106,11 +139,14 @@ header.top{
 .ledger div:last-child{border-right:none}
 .ledger b{display:block;font-family:var(--mono);font-size:18px;font-weight:500;margin-top:3px;letter-spacing:-.02em}
 .ledger small{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+/* CLV positivo medio es "la señal que importa" (Método) — el único
+   número de todo Registro que se gana el trato dorado. */
+.ledger.signal{border-color:var(--brass-deep);background:linear-gradient(180deg,var(--brass-wash),transparent 65%),var(--ink-2)}
 
 /* ── filtros ── */
 .filters{display:flex;gap:7px;padding:14px var(--pad) 2px;flex-wrap:wrap}
 .chip{
-  padding:6px 12px;border-radius:100px;border:1px solid var(--line);
+  padding:13px 12px;border-radius:100px;border:1px solid var(--line);
   background:var(--ink-2);font-size:12px;color:var(--muted);
   font-variation-settings:"wdth" 108,"wght" 500;
 }
@@ -157,6 +193,8 @@ header.top{
 .pick-meta b{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:-.01em;display:block;margin-top:1px;color:var(--paper);text-transform:none;letter-spacing:0}
 .pos{color:var(--brass) !important}
 .neg{color:var(--rust) !important}
+/* --rust fails 4.5:1 below 24px; opp-ev alone is large enough to keep it */
+.pick-ev.neg,.mkt-grid .neg,.ledger .neg,.tbl .neg{color:var(--warn-text) !important}
 .odds-empty{margin:11px 0 0;font-size:11.5px;color:var(--muted-2);letter-spacing:.02em}
 
 /* ── bloque de oportunidad: fijo arriba de las tabs, el mismo en
@@ -198,9 +236,23 @@ header.top{
 .warn{
   margin-top:9px;padding:7px 9px;border-radius:var(--r-sm);
   background:var(--rust-wash);border-left:2px solid var(--rust);
-  font-size:11.5px;line-height:1.4;color:#E6BCB1;
+  font-size:11.5px;line-height:1.4;color:var(--warn-text);
 }
-.warn.info{background:var(--petrol-wash);border-left-color:var(--petrol);color:#BBD6DE}
+.warn.info{background:var(--petrol-wash);border-left-color:var(--petrol);color:var(--warn-info-text)}
+
+/* ── contexto compacto: el veredicto humano, no el del modelo ── */
+.ctx-mini{margin:11px var(--pad) 0;padding:12px 15px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface)}
+.ctx-mini p{margin:5px 0 0;font-size:13px;line-height:1.55;color:var(--paper)}
+
+/* ── combinada recomendada ── */
+.combo-rec{margin:11px var(--pad) 0}
+.combo-rec-card{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:13px;margin-top:7px}
+.combo-rec-opt{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-bottom:7px;font-variation-settings:"wght" 600}
+.combo-rec-leg{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line-soft);font-size:13px}
+.combo-rec-leg:last-child{border-bottom:none}
+.combo-rec-leg span:first-child{flex:1;color:var(--paper)}
+.combo-rec-leg .num{font-family:var(--mono);color:var(--paper);font-weight:500}
+.combo-rec-conf{font-size:10px;color:var(--petrol);white-space:nowrap}
 
 /* ── detalle ── */
 .detail-head{padding:4px var(--pad) 0}
@@ -252,6 +304,12 @@ header.top{
   padding:7px 9px;font-family:var(--mono);font-size:15px;text-align:center;
 }
 .odds-in:focus{outline:none;border-color:var(--brass-deep);background:var(--ink-2)}
+.search-in{
+  width:100%;background:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:10px 12px;font-family:var(--sans);font-size:14px;color:var(--paper);
+}
+.search-in::placeholder{color:var(--muted-2)}
+.search-in:focus{outline:none;border-color:var(--brass-deep);background:var(--ink-2)}
 .nota-in{
   width:100%;background:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);
   padding:10px;font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--paper);
@@ -267,10 +325,15 @@ header.top{
 .io label{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);display:block;margin-bottom:4px}
 .btn{
   display:block;width:100%;margin-top:10px;padding:10px;border-radius:var(--r-sm);
-  background:var(--brass);color:#171106;font-size:12.5px;letter-spacing:.1em;
+  background:var(--brass);color:var(--ink-on-brass);
+  font-size:12.5px;letter-spacing:.1em;
   text-transform:uppercase;font-variation-settings:"wdth" 112,"wght" 700;
+  box-shadow:inset 0 1px 0 var(--sheen),0 6px 16px -8px var(--shadow-deep);
+  transition:transform .12s ease,box-shadow .12s ease;
 }
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.btn:active{transform:scale(.98);box-shadow:inset 0 1px 0 var(--sheen-soft)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted);box-shadow:none}
+.btn.ghost:active{background:var(--ink-2)}
 .btn:disabled{opacity:.35}
 
 /* ── modelo ── */
@@ -302,7 +365,7 @@ table.mx td{border-radius:2px;color:var(--paper)}
 
 /* ── datos ── */
 .box{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:14px;margin-bottom:12px}
-.box h3{margin:0 0 11px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);font-variation-settings:"wdth" 115,"wght" 600}
+.box h2{margin:0 0 11px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);font-variation-settings:"wdth" 115,"wght" 600}
 .form-row{display:flex;gap:5px;margin-top:7px}
 .f{
   width:23px;height:23px;border-radius:4px;display:grid;place-items:center;
@@ -326,20 +389,21 @@ table.mx td{border-radius:2px;color:var(--paper)}
   font-variation-settings:"wght" 600;padding:0 0 8px;text-align:right}
 .stand th.l{text-align:left}
 .stand td{padding:8px 0;border-top:1px solid var(--line-soft)}
-.stand .pos{font-family:var(--mono);font-size:11px;color:var(--muted-2);width:20px}
+.stand .rank{font-family:var(--mono);font-size:11px;color:var(--muted-2);width:20px}
 .stand .eq{display:flex;align-items:center;gap:8px;min-width:0}
 .stand .eq span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .stand .n{font-family:var(--mono);text-align:right;width:32px;font-size:12px;color:var(--muted)}
 .stand .n.pts{color:var(--paper);font-weight:500}
+.stand tr.me{background:var(--brass-wash)}
 .stand tr.me .eq{color:var(--brass);font-variation-settings:"wght" 600}
-.stand tr.me .pos{color:var(--brass)}
+.stand tr.me .rank{color:var(--brass)}
 .stand tr.me .n.pts{color:var(--brass)}
 
 /* ── registro ── */
 .log-item{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:12px;margin-bottom:9px}
 .log-top{display:flex;justify-content:space-between;gap:9px;align-items:flex-start}
 .res{display:flex;gap:6px;margin-top:10px}
-.res button{flex:1;padding:7px;border-radius:var(--r-sm);border:1px solid var(--line);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.res button{flex:1;padding:14px 7px;border-radius:var(--r-sm);border:1px solid var(--line);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 .res button.on{background:var(--brass-wash);border-color:var(--brass-deep);color:var(--brass)}
 .res button.on.l{background:var(--rust-wash);border-color:var(--rust);color:var(--rust)}
 .spark{width:100%;height:56px;display:block;margin-top:10px}
@@ -355,25 +419,53 @@ table.mx td{border-radius:2px;color:var(--paper)}
 .set p{font-size:11.5px;color:var(--muted-2);line-height:1.5;margin:7px 0 0}
 .set code{font-family:var(--mono);font-size:11px;background:var(--ink);padding:1px 4px;border-radius:3px;color:var(--petrol)}
 
+/* ── elevación: instrumento con peso físico, no cartón plano ── */
+.match,.mkt,.box,.log-item,.sliders,.matrix,.combo-rec-card,.ctx-mini,.today-top,.opp,.ledger{
+  box-shadow:var(--shadow-card);
+}
+.opp.val,.mkt.val,.today-top,.ledger.signal{box-shadow:var(--shadow-card),var(--shadow-brass)}
+.match:active,.mkt:active{transform:translateY(1px)}
+.grp-head:active,.comp-sec-head:active{opacity:.7}
+.day,.chip,.tab,.grp-head,.comp-sec-head,.btn,nav button,.log-item,.res button{
+  -webkit-tap-highlight-color:transparent;transition:opacity .12s ease,transform .12s ease;
+}
+.day:active,.chip:active{opacity:.72}
+:focus-visible{outline:none}
+.btn:focus-visible,.day:focus-visible,.chip:focus-visible,.tab:focus-visible,
+nav button:focus-visible,.grp-head:focus-visible,.comp-sec-head:focus-visible,
+.odds-in:focus-visible,.search-in:focus-visible,.nota-in:focus-visible{
+  box-shadow:var(--ring);border-radius:var(--r-sm);
+}
+
 /* ── nav ── */
 nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  max-width:560px;width:100%;z-index:50;
   background:rgba(15,20,26,.96);backdrop-filter:blur(14px);
   border-top:1px solid var(--line);
+  box-shadow:var(--shadow-lift);
   display:grid;grid-template-columns:repeat(5,1fr);
   padding-bottom:env(safe-area-inset-bottom);
 }
-nav button{padding:11px 0 12px;display:grid;place-items:center;gap:4px;color:var(--muted-2)}
+nav button{padding:11px 0 12px;display:grid;place-items:center;gap:4px;color:var(--muted-2);position:relative}
 nav button.on{color:var(--brass)}
+nav button.on::before{
+  content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:18px;height:2px;border-radius:0 0 2px 2px;background:var(--brass);
+}
 nav svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 nav span{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;font-variation-settings:"wdth" 112,"wght" 600}
 
-.empty{text-align:center;padding:56px 30px;color:var(--muted-2)}
+.empty{text-align:center;padding:56px 30px;color:var(--muted-2);position:relative}
+.empty::before{
+  content:"";display:block;width:44px;height:44px;margin:0 auto 16px;border-radius:50%;
+  border:1px solid var(--line);background:var(--ink-2);
+}
 .empty b{display:block;font-size:15px;color:var(--muted);margin-bottom:7px;font-variation-settings:"wght" 600}
 .empty p{font-size:12.5px;line-height:1.55;margin:0}
 
 @media (prefers-reduced-motion:no-preference){
-  .match,.mkt{animation:rise .32s cubic-bezier(.2,.7,.3,1) backwards}
+  .match,.mkt,.today-top,.opp,.ctx-mini,.combo-rec-card,.log-item,.box{animation:rise .32s cubic-bezier(.2,.7,.3,1) backwards}
   @keyframes rise{from{opacity:0;transform:translateY(7px)}}
 }
 </style>
@@ -390,11 +482,11 @@ nav span{font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;font-vari
 <main id="app"></main>
 
 <nav>
-  <button data-nav="fecha" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Fecha</span></button>
-  <button data-nav="combo"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><span>Combo</span></button>
-  <button data-nav="registro"><svg viewBox="0 0 24 24"><path d="M4 5h16v15l-8-4-8 4z"/></svg><span>Registro</span></button>
-  <button data-nav="metodo"><svg viewBox="0 0 24 24"><path d="M4 19V9M9.5 19V5M15 19v-7M20.5 19v-11"/></svg><span>Método</span></button>
-  <button data-nav="ajustes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/></svg><span>Ajustes</span></button>
+  <button data-nav="fecha" class="on" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Fecha</span></button>
+  <button data-nav="combo"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><span>Combo</span></button>
+  <button data-nav="registro"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h16v15l-8-4-8 4z"/></svg><span>Registro</span></button>
+  <button data-nav="metodo"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19V9M9.5 19V5M15 19v-7M20.5 19v-11"/></svg><span>Método</span></button>
+  <button data-nav="ajustes"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/></svg><span>Ajustes</span></button>
 </nav>
 
 <script>
@@ -563,6 +655,43 @@ function kellyFracFor(c){
   return {f:null, t:"fijo 0.5% · conf <50"};
 }
 
+/* Confianza calibrada: mapea un mercado en vivo a su franja en
+   data/backtest.json y devuelve cuánto acertó ESE rango de probabilidad
+   en partidos ya jugados. Solo cubre los mercados que backtest.py mide
+   (1X2, over/under de goles, ambos marcan) — el resto (córners, faltas,
+   tarjetas, marcador exacto, hándicap, DNB) no tiene calibración medida
+   todavía y confianza() devuelve null a propósito, no un número inventado. */
+const MIN_MUESTRA_CALIB = 15;
+function calibClave(g,label){
+  if(g==="1X2"){
+    if(label==="Gana local")     return ["1X2 local",false];
+    if(label==="Empate")         return ["1X2 empate",false];
+    if(label==="Gana visitante") return ["1X2 visitante",false];
+  }
+  if(g==="Goles"){
+    let m = label.match(/^Más de (0\.5|1\.5|2\.5|3\.5) goles$/);
+    if(m) return ["Más de "+m[1],false];
+    m = label.match(/^Menos de (0\.5|1\.5|2\.5|3\.5) goles$/);
+    if(m) return ["Más de "+m[1],true];
+  }
+  if(g==="Ambos"){
+    if(label==="Ambos marcan — sí") return ["Ambos marcan",false];
+    if(label==="Ambos marcan — no") return ["Ambos marcan",true];
+  }
+  return null;
+}
+function confianza(g,label,p){
+  const clave = calibClave(g,label);
+  if(!clave) return null;
+  const [mkt,invert] = clave;
+  const franjas = CALIB[mkt];
+  if(!franjas) return null;
+  const pBuscada = invert ? 1-p : p;
+  const b = franjas.find(f=> pBuscada>=f.lo && (pBuscada<f.hi || f.hi>=1));
+  if(!b || b.real==null) return null;
+  return {real: invert ? 1-b.real : b.real, n:b.n, pocaMuestra: b.n<MIN_MUESTRA_CALIB};
+}
+
 /* ── evaluación: acá se decide qué vale la pena ── */
 function evaluate(mkts,S,m){
   const conf = m.conf ?? 65;
@@ -663,6 +792,34 @@ function comboCalc(legs){
   return {pTotal, oddsTotal, calidadMin, avisos, e, stake, n:legs.length};
 }
 
+/* Combinada recomendada: arma sola la mejor combinada DE ESE partido, en
+   vez de que el usuario elija pata por pata. Candidatas = una pata por
+   familia (la mejor, sin valor falso, ya deduplicada por evaluate()) —
+   así cualquier combinación de candidatas ya diversifica por
+   construcción. Se prueban todos los pares y tríos posibles (con ≤4
+   familias son ≤10 combinaciones, comboCalc es barato) y se devuelven
+   las mejores por EV, sin avisos de correlación, con EV real ≥ umbral.
+   Nunca cross-match: eso queda para armar a mano en Combo. */
+function recomendarCombinada(m,max=2){
+  const {mkts} = model(m);
+  const candidatas = mkts
+    .filter(x=>x.e>0 && !x.trap && !x.corr && x.stake>0)
+    .map(x=>({...x, matchId:m.id}));
+  if(candidatas.length<2) return [];
+  const combos = [];
+  for(let i=0;i<candidatas.length;i++)
+    for(let j=i+1;j<candidatas.length;j++){
+      combos.push([candidatas[i],candidatas[j]]);
+      for(let k=j+1;k<candidatas.length;k++)
+        combos.push([candidatas[i],candidatas[j],candidatas[k]]);
+    }
+  return combos
+    .map(legs=>({legs, calc:comboCalc(legs)}))
+    .filter(c=> c.calc.e>=S.minEv && c.calc.avisos.length===0)
+    .sort((a,b)=>b.calc.e-a.calc.e)
+    .slice(0,max);
+}
+
 /* ── estado ── */
 let S = { bank:50000, minEv:0.04, maxOdds:8, cur:"$", casa:"", caps:false };
 let LOG = [];
@@ -679,6 +836,9 @@ let ANALISIS = {};   // { matchId: {actualizado, contexto, veredicto} } —
                       // lo específico de ESE cruce, más allá de lo que ya
                       // dicen las estadísticas. Mismo espíritu: nunca lo
                       // toca el cron, vive en data/analisis.json.
+let CALIB = {};       // { "1X2 local": [{lo,hi,n,real}, ...], ... } — franjas
+                       // de calibración agregadas de data/backtest.json, todas
+                       // las competiciones sumadas. Ver confianza().
 const oddsCache = {};   // { matchId: { marketId: {odds, oddsOpp} } }
 const notasCache = {};  // { matchId: "texto libre" } — investigación manual
                          // (lesiones, DT, contexto). Vive aparte de data/
@@ -781,7 +941,11 @@ const render = () => {
   if(v.nav==="registro") app.innerHTML = viewLog();
   if(v.nav==="metodo")   app.innerHTML = viewMethod();
   if(v.nav==="ajustes")  app.innerHTML = viewSettings();
-  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.nav===v.nav));
+  document.querySelectorAll("nav button").forEach(b=>{
+    const on = b.dataset.nav===v.nav;
+    b.classList.toggle("on",on);
+    if(on) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current");
+  });
   window.scrollTo(0,0);
 };
 
@@ -826,10 +990,35 @@ function viewDay(){
   const shown = VIEW.filter==="valor" ? withVal : rows;
   const avg = withVal.length ? withVal.reduce((s,r)=>s+r.best.e,0)/withVal.length : 0;
   const tot = withVal.reduce((s,r)=>s+(r.best.stake||0),0);
+  // plan de hoy: el mejor pick del día entero, no por competición — para
+  // no tener que abrir cada sección buscando cuál es el mejor.
+  const topDelDia = withVal.length ? withVal.slice().sort((a,b)=>b.best.e-a.best.e)[0] : null;
 
   return `
-  <div class="days">${days.map(d=>`<button class="day ${d.iso===VIEW.day?"on":""} ${d.has?"has":""}" data-day="${d.iso}">
+  <div class="days">${days.map(d=>`<button class="day ${d.iso===VIEW.day?"on":""} ${d.has?"has":""}" aria-pressed="${d.iso===VIEW.day}" data-day="${d.iso}">
     <b>${d.n}</b><i>${d.w}</i></button>`).join("")}</div>
+
+  ${topDelDia?`
+  <div class="today-top" data-match="${topDelDia.m.id}">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="opp-eyebrow" style="color:var(--brass)">Radar del Asesor · Mejor Oportunidad</div>
+      <span class="num" style="font-size:10.5px;color:var(--muted-2)">@${topDelDia.best.o.toFixed(2)}</span>
+    </div>
+    <div class="today-top-row">
+      <span class="today-top-teams" style="display:flex;align-items:center;gap:6px">
+        ${crest(topDelDia.m.homeLogo,"sm")}${esc(topDelDia.m.home)} <em>vs</em> ${crest(topDelDia.m.awayLogo,"sm")}${esc(topDelDia.m.away)}
+      </span>
+      <span class="today-top-ev pos">${sg(topDelDia.best.e)}</span>
+    </div>
+    <div class="today-top-mkt" style="display:flex;justify-content:space-between;align-items:baseline">
+      <span>${esc(topDelDia.best.label)}</span>
+      ${topDelDia.best.stake?`<span class="num" style="font-size:11px;color:var(--brass);font-weight:500">Stake ${mny(topDelDia.best.stake)}</span>`:""}
+    </div>
+    ${ANALISIS[topDelDia.m.id]?.veredicto ? `
+    <div style="font-size:11.5px;color:var(--muted);margin-top:6px;border-top:1px solid var(--line-soft);padding-top:6px;line-height:1.4">
+      ${esc(ANALISIS[topDelDia.m.id].veredicto)}
+    </div>` : ""}
+  </div>`:""}
 
   <div class="ledger">
     <div><small>Con valor</small><b>${withVal.length}<span style="color:var(--muted-2);font-size:12px">/${rows.length}</span></b></div>
@@ -838,8 +1027,8 @@ function viewDay(){
   </div>
 
   <div class="filters">
-    <button class="chip ${VIEW.filter==="valor"?"on":""}" data-f="valor">Solo con valor</button>
-    <button class="chip ${VIEW.filter==="todos"?"on":""}" data-f="todos">Todos los partidos</button>
+    <button class="chip ${VIEW.filter==="valor"?"on":""}" aria-pressed="${VIEW.filter==="valor"}" data-f="valor">Solo con valor</button>
+    <button class="chip ${VIEW.filter==="todos"?"on":""}" aria-pressed="${VIEW.filter==="todos"}" data-f="todos">Todos los partidos</button>
   </div>
 
   <div class="wrap">
@@ -847,9 +1036,9 @@ function viewDay(){
     const key = VIEW.day+"|"+g.comp, open = !closedComps.has(key);
     return `
     <div class="comp-sec">
-      <button class="comp-sec-head" data-compclose="${key}">
+      <button class="comp-sec-head" aria-expanded="${open}" data-compclose="${key}">
         <span style="display:flex;align-items:center;gap:7px">${crest(g.rows[0].m.compLogo,"sm")}${esc(g.comp)}<span class="grp-count">${g.rows.length}</span></span>
-        <svg class="grp-chev ${open?"open":""}" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        <svg class="grp-chev ${open?"open":""}" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       ${open?g.rows.map(r=>matchCard(r)).join(""):""}
     </div>`;
@@ -894,60 +1083,109 @@ function matchCard({m,best,n}){
         <span>Stake<b>${best.stake?mny(best.stake):"—"}</b></span>
         <span>Calidad<b>${m.conf??65}</b></span>
       </div>
-      ${best.trap?`<div class="warn">Valor falso: la cuota parece buena, pero al sacarle el margen a la línea la ventaja desaparece.</div>`:""}
+      ${best.trap?`<div class="warn">Desventaja / Sin margen: la cuota parece buena, pero al sacarle el margen a la línea la ventaja desaparece.</div>`:""}
     </div>` : `
     <div class="odds-empty">Sin cuotas — tocá para cargar</div>`}
   </div>`;
 }
 
-/* ── bloque de oportunidad: arriba de las tabs, el mismo pase lo que
-   pase abajo. Tres estados — sin cuotas, sin valor, valor — para que la
-   mirada encuentre en 1 segundo "¿hay algo acá?" antes de leer 98
-   mercados. Usa la MISMA lógica de "mejor mercado" que ya usa la lista
-   del día (matchCard), para no mostrar cosas distintas en cada lado. */
+/* ── bloque de oportunidad: diagnóstico claro del asesor ── */
 function oportunidad(m,mkts){
   const priced = mkts.filter(x=>x.e!==null);
   const best = mkts.find(x=>x.e!==null && x.o<=S.maxOdds) || null;
 
   if(!priced.length) return `
   <div class="opp empty">
-    <div class="opp-eyebrow">Sin cuotas cargadas</div>
-    <p class="opp-empty-txt" style="margin:6px 0 0">Cargá una cuota en Mercados y acá aparece si el modelo encuentra valor.</p>
+    <div class="opp-eyebrow">Diagnóstico · Sin cuotas cargadas</div>
+    <p class="opp-empty-txt" style="margin:6px 0 0">Cargá una cuota en Recomendadas y el asesor evaluará si existe valor real respecto al modelo.</p>
   </div>`;
 
   if(!best) return `
   <div class="opp none">
-    <div class="opp-eyebrow">Sin valor por ahora</div>
+    <div class="opp-eyebrow">Diagnóstico · Cuota fuera de rango</div>
     <p class="opp-empty-txt" style="margin:6px 0 0">Las cuotas cargadas superan la cuota máxima considerada (@${S.maxOdds}) — ajustala en Ajustes si querés evaluarlas igual.</p>
   </div>`;
 
   const val = best.e>=S.minEv && !best.trap;
   if(val) return `
   <div class="opp val">
-    <div class="opp-eyebrow">Oportunidad principal</div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <div class="opp-eyebrow">Veredicto · Oportunidad de Valor</div>
+      <span class="num" style="font-size:10.5px;color:var(--brass)">Edge ${pc1(best.e)}</span>
+    </div>
     <div class="opp-ev pos">${sg(best.e)}</div>
     <div class="opp-market">${esc(best.label)}</div>
     <div class="opp-line">
       <span>Cuota <b>@${best.o.toFixed(2)}</b></span>
       <span>Justa <b>@${fair(best.p).toFixed(2)}</b></span>
-      <span>Stake <b>${best.stake?mny(best.stake):"—"}</b></span>
+      <span>Stake (Kelly) <b>${best.stake?mny(best.stake):"—"}</b></span>
+      <span>Prob. Modelo <b>${pc1(best.p)}</b></span>
     </div>
   </div>`;
 
-  const motivo = best.trap ? "Valor falso: sin margen esto no rinde."
-    : best.e<=0 ? "El modelo no encuentra ventaja a las cuotas actuales."
-    : `Por debajo del umbral de ${pc(S.minEv)} para correr Kelly — el precio ya está bien puesto.`;
+  const diagTitulo = best.trap ? "Veredicto · Desventaja / Sin Margen"
+    : best.e<=0 ? "Veredicto · Desventaja Matemática"
+    : "Veredicto · Cuota Ajustada";
+
+  const motivo = best.trap ? "Valor falso: al remover el margen de la casa, la ventaja desaparece."
+    : best.e<=0 ? "La cuota ofrecida no compensa el riesgo estimado por el modelo."
+    : `Por debajo del umbral de ${pc(S.minEv)} para correr Kelly — cuota alineada con la probabilidad.`;
   return `
   <div class="opp none">
-    <div class="opp-eyebrow">Sin valor por ahora</div>
-    <div class="opp-ev ${best.e>0?"pos":"neg"}" style="opacity:.7">${sg(best.e)}</div>
+    <div class="opp-eyebrow">${diagTitulo}</div>
+    <div class="opp-ev ${best.e>0?"pos":"neg"}" style="opacity:.75">${sg(best.e)}</div>
     <div class="opp-market" style="color:var(--muted)">${esc(best.label)}</div>
-    <div class="opp-line"><span>Cuota <b>@${best.o.toFixed(2)}</b></span></div>
-    <p class="opp-empty-txt" style="margin:9px 0 0">${motivo} No apostar también es una decisión.</p>
+    <div class="opp-line"><span>Cuota <b>@${best.o.toFixed(2)}</b></span><span>Justa <b>@${fair(best.p).toFixed(2)}</b></span></div>
+    <p class="opp-empty-txt" style="margin:9px 0 0">${motivo} No apostar también es una decisión analítica.</p>
   </div>`;
 }
 
-/* ── pantalla: partido ── */
+/* El Argumento del Asesor: conecta la visión cuantitativa con el contexto de DT, bajas y forma */
+function contextoCompacto(m){
+  const an = ANALISIS[m.id];
+  if(!an?.veredicto) return "";
+  return `<div class="ctx-mini">
+    <div class="opp-eyebrow">El Argumento del Asesor</div>
+    <p>${esc(an.veredicto)}</p>
+  </div>`;
+}
+
+/* Combinada recomendada: la arma recomendarCombinada(), el usuario no
+   tiene que elegir pata por pata. Mismas reglas de color que el resto
+   (oro solo si hay EV real) — esto no es más generoso que un pick suelto,
+   solo está armado para vos. */
+function comboRecomendadaCard(m){
+  const recs = recomendarCombinada(m,2);
+  if(!recs.length) return "";
+  return `<div class="combo-rec">
+    <div class="opp-eyebrow">Combinada recomendada</div>
+    ${recs.map((r,i)=>`
+    <div class="combo-rec-card">
+      ${recs.length>1?`<div class="combo-rec-opt">Opción ${i+1}</div>`:""}
+      <div class="combo-rec-legs">
+        ${r.legs.map(l=>{
+          const conf = confianza(l.g,l.label,l.p);
+          return `<div class="combo-rec-leg">
+            <span>${esc(l.label)}</span>
+            <span class="num">@${l.o.toFixed(2)}</span>
+            ${conf&&!conf.pocaMuestra?`<span class="combo-rec-conf">histórico ${pc(conf.real)}</span>`:""}
+          </div>`;
+        }).join("")}
+      </div>
+      <div class="pick-meta" style="margin-top:10px">
+        <span>Cuota<b>@${r.calc.oddsTotal.toFixed(2)}</b></span>
+        <span>Prob. real<b>${pc1(r.calc.pTotal)}</b></span>
+        <span>EV<b class="${r.calc.e>0?"pos":"neg"}">${sg(r.calc.e)}</b></span>
+        <span>Stake<b>${r.calc.stake?mny(r.calc.stake):"—"}</b></span>
+      </div>
+    </div>`).join("")}
+  </div>`;
+}
+
+/* ── pantalla: partido ──
+   Narrativa fija: Oportunidad (el número) → Contexto (por qué) →
+   Combinada recomendada (qué armar) → pestañas, con Recomendadas primera
+   y Plantel/Modelo/Datos como profundidad — quedan, pero después. */
 function viewMatch(id){
   const m = MATCHES.find(x=>x.id===id); if(!m) return "";
   const {M,mkts} = model(m);
@@ -956,6 +1194,7 @@ function viewMatch(id){
   if(VIEW.tab==="modelo")     body = tabModel(m,M,mkts);
   if(VIEW.tab==="datos")      body = tabData(m);
   if(VIEW.tab==="jugadores")  body = tabJugadores(m);
+  const TAB_LABEL = {mercados:"Recomendadas", jugadores:"Plantel", modelo:"Modelo", datos:"Datos"};
   return `
   <div class="detail-head">
     <button class="back" data-back>← Fecha</button>
@@ -963,8 +1202,10 @@ function viewMatch(id){
     <div class="dh-meta">${crest(m.compLogo,"sm")} ${esc(m.comp)} · ${m.hora} · <span class="nw">λ L ${m.lh.toFixed(2)}</span> · <span class="nw">V ${m.la.toFixed(2)}</span></div>
   </div>
   ${oportunidad(m,mkts)}
-  <div class="tabs">
-    ${["mercados","jugadores","modelo","datos"].map(t=>`<button class="tab ${VIEW.tab===t?"on":""}" data-tab="${t}">${t}</button>`).join("")}
+  ${contextoCompacto(m)}
+  ${comboRecomendadaCard(m)}
+  <div class="tabs" role="tablist">
+    ${["mercados","jugadores","modelo","datos"].map(t=>`<button class="tab ${VIEW.tab===t?"on":""}" role="tab" aria-selected="${VIEW.tab===t}" data-tab="${t}">${TAB_LABEL[t]}</button>`).join("")}
   </div>
   <div class="wrap">${body}</div>`;
 }
@@ -988,9 +1229,9 @@ function tabMarkets(m,mkts){
     const key = m.id+"|"+g, open = openGroups.has(key), items = empty.filter(x=>x.g===g);
     return `
     <div class="box grp">
-      <button class="grp-head" data-grp="${key}">
+      <button class="grp-head" aria-expanded="${open}" data-grp="${key}">
         <span>${esc(g)}<span class="grp-count">${items.length}</span></span>
-        <svg class="grp-chev ${open?"open":""}" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        <svg class="grp-chev ${open?"open":""}" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       ${open?`<div class="grp-body">
         ${items.map(x=>{
@@ -1052,8 +1293,8 @@ function mktCard(m,x,rank){
       :x.e<0?`<div class="warn">EV negativo: a esta cuota, la casa tiene la ventaja. A la larga esto pierde ${pc1(-x.e)} por cada peso.</div>`
       :x.e<S.minEv&&!x.corr?`<div class="warn info">Positivo pero por debajo del umbral de ${pc(S.minEv)}. El precio está bien puesto: va monto fijo, no Kelly.</div>`:""}
     <div class="io">
-      <div><label>Cuota</label><input class="odds-in" type="number" step="0.01" min="1.01" value="${x.o}" data-odds="${x.id}" data-m="${m.id}"></div>
-      <div><label>Cuota contraria</label><input class="odds-in" type="number" step="0.01" min="1.01" value="${x.oddsOpp??""}" placeholder="para sacar vig" data-opp="${x.id}" data-m="${m.id}"></div>
+      <div><label for="odds-${x.id}">Cuota</label><input class="odds-in" id="odds-${x.id}" type="number" step="0.01" min="1.01" value="${x.o}" data-odds="${x.id}" data-m="${m.id}"></div>
+      <div><label for="oddsopp-${x.id}">Cuota contraria</label><input class="odds-in" id="oddsopp-${x.id}" type="number" step="0.01" min="1.01" value="${x.oddsOpp??""}" placeholder="para sacar vig" data-opp="${x.id}" data-m="${m.id}"></div>
     </div>
     <button class="btn ${val?"":"ghost"}" data-bet="${x.id}" data-m="${m.id}" ${x.stake?"":"disabled"}>
       Registrar ${x.stake?mny(x.stake):""}
@@ -1112,19 +1353,19 @@ function tabModel(m,M,mkts){
   </div>
 
   <div class="box">
-    <h3>Marcadores más probables</h3>
+    <h2>Marcadores más probables</h2>
     <table class="tbl">${scores.slice(0,6).map(s=>`<tr><td class="num">${s.s}</td><td>${pc1(s.p)}</td></tr>`).join("")}</table>
   </div>
 
   <div class="box">
-    <h3>Probabilidades derivadas</h3>
+    <h2>Probabilidades derivadas</h2>
     <table class="tbl">${key.map(k=>`<tr><td>${esc(k.label)}</td><td>${pc1(k.p)} · @${fair(k.p).toFixed(2)}</td></tr>`).join("")}</table>
   </div>`;
 }
 const sl=(k,label,v,min,max,step,mid,dec=2)=>`
   <div class="sl">
-    <div class="sl-top"><span>${label}</span><b class="num" id="v-${k}">${(+v).toFixed(dec)}</b></div>
-    <input type="range" min="${min}" max="${max}" step="${step}" value="${v}" data-par="${k}" data-dec="${dec}" data-m="${mid}">
+    <div class="sl-top"><span>${label}</span><b class="num" id="v-${k}" aria-live="polite">${(+v).toFixed(dec)}</b></div>
+    <input type="range" aria-label="${esc(label)}" min="${min}" max="${max}" step="${step}" value="${v}" data-par="${k}" data-dec="${dec}" data-m="${mid}">
   </div>`;
 
 /* ρ según competición — el prompt v12.3 fija estos valores */
@@ -1157,7 +1398,7 @@ function tabData(m){
   // ninguno tiene entrada para este partido, no se renderiza nada — cero
   // peso agregado a la interfaz.
   const cajaEquipo = (nombre, logo, e) => !e ? "" : `<div class="box">
-    <h3 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(nombre)}</h3>
+    <h2 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(nombre)}</h2>
     ${e.resumen?`<p style="font-size:13px;line-height:1.6;color:var(--paper);margin:0 0 10px">${esc(e.resumen)}</p>`:""}
     ${e.forma?`<p style="font-size:12.5px;line-height:1.55;color:var(--muted);margin:0 0 8px"><b style="color:var(--muted-2)">Forma —</b> ${esc(e.forma)}</p>`:""}
     ${e.localVisita?`<p style="font-size:12.5px;line-height:1.55;color:var(--muted);margin:0 0 8px"><b style="color:var(--muted-2)">Local/visitante —</b> ${esc(e.localVisita)}</p>`:""}
@@ -1167,7 +1408,7 @@ function tabData(m){
   </div>`;
   const an = ANALISIS[m.id];
   const cajaAnalisis = !an ? "" : `<div class="box">
-    <h3>Análisis del cruce</h3>
+    <h2>Análisis del cruce</h2>
     ${an.contexto?`<p style="font-size:13px;line-height:1.6;color:var(--paper);margin:0 0 10px">${esc(an.contexto)}</p>`:""}
     ${an.veredicto?`<p style="font-size:13px;line-height:1.6;color:var(--brass);margin:0"><b>Veredicto —</b> ${esc(an.veredicto)}</p>`:""}
     ${an.actualizado?`<div class="nota-tag" style="margin-top:10px">Investigado ${esc(an.actualizado)}</div>`:""}
@@ -1177,16 +1418,16 @@ function tabData(m){
   ${cajaEquipo(m.home, m.homeLogo, EQUIPOS[m.homeId])}
   ${cajaEquipo(m.away, m.awayLogo, EQUIPOS[m.awayId])}
   ${cajaAnalisis}
-  <div class="box"><h3>Notas propias</h3>
+  <div class="box"><h2>Notas propias</h2>
     <textarea class="nota-in" data-nota="${m.id}" placeholder="Lesiones, cambios de DT, viajes, motivación — lo que investigues antes de jugar. Se guarda en este celular, no en los datos que trae ESPN.">${esc(notasCache[m.id] || "")}</textarea>
     <div class="nota-tag">Esto no lo mueve el modelo — es referencia para vos, y para ajustar la Calidad del análisis en Modelo.</div>
   </div>
-  <div class="box"><h3>Forma reciente</h3>
+  <div class="box"><h2>Forma reciente</h2>
     <div style="font-size:12.5px;margin-bottom:4px;display:flex;align-items:center;gap:7px">${crest(m.homeLogo,"sm")}${esc(m.home)}</div>${fr(m.formH)}
     <div style="font-size:12.5px;margin:13px 0 4px;display:flex;align-items:center;gap:7px">${crest(m.awayLogo,"sm")}${esc(m.away)}</div>${fr(m.formA)}
   </div>
   ${sinExtra?`<div class="box"><p style="color:var(--muted-2);font-size:12px;line-height:1.5;margin:0">Sin historial directo ni tabla de posiciones: estos equipos no se cruzaron en esta competición en las últimas temporadas. Revisalo a mano si te importa antes de jugar.</p></div>`:""}
-  ${m.h2h.length?`<div class="box"><h3>Historial directo</h3>
+  ${m.h2h.length?`<div class="box"><h2>Historial directo</h2>
     ${m.h2h.map(h=>`<div class="h2h">
       <div class="mt">
         ${crest(logoDe(h.h),"sm")}<span class="nm">${esc(h.h)}</span>
@@ -1195,11 +1436,11 @@ function tabData(m){
       </div>
       <span class="dt">${esc(h.d)}</span></div>`).join("")}
   </div>`:""}
-  ${m.tabla.length?`<div class="box"><h3>Posiciones${m.grupo?" · "+esc(m.grupo):""}</h3>
+  ${m.tabla.length?`<div class="box"><h2>Posiciones${m.grupo?" · "+esc(m.grupo):""}</h2>
     <table class="stand">
       <tr><th class="l" style="width:20px">#</th><th class="l">Equipo</th><th>PTS</th><th>PJ</th><th>GF</th></tr>
       ${m.tabla.map((t,i)=>`<tr class="${juega(t)?"me":""}">
-        <td class="pos">${i+1}</td>
+        <td class="rank">${i+1}</td>
         <td><div class="eq">${crest(t.logo,"sm")}<span>${esc(t.t)}</span></div></td>
         <td class="n pts">${t.pts}</td><td class="n">${t.pj}</td><td class="n">${t.gf}</td>
       </tr>`).join("")}
@@ -1357,13 +1598,13 @@ function filaJugador(m,r){
 
 function cajaPlantel(m,equipo,nombre,logo,grupos){
   return `<div class="box">
-    <h3 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(nombre)}</h3>
+    <h2 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(nombre)}</h2>
     ${grupos.map(gr=>{
       const key = m.id+"|plantel|"+equipo+"|"+gr.grupo, open = openGroups.has(key);
       return `<div class="grp" style="margin-top:6px">
-        <button class="grp-head" style="padding:9px 0" data-grp="${key}">
+        <button class="grp-head" style="padding:9px 0" aria-expanded="${open}" data-grp="${key}">
           <span>${esc(gr.grupo)}<span class="grp-count">${gr.jugadores.length}</span></span>
-          <svg class="grp-chev ${open?"open":""}" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          <svg class="grp-chev ${open?"open":""}" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         ${open?gr.jugadores.map(j=>filaJugador(m,{...j,team:equipo})).join(""):""}
       </div>`;
@@ -1381,8 +1622,8 @@ function tabJugadores(m){
   }
   return `
   <div class="box">
-    <h3>Buscar jugador</h3>
-    <input class="odds-in" style="text-align:left" type="text" autocomplete="off"
+    <h2>Buscar jugador</h2>
+    <input class="search-in" type="text" autocomplete="off"
            placeholder="Nombre — ${esc(m.home)} o ${esc(m.away)}" value="${esc(ui.q)}" data-pq="${m.id}">
     ${ui.loading && !ui.sel ? `<div class="nota-tag" style="margin-top:8px">Buscando…</div>` : ""}
     ${ui.err && !ui.sel ? `<div class="warn" style="margin-top:9px">${esc(ui.err)}</div>` : ""}
@@ -1399,14 +1640,14 @@ function tabJugadores(m){
 
 function tabJugadorSel(m,ui){
   if(ui.loading) return `<div class="box"><p class="nota-tag" style="margin:0">Trayendo estadísticas de ${esc(ui.sel.nombre)}…</p></div>`;
-  if(ui.err) return `<div class="box"><h3>${esc(ui.sel.nombre)}</h3><div class="warn">${esc(ui.err)}</div></div>`;
+  if(ui.err) return `<div class="box"><h2>${esc(ui.sel.nombre)}</h2><div class="warn">${esc(ui.err)}</div></div>`;
   const st = ui.stats;
-  if(!st || st.n===0) return `<div class="box"><h3>${esc(ui.sel.nombre)}</h3>
+  if(!st || st.n===0) return `<div class="box"><h2>${esc(ui.sel.nombre)}</h2>
     <p style="color:var(--muted-2);font-size:12.5px;line-height:1.5;margin:0">Sin arranques registrados en ${esc(m.comp)} esta temporada — puede que recién llegue, o que no haya sido titular todavía. No hay muestra para calcular mercados.</p></div>`;
   const logo = ui.sel.team==="home" ? m.homeLogo : m.awayLogo;
   return `
   <div class="box">
-    <h3 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(ui.sel.nombre)}</h3>
+    <h2 style="display:flex;align-items:center;gap:8px">${crest(logo,"sm")}${esc(ui.sel.nombre)}</h2>
     ${st.n<UMBRAL_STARTS?`<div class="warn" style="margin-bottom:11px">Solo ${st.n} arranque${st.n===1?"":"s"} en ${esc(m.comp)} esta temporada — la tasa por partido es poco confiable todavía. Cargá la cuota igual si querés, pero sabé que el modelo tiene poco para pararse.</div>`
       :`<p class="nota-tag" style="margin:0 0 11px">Sobre ${st.n} arranques en ${esc(m.comp)} esta temporada.</p>`}
     ${st.items.map(x=>mktCardJugador(m,x)).join("")}
@@ -1447,8 +1688,8 @@ function mktCardJugador(m,x){
     </div>
     <div class="fam" style="margin-top:2px">modelo ${pc1(x.p)} · justa @${fair(x.p).toFixed(2)}</div>
     <div class="io">
-      <div><label>Cuota</label><input class="odds-in" type="number" step="0.01" min="1.01" value="${cur.odds??""}" placeholder="—" data-podds="${x.id}" data-m="${m.id}"></div>
-      <div><label>Cuota contraria</label><input class="odds-in" type="number" step="0.01" min="1.01" value="${cur.oddsOpp??""}" placeholder="para sacar vig" data-poppodds="${x.id}" data-m="${m.id}"></div>
+      <div><label for="podds-${x.id}">Cuota</label><input class="odds-in" id="podds-${x.id}" type="number" step="0.01" min="1.01" value="${cur.odds??""}" placeholder="—" data-podds="${x.id}" data-m="${m.id}"></div>
+      <div><label for="poppodds-${x.id}">Cuota contraria</label><input class="odds-in" id="poppodds-${x.id}" type="number" step="0.01" min="1.01" value="${cur.oddsOpp??""}" placeholder="para sacar vig" data-poppodds="${x.id}" data-m="${m.id}"></div>
     </div>
     ${e!==null?`
     <div class="mkt-grid">
@@ -1506,14 +1747,14 @@ function viewCombo(){
   ${Object.entries(porPartido).map(([mid,ls])=>{
     const m = MATCHES.find(x=>x.id===mid);
     return `<div class="box">
-      <h3 style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:13.5px;font-variation-settings:'wdth' 104,'wght' 600;color:var(--paper)">
+      <h2 style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:13.5px;font-variation-settings:'wdth' 104,'wght' 600;color:var(--paper)">
         ${crest(m.homeLogo,"sm")}${esc(m.home)}<em style="color:var(--muted-2);font-style:normal;font-weight:400;font-size:11px">vs</em>${esc(m.away)}${crest(m.awayLogo,"sm")}
-      </h3>
+      </h2>
       ${ls.map(l=>{
         const on = COMBO.some(c=>c.matchId===l.matchId && c.marketId===l.marketId);
         return `<button class="btn ${on?"":"ghost"}" style="text-align:left;display:flex;align-items:center;gap:8px;margin-top:7px;padding:9px 10px" data-legpick="${l.matchId}|${l.marketId}">
           <span style="flex:1;font-size:12.5px">${esc(l.label)}</span>
-          <span class="num" style="font-size:11px;${on?"color:#171106":"color:var(--muted-2)"}">@${l.o.toFixed(2)} · EV ${sg(l.e)}</span>
+          <span class="num" style="font-size:11px;${on?"color:var(--ink-on-brass)":"color:var(--muted-2)"}">@${l.o.toFixed(2)} · EV ${sg(l.e)}</span>
         </button>`;
       }).join("")}
     </div>`;
@@ -1545,7 +1786,7 @@ function viewLog(){
 
   return `
   <div class="wrap">
-    <div class="ledger" style="margin:2px 0 0">
+    <div class="ledger ${clv!==null&&clv>0?"signal":""}" style="margin:2px 0 0">
       <div><small>Resultado</small><b class="${prof>=0?"pos":"neg"}">${prof?mny(prof):"—"}</b></div>
       <div><small>ROI</small><b class="${roi>=0?"pos":"neg"}">${done.length?sg(roi):"—"}</b></div>
       <div><small>CLV medio</small><b class="${clv>=0?"pos":"neg"}">${clv!==null?sg(clv):"—"}</b></div>
@@ -1575,13 +1816,13 @@ function logCard(b){
       <div><small>CLV</small><b class="${b.closing&&b.odds>b.closing?"pos":b.closing?"neg":""}">${b.closing?sg(b.odds/b.closing-1):"—"}</b></div>
     </div>
     <div class="io" style="grid-template-columns:1fr">
-      <div><label>Cuota de cierre — para medir CLV</label>
-      <input class="odds-in" type="number" step="0.01" min="1.01" value="${b.closing||""}" placeholder="cuota al arrancar el partido" data-close="${b.id}"></div>
+      <div><label for="close-${b.id}">Cuota de cierre — para medir CLV</label>
+      <input class="odds-in" id="close-${b.id}" type="number" step="0.01" min="1.01" value="${b.closing||""}" placeholder="cuota al arrancar el partido" data-close="${b.id}"></div>
     </div>
     <div class="res">
-      <button class="${b.result==="W"?"on":""}" data-res="${b.id}" data-v="W">Ganada</button>
-      <button class="${b.result==="L"?"on l":""}" data-res="${b.id}" data-v="L">Perdida</button>
-      <button class="${b.result==="P"?"on":""}" data-res="${b.id}" data-v="P">Pendiente</button>
+      <button class="${b.result==="W"?"on":""}" aria-pressed="${b.result==="W"}" data-res="${b.id}" data-v="W">Ganada</button>
+      <button class="${b.result==="L"?"on l":""}" aria-pressed="${b.result==="L"}" data-res="${b.id}" data-v="L">Perdida</button>
+      <button class="${b.result==="P"?"on":""}" aria-pressed="${b.result==="P"}" data-res="${b.id}" data-v="P">Pendiente</button>
     </div>
   </div>`;
 }
@@ -1590,12 +1831,12 @@ function logCard(b){
 function viewMethod(){
   return `<div class="wrap">
   <div class="box">
-    <h3>Cómo decide esta app</h3>
+    <h2>Cómo decide esta app</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
     Dixon-Coles arma la probabilidad de cada marcador exacto a partir de los goles esperados de cada equipo, con una corrección para los resultados bajos que el Poisson puro modela mal. De esa matriz sale la probabilidad de cualquier mercado. Recién ahí entra la cuota.</p>
   </div>
   <div class="box">
-    <h3>Por qué el orden es por EV y no por probabilidad</h3>
+    <h2>Por qué el orden es por EV y no por probabilidad</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 12px">
     Un 91% a cuota 1.07 se ve seguro y pierde plata: la cuota implica 93.5%, o sea la casa te cobra más de lo que vale. Un 43% a 2.85 se ve arriesgado y gana: la cuota implica 35.1%. La probabilidad alta vende mejor, el EV positivo es lo que paga.</p>
     <table class="tbl">
@@ -1606,33 +1847,33 @@ function viewMethod(){
     </table>
   </div>
   <div class="box">
-    <h3>Valor falso</h3>
+    <h2>Valor falso</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
     Si cargás la cuota contraria, la app le saca el margen a la línea y compara contra la probabilidad limpia. A veces el EV positivo existe sólo porque el otro lado está más castigado — eso no es ventaja tuya, es el vig disfrazado. Esos picks salen marcados en rojo.</p>
   </div>
   <div class="box">
-    <h3>Kelly escalado por calidad del análisis</h3>
+    <h2>Kelly escalado por calidad del análisis</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
     Kelly completo maximiza el crecimiento a largo plazo pero asume que tu probabilidad es exacta. Nunca lo es. Por eso la fracción no se elige a mano: la fija la calidad del análisis. Calidad 72 o más corre ¼; entre 60 y 71 corre ⅛; entre 50 y 59 corre 1/16; abajo de 50 no se corre Kelly y va monto fijo de 0.5%. Escala el stake, nunca lo veta: un análisis flojo produce una apuesta chica, no una abstención.
     <br><br><b style="color:var(--muted-2)">Ojo con el nombre:</b> la calidad del análisis es un puntaje de qué tan sólidos son los datos de entrada, no una probabilidad. Que diga 65 no quiere decir que el modelo acierte el 65% de las veces — para eso está la probabilidad de cada mercado, y ni siquiera esa está validada todavía contra resultados reales.</p>
   </div>
   <div class="box">
-    <h3>Correlación</h3>
+    <h2>Correlación</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
     Más de 2.5 goles y Ambos marcan no son dos apuestas: son la misma al doble de tamaño. Los mercados se agrupan en cuatro familias — resultado, goles, córners, disciplina — y solo la de mejor EV por familia lleva stake. Las otras quedan listadas con su EV y marcadas como correlacionadas, para que las veas y decidas vos.</p>
   </div>
   <div class="box">
-    <h3>Control de cordura</h3>
+    <h2>Control de cordura</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
     Si un mercado da más de +25% de EV, lo más probable no es que encontraste una ineficiencia histórica: es que tu λ está mal. La app te lo marca en rojo en vez de festejarlo. Lo mismo vale para una cuota que se movió fuerte sin explicación — ahí la hipótesis correcta es que el mercado sabe algo que vos no.</p>
   </div>
   <div class="box">
-    <h3>CLV, la señal que importa</h3>
+    <h2>CLV, la señal que importa</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
     Cien apuestas no alcanzan para saber si ganás por ventaja o por suerte. Pero si tomás sistemáticamente cuotas mejores que la de cierre, algo real estás viendo antes que el mercado. Cargá la cuota de cierre en cada registro: es el termómetro más rápido que tenés.</p>
   </div>
   <div class="box">
-    <h3>Lo que esto no es</h3>
+    <h2>Lo que esto no es</h2>
     <p style="font-size:13px;line-height:1.6;color:var(--muted);margin:0">
     Ninguna estimación acá es un pronóstico. Es una opinión cuantificada sobre un precio, con margen de error. Aun con EV positivo real, la varianza puede darte rachas largas en contra. Y las casas limitan a quien gana. Tratalo como lo que es: un instrumento de análisis, no una fuente de ingresos.</p>
   </div>
@@ -1643,16 +1884,16 @@ function viewMethod(){
 function viewSettings(){
   return `<div class="wrap">
   <div class="box">
-    <h3>Banca y criterio</h3>
-    <div class="set"><label>Banca</label><input type="number" id="s-bank" value="${S.bank}"></div>
-    <div class="set"><label>Casa de apuestas (para el registro)</label>
+    <h2>Banca y criterio</h2>
+    <div class="set"><label for="s-bank">Banca</label><input type="number" id="s-bank" value="${S.bank}"></div>
+    <div class="set"><label for="s-casa">Casa de apuestas (para el registro)</label>
       <input type="text" id="s-casa" value="${esc(S.casa)}" placeholder="Betsson, Betano, BetWarrior…"></div>
-    <div class="set"><label>Umbral de EV para correr Kelly</label>
+    <div class="set"><label for="s-ev">Umbral de EV para correr Kelly</label>
       <select id="s-ev">${[[0.02,"2%"],[0.04,"4% — el de tu sistema"],[0.06,"6%"],[0.08,"8% (muy selectivo)"]]
         .map(([v,l])=>`<option value="${v}" ${S.minEv==v?"selected":""}>${l}</option>`).join("")}</select>
       <p>Abajo del umbral no se corre Kelly: el precio está bien puesto y va monto fijo de 0.5%.</p>
     </div>
-    <div class="set"><label>Cuota máxima a considerar</label><input type="number" step="0.5" id="s-max" value="${S.maxOdds}">
+    <div class="set"><label for="s-max">Cuota máxima a considerar</label><input type="number" step="0.5" id="s-max" value="${S.maxOdds}">
       <p>Arriba de cierta cuota el modelo pierde precisión: son eventos raros con poca muestra.</p></div>
     <div class="set">
       <label>Topes de exposición</label>
@@ -1666,7 +1907,7 @@ function viewSettings(){
   </div>
 
   <div class="box">
-    <h3>Datos</h3>
+    <h2>Datos</h2>
     <button class="btn ghost" id="s-xlsx">Copiar bloque para Registro_Apuestas.xlsx</button>
     <button class="btn ghost" id="s-export">Exportar todo (JSON)</button>
     <button class="btn ghost" id="s-clear">Borrar registro</button>
@@ -1883,6 +2124,24 @@ const tagLine = () => `${FEED} · umbral ${pc(S.minEv)}${S.caps?" · topes on":"
   try{
     const r = await fetch("data/analisis.json?t="+Date.now());
     if(r.ok) ANALISIS = await r.json();
+  }catch(e){ /* sin archivo todavía */ }
+  // Calibración: se corre a mano (python backtest.py), no todos los días —
+  // si no está, confianza() devuelve null en todos lados y no pasa nada.
+  try{
+    const r = await fetch("data/backtest.json?t="+Date.now());
+    if(r.ok){
+      const d = await r.json();
+      const suma = {};  // mercado -> franja "lo-hi" -> {lo,hi,n,realN}
+      (d.competiciones||[]).forEach(c=> Object.entries(c.mercados||{}).forEach(([mkt,info])=>
+        (info.calibracion||[]).forEach(b=>{
+          const [lo,hi] = b.franja.replace("%","").split("-").map(x=>+x/100);
+          const key = mkt+"|"+lo+"-"+hi;
+          const cur = suma[key] || (suma[key]={lo,hi,mkt,n:0,realN:0});
+          cur.n += b.n; cur.realN += b.real*b.n;
+        })));
+      Object.values(suma).forEach(({mkt,lo,hi,n,realN})=>
+        (CALIB[mkt] ||= []).push({lo,hi,n,real:n?realN/n:null}));
+    }
   }catch(e){ /* sin archivo todavía */ }
   document.getElementById("brandTag").textContent = tagLine();
   render();

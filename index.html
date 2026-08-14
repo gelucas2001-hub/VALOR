@@ -353,60 +353,114 @@ header.top {
 }
 .subtab-pill.on { background: var(--bg-surface); color: var(--cyan); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
-/* ── Mercados & Filas Limpias (Sin textos rotos) ── */
-.quick-odds-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  margin: 12px 0 16px;
+/* ── Tablero Deportivo de Mercados (Sleek Betting Board) ── */
+.market-block {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card);
 }
-.quick-odd-box {
-  background: var(--bg-input); border: 1px solid var(--border);
-  border-radius: var(--r-md); padding: 10px 8px; text-align: center;
+.market-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
-.quick-odd-box small { font-size: 11px; color: var(--text-muted); display: block; font-weight: 600; margin-bottom: 4px; }
-.quick-odd-in {
-  width: 100%; background: transparent; border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 8px 4px; font-family: var(--font-mono);
-  font-size: 16px; font-weight: 700; text-align: center; color: var(--text-main);
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
-.quick-odd-in:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.25); }
-
-.mkt-cat-chips { display: flex; gap: 6px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
-.mkt-cat-chips::-webkit-scrollbar { display: none; }
-.mkt-cat-chip {
-  padding: 6px 12px; border-radius: var(--r-pill); border: 1px solid var(--border);
-  background: var(--bg-surface); font-size: 11.5px; font-weight: 600; color: var(--text-muted);
-  white-space: nowrap; transition: all 120ms ease;
+.grid-2-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
 }
-.mkt-cat-chip.on { background: var(--cyan-wash); color: var(--cyan); border-color: rgba(0, 210, 255, 0.35); }
-
-.market-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  padding: 12px 14px; background: var(--bg-surface); border: 1px solid var(--border);
-  border-radius: var(--r-md); margin-bottom: 8px;
+.odds-card-cell {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  position: relative;
+  transition: border-color 140ms ease, background-color 140ms ease;
 }
-.market-info { flex: 1; min-width: 0; }
-.market-title { font-size: 14.5px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.market-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-family: var(--font-mono); }
-.market-actions { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
-
-.odds-input {
-  width: 76px; background: var(--bg-input); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 8px 4px; font-family: var(--font-mono);
-  font-size: 14px; font-weight: 700; text-align: center; color: var(--text-main);
+.odds-card-cell:focus-within {
+  border-color: var(--cyan);
+  background: rgba(0, 210, 255, 0.03);
 }
-.odds-input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.25); }
-
-.btn-add-combo {
-  padding: 6px 10px; border-radius: var(--r-sm); background: var(--bg-input);
-  border: 1px solid var(--border); color: var(--text-muted); font-size: 12px; font-weight: 700;
-  display: inline-flex; align-items: center; gap: 4px; transition: all 120ms ease;
+.odds-card-cell.has-val {
+  border-color: rgba(0, 210, 255, 0.4);
+  background: linear-gradient(180deg, rgba(0, 210, 255, 0.08), var(--bg-input));
 }
-.btn-add-combo.on { background: var(--cyan-wash); border-color: rgba(0, 210, 255, 0.4); color: var(--cyan); }
-.btn-add-combo:active { transform: scale(0.94); }
-
+.odds-label-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.odds-prob-badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--emerald);
+  font-weight: 700;
+  margin: 4px 0 2px;
+}
+.odds-fair-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-subtle);
+  margin-bottom: 8px;
+}
+.odds-input-pill {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 7px 4px;
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-main);
+  transition: all 120ms ease;
+}
+.odds-input-pill:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.3);
+}
+.cell-combo-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 11px;
+  color: var(--text-subtle);
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: all 120ms ease;
+}
+.cell-combo-btn.on {
+  color: var(--cyan);
+  background: var(--cyan-wash);
+}
 .badge-ev {
-  display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 6px;
-  border-radius: 4px; font-family: var(--font-mono); margin-left: 6px;
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  margin-top: 4px;
 }
 .badge-ev.pos { background: var(--cyan-wash); color: var(--cyan); border: 1px solid rgba(0, 210, 255, 0.3); }
 .badge-ev.neg { background: rgba(255, 255, 255, 0.05); color: var(--text-subtle); }
@@ -959,71 +1013,126 @@ function viewMatch(id){
   </div>`;
 }
 
-/* Subpestaña Mercados con Carga Limpia */
-function tabMercados(m, mkts){
-  const odd1 = ODDS[m.id+"__1X2|Gana local"] || "";
-  const oddX = ODDS[m.id+"__1X2|Empate"] || "";
-  const odd2 = ODDS[m.id+"__1X2|Gana visitante"] || "";
+function renderOddsCell(m, x, customTitle=null){
+  if(!x) return "";
+  const isCombo = COMBO.some(c=>c.matchId===m.id && c.marketId===x.id);
+  const val = x.e !== null && x.e >= S.minEv;
+  const label = customTitle || x.label;
+  return `
+  <div class="odds-card-cell ${val?"has-val":""}">
+    <button class="cell-combo-btn ${isCombo?"on":""}"
+            data-add-combo="${m.id}|${x.id}|${x.label}|${x.o||fair(x.p).toFixed(2)}|${x.p}"
+            title="${isCombo?"Quitar de combinada":"Sumar a combinada"}">
+      ${isCombo?"✓":"+ Combo"}
+    </button>
+    <div class="odds-label-name">${esc(label)}</div>
+    <div class="odds-prob-badge">${Math.round(x.p*100)}% prob</div>
+    <div class="odds-fair-text">Justa @${fair(x.p).toFixed(2)}</div>
+    <input class="odds-input-pill" type="number" step="0.01" min="1.01" inputmode="decimal"
+           placeholder="Tu Cuota" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}">
+    ${x.e!==null ? `<span class="badge-ev ${x.e>=S.minEv?"pos":"neg"}">${x.e>0?"+":""}${Math.round(x.e*100)}% EV</span>` : ""}
+  </div>`;
+}
 
-  let filtered = mkts;
-  if(VIEW.mktCategory==="populares") filtered = mkts.filter(x=>["1X2|Gana local","1X2|Empate","1X2|Gana visitante","Goles|Más de 2.5 goles","Goles|Menos de 2.5 goles","Ambos|Ambos marcan — sí","Doble|Doble oportunidad 1X"].includes(x.id));
-  else if(VIEW.mktCategory==="goles") filtered = mkts.filter(x=>x.g==="Goles" || x.g==="Ambos" || x.g==="Rango");
-  else if(VIEW.mktCategory==="1x2") filtered = mkts.filter(x=>x.g==="1X2" || x.g==="Doble" || x.g==="DNB");
-  else if(VIEW.mktCategory==="1t") filtered = mkts.filter(x=>x.g==="1T");
-  else if(VIEW.mktCategory==="marcador") filtered = mkts.filter(x=>x.g==="Marcador");
+/* Subpestaña Mercados con Tablero Deportivo Limpio */
+function tabMercados(m, mkts){
+  const find = id => mkts.find(x=>x.id===id) || {id, label:id, p:0.5, e:null, userOdd:null};
+  
+  const m1X2_H = find("1X2|Gana local");
+  const m1X2_D = find("1X2|Empate");
+  const m1X2_A = find("1X2|Gana visitante");
+
+  const mD_1X = find("Doble|Doble oportunidad 1X");
+  const mD_12 = find("Doble|Doble oportunidad 12");
+  const mD_X2 = find("Doble|Doble oportunidad X2");
+
+  const mG_O25 = find("Goles|Más de 2.5 goles");
+  const mG_U25 = find("Goles|Menos de 2.5 goles");
+  const mG_O15 = find("Goles|Más de 1.5 goles");
+  const mG_U15 = find("Goles|Menos de 1.5 goles");
+
+  const mB_Yes = find("Ambos|Ambos marcan — sí");
+  const mB_No = find("Ambos|Ambos marcan — no");
+
+  const m1T_O05 = find("1T|1T más de 0.5 goles");
+  const m1T_U05 = find("1T|1T menos de 0.5 goles");
+
+  const topMarcadores = mkts.filter(x=>x.g==="Marcador").sort((a,b)=>b.p-a.p).slice(0, 6);
 
   return `
-  <div class="eyebrow" style="margin:6px 0 8px">⚡ Carga Rápida 1X2 (Tus Cuotas)</div>
-  <div class="quick-odds-grid">
-    <div class="quick-odd-box">
-      <small>${esc(m.home)}</small>
-      <input class="quick-odd-in" type="number" step="0.01" min="1.01" inputmode="decimal"
-             value="${odd1}" placeholder="1" data-odds="1X2|Gana local" data-m="${m.id}">
+  <!-- Bloque 1: Ganador del Partido (1X2) -->
+  <div class="market-block">
+    <div class="market-block-header">
+      <div class="eyebrow" style="color:var(--cyan)">🏆 Resultado Final (1X2)</div>
+      <small style="font-size:11px;color:var(--text-muted)">90 minutos</small>
     </div>
-    <div class="quick-odd-box">
-      <small>Empate</small>
-      <input class="quick-odd-in" type="number" step="0.01" min="1.01" inputmode="decimal"
-             value="${oddX}" placeholder="X" data-odds="1X2|Empate" data-m="${m.id}">
-    </div>
-    <div class="quick-odd-box">
-      <small>${esc(m.away)}</small>
-      <input class="quick-odd-in" type="number" step="0.01" min="1.01" inputmode="decimal"
-             value="${odd2}" placeholder="2" data-odds="1X2|Gana visitante" data-m="${m.id}">
+    <div class="grid-3-col">
+      ${renderOddsCell(m, m1X2_H, m.home)}
+      ${renderOddsCell(m, m1X2_D, "Empate")}
+      ${renderOddsCell(m, m1X2_A, m.away)}
     </div>
   </div>
 
-  <div class="eyebrow" style="margin:10px 0 6px">Explorar Opciones</div>
-  <div class="mkt-cat-chips">
-    <button class="mkt-cat-chip ${VIEW.mktCategory==="populares"?"on":""}" data-mktcat="populares">🔥 Populares</button>
-    <button class="mkt-cat-chip ${VIEW.mktCategory==="goles"?"on":""}" data-mktcat="goles">⚽ Goles & Ambos</button>
-    <button class="mkt-cat-chip ${VIEW.mktCategory==="1x2"?"on":""}" data-mktcat="1x2">🛡️ Ganador & Doble</button>
-    <button class="mkt-cat-chip ${VIEW.mktCategory==="1t"?"on":""}" data-mktcat="1t">⏱️ Primer Tiempo</button>
-    <button class="mkt-cat-chip ${VIEW.mktCategory==="marcador"?"on":""}" data-mktcat="marcador">🔢 Marcadores</button>
-    <button class="mkt-cat-chip ${VIEW.mktCategory==="todos"?"on":""}" data-mktcat="todos">📋 Ver Todos</button>
+  <!-- Bloque 2: Doble Oportunidad -->
+  <div class="market-block">
+    <div class="market-block-header">
+      <div class="eyebrow" style="color:var(--cyan)">🛡️ Doble Oportunidad</div>
+      <small style="font-size:11px;color:var(--text-muted)">Alta probabilidad</small>
+    </div>
+    <div class="grid-3-col">
+      ${renderOddsCell(m, mD_1X, `1X (${m.home}/X)`)}
+      ${renderOddsCell(m, mD_12, "12 (Cualquiera)")}
+      ${renderOddsCell(m, mD_X2, `X2 (X/${m.away})`)}
+    </div>
   </div>
 
-  <div style="margin-top:8px">
-    ${filtered.map(x=>{
-      const isSaved = LOG.some(b=>b.matchId===m.id && b.marketId===x.id);
-      const isCombo = COMBO.some(c=>c.matchId===m.id && c.marketId===x.id);
-      return `
-      <div class="market-row">
-        <div class="market-info">
-          <div class="market-title">${esc(x.label)}</div>
-          <div class="market-sub">
-            Prob: <b>${Math.round(x.p*100)}%</b> · Justa: <b>@${fair(x.p).toFixed(2)}</b>
-            ${x.e!==null?`<span class="badge-ev ${x.e>=S.minEv?"pos":"neg"}">${x.e>0?"+":""}${Math.round(x.e*100)}% EV</span>`:""}
-          </div>
-        </div>
-        <div class="market-actions">
-          <input class="odds-input" type="number" step="0.01" min="1.01" inputmode="decimal"
-                 placeholder="Cuota" value="${x.userOdd||""}" data-odds="${x.id}" data-m="${m.id}">
-          <button class="btn-add-combo ${isCombo?"on":""}" data-add-combo="${m.id}|${x.id}|${x.label}|${x.o||fair(x.p).toFixed(2)}|${x.p}">
-            ${isCombo?"✓":"+ Combo"}
-          </button>
-        </div>
-      </div>`;
-    }).join("")}
+  <!-- Bloque 3: Total de Goles -->
+  <div class="market-block">
+    <div class="market-block-header">
+      <div class="eyebrow" style="color:var(--cyan)">⚽ Total de Goles (Líneas 2.5 y 1.5)</div>
+      <small style="font-size:11px;color:var(--text-muted)">Partidos</small>
+    </div>
+    <div class="grid-2-col" style="margin-bottom:8px">
+      ${renderOddsCell(m, mG_O25, "Más de 2.5 goles")}
+      ${renderOddsCell(m, mG_U25, "Menos de 2.5 goles")}
+    </div>
+    <div class="grid-2-col">
+      ${renderOddsCell(m, mG_O15, "Más de 1.5 goles")}
+      ${renderOddsCell(m, mG_U15, "Menos de 1.5 goles")}
+    </div>
+  </div>
+
+  <!-- Bloque 4: Ambos Equipos Marcan -->
+  <div class="market-block">
+    <div class="market-block-header">
+      <div class="eyebrow" style="color:var(--cyan)">🤝 Ambos Equipos Marcan</div>
+    </div>
+    <div class="grid-2-col">
+      ${renderOddsCell(m, mB_Yes, "Ambos Marcan — Sí")}
+      ${renderOddsCell(m, mB_No, "Ambos Marcan — No")}
+    </div>
+  </div>
+
+  <!-- Bloque 5: Primer Tiempo (1T) -->
+  <div class="market-block">
+    <div class="market-block-header">
+      <div class="eyebrow" style="color:var(--cyan)">⏱️ Primer Tiempo (1T)</div>
+    </div>
+    <div class="grid-2-col">
+      ${renderOddsCell(m, m1T_O05, "1T Más de 0.5")}
+      ${renderOddsCell(m, m1T_U05, "1T Menos de 0.5")}
+    </div>
+  </div>
+
+  <!-- Bloque 6: Marcadores Más Probables -->
+  <div class="market-block">
+    <div class="market-block-header">
+      <div class="eyebrow" style="color:var(--cyan)">🔢 Marcadores Más Probables</div>
+      <small style="font-size:11px;color:var(--text-muted)">Poisson</small>
+    </div>
+    <div class="grid-3-col">
+      ${topMarcadores.map(x=> renderOddsCell(m, x, x.label)).join("")}
+    </div>
   </div>`;
 }
 

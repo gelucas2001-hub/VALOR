@@ -2,7 +2,7 @@
 
 Fecha: 2026-08-16
 Estado: aprobado por Lucas, pendiente de implementación
-Revisión 2 — incorpora hallazgos medidos sobre datos reales y la separación pronóstico/valor
+Revisión 3 — escalera de riesgo, regla de alineación, y umbral de cuota en vez de cuota de referencia
 
 ## Por qué
 
@@ -17,7 +17,7 @@ La confusión de fondo que arrastramos toda la primera vuelta fue tratar como un
 
 **VALOR es un pronosticador**, con un motor de value betting abajo sosteniéndolo. No al revés. La razón es de producto, no de matemática: presentarse como herramienta de value betting le exige al usuario común entender EV, banca y varianza antes de obtener algo útil. Presentarse como pronosticador no le exige nada — lee y decide.
 
-**Cuando las dos respuestas divergen, eso es lo más valioso que la app puede decir:** "creemos que gana River, pero a 1.35 no lo jugaríamos" es un criterio que ningún pronosticador común ofrece, y se entiende sin saber qué es el valor esperado.
+**Pero nunca se contradicen en pantalla.** Un intento anterior mostraba "creemos que gana River, pero jugá a Racing a 5.75" — y eso, con razón, se leyó como mandar al usuario a una ruleta rusa. El problema real es de fondo: recomendar ese 27% se apoya en un modelo que medimos equivocándose 9-15pp. La regla que lo resuelve está más abajo (**escalera de riesgo** y **regla de alineación**): una sola lectura del partido, ofrecida a distintos niveles de riesgo, y nada que contradiga esa lectura.
 
 **Principio de ejecución:** el rigor va en *qué* recomendamos, nunca en lo que le exigimos entender al usuario. Una cuota de 1.05 sin valor real no llega a la pantalla — no porque le expliquemos por qué, sino porque simplemente no se muestra. La fracción de Kelly se traduce a **énfasis editorial** ("esta la vemos clara" vs "nos gusta, con menos convicción"), no a aritmética en pantalla. Los números exactos viven en Herramientas, para quien los busque.
 
@@ -38,6 +38,30 @@ Estos números motivan varias decisiones de abajo y no deben perderse:
 - **Causa raíz:** la fuerza de ataque/defensa se ajusta *solo con partidos de la misma competición*. Hoy hay **6 partidos por equipo en copas y 4 en Liga** (temporada recién empezada). Con esa muestra la regularización empuja todo al promedio, el modelo cree que Cerro Porteño y Palmeiras son parecidos, y la localía termina decidiendo. Caso extremo medido: modelo 52.0% vs mercado 22.6%.
 
 La app ya predica esto en Método ("si un mercado da más de +25% de EV, lo más probable es que tu λ esté mal"). El diseño tiene que respetar su propio principio.
+
+## Cómo se recomienda (reglas duras)
+
+Estas cuatro reglas resuelven la confusión de "qué vale y qué no", que fue el problema que más vueltas dio.
+
+**1. Escalera de riesgo — franjas medidas, no estimadas.** Cada partido ofrece la misma lectura a tres niveles. Verificado sobre los 33 partidos: los tres tienen opciones en las tres franjas, siempre.
+
+| Franja | Probabilidad | Ejemplo real (Racing–Banfield) |
+|---|---|---|
+| Lo más probable | 68-93% | Racing gana o empata — 74%, justa 1.36 |
+| Intermedia | 45-68% | Menos de 2.5 goles — 63%, justa 1.59 |
+| Arriesgada | 12-45% | Gana Racing 1-0 — 26%, justa 3.81 |
+
+(Un intento anterior etiquetó como "lo más seguro" a un 54%. Eso es cara o cruz, no seguridad — los tres escalones deben estar en franjas distintas de verdad.)
+
+**2. Los escalones son pronósticos; el valor se marca aparte.** Las apuestas seguras casi nunca tienen valor: el margen de la casa (7.7% medido) se come la ventaja justo en las cuotas bajas. Si se filtrara cada escalón por valor, solo sobreviviría el arriesgado — que es exactamente el problema rechazado. Entonces: los escalones responden *"¿qué es lo más probable?"*, y **la mostaza aparece solo donde además el precio está a favor**. Nunca se afirma valor donde no lo hay.
+
+**3. Regla de alineación — nada contradice nuestra propia lectura.** Si el modelo señala "valor" en algo que va en contra de lo que creemos que va a pasar, eso no es valor: es error del modelo. No se muestra.
+
+Para que esta regla signifique algo, la lectura debe venir de donde el modelo no llega — el análisis cualitativo. Si la lectura la produjera el propio modelo, filtrar por alineación sería circular (el modelo dándose la razón a sí mismo). De ahí se sigue: **solo se recomienda en partidos con análisis cargado.** Un partido sin analizar muestra datos y pronóstico, y dice claramente "todavía no estudiamos este partido" — no se ve roto, se ve honesto.
+
+**4. Umbral de cuota, no cuota de referencia.** Mostrar "@2.20" de DraftKings es una trampa: el usuario va a Betsson y encuentra 2.05, y no sabe si sigue conviniendo. En su lugar se muestra **"conviene si te pagan más de 1.36"** — funciona en cualquier casa y es una sola regla fácil de aplicar.
+
+**Y una regla de ritmo:** siempre hay pronóstico, no siempre hay recomendación. Habrá días sin nada que recomendar, y está bien — pero la app nunca debe quedarse sin opinión, o el usuario deja de abrirla.
 
 ## Correcciones al modelo (prioridad)
 
@@ -88,7 +112,7 @@ Tres destinos: **Fecha · Registro · Método**.
 Cabecera común: equipos, competición, hora, estadio, las tres cuotas, y el pronóstico.
 
 1. **Análisis** (default) — el bloque humano en lenguaje llano: bajas, DT, contexto. Viene de `data/analisis.json` (específico del cruce). Sin entrada cargada, no se muestra nada.
-2. **Pronósticos** — las dos respuestas, separadas y sin mezclarse: *qué creemos que va a pasar* y *dónde vemos valor*, señalando explícitamente cuándo no coinciden. Filtrado por umbral de valor y tope de cuota ya existentes (esto es lo que evita recomendar tanto un 1.01 como un disparate improbable). Si no hay valor, se dice — no se inventa una recomendación para llenar la pantalla. La combinada recomendada del partido vive acá como una tarjeta más.
+2. **Pronósticos** — nuestra lectura del partido arriba, y debajo la escalera de riesgo con las cuatro reglas de la sección "Cómo se recomienda". Cada opción lleva su probabilidad, su umbral de cuota, y una línea que explica en castellano cuándo se cobra ("se te paga salvo que gane Banfield"). La combinada recomendada del partido vive acá como una opción más. Sin análisis cargado, esta pestaña dice que todavía no estudiamos el partido.
 3. **Historial** — forma reciente (rival, local/visita, marcador) y cruces directos. El "color" viene de escudos reales e intensidad tipográfica (blanco pleno = ganado, apagado = perdido), nunca de mostaza/terracota.
 4. **Posiciones** — tabla de la competición, con los dos equipos resaltados. Separada de Historial a pedido explícito.
 5. **Plantel** — resumen corto (2-3 líneas) de estilo y actualidad por equipo, desde `data/equipos.json`. Debajo, **estadísticas del equipo** (que sí tenemos sin costo) y el plantel agrupado por posición. **Las estadísticas por jugador se traen solo al tocar un jugador** — el roster de ESPN da nombre y posición, pero cada estadística individual es un pedido aparte; mostrarlas en la lista serían ~50 pedidos por pestaña.
@@ -103,6 +127,7 @@ Bitácora personal — acá el lenguaje técnico es correcto, el destinatario es
 - Gráfico de curva acumulada (única línea curva de la app, en mostaza).
 - Filtro por estado (Todas / Ganadas / Perdidas / Pendientes).
 - Filas planas, resultado con la disciplina de color de siempre.
+- **Los resultados se resuelven solos.** Ya bajamos los marcadores de ESPN para calcular la forma; pedirle al usuario que marque "Ganada/Perdida" a mano es fricción innecesaria y es lo que hace que la gente abandone el registro a la semana. Se resuelve automático todo lo que dependa del marcador (1X2, goles, ambos marcan, hándicap); queda manual solo lo que no podemos verificar.
 
 ## Pantalla: Método
 

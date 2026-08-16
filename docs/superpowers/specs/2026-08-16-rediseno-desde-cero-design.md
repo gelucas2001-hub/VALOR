@@ -2,92 +2,119 @@
 
 Fecha: 2026-08-16
 Estado: aprobado por Lucas, pendiente de implementación
+Revisión 2 — incorpora hallazgos medidos sobre datos reales y la separación pronóstico/valor
 
 ## Por qué
 
-Lucas pidió arrancar el producto "desde 0" no porque el motor matemático estuviera mal (Dixon-Coles, EV, Kelly, calibración, combinadas exactas — todo eso queda intacto y no se toca en este rediseño) sino porque la interfaz y lo que la app ofrecía habían dejado de ir en la línea que él buscaba: se volvió más complicada de usar, no menos, con demasiadas piezas (radar del día, veredictos con semáforo de color, "calidad del análisis" como concepto visible, combinada recomendada como bloque aparte, contexto compacto) compitiendo por atención en vez de una sola narrativa clara por partido.
+Lucas pidió arrancar el producto "desde 0" no porque el motor matemático estuviera mal, sino porque la interfaz y lo que la app ofrecía habían dejado de ir en la línea que buscaba: se volvió más complicada de usar, no menos, con demasiadas piezas (radar del día, veredictos con semáforo, "calidad del análisis" visible, combinada recomendada como bloque aparte) compitiendo por atención en vez de una sola narrativa por partido.
 
-## Misión
+## Identidad: dos preguntas distintas
 
-VALOR es un pronosticador de fútbol: le da a la persona toda la información (estadísticas, cuotas, plantel, historial) más el análisis y la recomendación de un experto, en lenguaje llano — sin jerga de apostador profesional en el camino principal. Sirve tanto a alguien que solo quiere saber "a qué le conviene apostar hoy" como, más adentro, a quien quiere ver el detalle técnico completo.
+La confusión de fondo que arrastramos toda la primera vuelta fue tratar como una sola pregunta a dos que son distintas:
 
-**Audiencia:** hoy es para Lucas. El lenguaje y la estructura están pensados para que, si en el futuro se abre a más gente (conocida o no), no haga falta rehacer nada — pero no se construye ninguna funcionalidad multi-usuario todavía (sería prematuro).
+- **"¿Qué va a pasar en este partido?"** → el **pronóstico**. Es la promesa principal, la que cualquiera entiende, y la que define a VALOR. Se mide por **tasa de acierto**.
+- **"¿A qué conviene apostar?"** → el **valor**. A veces coincide con el pronóstico, muchas veces no. Se mide por **rentabilidad**.
+
+**VALOR es un pronosticador**, con un motor de value betting abajo sosteniéndolo. No al revés. La razón es de producto, no de matemática: presentarse como herramienta de value betting le exige al usuario común entender EV, banca y varianza antes de obtener algo útil. Presentarse como pronosticador no le exige nada — lee y decide.
+
+**Cuando las dos respuestas divergen, eso es lo más valioso que la app puede decir:** "creemos que gana River, pero a 1.35 no lo jugaríamos" es un criterio que ningún pronosticador común ofrece, y se entiende sin saber qué es el valor esperado.
+
+**Principio de ejecución:** el rigor va en *qué* recomendamos, nunca en lo que le exigimos entender al usuario. Una cuota de 1.05 sin valor real no llega a la pantalla — no porque le expliquemos por qué, sino porque simplemente no se muestra. La fracción de Kelly se traduce a **énfasis editorial** ("esta la vemos clara" vs "nos gusta, con menos convicción"), no a aritmética en pantalla. Los números exactos viven en Herramientas, para quien los busque.
+
+**Postura:** seguridad en el veredicto, honestidad en el historial. La app se la juega en cada pronóstico sin llenarse de advertencias, y por separado muestra sin drama cuántas veces acertó.
+
+**Audiencia:** hoy es para Lucas. Pensado para que abrirlo a más gente no requiera rehacer nada, pero sin construir multi-usuario todavía.
+
+**Alcance:** Liga Profesional Argentina, Copa Argentina, CONMEBOL Libertadores y Sudamericana. Volumen real: ~5 partidos por fecha en Liga, hasta 8-10 en día fuerte de copas.
+
+## Hallazgos medidos (2026-08-16, sobre los 33 partidos con cuota de referencia)
+
+Estos números motivan varias decisiones de abajo y no deben perderse:
+
+- **Margen de la casa (DraftKings): 7.7% mediano** sobre la línea 1X2. Cualquier comparación contra cuota cruda tiene que descontarlo primero.
+- **El modelo difiere de la línea limpia en 9-15 puntos porcentuales promedio.** Una casa seria suele estar a 2-3 puntos de la verdad. Un desacuerdo de 15pp es, casi siempre, el modelo estando peor informado — no una ventaja encontrada.
+- **Un umbral ingenuo de "≠ mercado" dispara en 30 de 33 partidos (91%).** Una señal que aparece casi siempre no informa nada.
+- **Sesgo sistemático hacia el local por competición:** Libertadores **+12.3pp**, Copa Argentina +5.5pp, Sudamericana +0.4pp, Liga Profesional −2.3pp.
+- **Causa raíz:** la fuerza de ataque/defensa se ajusta *solo con partidos de la misma competición*. Hoy hay **6 partidos por equipo en copas y 4 en Liga** (temporada recién empezada). Con esa muestra la regularización empuja todo al promedio, el modelo cree que Cerro Porteño y Palmeiras son parecidos, y la localía termina decidiendo. Caso extremo medido: modelo 52.0% vs mercado 22.6%.
+
+La app ya predica esto en Método ("si un mercado da más de +25% de EV, lo más probable es que tu λ esté mal"). El diseño tiene que respetar su propio principio.
+
+## Correcciones al modelo (prioridad)
+
+1. **Elo propio, cruzando competiciones.** Es el arreglo directo al sesgo medido arriba. Un equipo debe llegar a la Libertadores con la fuerza que se ganó en su liga local. No hace falta fuente externa: ya se baja el calendario completo de cada equipo (`/teams/{id}/schedule`), que incluye todas sus competiciones — el Elo se calcula en casa, gratis y sin claves nuevas.
+2. **El mercado como línea base del backtest.** Hoy el backtest se compara contra un baseline ingenuo (tasa base con ventana expansiva). La vara que importa es la línea de la casa. Esto además alimenta el marcador de Registro: "acertamos 58%, el mercado 54%" convierte "estamos por encima del mercado" en un dato, no una postura.
+3. **Seguimiento de acierto automático.** Hoy `backtest.py` se corre a mano. Que el cron calcule acierto acumulado (nuestro y del mercado) es lo que hace posible el marcador anterior.
+4. **Lesiones cuantificadas (después, con validación).** Convertir una baja en ajuste de ataque/defensa según posición. Idea válida pero endeble — cuánto descontar exactamente es arbitrario. No entra hasta poder validarlo.
 
 ## Identidad visual
 
-**Dirección:** prensa deportiva argentina vieja (tapas de El Gráfico, cupones de Prode, programas de cancha) — no "vintage americano genérico" (cliché de crema+serif+terracota) ni "instrumento/terminal" (la dirección anterior) ni "SaaS de IA" (celeste + insignias, cliché descartado explícitamente tras ver una referencia real).
+**Dirección:** prensa deportiva argentina vieja (tapas de El Gráfico, cupones de Prode, programas de cancha). Explícitamente **no**: crema+serif+terracota ("vintage americano" genérico), negro+verde ácido, ni negro+celeste+insignias+"PRO AI" (cliché de SaaS de IA, descartado tras ver una referencia real).
 
 **Paleta — un color, un solo trabajo, siempre:**
-- Fondo casi negro tibio (`#1B1611`) — noche de cancha, no negro frío de terminal.
-- Tinta crema (`#EEE3CE`) — texto, datos neutros, y el estado "seleccionado" de cualquier control (día activo, filtro activo). Nunca significa valor.
-- **Mostaza (`#D6963A`) — significa "acá hay valor", y solo eso.** Aparece en: la señal "≠ mercado a favor", la cuota destacada, el pick #1 de Pronósticos, "Jugale $X" en Herramientas, "Ganada" en Registro, la curva del gráfico acumulado.
-- **Terracota (`#C06848`) — significa "alerta/cuidado", y solo eso.** Aparece en: la señal "≠ mercado en contra", "Perdida" en Registro. Reemplaza al óxido/rust del sistema visual anterior (mismo rol semántico).
-- Verde salvia (`#6B7A5E`) — decorativo únicamente, filete de tres colores bajo el logo. Sin trabajo funcional; si no encuentra uno, se puede sacar sin pérdida.
-- **Regla dura:** nunca introducir un tercer color funcional, ni badges de semáforo (verde/amarillo/rojo), ni reutilizar mostaza/terracota para algo que no sea valor/alerta (ej. la selección de un día NO es mostaza, es tinta crema).
 
-**Tipografía:**
-- **Anton** — nombres de equipo, títulos de liga, wordmark, cabeceras. Imita el título de tapa de revista deportiva vieja.
-- **JetBrains Mono** — todo número que se compara o se confía (cuotas, EV, probabilidad, stake).
-- **Archivo** — cuerpo de texto, UI, análisis en prosa.
+| Color | Hex | Trabajo — único |
+|---|---|---|
+| Fondo | `#1B1611` | Casi negro tibio, noche de cancha (no negro frío de terminal) |
+| Tinta | `#EEE3CE` | Texto, datos neutros, y **estado seleccionado** de cualquier control |
+| Mostaza | `#D6963A` | **Valor**: acá hay algo mejor que el precio. Y nada más |
+| Terracota | `#C06848` | **Alerta**: cuidado, esto no rinde. Y nada más |
+| Salvia | `#6B7A5E` | Decorativo (filete bajo el logo). Sin trabajo funcional |
 
-**Chrome y densidad — lecciones de dos referencias reales que Lucas trajo:**
-- Pestañas silenciosas: línea inferior + color de texto, nunca botón con caja/relleno (referencia: apps de resultados en vivo).
-- Filas planas en listas largas (historial, plantel, posiciones): sin tarjeta-dentro-de-tarjeta, el peso lo lleva la tipografía y el escudo, no el borde.
-- El bloque de "Análisis" es tipografía sola, sin caja — como una nota de revista, no una tarjeta de dashboard.
-- Grano/textura reservado exclusivamente al header/masthead — nunca sobre filas de datos, por legibilidad.
+**Reglas duras:** nunca un tercer color funcional. Nunca semáforo verde/amarillo/rojo. Nunca mostaza para selección de UI (el día activo es tinta, no mostaza) — confundir "seleccionado" con "hay valor" es el error que más caro paga el usuario.
 
-**Explícitamente descartado (con el motivo):**
-- Verde/amarillo/rojo tipo semáforo, "PRO AI" como branding, insignias compitiendo por tarjeta — cliché de "SaaS de IA genérico", visto en una referencia real y rechazado.
-- "% de aciertos" como métrica protagonista en Registro — contradice el principio central del Método (alta probabilidad no significa ganancia; ver ejemplo del 91% a cuota 1.07).
-- Monto de apuesta en pesos en la pantalla principal — se sacó por sentirse una orden, no una herramienta.
+**Tipografía:** **Anton** para nombres de equipo, títulos de liga y wordmark (título de tapa de revista deportiva). **JetBrains Mono** para todo número que se compare o se confíe. **Archivo** para cuerpo, UI y prosa de análisis.
 
-## Estructura de navegación
+**Chrome y densidad:** pestañas silenciosas (línea inferior + color de texto, nunca botón con caja). Filas planas en listas largas, sin tarjeta-dentro-de-tarjeta. El bloque de análisis es tipografía sola, sin caja — nota de revista, no tarjeta de dashboard. Grano/textura solo en el masthead, nunca sobre filas de datos.
 
-Tres destinos: **Fecha · Registro · Método**. ("Combinadas" y "Ajustes" existían como pestañas propias antes y se eliminaron — ver más abajo por qué.)
+## Navegación
+
+Tres destinos: **Fecha · Registro · Método**.
+
+"Combinadas" se eliminó como destino: el picker manual le pide al usuario que arme algo, cuando el trabajo de la app es decirle qué hacer. La recomendación automática por partido (`recomendarCombinada()`, ya construida y validada: 23.1% de probabilidad conjunta exacta vs 17.8% multiplicando cuotas ingenuamente) vive dentro de Pronósticos.
+
+"Ajustes" se eliminó como destino: la banca se pregunta inline en Herramientas la primera vez que hace falta, editable después. El umbral de valor y la cuota máxima quedan fijos con los valores ya validados. La casa de apuestas es un campo al registrar, no una pantalla.
 
 ## Pantalla: Fecha (portada)
 
-- Arriba: nombre/logo de la app.
-- Slider de días (fecha con desplazamiento horizontal), sin desplegable de ligas — con la cantidad real de partidos por día (1 a 7 según los datos actuales), todo cabe a la vista sin acordeón.
-- Agrupado por liga, título simple, todos los partidos visibles debajo.
-- Cada partido: hora + estadio, escudos + nombres, las tres cuotas (local/empate/visita, con la de DraftKings vía ESPN — cubre 33 de 34 partidos hoy), y **una señal, no seis números**: "≠ Mercado" con una frase corta cuando el modelo difiere del precio, silencio (una línea gris) cuando no.
-- **Sin EV visible acá** — mostrar EV calculado sobre la cuota de referencia (DraftKings, que no opera en Argentina) sería prometer un valor que el usuario no puede cobrar en su propia casa de apuestas. El EV real vive adentro del partido, en Herramientas, contra la cuota que el usuario carga.
-- **Sin monto sugerido** — se sacó explícitamente, se sentía una orden más que una herramienta.
+- Logo, slider de días, agrupado por liga con todos los partidos a la vista (sin acordeón: con 5-10 partidos por día, todo entra).
+- Por partido: hora + estadio, escudos + nombres, las tres cuotas de referencia, y **nuestro pronóstico**.
+- **El pronóstico no es una señal rara, es un dato que siempre existe** — por eso reemplaza al "≠ Mercado", que disparaba en el 91% de los casos y no informaba nada. Se expresa como probabilidad o inclinación, no necesariamente nombrando un ganador.
+- **La marca de valor sí es rara y va en banda:** por debajo de ~3pp de diferencia contra la línea limpia no hay nada que decir; por encima de ~12-15pp tampoco, porque ahí el sospechoso es el modelo, no el precio. El valor está en el medio.
+- **Silencio cuando el modelo sabe poco.** Con 4-6 partidos por equipo, una competición debe mostrar menos, no más. La marca de valor se gatilla también por muestra disponible.
+- Sin EV y sin monto sugerido en portada.
 
 ## Pantalla: Detalle de partido — 6 pestañas
 
-Orden: **Análisis → Pronósticos → Historial → Posiciones → Plantel → Herramientas**. Cabecera común a las seis: equipos, competición, hora, estadio, las tres cuotas, y la señal de valor con una frase.
+Cabecera común: equipos, competición, hora, estadio, las tres cuotas, y el pronóstico.
 
-1. **Análisis** (default) — el bloque humano: bajas, DT, contexto, en lenguaje llano. Viene de `data/analisis.json` (específico de este cruce). Si no hay entrada cargada, no se muestra nada — cero peso agregado, mismo criterio de siempre.
-2. **Pronósticos** — la única pestaña nueva de esta ronda. Recomendaciones **ordenadas por EV** (no por probabilidad — ya validado con el caso del 91%/1.07 vs 43%/2.85), con probabilidad siempre visible al lado, filtradas por el umbral de valor y el tope de cuota máxima ya existentes (esto es lo que evita recomendar tanto una cuota de 1.01 como un disparate improbable — el usuario lo pidió explícitamente y ya estaba resuelto). El mejor pick se destaca, el resto queda listado sin competir en atención. Si nada supera el umbral, pestaña vacía con una frase honesta — no se inventa una recomendación para llenar la pantalla. **La combinada recomendada de este partido vive acá abajo como una tarjeta más** (reutiliza `recomendarCombinada()`, ya construido y validado con un caso real: 23.1% de probabilidad conjunta exacta vs 17.8% si se multiplicaran las cuotas ingenuamente).
-3. **Historial** — forma reciente (últimos 5, con rival/local-visita/marcador — ya estaba construido) + últimos cruces directos. El "color" pedido por Lucas viene de escudos reales e intensidad tipográfica (blanco pleno=ganado, apagado=perdido), nunca de mostaza/terracota — esos ya tienen trabajo asignado.
-4. **Posiciones** — tabla de la competición, con los dos equipos del partido resaltados. Separada de Historial a pedido explícito de Lucas.
-5. **Plantel** — arriba, resumen corto (2-3 líneas, "simplemente eso") de estilo/actualidad por equipo, tomado de `data/equipos.json` (dato reutilizable entre partidos, no específico de este cruce — dos capas de datos distintas y complementarias, ya diseñadas de antes). Debajo, estadísticas del equipo en el torneo (goles, córners, tarjetas promedio) y plantel agrupado por posición con goles/remates por jugador (reutiliza la búsqueda de jugador on-demand ya construida). Pendiente de una pasada de color/detalle visual — aprobado en estructura, no en pulido final.
-6. **Herramientas** — lo técnico, explícitamente "para vos, no para la gente en general". Cuota real de la casa de apuestas del usuario → EV/stake personal contra esa cuota (no la de referencia). **El stake se muestra en pesos, no en porcentaje** (la gente común piensa en "tengo $5.000 para jugar hoy", no en fracciones de Kelly — mostrar solo un % sería cambiar una jerga por otra). La etiqueta "Kelly ⅛" se saca del primer plano; el número de pesos habla solo, y el porqué queda explicado con calma en Método para quien lo busque. Punto de entrada para armar una combinada cruzando varios partidos.
-
-## Por qué "Combinadas" y "Ajustes" dejan de ser pestañas propias
-
-- **Combinadas** (el picker manual de patas de cualquier partido) se evaluó y se descartó como pantalla propia: le pide al usuario que arme algo, cuando el trabajo de la app es decirle qué hacer. La recomendación automática por partido (`recomendarCombinada()`) ya cubre ese caso mejor, y vive dentro de Pronósticos.
-- **Ajustes** perdió su única razón de ser cuando la banca se resolvió de otra forma: en vez de una pantalla de configuración que se visita una vez y nunca más, la banca se pregunta **inline, en Herramientas, la primera vez que hace falta** ("¿Cuánto separaste para apostar?", con explicación corta, editable después con un link "cambiar"). El umbral de valor y la cuota máxima quedan fijos con los valores ya validados durante la sesión de calibración — no configurables, porque ya están probados. "Casa de apuestas" pasa a ser un campo suelto en Registro al momento de cargar una apuesta, no una pantalla aparte.
+1. **Análisis** (default) — el bloque humano en lenguaje llano: bajas, DT, contexto. Viene de `data/analisis.json` (específico del cruce). Sin entrada cargada, no se muestra nada.
+2. **Pronósticos** — las dos respuestas, separadas y sin mezclarse: *qué creemos que va a pasar* y *dónde vemos valor*, señalando explícitamente cuándo no coinciden. Filtrado por umbral de valor y tope de cuota ya existentes (esto es lo que evita recomendar tanto un 1.01 como un disparate improbable). Si no hay valor, se dice — no se inventa una recomendación para llenar la pantalla. La combinada recomendada del partido vive acá como una tarjeta más.
+3. **Historial** — forma reciente (rival, local/visita, marcador) y cruces directos. El "color" viene de escudos reales e intensidad tipográfica (blanco pleno = ganado, apagado = perdido), nunca de mostaza/terracota.
+4. **Posiciones** — tabla de la competición, con los dos equipos resaltados. Separada de Historial a pedido explícito.
+5. **Plantel** — resumen corto (2-3 líneas) de estilo y actualidad por equipo, desde `data/equipos.json`. Debajo, **estadísticas del equipo** (que sí tenemos sin costo) y el plantel agrupado por posición. **Las estadísticas por jugador se traen solo al tocar un jugador** — el roster de ESPN da nombre y posición, pero cada estadística individual es un pedido aparte; mostrarlas en la lista serían ~50 pedidos por pestaña.
+6. **Herramientas** — explícitamente "para vos, no para la gente". Cuota real de tu casa → EV y stake **en pesos** contra esa cuota. La etiqueta "Kelly" no aparece; el monto habla solo y el porqué está en Método. Banca preguntada inline la primera vez ("¿Cuánto separaste para apostar?"), editable después.
 
 ## Pantalla: Registro
 
-Bitácora personal — acá el lenguaje técnico está bien porque el destinatario es el propio usuario, no alguien nuevo. Resumen (Resultado en pesos, ROI, CLV medio, cantidad de apuestas cargadas — **nunca "% de aciertos" como métrica protagonista**, por la razón ya explicada en Método). Gráfico de curva acumulada (la única línea curva de toda la app, en mostaza — acumulado positivo es, literalmente, valor). Filtro por estado (Todas / Ganadas / Perdidas / Pendientes — idea rescatada de una referencia que Lucas trajo, sin el resto de esa referencia). Lista de apuestas cargadas, filas planas, botones de resultado con la misma disciplina de color (mostaza=ganada, terracota=perdida).
+Bitácora personal — acá el lenguaje técnico es correcto, el destinatario es el propio usuario.
+
+- **Marcador principal: tasa de acierto, nuestra y la del mercado, lado a lado.** Es la métrica honesta de la promesa "pronosticamos", y comparada contra la línea es la prueba objetiva de estar por encima del mercado.
+- **Rentabilidad y CLV debajo**, como consecuencia económica para quien la mire. (Corrección explícita respecto de la revisión 1: ahí se había descartado la tasa de acierto como métrica principal; con VALOR definido como pronosticador, es la métrica correcta. Lo único prohibido es presentarla como equivalente a rentabilidad.)
+- Gráfico de curva acumulada (única línea curva de la app, en mostaza).
+- Filtro por estado (Todas / Ganadas / Perdidas / Pendientes).
+- Filas planas, resultado con la disciplina de color de siempre.
 
 ## Pantalla: Método
 
-Texto puro, sin cajas — mismo tratamiento que Análisis. Mantiene las explicaciones ya escritas y validadas (por qué EV y no probabilidad, valor falso, Kelly escalado por calidad del análisis, correlación, control de cordura, CLV, "lo que esto no es").
+Texto puro, sin cajas. Mantiene las explicaciones ya validadas (por qué valor y no probabilidad sola, valor falso, correlación, control de cordura, CLV, "lo que esto no es") y suma dos:
 
-## Pendiente — pasada de pulido (fuera de alcance de este documento)
+- **Que trabajamos con una cuota de referencia** (DraftKings vía ESPN, que no opera en Argentina), qué significa eso y por qué el EV real solo aparece contra la cuota que vos cargás. Transparencia en vez de esconder el dato.
+- **Cómo nos medimos**: acierto propio contra acierto del mercado, sobre los mismos partidos.
 
-Explícitamente diferido, no soy parte de esta ronda de decisiones:
-- Escudos reales (hoy son placeholders grises en todos los mockups).
-- Reincorporar la textura de grano en el header con más criterio.
-- Definir el "elemento firma" — la pieza única y memorable de VALOR, todavía no encontrada.
-- Ritmo de espaciado y jerarquía tipográfica en detalle.
-- Estados de carga e interacción (qué pasa al tocar, no solo cómo se ve quieto).
-- Más color/detalle visual en Historial y Plantel, ya pedido por Lucas y aprobado en principio.
+## Pendiente — pasada de pulido
+
+Fuera de alcance de este documento: escudos reales (hoy placeholders), reincorporar el grano del masthead con criterio, definir el **elemento firma** (la pieza memorable de VALOR, todavía sin encontrar), ritmo de espaciado y jerarquía fina, estados de carga e interacción, y más color/detalle en Historial y Plantel (pedido y aprobado en principio).
 
 ## Qué no cambia
 
-Todo el motor matemático: Dixon-Coles, EV, Kelly con fracción por calidad del análisis, devig, correlación por familia de mercado, probabilidad conjunta exacta para combinadas del mismo partido, calibración vía backtest, el pipeline de datos (`actualizar.py`, ESPN, DraftKings como referencia). Nada de esto se toca — este documento es sobre presentación y arquitectura de información, no sobre el modelo.
+Dixon-Coles, Poisson, EV, Kelly con fracción por calidad, devig, correlación por familia, probabilidad conjunta exacta para combinadas, rho calibrado por competición, y el pipeline (`actualizar.py`, ESPN, DraftKings como referencia). Este documento es sobre presentación, arquitectura de información y las correcciones de calibración listadas arriba — no sobre reemplazar el motor.

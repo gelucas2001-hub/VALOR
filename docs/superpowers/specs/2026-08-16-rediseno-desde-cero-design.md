@@ -65,10 +65,23 @@ Para que esta regla signifique algo, la lectura debe venir de donde el modelo no
 
 ## Correcciones al modelo (prioridad)
 
-1. **Elo propio, cruzando competiciones.** Es el arreglo directo al sesgo medido arriba. Un equipo debe llegar a la Libertadores con la fuerza que se ganó en su liga local. No hace falta fuente externa: ya se baja el calendario completo de cada equipo (`/teams/{id}/schedule`), que incluye todas sus competiciones — el Elo se calcula en casa, gratis y sin claves nuevas.
-2. **El mercado como línea base del backtest.** Hoy el backtest se compara contra un baseline ingenuo (tasa base con ventana expansiva). La vara que importa es la línea de la casa. Esto además alimenta el marcador de Registro: "acertamos 58%, el mercado 54%" convierte "estamos por encima del mercado" en un dato, no una postura.
-3. **Seguimiento de acierto automático.** Hoy `backtest.py` se corre a mano. Que el cron calcule acierto acumulado (nuestro y del mercado) es lo que hace posible el marcador anterior.
-4. **Lesiones cuantificadas (después, con validación).** Convertir una baja en ajuste de ataque/defensa según posición. Idea válida pero endeble — cuánto descontar exactamente es arbitrario. No entra hasta poder validarlo.
+1. **Ancla doméstica, cruzando competiciones.** Es el arreglo directo al sesgo medido arriba. Un equipo debe llegar a la Libertadores con la fuerza que se ganó en su liga local, donde tiene ~23 partidos en vez de ~6.
+
+   *Corrección (2026-08-16):* una versión anterior de este documento afirmaba que `/teams/{id}/schedule` ya traía todas las competiciones de un equipo. **Es falso** — verificado contra la API: Palmeiras devuelve 7 eventos bajo `conmebol.libertadores` y 23 bajo `bra.1`. La liga local de cada equipo se descubre con el campo `defaultLeague` de `/teams/{id}` (verificado: Palmeiras→`bra.1`, Cerro Porteño→`par.1`, Liga de Quito→`ecu.1`) y se consulta aparte. Sigue sin hacer falta fuente externa ni claves.
+
+   Se implementa como **ancla del prior**, no como Elo literal: Elo resume la fuerza en un solo número, y el modelo de goles necesita ataque y defensa por separado. La fuerza doméstica reemplaza al 1.0 hacia el que hoy empuja la regularización.
+
+2. **Medirse contra la cuota de cierre.** La vara que importa no es un baseline ingenuo, es el mercado.
+
+   *Corrección (2026-08-16):* este documento daba por hecho que era imposible medirse contra el mercado retroactivamente, porque ESPN borra las cuotas cuando el partido termina. Eso es cierto **de ESPN**, pero no del mundo: `football-data.co.uk` publica un CSV gratis con Liga Profesional Argentina — 6.295 partidos desde 2012, y los 314 de la temporada actual con cuota de cierre (verificado 2026-08-16). Es HTTP plano, sin clave, parseable con la biblioteca estándar. **No cubre copas**, que son un dataset aparte.
+
+   Cuidado conocido: los nombres de equipo difieren entre las dos fuentes y el cruce difuso es peligroso — hace matchear "Independiente Rivadavia" con "Independiente" y ensucia resultados en silencio. La tabla de equivalencias va explícita, con corte si falta alguno.
+
+3. **Seguimiento de acierto automático.** Registrar, en cada corrida, nuestro pronóstico y la línea del momento — para copas, que es donde el dataset histórico no llega. Es lo que alimenta el marcador de Registro ("acertamos 58%, el mercado 54%").
+
+4. **Lesiones cuantificadas (descartado por ahora).** *Verificado 2026-08-16:* el endpoint de lesiones de ESPN responde vacío para equipos argentinos. No hay fuente gratuita, así que el contexto de bajas sigue siendo carga manual vía la skill de análisis. La idea de convertir una baja en ajuste de ataque/defensa queda pendiente de que exista una fuente, y de poder validar cuánto descontar.
+
+5. **xG — evaluado y descartado por ahora.** *Verificado 2026-08-16:* `/summary` de ESPN sí trae `expectedGoals`, pero **solo por jugador destacado**, no por equipo — sumar dos o tres líderes no da el xG del equipo. Lo que sí viene completo por equipo son remates, remates al arco y posesión. Medir si esas señales mejoran la estimación de fuerza frente a usar solo goles es una pregunta empírica para responder **después** de tener la vara del punto 2 construida.
 
 ## Identidad visual
 

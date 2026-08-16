@@ -21,9 +21,15 @@ En paralelo, y primero, se construye el registro de pronósticos: cada corrida d
 - **Comentarios y mensajes de commit en español**, explicando el porqué, siguiendo el estilo del archivo.
 - **Nunca hardcodear el resultado esperado de un test para que pase.** Si un número no da, se investiga.
 
-## Corrección al spec
+## Hechos verificados contra la API (2026-08-16)
 
-La revisión 3 del spec afirma que `/teams/{id}/schedule` "incluye todas sus competiciones". **Eso es falso**, verificado el 2026-08-16: consultado bajo `conmebol.libertadores`, Palmeiras devuelve 7 eventos, todos de Libertadores. Los partidos de la liga local se obtienen consultando el mismo endpoint bajo el slug de esa liga (`bra.1` → 23 partidos jugados). La liga local de cada equipo se descubre con el campo `defaultLeague` del endpoint `/teams/{id}` (verificado: Palmeiras→`bra.1`, Liga de Quito→`ecu.1`, Cerro Porteño→`par.1`, Independiente del Valle→`ecu.1`). Actualizar esa línea del spec es parte de la Tarea 2.
+El spec ya fue corregido con todo esto; se repite acá porque el plan tiene que poder leerse solo.
+
+- **`/teams/{id}/schedule` devuelve solo la competición consultada.** Palmeiras da 7 eventos bajo `conmebol.libertadores` y 23 bajo `bra.1`. Por eso hace falta consultar la liga local aparte.
+- **`defaultLeague` de `/teams/{id}` revela la liga local.** Palmeiras→`bra.1`, Liga de Quito→`ecu.1`, Cerro Porteño→`par.1`, Independiente del Valle→`ecu.1`.
+- **Hay cuotas de cierre históricas gratis** en `football-data.co.uk` para Liga Profesional (6.295 partidos desde 2012; 314/314 de la temporada actual). No cubre copas.
+- **El cruce de nombres entre fuentes es peligroso si es difuso:** "Independiente Rivadavia" matchea con "Independiente" por substring. La tabla va explícita.
+- **ESPN no tiene lesiones del fútbol argentino** (endpoint responde vacío) ni **xG por equipo** (solo por jugador destacado). Ambas cosas quedan fuera de alcance.
 
 ## Por qué ancla doméstica y no Elo literal
 
@@ -153,7 +159,6 @@ el problema que vamos a corregir."
 
 **Files:**
 - Modify: `actualizar.py` (agregar constante junto a `CACHE_DISCIPLINA` en la línea 33, y la función nueva después de `historial()`, que termina en la línea 226)
-- Modify: `docs/superpowers/specs/2026-08-16-rediseno-desde-cero-design.md` (corregir la afirmación falsa)
 
 **Interfaces:**
 - Consumes: `api(path)` (ya existe, línea 109).
@@ -231,18 +236,12 @@ print('OK')
 
 Expected: los dos números iguales y `OK`.
 
-- [ ] **Step 5: Corregir el spec**
+- [ ] **Step 5: Commit**
 
-En `docs/superpowers/specs/2026-08-16-rediseno-desde-cero-design.md`, en la sección "Correcciones al modelo (prioridad)", reemplazar el texto que dice que ya se baja el calendario completo "que incluye todas sus competiciones" por:
-
-```markdown
-1. **Ancla doméstica, cruzando competiciones.** Es el arreglo directo al sesgo medido arriba. Un equipo debe llegar a la Libertadores con la fuerza que se ganó en su liga local. `/teams/{id}/schedule` devuelve solo los partidos de la competición consultada (verificado: Palmeiras da 7 bajo Libertadores y 23 bajo `bra.1`), así que la liga local de cada equipo se descubre con el campo `defaultLeague` de `/teams/{id}` y se consulta aparte. Sin fuente externa ni claves nuevas.
-```
-
-- [ ] **Step 6: Commit**
+(El spec ya fue corregido por separado en el commit `docs: corregir el spec con lo que la API dijo realmente` — no hace falta tocarlo acá.)
 
 ```bash
-git add actualizar.py docs/superpowers/specs/2026-08-16-rediseno-desde-cero-design.md
+git add actualizar.py
 git commit -m "Descubrir la liga local de cada equipo vía defaultLeague
 
 /teams/{id}/schedule bajo el slug de una copa devuelve solo partidos de
@@ -560,9 +559,284 @@ siguiente paso es calibrar factores de calidad por liga.]"
 
 ---
 
-### Task 6: Registrar pronósticos contra la línea del mercado
+### Task 6: Medirse contra la cuota de cierre histórica
 
-Es la base para poder afirmar "acertamos más que el mercado" con un dato en vez de una postura. Va al final porque conviene que empiece a grabar con el modelo ya corregido.
+**El spec decía que esto era imposible.** Se afirmó que sin precios históricos no se puede comparar contra el mercado, porque ESPN borra las cuotas al terminar el partido. Eso es cierto de ESPN, pero `football-data.co.uk` publica un CSV gratis con la Liga Profesional Argentina: **6.295 partidos desde 2012**, y la temporada actual con **314 de 314 partidos con cuota de cierre** (verificado 2026-08-16). CSV plano por HTTP, sin clave, parseable con `csv` de la biblioteca estándar.
+
+La cuota de **cierre** es el rival correcto: es el precio final, el que ya absorbió lesiones, alineaciones y plata informada. Ganarle a eso es la prueba dura.
+
+**No cubre copas** (es un dataset de ligas), así que no sirve para validar el arreglo de Libertadores — para eso está la Tarea 5. Sirve para responder, hoy y con cientos de partidos, si el modelo le gana al mercado en Liga Profesional.
+
+**Files:**
+- Create: `medir_vs_mercado.py`
+
+**Interfaces:**
+- Consumes: `backtest.matriz`, `backtest.suma_si`, `actualizar.fuerzas_equipos`, `actualizar.resultados_temporada`.
+- Produces: script suelto, no importado por nadie. No toca el cron.
+
+- [ ] **Step 1: Escribir la tabla de equivalencia de nombres, completa y explícita**
+
+Los nombres difieren entre las dos fuentes. **No usar cruce difuso**: se probó y produce un falso positivo silencioso — "Independiente Rivadavia" matchea con "Independiente" por substring, y ahí los resultados salen mal sin avisar. La tabla va explícita, y si aparece un equipo que no está, el script corta.
+
+Crear `medir_vs_mercado.py` con:
+
+```python
+"""¿Le gana nuestro modelo a la cuota de cierre del mercado?
+
+Compara la probabilidad del modelo contra la cuota de cierre real de
+partidos ya jugados de Liga Profesional, usando el CSV público de
+football-data.co.uk. La cuota de cierre es el precio más afinado que
+existe: ya absorbió lesiones, alineaciones y apuestas informadas.
+
+No es parte del cron. Se corre a mano:
+
+    python medir_vs_mercado.py
+
+Deliberadamente NO cubre Libertadores/Sudamericana: el dataset es de
+ligas, no de copas. El sesgo de copas se mide con medir_sesgo.py.
+"""
+import csv
+import io
+import datetime
+import sys
+import urllib.request
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from backtest import matriz, suma_si
+import actualizar as A
+
+CSV_URL = "https://www.football-data.co.uk/new/ARG.csv"
+
+# ESPN -> football-data. Explícita a propósito: el cruce automático por
+# substring hace matchear "Independiente Rivadavia" con "Independiente".
+NOMBRES = {
+    "Aldosivi": "Aldosivi",
+    "Argentinos Juniors": "Argentinos Jrs",
+    "Atlético Tucumán": "Atl. Tucuman",
+    "Banfield": "Banfield",
+    "Barracas Central": "Barracas Central",
+    "Belgrano (Córdoba)": "Belgrano",
+    "Boca Juniors": "Boca Juniors",
+    "Central Córdoba (Santiago del Estero)": "Central Cordoba",
+    "Defensa y Justicia": "Defensa y Justicia",
+    "Deportivo Riestra": "Dep. Riestra",
+    "Estudiantes de La Plata": "Estudiantes L.P.",
+    "Estudiantes de Río Cuarto": "Estudiantes Rio Cuarto",
+    "Gimnasia (Mendoza)": "Gimnasia Mendoza",
+    "Gimnasia La Plata": "Gimnasia L.P.",
+    "Huracán": "Huracan",
+    "Independiente": "Independiente",
+    "Independiente Rivadavia": "Ind. Rivadavia",
+    "Instituto (Córdoba)": "Instituto",
+    "Lanús": "Lanus",
+    "Newell's Old Boys": "Newells Old Boys",
+    "Platense": "Platense",
+    "Racing Club": "Racing Club",
+    "River Plate": "River Plate",
+    "Rosario Central": "Rosario Central",
+    "San Lorenzo": "San Lorenzo",
+    "Sarmiento (Junín)": "Sarmiento Junin",
+    "Talleres (Córdoba)": "Talleres Cordoba",
+    "Tigre": "Tigre",
+    "Unión (Santa Fe)": "Union de Santa Fe",
+    "Vélez Sarsfield": "Velez Sarsfield",
+}
+
+
+def bajar_csv():
+    req = urllib.request.Request(CSV_URL, headers={"User-Agent": "Mozilla/5.0"})
+    txt = urllib.request.urlopen(req, timeout=60).read().decode("utf-8-sig", "replace")
+    return list(csv.DictReader(io.StringIO(txt)))
+```
+
+- [ ] **Step 2: Verificar que la tabla cubre a todos los equipos de las dos fuentes**
+
+Agregar al script y correr:
+
+```python
+def verificar_nombres(filas_csv, temporada="2026"):
+    """Corta si algún equipo no está mapeado. Un nombre suelto significa
+    partidos descartados en silencio, que es peor que un error ruidoso."""
+    del_csv = {r["Home"] for r in filas_csv if r["Season"] == temporada}
+    mapeados = set(NOMBRES.values())
+    faltan = del_csv - mapeados
+    if faltan:
+        raise SystemExit(f"equipos del CSV sin mapear: {sorted(faltan)}")
+    return len(del_csv)
+```
+
+Run:
+
+```bash
+python -c "
+import medir_vs_mercado as M
+filas = M.bajar_csv()
+n = M.verificar_nombres(filas)
+print('equipos del CSV, todos mapeados:', n)
+"
+```
+
+Expected: `equipos del CSV, todos mapeados: 30`, sin excepción. Si corta, agregar el nombre faltante a `NOMBRES` — no relajar la verificación.
+
+- [ ] **Step 3: Comparar modelo contra cierre, partido por partido**
+
+Agregar:
+
+```python
+def evaluar(temporada="2026", ventana_dias=400):
+    """Para cada partido jugado con cuota de cierre: reconstruye las λ con
+    los partidos ANTERIORES a esa fecha (nunca con el resultado que se va
+    a predecir) y compara Brier del modelo contra Brier del mercado."""
+    filas = [r for r in bajar_csv()
+             if r["Season"] == temporada and (r.get("AvgCH") or "").strip()]
+    verificar_nombres(filas, temporada)
+
+    hoy = datetime.date.today()
+    resultados = A.resultados_temporada("arg.1", hoy.year, hoy)
+    # id de equipo -> nombre de football-data, vía el nombre de ESPN
+    inv = {v: k for k, v in NOMBRES.items()}
+
+    br_mod = br_mkt = 0.0
+    n = 0
+    for r in filas:
+        try:
+            fecha = datetime.datetime.strptime(r["Date"], "%d/%m/%Y").date()
+            gh, ga = int(r["HG"]), int(r["AG"])
+            cuotas = [float(r["AvgCH"]), float(r["AvgCD"]), float(r["AvgCA"])]
+        except (ValueError, KeyError):
+            continue
+        if fecha > hoy or (hoy - fecha).days > ventana_dias:
+            continue
+
+        previos = [p for p in resultados if p["fecha"] < fecha]
+        if len(previos) < 40:
+            continue                      # muy poca historia para pronosticar
+        fuerzas, mu_l, mu_v, pj = A.fuerzas_equipos(previos, fecha)
+
+        ids = {}
+        for p in previos:
+            ids.setdefault(p["home"], None); ids.setdefault(p["away"], None)
+        # el cruce id<->nombre sale del propio CSV: se resuelve por nombre
+        # de football-data, así que se necesita el mapa inverso ESPN->id,
+        # que se arma en el Step 4. Acá se saltea si no está.
+        clave_l, clave_v = r["Home"], r["Away"]
+        if clave_l not in IDS or clave_v not in IDS:
+            continue
+        a_l, d_l = fuerzas.get(IDS[clave_l], (1.0, 1.0))
+        a_v, d_v = fuerzas.get(IDS[clave_v], (1.0, 1.0))
+        lh = max(0.35, min(3.20, mu_l * a_l * d_v))
+        la = max(0.30, min(3.00, mu_v * a_v * d_l))
+
+        M_ = matriz(lh, la, A.COMPETICIONES["arg.1"]["rho"])
+        pm = [suma_si(M_, lambda i, j: i > j),
+              suma_si(M_, lambda i, j: i == j),
+              suma_si(M_, lambda i, j: i < j)]
+        crudas = [1 / c for c in cuotas]
+        tot = sum(crudas)
+        pq = [x / tot for x in crudas]
+
+        real = [1 if gh > ga else 0, 1 if gh == ga else 0, 1 if gh < ga else 0]
+        br_mod += sum((pm[i] - real[i]) ** 2 for i in range(3))
+        br_mkt += sum((pq[i] - real[i]) ** 2 for i in range(3))
+        n += 1
+
+    return n, (br_mod / n if n else None), (br_mkt / n if n else None)
+```
+
+- [ ] **Step 4: Construir el mapa nombre-de-CSV → id de ESPN**
+
+`fuerzas_equipos` usa ids de ESPN; el CSV trae nombres. Hace falta el puente. Agregar antes de `evaluar()`:
+
+```python
+def construir_ids():
+    """{nombre de football-data: team_id de ESPN}, leyendo la tabla de
+    posiciones de arg.1 (que trae id y nombre juntos)."""
+    hoy = datetime.date.today()
+    tabla = A.tabla_competicion("arg.1", hoy.year)
+    fuera = []
+    ids = {}
+    for team_id, info in tabla.items():
+        nombre_espn = info.get("nombre") if isinstance(info, dict) else None
+        if not nombre_espn:
+            continue
+        fd = NOMBRES.get(nombre_espn)
+        if fd:
+            ids[fd] = team_id
+        else:
+            fuera.append(nombre_espn)
+    if fuera:
+        print(f"  aviso: sin mapear desde ESPN -> {sorted(fuera)}")
+    return ids
+
+
+IDS = {}
+```
+
+Y en `main()`, poblar `IDS` antes de evaluar:
+
+```python
+def main():
+    global IDS
+    IDS = construir_ids()
+    print(f"equipos cruzados: {len(IDS)}")
+    n, bm, bq = evaluar()
+    if not n:
+        raise SystemExit("no se evaluó ningún partido — revisar el cruce de nombres")
+    print(f"\npartidos evaluados: {n}")
+    print(f"  Brier modelo : {bm:.5f}")
+    print(f"  Brier mercado: {bq:.5f}")
+    dif = bq - bm
+    if dif > 0:
+        print(f"\n  El modelo le gana al cierre por {dif:.5f} de Brier.")
+    else:
+        print(f"\n  El mercado nos gana por {-dif:.5f} de Brier.")
+    print("  (Brier más bajo = mejor. El cierre es un rival durísimo:")
+    print("   quedar cerca ya es buena señal; ganarle es raro.)")
+
+
+if __name__ == "__main__":
+    main()
+```
+
+**Nota sobre `tabla_competicion`:** verificar su forma de retorno real antes de usarla (`grep -n "def tabla_competicion" -A 25 actualizar.py`). Si no devuelve el nombre del equipo junto al id, construir `IDS` recorriendo `data/partidos.json`, que sí tiene `home`/`homeId` juntos.
+
+- [ ] **Step 5: Correr y leer el resultado con honestidad**
+
+Run: `python medir_vs_mercado.py`
+
+Expected: imprime la cantidad de partidos evaluados (debería ser >100) y los dos Brier.
+
+**Cómo interpretar, sin autoengaño:**
+- La cuota de cierre es el mejor predictor público que existe. **Lo más probable es que nos gane**, y eso no es un fracaso del proyecto.
+- Quedar dentro de ~0.01 de Brier del cierre es un resultado respetable.
+- Si el modelo diera *mucho* mejor que el cierre (más de 0.02), sospechar de una fuga de información: revisar que `previos` filtre estrictamente por `p["fecha"] < fecha` y que no se estén usando partidos posteriores.
+- **No ajustar nada para mejorar este número.** El valor del script es saber dónde estamos parados.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add medir_vs_mercado.py
+git commit -m "Medirse contra la cuota de cierre real del mercado
+
+El spec decía que era imposible porque ESPN borra las cuotas al terminar
+el partido. Cierto de ESPN, falso del mundo: football-data.co.uk publica
+gratis la Liga Profesional con 6.295 partidos desde 2012 y los 314 de
+esta temporada con cuota de cierre.
+
+Evalúa walk-forward (las λ de cada partido se calculan solo con partidos
+anteriores) y compara Brier contra el cierre. La tabla de nombres es
+explícita a propósito: el cruce difuso hacía matchear Independiente
+Rivadavia con Independiente, y eso ensucia resultados en silencio.
+
+No cubre copas: el dataset es de ligas."
+```
+
+---
+
+### Task 7: Registrar pronósticos contra la línea del mercado
+
+Complementa a la Tarea 6: aquella mide el pasado en Liga Profesional, ésta captura el presente **en todas las competiciones, incluidas las copas**, que es donde el dataset histórico no llega. Va al final porque conviene que empiece a grabar con el modelo ya corregido.
 
 **Files:**
 - Modify: `actualizar.py` (constante nueva junto a `CACHE_LIGAS`, función nueva antes de `main()`, y llamada al final de `main()`)

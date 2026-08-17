@@ -498,5 +498,65 @@
    3.35
   ],
   "resultado": null
+ },
+ "espn401841509": {
+  "fecha": "2026-08-23",
+  "comp": "Liga Profesional Argentina",
+  "home": "Barracas Central",
+  "away": "Platense",
+  "lh": 1.259,
+  "la": 0.622,
+  "rho": 0.05,
+  "mercado": [
+   0.3641,
+   0.3316,
+   0.3044
+  ],
+  "cuotas": [
+   2.55,
+   2.8,
+   3.05
+  ],
+  "resultado": null
+ },
+ "espn401841519": {
+  "fecha": "2026-08-23",
+  "comp": "Liga Profesional Argentina",
+  "home": "Sarmiento (Junín)",
+  "away": "Estudiantes de La Plata",
+  "lh": 1.494,
+  "la": 1.254,
+  "rho": 0.05,
+  "mercado": [
+   0.2814,
+   0.3148,
+   0.4038
+  ],
+  "cuotas": [
+   3.3,
+   2.95,
+   2.3
+  ],
+  "resultado": null
+ },
+ "espn401841517": {
+  "fecha": "2026-08-23",
+  "comp": "Liga Profesional Argentina",
+  "home": "Racing Club",
+  "away": "Boca Juniors",
+  "lh": 1.147,
+  "la": 1.076,
+  "rho": 0.05,
+  "mercado": [
+   0.3079,
+   0.3299,
+   0.3622
+  ],
+  "cuotas": [
+   3.0,
+   2.8,
+   2.55
+  ],
+  "resultado": null
  }
 }

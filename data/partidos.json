@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-16T23:10",
- "requests": 272,
+ "actualizado": "2026-08-17T13:57",
+ "requests": 314,
  "partidos": [
   {
    "id": "espn401841498",
@@ -14,7 +14,7 @@
    "awayId": "9785",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-   "lh": 0.637,
+   "lh": 0.639,
    "la": 0.832,
    "rho": 0.05,
    "conf": 75,
@@ -265,15 +265,15 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.05,
-    "empate": 2.8,
-    "visitante": 2.7,
+    "local": 3.25,
+    "empate": 2.85,
+    "visitante": 2.5,
     "totalLinea": 1.5,
     "totalOver": 1.62,
     "totalUnder": 2.2,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.47,
-    "hcapVisitante": 2.55
+    "hcapLocal": 1.51,
+    "hcapVisitante": 2.4
    },
    "preload": {}
   },
@@ -289,8 +289,8 @@
    "awayId": "11",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-   "lh": 1.085,
-   "la": 0.687,
+   "lh": 1.086,
+   "la": 0.688,
    "rho": 0.05,
    "conf": 75,
    "corners": 12.7,
@@ -558,15 +558,15 @@
    "grupo": "Group A",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.3,
+    "local": 2.4,
     "empate": 2.95,
-    "visitante": 3.45,
+    "visitante": 3.4,
     "totalLinea": 1.5,
     "totalOver": 1.59,
     "totalUnder": 2.3,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.2,
-    "hcapVisitante": 1.59
+    "hcapLocal": 2.25,
+    "hcapVisitante": 1.57
    },
    "preload": {}
   },
@@ -582,8 +582,8 @@
    "awayId": "8950",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
-   "lh": 1.911,
-   "la": 0.715,
+   "lh": 1.906,
+   "la": 0.716,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.7,
@@ -840,14 +840,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.8,
-    "empate": 3.55,
-    "visitante": 4.6,
+    "empate": 3.5,
+    "visitante": 4.7,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.57,
+    "totalOver": 2.25,
+    "totalUnder": 1.61,
     "hcapLinea": -0.5,
     "hcapLocal": 1.74,
-    "hcapVisitante": 1.95
+    "hcapVisitante": 2.0
    },
    "preload": {}
   },
@@ -1114,15 +1114,15 @@
    "grupo": "Group A",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.95,
+    "local": 3.1,
     "empate": 2.8,
-    "visitante": 2.75,
+    "visitante": 2.65,
     "totalLinea": 1.5,
-    "totalOver": 1.61,
-    "totalUnder": 2.2,
+    "totalOver": 1.59,
+    "totalUnder": 2.3,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.43,
-    "hcapVisitante": 2.6
+    "hcapLocal": 1.48,
+    "hcapVisitante": 2.5
    },
    "preload": {}
   },
@@ -1184,7 +1184,7 @@
     "empate": 2.65,
     "visitante": 2.4,
     "totalLinea": 1.5,
-    "totalOver": 1.74,
+    "totalOver": 1.71,
     "totalUnder": 1.95,
     "hcapLinea": 0.5,
     "hcapLocal": 1.51,
@@ -1204,8 +1204,8 @@
    "awayId": "3445",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3445.png",
-   "lh": 1.222,
-   "la": 0.593,
+   "lh": 1.221,
+   "la": 0.594,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.3,
@@ -1347,14 +1347,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 2.4,
-    "empate": 2.85,
-    "visitante": 3.35,
+    "empate": 2.9,
+    "visitante": 3.2,
     "totalLinea": 1.5,
-    "totalOver": 1.56,
-    "totalUnder": 2.3,
+    "totalOver": 1.53,
+    "totalUnder": 2.35,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.25,
-    "hcapVisitante": 1.54
+    "hcapLocal": 2.3,
+    "hcapVisitante": 1.53
    },
    "preload": {}
   },
@@ -1370,7 +1370,7 @@
    "awayId": "5",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/22517.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-   "lh": 1.387,
+   "lh": 1.388,
    "la": 1.642,
    "rho": 0.0,
    "conf": 55,
@@ -1489,7 +1489,7 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 4.8,
-    "empate": 3.8,
+    "empate": 3.75,
     "visitante": 1.67,
     "totalLinea": 2.5,
     "totalOver": 1.95,
@@ -1578,8 +1578,8 @@
    "awayId": "17086",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
-   "lh": 1.155,
-   "la": 1.588,
+   "lh": 1.154,
+   "la": 1.586,
    "rho": 0.0,
    "conf": 65,
    "corners": 16.3,
@@ -1701,8 +1701,8 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.9,
-    "empate": 3.15,
+    "local": 2.95,
+    "empate": 3.1,
     "visitante": 2.45,
     "totalLinea": 2.5,
     "totalOver": 2.2,
@@ -1725,8 +1725,8 @@
    "awayId": "8",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/885.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
-   "lh": 1.113,
-   "la": 0.744,
+   "lh": 1.111,
+   "la": 0.746,
    "rho": 0.0,
    "conf": 65,
    "corners": 12.3,
@@ -1859,8 +1859,8 @@
     "empate": 3.0,
     "visitante": 2.8,
     "totalLinea": 2.5,
-    "totalOver": 2.35,
-    "totalUnder": 1.53,
+    "totalOver": 2.4,
+    "totalUnder": 1.51,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
     "hcapVisitante": 1.47
@@ -1879,8 +1879,8 @@
    "awayId": "2681",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2026.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2681.png",
-   "lh": 1.358,
-   "la": 0.852,
+   "lh": 1.363,
+   "la": 0.854,
    "rho": 0.0,
    "conf": 55,
    "corners": 11.0,
@@ -1997,15 +1997,15 @@
    "grupo": "Group C",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.43,
-    "empate": 4.5,
-    "visitante": 6.5,
+    "local": 1.38,
+    "empate": 4.7,
+    "visitante": 7.0,
     "totalLinea": 2.5,
-    "totalOver": 1.69,
-    "totalUnder": 2.0,
+    "totalOver": 1.74,
+    "totalUnder": 1.95,
     "hcapLinea": -1.5,
-    "hcapLocal": 2.15,
-    "hcapVisitante": 1.57
+    "hcapLocal": 2.05,
+    "hcapVisitante": 1.65
    },
    "preload": {}
   },
@@ -2021,8 +2021,8 @@
    "awayId": "2029",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2671.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2029.png",
-   "lh": 0.961,
-   "la": 0.751,
+   "lh": 0.959,
+   "la": 0.753,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.0,
@@ -2175,12 +2175,12 @@
    "grupo": "Group F",
    "mercado": {
     "prov": "DraftKings",
-    "local": 4.9,
-    "empate": 3.4,
-    "visitante": 1.77,
+    "local": 5.0,
+    "empate": 3.45,
+    "visitante": 1.74,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.56,
+    "totalOver": 2.35,
+    "totalUnder": 1.53,
     "hcapLinea": 0.5,
     "hcapLocal": 2.0,
     "hcapVisitante": 1.69
@@ -2199,8 +2199,8 @@
    "awayId": "7764",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8186.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
-   "lh": 1.241,
-   "la": 0.778,
+   "lh": 1.239,
+   "la": 0.777,
    "rho": 0.0,
    "conf": 65,
    "corners": 11.3,
@@ -2329,15 +2329,15 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.35,
+    "local": 2.3,
     "empate": 3.0,
-    "visitante": 3.2,
+    "visitante": 3.3,
     "totalLinea": 1.5,
     "totalOver": 1.5,
-    "totalUnder": 2.45,
+    "totalUnder": 2.4,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.25,
-    "hcapVisitante": 1.56
+    "hcapLocal": 2.15,
+    "hcapVisitante": 1.59
    },
    "preload": {}
   },
@@ -2353,8 +2353,8 @@
    "awayId": "6079",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7632.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6079.png",
-   "lh": 1.152,
-   "la": 0.532,
+   "lh": 1.154,
+   "la": 0.534,
    "rho": 0.0,
    "conf": 65,
    "corners": 12.7,
@@ -2821,15 +2821,15 @@
    "grupo": "Group H",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.45,
-    "empate": 3.05,
+    "local": 3.4,
+    "empate": 3.0,
     "visitante": 2.2,
     "totalLinea": 2.5,
-    "totalOver": 2.15,
-    "totalUnder": 1.62,
+    "totalOver": 2.4,
+    "totalUnder": 1.49,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.62,
-    "hcapVisitante": 2.05
+    "hcapLocal": 1.61,
+    "hcapVisitante": 2.1
    },
    "preload": {}
   },
@@ -2845,8 +2845,8 @@
    "awayId": "7767",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19002.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
-   "lh": 1.279,
-   "la": 0.767,
+   "lh": 1.278,
+   "la": 0.769,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.7,
@@ -2976,13 +2976,13 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 2.65,
-    "empate": 3.2,
-    "visitante": 2.6,
+    "empate": 3.1,
+    "visitante": 2.65,
     "totalLinea": 2.5,
     "totalOver": 2.2,
     "totalUnder": 1.59,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.45,
+    "hcapLocal": 1.44,
     "hcapVisitante": 2.45
    },
    "preload": {}
@@ -2999,8 +2999,8 @@
    "awayId": "9169",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4816.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9169.png",
-   "lh": 1.3,
-   "la": 0.637,
+   "lh": 1.298,
+   "la": 0.636,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.7,
@@ -3141,15 +3141,15 @@
    "grupo": "Group G",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.61,
-    "empate": 3.8,
+    "local": 1.65,
+    "empate": 3.6,
     "visitante": 5.0,
     "totalLinea": 2.5,
-    "totalOver": 1.95,
-    "totalUnder": 1.71,
+    "totalOver": 2.1,
+    "totalUnder": 1.62,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.56,
-    "hcapVisitante": 2.15
+    "hcapLocal": 1.59,
+    "hcapVisitante": 2.1
    },
    "preload": {}
   },
@@ -3165,8 +3165,8 @@
    "awayId": "3454",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2675.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3454.png",
-   "lh": 1.132,
-   "la": 0.651,
+   "lh": 1.134,
+   "la": 0.653,
    "rho": 0.0,
    "conf": 65,
    "corners": 11.7,
@@ -3312,7 +3312,7 @@
     "visitante": 2.95,
     "totalLinea": 2.5,
     "totalOver": 2.1,
-    "totalUnder": 1.62,
+    "totalUnder": 1.61,
     "hcapLinea": -0.5,
     "hcapLocal": 2.25,
     "hcapVisitante": 1.53
@@ -3332,7 +3332,7 @@
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18439.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2674.png",
    "lh": 1.953,
-   "la": 1.186,
+   "la": 1.187,
    "rho": 0.0,
    "conf": 65,
    "corners": 11.3,
@@ -3468,8 +3468,8 @@
     "totalOver": 2.05,
     "totalUnder": 1.67,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.45,
-    "hcapVisitante": 2.4
+    "hcapLocal": 1.44,
+    "hcapVisitante": 2.45
    },
    "preload": {}
   },
@@ -3485,8 +3485,8 @@
    "awayId": "17",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/874.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-   "lh": 0.625,
-   "la": 0.424,
+   "lh": 0.629,
+   "la": 0.426,
    "rho": 0.0,
    "conf": 65,
    "corners": 9.3,
@@ -3619,10 +3619,10 @@
     "empate": 3.0,
     "visitante": 4.5,
     "totalLinea": 1.5,
-    "totalOver": 1.57,
-    "totalUnder": 2.2,
+    "totalOver": 1.61,
+    "totalUnder": 2.1,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.8,
+    "hcapLocal": 1.83,
     "hcapVisitante": 1.8
    },
    "preload": {}
@@ -3639,8 +3639,8 @@
    "awayId": "3372",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6086.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3372.png",
-   "lh": 1.735,
-   "la": 2.208,
+   "lh": 1.743,
+   "la": 2.199,
    "rho": 0.0,
    "conf": 65,
    "corners": 9.7,
@@ -3773,11 +3773,11 @@
     "empate": 9.5,
     "visitante": 16.0,
     "totalLinea": 3.5,
-    "totalOver": 1.62,
-    "totalUnder": 2.1,
+    "totalOver": 1.65,
+    "totalUnder": 2.05,
     "hcapLinea": -2.5,
-    "hcapLocal": 1.74,
-    "hcapVisitante": 1.87
+    "hcapLocal": 1.77,
+    "hcapVisitante": 1.83
    },
    "preload": {}
   },
@@ -3793,7 +3793,7 @@
    "awayId": "20",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
-   "lh": 1.16,
+   "lh": 1.161,
    "la": 1.002,
    "rho": 0.05,
    "conf": 75,
@@ -4056,15 +4056,15 @@
    "grupo": "Group B",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.35,
+    "local": 3.25,
     "empate": 2.9,
-    "visitante": 2.25,
+    "visitante": 2.3,
     "totalLinea": 1.5,
     "totalOver": 1.51,
     "totalUnder": 2.3,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.57,
-    "hcapVisitante": 2.15
+    "hcapLocal": 1.54,
+    "hcapVisitante": 2.2
    },
    "preload": {}
   },
@@ -4080,8 +4080,8 @@
    "awayId": "18",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
-   "lh": 0.752,
-   "la": 0.678,
+   "lh": 0.754,
+   "la": 0.68,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.3,
@@ -4344,8 +4344,8 @@
    "awayId": "2975",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-   "lh": 0.657,
-   "la": 0.688,
+   "lh": 0.659,
+   "la": 0.69,
    "rho": 0.05,
    "conf": 75,
    "corners": 14.0,
@@ -4626,7 +4626,7 @@
    "awayId": "11972",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-   "lh": 1.262,
+   "lh": 1.26,
    "la": 0.913,
    "rho": 0.05,
    "conf": 75,
@@ -4891,7 +4891,7 @@
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
    "lh": 1.171,
-   "la": 0.912,
+   "la": 0.911,
    "rho": 0.05,
    "conf": 75,
    "corners": 13.0,
@@ -5167,7 +5167,7 @@
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
    "lh": 1.07,
-   "la": 0.676,
+   "la": 0.678,
    "rho": 0.05,
    "conf": 75,
    "corners": 7.3,
@@ -5430,14 +5430,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.95,
-    "empate": 2.85,
-    "visitante": 4.6,
+    "empate": 2.9,
+    "visitante": 4.4,
     "totalLinea": 1.5,
-    "totalOver": 1.65,
-    "totalUnder": 2.05,
+    "totalOver": 1.61,
+    "totalUnder": 2.15,
     "hcapLinea": -0.5,
     "hcapLocal": 1.87,
-    "hcapVisitante": 1.77
+    "hcapVisitante": 1.74
    },
    "preload": {}
   },
@@ -5453,7 +5453,7 @@
    "awayId": "235",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
-   "lh": 1.202,
+   "lh": 1.203,
    "la": 0.871,
    "rho": 0.05,
    "conf": 75,
@@ -5726,11 +5726,1436 @@
     "empate": 3.1,
     "visitante": 3.35,
     "totalLinea": 2.5,
-    "totalOver": 2.2,
-    "totalUnder": 1.56,
+    "totalOver": 2.25,
+    "totalUnder": 1.54,
     "hcapLinea": -0.5,
     "hcapLocal": 2.05,
     "hcapVisitante": 1.61
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401841509",
+   "date": "2026-08-23",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "14:45",
+   "home": "Barracas Central",
+   "away": "Platense",
+   "homeId": "10060",
+   "awayId": "7764",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
+   "lh": 1.259,
+   "la": 0.622,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 6.0,
+   "cornersH": 3.7,
+   "fouls": 28.3,
+   "cards": 4.0,
+   "note": "λ calculados ajustando ataque/defensa de Barracas Central y Platense contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "formA": [
+    {
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "0-4"
+    },
+    {
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "D",
+     "rival": "Unión (Santa Fe)",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "21/02/26",
+     "h": "Platense",
+     "a": "Barracas Central",
+     "s": "1-0"
+    },
+    {
+     "d": "16/08/24",
+     "h": "Platense",
+     "a": "Barracas Central",
+     "s": "0-0"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 6
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 5,
+     "pj": 4,
+     "g": 1,
+     "e": 2,
+     "p": 1,
+     "gf": 3
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 4,
+     "pj": 4,
+     "g": 1,
+     "e": 1,
+     "p": 2,
+     "gf": 2
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 5,
+     "g": 0,
+     "e": 2,
+     "p": 3,
+     "gf": 3
+    }
+   ],
+   "grupo": "Group B",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.55,
+    "empate": 2.8,
+    "visitante": 3.05,
+    "totalLinea": 1.5,
+    "totalOver": 1.61,
+    "totalUnder": 2.1,
+    "hcapLinea": -0.5,
+    "hcapLocal": 2.4,
+    "hcapVisitante": 1.47
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401841519",
+   "date": "2026-08-23",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "14:45",
+   "home": "Sarmiento (Junín)",
+   "away": "Estudiantes de La Plata",
+   "homeId": "10158",
+   "awayId": "8",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
+   "lh": 1.494,
+   "la": 1.254,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 8.3,
+   "cornersH": 5.3,
+   "fouls": 26.3,
+   "cards": 4.7,
+   "note": "λ calculados ajustando ataque/defensa de Sarmiento (Junín) y Estudiantes de La Plata contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "r": "W",
+     "rival": "Huracán",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "W",
+     "rival": "Atlético Tucumán",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-3"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "2-3"
+    }
+   ],
+   "formA": [
+    {
+     "r": "W",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "r": "L",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Defensa y Justicia",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "r": "L",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "0-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "20/02/26",
+     "h": "Estudiantes de La Plata",
+     "a": "Sarmiento (Junín)",
+     "s": "1-0"
+    },
+    {
+     "d": "13/06/24",
+     "h": "Sarmiento (Junín)",
+     "a": "Estudiantes de La Plata",
+     "s": "2-0"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 6
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 5,
+     "pj": 4,
+     "g": 1,
+     "e": 2,
+     "p": 1,
+     "gf": 3
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 4,
+     "pj": 4,
+     "g": 1,
+     "e": 1,
+     "p": 2,
+     "gf": 2
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 5,
+     "g": 0,
+     "e": 2,
+     "p": 3,
+     "gf": 3
+    }
+   ],
+   "grupo": "Group B",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 3.3,
+    "empate": 2.95,
+    "visitante": 2.3,
+    "totalLinea": 1.5,
+    "totalOver": 1.49,
+    "totalUnder": 2.4,
+    "hcapLinea": 0.5,
+    "hcapLocal": 1.56,
+    "hcapVisitante": 2.15
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401841510",
+   "date": "2026-08-23",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "17:00",
+   "home": "Belgrano (Córdoba)",
+   "away": "Defensa y Justicia",
+   "homeId": "4",
+   "awayId": "8950",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
+   "lh": 1.94,
+   "la": 0.594,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 7.3,
+   "cornersH": 3.0,
+   "fouls": 24.3,
+   "cards": 4.0,
+   "note": "λ calculados ajustando ataque/defensa de Belgrano (Córdoba) y Defensa y Justicia contra toda la red de cruces de Liga Profesional Argentina esta temporada (25 y 20 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "W",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "r": "D",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formA": [
+    {
+     "r": "W",
+     "rival": "Newell's Old Boys",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "L",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "r": "D",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "20/02/26",
+     "h": "Defensa y Justicia",
+     "a": "Belgrano (Córdoba)",
+     "s": "1-1"
+    },
+    {
+     "d": "31/08/25",
+     "h": "Defensa y Justicia",
+     "a": "Belgrano (Córdoba)",
+     "s": "2-1"
+    },
+    {
+     "d": "24/02/25",
+     "h": "Belgrano (Córdoba)",
+     "a": "Defensa y Justicia",
+     "s": "2-0"
+    },
+    {
+     "d": "02/11/24",
+     "h": "Belgrano (Córdoba)",
+     "a": "Defensa y Justicia",
+     "s": "1-2"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 6
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 5,
+     "pj": 4,
+     "g": 1,
+     "e": 2,
+     "p": 1,
+     "gf": 3
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 4,
+     "pj": 4,
+     "g": 1,
+     "e": 1,
+     "p": 2,
+     "gf": 2
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 5,
+     "g": 0,
+     "e": 2,
+     "p": 3,
+     "gf": 3
+    }
+   ],
+   "grupo": "Group B",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401841518",
+   "date": "2026-08-23",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "19:15",
+   "home": "River Plate",
+   "away": "Vélez Sarsfield",
+   "homeId": "16",
+   "awayId": "21",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
+   "lh": 0.844,
+   "la": 0.875,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 9.7,
+   "cornersH": 5.3,
+   "fouls": 26.7,
+   "cards": 5.3,
+   "note": "λ calculados ajustando ataque/defensa de River Plate y Vélez Sarsfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (25 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "r": "W",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "r": "L",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "formA": [
+    {
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "r": "W",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "22/02/26",
+     "h": "Vélez Sarsfield",
+     "a": "River Plate",
+     "s": "1-0"
+    },
+    {
+     "d": "16/11/25",
+     "h": "Vélez Sarsfield",
+     "a": "River Plate",
+     "s": "0-0"
+    },
+    {
+     "d": "04/05/25",
+     "h": "River Plate",
+     "a": "Vélez Sarsfield",
+     "s": "4-1"
+    },
+    {
+     "d": "19/10/24",
+     "h": "River Plate",
+     "a": "Vélez Sarsfield",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 6
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 5,
+     "pj": 4,
+     "g": 1,
+     "e": 2,
+     "p": 1,
+     "gf": 3
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 4,
+     "pj": 4,
+     "g": 1,
+     "e": 1,
+     "p": 2,
+     "gf": 2
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 5,
+     "g": 0,
+     "e": 2,
+     "p": 3,
+     "gf": 3
+    }
+   ],
+   "grupo": "Group B",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401841517",
+   "date": "2026-08-23",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "21:30",
+   "home": "Racing Club",
+   "away": "Boca Juniors",
+   "homeId": "15",
+   "awayId": "5",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
+   "lh": 1.147,
+   "la": 1.076,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 11.0,
+   "cornersH": 5.3,
+   "fouls": 25.3,
+   "cards": 4.7,
+   "note": "λ calculados ajustando ataque/defensa de Racing Club y Boca Juniors contra toda la red de cruces de Liga Profesional Argentina esta temporada (23 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "r": "L",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "r": "L",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "r": "D",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "r": "W",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formA": [
+    {
+     "r": "D",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "r": "D",
+     "rival": "Vélez Sarsfield",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "r": "D",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "20/02/26",
+     "h": "Boca Juniors",
+     "a": "Racing Club",
+     "s": "0-0"
+    },
+    {
+     "d": "07/12/25",
+     "h": "Boca Juniors",
+     "a": "Racing Club",
+     "s": "0-1"
+    },
+    {
+     "d": "09/08/25",
+     "h": "Boca Juniors",
+     "a": "Racing Club",
+     "s": "1-1"
+    },
+    {
+     "d": "09/02/25",
+     "h": "Racing Club",
+     "a": "Boca Juniors",
+     "s": "2-0"
+    },
+    {
+     "d": "14/09/24",
+     "h": "Racing Club",
+     "a": "Boca Juniors",
+     "s": "2-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 6
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 5,
+     "g": 2,
+     "e": 1,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 5,
+     "pj": 4,
+     "g": 1,
+     "e": 2,
+     "p": 1,
+     "gf": 3
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 4,
+     "pj": 4,
+     "g": 1,
+     "e": 1,
+     "p": 2,
+     "gf": 2
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 5,
+     "g": 0,
+     "e": 2,
+     "p": 3,
+     "gf": 3
+    }
+   ],
+   "grupo": "Group B",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 3.0,
+    "empate": 2.8,
+    "visitante": 2.55,
+    "totalLinea": 1.5,
+    "totalOver": 1.51,
+    "totalUnder": 2.35,
+    "hcapLinea": 0.5,
+    "hcapLocal": 1.45,
+    "hcapVisitante": 2.4
    },
    "preload": {}
   }

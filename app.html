@@ -110,10 +110,16 @@ a{color:inherit}
    un elemento nuevo y una transición nunca llegaría a correr. Animar
    height, además, obliga a recalcular layout en cada cuadro — y acá
    serían 30 casillas a la vez en un día cargado. */
-.o .fill{position:absolute;left:0;right:0;bottom:0;z-index:-1;background:rgba(238,227,206,.085);
-  border-top:1px solid rgba(238,227,206,.30)}
-.o.val .fill{background:rgba(214,150,58,.20);border-top-color:var(--mostaza)}
-.o.alerta .fill{background:rgba(192,104,72,.17);border-top-color:var(--terracota)}
+/* Primer intento: relleno translúcido a .085 de opacidad. Invisible —
+   contra el fondo oscuro no se distinguía un 66% de un 14%, y el
+   elemento firma dejaba de cumplir lo único que tenía que hacer.
+   Ahora la línea de marca es sólida y gruesa, no un degradado sutil. */
+.o .fill{position:absolute;left:0;right:0;bottom:0;z-index:-1;background:rgba(238,227,206,.22)}
+.o .fill::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--tinta)}
+.o.val .fill{background:rgba(214,150,58,.34)}
+.o.val .fill::after{background:var(--mostaza)}
+.o.alerta .fill{background:rgba(192,104,72,.30)}
+.o.alerta .fill::after{background:var(--terracota)}
 .o span{display:block;font-size:7.5px;letter-spacing:.09em;color:var(--gris2);text-transform:uppercase}
 .o b{display:block;font-family:var(--mono);font-size:15px;font-weight:600;margin-top:3px;color:var(--tinta)}
 .o em{display:block;font-family:var(--mono);font-size:8.5px;font-style:normal;color:var(--gris2);margin-top:2px;letter-spacing:.04em}

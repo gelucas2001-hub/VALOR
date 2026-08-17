@@ -37,6 +37,15 @@
   --anton:'Anton',Impact,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --cuerpo:'Archivo',system-ui,sans-serif;
+  /* Escala de espacio. Antes cada bloque llevaba su propio número de
+     margen (9px acá, 11px allá, 13px más allá) elegido al escribir esa
+     línea puntual, sin relación con las de al lado — por eso el ritmo
+     se sentía desparejo aunque cada valor individual estuviera bien.
+     Una escala de progresión ~1.4 da pasos que se distinguen a simple
+     vista sin saltos raros. Los tamaños de fuente y anchos puntuales
+     (19px de escudo, 320px de cupón) quedan fuera: esto es solo el aire
+     entre bloques.*/
+  --e1:4px; --e2:6px; --e3:9px; --e4:13px; --e5:18px; --e6:26px; --e7:36px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
@@ -55,7 +64,7 @@ a{color:inherit}
 
 /* ── masthead ──────────────────────────────────────────────────── */
 .masthead{
-  background:var(--hueco);padding:calc(18px + env(safe-area-inset-top)) 16px 14px;
+  background:var(--hueco);padding:calc(var(--e5) + env(safe-area-inset-top)) 16px var(--e4);
   position:relative;
 }
 .masthead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--salvia)}
@@ -69,25 +78,36 @@ a{color:inherit}
 .wordmark .tilde{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--salvia);
   letter-spacing:.14em;padding-bottom:6px;white-space:nowrap}
 .kicker{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);
-  margin-top:9px;display:flex;align-items:center;gap:8px}
+  margin-top:var(--e3);display:flex;align-items:center;gap:8px}
 .kicker::after{content:"";flex:1;height:1px;background:var(--linea-punteada,#3A322580)}
 
-/* ── slider de días ────────────────────────────────────────────── */
-.days{display:flex;gap:5px;padding:14px 16px;background:var(--hueco);overflow-x:auto;scrollbar-width:none}
+/* ── carrusel de días ──────────────────────────────────────────────
+   Antes era una fila que scrolleaba sin más: cualquier día quedaba
+   donde quedaba, sin foco. Un carrusel de verdad tiene tres cosas que
+   esto no tenía — encastre (el dedo no lo deja "a mitad de camino"),
+   el elemento activo se centra solo, y hay profundidad entre lo que
+   está en foco y lo que no. Las tres son de layout/transform, no de
+   color: el día activo se distingue por tamaño y opacidad, nunca por
+   mostaza — esa sigue significando una sola cosa en toda la app. */
+.days{display:flex;gap:5px;padding:var(--e4) 16px;background:var(--hueco);
+  overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;scroll-padding:0 16px}
 .days::-webkit-scrollbar{display:none}
-.day{flex:1 0 54px;text-align:center;padding:7px 0;background:var(--panel);border:none}
+.day{flex:1 0 54px;text-align:center;padding:7px 0;background:var(--panel);border:none;
+  scroll-snap-align:center;opacity:.62;transform:scale(.93);
+  transition:opacity .25s ease,transform .25s ease}
 .day b{display:block;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--tinta)}
 .day span{display:block;font-size:7.5px;letter-spacing:.08em;color:var(--gris);text-transform:uppercase;margin-top:1px}
-.day.on{background:var(--tinta)}
+.day.on{background:var(--tinta);opacity:1;transform:scale(1)}
 .day.on b,.day.on span{color:var(--hueco)}
 .day.vacio b{color:var(--gris2)}
+@media (prefers-reduced-motion:reduce){.day{transition:none}}
 
 /* ── encabezado de liga ────────────────────────────────────────── */
-.lg{font-family:var(--anton);font-size:15px;color:var(--gris);padding:18px 16px 8px;display:flex;align-items:center;gap:9px;letter-spacing:.01em}
+.lg{font-family:var(--anton);font-size:15px;color:var(--gris);padding:var(--e5) 16px var(--e2);display:flex;align-items:center;gap:9px;letter-spacing:.01em}
 .lg::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,#3A322580 0 5px,transparent 5px 9px)}
 
 /* ── tarjeta de partido ────────────────────────────────────────── */
-.card{display:block;width:100%;text-align:left;margin:0 16px 10px;background:var(--panel);padding:13px 14px;border:none}
+.card{display:block;width:100%;text-align:left;margin:0 16px var(--e3);background:var(--panel);padding:var(--e4) 14px;border:none}
 .card:active{background:#28211a}
 .meta{font-family:var(--mono);font-size:9.5px;color:var(--gris);margin-bottom:9px;letter-spacing:.03em}
 .teams{font-family:var(--anton);font-size:17px;line-height:1.2;color:var(--tinta);margin-bottom:11px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
@@ -151,15 +171,15 @@ a{color:inherit}
 .dodds .o.alerta{background:var(--terracotaBg)}
 
 /* ── pestañas silenciosas: línea, nunca botón con caja ─────────── */
-.tabs{display:flex;gap:13px;padding:16px 14px 0;border-bottom:1px solid var(--linea2);margin-bottom:18px;overflow-x:auto;scrollbar-width:none}
+.tabs{display:flex;gap:13px;padding:var(--e5) 14px 0;border-bottom:1px solid var(--linea2);margin-bottom:var(--e5);overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);padding:0 0 10px;position:relative;white-space:nowrap;background:none;border:none}
 .tab.on{color:var(--tinta)}
 .tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--mostaza)}
 
 .sec{padding:0 16px}
-.lbl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin-bottom:10px}
-.lbl.sep{margin-top:24px}
+.lbl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin-bottom:var(--e3)}
+.lbl.sep{margin-top:var(--e6)}
 
 /* ── análisis: tipografía sola, sin caja. nota de revista ──────── */
 .an p{font-size:13.5px;line-height:1.7;color:var(--tinta2);margin:0 0 13px}
@@ -178,7 +198,7 @@ a{color:inherit}
 .escalera{position:relative;padding-left:24px;margin-top:6px}
 .escalera::before{content:"";position:absolute;left:4px;top:34px;bottom:30px;width:1px;
   background:repeating-linear-gradient(180deg,var(--gris3) 0 3px,transparent 3px 7px)}
-.rh{display:flex;align-items:baseline;gap:8px;margin:24px 0 2px;position:relative}
+.rh{display:flex;align-items:baseline;gap:8px;margin:var(--e6) 0 2px;position:relative}
 .peldano{position:absolute;left:-20px;top:8px;height:1px;background:var(--gris3)}
 .peldano::before{content:"";position:absolute;left:-2px;top:-2px;width:5px;height:5px;
   border-radius:50%;background:var(--gris3)}
@@ -197,10 +217,10 @@ a{color:inherit}
 .bet.val .l2 b{color:var(--mostaza)}
 .bet .valtag{font-family:var(--anton);font-size:10.5px;color:var(--mostaza);margin-top:7px;letter-spacing:.02em}
 .bet .expl{font-size:10.5px;color:var(--gris3);margin-top:5px;line-height:1.45}
-.foot{margin-top:22px;font-size:11px;line-height:1.6;color:var(--gris3);border-top:1px solid var(--linea);padding-top:13px}
+.foot{margin-top:var(--e6);font-size:11px;line-height:1.6;color:var(--gris3);border-top:1px solid var(--linea);padding-top:var(--e4)}
 
 /* ── historial ─────────────────────────────────────────────────── */
-.eqhd{display:flex;align-items:center;gap:8px;margin:20px 0 9px}
+.eqhd{display:flex;align-items:center;gap:8px;margin:var(--e5) 0 var(--e3)}
 .eqhd:first-child{margin-top:0}
 .eqhd b{font-family:var(--cuerpo);font-weight:600;font-size:13.5px}
 /* Tira de forma: los últimos cinco de un vistazo, antes del detalle.
@@ -241,10 +261,10 @@ a{color:inherit}
 .stand tr.me{background:var(--panel)}
 .stand tr.me td.l span{color:var(--tinta);font-weight:600}
 .stand tr.me td.rk{color:var(--mostaza)}
-.grupo{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin:20px 0 8px}
+.grupo{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin:var(--e5) 0 var(--e2)}
 
 /* ── plantel ───────────────────────────────────────────────────── */
-.eqblock{margin-bottom:26px}
+.eqblock{margin-bottom:var(--e6)}
 .eqblock .eqhd b{font-family:var(--anton);font-size:16px;font-weight:400}
 .blurb{font-size:12.5px;line-height:1.6;color:var(--tinta3);margin:0 0 13px}
 /* Comparativa: la misma tinta del cupón, ahora enfrentada. Las dos
@@ -279,7 +299,7 @@ a{color:inherit}
 .bankline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:var(--hueco);margin-bottom:18px;font-size:10.5px;color:var(--gris2)}
 .bankline b{color:var(--tinta3);font-family:var(--mono);font-weight:500}
 .bankline button{color:var(--gris2);text-decoration:underline;font-size:10.5px;padding:0}
-.grp{margin-bottom:16px}
+.grp{margin-bottom:var(--e5)}
 .gh{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);margin-bottom:8px}
 .mrow{padding:11px 0;border-top:1px solid var(--linea)}
 .mrow:first-of-type{border-top:none}
@@ -340,7 +360,15 @@ a{color:inherit}
    render, o se vuelve un tic. */
 @keyframes sube{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 .card{animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
-@media (prefers-reduced-motion:reduce){.card{animation:none}}
+
+/* El despliegue de pestaña: las pestañas están dispuestas en
+   horizontal, así que el contenido entra en horizontal — no la misma
+   animación vertical de las tarjetas puesta en otro lado. Un
+   desplazamiento chico (10px) y rápido, para que se sienta como pasar
+   la hoja, no como una transición de página completa. */
+@keyframes desliza{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.tabsec{animation:desliza .22s cubic-bezier(.22,1,.36,1)}
+@media (prefers-reduced-motion:reduce){.card,.tabsec{animation:none}}
 
 /* Carga: el esqueleto del cupón, no un spinner. Se ve lo que va a
    venir en vez de un símbolo que no dice nada. */
@@ -843,7 +871,7 @@ function viewPartido(){
       ${casilla("V","Visita",mk.visitante)}
     </div>
     <div class="tabs">${TABS.map(([k,l])=>`<button class="tab ${TAB===k?"on":""}" data-tab="${k}">${l}</button>`).join("")}</div>
-    <div class="sec">${cuerpo}</div>
+    <div class="sec tabsec">${cuerpo}</div>
     <div style="height:20px"></div>`;
 }
 
@@ -1268,6 +1296,12 @@ function render(){
     b.classList.toggle("on", activo);
   });
   window.scrollTo(0, 0);
+
+  /* El carrusel se centra solo: tocar "sábado" en el borde derecho no
+     debería dejarlo pegado al borde, tiene que traerlo al medio como
+     hace cualquier selector de fecha con encastre. */
+  const diaOn = document.querySelector(".day.on");
+  if(diaOn) diaOn.scrollIntoView({inline:"center", block:"nearest", behavior:"smooth"});
 }
 
 function ir(v, extra){

@@ -7,3 +7,6 @@ __pycache__/
 *.pyc
 .superpowers/
 data/_snapshot_antes.json
+.github/skills/
+skills-lock.json
+.agents/

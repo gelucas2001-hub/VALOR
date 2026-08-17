@@ -465,6 +465,43 @@ def fuerzas_equipos(resultados, hoy):
     return fuerzas, mu_local, mu_visita, partidos_por_equipo
 
 
+MIN_PARTIDOS_ANCLA = 8     # partidos en la liga local para que el ancla valga.
+                            # Más exigente que MIN_PARTIDOS_FUERZA (3) porque el
+                            # ancla se propaga a todos los partidos de copa de
+                            # ese equipo: si está mal, contamina más.
+
+
+def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom):
+    """(ataque, defensa) del equipo en SU liga local, o None.
+
+    Es el valor hacia el que la regularización va a empujar a este equipo
+    en la copa, en vez de empujarlo a 1.0 (el promedio de la copa). Un
+    equipo con 6 partidos de Libertadores no tiene fuerza medible ahí,
+    pero sí tiene ~23 en su liga: por eso el modelo hoy cree que Palmeiras
+    y un equipo chico son parecidos, y la localía termina decidiendo.
+
+    Devuelve None (y el llamador cae al comportamiento viejo) cuando no
+    se conoce la liga, la liga no responde, o el equipo tiene menos de
+    MIN_PARTIDOS_ANCLA partidos en ella.
+    """
+    slug_liga = liga_domestica(team_id, slug_consulta, cache_ligas)
+    if not slug_liga or slug_liga == slug_consulta:
+        return None            # ya lo estamos ajustando en esa misma competición
+
+    if slug_liga not in cache_dom:
+        try:
+            print(f"  · fuerza doméstica — {slug_liga}")
+            resultados = resultados_temporada(slug_liga, season, hoy)
+            cache_dom[slug_liga] = fuerzas_equipos(resultados, hoy)
+        except Exception:
+            cache_dom[slug_liga] = ({}, 1.0, 1.0, {})   # liga que no responde
+    fuerzas, _mu_l, _mu_v, pj = cache_dom[slug_liga]
+
+    if pj.get(str(team_id), 0) < MIN_PARTIDOS_ANCLA:
+        return None
+    return fuerzas.get(str(team_id))
+
+
 def main():
     hoy = datetime.date.today()
     ventana = {(hoy + datetime.timedelta(days=i)).isoformat() for i in range(DIAS_ADELANTE)}

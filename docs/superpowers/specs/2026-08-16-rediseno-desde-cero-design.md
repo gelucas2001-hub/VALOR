@@ -41,7 +41,7 @@ La app ya predica esto en Método ("si un mercado da más de +25% de EV, lo más
 
 ## Cómo se recomienda (reglas duras)
 
-Estas cuatro reglas resuelven la confusión de "qué vale y qué no", que fue el problema que más vueltas dio.
+Estas reglas resuelven la confusión de "qué vale y qué no", que fue el problema que más vueltas dio.
 
 **1. Escalera de riesgo — franjas medidas, no estimadas.** Cada partido ofrece la misma lectura a tres niveles. Verificado sobre los 33 partidos: los tres tienen opciones en las tres franjas, siempre.
 
@@ -59,7 +59,27 @@ Estas cuatro reglas resuelven la confusión de "qué vale y qué no", que fue el
 
 Para que esta regla signifique algo, la lectura debe venir de donde el modelo no llega — el análisis cualitativo. Si la lectura la produjera el propio modelo, filtrar por alineación sería circular (el modelo dándose la razón a sí mismo). De ahí se sigue: **solo se recomienda en partidos con análisis cargado.** Un partido sin analizar muestra datos y pronóstico, y dice claramente "todavía no estudiamos este partido" — no se ve roto, se ve honesto.
 
-**4. Umbral de cuota, no cuota de referencia.** Mostrar "@2.20" de DraftKings es una trampa: el usuario va a Betsson y encuentra 2.05, y no sabe si sigue conviniendo. En su lugar se muestra **"conviene si te pagan más de 1.36"** — funciona en cualquier casa y es una sola regla fácil de aplicar.
+**4. Umbral de cuota, no cuota de referencia.** Mostrar "@2.20" de DraftKings es una trampa: el usuario va a Betsson y encuentra 2.05, y no sabe si sigue conviniendo. En su lugar se muestra **"conviene si te pagan más de X"** — funciona en cualquier casa y es una sola regla fácil de aplicar.
+
+**X no es la cuota justa: es la justa más el margen de seguridad.** Una versión anterior mostraba la justa pelada (probabilidad 73.8% → "conviene arriba de 1.36"), y a 1.36 exacto la ventaja es **cero** — se estaría recomendando una apuesta neutra como si fuera buena. El umbral correcto usa el mismo mínimo de EV que ya rige en toda la app:
+
+```
+umbral = (1 / probabilidad) × (1 + umbral_de_EV)
+```
+
+Con 73.8% y el 4% de siempre: 1.36 × 1.04 = **1.41**. Eso también protege contra el error de estimación del propio modelo, que no es chico.
+
+**5. Regla de selección dentro de cada franja.** La franja sola no alcanza: si dentro de "lo más probable" se elige simplemente el porcentaje más alto, el sistema recomienda siempre lo mismo y algo inservible. Verificado sobre un partido real: los más probables eran "local no pierde por 2+" (91.4%) y "más de 0.5 goles" (89.4%) — mercados que pagan 1.09 y que muchas casas ni ofrecen destacados.
+
+La selección es entonces:
+
+1. **Lista corta de mercados que la gente juega y entiende:** 1X2, doble oportunidad (las tres), más/menos de 1.5-2.5-3.5 goles, y ambos marcan sí/no. Quedan fuera marcador exacto, hándicaps raros y las líneas de 0.5 goles (pagan 1.05-1.12: ruido disfrazado de apuesta).
+2. **Dentro de la franja, el de mayor ventaja sobre el mercado** (probabilidad nuestra menos la del mercado sin margen), pidiendo al menos 2pp.
+3. **Si ninguno tiene ventaja, el más cercano al centro de la franja** — el que mejor representa nuestra lectura, mostrado sin marca de valor.
+
+Verificado sobre los 33 partidos: la regla reparte entre mercados variados (doble oportunidad, 1X2, líneas de goles, ambos marcan) en vez de repetir siempre el mismo.
+
+**Advertencia sobre el orden de implementación:** el paso 2 depende de que la probabilidad del modelo sea confiable. Hoy, en copas, no lo es — el modelo aplana las diferencias entre equipos (ver "Hallazgos medidos") y eso genera ventajas aparentes que son error propio, no precio mal puesto. **La selección por ventaja no debe activarse en copas hasta que el ancla doméstica esté implementada y medida.** Hasta entonces, en copas rige el paso 3.
 
 **Y una regla de ritmo:** siempre hay pronóstico, no siempre hay recomendación. Habrá días sin nada que recomendar, y está bien — pero la app nunca debe quedarse sin opinión, o el usuario deja de abrirla.
 
@@ -81,7 +101,13 @@ Para que esta regla signifique algo, la lectura debe venir de donde el modelo no
 
 4. **Lesiones cuantificadas (descartado por ahora).** *Verificado 2026-08-16:* el endpoint de lesiones de ESPN responde vacío para equipos argentinos. No hay fuente gratuita, así que el contexto de bajas sigue siendo carga manual vía la skill de análisis. La idea de convertir una baja en ajuste de ataque/defensa queda pendiente de que exista una fuente, y de poder validar cuánto descontar.
 
-5. **xG — evaluado y descartado por ahora.** *Verificado 2026-08-16:* `/summary` de ESPN sí trae `expectedGoals`, pero **solo por jugador destacado**, no por equipo — sumar dos o tres líderes no da el xG del equipo. Lo que sí viene completo por equipo son remates, remates al arco y posesión. Medir si esas señales mejoran la estimación de fuerza frente a usar solo goles es una pregunta empírica para responder **después** de tener la vara del punto 2 construida.
+5. **Calibrar la probabilidad antes de publicarla (pendiente, con condición).** Hoy se muestra la probabilidad cruda del modelo. Lo correcto sería publicar una calibrada contra el histórico: `cruda → calibración → publicada`, y que el usuario vea solo la última. La app ya guarda franjas de calibración en `data/backtest.json` y tiene una función que las lee.
+
+   **No se implementa todavía por muestra insuficiente:** esas franjas hoy tienen entre 1 y 27 partidos cada una. Corregir una probabilidad con un bin de 1 partido no quita ruido, lo agrega, y encima disfraza de precisión algo que no la tiene. **Condición para activarlo: al menos 30 partidos por franja.** Hasta entonces se publica la cruda, y Método aclara que no está calibrada.
+
+6. **Puntaje interno de confiabilidad (pendiente).** Distinto de la probabilidad: dos partidos pueden dar 64% y tener calidad de estimación muy distinta (uno con 23 partidos de muestra y análisis cargado, otro con 4 y sin análisis). No va a la pantalla — la app ya decidió no mostrar semáforos de calidad. Va por dentro, y decide si se muestra recomendación, si se puede marcar valor, y qué franja de riesgo se habilita. Reemplaza a la vieja "Calidad del análisis", que hacía algo parecido pero visible y escalando el stake.
+
+7. **xG — evaluado y descartado por ahora.** *Verificado 2026-08-16:* `/summary` de ESPN sí trae `expectedGoals`, pero **solo por jugador destacado**, no por equipo — sumar dos o tres líderes no da el xG del equipo. Lo que sí viene completo por equipo son remates, remates al arco y posesión. Medir si esas señales mejoran la estimación de fuerza frente a usar solo goles es una pregunta empírica para responder **después** de tener la vara del punto 2 construida.
 
 ## Identidad visual
 
@@ -125,7 +151,7 @@ Tres destinos: **Fecha · Registro · Método**.
 Cabecera común: equipos, competición, hora, estadio, las tres cuotas, y el pronóstico.
 
 1. **Análisis** (default) — el bloque humano en lenguaje llano: bajas, DT, contexto. Viene de `data/analisis.json` (específico del cruce). Sin entrada cargada, no se muestra nada.
-2. **Pronósticos** — nuestra lectura del partido arriba, y debajo la escalera de riesgo con las cuatro reglas de la sección "Cómo se recomienda". Cada opción lleva su probabilidad, su umbral de cuota, y una línea que explica en castellano cuándo se cobra ("se te paga salvo que gane Banfield"). La combinada recomendada del partido vive acá como una opción más. Sin análisis cargado, esta pestaña dice que todavía no estudiamos el partido.
+2. **Pronósticos** — nuestra lectura del partido arriba, y debajo la escalera de riesgo con las reglas de la sección "Cómo se recomienda". Cada opción lleva su probabilidad, su umbral de cuota, y una línea que explica en castellano cuándo se cobra ("se te paga salvo que gane Banfield"). La combinada recomendada del partido vive acá como una opción más. Sin análisis cargado, esta pestaña dice que todavía no estudiamos el partido.
 3. **Historial** — forma reciente (rival, local/visita, marcador) y cruces directos. El "color" viene de escudos reales e intensidad tipográfica (blanco pleno = ganado, apagado = perdido), nunca de mostaza/terracota.
 4. **Posiciones** — tabla de la competición, con los dos equipos resaltados. Separada de Historial a pedido explícito.
 5. **Plantel** — resumen corto (2-3 líneas) de estilo y actualidad por equipo, desde `data/equipos.json`. Debajo, **estadísticas del equipo** (que sí tenemos sin costo) y el plantel agrupado por posición. **Las estadísticas por jugador se traen solo al tocar un jugador** — el roster de ESPN da nombre y posición, pero cada estadística individual es un pedido aparte; mostrarlas en la lista serían ~50 pedidos por pestaña.

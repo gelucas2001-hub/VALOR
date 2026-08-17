@@ -530,11 +530,47 @@ al anterior, así que arg.1 no se toca."
 **Files:**
 - Ninguno nuevo. Se corre `medir_sesgo.py` de la Tarea 1.
 
-- [ ] **Step 1: Medir después del cambio**
+**IMPORTANTE — cómo NO medir esto.** El cron reescribe `data/partidos.json` dos veces por día, así que dos corridas separadas en el tiempo miden **partidos distintos**. Medido en la práctica el 2026-08-16: el mismo código dio +12.3pp por la mañana y +8.7pp después de una actualización del cron, sin haber tocado una línea. Comparar "antes" y "después" contra archivos distintos produciría una conclusión inventada.
 
-Run: `python medir_sesgo.py`
+La comparación tiene que ser **sobre el mismo archivo**, cambiando solo el código.
 
-Expected: el sesgo de `local` en CONMEBOL Libertadores debe haber **bajado en valor absoluto** respecto del +12.3pp de la Tarea 1. Un resultado en el rango +2pp a +8pp es éxito. La magnitud media de desacuerdo (`|dif|`) también debería bajar del 15.1pp original.
+- [ ] **Step 1: Congelar un snapshot ANTES de tocar el modelo**
+
+Hacerlo antes de empezar la Tarea 4 (o recuperar el de ese momento desde git):
+
+```bash
+cp data/partidos.json data/_snapshot_antes.json
+python medir_sesgo.py data/_snapshot_antes.json
+```
+
+Anotar los cuatro números de la columna `local`. Ese es el "antes".
+
+- [ ] **Step 2: Regenerar ese mismo conjunto de partidos con el modelo nuevo**
+
+El snapshot tiene λ viejos, así que no alcanza con volver a medirlo — hay que recalcular las λ de **esos mismos partidos** con el ancla puesta. La forma más simple y honesta: correr `python actualizar.py` y quedarse solo con los partidos que están en las dos versiones, comparando por `id`:
+
+```bash
+python -c "
+import json, sys
+sys.path.insert(0, '.')
+import medir_sesgo as MS
+antes = json.load(open('data/_snapshot_antes.json', encoding='utf-8'))
+ahora = json.load(open('data/partidos.json', encoding='utf-8'))
+if isinstance(antes, dict): antes = antes.get('partidos', [])
+if isinstance(ahora, dict): ahora = ahora.get('partidos', [])
+comunes = {m['id'] for m in antes} & {m['id'] for m in ahora}
+print(f'partidos en ambas versiones: {len(comunes)}')
+for etiqueta, datos in (('ANTES', antes), ('DESPUES', ahora)):
+    r = MS.sesgo_por_competicion([m for m in datos if m['id'] in comunes])
+    print(f'--- {etiqueta} ---')
+    for c in sorted(r):
+        print(f'  {c:34} n={r[c][\"n\"]:3} local {r[c][\"local\"]*100:+6.1f}pp  |dif| {r[c][\"magnitud\"]*100:5.1f}pp')
+"
+```
+
+Expected: el sesgo de `local` en CONMEBOL Libertadores **baja en valor absoluto** entre ANTES y DESPUÉS, sobre el mismo conjunto de partidos. Cualquier mejora es señal; una caída a la mitad o más es un buen resultado.
+
+**Ojo con el tamaño de muestra:** con 8 partidos por copa, el ruido es grande. Una mejora de menos de 2pp no es concluyente — no la vendas como éxito.
 
 - [ ] **Step 2: Interpretar honestamente**
 

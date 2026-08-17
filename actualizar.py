@@ -410,6 +410,9 @@ def resultados_temporada(slug, season, hoy):
         partidos.append({
             "fecha": fecha, "home": loc["team"]["id"], "away": vis["team"]["id"],
             "gh": gh, "ga": ga,
+            # el id del evento no lo usa el ajuste de fuerzas, pero sirve para
+            # cruzar contra los pronósticos ya registrados (registrar_pronosticos)
+            "id": ev.get("id", ""),
         })
     return partidos
 
@@ -488,6 +491,10 @@ MIN_PARTIDOS_ANCLA = 8     # partidos en la liga local para que el ancla valga.
                             # ancla se propaga a todos los partidos de copa de
                             # ese equipo: si está mal, contamina más.
 FACTORES_LIGA = Path("data/factores_liga.json")   # lo genera calibrar_ligas.py
+HISTORIAL_PRON = Path("data/historial_pronosticos.json")  # qué dijimos nosotros y
+                            # qué decía la línea, por partido. Crece con el
+                            # tiempo; nunca se borra. Es la única forma de medir
+                            # copas, donde no hay dataset histórico de cuotas.
 
 
 def factores_liga():
@@ -549,6 +556,73 @@ def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factor
     q = (factores or {}).get(slug_liga, 1.0)
     ataque, defensa = par
     return (ataque * q, defensa / q)
+
+
+def registrar_pronosticos(partidos, season, hoy):
+    """Guarda, por partido, qué probabilidad implicaba la línea y con qué
+    λ pronosticamos nosotros — y resuelve los que ya se jugaron.
+
+    Existe porque ESPN borra las cuotas cuando el partido termina: si no
+    las capturamos ahora, después no hay forma de saber qué decía el
+    mercado. Para Liga Profesional hay dataset histórico (ver
+    medir_vs_mercado.py), pero para copas esto es la única fuente posible.
+
+    Guarda λ y rho en vez de la probabilidad ya calculada: así, si mañana
+    cambia la fórmula, se puede recalcular qué habríamos dicho con el
+    modelo de hoy sobre partidos viejos.
+    """
+    hist = {}
+    if HISTORIAL_PRON.exists():
+        try:
+            hist = json.loads(HISTORIAL_PRON.read_text(encoding="utf-8"))
+        except Exception:
+            hist = {}
+
+    nuevos = 0
+    for m in partidos:
+        mk = m.get("mercado")
+        if m["id"] in hist or not mk or not mk.get("local"):
+            continue
+        crudas = [1 / mk["local"], 1 / mk["empate"], 1 / mk["visitante"]]
+        tot = sum(crudas)
+        hist[m["id"]] = {
+            "fecha": m["date"], "comp": m["comp"],
+            "home": m["home"], "away": m["away"],
+            "lh": m["lh"], "la": m["la"], "rho": m["rho"],
+            "mercado": [round(x / tot, 4) for x in crudas],   # ya sin margen
+            "cuotas": [mk["local"], mk["empate"], mk["visitante"]],
+            "resultado": None,
+        }
+        nuevos += 1
+
+    # Resolver los pendientes: un pedido por competición, no uno por partido.
+    pendientes = [k for k, v in hist.items() if v["resultado"] is None]
+    resueltos_ahora = 0
+    if pendientes:
+        slug_de = {meta["nombre"]: slug for slug, meta in COMPETICIONES.items()}
+        por_comp = {}
+        for k in pendientes:
+            por_comp.setdefault(hist[k]["comp"], []).append(k)
+        for comp, claves in por_comp.items():
+            slug = slug_de.get(comp)
+            if not slug:
+                continue
+            try:
+                jugados = {f"espn{p['id']}": p
+                           for p in resultados_temporada(slug, season, hoy)}
+            except Exception:
+                continue
+            for k in claves:
+                p = jugados.get(k)
+                if p:
+                    hist[k]["resultado"] = [int(p["gh"]), int(p["ga"])]
+                    resueltos_ahora += 1
+
+    HISTORIAL_PRON.write_text(json.dumps(hist, ensure_ascii=False, indent=1),
+                              encoding="utf-8")
+    total_resueltos = sum(1 for v in hist.values() if v["resultado"])
+    print(f"· pronósticos: {len(hist)} registrados (+{nuevos} nuevos) · "
+          f"{total_resueltos} resueltos (+{resueltos_ahora})")
 
 
 def main():
@@ -757,6 +831,8 @@ def main():
     CACHE_DISCIPLINA.write_text(json.dumps(cache_resumen, ensure_ascii=False), encoding="utf-8")
     CACHE_LIGAS.write_text(json.dumps(cache_ligas, ensure_ascii=False, indent=1),
                            encoding="utf-8")
+
+    registrar_pronosticos(partidos, season, hoy)
 
     con_h2h = sum(1 for p in partidos if p["h2h"])
     con_tabla = sum(1 for p in partidos if p["tabla"])

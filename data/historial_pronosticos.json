@@ -1,0 +1,502 @@
+{
+ "espn401841498": {
+  "fecha": "2026-08-17",
+  "comp": "Liga Profesional Argentina",
+  "home": "Estudiantes de Río Cuarto",
+  "away": "Atlético Tucumán",
+  "lh": 0.641,
+  "la": 0.825,
+  "rho": 0.05,
+  "mercado": [
+   0.3107,
+   0.3384,
+   0.3509
+  ],
+  "cuotas": [
+   3.05,
+   2.8,
+   2.7
+  ],
+  "resultado": null
+ },
+ "espn401841507": {
+  "fecha": "2026-08-17",
+  "comp": "Liga Profesional Argentina",
+  "home": "Lanús",
+  "away": "Independiente",
+  "lh": 1.095,
+  "la": 0.681,
+  "rho": 0.05,
+  "mercado": [
+   0.4088,
+   0.3187,
+   0.2725
+  ],
+  "cuotas": [
+   2.3,
+   2.95,
+   3.45
+  ],
+  "resultado": null
+ },
+ "espn401841495": {
+  "fecha": "2026-08-17",
+  "comp": "Liga Profesional Argentina",
+  "home": "Vélez Sarsfield",
+  "away": "Defensa y Justicia",
+  "lh": 1.931,
+  "la": 0.712,
+  "rho": 0.05,
+  "mercado": [
+   0.5268,
+   0.2671,
+   0.2061
+  ],
+  "cuotas": [
+   1.8,
+   3.55,
+   4.6
+  ],
+  "resultado": null
+ },
+ "espn401841500": {
+  "fecha": "2026-08-17",
+  "comp": "Liga Profesional Argentina",
+  "home": "Gimnasia (Mendoza)",
+  "away": "Talleres (Córdoba)",
+  "lh": 1.245,
+  "la": 0.873,
+  "rho": 0.05,
+  "mercado": [
+   0.3199,
+   0.337,
+   0.3431
+  ],
+  "cuotas": [
+   2.95,
+   2.8,
+   2.75
+  ],
+  "resultado": null
+ },
+ "espn401896916": {
+  "fecha": "2026-08-18",
+  "comp": "Copa Argentina",
+  "home": "Deportivo Riestra",
+  "away": "Gimnasia La Plata",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.2619,
+   0.3508,
+   0.3873
+  ],
+  "cuotas": [
+   3.55,
+   2.65,
+   2.4
+  ],
+  "resultado": null
+ },
+ "espn401874156": {
+  "fecha": "2026-08-18",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Independiente Rivadavia",
+  "away": "Fluminense",
+  "lh": 1.223,
+  "la": 0.594,
+  "rho": 0.0,
+  "mercado": [
+   0.3909,
+   0.3291,
+   0.28
+  ],
+  "cuotas": [
+   2.4,
+   2.85,
+   3.35
+  ],
+  "resultado": null
+ },
+ "espn401903231": {
+  "fecha": "2026-08-18",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Deportivo Recoleta",
+  "away": "Boca Juniors",
+  "lh": 1.385,
+  "la": 1.64,
+  "rho": 0.0,
+  "mercado": [
+   0.1947,
+   0.2459,
+   0.5595
+  ],
+  "cuotas": [
+   4.8,
+   3.8,
+   1.67
+  ],
+  "resultado": null
+ },
+ "espn401872289": {
+  "fecha": "2026-08-18",
+  "comp": "Copa Argentina",
+  "home": "Banfield",
+  "away": "Midland",
+  "lh": 1.474,
+  "la": 1.026,
+  "rho": 0.0,
+  "mercado": [
+   0.4985,
+   0.2742,
+   0.2274
+  ],
+  "cuotas": [
+   1.87,
+   3.4,
+   4.1
+  ],
+  "resultado": null
+ },
+ "espn401874152": {
+  "fecha": "2026-08-18",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Deportes Tolima",
+  "away": "Independiente del Valle",
+  "lh": 1.153,
+  "la": 1.583,
+  "rho": 0.0,
+  "mercado": [
+   0.3221,
+   0.2966,
+   0.3813
+  ],
+  "cuotas": [
+   2.9,
+   3.15,
+   2.45
+  ],
+  "resultado": null
+ },
+ "espn401874163": {
+  "fecha": "2026-08-18",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Universidad Católica",
+  "away": "Estudiantes de La Plata",
+  "lh": 1.114,
+  "la": 0.745,
+  "rho": 0.0,
+  "mercado": [
+   0.3578,
+   0.3101,
+   0.3322
+  ],
+  "cuotas": [
+   2.6,
+   3.0,
+   2.8
+  ],
+  "resultado": null
+ },
+ "espn401903294": {
+  "fecha": "2026-08-18",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "São Paulo",
+  "away": "Bolívar",
+  "lh": 1.356,
+  "la": 0.85,
+  "rho": 0.0,
+  "mercado": [
+   0.6503,
+   0.2066,
+   0.1431
+  ],
+  "cuotas": [
+   1.43,
+   4.5,
+   6.5
+  ],
+  "resultado": null
+ },
+ "espn401874155": {
+  "fecha": "2026-08-19",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Cerro Porteño",
+  "away": "Palmeiras",
+  "lh": 0.964,
+  "la": 0.752,
+  "rho": 0.0,
+  "mercado": [
+   0.192,
+   0.2766,
+   0.5314
+  ],
+  "cuotas": [
+   4.9,
+   3.4,
+   1.77
+  ],
+  "resultado": null
+ },
+ "espn401874143": {
+  "fecha": "2026-08-19",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Coquimbo Unido",
+  "away": "Platense",
+  "lh": 1.243,
+  "la": 0.779,
+  "rho": 0.0,
+  "mercado": [
+   0.3972,
+   0.3111,
+   0.2917
+  ],
+  "cuotas": [
+   2.35,
+   3.0,
+   3.2
+  ],
+  "resultado": null
+ },
+ "espn401896387": {
+  "fecha": "2026-08-19",
+  "comp": "Copa Argentina",
+  "home": "Racing Club",
+  "away": "Belgrano (Córdoba)",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.3137,
+   0.3305,
+   0.3559
+  ],
+  "cuotas": [
+   2.95,
+   2.8,
+   2.6
+  ],
+  "resultado": null
+ },
+ "espn401874141": {
+  "fecha": "2026-08-19",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Flamengo",
+  "away": "Cruzeiro",
+  "lh": 1.428,
+  "la": 0.598,
+  "rho": 0.0,
+  "mercado": [
+   0.5645,
+   0.2661,
+   0.1694
+  ],
+  "cuotas": [
+   1.65,
+   3.5,
+   5.5
+  ],
+  "resultado": null
+ },
+ "espn401903232": {
+  "fecha": "2026-08-19",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Independiente Santa Fe",
+  "away": "River Plate",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.2703,
+   0.3058,
+   0.4239
+  ],
+  "cuotas": [
+   3.45,
+   3.05,
+   2.2
+  ],
+  "resultado": null
+ },
+ "espn401902571": {
+  "fecha": "2026-08-19",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Montevideo City Torque",
+  "away": "Tigre",
+  "lh": 1.278,
+  "la": 0.766,
+  "rho": 0.0,
+  "mercado": [
+   0.3512,
+   0.2908,
+   0.358
+  ],
+  "cuotas": [
+   2.65,
+   3.2,
+   2.6
+  ],
+  "resultado": null
+ },
+ "espn401874142": {
+  "fecha": "2026-08-20",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Liga de Quito",
+  "away": "Mirassol",
+  "lh": 1.292,
+  "la": 0.662,
+  "rho": 0.0,
+  "mercado": [
+   0.5728,
+   0.2427,
+   0.1845
+  ],
+  "cuotas": [
+   1.61,
+   3.8,
+   5.0
+  ],
+  "resultado": null
+ },
+ "espn401902740": {
+  "fecha": "2026-08-20",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Club Olimpia",
+  "away": "Vasco da Gama",
+  "lh": 1.13,
+  "la": 0.65,
+  "rho": 0.0,
+  "mercado": [
+   0.3914,
+   0.2967,
+   0.3118
+  ],
+  "cuotas": [
+   2.35,
+   3.1,
+   2.95
+  ],
+  "resultado": null
+ },
+ "espn401902449": {
+  "fecha": "2026-08-20",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Macará",
+  "away": "Santos",
+  "lh": 1.948,
+  "la": 1.182,
+  "rho": 0.0,
+  "mercado": [
+   0.3362,
+   0.3082,
+   0.3556
+  ],
+  "cuotas": [
+   2.75,
+   3.0,
+   2.6
+  ],
+  "resultado": null
+ },
+ "espn401874149": {
+  "fecha": "2026-08-20",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Corinthians",
+  "away": "Rosario Central",
+  "lh": 0.626,
+  "la": 0.425,
+  "rho": 0.0,
+  "mercado": [
+   0.4852,
+   0.3089,
+   0.2059
+  ],
+  "cuotas": [
+   1.91,
+   3.0,
+   4.5
+  ],
+  "resultado": null
+ },
+ "espn401902741": {
+  "fecha": "2026-08-20",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Botafogo",
+  "away": "Cienciano del Cusco",
+  "lh": 1.799,
+  "la": 2.236,
+  "rho": 0.0,
+  "mercado": [
+   0.8454,
+   0.097,
+   0.0576
+  ],
+  "cuotas": [
+   1.09,
+   9.5,
+   16.0
+  ],
+  "resultado": null
+ },
+ "espn401841522": {
+  "fecha": "2026-08-21",
+  "comp": "Liga Profesional Argentina",
+  "home": "Aldosivi",
+  "away": "Unión (Santa Fe)",
+  "lh": 1.162,
+  "la": 0.989,
+  "rho": 0.05,
+  "mercado": [
+   0.2744,
+   0.317,
+   0.4086
+  ],
+  "cuotas": [
+   3.35,
+   2.9,
+   2.25
+  ],
+  "resultado": null
+ },
+ "espn401841513": {
+  "fecha": "2026-08-22",
+  "comp": "Liga Profesional Argentina",
+  "home": "Huracán",
+  "away": "Deportivo Riestra",
+  "lh": 1.069,
+  "la": 0.673,
+  "rho": 0.05,
+  "mercado": [
+   0.4744,
+   0.3246,
+   0.2011
+  ],
+  "cuotas": [
+   1.95,
+   2.85,
+   4.6
+  ],
+  "resultado": null
+ },
+ "espn401841516": {
+  "fecha": "2026-08-22",
+  "comp": "Liga Profesional Argentina",
+  "home": "Newell's Old Boys",
+  "away": "Banfield",
+  "lh": 1.211,
+  "la": 0.867,
+  "rho": 0.05,
+  "mercado": [
+   0.4226,
+   0.2999,
+   0.2775
+  ],
+  "cuotas": [
+   2.2,
+   3.1,
+   3.35
+  ],
+  "resultado": null
+ }
+}

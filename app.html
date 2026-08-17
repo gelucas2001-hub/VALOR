@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171310">
+<title>VALOR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   VALOR — hoja de estilo
+
+   Un color, un solo trabajo. Nunca un tercer color funcional, nunca
+   semáforo verde/amarillo/rojo, nunca mostaza para selección de UI:
+   confundir "seleccionado" con "hay valor" es el error que más caro
+   paga el usuario.
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  --fondo:#1B1611;      /* casi negro tibio: noche de cancha */
+  --hueco:#171310;      /* más hondo que el fondo: masthead, cajas hundidas */
+  --panel:#221C15;      /* tarjeta */
+  --tinta:#EEE3CE;      /* texto y SELECCIONADO */
+  --tinta2:#D8CDB4;
+  --tinta3:#B8AD95;
+  --gris:#8C7F68;
+  --gris2:#6E6350;
+  --gris3:#5C513F;
+  --linea:#241D16;
+  --linea2:#2A2318;
+  --mostaza:#D6963A;    /* VALOR. y nada más */
+  --mostazaBg:#2E2210;
+  --terracota:#C06848;  /* ALERTA. y nada más */
+  --terracotaBg:#2B1912;
+  --salvia:#6B7A5E;     /* decorativo, sin trabajo funcional */
+  --anton:'Anton',Impact,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --cuerpo:'Archivo',system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--fondo);color:var(--tinta);
+  font-family:var(--cuerpo);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.app{max-width:520px;margin:0 auto;position:relative}
+
+/* ── masthead ──────────────────────────────────────────────────── */
+.masthead{
+  background:var(--hueco);padding:calc(18px + env(safe-area-inset-top)) 16px 14px;
+  position:relative;
+}
+.masthead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--salvia)}
+.wordmark{font-family:var(--anton);font-size:32px;line-height:1;letter-spacing:.01em}
+.kicker{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);margin-top:5px}
+
+/* ── slider de días ────────────────────────────────────────────── */
+.days{display:flex;gap:5px;padding:14px 16px;background:var(--hueco);overflow-x:auto;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:1 0 54px;text-align:center;padding:7px 0;background:var(--panel);border:none}
+.day b{display:block;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--tinta)}
+.day span{display:block;font-size:7.5px;letter-spacing:.08em;color:var(--gris);text-transform:uppercase;margin-top:1px}
+.day.on{background:var(--tinta)}
+.day.on b,.day.on span{color:var(--hueco)}
+.day.vacio b{color:var(--gris2)}
+
+/* ── encabezado de liga ────────────────────────────────────────── */
+.lg{font-family:var(--anton);font-size:15px;color:var(--gris);padding:18px 16px 8px;display:flex;align-items:center;gap:9px;letter-spacing:.01em}
+.lg::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,#3A322580 0 5px,transparent 5px 9px)}
+
+/* ── tarjeta de partido ────────────────────────────────────────── */
+.card{display:block;width:100%;text-align:left;margin:0 16px 10px;background:var(--panel);padding:13px 14px;border:none}
+.card:active{background:#28211a}
+.meta{font-family:var(--mono);font-size:9.5px;color:var(--gris);margin-bottom:9px;letter-spacing:.03em}
+.teams{font-family:var(--anton);font-size:17px;line-height:1.2;color:var(--tinta);margin-bottom:11px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.teams i{color:var(--gris3);font-style:normal;font-size:12px;font-family:var(--cuerpo)}
+.crest{width:19px;height:19px;object-fit:contain;flex:0 0 19px;border-radius:2px}
+.crest.ph{background:#3A3122;border-radius:50%}
+
+.odds{display:flex;gap:6px}
+.o{flex:1;background:var(--hueco);padding:7px 2px;text-align:center;min-width:0}
+.o span{display:block;font-size:7.5px;letter-spacing:.09em;color:var(--gris2);text-transform:uppercase}
+.o b{display:block;font-family:var(--mono);font-size:15px;font-weight:600;margin-top:3px;color:var(--tinta)}
+.o.val{background:var(--mostazaBg)}
+.o.val b{color:var(--mostaza)}
+.o.alerta{background:var(--terracotaBg)}
+.o.alerta b{color:var(--terracota)}
+.o.sin b{color:var(--gris2)}
+
+.sig{margin-top:10px;font-family:var(--anton);font-size:11px;letter-spacing:.02em;color:var(--mostaza)}
+.sig.alerta{color:var(--terracota)}
+.pron{margin-top:6px;font-size:11.5px;line-height:1.45;color:var(--tinta3)}
+.pron b{color:var(--tinta);font-weight:600}
+.quiet{margin-top:9px;font-size:10.5px;color:var(--gris3)}
+
+/* ── detalle: cabecera ─────────────────────────────────────────── */
+.top{padding:calc(14px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px;background:var(--hueco)}
+.back{font-family:var(--mono);font-size:16px;color:var(--gris);padding:0 4px 0 0}
+.comp{font-family:var(--mono);font-size:10px;color:var(--gris);letter-spacing:.06em}
+.head{padding:14px 16px 16px;text-align:center;background:var(--hueco)}
+.head .teams{font-family:var(--anton);font-size:21px;justify-content:center;margin-bottom:5px}
+.head .meta{margin:0;text-align:center}
+
+.dodds{display:flex;gap:6px;padding:14px 16px 0}
+.dodds .o{background:var(--panel)}
+.dodds .o.val{background:var(--mostazaBg)}
+.dodds .o.alerta{background:var(--terracotaBg)}
+
+/* ── pestañas silenciosas: línea, nunca botón con caja ─────────── */
+.tabs{display:flex;gap:13px;padding:16px 14px 0;border-bottom:1px solid var(--linea2);margin-bottom:18px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);padding:0 0 10px;position:relative;white-space:nowrap;background:none;border:none}
+.tab.on{color:var(--tinta)}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--mostaza)}
+
+.sec{padding:0 16px}
+.lbl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin-bottom:10px}
+.lbl.sep{margin-top:24px}
+
+/* ── análisis: tipografía sola, sin caja. nota de revista ──────── */
+.an p{font-size:13.5px;line-height:1.7;color:var(--tinta2);margin:0 0 13px}
+.an .veredicto{color:var(--tinta);font-weight:600}
+.an .fuente{font-size:10px;color:var(--gris3);font-style:italic;margin-top:14px}
+.vacio{padding:22px 0 8px;font-size:12.5px;line-height:1.7;color:#7E7360}
+.vacio b{color:var(--tinta3);display:block;margin-bottom:8px;font-weight:600;font-size:14px}
+
+/* ── pronósticos: lectura + escalera de riesgo ─────────────────── */
+.read{margin-bottom:4px}
+.read .big{font-family:var(--anton);font-size:19px;line-height:1.25;margin:0 0 7px;color:var(--tinta)}
+.read p{font-size:12.5px;line-height:1.6;color:var(--tinta3);margin:0}
+.rh{display:flex;align-items:baseline;gap:8px;margin:24px 0 2px}
+.rh b{font-family:var(--anton);font-size:13.5px;color:var(--tinta2);letter-spacing:.02em}
+.rh .pct{font-family:var(--mono);font-size:10px;color:var(--gris3);margin-left:auto}
+.rsub{font-size:10.5px;color:var(--gris3);margin:0 0 9px}
+.bet{background:var(--panel);padding:11px 12px;margin-bottom:6px}
+.bet.val{background:var(--mostazaBg)}
+.bet .l1{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.bet .mkt{font-size:13.5px;color:var(--tinta)}
+.bet .prob{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--tinta3);flex:0 0 auto}
+.bet.val .prob{color:var(--mostaza)}
+.bet .l2{font-family:var(--mono);font-size:10.5px;color:var(--gris2)}
+.bet .l2 b{color:var(--tinta3);font-weight:500}
+.bet.val .l2 b{color:var(--mostaza)}
+.bet .valtag{font-family:var(--anton);font-size:10.5px;color:var(--mostaza);margin-top:7px;letter-spacing:.02em}
+.bet .expl{font-size:10.5px;color:var(--gris3);margin-top:5px;line-height:1.45}
+.foot{margin-top:22px;font-size:11px;line-height:1.6;color:var(--gris3);border-top:1px solid var(--linea);padding-top:13px}
+
+/* ── historial ─────────────────────────────────────────────────── */
+.eqhd{display:flex;align-items:center;gap:8px;margin:20px 0 9px}
+.eqhd:first-child{margin-top:0}
+.eqhd b{font-family:var(--cuerpo);font-weight:600;font-size:13.5px}
+.frow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
+.frow:first-of-type{border-top:none}
+.frow .r{width:16px;height:16px;display:grid;place-items:center;font-family:var(--mono);font-size:9px;font-weight:700;flex:0 0 16px}
+.frow .r.W{background:var(--tinta);color:var(--hueco)}
+.frow .r.D{background:#4A4030;color:var(--tinta3)}
+.frow .r.L{background:var(--linea2);color:var(--gris2)}
+.frow .rival{flex:1;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frow .loc{font-family:var(--mono);font-size:9.5px;color:var(--gris2);flex:0 0 34px}
+.frow .sc{font-family:var(--mono);color:var(--gris);flex:0 0 38px;text-align:right}
+.h2hrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--linea);font-size:11.5px}
+.h2hrow:first-of-type{border-top:none}
+.h2hrow .dt{font-family:var(--mono);font-size:9.5px;color:var(--gris2);flex:0 0 auto}
+.h2hrow .sc{font-family:var(--mono);color:var(--tinta);font-weight:600}
+
+/* ── posiciones ────────────────────────────────────────────────── */
+.stand{width:100%;border-collapse:collapse;font-size:11.5px}
+.stand th{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;color:var(--gris2);text-transform:uppercase;text-align:right;padding:0 0 8px;font-weight:400}
+.stand th.l{text-align:left}
+.stand td{padding:7px 0;border-top:1px solid var(--linea);text-align:right;font-family:var(--mono);color:var(--gris)}
+.stand td.l{text-align:left;font-family:var(--cuerpo)}
+.stand td.l .wrap{display:flex;align-items:center;gap:7px}
+.stand td.l span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stand td.rk{width:18px}
+.stand td.pts{color:var(--tinta);font-weight:600}
+.stand tr.me{background:var(--panel)}
+.stand tr.me td.l span{color:var(--tinta);font-weight:600}
+.stand tr.me td.rk{color:var(--mostaza)}
+.grupo{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin:20px 0 8px}
+
+/* ── plantel ───────────────────────────────────────────────────── */
+.eqblock{margin-bottom:26px}
+.eqblock .eqhd b{font-family:var(--anton);font-size:16px;font-weight:400}
+.blurb{font-size:12.5px;line-height:1.6;color:var(--tinta3);margin:0 0 13px}
+.tstats{display:flex;gap:6px;margin-bottom:6px}
+.tstats .t{flex:1;background:var(--panel);padding:8px 2px;text-align:center;min-width:0}
+.tstats .t span{display:block;font-size:7px;letter-spacing:.07em;color:var(--gris2);text-transform:uppercase}
+.tstats .t b{display:block;font-family:var(--mono);font-size:14px;font-weight:600;margin-top:3px}
+
+/* ── herramientas ──────────────────────────────────────────────── */
+.expl{font-size:11.5px;line-height:1.55;color:#7E7360;margin:0 0 18px}
+.askbank{padding:22px 0;text-align:center}
+.askbank b{display:block;font-size:15px;color:var(--tinta2);margin-bottom:7px;font-weight:600}
+.askbank p{font-size:11.5px;color:#7E7360;line-height:1.55;margin:0 0 16px}
+.campo{width:100%;background:var(--panel);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:18px;text-align:center;padding:12px 0;border-radius:2px}
+.askbank small{display:block;font-size:10px;color:var(--gris3);margin:6px 0 14px}
+.btn{width:100%;background:var(--mostaza);color:var(--hueco);border:none;padding:12px 0;font-family:var(--anton);font-size:14px;letter-spacing:.02em}
+.bankline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:var(--hueco);margin-bottom:18px;font-size:10.5px;color:var(--gris2)}
+.bankline b{color:var(--tinta3);font-family:var(--mono);font-weight:500}
+.bankline button{color:var(--gris2);text-decoration:underline;font-size:10.5px;padding:0}
+.grp{margin-bottom:16px}
+.gh{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);margin-bottom:8px}
+.mrow{padding:11px 0;border-top:1px solid var(--linea)}
+.mrow:first-of-type{border-top:none}
+.mrow .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
+.mrow .mkt{font-size:13px;color:var(--tinta2)}
+.mrow .modelo{font-family:var(--mono);font-size:10px;color:var(--gris2);flex:0 0 auto}
+.inrow{display:flex;gap:10px;align-items:center}
+.inrow input{flex:1;min-width:0;background:var(--hueco);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:13px;text-align:center;padding:8px 0;border-radius:2px}
+.inrow input::placeholder{color:#4A4030}
+.out{flex:1.4;display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.out .ev{font-family:var(--mono);font-size:11px;color:var(--gris2)}
+.out .ev.pos{color:var(--mostaza)}
+.out .ev.neg{color:var(--terracota)}
+.juega{text-align:right}
+.juega span{display:block;font-size:8.5px;color:var(--gris2);text-transform:uppercase;letter-spacing:.06em}
+.juega b{font-family:var(--mono);font-size:15px;color:var(--mostaza);font-weight:600}
+
+/* ── registro ──────────────────────────────────────────────────── */
+.ledger{display:flex;margin:0 16px 6px;background:var(--panel)}
+.ledger div{flex:1;text-align:center;padding:12px 4px;border-right:1px solid var(--linea2);min-width:0}
+.ledger div:last-child{border-right:none}
+.ledger small{display:block;font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);margin-bottom:4px}
+.ledger b{font-family:var(--mono);font-size:15px;font-weight:600}
+.ledger b.pos{color:var(--mostaza)}
+.ledger b.neg{color:var(--terracota)}
+.chart{margin:14px 16px 4px;height:56px;width:calc(100% - 32px)}
+.filters{display:flex;gap:6px;padding:14px 16px 0;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-family:var(--mono);font-size:10px;color:var(--gris2);background:var(--panel);padding:6px 11px;white-space:nowrap;border:none}
+.chip.on{background:var(--tinta);color:var(--hueco)}
+.lbet{margin:0 16px;padding:12px 0;border-top:1px solid var(--linea)}
+.lbet .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.lbet .mkt{font-size:12.5px;color:var(--tinta2)}
+.lbet .stake{font-family:var(--mono);font-size:13px;color:var(--tinta3);flex:0 0 auto}
+.lbet .meta{font-family:var(--mono);font-size:10px;color:var(--gris2);margin:3px 0 0}
+.res{display:flex;gap:6px;margin-top:9px}
+.res button{flex:1;padding:7px 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--hueco);color:var(--gris2);border:1px solid var(--linea2)}
+.res button.on.w{background:var(--mostazaBg);color:var(--mostaza);border-color:#4A3C1E}
+.res button.on.l{background:var(--terracotaBg);color:var(--terracota);border-color:#4A2E20}
+.res button.on.p{background:var(--linea2);color:var(--tinta3);border-color:#3A3122}
+
+/* ── método ────────────────────────────────────────────────────── */
+.metodo h3{font-family:var(--anton);font-size:17px;font-weight:400;margin:26px 0 8px;color:var(--tinta)}
+.metodo h3:first-child{margin-top:0}
+.metodo p{font-size:13px;line-height:1.7;color:var(--tinta3);margin:0 0 12px}
+.metodo p b{color:var(--tinta2);font-weight:600}
+.metodo .dato{font-family:var(--mono);font-size:11.5px;color:var(--gris)}
+
+/* ── navegación ────────────────────────────────────────────────── */
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--hueco);border-top:1px solid var(--linea2);display:flex;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
+.nav .in{max-width:520px;margin:0 auto;display:flex;width:100%}
+.nav button{flex:1;padding:13px 0 12px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);position:relative}
+.nav button.on{color:var(--tinta)}
+.nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--tinta)}
+
+.aviso{margin:16px;padding:12px 14px;background:var(--panel);font-size:12px;line-height:1.6;color:var(--tinta3)}
+.aviso b{color:var(--tinta);display:block;margin-bottom:5px}
+.fin{padding:26px 16px;text-align:center;font-size:11px;color:var(--gris3);font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<nav class="nav"><div class="in">
+  <button data-nav="fecha">Fecha</button>
+  <button data-nav="registro">Registro</button>
+  <button data-nav="metodo">Método</button>
+</div></nav>
+
+<script>
+"use strict";
+/* ══════════════════════════════════════════════════════════════════
+   MOTOR — copiado del índice verificado (tag motor-verificado).
+   No se reescribe: está validado y reescribirlo arriesga errores
+   numéricos silenciosos.
+   ══════════════════════════════════════════════════════════════════ */
+const fact = n => { let r=1; for(let i=2;i<=n;i++) r*=i; return r; };
+const pois = (k,l) => Math.exp(-l)*Math.pow(l,k)/fact(k);
+
+function tau(i,j,lh,la,rho){
+  if(i===0&&j===0) return 1 - lh*la*rho;
+  if(i===0&&j===1) return 1 + lh*rho;
+  if(i===1&&j===0) return 1 + la*rho;
+  if(i===1&&j===1) return 1 - rho;
+  return 1;
+}
+function matrix(lh,la,rho,max=9){
+  const m=[]; let tot=0;
+  for(let i=0;i<=max;i++){ m[i]=[];
+    for(let j=0;j<=max;j++){ const p=pois(i,lh)*pois(j,la)*tau(i,j,lh,la,rho); m[i][j]=p; tot+=p; }
+  }
+  for(let i=0;i<=max;i++) for(let j=0;j<=max;j++) m[i][j]/=tot;
+  return m;
+}
+const sumIf = (m,f) => { let s=0; for(let i=0;i<m.length;i++) for(let j=0;j<m.length;j++) if(f(i,j)) s+=m[i][j]; return s; };
+
+const ev    = (p,o) => p*o - 1;
+const fair  = p => p>0 ? 1/p : Infinity;
+const kelly = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
+
+/* ══════════════════════════════════════════════════════════════════
+   CONSTANTES DE RECOMENDACIÓN
+
+   Todas medidas sobre los partidos reales, no elegidas a ojo.
+   Ver docs/superpowers/specs/2026-08-16-rediseno-desde-cero-design.md
+   ══════════════════════════════════════════════════════════════════ */
+const MIN_EV = 0.04;            // el mismo que rige en toda la app
+const MAX_ODDS = 4.5;
+/* Control de cordura. La app predica que arriba de +25% de EV lo más
+   probable es que nuestro propio λ esté mal, no que hayas encontrado
+   oro. Si Herramientas recomendara jugar igual, la app se desmentiría
+   a sí misma en dos pantallas distintas. */
+const EV_ABSURDO = 0.25;
+
+const FRANJAS = [
+  {n:"Lo más probable", lo:0.68, hi:0.93,
+   sub:"Paga poco, justamente porque pasa seguido."},
+  {n:"Intermedia",      lo:0.45, hi:0.68,
+   sub:"Equilibrio entre lo que paga y lo seguido que pasa."},
+  {n:"Arriesgada",      lo:0.12, hi:0.45,
+   sub:"Paga bien porque se da poco. No es la más probable."},
+];
+
+/* La ventaja mínima para ELEGIR dentro de una franja. */
+const VENTAJA_MIN = 0.02;
+
+/* La banda donde una diferencia contra el mercado significa algo.
+   Piso 6pp, no 3: medimos que el modelo se aparta 9-15pp de la línea
+   limpia en promedio, así que 3pp está dentro de nuestro propio error
+   y marcaría ruido como si fuera hallazgo. Con 6pp la marca cae de
+   32% a 22% de los picks (medido sobre 30 partidos reales).
+   Techo 12pp: arriba de eso el sospechoso es el modelo, no el precio. */
+const VALOR_MIN = 0.06;
+const VALOR_MAX = 0.12;
+
+/* Terracota: el mercado le da 10pp más que nosotros a nuestra propia
+   lectura. Se enciende en el 8% de los partidos con cuota. */
+const ALERTA_MIN = 0.10;
+
+/* Umbral de cuota, no cuota de referencia. Mostrar "@2.20 en DraftKings"
+   es una trampa: el usuario va a Betsson, encuentra 2.05 y no sabe si
+   sigue conviniendo. Y la justa pelada tampoco sirve: a la justa exacta
+   la ventaja es CERO. Va la justa más el margen de seguridad. */
+const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
+
+/* ══════════════════════════════════════════════════════════════════
+   ESTADO
+   ══════════════════════════════════════════════════════════════════ */
+let MATCHES=[], ANALISIS={}, EQUIPOS={}, ACTUALIZADO="";
+let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
+let BOOT_ERROR=null;
+
+const guardar = (k,v)=>{ try{ localStorage.setItem("valor_"+k, JSON.stringify(v)); }catch(e){} };
+const leer = (k,def)=>{ try{ const v=localStorage.getItem("valor_"+k); return v?JSON.parse(v):def; }catch(e){ return def; } };
+
+let BANCA = leer("banca", null);
+let CUOTAS = leer("cuotas", {});   // { "matchId__mercadoId": 2.35 }
+let LOG    = leer("log", []);
+
+/* ══════════════════════════════════════════════════════════════════
+   MERCADOS CORTOS
+
+   Solo lo que la gente juega y entiende. Quedan afuera marcador
+   exacto, hándicaps y las líneas de 0.5 goles: pagan 1.05-1.12, son
+   ruido disfrazado de apuesta. Si se elige por probabilidad pelada
+   sin esta lista, el sistema recomienda siempre "local no pierde por
+   2+" al 91% — verdadero e inservible.
+   ══════════════════════════════════════════════════════════════════ */
+function mercados(M, m){
+  const L=m.home, V=m.away, o=[];
+  const add = (fam,id,label,p,req,extra) => o.push(Object.assign({fam,id,label,p,req},extra||{}));
+
+  add("Resultado","1x2_l",`Gana ${L}`,          sumIf(M,(i,j)=>i>j),  ["L"]);
+  add("Resultado","1x2_e","Empate",             sumIf(M,(i,j)=>i===j),["E"]);
+  add("Resultado","1x2_v",`Gana ${V}`,          sumIf(M,(i,j)=>i<j),  ["V"]);
+  add("Resultado","dc_lx",`${L} gana o empata`, sumIf(M,(i,j)=>i>=j), ["L","E"]);
+  add("Resultado","dc_x2",`${V} gana o empata`, sumIf(M,(i,j)=>i<=j), ["V","E"]);
+  add("Resultado","dc_12","Gana alguno (sin empate)", sumIf(M,(i,j)=>i!==j), ["L","V"]);
+  [1.5,2.5,3.5].forEach(n=>{
+    add("Goles","ov"+n,`Más de ${n} goles`,  sumIf(M,(i,j)=>i+j>n), null, {linea:n,lado:"over"});
+    add("Goles","un"+n,`Menos de ${n} goles`,sumIf(M,(i,j)=>i+j<n), null, {linea:n,lado:"under"});
+  });
+  add("Ambos","btts_si","Ambos marcan",      sumIf(M,(i,j)=>i>0&&j>0),  null);
+  add("Ambos","btts_no","No marcan los dos", sumIf(M,(i,j)=>i===0||j===0), null);
+
+  /* el test sirve para la probabilidad conjunta exacta de la combinada */
+  const tests = {
+    "1x2_l":(i,j)=>i>j, "1x2_e":(i,j)=>i===j, "1x2_v":(i,j)=>i<j,
+    "dc_lx":(i,j)=>i>=j, "dc_x2":(i,j)=>i<=j, "dc_12":(i,j)=>i!==j,
+    "btts_si":(i,j)=>i>0&&j>0, "btts_no":(i,j)=>i===0||j===0,
+  };
+  [1.5,2.5,3.5].forEach(n=>{
+    tests["ov"+n]=(i,j)=>i+j>n; tests["un"+n]=(i,j)=>i+j<n;
+  });
+  o.forEach(x=> x.test = tests[x.id]);
+  return o;
+}
+
+/* En castellano, cuándo se cobra. */
+function cuandoCobra(op, m){
+  const L=m.home, V=m.away;
+  switch(op.id){
+    case "1x2_l": return `Se te paga solo si gana ${L}. El empate pierde.`;
+    case "1x2_e": return "Se te paga solo si terminan iguales.";
+    case "1x2_v": return `Se te paga solo si gana ${V}. El empate pierde.`;
+    case "dc_lx": return `Se te paga salvo que gane ${V}.`;
+    case "dc_x2": return `Se te paga salvo que gane ${L}.`;
+    case "dc_12": return "Se te paga con cualquier ganador. Solo pierde con empate.";
+    case "btts_si": return "Se te paga si los dos convierten, sin importar quién gane.";
+    case "btts_no": return "Se te paga si alguno de los dos se queda en cero.";
+  }
+  if(op.lado==="over"){
+    const min = Math.ceil(op.linea);
+    return `Se te paga con ${min} goles o más entre los dos equipos.`;
+  }
+  if(op.lado==="under"){
+    const max = Math.floor(op.linea);
+    return `Se te paga con ${max} ${max===1?"gol":"goles"} o menos en todo el partido.`;
+  }
+  return "";
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MERCADO: la línea sin margen
+
+   La cuota cruda implica probabilidades que suman ~1.077 (margen 7.7%
+   medido sobre DraftKings). Compararse contra eso haría ver ventaja
+   donde solo hay comisión.
+   ══════════════════════════════════════════════════════════════════ */
+function devig(mk){
+  if(!mk || !mk.local) return null;
+  const c=[1/mk.local, 1/mk.empate, 1/mk.visitante], t=c[0]+c[1]+c[2];
+  return {L:c[0]/t, E:c[1]/t, V:c[2]/t};
+}
+function pMercado(op, pq, mk){
+  if(op.req){
+    if(!pq) return null;
+    return op.req.reduce((s,k)=>s+pq[k], 0);
+  }
+  if(op.linea!=null && mk && mk.totalLinea===op.linea && mk.totalOver && mk.totalUnder){
+    const co=1/mk.totalOver, cu=1/mk.totalUnder;
+    return (op.lado==="over"?co:cu)/(co+cu);
+  }
+  return null;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   NUESTRA LECTURA — una sola por partido
+
+   Toda la app cuelga de acá. La escalera de riesgo son tres formas de
+   jugar LA MISMA lectura, no tres opiniones distintas.
+   ══════════════════════════════════════════════════════════════════ */
+function lectura(m){
+  const M = matrix(m.lh, m.la, m.rho);
+  const p = {L:sumIf(M,(i,j)=>i>j), E:sumIf(M,(i,j)=>i===j), V:sumIf(M,(i,j)=>i<j)};
+  const lean = ["L","E","V"].reduce((a,b)=> p[a]>=p[b]?a:b);
+  const goles = m.lh + m.la;
+  const nombre = lean==="L" ? m.home : lean==="V" ? m.away : null;
+
+  let titulo, cuerpo, corto;
+  const claro = p[lean] >= 0.50;
+  /* Con el más probable abajo de 40% no hay favorito, aunque uno saque
+     algún punto de ventaja. Decir "llega mejor" con un 38% sería vender
+     una diferencia que no existe. */
+  if(lean==="E" || p[lean] < 0.40){
+    titulo = "Partido parejo, sin favorito claro";
+    cuerpo = `Ninguno de los dos saca diferencia en los números: le damos ${pc(p.L)} a ${m.home}, ${pc(p.E)} al empate y ${pc(p.V)} a ${m.away}.`;
+    corto  = `<b>Partido parejo</b> — ninguno de los tres resultados pasa de ${pc(p[lean])}.`;
+  } else if(claro && goles < 2.4){
+    titulo = `${nombre} lo controla, pero sin goleada`;
+    cuerpo = `Le damos ${pc(p[lean])} de ganar, y esperamos pocos goles: ${goles.toFixed(1)} entre los dos.`;
+    corto  = `${esc_(nombre)} lo controla, pero con pocos goles — le damos <b>${pc(p[lean])}</b>.`;
+  } else if(claro){
+    titulo = `${nombre} es favorito y el partido pinta abierto`;
+    cuerpo = `Le damos ${pc(p[lean])} de ganar, con ${goles.toFixed(1)} goles esperados entre los dos.`;
+    corto  = `${esc_(nombre)} es favorito y pinta abierto — le damos <b>${pc(p[lean])}</b>.`;
+  } else {
+    titulo = `${nombre} llega mejor, pero no lo damos por hecho`;
+    cuerpo = `Es el más probable con ${pc(p[lean])}, aunque el empate (${pc(p.E)}) sigue muy vivo.`;
+    corto  = `${esc_(nombre)} llega mejor, sin darlo por hecho — le damos <b>${pc(p[lean])}</b>.`;
+  }
+  return {M, p, lean, nombre, goles, titulo, cuerpo, corto};
+}
+
+/* La regla de alineación: nada contradice nuestra propia lectura.
+   Los mercados de goles no opinan sobre quién gana — nunca contradicen. */
+const contradice = (op, lean) => !!op.req && !op.req.includes(lean);
+
+/* ══════════════════════════════════════════════════════════════════
+   ESCALERA DE RIESGO
+
+   Un pick por franja. La ventaja se usa para elegir SOLO dentro de la
+   banda creíble: una diferencia de +53pp contra la línea no es una
+   oportunidad encontrada, es el modelo equivocado, y elegir por ahí
+   es elegir justo el pick con más chance de estar mal.
+   ══════════════════════════════════════════════════════════════════ */
+function escalera(m){
+  const lec = lectura(m);
+  const ops = mercados(lec.M, m);
+  const mk  = m.mercado || {};
+  const pq  = devig(mk);
+
+  const filas = FRANJAS.map(f=>{
+    const cand = ops.filter(o=> o.p>=f.lo && o.p<f.hi && !contradice(o, lec.lean));
+    if(!cand.length) return {franja:f, op:null};
+
+    const conV = cand.map(o=>{
+      const pm = pMercado(o, pq, mk);
+      return {o, v: pm==null ? null : o.p - pm};
+    });
+    const creibles = conV.filter(x=> x.v!=null && x.v>=VENTAJA_MIN && x.v<=VALOR_MAX)
+                         .sort((a,b)=> b.v - a.v);
+    let elegido, ventaja;
+    if(creibles.length){
+      elegido = creibles[0].o; ventaja = creibles[0].v;
+    } else {
+      const centro = (f.lo+f.hi)/2;
+      elegido = cand.reduce((a,b)=> Math.abs(a.p-centro)<=Math.abs(b.p-centro)?a:b);
+      const pm = pMercado(elegido, pq, mk);
+      ventaja = pm==null ? null : elegido.p - pm;
+    }
+    const valor = ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX;
+    return {franja:f, op:elegido, ventaja, valor};
+  });
+
+  /* Una sola marca por partido: la de mayor ventaja. Tres escalones
+     dorados no son tres oportunidades, son la señal perdiendo sentido —
+     si todo está marcado, marcar no dice nada. */
+  const marcables = filas.filter(x=> x.valor).sort((a,b)=> b.ventaja - a.ventaja);
+  marcables.slice(1).forEach(x=> x.valor = false);
+  return filas;
+}
+
+/* Combinada del partido: dos patas de familias distintas, con la
+   probabilidad conjunta EXACTA sobre la matriz. Multiplicar las dos
+   probabilidades por separado da un número más chico y falso — las
+   dos patas del mismo partido están correlacionadas. */
+function combinada(m){
+  const esc = escalera(m).filter(x=>x.op);
+  const res = esc.find(x=> x.op.fam==="Resultado");
+  const otra = esc.find(x=> x.op.fam!=="Resultado");
+  if(!res || !otra || res.op.p<0.5) return null;
+  const lec = lectura(m);
+  const pExacta = sumIf(lec.M, (i,j)=> res.op.test(i,j) && otra.op.test(i,j));
+  const pIngenua = res.op.p * otra.op.p;
+  if(pExacta < 0.25) return null;
+  return {patas:[res.op, otra.op], p:pExacta, ingenua:pIngenua};
+}
+
+/* Alerta: el mercado le da bastante más que nosotros a nuestra propia
+   lectura. Traducido: el precio ya está mejor de lo que vemos justo. */
+function alerta(m){
+  const lec = lectura(m), pq = devig(m.mercado);
+  if(!pq) return null;
+  const d = pq[lec.lean] - lec.p[lec.lean];
+  return d >= ALERTA_MIN ? {lean:lec.lean, dif:d, nombre:lec.nombre} : null;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   REGLA DE ALINEACIÓN, segunda mitad
+
+   Para que "nada contradice nuestra lectura" signifique algo, la
+   lectura tiene que venir de donde el modelo NO llega: el análisis
+   cualitativo. Si la produjera el propio modelo, filtrar por
+   alineación sería circular — el modelo dándose la razón a sí mismo.
+   De ahí: solo se marca valor en partidos con análisis cargado.
+   ══════════════════════════════════════════════════════════════════ */
+const analizado = id => { const a=ANALISIS[id]; return !!(a && (a.contexto || a.veredicto)); };
+
+/* ══════════════════════════════════════════════════════════════════
+   HELPERS DE PRESENTACIÓN
+   ══════════════════════════════════════════════════════════════════ */
+const pc = p => Math.round(p*100)+"%";
+const esc_ = s => String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const plata = n => "$"+Math.round(n).toLocaleString("es-AR");
+const DIAS = ["DOM","LUN","MAR","MIÉ","JUE","VIE","SÁB"];
+const MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+function fechaDe(iso){ const [a,m,d]=iso.split("-").map(Number); return new Date(a,m-1,d); }
+function crest(url, alt){
+  return url ? `<img class="crest" src="${esc_(url)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
+             : `<span class="crest ph"></span>`;
+}
+/* ESPN devuelve "Group B" en inglés para todo. En la liga local eso es
+   una zona del torneo; en copas es un grupo. */
+function grupoEs(g, comp){
+  if(!g) return "";
+  const letra = (g.match(/Group\s+([A-Z])/i)||[])[1];
+  if(!letra) return g;
+  return (/profesional/i.test(comp) ? "Zona " : "Grupo ") + letra;
+}
+/* "se da 3 de cada 4 veces" — la probabilidad dicha como la diría una persona */
+function cadaCuanto(p){
+  const opciones = [[0.9,"9 de cada 10"],[0.83,"5 de cada 6"],[0.78,"4 de cada 5"],
+    [0.72,"3 de cada 4"],[0.64,"2 de cada 3"],[0.57,"3 de cada 5"],[0.47,"1 de cada 2"],
+    [0.38,"2 de cada 5"],[0.30,"1 de cada 3"],[0.22,"1 de cada 4"],[0.17,"1 de cada 5"],
+    [0.12,"1 de cada 6"],[0,"menos de 1 de cada 8"]];
+  const hit = opciones.find(o=> p>=o[0]);
+  return "se da "+hit[1];
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PANTALLA: FECHA
+   ══════════════════════════════════════════════════════════════════ */
+function diasDisponibles(){
+  const set = [...new Set(MATCHES.map(m=>m.date))].sort();
+  return set.map(iso=>{
+    const d = fechaDe(iso);
+    return {iso, dia:d.getDate(), nombre:DIAS[d.getDay()], n:MATCHES.filter(m=>m.date===iso).length};
+  });
+}
+
+function viewFecha(){
+  const dias = diasDisponibles();
+  if(!DIA || !dias.some(d=>d.iso===DIA)) DIA = dias.length ? dias[0].iso : null;
+  const delDia = MATCHES.filter(m=>m.date===DIA);
+  const d = DIA ? fechaDe(DIA) : new Date();
+
+  let h = `<header class="masthead">
+    <div class="wordmark">VALOR</div>
+    <div class="kicker">${d.getDate()} de ${MESES[d.getMonth()]} · Fútbol argentino</div>
+  </header>
+  <div class="days">${dias.map(x=>`
+    <button class="day ${x.iso===DIA?"on":""} ${x.n?"":"vacio"}" data-dia="${x.iso}">
+      <b>${x.dia}</b><span>${x.nombre}</span>
+    </button>`).join("")}</div>`;
+
+  if(!delDia.length){
+    h += `<div class="aviso"><b>No hay partidos este día</b>Elegí otro en la barra de arriba.</div>`;
+    return h;
+  }
+
+  const grupos = {};
+  delDia.forEach(m=> (grupos[m.comp] = grupos[m.comp]||[]).push(m));
+
+  for(const comp in grupos){
+    h += `<div class="lg">${esc_(comp)}</div>`;
+    grupos[comp].sort((a,b)=>(a.hora||"").localeCompare(b.hora||"")).forEach(m=>{
+      h += tarjeta(m);
+    });
+  }
+  h += `<div class="fin">Datos actualizados ${esc_((ACTUALIZADO||"").replace("T"," "))}</div>`;
+  return h;
+}
+
+function tarjeta(m){
+  const lec = lectura(m);
+  const mk = m.mercado || {};
+  const al = alerta(m);
+  const hayAnalisis = analizado(m.id);
+
+  /* La marca de valor en portada es la más estricta de la app: solo la
+     línea 1X2, solo sobre nuestra propia lectura, solo dentro de la
+     banda, y solo si el partido está analizado. Es rara a propósito. */
+  const pq = devig(mk);
+  let valKey = null;
+  if(pq && hayAnalisis && !al){
+    const dif = lec.p[lec.lean] - pq[lec.lean];
+    if(dif>=VALOR_MIN && dif<=VALOR_MAX) valKey = lec.lean;
+  }
+  const cls = k => valKey===k ? "o val" : (al && al.lean===k ? "o alerta" : (mk.local?"o":"o sin"));
+  const cuota = v => v ? v.toFixed(2) : "—";
+
+  let pie;
+  if(al){
+    pie = `<div class="sig alerta">Cuidado con el precio</div>
+      <div class="pron">El mercado le da <b>${pc(pq[al.lean])}</b> a ${al.nombre?esc_(al.nombre):"el empate"} y nosotros solo ${pc(lec.p[al.lean])}. Ese precio ya está mejor de lo que vemos justo.</div>`;
+  } else if(valKey){
+    pie = `<div class="sig">Acá el precio está a favor</div>
+      <div class="pron">${lec.corto}</div>`;
+  } else {
+    /* Sin marca no hace falta aclarar que no la hay: repetir "todavía no
+       lo estudiamos" en las diez tarjetas del día no es honestidad, es
+       ruido. La pestaña Pronósticos lo dice donde importa. */
+    pie = `<div class="pron">${lec.corto}</div>`;
+  }
+
+  return `<button class="card" data-partido="${esc_(m.id)}">
+    <div class="meta">${esc_(m.hora||"")}${m.grupo?" · "+esc_(grupoEs(m.grupo,m.comp)):""}</div>
+    <div class="teams">${crest(m.homeLogo)}${esc_(m.home)}<i>vs</i>${crest(m.awayLogo)}${esc_(m.away)}</div>
+    <div class="odds">
+      <div class="${cls("L")}"><span>Local</span><b>${cuota(mk.local)}</b></div>
+      <div class="${cls("E")}"><span>Empate</span><b>${cuota(mk.empate)}</b></div>
+      <div class="${cls("V")}"><span>Visita</span><b>${cuota(mk.visitante)}</b></div>
+    </div>
+    ${pie}
+  </button>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PANTALLA: DETALLE DE PARTIDO
+   ══════════════════════════════════════════════════════════════════ */
+const TABS = [
+  ["analisis","Análisis"], ["pronosticos","Pronósticos"], ["historial","Historial"],
+  ["posiciones","Posiciones"], ["plantel","Plantel"], ["herramientas","Herramientas"],
+];
+
+function viewPartido(){
+  const m = MATCHES.find(x=>x.id===MATCH_ID);
+  if(!m) return `<div class="aviso"><b>Ese partido ya no está</b>Puede que el cron lo haya movido. Volvé a la fecha.</div>`;
+
+  const mk = m.mercado||{}, lec = lectura(m), al = alerta(m), pq = devig(mk);
+  const d = fechaDe(m.date);
+  let valKey = null;
+  if(pq && analizado(m.id) && !al){
+    const dif = lec.p[lec.lean] - pq[lec.lean];
+    if(dif>=VALOR_MIN && dif<=VALOR_MAX) valKey = lec.lean;
+  }
+  const cls = k => valKey===k ? "o val" : (al && al.lean===k ? "o alerta" : "o");
+  const cuota = v => v ? v.toFixed(2) : "—";
+
+  const cuerpo = {
+    analisis: tabAnalisis, pronosticos: tabPronosticos, historial: tabHistorial,
+    posiciones: tabPosiciones, plantel: tabPlantel, herramientas: tabHerramientas,
+  }[TAB](m);
+
+  return `<div class="top"><button class="back" data-volver="1">←</button>
+      <span class="comp">${esc_(m.comp)} · ${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]} · ${esc_(m.hora||"")}</span></div>
+    <div class="head">
+      <div class="teams">${crest(m.homeLogo)}${esc_(m.home)}<i>vs</i>${crest(m.awayLogo)}${esc_(m.away)}</div>
+      <div class="meta">${esc_(grupoEs(m.grupo,m.comp)||m.comp)}</div>
+    </div>
+    <div class="dodds">
+      <div class="${cls("L")}"><span>Local</span><b>${cuota(mk.local)}</b></div>
+      <div class="${cls("E")}"><span>Empate</span><b>${cuota(mk.empate)}</b></div>
+      <div class="${cls("V")}"><span>Visita</span><b>${cuota(mk.visitante)}</b></div>
+    </div>
+    <div class="tabs">${TABS.map(([k,l])=>`<button class="tab ${TAB===k?"on":""}" data-tab="${k}">${l}</button>`).join("")}</div>
+    <div class="sec">${cuerpo}</div>
+    <div style="height:20px"></div>`;
+}
+
+/* ── 1. Análisis ───────────────────────────────────────────────── */
+function tabAnalisis(m){
+  const a = ANALISIS[m.id];
+  if(!a || (!a.contexto && !a.veredicto)){
+    return `<div class="vacio"><b>Todavía no estudiamos este partido</b>
+      El análisis es lo que la estadística sola no ve: bajas, contexto de tabla,
+      si a alguno no le sirve ganar. Se carga a mano, partido por partido.
+      Mientras tanto tenés los números en las otras pestañas.</div>`;
+  }
+  let h = `<div class="an"><div class="lbl">Nuestro análisis</div>`;
+  if(a.contexto)  h += `<p>${esc_(a.contexto)}</p>`;
+  if(a.veredicto) h += `<p class="veredicto">${esc_(a.veredicto)}</p>`;
+  if(a.actualizado) h += `<p class="fuente">Escrito el ${esc_(a.actualizado)}.</p>`;
+  return h + `</div>`;
+}
+
+/* ── 2. Pronósticos ────────────────────────────────────────────── */
+function tabPronosticos(m){
+  const lec = lectura(m);
+  const hay = analizado(m.id);
+  const esc = escalera(m);
+
+  let h = `<div class="read">
+    <div class="lbl">Nuestra lectura</div>
+    <div class="big">${esc_(lec.titulo)}</div>
+    <p>${esc_(lec.cuerpo)}</p>
+  </div>`;
+
+  if(!hay){
+    h += `<div class="vacio" style="padding-top:20px">
+      <b>Todavía no estudiamos este partido</b>
+      Abajo está la escalera con lo que dice el modelo, para que la veas.
+      Pero no vas a encontrar nada marcado como oportunidad: solo señalamos
+      precio a favor en partidos que miramos en serio, y este todavía no.</div>`;
+  }
+
+  esc.forEach(({franja, op, ventaja, valor})=>{
+    h += `<div class="rh"><b>${franja.n}</b><span class="pct">${op?cadaCuanto(op.p):""}</span></div>
+      <p class="rsub">${franja.sub}</p>`;
+    if(!op){
+      h += `<div class="bet"><div class="l2">Sin ninguna opción clara en esta franja para este partido.</div></div>`;
+      return;
+    }
+    const marcar = valor && hay;
+    h += `<div class="bet ${marcar?"val":""}">
+      <div class="l1"><span class="mkt">${esc_(op.label)}</span><span class="prob">${pc(op.p)}</span></div>
+      <div class="l2">Conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>
+      ${marcar?`<div class="valtag">Acá el precio está a favor</div>`:""}
+      <div class="expl">${esc_(cuandoCobra(op,m))}</div>
+    </div>`;
+  });
+
+  const cmb = combinada(m);
+  if(cmb && hay){
+    /* La corrección por correlación importa de verdad en pocos casos
+       (medido: 4 de 16 combinadas pasan de 2pp, con un máximo de 6pp).
+       Cuando no importa, no la anunciamos como si importara. */
+    const dif = cmb.p - cmb.ingenua;
+    const nota = Math.abs(dif) >= 0.02
+      ? `Calculado sobre la matriz del partido. Multiplicar las dos por separado daría ${pc(cmb.ingenua)}, y estaría mal: las dos cosas pasan en el mismo partido y se afectan entre sí.`
+      : `Calculado sobre la matriz del partido, teniendo en cuenta que las dos cosas pasan en el mismo partido.`;
+    h += `<div class="rh"><b>Las dos juntas</b><span class="pct">${cadaCuanto(cmb.p)}</span></div>
+      <p class="rsub">Las dos cosas en un solo ticket. Paga más, pero tienen que darse las dos.</p>
+      <div class="bet">
+        <div class="l1"><span class="mkt">${esc_(cmb.patas[0].label)} <i style="color:var(--gris3);font-style:normal">+</i> ${esc_(cmb.patas[1].label)}</span><span class="prob">${pc(cmb.p)}</span></div>
+        <div class="l2">Conviene si te pagan más de <b>${umbral(cmb.p).toFixed(2)}</b></div>
+        <div class="expl">${nota}</div>
+      </div>`;
+  }
+
+  h += `<div class="foot">Las tres salen de la misma lectura — elegís vos cuánto arriesgar.
+    El umbral ya incluye un margen de seguridad: a la cuota justa pelada la ventaja es cero.
+    Y solo marcamos en dorado cuando además el precio está a favor.</div>`;
+  return h;
+}
+
+/* ── 3. Historial ──────────────────────────────────────────────── */
+function tabHistorial(m){
+  const bloque = (nombre, logo, forma)=>{
+    if(!forma || !forma.length) return `<div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>
+      <div class="vacio" style="padding:8px 0">Sin partidos recientes cargados.</div>`;
+    return `<div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>` + forma.map(f=>`
+      <div class="frow">
+        <span class="r ${f.r}">${f.r}</span>
+        <span class="rival">${f.local?"vs":"@"} ${esc_(f.rival)}</span>
+        <span class="loc">${f.local?"Local":"Visita"}</span>
+        <span class="sc">${esc_(f.marcador||"")}</span>
+      </div>`).join("");
+  };
+  let h = `<div class="lbl">Últimos partidos</div>`;
+  h += bloque(m.home, m.homeLogo, m.formH);
+  h += bloque(m.away, m.awayLogo, m.formA);
+
+  h += `<div class="lbl sep">Cruces directos</div>`;
+  if(m.h2h && m.h2h.length){
+    h += m.h2h.map(x=>`<div class="h2hrow">
+      <span>${esc_(x.h)} <b class="sc">${esc_(x.s)}</b> ${esc_(x.a)}</span>
+      <span class="dt">${esc_(x.d)}</span></div>`).join("");
+  } else {
+    h += `<div class="vacio" style="padding:8px 0">No se cruzaron en el historial que tenemos.</div>`;
+  }
+  return h;
+}
+
+/* ── 4. Posiciones ─────────────────────────────────────────────── */
+function tabPosiciones(m){
+  if(!m.tabla || !m.tabla.length){
+    return `<div class="vacio"><b>Sin tabla para esta competición</b>
+      En copas por eliminación no hay tabla que mostrar.</div>`;
+  }
+  const mios = new Set([String(m.homeId), String(m.awayId)]);
+  const porGrupo = {};
+  m.tabla.forEach(f=> (porGrupo[f.grupo||""] = porGrupo[f.grupo||""]||[]).push(f));
+
+  let h = `<div class="lbl">${esc_(m.comp)}</div>`;
+  for(const g in porGrupo){
+    if(g) h += `<div class="grupo">${esc_(grupoEs(g, m.comp))}</div>`;
+    /* Sin columna de diferencia de gol: la tabla de ESPN trae goles a
+       favor pero no en contra, así que DG saldría vacía en todas las
+       filas. Va G-E-P, que sí tenemos. */
+    h += `<table class="stand">
+      <tr><th class="l">#</th><th class="l">Equipo</th><th>Pts</th><th>PJ</th><th>G-E-P</th><th>GF</th></tr>` +
+      porGrupo[g].map((f,i)=>{
+        const yo = mios.has(String(f.id));
+        return `<tr class="${yo?"me":""}">
+          <td class="rk">${i+1}</td>
+          <td class="l"><div class="wrap">${crest(f.logo)}<span>${esc_(f.t)}</span></div></td>
+          <td class="pts">${f.pts}</td><td>${f.pj}</td>
+          <td>${f.g}-${f.e}-${f.p}</td>
+          <td>${f.gf!=null?f.gf:"—"}</td></tr>`;
+      }).join("") + `</table>`;
+  }
+  return h;
+}
+
+/* ── 5. Plantel ────────────────────────────────────────────────── */
+function tabPlantel(m){
+  const stat = (id, tabla)=> (tabla||[]).find(f=>String(f.id)===String(id));
+  const bloque = (nombre, id, logo)=>{
+    const e = EQUIPOS[String(id)];
+    const t = stat(id, m.tabla);
+    let h = `<div class="eqblock"><div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>`;
+    if(e && e.resumen) h += `<p class="blurb">${esc_(e.resumen)}</p>`;
+    else h += `<p class="blurb" style="color:var(--gris3)">Todavía no cargamos el resumen de este equipo.</p>`;
+    if(e && e.forma) h += `<p class="blurb">${esc_(e.forma)}</p>`;
+    if(e && e.localVisita) h += `<p class="blurb">${esc_(e.localVisita)}</p>`;
+    if(t){
+      h += `<div class="tstats">
+        <div class="t"><span>Puntos</span><b>${t.pts}</b></div>
+        <div class="t"><span>Jugados</span><b>${t.pj}</b></div>
+        <div class="t"><span>Ganados</span><b>${t.g}</b></div>
+        <div class="t"><span>Goles a favor</span><b>${t.gf!=null?t.gf:"—"}</b></div>
+      </div>`;
+    }
+    if(e && e.bajas && e.bajas.length){
+      h += `<div class="lbl sep">Bajas</div>` + e.bajas.map(b=>`<div class="frow"><span class="rival">${esc_(b)}</span></div>`).join("");
+    }
+    return h + `</div>`;
+  };
+
+  let h = bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
+  h += `<div class="lbl sep">Del partido</div>
+    <div class="tstats">
+      <div class="t"><span>Córners esperados</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
+      <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
+      <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
+    </div>
+    <div class="vacio" style="padding-top:18px">La lista de jugadores todavía no está: el plantel de ESPN
+      pide un llamado por jugador para traer estadísticas, y serían unos 50 por pestaña.
+      Va a entrar cuando lo bajemos en el cron, no en vivo.</div>`;
+  return h;
+}
+
+/* ── 6. Herramientas ───────────────────────────────────────────── */
+function tabHerramientas(m){
+  if(!BANCA){
+    return `<div class="askbank">
+      <b>¿Cuánto separaste para apostar?</b>
+      <p>Con eso te decimos cuánto tiene sentido jugar en cada opción — más en las que
+        vemos más claras, menos en las otras. Lo podés cambiar cuando quieras.</p>
+      <input class="campo" id="banca-in" inputmode="numeric" placeholder="$ 50.000">
+      <small>Se guarda en este celular, en ningún lado más.</small>
+      <button class="btn" data-banca="1">Listo</button>
+    </div>`;
+  }
+  const lec = lectura(m);
+  const ops = mercados(lec.M, m);
+  const kf = (m.conf>=72) ? 0.25 : (m.conf>=60) ? 0.125 : (m.conf>=50) ? 0.0625 : 0.005;
+  const tope = BANCA * 0.04;
+
+  let h = `<p class="expl">Esta pestaña es para vos, no para la gente. Cargá la cuota que
+    te da <em>tu</em> casa y te devuelve la ventaja real y cuánto jugar contra ese precio.</p>
+    <div class="bankline">Jugás con <b>${plata(BANCA)}</b> separados
+      <button data-resetbanca="1">cambiar</button></div>`;
+
+  const fams = ["Resultado","Goles","Ambos"];
+  fams.forEach(fam=>{
+    h += `<div class="grp"><div class="gh">${fam}</div>`;
+    ops.filter(o=>o.fam===fam).forEach(o=>{
+      const key = m.id+"__"+o.id;
+      const c = CUOTAS[key];
+      const val = c && c>1;
+      const e = val ? ev(o.p, c) : null;
+      const k = val ? kelly(o.p, c) : 0;
+      const sano = val && e<EV_ABSURDO;
+      const jugable = val && e>=MIN_EV && c<=MAX_ODDS && sano;
+      const stake = jugable ? Math.min(Math.round(BANCA*k*kf), tope) : 0;
+      let out;
+      if(!val) out = `<span class="ev">Cargá la cuota</span>`;
+      else if(c>MAX_ODDS) out = `<span class="ev neg">Cuota muy alta — no la jugamos</span>`;
+      else if(!sano) out = `<span class="ev neg">EV +${(e*100).toFixed(0)}% — revisá la cuota</span>`;
+      else if(e<MIN_EV) out = `<span class="ev neg">EV ${(e*100).toFixed(1)}%</span>`;
+      else out = `<span class="ev pos">EV +${(e*100).toFixed(1)}%</span>
+        <div class="juega"><span>Jugale</span><b>${plata(stake)}</b></div>`;
+      h += `<div class="mrow">
+        <div class="top2"><span class="mkt">${esc_(o.label)}</span><span class="modelo">modelo ${pc(o.p)}</span></div>
+        <div class="inrow">
+          <input inputmode="decimal" placeholder="—" value="${val?c:""}" data-cuota="${esc_(key)}">
+          <div class="out">${out}</div>
+        </div>
+        ${jugable ? `<div style="margin-top:8px"><button class="chip" data-anotar="${esc_(key)}">Anotar en Registro</button></div>` : ""}
+        ${val && !sano ? `<div class="expl" style="color:var(--terracota);margin-top:6px">Una ventaja así de grande casi nunca es del precio: es nuestra estimación fallando en este partido. Verificá que la cuota esté bien cargada.</div>` : ""}
+      </div>`;
+    });
+    h += `</div>`;
+  });
+  return h;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PANTALLA: REGISTRO
+   ══════════════════════════════════════════════════════════════════ */
+function viewRegistro(){
+  let h = `<header class="masthead"><div class="wordmark">Registro</div>
+    <div class="kicker">Tu bitácora — acá los números van sin traducir</div></header>`;
+
+  if(!LOG.length){
+    h += `<div class="aviso"><b>Todavía no anotaste nada</b>
+      Cuando cargues una cuota en Herramientas y tenga ventaja, vas a poder anotarla acá
+      con un toque. Después se resuelve sola con el resultado del partido.</div>`;
+    return h;
+  }
+
+  const cerradas = LOG.filter(x=>x.estado==="ganada"||x.estado==="perdida");
+  const invertido = cerradas.reduce((s,x)=>s+x.stake, 0);
+  const neto = cerradas.reduce((s,x)=> s + (x.estado==="ganada" ? x.stake*(x.cuota-1) : -x.stake), 0);
+  const roi = invertido ? neto/invertido : 0;
+  const aciertos = cerradas.filter(x=>x.estado==="ganada").length;
+  const tasa = cerradas.length ? aciertos/cerradas.length : 0;
+
+  h += `<div class="ledger">
+    <div><small>Resultado</small><b class="${neto>0?"pos":neto<0?"neg":""}">${neto>0?"+":""}${plata(neto)}</b></div>
+    <div><small>Acierto</small><b>${cerradas.length?pc(tasa):"—"}</b></div>
+    <div><small>ROI</small><b class="${roi>0?"pos":roi<0?"neg":""}">${invertido?(roi>0?"+":"")+(roi*100).toFixed(1)+"%":"—"}</b></div>
+    <div><small>Cargadas</small><b>${LOG.length}</b></div>
+  </div>`;
+
+  /* curva acumulada — la única línea curva de la app, en mostaza */
+  if(cerradas.length>1){
+    let acc=0; const pts=[0];
+    cerradas.forEach(x=>{ acc += x.estado==="ganada" ? x.stake*(x.cuota-1) : -x.stake; pts.push(acc); });
+    const min=Math.min(...pts), max=Math.max(...pts), rango=(max-min)||1;
+    const d = pts.map((v,i)=>`${(i/(pts.length-1)*300).toFixed(1)},${(52-(v-min)/rango*48).toFixed(1)}`).join(" ");
+    h += `<svg class="chart" viewBox="0 0 300 56" preserveAspectRatio="none" aria-label="Acumulado">
+      <polyline points="${d}" fill="none" stroke="#D6963A" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
+  }
+
+  const cont = e => LOG.filter(x=> e==="todas" || x.estado===e).length;
+  h += `<div class="filters">
+    ${[["todas","Todas"],["ganada","Ganadas"],["perdida","Perdidas"],["pendiente","Pendientes"]]
+      .map(([k,l])=>`<button class="chip ${FILTRO===k?"on":""}" data-filtro="${k}">${l} ${cont(k)}</button>`).join("")}
+  </div><div class="lbl" style="margin:18px 16px 8px">Últimas cargadas</div>`;
+
+  const lista = LOG.filter(x=> FILTRO==="todas" || x.estado===FILTRO).slice().reverse();
+  if(!lista.length) h += `<div class="aviso">Nada con ese filtro.</div>`;
+  lista.forEach((x,i)=>{
+    const idx = LOG.indexOf(x);
+    h += `<div class="lbet">
+      <div class="top2"><span class="mkt">${esc_(x.partido)} — ${esc_(x.mercado)}</span><span class="stake">${plata(x.stake)}</span></div>
+      <div class="meta">${esc_(x.comp)} · @${x.cuota.toFixed(2)} · EV ${x.ev>0?"+":""}${(x.ev*100).toFixed(1)}%</div>
+      <div class="res">
+        <button class="w ${x.estado==="ganada"?"on":""}" data-estado="${idx}|ganada">Ganada</button>
+        <button class="l ${x.estado==="perdida"?"on":""}" data-estado="${idx}|perdida">Perdida</button>
+        <button class="p ${x.estado==="pendiente"?"on":""}" data-estado="${idx}|pendiente">Pendiente</button>
+      </div></div>`;
+  });
+  return h + `<div style="height:16px"></div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PANTALLA: MÉTODO
+   ══════════════════════════════════════════════════════════════════ */
+function viewMetodo(){
+  return `<header class="masthead"><div class="wordmark">Método</div>
+    <div class="kicker">Cómo pensamos cada partido</div></header>
+  <div class="sec metodo" style="padding-top:20px">
+
+    <h3>Qué hacemos</h3>
+    <p>Estimamos cuántos goles esperamos de cada equipo, y de ahí sale la probabilidad
+      de cada resultado posible. La estimación se ajusta con todos los partidos de la
+      temporada, pesando más los recientes.</p>
+
+    <h3>Por qué probabilidad y no "va a ganar X"</h3>
+    <p>Un 74% no es una promesa: es que de cada 4 partidos así, 3 terminan de esa forma
+      y <b>uno no</b>. Si decimos 74% y acertamos las 10 de 10, no somos buenos —
+      estamos mal calibrados hacia abajo.</p>
+
+    <h3>Por qué mostramos un umbral y no una cuota</h3>
+    <p>Trabajamos con una cuota de referencia de <b>DraftKings</b>, que ni siquiera opera
+      en Argentina. Mostrarte "@2.20" sería una trampa: vas a tu casa, encontrás 2.05, y
+      no sabés si sigue conviniendo. Por eso te damos el umbral: <b>si te pagan más que
+      eso, conviene</b>. Funciona en cualquier casa.</p>
+    <p>Y el umbral no es la cuota justa pelada. A la justa exacta la ventaja es
+      <b>cero</b> — estaríamos recomendando una apuesta neutra como si fuera buena.
+      Le sumamos ${(MIN_EV*100).toFixed(0)}% de margen, que también cubre el error de
+      nuestra propia estimación, que no es chico.</p>
+
+    <h3>Por qué a veces no recomendamos nada</h3>
+    <p>Porque no siempre hay algo que recomendar. Las apuestas más seguras casi nunca
+      tienen valor: el margen de la casa —<span class="dato">7,7% medido</span>— se come
+      la ventaja justo en las cuotas bajas. Preferimos quedarnos callados antes que
+      inventar una jugada para llenar la pantalla.</p>
+
+    <h3>Por qué solo marcamos valor en partidos analizados</h3>
+    <p>Porque nuestra regla es que <b>nada contradiga nuestra propia lectura</b> del
+      partido. Si esa lectura la produjera el mismo modelo que después dice dónde hay
+      valor, sería el modelo dándose la razón a sí mismo. La lectura tiene que venir de
+      donde el modelo no llega: bajas, contexto, a quién le sirve el empate.</p>
+
+    <h3>Valor falso</h3>
+    <p>Si un mercado parece dar mucha más ventaja que el resto, lo más probable no es que
+      hayas encontrado oro: es que <b>nuestra estimación está mal</b> en ese partido.
+      Por eso la marca dorada tiene techo — arriba de
+      <span class="dato">${(VALOR_MAX*100).toFixed(0)} puntos</span> de diferencia contra
+      la línea limpia dejamos de mostrarla.</p>
+
+    <h3>Cómo nos medimos</h3>
+    <p>Contra la cuota de cierre real, que es el mejor predictor público que existe.
+      Sobre la Liga Profesional, con partidos que el modelo nunca vio:</p>
+    <p class="dato">no saber nada &nbsp;0,667<br>nosotros &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,645<br>cuota de cierre &nbsp;0,623</p>
+    <p>Traducido: el mercado sabe bastante más que no saber nada, y nosotros capturamos
+      cerca de la <b>mitad</b> de eso. Le seguimos perdiendo al cierre. Es la verdad y no
+      la escondemos.</p>
+
+    <h3>Lo que esto no es</h3>
+    <p>No es consejo financiero, no es una fuente de ingresos y no hay una jugada segura.
+      Es una lectura con números atrás. La decisión, y la plata, son tuyas.</p>
+
+    <div style="height:24px"></div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   RENDER Y RUTEO
+   ══════════════════════════════════════════════════════════════════ */
+function render(){
+  const app = document.getElementById("app");
+  if(BOOT_ERROR){
+    app.innerHTML = `<header class="masthead"><div class="wordmark">VALOR</div></header>
+      <div class="aviso"><b>No pudimos cargar los datos</b>${esc_(BOOT_ERROR)}</div>`;
+    return;
+  }
+  app.innerHTML = VISTA==="partido" ? viewPartido()
+    : VISTA==="registro" ? viewRegistro()
+    : VISTA==="metodo" ? viewMetodo()
+    : viewFecha();
+
+  document.querySelectorAll(".nav button").forEach(b=>{
+    const activo = b.dataset.nav===VISTA || (VISTA==="partido" && b.dataset.nav==="fecha");
+    b.classList.toggle("on", activo);
+  });
+  window.scrollTo(0, 0);
+}
+
+function ir(v, extra){
+  VISTA = v;
+  if(v==="partido"){ MATCH_ID = extra; TAB = "analisis"; }
+  location.hash = v==="partido" ? "#p/"+extra : "#"+v;
+  render();
+}
+
+document.addEventListener("click", e=>{
+  const t = e.target.closest("[data-nav],[data-dia],[data-partido],[data-tab],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar]");
+  if(!t) return;
+  const d = t.dataset;
+
+  if(d.nav){ ir(d.nav); }
+  else if(d.dia){ DIA = d.dia; render(); }
+  else if(d.partido){ ir("partido", d.partido); }
+  else if(d.tab){ TAB = d.tab; render(); }
+  else if(d.volver){ ir("fecha"); }
+  else if(d.filtro){ FILTRO = d.filtro; render(); }
+  else if(d.estado){
+    const [i, est] = d.estado.split("|");
+    LOG[+i].estado = est; guardar("log", LOG); render();
+  }
+  else if(d.banca){
+    const v = parseFloat((document.getElementById("banca-in").value||"").replace(/[^\d]/g,""));
+    if(v>0){ BANCA = v; guardar("banca", BANCA); render(); }
+  }
+  else if(d.resetbanca){ BANCA = null; guardar("banca", null); render(); }
+  else if(d.anotar){ anotar(d.anotar); }
+});
+
+document.addEventListener("change", e=>{
+  const inp = e.target.closest("[data-cuota]");
+  if(!inp) return;
+  const v = parseFloat((inp.value||"").replace(",","."));
+  if(v>1) CUOTAS[inp.dataset.cuota] = v; else delete CUOTAS[inp.dataset.cuota];
+  guardar("cuotas", CUOTAS);
+  render();
+});
+
+function anotar(key){
+  const [mid, oid] = [key.slice(0, key.indexOf("__")), key.slice(key.indexOf("__")+2)];
+  const m = MATCHES.find(x=>x.id===mid); if(!m) return;
+  const lec = lectura(m);
+  const op = mercados(lec.M, m).find(x=>x.id===oid); if(!op) return;
+  const c = CUOTAS[key]; if(!(c>1)) return;
+  if(LOG.some(x=>x.key===key)) return;
+
+  const kf = (m.conf>=72)?0.25:(m.conf>=60)?0.125:(m.conf>=50)?0.0625:0.005;
+  const stake = Math.min(Math.round(BANCA*kelly(op.p,c)*kf), BANCA*0.04);
+  LOG.push({key, partido:`${m.home} vs ${m.away}`, mercado:op.label, comp:m.comp,
+            cuota:c, p:op.p, ev:ev(op.p,c), stake, estado:"pendiente",
+            fecha:m.date, matchId:mid});
+  guardar("log", LOG);
+  ir("registro");
+}
+
+function desdeHash(){
+  const h = location.hash.slice(1);
+  if(h.startsWith("p/")){ VISTA="partido"; MATCH_ID=h.slice(2); }
+  else if(["registro","metodo","fecha"].includes(h)) VISTA=h;
+  else VISTA="fecha";
+}
+window.addEventListener("hashchange", ()=>{ desdeHash(); render(); });
+
+/* ══════════════════════════════════════════════════════════════════
+   ARRANQUE
+   ══════════════════════════════════════════════════════════════════ */
+async function traer(url, def){
+  try{
+    const r = await fetch(url+"?t="+Date.now());
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return await r.json();
+  }catch(e){ return def; }
+}
+
+(async function init(){
+  const p = await traer("data/partidos.json", null);
+  if(!p){ BOOT_ERROR = "No respondió data/partidos.json. Si estás abriendo el archivo directo desde el disco, hace falta un servidor local."; render(); return; }
+  MATCHES = (p.partidos||p||[]).filter(m=> m.lh!=null && m.la!=null);
+  ACTUALIZADO = p.actualizado || "";
+  if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
+
+  const [an, eq] = await Promise.all([
+    traer("data/analisis.json", {}), traer("data/equipos.json", {}),
+  ]);
+  /* la clave _schema es documentación del formato, no un partido */
+  ANALISIS = an || {}; delete ANALISIS._schema;
+  EQUIPOS  = eq || {}; delete EQUIPOS._schema;
+
+  desdeHash();
+  render();
+})();
+</script>
+</body>
+</html>

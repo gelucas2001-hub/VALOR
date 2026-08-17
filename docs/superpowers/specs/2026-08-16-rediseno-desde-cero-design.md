@@ -1,8 +1,8 @@
 # VALOR — rediseño desde cero
 
 Fecha: 2026-08-16
-Estado: aprobado por Lucas, pendiente de implementación
-Revisión 3 — escalera de riesgo, regla de alineación, y umbral de cuota en vez de cuota de referencia
+Estado: implementado en `app.html` (2026-08-17). `index.html` sigue en vivo hasta reemplazarlo.
+Revisión 4 — ajustes medidos durante la implementación, al final del documento
 
 ## Por qué
 
@@ -178,6 +178,69 @@ Texto puro, sin cajas. Mantiene las explicaciones ya validadas (por qué valor y
 ## Pendiente — pasada de pulido
 
 Fuera de alcance de este documento: escudos reales (hoy placeholders), reincorporar el grano del masthead con criterio, definir el **elemento firma** (la pieza memorable de VALOR, todavía sin encontrar), ritmo de espaciado y jerarquía fina, estados de carga e interacción, y más color/detalle en Historial y Plantel (pedido y aprobado en principio).
+
+## Revisión 4 — lo que cambió al implementarlo (2026-08-17)
+
+Todo esto salió de medir contra los 30 partidos reales de `data/partidos.json`
+antes de escribir la pantalla, no de opinar durante el diseño. Los números se
+reprodujeron dos veces por caminos separados: un script en Python sobre
+`backtest.py` y el propio motor en JavaScript de `app.html`, con resultado
+idéntico (20 marcas sobre 90 picks, 2 alertas sobre 25 partidos con cuota).
+
+**1. El piso de la banda de valor sube de 3pp a 6pp.** El spec pedía marcar
+valor a partir de 3pp de diferencia contra la línea limpia. Pero este mismo
+documento mide que el modelo se aparta **9-15pp** de esa línea en promedio:
+un piso de 3pp está *dentro de nuestro propio error*, y marcaría ruido con
+cara de hallazgo. Medido: con 3pp la mostaza se enciende en el 32% de los
+picks; con 6pp, en el 22%. El techo queda en 12pp como estaba.
+
+**2. Una sola marca de valor por partido, la de mayor ventaja.** Sin esta
+regla, dos de los tres escalones podían quedar dorados en el mismo partido.
+Tres escalones marcados no son tres oportunidades: son la señal perdiendo
+sentido. Si todo está marcado, marcar no dice nada.
+
+**3. La ventaja solo se usa para elegir dentro de la banda creíble.** El
+paso 2 de la regla de selección decía "el de mayor ventaja, pidiendo al menos
+2pp", sin techo. Medido, eso elegía cosas como Botafogo–Cienciano con **+53pp**
+de diferencia contra la línea — que no es una oportunidad encontrada sino el
+modelo equivocado, y elegir por ahí es elegir justo el pick con más chance de
+estar mal. Arriba de 12pp la diferencia se ignora y rige el paso 3 (centro de
+la franja).
+
+**4. Un partido sin análisis muestra la escalera, no una pantalla vacía.**
+La maqueta aprobada reemplazaba toda la pestaña Pronósticos por "todavía no
+estudiamos este partido". Eso choca con la regla de ritmo del propio spec
+("la app nunca debe quedarse sin opinión"), y con `analisis.json` vacío
+dejaría la app entera sin contenido. Queda: se muestra la escalera como
+**pronóstico**, con el aviso arriba, y **sin ninguna marca de valor**. Lo que
+la falta de análisis bloquea es la recomendación, no la lectura.
+
+**5. Control de cordura en Herramientas.** Método afirma que arriba de +25%
+de EV lo más probable es que nuestro λ esté mal. Herramientas, sin embargo,
+calculaba el stake igual y decía "jugale". La app se desmentía a sí misma en
+dos pantallas. Ahora arriba de +25% no hay monto ni botón de anotar: hay un
+aviso en terracota.
+
+**6. La corrección por correlación en combinadas se anuncia solo cuando
+existe.** Medido sobre las 16 combinadas disponibles: la diferencia entre la
+probabilidad conjunta exacta y multiplicar las dos por separado supera 2pp en
+**4 de 16**, con un máximo de 6,2pp. En las otras 12 es despreciable. Afirmar
+"multiplicar sería mentira" cuando los dos números coinciden es vender una
+precisión que ahí no hay.
+
+**7. Faltan tres datos que la pantalla pedía y `data/partidos.json` no trae.**
+No se inventaron: se sacaron de la interfaz.
+- **Estadio.** Las maquetas mostraban "19:00 · Eva Perón, Junín". El JSON no
+  tiene el campo. Está disponible en el scoreboard de ESPN
+  (`competitions[0].venue.fullName`) — es un cambio de `actualizar.py`.
+- **Goles en contra.** La tabla trae `gf` pero no `gc`, así que la columna de
+  diferencia de gol salía vacía en todas las filas. Se reemplazó por G-E-P.
+- **Plantel.** El roster de ESPN pide un llamado por jugador para las
+  estadísticas — unos 50 por pestaña. La pestaña lo dice y no lo simula.
+
+**8. `grupo` viene en inglés.** ESPN devuelve `"Group B"` para todo. En la
+liga local eso es una zona del torneo, en copas un grupo: se traduce según
+la competición.
 
 ## Qué no cambia
 

@@ -375,9 +375,14 @@ def resultados_temporada(slug, season, hoy):
     """Todos los partidos ya jugados de la competición en esta temporada,
     en un solo pedido (ESPN deja subir el límite con &limit=). Es la data
     cruda para calibrar fuerzas.py — de acá sale con quién jugó cada
-    equipo y con qué resultado, no solo contra los dos de hoy."""
+    equipo y con qué resultado, no solo contra los dos de hoy.
+
+    El rango se corta al 31/12 de la temporada pedida: ESPN devuelve 400
+    si el rango pasa del año, así que pedir una temporada vieja con
+    hasta=hoy fallaba en silencio y devolvía cero partidos."""
     desde = f"{season}0101"
-    hasta = hoy.strftime("%Y%m%d")
+    fin_temporada = datetime.date(season, 12, 31)
+    hasta = min(hoy, fin_temporada).strftime("%Y%m%d")
     d = api(f"{SITE_V2}/{slug}/scoreboard?dates={desde}-{hasta}&limit=1000")
     partidos = []
     for ev in d.get("events", []):
@@ -409,7 +414,7 @@ def resultados_temporada(slug, season, hoy):
     return partidos
 
 
-def fuerzas_equipos(resultados, hoy):
+def fuerzas_equipos(resultados, hoy, anclas=None):
     """Ataque/defensa de cada equipo, calibrados juntos contra toda la red
     de cruces de la temporada (no cada uno contra su propia muestra
     suelta) — el ajuste que le faltaba al promedio simple. Pondera cada
@@ -417,7 +422,15 @@ def fuerzas_equipos(resultados, hoy):
     hace un mes sigue contando pero mucho menos que uno de la semana
     pasada. Devuelve (fuerzas, mu_local, mu_visita, partidos_por_equipo);
     fuerzas = {team_id: (ataque, defensa)}, ambos alrededor de 1.0 = nivel
-    promedio de la competición; >1 ataque fuerte / <1 defensa débil."""
+    promedio de la competición; >1 ataque fuerte / <1 defensa débil.
+
+    anclas: {team_id: (ataque, defensa)} — hacia dónde empujan los
+    PRIOR_FUERZA partidos fantasma. Sin ancla un equipo con poca muestra
+    se va hacia 1.0, el promedio de ESTA competición, que en copas es
+    justamente el problema: hace ver parecidos a Palmeiras y a un equipo
+    chico, y ahí la localía termina decidiendo el partido. Con ancla se va
+    hacia lo que ese equipo vale en su liga local. Sin el parámetro, el
+    cálculo queda idéntico al de siempre."""
     if not resultados:
         return {}, 1.0, 1.0, {}
 
@@ -437,17 +450,22 @@ def fuerzas_equipos(resultados, hoy):
     ataque  = {t: 1.0 for t in equipos}
     defensa = {t: 1.0 for t in equipos}
 
+    anc = anclas or {}
     for _ in range(40):
-        # PRIOR_FUERZA "partidos fantasma" con num=den: no mueven la razón
-        # de un equipo con muestra grande, pero empujan a 1.0 (nivel medio)
-        # a uno con 1-2 partidos reales, en vez de dejarlo irse a un extremo.
-        num_a = {t: PRIOR_FUERZA for t in equipos}; den_a = {t: PRIOR_FUERZA for t in equipos}
+        # PRIOR_FUERZA "partidos fantasma": no mueven la razón de un equipo
+        # con muestra grande, pero empujan a uno con 1-2 partidos reales en
+        # vez de dejarlo irse a un extremo. num = PRIOR * ancla y den =
+        # PRIOR, así que sin partidos reales la razón da exactamente el
+        # ancla; sin ancla, ancla = 1.0 y queda el comportamiento de antes.
+        num_a = {t: PRIOR_FUERZA * anc.get(t, (1.0, 1.0))[0] for t in equipos}
+        den_a = {t: PRIOR_FUERZA for t in equipos}
         for p, w in zip(resultados, pesos):
             num_a[p["home"]] += w * p["gh"]; den_a[p["home"]] += w * mu_local  * defensa[p["away"]]
             num_a[p["away"]] += w * p["ga"]; den_a[p["away"]] += w * mu_visita * defensa[p["home"]]
         nueva_ataque = {t: (num_a[t]/den_a[t] if den_a[t] > 0 else 1.0) for t in equipos}
 
-        num_d = {t: PRIOR_FUERZA for t in equipos}; den_d = {t: PRIOR_FUERZA for t in equipos}
+        num_d = {t: PRIOR_FUERZA * anc.get(t, (1.0, 1.0))[1] for t in equipos}
+        den_d = {t: PRIOR_FUERZA for t in equipos}
         for p, w in zip(resultados, pesos):
             num_d[p["home"]] += w * p["ga"]; den_d[p["home"]] += w * mu_visita * nueva_ataque[p["away"]]
             num_d[p["away"]] += w * p["gh"]; den_d[p["away"]] += w * mu_local  * nueva_ataque[p["home"]]
@@ -469,9 +487,30 @@ MIN_PARTIDOS_ANCLA = 8     # partidos en la liga local para que el ancla valga.
                             # Más exigente que MIN_PARTIDOS_FUERZA (3) porque el
                             # ancla se propaga a todos los partidos de copa de
                             # ese equipo: si está mal, contamina más.
+FACTORES_LIGA = Path("data/factores_liga.json")   # lo genera calibrar_ligas.py
 
 
-def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom):
+def factores_liga():
+    """Cuánto vale cada liga, para poder comparar fuerzas entre países.
+
+    Sin esto el ancla compara peras con manzanas: un 1.30 de ataque en
+    Brasil y un 1.30 en Paraguay se tratarían igual. Medido: el ancla sin
+    factores solo bajó 1.3pp el sesgo de Libertadores y empeoró
+    Sudamericana. Los factores salen de calibrar_ligas.py, que los estima
+    con 805 cruces de copa entre países de tres temporadas.
+
+    Si el archivo no existe, devuelve {} y todo funciona como si cada liga
+    valiera 1.0 — o sea, el comportamiento anterior.
+    """
+    if not FACTORES_LIGA.exists():
+        return {}
+    try:
+        return json.loads(FACTORES_LIGA.read_text(encoding="utf-8")).get("factores", {})
+    except Exception:
+        return {}
+
+
+def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factores=None):
     """(ataque, defensa) del equipo en SU liga local, o None.
 
     Es el valor hacia el que la regularización va a empujar a este equipo
@@ -499,7 +538,17 @@ def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom):
 
     if pj.get(str(team_id), 0) < MIN_PARTIDOS_ANCLA:
         return None
-    return fuerzas.get(str(team_id))
+    par = fuerzas.get(str(team_id))
+    if not par:
+        return None
+
+    # Pasar la fuerza a una vara común entre países. Sin esto, el ataque
+    # de Palmeiras (relativo a Brasil) y el de Cerro (relativo a Paraguay)
+    # se comparan como si fueran lo mismo. Un ataque vale más si viene de
+    # una liga fuerte; una defensa del mismo modo, por eso divide.
+    q = (factores or {}).get(slug_liga, 1.0)
+    ataque, defensa = par
+    return (ataque * q, defensa / q)
 
 
 def main():
@@ -527,12 +576,31 @@ def main():
         return cache_tabla[slug]
 
     cache_fuerzas = {}   # slug -> (fuerzas, mu_local, mu_visita, partidos_por_equipo)
+    cache_dom = {}       # slug de liga local -> lo mismo, para las anclas
+    factores = factores_liga()   # cuánto vale cada liga, para comparar entre países
+    cache_ligas = {}     # team_id -> slug de su liga local (persiste en disco)
+    if CACHE_LIGAS.exists():
+        try:
+            cache_ligas = json.loads(CACHE_LIGAS.read_text(encoding="utf-8"))
+        except Exception:
+            cache_ligas = {}
 
     def get_fuerzas(slug):
         if slug not in cache_fuerzas:
             print(f"  · calibrando fuerzas de ataque/defensa — {slug}")
             resultados = resultados_temporada(slug, season, hoy)
-            cache_fuerzas[slug] = fuerzas_equipos(resultados, hoy)
+            # Ancla: cada equipo se regulariza hacia lo que vale en su liga
+            # local, no hacia el promedio de esta copa. En arg.1 no aplica
+            # (la liga local ES esta competición) y ancla_de devuelve None.
+            equipos = {p["home"] for p in resultados} | {p["away"] for p in resultados}
+            anclas = {}
+            for tid in equipos:
+                a = ancla_de(tid, slug, season, hoy, cache_ligas, cache_dom, factores)
+                if a:
+                    anclas[tid] = a
+            if anclas:
+                print(f"    ancladas {len(anclas)} de {len(equipos)} fuerzas a la liga local")
+            cache_fuerzas[slug] = fuerzas_equipos(resultados, hoy, anclas=anclas)
         return cache_fuerzas[slug]
 
     # cache_resumen persiste ENTRE corridas (a diferencia de cache_hist/
@@ -687,6 +755,8 @@ def main():
 
     CACHE_DISCIPLINA.parent.mkdir(parents=True, exist_ok=True)
     CACHE_DISCIPLINA.write_text(json.dumps(cache_resumen, ensure_ascii=False), encoding="utf-8")
+    CACHE_LIGAS.write_text(json.dumps(cache_ligas, ensure_ascii=False, indent=1),
+                           encoding="utf-8")
 
     con_h2h = sum(1 for p in partidos if p["h2h"])
     con_tabla = sum(1 for p in partidos if p["tabla"])

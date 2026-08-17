@@ -105,8 +105,13 @@ a{color:inherit}
    ══════════════════════════════════════════════════════════════════ */
 .odds{display:flex;gap:5px}
 .o{flex:1;background:var(--hueco);padding:8px 2px 7px;text-align:center;min-width:0;position:relative;overflow:hidden;isolation:isolate}
+/* La altura va inline al construir el elemento y no se anima: cada
+   render reemplaza el innerHTML entero, así que la casilla siempre es
+   un elemento nuevo y una transición nunca llegaría a correr. Animar
+   height, además, obliga a recalcular layout en cada cuadro — y acá
+   serían 30 casillas a la vez en un día cargado. */
 .o .fill{position:absolute;left:0;right:0;bottom:0;z-index:-1;background:rgba(238,227,206,.085);
-  border-top:1px solid rgba(238,227,206,.30);transition:height .5s cubic-bezier(.22,1,.36,1)}
+  border-top:1px solid rgba(238,227,206,.30)}
 .o.val .fill{background:rgba(214,150,58,.20);border-top-color:var(--mostaza)}
 .o.alerta .fill{background:rgba(192,104,72,.17);border-top-color:var(--terracota)}
 .o span{display:block;font-size:7.5px;letter-spacing:.09em;color:var(--gris2);text-transform:uppercase}
@@ -114,7 +119,6 @@ a{color:inherit}
 .o em{display:block;font-family:var(--mono);font-size:8.5px;font-style:normal;color:var(--gris2);margin-top:2px;letter-spacing:.04em}
 .o.val em{color:var(--mostaza)}
 .o.alerta em{color:var(--terracota)}
-@media (prefers-reduced-motion:reduce){.o .fill{transition:none}}
 .o.val{background:var(--mostazaBg)}
 .o.val b{color:var(--mostaza)}
 .o.alerta{background:var(--terracotaBg)}
@@ -330,7 +334,7 @@ a{color:inherit}
    render, o se vuelve un tic. */
 @keyframes sube{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 .card{animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
-@media (prefers-reduced-motion:reduce){.card{animation:none}.o .fill{transition:none}}
+@media (prefers-reduced-motion:reduce){.card{animation:none}}
 
 /* Carga: el esqueleto del cupón, no un spinner. Se ve lo que va a
    venir en vez de un símbolo que no dice nada. */

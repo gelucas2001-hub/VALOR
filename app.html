@@ -59,8 +59,18 @@ a{color:inherit}
   position:relative;
 }
 .masthead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--salvia)}
-.wordmark{font-family:var(--anton);font-size:32px;line-height:1;letter-spacing:.01em}
-.kicker{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);margin-top:5px}
+/* Grano solo acá, nunca sobre filas de datos: es papel de tapa, no
+   ruido de interfaz. Va inline como SVG para no pedir un archivo. */
+.masthead::before{content:"";position:absolute;inset:0;opacity:.055;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+.masthead > *{position:relative}
+.wordmark{font-family:var(--anton);font-size:44px;line-height:.88;letter-spacing:-.005em;
+  display:flex;align-items:flex-end;gap:9px}
+.wordmark .tilde{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--salvia);
+  letter-spacing:.14em;padding-bottom:6px;white-space:nowrap}
+.kicker{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);
+  margin-top:9px;display:flex;align-items:center;gap:8px}
+.kicker::after{content:"";flex:1;height:1px;background:var(--linea-punteada,#3A322580)}
 
 /* ── slider de días ────────────────────────────────────────────── */
 .days{display:flex;gap:5px;padding:14px 16px;background:var(--hueco);overflow-x:auto;scrollbar-width:none}
@@ -85,10 +95,26 @@ a{color:inherit}
 .crest{width:19px;height:19px;object-fit:contain;flex:0 0 19px;border-radius:2px}
 .crest.ph{background:#3A3122;border-radius:50%}
 
-.odds{display:flex;gap:6px}
-.o{flex:1;background:var(--hueco);padding:7px 2px;text-align:center;min-width:0}
+/* ═══ ELEMENTO FIRMA · el cupón ═══════════════════════════════════
+   Las tres casillas del Prode, llenadas de tinta hasta la altura de
+   NUESTRA probabilidad. No es decoración: es la única parte de la app
+   donde se ven los tres números a la vez, y se lee la forma del
+   partido antes que ninguna palabra. Tres barras parejas = parejo.
+   Una alta a la izquierda = local claro. El cupón lo llenamos
+   nosotros, y el que apuesta ve dónde pusimos la tinta.
+   ══════════════════════════════════════════════════════════════════ */
+.odds{display:flex;gap:5px}
+.o{flex:1;background:var(--hueco);padding:8px 2px 7px;text-align:center;min-width:0;position:relative;overflow:hidden;isolation:isolate}
+.o .fill{position:absolute;left:0;right:0;bottom:0;z-index:-1;background:rgba(238,227,206,.085);
+  border-top:1px solid rgba(238,227,206,.30);transition:height .5s cubic-bezier(.22,1,.36,1)}
+.o.val .fill{background:rgba(214,150,58,.20);border-top-color:var(--mostaza)}
+.o.alerta .fill{background:rgba(192,104,72,.17);border-top-color:var(--terracota)}
 .o span{display:block;font-size:7.5px;letter-spacing:.09em;color:var(--gris2);text-transform:uppercase}
 .o b{display:block;font-family:var(--mono);font-size:15px;font-weight:600;margin-top:3px;color:var(--tinta)}
+.o em{display:block;font-family:var(--mono);font-size:8.5px;font-style:normal;color:var(--gris2);margin-top:2px;letter-spacing:.04em}
+.o.val em{color:var(--mostaza)}
+.o.alerta em{color:var(--terracota)}
+@media (prefers-reduced-motion:reduce){.o .fill{transition:none}}
 .o.val{background:var(--mostazaBg)}
 .o.val b{color:var(--mostaza)}
 .o.alerta{background:var(--terracotaBg)}
@@ -136,7 +162,17 @@ a{color:inherit}
 .read{margin-bottom:4px}
 .read .big{font-family:var(--anton);font-size:19px;line-height:1.25;margin:0 0 7px;color:var(--tinta)}
 .read p{font-size:12.5px;line-height:1.6;color:var(--tinta3);margin:0}
-.rh{display:flex;align-items:baseline;gap:8px;margin:24px 0 2px}
+/* La escalera baja de verdad: un travesaño por escalón, unidos por un
+   larguero. El peldaño se acorta a medida que baja — la probabilidad
+   dibujada, no solo escrita. */
+.escalera{position:relative;padding-left:24px;margin-top:6px}
+.escalera::before{content:"";position:absolute;left:4px;top:34px;bottom:30px;width:1px;
+  background:repeating-linear-gradient(180deg,var(--gris3) 0 3px,transparent 3px 7px)}
+.rh{display:flex;align-items:baseline;gap:8px;margin:24px 0 2px;position:relative}
+.peldano{position:absolute;left:-20px;top:8px;height:1px;background:var(--gris3)}
+.peldano::before{content:"";position:absolute;left:-2px;top:-2px;width:5px;height:5px;
+  border-radius:50%;background:var(--gris3)}
+.paso.val .peldano,.paso.val .peldano::before{background:var(--mostaza)}
 .rh b{font-family:var(--anton);font-size:13.5px;color:var(--tinta2);letter-spacing:.02em}
 .rh .pct{font-family:var(--mono);font-size:10px;color:var(--gris3);margin-left:auto}
 .rsub{font-size:10.5px;color:var(--gris3);margin:0 0 9px}
@@ -157,6 +193,17 @@ a{color:inherit}
 .eqhd{display:flex;align-items:center;gap:8px;margin:20px 0 9px}
 .eqhd:first-child{margin-top:0}
 .eqhd b{font-family:var(--cuerpo);font-weight:600;font-size:13.5px}
+/* Tira de forma: los últimos cinco de un vistazo, antes del detalle.
+   La intensidad hace el trabajo del color — ganado en tinta plena,
+   perdido casi apagado. Mostaza y terracota no entran acá: están
+   reservadas y significan otra cosa. */
+.tira{display:flex;gap:3px;margin-left:auto;flex:0 0 auto}
+.tira i{width:15px;height:15px;display:grid;place-items:center;font-family:var(--mono);
+  font-size:8.5px;font-weight:700;font-style:normal}
+.tira i.W{background:var(--tinta);color:var(--hueco)}
+.tira i.D{background:var(--neutro-medio,#4A4030);color:var(--tinta3)}
+.tira i.L{background:var(--linea2);color:var(--gris2)}
+.racha{font-family:var(--mono);font-size:10px;color:var(--gris2);margin:-4px 0 10px;letter-spacing:.02em}
 .frow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
 .frow:first-of-type{border-top:none}
 .frow .r{width:16px;height:16px;display:grid;place-items:center;font-family:var(--mono);font-size:9px;font-weight:700;flex:0 0 16px}
@@ -190,6 +237,22 @@ a{color:inherit}
 .eqblock{margin-bottom:26px}
 .eqblock .eqhd b{font-family:var(--anton);font-size:16px;font-weight:400}
 .blurb{font-size:12.5px;line-height:1.6;color:var(--tinta3);margin:0 0 13px}
+/* Comparativa: la misma tinta del cupón, ahora enfrentada. Las dos
+   barras salen del centro, así se lee quién saca ventaja en cada
+   renglón sin leer un solo número. */
+.vs{margin:4px 0 18px}
+.vs .fila{display:grid;grid-template-columns:34px 1fr auto 1fr 34px;align-items:center;
+  gap:7px;padding:7px 0;border-top:1px solid var(--linea)}
+.vs .fila:first-child{border-top:none}
+.vs .n{font-family:var(--mono);font-size:12px;color:var(--tinta2);font-weight:500}
+.vs .n.d{text-align:right}
+.vs .q{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--gris2);text-align:center;white-space:nowrap}
+.vs .barra{height:7px;background:var(--hueco);position:relative}
+.vs .barra i{position:absolute;top:0;bottom:0;background:var(--tinta3);opacity:.55}
+.vs .barra.izq i{right:0}
+.vs .barra.der i{left:0}
+.vs .fila.gana-i .barra.izq i,.vs .fila.gana-d .barra.der i{opacity:1;background:var(--tinta)}
 .tstats{display:flex;gap:6px;margin-bottom:6px}
 .tstats .t{flex:1;background:var(--panel);padding:8px 2px;text-align:center;min-width:0}
 .tstats .t span{display:block;font-size:7px;letter-spacing:.07em;color:var(--gris2);text-transform:uppercase}
@@ -261,6 +324,23 @@ a{color:inherit}
 .nav button{flex:1;padding:13px 0 12px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);position:relative}
 .nav button.on{color:var(--tinta)}
 .nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--tinta)}
+
+/* Entrada escalonada: las tarjetas del día aparecen como se llena un
+   cupón, de arriba abajo. Una sola vez, al cambiar de día — no en cada
+   render, o se vuelve un tic. */
+@keyframes sube{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.card{animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
+@media (prefers-reduced-motion:reduce){.card{animation:none}.o .fill{transition:none}}
+
+/* Carga: el esqueleto del cupón, no un spinner. Se ve lo que va a
+   venir en vez de un símbolo que no dice nada. */
+@keyframes late{0%,100%{opacity:.28}50%{opacity:.6}}
+.skel{margin:0 16px 10px;background:var(--panel);padding:13px 14px;animation:late 1.4s ease-in-out infinite}
+.skel .b{background:var(--linea2);height:9px;margin-bottom:9px}
+.skel .b.t{height:15px;width:72%;margin-bottom:12px}
+.skel .row{display:flex;gap:5px}
+.skel .row div{flex:1;height:38px;background:var(--hueco)}
+@media (prefers-reduced-motion:reduce){.skel{animation:none;opacity:.4}}
 
 .aviso{margin:16px;padding:12px 14px;background:var(--panel);font-size:12px;line-height:1.6;color:var(--tinta3)}
 .aviso b{color:var(--tinta);display:block;margin-bottom:5px}
@@ -356,7 +436,7 @@ const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
    ══════════════════════════════════════════════════════════════════ */
 let MATCHES=[], ANALISIS={}, EQUIPOS={}, ACTUALIZADO="";
 let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
-let BOOT_ERROR=null;
+let BOOT_ERROR=null, CARGANDO=true;
 
 const guardar = (k,v)=>{ try{ localStorage.setItem("valor_"+k, JSON.stringify(v)); }catch(e){} };
 const leer = (k,def)=>{ try{ const v=localStorage.getItem("valor_"+k); return v?JSON.parse(v):def; }catch(e){ return def; } };
@@ -623,9 +703,11 @@ function viewFecha(){
   const delDia = MATCHES.filter(m=>m.date===DIA);
   const d = DIA ? fechaDe(DIA) : new Date();
 
+  /* El contador no es adorno: dice el tamaño del día antes de scrollear. */
+  const n = delDia.length;
   let h = `<header class="masthead">
-    <div class="wordmark">VALOR</div>
-    <div class="kicker">${d.getDate()} de ${MESES[d.getMonth()]} · Fútbol argentino</div>
+    <div class="wordmark">VALOR<span class="tilde">${n} ${n===1?"PARTIDO":"PARTIDOS"}</span></div>
+    <div class="kicker">${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}</div>
   </header>
   <div class="days">${dias.map(x=>`
     <button class="day ${x.iso===DIA?"on":""} ${x.n?"":"vacio"}" data-dia="${x.iso}">
@@ -640,17 +722,18 @@ function viewFecha(){
   const grupos = {};
   delDia.forEach(m=> (grupos[m.comp] = grupos[m.comp]||[]).push(m));
 
+  let i = 0;
   for(const comp in grupos){
     h += `<div class="lg">${esc_(comp)}</div>`;
     grupos[comp].sort((a,b)=>(a.hora||"").localeCompare(b.hora||"")).forEach(m=>{
-      h += tarjeta(m);
+      h += tarjeta(m, i++);
     });
   }
   h += `<div class="fin">Datos actualizados ${esc_((ACTUALIZADO||"").replace("T"," "))}</div>`;
   return h;
 }
 
-function tarjeta(m){
+function tarjeta(m, orden=0){
   const lec = lectura(m);
   const mk = m.mercado || {};
   const al = alerta(m);
@@ -667,6 +750,19 @@ function tarjeta(m){
   }
   const cls = k => valKey===k ? "o val" : (al && al.lean===k ? "o alerta" : (mk.local?"o":"o sin"));
   const cuota = v => v ? v.toFixed(2) : "—";
+  /* La tinta del cupón se normaliza contra el resultado más probable,
+     no contra 100%: si el máximo fuese 45% las tres casillas quedarían
+     casi vacías y no se leería nada. Lo que importa es la proporción
+     entre las tres, que es lo que dice la forma del partido. */
+  /* Escala fija: el casillero se llena del todo a partir de 70%. Si se
+     normalizara contra el más probable de cada partido, un favorito de
+     38% llenaría igual que uno de 66% y el cupón mentiría sobre la
+     confianza. Con escala fija se leen las dos cosas: la forma del
+     partido y cuánto nos jugamos. */
+  const tinta = k => Math.round(Math.min(1, lec.p[k]/0.70)*100);
+  const casilla = (k, etiqueta, c) => `<div class="${cls(k)}">
+      <i class="fill" style="height:${tinta(k)}%"></i>
+      <span>${etiqueta}</span><b>${cuota(c)}</b><em>${pc(lec.p[k])}</em></div>`;
 
   let pie;
   if(al){
@@ -682,13 +778,13 @@ function tarjeta(m){
     pie = `<div class="pron">${lec.corto}</div>`;
   }
 
-  return `<button class="card" data-partido="${esc_(m.id)}">
+  return `<button class="card" data-partido="${esc_(m.id)}" style="animation-delay:${Math.min(orden,7)*38}ms">
     <div class="meta">${esc_(m.hora||"")}${m.grupo?" · "+esc_(grupoEs(m.grupo,m.comp)):""}</div>
     <div class="teams">${crest(m.homeLogo)}${esc_(m.home)}<i>vs</i>${crest(m.awayLogo)}${esc_(m.away)}</div>
     <div class="odds">
-      <div class="${cls("L")}"><span>Local</span><b>${cuota(mk.local)}</b></div>
-      <div class="${cls("E")}"><span>Empate</span><b>${cuota(mk.empate)}</b></div>
-      <div class="${cls("V")}"><span>Visita</span><b>${cuota(mk.visitante)}</b></div>
+      ${casilla("L","Local",mk.local)}
+      ${casilla("E","Empate",mk.empate)}
+      ${casilla("V","Visita",mk.visitante)}
     </div>
     ${pie}
   </button>`;
@@ -715,6 +811,10 @@ function viewPartido(){
   }
   const cls = k => valKey===k ? "o val" : (al && al.lean===k ? "o alerta" : "o");
   const cuota = v => v ? v.toFixed(2) : "—";
+  const tinta = k => Math.round(Math.min(1, lec.p[k]/0.70)*100);
+  const casilla = (k, etiqueta, c) => `<div class="${cls(k)}">
+      <i class="fill" style="height:${tinta(k)}%"></i>
+      <span>${etiqueta}</span><b>${cuota(c)}</b><em>${pc(lec.p[k])}</em></div>`;
 
   const cuerpo = {
     analisis: tabAnalisis, pronosticos: tabPronosticos, historial: tabHistorial,
@@ -728,9 +828,9 @@ function viewPartido(){
       <div class="meta">${esc_(grupoEs(m.grupo,m.comp)||m.comp)}</div>
     </div>
     <div class="dodds">
-      <div class="${cls("L")}"><span>Local</span><b>${cuota(mk.local)}</b></div>
-      <div class="${cls("E")}"><span>Empate</span><b>${cuota(mk.empate)}</b></div>
-      <div class="${cls("V")}"><span>Visita</span><b>${cuota(mk.visitante)}</b></div>
+      ${casilla("L","Local",mk.local)}
+      ${casilla("E","Empate",mk.empate)}
+      ${casilla("V","Visita",mk.visitante)}
     </div>
     <div class="tabs">${TABS.map(([k,l])=>`<button class="tab ${TAB===k?"on":""}" data-tab="${k}">${l}</button>`).join("")}</div>
     <div class="sec">${cuerpo}</div>
@@ -773,21 +873,28 @@ function tabPronosticos(m){
       precio a favor en partidos que miramos en serio, y este todavía no.</div>`;
   }
 
+  h += `<div class="escalera">`;
   esc.forEach(({franja, op, ventaja, valor})=>{
-    h += `<div class="rh"><b>${franja.n}</b><span class="pct">${op?cadaCuanto(op.p):""}</span></div>
+    const marcar = op && valor && hay;
+    /* el travesaño se acorta con la probabilidad: el escalón seguro es
+       ancho, el arriesgado apenas un saliente */
+    const ancho = op ? Math.round(7 + op.p*11) : 8;
+    h += `<div class="paso ${marcar?"val":""}">
+      <div class="rh"><span class="peldano" style="width:${ancho}px"></span>
+        <b>${franja.n}</b><span class="pct">${op?cadaCuanto(op.p):""}</span></div>
       <p class="rsub">${franja.sub}</p>`;
     if(!op){
-      h += `<div class="bet"><div class="l2">Sin ninguna opción clara en esta franja para este partido.</div></div>`;
+      h += `<div class="bet"><div class="l2">Sin ninguna opción clara en esta franja para este partido.</div></div></div>`;
       return;
     }
-    const marcar = valor && hay;
     h += `<div class="bet ${marcar?"val":""}">
       <div class="l1"><span class="mkt">${esc_(op.label)}</span><span class="prob">${pc(op.p)}</span></div>
       <div class="l2">Conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>
       ${marcar?`<div class="valtag">Acá el precio está a favor</div>`:""}
       <div class="expl">${esc_(cuandoCobra(op,m))}</div>
-    </div>`;
+    </div></div>`;
   });
+  h += `</div>`;
 
   const cmb = combinada(m);
   if(cmb && hay){
@@ -818,7 +925,19 @@ function tabHistorial(m){
   const bloque = (nombre, logo, forma)=>{
     if(!forma || !forma.length) return `<div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>
       <div class="vacio" style="padding:8px 0">Sin partidos recientes cargados.</div>`;
-    return `<div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>` + forma.map(f=>`
+    const g = forma.filter(f=>f.r==="W").length, e = forma.filter(f=>f.r==="D").length;
+    const p = forma.length - g - e;
+    /* En `marcador` el primer número es SIEMPRE el del equipo del que
+       es la fila, no el del local. Verificado sobre los 206 partidos
+       con resultado de la muestra: 206 de 206 cierran con esta lectura
+       y solo 109 con la otra. */
+    const goles = f => (f.marcador||"").split("-").map(Number);
+    const hechos = forma.reduce((s,f)=> s + (goles(f)[0]||0), 0);
+    const recib  = forma.reduce((s,f)=> s + (goles(f)[1]||0), 0);
+    return `<div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b>
+        <span class="tira">${forma.slice().reverse().map(f=>`<i class="${f.r}">${f.r}</i>`).join("")}</span></div>
+      <div class="racha">${g}G ${e}E ${p}P · ${hechos} hechos, ${recib} recibidos en los últimos ${forma.length}</div>` +
+      forma.map(f=>`
       <div class="frow">
         <span class="r ${f.r}">${f.r}</span>
         <span class="rival">${f.local?"vs":"@"} ${esc_(f.rival)}</span>
@@ -897,7 +1016,28 @@ function tabPlantel(m){
     return h + `</div>`;
   };
 
-  let h = bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
+  /* Cara a cara antes del detalle de cada equipo: es lo primero que uno
+     quiere saber cuando abre esta pestaña. */
+  const tl = stat(m.homeId, m.tabla), tv = stat(m.awayId, m.tabla);
+  let h = "";
+  if(tl && tv){
+    const fila = (etiqueta, a, b)=>{
+      const tope = Math.max(a, b, 1);
+      const cls = a>b ? "gana-i" : b>a ? "gana-d" : "";
+      return `<div class="fila ${cls}">
+        <span class="n">${a}</span>
+        <span class="barra izq"><i style="width:${a/tope*100}%"></i></span>
+        <span class="q">${etiqueta}</span>
+        <span class="barra der"><i style="width:${b/tope*100}%"></i></span>
+        <span class="n d">${b}</span></div>`;
+    };
+    h += `<div class="lbl">Cara a cara en el torneo</div><div class="vs">
+      ${fila("Puntos", tl.pts, tv.pts)}
+      ${fila("Ganados", tl.g, tv.g)}
+      ${fila("Goles", tl.gf!=null?tl.gf:0, tv.gf!=null?tv.gf:0)}
+    </div>`;
+  }
+  h += bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
   h += `<div class="lbl sep">Del partido</div>
     <div class="tstats">
       <div class="t"><span>Córners esperados</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
@@ -1092,8 +1232,17 @@ function viewMetodo(){
 /* ══════════════════════════════════════════════════════════════════
    RENDER Y RUTEO
    ══════════════════════════════════════════════════════════════════ */
+function esqueleto(){
+  const fila = `<div class="skel"><div class="b" style="width:38%"></div><div class="b t"></div>
+    <div class="row"><div></div><div></div><div></div></div></div>`;
+  return `<header class="masthead"><div class="wordmark">VALOR</div>
+      <div class="kicker">Buscando la fecha</div></header>
+    <div class="lg">&nbsp;</div>${fila.repeat(3)}`;
+}
+
 function render(){
   const app = document.getElementById("app");
+  if(CARGANDO){ app.innerHTML = esqueleto(); return; }
   if(BOOT_ERROR){
     app.innerHTML = `<header class="masthead"><div class="wordmark">VALOR</div></header>
       <div class="aviso"><b>No pudimos cargar los datos</b>${esc_(BOOT_ERROR)}</div>`;
@@ -1187,7 +1336,9 @@ async function traer(url, def){
 }
 
 (async function init(){
+  render();                       // esqueleto mientras baja el JSON
   const p = await traer("data/partidos.json", null);
+  CARGANDO = false;
   if(!p){ BOOT_ERROR = "No respondió data/partidos.json. Si estás abriendo el archivo directo desde el disco, hace falta un servidor local."; render(); return; }
   MATCHES = (p.partidos||p||[]).filter(m=> m.lh!=null && m.la!=null);
   ACTUALIZADO = p.actualizado || "";

@@ -39,6 +39,11 @@ CACHE_DISCIPLINA = Path("data/cache_disciplina.json")  # event_id -> {team_id:
                             # tirar minutos de corrida a la basura. Un evento
                             # ya jugado no cambia, así que cachearlo para
                             # siempre es seguro.
+CACHE_LIGAS = Path("data/cache_ligas.json")  # team_id -> slug de su liga local
+                            # ("bra.1"). Persiste ENTRE corridas, como
+                            # cache_disciplina: un equipo no cambia de liga en
+                            # mitad de la temporada, así que preguntarlo una
+                            # vez alcanza para siempre.
 DISCIPLINA_N = 3           # últimos N partidos por equipo para córners/
                             # faltas/tarjetas — más chico que los 5 de forma()
                             # a propósito, por el costo de /summary.
@@ -224,6 +229,30 @@ def historial(slug, team_id, season=None):
         })
     jugados.sort(key=lambda x: x["fecha"], reverse=True)
     return jugados
+
+
+def liga_domestica(team_id, slug_consulta, cache):
+    """Slug de la liga local del equipo, vía el campo defaultLeague.
+
+    Hace falta porque /teams/{id}/schedule bajo el slug de una copa
+    devuelve SOLO los partidos de esa copa (verificado: Palmeiras da 7
+    eventos bajo conmebol.libertadores y 23 bajo bra.1). Para saber
+    cuánto vale un equipo necesitamos su liga, donde sí tiene muestra.
+
+    Devuelve None si ESPN no informa defaultLeague; el llamador debe
+    seguir andando sin ancla en ese caso.
+    """
+    clave = str(team_id)
+    if clave in cache:
+        return cache[clave]          # puede ser None cacheado: no reintentar
+    slug = None
+    try:
+        d = api(f"{SITE_V2}/{slug_consulta}/teams/{team_id}")
+        slug = ((d.get("team") or {}).get("defaultLeague") or {}).get("slug")
+    except Exception:
+        return None                  # error de red: NO cachear, reintentar luego
+    cache[clave] = slug
+    return slug
 
 
 def promedio_condicion(jugados, local):

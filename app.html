@@ -102,6 +102,24 @@ a{color:inherit}
 .day.vacio b{color:var(--gris2)}
 @media (prefers-reduced-motion:reduce){.day{transition:none}}
 
+/* ── tira de competiciones ─────────────────────────────────────────
+   A diferencia del carrusel de días, esto NO filtra — solo salta a la
+   sección de esa competición si juega hoy. La app ya tiene una regla
+   dura de "todo entra, sin acordeón" (5-10 partidos por día caben en
+   pantalla); un filtro que oculta las otras tres competiciones la
+   rompería. Por eso no hay estado "seleccionado" persistente: tocar
+   Sudamericana no dice "ahora solo ves Sudamericana", dice "llevame
+   ahí". Si esa competición no juega hoy, el botón queda apagado en vez
+   de desaparecer — la tira no debe saltar de lugar día a día. */
+.comps{display:flex;gap:7px;padding:0 16px var(--e4);overflow-x:auto;scrollbar-width:none}
+.comps::-webkit-scrollbar{display:none}
+.compchip{flex:0 0 auto;display:flex;align-items:center;gap:6px;background:var(--panel);
+  padding:6px 11px 6px 7px;border:none}
+.compchip img{width:16px;height:16px;object-fit:contain;flex:0 0 16px}
+.compchip span{font-family:var(--mono);font-size:10px;color:var(--tinta3);white-space:nowrap}
+.compchip.vacio{opacity:.4}
+.compchip:disabled{cursor:default}
+
 /* ── encabezado de liga ────────────────────────────────────────── */
 .lg{font-family:var(--anton);font-size:15px;color:var(--gris);padding:var(--e5) 16px var(--e2);display:flex;align-items:center;gap:9px;letter-spacing:.01em}
 .lg::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,#3A322580 0 5px,transparent 5px 9px)}
@@ -735,6 +753,26 @@ function diasDisponibles(){
   });
 }
 
+/* Orden fijo de las cuatro competiciones — no el orden en que aparecen
+   en los datos del día, que cambia. El logo sale de CUALQUIER partido
+   de esa competición en toda la semana, no solo los de hoy: así la
+   tira no desaparece un día que esa copa no juega. */
+const COMPS_ORDEN = ["Liga Profesional Argentina", "Copa Argentina",
+  "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
+const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Copa Argentina":"Copa Arg.",
+  "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
+
+function tiraCompeticiones(delDia){
+  const logos = {};
+  MATCHES.forEach(m=>{ if(!logos[m.comp]) logos[m.comp] = m.compLogo; });
+  const hoy = new Set(delDia.map(m=>m.comp));
+  return `<div class="comps">${COMPS_ORDEN.filter(c=>logos[c]).map(c=>`
+    <button class="compchip ${hoy.has(c)?"":"vacio"}" data-scrollcomp="${esc_(c)}" ${hoy.has(c)?"":"disabled"}>
+      <img src="${esc_(logos[c])}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      <span>${esc_(COMPS_CORTO[c]||c)}</span>
+    </button>`).join("")}</div>`;
+}
+
 function viewFecha(){
   const dias = diasDisponibles();
   if(!DIA || !dias.some(d=>d.iso===DIA)) DIA = dias.length ? dias[0].iso : null;
@@ -750,7 +788,8 @@ function viewFecha(){
   <div class="days">${dias.map(x=>`
     <button class="day ${x.iso===DIA?"on":""} ${x.n?"":"vacio"}" data-dia="${x.iso}">
       <b>${x.dia}</b><span>${x.nombre}</span>
-    </button>`).join("")}</div>`;
+    </button>`).join("")}</div>
+  ${tiraCompeticiones(delDia)}`;
 
   if(!delDia.length){
     h += `<div class="aviso"><b>No hay partidos este día</b>Elegí otro en la barra de arriba.</div>`;
@@ -762,7 +801,7 @@ function viewFecha(){
 
   let i = 0;
   for(const comp in grupos){
-    h += `<div class="lg">${esc_(comp)}</div>`;
+    h += `<div class="lg" data-comp="${esc_(comp)}">${esc_(comp)}</div>`;
     grupos[comp].sort((a,b)=>(a.hora||"").localeCompare(b.hora||"")).forEach(m=>{
       h += tarjeta(m, i++);
     });
@@ -1312,12 +1351,17 @@ function ir(v, extra){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-nav],[data-dia],[data-partido],[data-tab],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar]");
+  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar]");
   if(!t) return;
   const d = t.dataset;
 
   if(d.nav){ ir(d.nav); }
   else if(d.dia){ DIA = d.dia; render(); }
+  else if(d.scrollcomp){
+    /* Solo salta, nunca filtra — ver el comentario en .comps del CSS. */
+    document.querySelector(`.lg[data-comp="${CSS.escape(d.scrollcomp)}"]`)
+      ?.scrollIntoView({behavior:"smooth", block:"start"});
+  }
   else if(d.partido){ ir("partido", d.partido); }
   else if(d.tab){ TAB = d.tab; render(); }
   else if(d.volver){ ir("fecha"); }

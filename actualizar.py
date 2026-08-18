@@ -284,16 +284,30 @@ def promedio_condicion(jugados, local):
     return gf, gc, len(sub)
 
 
+def fecha_corta(iso):
+    """La fecha de ESPN (ISO) a DD/MM/AA. Un solo formato de fecha en todo
+    lo que sale hacia el análisis: si conviven dos, el que lee tiene que
+    adivinar cuál es cuál."""
+    d = (iso or "")[:10]
+    return f"{d[8:10]}/{d[5:7]}/{d[2:4]}" if len(d) == 10 else ""
+
+
 def forma(jugados, n=5):
     """Últimos n partidos con contra quién, de local o visitante, y el
     resultado — no solo la letra W/D/L, así se puede juzgar si esa forma
     fue floja porque perdió con candidatos o porque le fue mal con
-    cualquiera."""
+    cualquiera.
+
+    Con fecha, porque sin ella la forma flota: cinco partidos pueden ser
+    cinco semanas o cinco meses, y eso cambia por completo si "viene de
+    tres derrotas" describe un momento o media temporada. En copas de
+    llave la diferencia es enorme."""
     out = []
     for p in jugados[:n]:
         r = "W" if p["gf"] > p["gc"] else ("D" if p["gf"] == p["gc"] else "L")
         rival = p["away"] if p["local"] else p["home"]
         out.append({
+            "d": fecha_corta(p.get("fecha")),
             "r": r, "rival": rival, "local": p["local"],
             "marcador": f'{int(p["gf"])}-{int(p["gc"])}',
         })
@@ -802,9 +816,8 @@ def main():
                 previos = jug_loc if yr == season else get_hist(slug, loc_id, yr)
                 for p in previos:
                     if p["rival_id"] == vis_id:
-                        dd = p["fecha"][:10]
                         h2h.append({
-                            "d": f"{dd[8:10]}/{dd[5:7]}/{dd[2:4]}",
+                            "d": fecha_corta(p["fecha"]),
                             "h": p["home"], "a": p["away"], "s": p["marcador"],
                         })
             vistos_h2h, h2h_unico = set(), []

@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#13100B;font-family:'Archivo',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#D8CDB4}a:hover{color:#EEE3CE}
+button{font:inherit}
+::-webkit-scrollbar{width:0;height:0}
+@keyframes sube{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes selló{from{opacity:0;transform:scale(1.14) rotate(-2.5deg)}to{opacity:1;transform:scale(1) rotate(-2.5deg)}}
+@keyframes desliza{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+@keyframes late{0%,100%{opacity:.28}50%{opacity:.6}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></helmet>
+
+<div style="max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:64px;background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px),radial-gradient(rgba(0,0,0,.06) .5px,transparent .6px);background-size:4px 4px,7px 7px,5px 5px;background-position:0 0,2px 3px,3px 1px;position:relative">
+
+<sc-if value="{{ cargando }}" hint-placeholder-val="{{ true }}">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 100 100" style="height:45px;width:45px;display:block" aria-label="VALOR">
+<defs><clipPath id="vm-s"><polygon points="34,18 55,64 70,18"></polygon></clipPath></defs>
+<polygon points="17,18 34,18 55,64 70,18 83,18 56,84 46,84" fill="#D8CDB4"></polygon>
+<g clip-path="url(#vm-s)">
+<polygon points="42.5,38 47.1,38 36.65,70 32.05,70" fill="#5A6338"></polygon>
+<polygon points="50.5,30 55.1,30 42.05,70 37.45,70" fill="#4E5730"></polygon>
+<polygon points="57.8,24 62.4,24 47.45,70 42.85,70" fill="#616B3C"></polygon>
+<polygon points="64.9,19 69.5,19 52.85,70 48.25,70" fill="#757F4E"></polygon>
+</g>
+<line x1="27.5" y1="30.3" x2="44.3" y2="68.6" stroke="#171310" stroke-width="2"></line>
+</svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68">BUSCANDO LA FECHA</div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="padding:20px 16px">
+<div style="height:14px;width:38%;background:#221C15;margin-bottom:16px;animation:late 1.4s ease-in-out infinite"></div>
+<div style="height:96px;background:#221C15;margin-bottom:12px;animation:late 1.4s ease-in-out infinite"></div>
+<div style="height:96px;background:#221C15;margin-bottom:12px;animation:late 1.4s ease-in-out infinite"></div>
+<div style="height:96px;background:#221C15;animation:late 1.4s ease-in-out infinite"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hayError }}">
+<header style="background:#171310;padding:18px 16px 14px;position:relative">
+<svg viewBox="0 0 100 100" style="height:45px;width:45px;display:block" aria-label="VALOR">
+<defs><clipPath id="vm-e"><polygon points="34,18 55,64 70,18"></polygon></clipPath></defs>
+<polygon points="17,18 34,18 55,64 70,18 83,18 56,84 46,84" fill="#D8CDB4"></polygon>
+<g clip-path="url(#vm-e)">
+<polygon points="42.5,38 47.1,38 36.65,70 32.05,70" fill="#5A6338"></polygon>
+<polygon points="50.5,30 55.1,30 42.05,70 37.45,70" fill="#4E5730"></polygon>
+<polygon points="57.8,24 62.4,24 47.45,70 42.85,70" fill="#616B3C"></polygon>
+<polygon points="64.9,19 69.5,19 52.85,70 48.25,70" fill="#757F4E"></polygon>
+</g>
+<line x1="27.5" y1="30.3" x2="44.3" y2="68.6" stroke="#171310" stroke-width="2"></line>
+</svg>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="margin:16px;padding:14px;background:#221C15;box-shadow:4px 4px 0 #13100B">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:17px;color:#EEE3CE;margin-bottom:7px">No pudimos cargar los datos</div>
+<div style="font-size:12.5px;line-height:1.6;color:#B8AD95">{{ errorMsg }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ vFecha }}">
+<header style="background:#171310;padding:20px 16px 15px;position:relative;display:flex;flex-direction:column;align-items:center;gap:9px">
+<svg viewBox="0 0 100 100" style="height:58px;width:58px;display:block" aria-label="VALOR">
+<defs><clipPath id="vm-f"><polygon points="34,18 55,64 70,18"></polygon></clipPath></defs>
+<polygon points="17,18 34,18 55,64 70,18 83,18 56,84 46,84" fill="#D8CDB4"></polygon>
+<g clip-path="url(#vm-f)">
+<polygon points="42.5,38 47.1,38 36.65,70 32.05,70" fill="#5A6338"></polygon>
+<polygon points="50.5,30 55.1,30 42.05,70 37.45,70" fill="#4E5730"></polygon>
+<polygon points="57.8,24 62.4,24 47.45,70 42.85,70" fill="#616B3C"></polygon>
+<polygon points="64.9,19 69.5,19 52.85,70 48.25,70" fill="#757F4E"></polygon>
+</g>
+<line x1="27.5" y1="30.3" x2="44.3" y2="68.6" stroke="#171310" stroke-width="2"></line>
+</svg>
+<div style="display:flex;align-items:center;gap:11px;width:100%;max-width:250px">
+<div style="flex:1;height:1px;background:#3A3225"></div>
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;line-height:1;letter-spacing:.3em;color:#D8CDB4;padding-left:.3em">VALOR</div>
+<div style="flex:1;height:1px;background:#3A3225"></div>
+</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#8C7F68">{{ titulo }}</div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;gap:5px;padding:13px 16px;background:#171310;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ dias }}" as="d" hint-placeholder-count="6">
+<button type="button" onClick="{{ d.ir }}" style="flex:1 0 52px;text-align:center;padding:7px 0;border:none;cursor:pointer;background:{{ d.bg }}">
+<b style="display:block;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:{{ d.col }}">{{ d.n }}</b>
+<span style="display:block;font-size:7.5px;letter-spacing:.09em;color:{{ d.col2 }};text-transform:uppercase;margin-top:1px">{{ d.dow }}</span>
+</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:7px;padding:0 16px 14px;background:#171310;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ comps }}" as="c" hint-placeholder-count="4">
+<div style="flex:0 0 auto;display:flex;align-items:center;gap:6px;background:#221C15;padding:6px 11px 6px 7px;opacity:{{ c.op }}">
+<img src="{{ c.logo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:16px;height:16px;object-fit:contain;flex:0 0 16px">
+<span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#B8AD95;white-space:nowrap">{{ c.corto }}</span>
+</div>
+</sc-for>
+</div>
+
+<sc-if value="{{ diaVacio }}">
+<div style="margin:16px;padding:14px;background:#221C15;box-shadow:4px 4px 0 #13100B">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:17px;color:#EEE3CE;margin-bottom:6px">No hay partidos este día</div>
+<div style="font-size:12.5px;line-height:1.6;color:#B8AD95">Elegí otro en la barra de arriba.</div>
+</div>
+</sc-if>
+
+<sc-for list="{{ grupos }}" as="g" hint-placeholder-count="2">
+<div style="margin:20px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">{{ g.comp }}</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">{{ g.cuenta }}</div>
+</div>
+<sc-for list="{{ g.matches }}" as="m" hint-placeholder-count="3">
+<div onClick="{{ m.abrir }}" style="margin:0 20px 14px 16px;background:#221C15;display:flex;box-shadow:4px 4px 0 #13100B;cursor:pointer;animation:sube .32s cubic-bezier(.22,1,.36,1) both">
+<div style="flex:0 0 52px;padding:13px 0 13px 11px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#5C513F">Nº {{ m.num }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:7px;letter-spacing:-.01em">{{ m.hora }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:#5C513F;margin-top:2px;letter-spacing:.08em">{{ m.deTotal }}</div>
+</div>
+<div style="flex:0 0 1px;margin:11px 0;background:repeating-linear-gradient(180deg,#3A3122 0 3px,transparent 3px 8px)"></div>
+<div style="flex:1;min-width:0;padding:13px 12px">
+<div style="display:flex;align-items:center;gap:8px">
+<img src="{{ m.hl }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:17px;height:17px;object-fit:contain;flex:0 0 17px">
+<div style="flex:1;min-width:0;font-family:'Anton',Impact,sans-serif;font-size:15.5px;line-height:1.18;color:#EEE3CE">{{ m.home }}</div>
+<div style="flex:0 0 auto;display:flex;gap:2px">
+<sc-for list="{{ m.formH }}" as="f" hint-placeholder-count="5">
+<i style="width:12px;height:12px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:700;font-style:normal;background:{{ f.bg }};color:{{ f.col }}">{{ f.t }}</i>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:5px">
+<img src="{{ m.al }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:17px;height:17px;object-fit:contain;flex:0 0 17px">
+<div style="flex:1;min-width:0;font-family:'Anton',Impact,sans-serif;font-size:15.5px;line-height:1.18;color:#EEE3CE">{{ m.away }}</div>
+<div style="flex:0 0 auto;display:flex;gap:2px">
+<sc-for list="{{ m.formA }}" as="f" hint-placeholder-count="5">
+<i style="width:12px;height:12px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:700;font-style:normal;background:{{ f.bg }};color:{{ f.col }}">{{ f.t }}</i>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;gap:4px;margin-top:12px">
+<div style="flex:1;background:{{ m.bgL }};padding:6px 2px;text-align:center;min-width:0"><span style="display:block;font-size:7px;letter-spacing:.1em;color:#6E6350;text-transform:uppercase">Local</span><b style="display:block;font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:600;color:{{ m.colL }};margin-top:3px">{{ m.cL }}</b><em style="display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:8px;color:{{ m.pcolL }};margin-top:2px">{{ m.pL }}</em></div>
+<div style="flex:1;background:{{ m.bgE }};padding:6px 2px;text-align:center;min-width:0"><span style="display:block;font-size:7px;letter-spacing:.1em;color:#6E6350;text-transform:uppercase">Empate</span><b style="display:block;font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:600;color:{{ m.colE }};margin-top:3px">{{ m.cE }}</b><em style="display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:8px;color:{{ m.pcolE }};margin-top:2px">{{ m.pE }}</em></div>
+<div style="flex:1;background:{{ m.bgV }};padding:6px 2px;text-align:center;min-width:0"><span style="display:block;font-size:7px;letter-spacing:.1em;color:#6E6350;text-transform:uppercase">Visita</span><b style="display:block;font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:600;color:{{ m.colV }};margin-top:3px">{{ m.cV }}</b><em style="display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:8px;color:{{ m.pcolV }};margin-top:2px">{{ m.pV }}</em></div>
+</div>
+<sc-if value="{{ m.val }}"><div style="font-family:'Anton',Impact,sans-serif;font-size:11px;color:#D6963A;letter-spacing:.03em;margin-top:10px">Acá el precio está a favor</div></sc-if>
+<sc-if value="{{ m.alerta }}"><div style="font-family:'Anton',Impact,sans-serif;font-size:11px;color:#C06848;letter-spacing:.03em;margin-top:10px">Cuidado con el precio</div></sc-if>
+<div style="display:flex;align-items:flex-end;gap:10px;margin-top:10px">
+<div style="flex:1;min-width:0;font-size:11.5px;line-height:1.45;color:#B8AD95">{{ m.corto }}</div>
+<div style="flex:0 0 auto;transform:rotate(-2.5deg);border:1.5px solid rgba(238,227,206,.4);padding:4px 8px 5px;text-align:center;animation:selló .5s cubic-bezier(.22,1,.36,1) both">
+<div style="border-top:1px solid rgba(238,227,206,.2);border-bottom:1px solid rgba(238,227,206,.2);padding:2px 0">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:10.5px;letter-spacing:.05em;color:#D8CDB4;line-height:1.1">{{ m.selloA }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;color:#8C7F68;letter-spacing:.09em;margin-top:1px">{{ m.selloB }}</div>
+</div>
+</div>
+</div>
+<div style="height:1px;margin-top:11px;background:repeating-linear-gradient(90deg,#3A3122 0 3px,transparent 3px 7px)"></div>
+<div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.12em;color:#4A4030;margin-top:6px"><span>VALOR · PROGRAMA</span><span>{{ m.num }} {{ m.deTotal }}</span></div>
+</div>
+</div>
+</sc-for>
+</sc-for>
+<div style="padding:22px 16px 34px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#5C513F;text-align:center">Datos actualizados {{ actualizado }}</div>
+</sc-if>
+
+<sc-if value="{{ vPartido }}">
+<div style="background:#171310;padding:14px 16px 12px;display:flex;align-items:center;gap:10px">
+<button onClick="{{ volver }}" style="border:none;background:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:16px;color:#8C7F68;padding:0 4px 0 0">←</button>
+<span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#8C7F68;letter-spacing:.06em">{{ det.linea }}</span>
+</div>
+<div style="background:#171310;padding:6px 16px 16px">
+<div style="display:flex;align-items:center;gap:9px">
+<img src="{{ det.hl }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:24px;height:24px;object-fit:contain;flex:0 0 24px">
+<div style="flex:1;min-width:0;font-family:'Anton',Impact,sans-serif;font-size:24px;line-height:1.1;color:#EEE3CE">{{ det.home }}</div>
+<div style="flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#B8AD95">{{ det.hora }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:9px;margin-top:3px">
+<img src="{{ det.al }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:24px;height:24px;object-fit:contain;flex:0 0 24px">
+<div style="flex:1;min-width:0;font-family:'Anton',Impact,sans-serif;font-size:24px;line-height:1.1;color:#EEE3CE">{{ det.away }}</div>
+</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#5C513F;margin-top:9px">{{ det.grupo }}</div>
+</div>
+<div style="display:flex;gap:6px;padding:14px 16px 0">
+<div style="flex:1;background:{{ det.bgL }};padding:8px 2px 7px;text-align:center;min-width:0"><span style="display:block;font-size:7.5px;letter-spacing:.09em;color:#6E6350;text-transform:uppercase">Local</span><b style="display:block;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;margin-top:3px;color:{{ det.colL }}">{{ det.cL }}</b><em style="display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:{{ det.pcolL }};margin-top:2px">{{ det.pL }}</em></div>
+<div style="flex:1;background:{{ det.bgE }};padding:8px 2px 7px;text-align:center;min-width:0"><span style="display:block;font-size:7.5px;letter-spacing:.09em;color:#6E6350;text-transform:uppercase">Empate</span><b style="display:block;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;margin-top:3px;color:{{ det.colE }}">{{ det.cE }}</b><em style="display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:{{ det.pcolE }};margin-top:2px">{{ det.pE }}</em></div>
+<div style="flex:1;background:{{ det.bgV }};padding:8px 2px 7px;text-align:center;min-width:0"><span style="display:block;font-size:7.5px;letter-spacing:.09em;color:#6E6350;text-transform:uppercase">Visita</span><b style="display:block;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;margin-top:3px;color:{{ det.colV }}">{{ det.cV }}</b><em style="display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:{{ det.pcolV }};margin-top:2px">{{ det.pV }}</em></div>
+</div>
+<div style="display:flex;gap:14px;padding:18px 14px 0;border-bottom:1px solid #2A2318;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
+<button onClick="{{ t.ir }}" style="flex:0 0 auto;border:none;background:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:{{ t.col }};padding:0 0 10px;white-space:nowrap;box-shadow:inset 0 -2px 0 {{ t.raya }}">{{ t.label }}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ tAnalisis }}">
+<div style="padding:20px 18px 30px;animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<sc-if value="{{ det.hayAnalisis }}">
+<div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#6E6350">Nuestro análisis</div>
+<div style="margin-top:11px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">{{ det.anContexto }}</div>
+<div style="margin-top:13px;font-size:13.5px;line-height:1.7;color:#EEE3CE;font-weight:600;text-wrap:pretty">{{ det.anVeredicto }}</div>
+<div style="margin-top:14px;font-size:10px;font-style:italic;color:#5C513F">{{ det.anFuente }}</div>
+</sc-if>
+<sc-if value="{{ det.sinAnalisis }}">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:22px;line-height:1.12;color:#EEE3CE;text-wrap:pretty">Todavía nadie escribió la nota de este partido</div>
+<div style="font-size:12.5px;line-height:1.6;color:#8C7F68;margin-top:10px;text-wrap:pretty">Las bajas y el contexto los carga una persona. Esto es lo que sí sabemos por los números.</div>
+<div style="display:flex;gap:0;margin-top:20px;border-top:1px solid #2A2318;border-bottom:1px solid #2A2318">
+<div style="flex:1;padding:10px 4px;text-align:center;min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:#EEE3CE;line-height:1">{{ det.lh }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.1em;color:#6E6350;margin-top:4px">{{ det.homeCorto }}</div>
+</div>
+<div style="flex:0 0 1px;margin:9px 0;background:#2A2318"></div>
+<div style="flex:1;padding:10px 4px;text-align:center;min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:#EEE3CE;line-height:1">{{ det.la }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.1em;color:#6E6350;margin-top:4px">{{ det.awayCorto }}</div>
+</div>
+<div style="flex:0 0 1px;margin:9px 0;background:#2A2318"></div>
+<div style="flex:1;padding:10px 4px;text-align:center;min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:#EEE3CE;line-height:1">{{ det.marcador }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.1em;color:#6E6350;margin-top:4px">MÁS PROBABLE</div>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:22px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">El partido</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:13.5px;line-height:1.68;color:#D8CDB4;text-wrap:pretty">{{ det.parrafoUno }}</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:20px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">El antecedente</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:13.5px;line-height:1.68;color:#D8CDB4;text-wrap:pretty">{{ det.parrafoDos }}</div>
+<div style="display:flex;justify-content:flex-end;margin-top:26px">
+<div style="transform:rotate(-2.5deg);border:1.5px solid rgba(238,227,206,.4);padding:5px 9px 6px;text-align:center;animation:selló .5s cubic-bezier(.22,1,.36,1) both">
+<div style="border-top:1px solid rgba(238,227,206,.2);border-bottom:1px solid rgba(238,227,206,.2);padding:2px 0">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:11px;letter-spacing:.05em;color:#D8CDB4;line-height:1.1">{{ det.selloA }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#8C7F68;letter-spacing:.1em;margin-top:1px">{{ det.selloB }}</div>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ tPronosticos }}">
+<div style="animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<div style="padding:20px 18px 0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#6E6350">Nuestra lectura</div>
+<div style="font-family:'Anton',Impact,sans-serif;font-size:19px;line-height:1.25;color:#EEE3CE;margin-top:8px;text-wrap:pretty">{{ det.lecTitulo }}</div>
+<div style="font-size:12.5px;line-height:1.6;color:#B8AD95;margin-top:7px;text-wrap:pretty">{{ det.lecCuerpo }}</div>
+<sc-if value="{{ det.sinAnalisis }}">
+<div style="margin-top:16px;padding:11px 12px;background:#1F1913;font-size:11.5px;line-height:1.6;color:#8C7F68;text-wrap:pretty">Abajo está la escalera con lo que dice el modelo. No vas a encontrar nada marcado como oportunidad: solo señalamos precio a favor en partidos que miramos en serio, y este todavía no.</div>
+</sc-if>
+</div>
+<div style="margin:18px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">Escalera de riesgo</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">3 FORMAS</div>
+</div>
+<div style="padding:0 20px 8px 16px">
+<sc-for list="{{ det.esc }}" as="e" hint-placeholder-count="3">
+<div style="background:{{ e.bg }};display:flex;box-shadow:4px 4px 0 #13100B;margin-bottom:14px;animation:sube .34s cubic-bezier(.22,1,.36,1) both">
+<div style="flex:0 0 40px;padding:12px 0 12px 11px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:21px;color:#5C513F;line-height:.9">{{ e.n }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.1em;color:#6E6350;margin-top:3px">DE 03</div>
+</div>
+<div style="flex:0 0 1px;margin:11px 0;background:repeating-linear-gradient(180deg,#3A3122 0 3px,transparent 3px 8px)"></div>
+<div style="flex:1;min-width:0;padding:12px 12px 12px 11px">
+<div style="display:flex;align-items:baseline;gap:8px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.12em;color:#8C7F68">{{ e.franja }}</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:#EEE3CE;line-height:1;letter-spacing:-.02em">{{ e.p }}<span style="font-size:11px;color:#8C7F68">%</span></div>
+</div>
+<div style="font-family:'Anton',Impact,sans-serif;font-size:17.5px;line-height:1.15;color:#EEE3CE;margin-top:7px;text-wrap:pretty">{{ e.label }}</div>
+<div style="position:relative;height:11px;margin-top:10px;background:#171310">
+<div style="position:absolute;left:0;top:0;bottom:0;width:{{ e.ancho }};background:#4A4030"></div>
+<div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#EEE3CE;margin-left:{{ e.ancho }}"></div>
+</div>
+<div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#6E6350;letter-spacing:.08em;margin-top:3px"><span>0</span><span>50</span><span>100</span></div>
+<sc-if value="{{ e.val }}"><div style="font-family:'Anton',Impact,sans-serif;font-size:11px;color:#D6963A;letter-spacing:.03em;margin-top:10px">Acá el precio está a favor</div></sc-if>
+<div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#D8CDB4;margin-top:10px">conviene si te pagan más de <b style="font-size:13.5px;color:#EEE3CE">{{ e.umbral }}</b></div>
+<div style="font-size:11.5px;line-height:1.5;color:#B8AD95;margin-top:7px">{{ e.cobra }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ det.hayCombinada }}">
+<div style="padding:6px 20px 0 16px">
+<div style="display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Las dos juntas</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#6E6350">{{ det.cmbCada }}</div>
+</div>
+<div style="background:#221C15;box-shadow:4px 4px 0 #13100B;padding:12px;margin-top:11px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+<div style="font-size:13px;color:#D8CDB4;min-width:0">{{ det.cmbLabel }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:#EEE3CE;flex:0 0 auto">{{ det.cmbP }}</div>
+</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#8C7F68;margin-top:7px">conviene si te pagan más de <b style="font-size:13px;color:#D8CDB4">{{ det.cmbUmbral }}</b></div>
+<div style="font-size:10.5px;line-height:1.5;color:#6E6350;margin-top:6px;text-wrap:pretty">{{ det.cmbNota }}</div>
+</div>
+</div>
+</sc-if>
+<div style="margin:22px 16px 0;padding-top:14px;border-top:1px solid #241D16;font-size:11px;line-height:1.6;color:#5C513F;text-wrap:pretty">Las tres salen de la misma lectura — elegís vos cuánto arriesgar. El umbral ya incluye margen de seguridad: a la cuota justa pelada la ventaja es cero. Y solo marcamos cuando además el precio está a favor.</div>
+<div style="height:30px"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ tHistorial }}">
+<div style="animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<div style="margin:18px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">Últimos cinco</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">DEL MÁS VIEJO AL DE HOY</div>
+</div>
+<div style="padding:0 20px 0 16px">
+<sc-for list="{{ hist.equipos }}" as="eq" hint-placeholder-count="2">
+<div style="background:#221C15;box-shadow:4px 4px 0 #13100B;margin-bottom:14px;animation:sube .34s cubic-bezier(.22,1,.36,1) both">
+<div style="display:flex;align-items:center;gap:8px;padding:11px 12px 9px">
+<img src="{{ eq.logo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:20px;height:20px;object-fit:contain;flex:0 0 20px">
+<div style="flex:1;min-width:0;font-family:'Anton',Impact,sans-serif;font-size:17px;line-height:1.1;color:#EEE3CE">{{ eq.nombre }}</div>
+<div style="display:flex;gap:3px;flex:0 0 auto">
+<sc-for list="{{ eq.tira }}" as="f" hint-placeholder-count="5">
+<i style="width:15px;height:15px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;font-style:normal;background:{{ f.bg }};color:{{ f.col }}">{{ f.t }}</i>
+</sc-for>
+</div>
+</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.03em;color:#8C7F68;padding:0 12px 10px">{{ eq.racha }}</div>
+<div style="padding:0 12px 11px">
+<sc-for list="{{ eq.filas }}" as="f" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid #241D16;font-size:12px">
+<span style="width:16px;height:16px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;flex:0 0 16px;background:{{ f.bg }};color:{{ f.col }}">{{ f.t }}</span>
+<img src="{{ f.logo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:15px;height:15px;object-fit:contain;flex:0 0 15px">
+<span style="flex:1;min-width:0;color:#B8AD95;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ f.rival }}</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#6E6350;flex:0 0 34px">{{ f.loc }}</span>
+<span style="font-family:'JetBrains Mono',monospace;color:#8C7F68;flex:0 0 34px;text-align:right">{{ f.sc }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="margin:18px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">Cruce directo</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">{{ hist.cuentaH2h }}</div>
+</div>
+<div style="padding:0 20px 30px 16px">
+<sc-for list="{{ hist.h2h }}" as="x" hint-placeholder-count="1">
+<div style="background:#221C15;box-shadow:4px 4px 0 #13100B;display:flex;align-items:stretch;margin-bottom:12px">
+<div style="flex:0 0 46px;padding:13px 0 13px 11px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#6E6350">{{ x.dia }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#4A4030;margin-top:2px">{{ x.anio }}</div>
+</div>
+<div style="flex:0 0 1px;margin:11px 0;background:repeating-linear-gradient(180deg,#3A3122 0 3px,transparent 3px 8px)"></div>
+<div style="flex:1;min-width:0;padding:13px 12px 13px 11px">
+<div style="display:flex;align-items:center;gap:8px">
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:6px">
+<img src="{{ x.hl }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:17px;height:17px;object-fit:contain;flex:0 0 17px">
+<span style="min-width:0;font-family:'Anton',Impact,sans-serif;font-size:14px;color:#D8CDB4;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ x.h }}</span>
+</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;color:#EEE3CE;line-height:1;flex:0 0 auto">{{ x.s }}</div>
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:6px;justify-content:flex-end">
+<span style="min-width:0;font-family:'Anton',Impact,sans-serif;font-size:14px;color:#D8CDB4;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ x.a }}</span>
+<img src="{{ x.al }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:17px;height:17px;object-fit:contain;flex:0 0 17px">
+</div>
+</div>
+</div>
+</div>
+</sc-for>
+<div style="font-size:11.5px;line-height:1.55;color:#6E6350;text-wrap:pretty">{{ hist.notaH2h }}</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ tPosiciones }}">
+<div style="animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<div style="margin:18px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">{{ pos.titulo }}</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">{{ pos.meta }}</div>
+</div>
+<div style="padding:0 20px 30px 16px">
+<sc-if value="{{ pos.hay }}">
+<div style="background:#221C15;box-shadow:4px 4px 0 #13100B;padding:12px 12px 6px">
+<div style="display:grid;grid-template-columns:16px 1fr 26px 22px 44px 26px;gap:7px;align-items:center;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.09em;color:#6E6350;padding-bottom:8px">
+<div>#</div><div>EQUIPO</div><div style="text-align:right">PTS</div><div style="text-align:right">PJ</div><div style="text-align:right">G-E-P</div><div style="text-align:right">GF</div>
+</div>
+<sc-for list="{{ pos.filas }}" as="f" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:16px 1fr 26px 22px 44px 26px;gap:7px;align-items:center;padding:9px 12px;border-top:1px solid #241D16;background:{{ f.bg }};margin:0 -12px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ f.colRk }}">{{ f.rk }}</div>
+<div style="display:flex;align-items:center;gap:7px;min-width:0">
+<img src="{{ f.logo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="width:16px;height:16px;object-fit:contain;flex:0 0 16px">
+<span style="font-size:12px;color:{{ f.colT }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ f.t }}</span>
+</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:{{ f.colPts }};text-align:right">{{ f.pts }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8C7F68;text-align:right">{{ f.pj }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8C7F68;text-align:right">{{ f.gep }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8C7F68;text-align:right">{{ f.gf }}</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ pos.falta }}">
+<div style="display:flex;align-items:center;gap:9px;margin-top:22px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Falta uno</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:12.5px;line-height:1.65;color:#B8AD95;text-wrap:pretty">{{ pos.notaFalta }}</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{ pos.vacio }}">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:20px;line-height:1.15;color:#EEE3CE;text-wrap:pretty">Sin tabla para esta competición</div>
+<div style="margin-top:10px;font-size:12.5px;line-height:1.65;color:#8C7F68;text-wrap:pretty">En las llaves por eliminación no hay tabla que mostrar, y la fuente tampoco la devuelve.</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ tPlantel }}">
+<div style="animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<div style="margin:18px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">Plantel</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">SIN JUGADORES TODAVÍA</div>
+</div>
+<div style="padding:0 18px 30px">
+<div style="display:flex;background:#171310;padding:3px;gap:3px">
+<button onClick="{{ pl.verH }}" style="flex:1;border:none;cursor:pointer;padding:8px 4px;font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.03em;line-height:1;background:{{ pl.bgH }};color:{{ pl.fgH }};transition:background .18s ease,color .18s ease">{{ pl.nomH }}</button>
+<button onClick="{{ pl.verA }}" style="flex:1;border:none;cursor:pointer;padding:8px 4px;font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.03em;line-height:1;background:{{ pl.bgA }};color:{{ pl.fgA }};transition:background .18s ease,color .18s ease">{{ pl.nomA }}</button>
+</div>
+<div style="margin-top:10px;position:relative;background:#171310;box-shadow:4px 4px 0 #13100B;padding:14px 10px;height:352px;display:flex;flex-direction:column-reverse">
+<div style="position:absolute;left:14px;right:14px;top:14px;bottom:14px;border:1px solid #2A2318;pointer-events:none"></div>
+<div style="position:absolute;left:50%;top:14px;bottom:14px;width:1px;background:#241D16;pointer-events:none"></div>
+<div style="position:absolute;left:50%;top:50%;width:74px;height:74px;margin:-37px 0 0 -37px;border:1px solid #241D16;border-radius:50%;pointer-events:none"></div>
+<div style="position:absolute;left:50%;bottom:14px;width:132px;height:44px;margin-left:-66px;border:1px solid #241D16;border-bottom:none;pointer-events:none"></div>
+<div style="position:absolute;left:50%;top:14px;width:132px;height:44px;margin-left:-66px;border:1px solid #241D16;border-top:none;pointer-events:none"></div>
+<sc-for list="{{ pl.xi }}" as="linea" hint-placeholder-count="4">
+<div style="flex:1;display:flex;justify-content:space-around;align-items:center;position:relative">
+<sc-for list="{{ linea.j }}" as="p" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;max-width:74px">
+<div style="width:26px;height:26px;display:grid;place-items:center;background:#221C15;border:1px dashed #3A3122;color:#5C513F;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;border-radius:50%">·</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.06em;line-height:1.15;color:#6E6350;text-align:center">{{ p.pos }}</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#4A4030;margin-top:6px"><span>4-3-3 · ESQUEMA BASE</span><span>ATACA HACIA ARRIBA</span></div>
+<div style="margin-top:14px;font-size:12.5px;line-height:1.65;color:#B8AD95;text-wrap:pretty">Los nombres no están: traer el plantel con estadísticas cuesta un llamado por jugador, unos cincuenta por pestaña, así que baja en la actualización nocturna y la cancha se llena sola. El dibujo es el esquema base, no una formación confirmada.</div>
+<div style="display:flex;justify-content:flex-end;margin-top:14px">
+<div style="transform:rotate(-2.5deg);border:1.5px solid rgba(238,227,206,.4);padding:5px 9px 6px;text-align:center;animation:selló .5s cubic-bezier(.22,1,.36,1) both">
+<div style="border-top:1px solid rgba(238,227,206,.2);border-bottom:1px solid rgba(238,227,206,.2);padding:2px 0">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:11px;letter-spacing:.05em;color:#D8CDB4;line-height:1.1">EN EL CRON</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#8C7F68;letter-spacing:.1em;margin-top:1px">NO EN VIVO</div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:16px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">En el torneo</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="display:flex;gap:6px;margin-top:11px">
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">Puntos</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:3px">{{ pl.pts }}</div>
+</div>
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">Jugados</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:3px">{{ pl.pj }}</div>
+</div>
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">Ganados</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:3px">{{ pl.g }}</div>
+</div>
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">A favor</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:3px">{{ pl.gf }}</div>
+</div>
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">En contra</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#4A4030;margin-top:3px">—</div>
+</div>
+</div>
+<div style="font-size:11px;line-height:1.5;color:#5C513F;margin-top:7px;text-wrap:pretty">{{ pl.notaTorneo }}</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:20px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Últimos cinco</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="display:flex;gap:6px;margin-top:11px">
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">Hechos</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:3px">{{ pl.hechos }}</div>
+</div>
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">Recibidos</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:3px">{{ pl.recib }}</div>
+</div>
+<div style="flex:1;background:#221C15;padding:9px 2px;text-align:center;min-width:0;box-shadow:3px 3px 0 #13100B">
+<div style="font-size:7px;letter-spacing:.05em;color:#6E6350;text-transform:uppercase">Vallas</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:#EEE3CE;margin-top:3px">{{ pl.vallas }}</div>
+</div>
+</div>
+<div style="font-size:11px;line-height:1.5;color:#5C513F;margin-top:7px;text-wrap:pretty">Los recibidos salen de los últimos cinco partidos: la tabla de la fuente trae los goles a favor del torneo, no los que le hicieron.</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:20px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Estimado</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="display:flex;gap:16px;margin-top:11px;border-bottom:1px solid #2A2318">
+<sc-for list="{{ pl.solapas }}" as="s" hint-placeholder-count="3">
+<button onClick="{{ s.ir }}" style="flex:0 0 auto;background:none;border:none;cursor:pointer;padding:0 0 9px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:{{ s.col }};box-shadow:inset 0 -2px 0 {{ s.raya }};transition:color .18s ease">{{ s.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:0;margin-top:2px;border-bottom:1px solid #2A2318">
+<div style="flex:1;padding:12px 4px;text-align:center;min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:#EEE3CE;line-height:1">{{ pl.stC }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.1em;color:#6E6350;margin-top:4px">CÓRNERS</div>
+</div>
+<div style="flex:0 0 1px;margin:11px 0;background:#2A2318"></div>
+<div style="flex:1;padding:12px 4px;text-align:center;min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:{{ pl.stFCol }};line-height:1">{{ pl.stF }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.1em;color:#6E6350;margin-top:4px">FALTAS</div>
+</div>
+<div style="flex:0 0 1px;margin:11px 0;background:#2A2318"></div>
+<div style="flex:1;padding:12px 4px;text-align:center;min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:{{ pl.stTCol }};line-height:1">{{ pl.stT }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.1em;color:#6E6350;margin-top:4px">TARJETAS</div>
+</div>
+</div>
+<div style="font-size:11px;line-height:1.55;color:#5C513F;margin-top:8px;text-wrap:pretty">{{ pl.stNota }}</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ tHerramientas }}">
+<div style="animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<div style="margin:18px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">Herramientas</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">TU CASA, TU CUOTA</div>
+</div>
+<div style="padding:0 18px 30px">
+<sc-if value="{{ hr.pedirBanca }}">
+<div style="padding:16px 0 8px;text-align:center">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:20px;color:#EEE3CE;margin-bottom:9px">¿Cuánto separaste para apostar?</div>
+<div style="font-size:11.5px;line-height:1.55;color:#7E7360;margin-bottom:16px;text-wrap:pretty">Con eso te decimos cuánto tiene sentido jugar en cada opción — más en las que vemos más claras, menos en las otras. Lo cambiás cuando quieras.</div>
+<input inputmode="numeric" placeholder="$ 50.000" value="{{ hr.bancaTxt }}" onChange="{{ hr.escribir }}" style="width:100%;box-sizing:border-box;background:#221C15;border:1px solid #2A2318;color:#EEE3CE;font-family:'JetBrains Mono',monospace;font-size:18px;text-align:center;padding:12px 0">
+<div style="font-size:10px;color:#5C513F;margin:7px 0 14px">Se guarda en este celular, en ningún lado más.</div>
+<button onClick="{{ hr.setBanca }}" style="width:100%;border:none;cursor:pointer;background:#D6963A;color:#171310;padding:12px 0;font-family:'Anton',Impact,sans-serif;font-size:14px;letter-spacing:.02em">Listo</button>
+</div>
+</sc-if>
+<sc-if value="{{ hr.hayBanca }}">
+<div style="font-size:11.5px;line-height:1.55;color:#7E7360;text-wrap:pretty">Esta pestaña es para vos, no para mostrarle a nadie. Cargá la cuota que te da tu casa y te digo la ventaja real y cuánto jugar contra ese precio.</div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:#171310;margin-top:12px;font-size:10.5px;color:#6E6350">
+<span>Jugás con <b style="font-family:'JetBrains Mono',monospace;color:#B8AD95;font-weight:500">{{ hr.banca }}</b> separados</span>
+<button onClick="{{ hr.reset }}" style="border:none;background:none;cursor:pointer;color:#6E6350;text-decoration:underline;font-size:10.5px;padding:0">cambiar</button>
+</div>
+<sc-for list="{{ hr.grupos }}" as="g" hint-placeholder-count="3">
+<div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:#6E6350;text-transform:uppercase;margin:20px 0 9px">{{ g.fam }}</div>
+<sc-for list="{{ g.filas }}" as="o" hint-placeholder-count="4">
+<div style="background:{{ o.bg }};box-shadow:4px 4px 0 #13100B;padding:11px 12px;margin-bottom:12px;border-left:{{ o.borde }}">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+<div style="font-size:13px;color:#D8CDB4">{{ o.label }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6E6350;flex:0 0 auto">modelo {{ o.p }}</div>
+</div>
+<div style="display:flex;gap:10px;align-items:center;margin-top:9px">
+<input inputmode="decimal" placeholder="—" value="{{ o.txt }}" onChange="{{ o.setCuota }}" style="flex:1;min-width:0;box-sizing:border-box;background:#171310;border:1px solid {{ o.bordeInput }};color:#EEE3CE;font-family:'JetBrains Mono',monospace;font-size:13px;text-align:center;padding:8px 0">
+<div style="flex:1.4;display:flex;justify-content:space-between;align-items:baseline;gap:6px">
+<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ o.evCol }}">{{ o.evTxt }}</span>
+<sc-if value="{{ o.jugable }}"><span style="text-align:right"><span style="display:block;font-size:8.5px;color:#8C7F68;text-transform:uppercase;letter-spacing:.06em">Jugale</span><b style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#D6963A;font-weight:600">{{ o.stake }}</b></span></sc-if>
+</div>
+</div>
+<div style="font-size:10.5px;line-height:1.5;color:{{ o.notaCol }};margin-top:7px;text-wrap:pretty">{{ o.nota }}</div>
+<sc-if value="{{ o.jugable }}">
+<div style="margin-top:9px"><button onClick="{{ o.anotar }}" style="border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;color:#D8CDB4;background:#171310;padding:6px 11px">Anotar en Registro</button></div>
+</sc-if>
+</div>
+</sc-for>
+</sc-for>
+</sc-if>
+</div>
+</div>
+</sc-if>
+</sc-if>
+<sc-if value="{{ vRegistro }}">
+<div style="animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<div style="background:#171310;padding:20px 16px 14px;position:relative">
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+<div style="display:flex;align-items:flex-end;gap:9px">
+<svg viewBox="0 0 176 50" style="height:38px;width:auto;display:block" aria-label="REGISTRO">
+<defs><mask id="tq-rg">
+<rect x="0" y="0" width="176" height="46" fill="#fff"></rect>
+<text x="88" y="36" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="34" letter-spacing="-1.5" fill="#000">REGISTRO</text>
+<circle cx="6" cy="12" r="1.7" fill="#000"></circle><circle cx="6" cy="23" r="1.7" fill="#000"></circle><circle cx="6" cy="34" r="1.7" fill="#000"></circle>
+<circle cx="170" cy="12" r="1.7" fill="#000"></circle><circle cx="170" cy="23" r="1.7" fill="#000"></circle><circle cx="170" cy="34" r="1.7" fill="#000"></circle>
+</mask></defs>
+<rect x="0" y="0" width="176" height="46" fill="#D8CDB4" mask="url(#tq-rg)"></rect>
+<rect x="0" y="46" width="176" height="4" fill="#6B7A5E"></rect>
+</svg>
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#6B7A5E;letter-spacing:.14em;padding-bottom:5px">{{ reg.kicker }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#8C7F68;margin-top:9px">Tu bitácora — acá los números van sin traducir<div style="flex:1;height:1px;background:#3A322580"></div></div>
+</div>
+<div style="display:flex;margin:14px 16px 0;background:#221C15;box-shadow:4px 4px 0 #13100B;opacity:{{ reg.op }}">
+<div style="flex:1;text-align:center;padding:12px 4px;border-right:1px solid #2A2318;min-width:0">
+<div style="font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:#6E6350;margin-bottom:4px">Resultado</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:{{ reg.netoCol }}">{{ reg.neto }}</div>
+</div>
+<div style="flex:1;text-align:center;padding:12px 4px;border-right:1px solid #2A2318;min-width:0">
+<div style="font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:#6E6350;margin-bottom:4px">Acierto</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:{{ reg.tasaCol }}">{{ reg.tasa }}</div>
+</div>
+<div style="flex:1;text-align:center;padding:12px 4px;border-right:1px solid #2A2318;min-width:0">
+<div style="font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:#6E6350;margin-bottom:4px">ROI</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:{{ reg.roiCol }}">{{ reg.roi }}</div>
+</div>
+<div style="flex:1;text-align:center;padding:12px 4px;min-width:0">
+<div style="font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:#6E6350;margin-bottom:4px">Cerradas</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:{{ reg.tasaCol }}">{{ reg.cerradas }}</div>
+</div>
+</div>
+
+<sc-if value="{{ reg.hayLista }}">
+<div style="display:flex;align-items:center;gap:9px;margin:10px 16px 0;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#6B7A5E">{{ reg.autoTxt }}<div style="flex:1;height:1px;background:#241D16"></div></div>
+</sc-if>
+
+<sc-if value="{{ reg.vacio }}">
+<div style="padding:26px 18px 30px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:22px;line-height:1.12;color:#EEE3CE;text-wrap:pretty">Todavía no anotaste nada</div>
+<div style="margin-top:12px;font-size:13.5px;line-height:1.68;color:#D8CDB4;text-wrap:pretty"><span style="float:left;font-family:'Anton',Impact,sans-serif;font-size:44px;line-height:.82;color:#EEE3CE;margin:2px 9px 0 0">C</span>uando cargues una cuota en Herramientas y el precio tenga ventaja, vas a poder anotarla acá de un toque. Después se resuelve sola: cuando llega el resultado, la carga queda ganada o perdida y las cuatro cifras de arriba se mueven sin que toques nada.</div>
+<div style="margin-top:14px;font-size:12.5px;line-height:1.6;color:#8C7F68;text-wrap:pretty">No anotamos nada solos: si no lo jugaste, no entra. Un registro que se llena con lo que «hubiéramos» jugado no sirve para medirse. Pero una vez que entró, el marcador manda — no vos.</div>
+<div style="display:flex;align-items:center;gap:9px;margin-top:26px">
+<div style="flex:1;height:1px;background:#241D16"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:#4A4030">SIN MOVIMIENTOS</div>
+<div style="flex:1;height:1px;background:#241D16"></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ reg.hayCurva }}">
+<div style="margin:18px 16px 0">
+<div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:#4A4030;margin-bottom:5px"><span>ACUMULADO</span><span>{{ reg.movs }}</span></div>
+<svg viewBox="0 0 300 56" preserveAspectRatio="none" style="width:100%;height:56px;display:block;background:#171310">
+<polyline points="{{ reg.puntos }}" fill="none" stroke="#D6963A" stroke-width="2" vector-effect="non-scaling-stroke"></polyline>
+</svg>
+<div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:8px;color:#4A4030;margin-top:3px"><span>ARRANQUE</span><span>{{ reg.neto }}</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ reg.hayLista }}">
+<div style="display:flex;gap:6px;padding:16px 16px 0;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ reg.chips }}" as="c" hint-placeholder-count="4">
+<button onClick="{{ c.ir }}" style="flex:0 0 auto;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;background:{{ c.bg }};color:{{ c.col }};padding:6px 11px;white-space:nowrap">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="margin:18px 16px 11px;background:#D8CDB4;padding:5px 10px 6px;display:flex;align-items:center;gap:8px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:15px;color:#171310;letter-spacing:.03em;text-transform:uppercase;line-height:1">Últimas cargadas</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.1em;color:#4A4030">DE LA MÁS NUEVA</div>
+</div>
+<div style="padding:0 20px 30px 16px">
+<sc-for list="{{ reg.lista }}" as="b" hint-placeholder-count="3">
+<div style="background:#221C15;box-shadow:4px 4px 0 #13100B;padding:11px 12px;margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+<div style="font-size:12.5px;color:#D8CDB4;min-width:0">{{ b.partido }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#B8AD95;flex:0 0 auto">{{ b.stake }}</div>
+</div>
+<div style="font-size:11.5px;color:#8C7F68;margin-top:3px">{{ b.mercado }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#6E6350;margin-top:4px">{{ b.meta }}</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;line-height:1.25;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;background:{{ b.selloBg }};color:{{ b.selloCol }}">{{ b.selloTxt }}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#B8AD95">{{ b.marcador }}</div>
+<div style="flex:1"></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ b.devCol }}">{{ b.devuelve }}</div>
+</div>
+<div style="font-size:10.5px;line-height:1.55;color:#6E6350;margin-top:6px;text-wrap:pretty">{{ b.fuenteTxt }}</div>
+<sc-if value="{{ b.hayCorregir }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:8px"><button onClick="{{ b.corregir }}" style="border:none;background:none;padding:0;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#6B7A5E;border-bottom:1px solid #3A4A32">{{ b.corregirTxt }}</button></div>
+</sc-if>
+<sc-if value="{{ b.hayBotones }}">
+<div style="display:flex;gap:6px;margin-top:9px">
+<button onClick="{{ b.ganada }}" style="flex:1;padding:7px 0;cursor:pointer;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;background:{{ b.bgG }};color:{{ b.colG }};border:1px solid {{ b.brG }}">Ganada</button>
+<button onClick="{{ b.perdida }}" style="flex:1;padding:7px 0;cursor:pointer;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;background:{{ b.bgP }};color:{{ b.colP }};border:1px solid {{ b.brP }}">Perdida</button>
+<button onClick="{{ b.pendiente }}" style="flex:1;padding:7px 0;cursor:pointer;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;background:{{ b.bgN }};color:{{ b.colN }};border:1px solid {{ b.brN }}">Pendiente</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ reg.listaVacia }}">
+<div style="padding:8px 0;font-size:12.5px;line-height:1.6;color:#6E6350">Nada con ese filtro.</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ vMetodo }}">
+<div style="animation:desliza .22s cubic-bezier(.22,1,.36,1)">
+<div style="background:#171310;padding:20px 16px 14px;position:relative">
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+<div style="display:flex;align-items:flex-end;gap:9px">
+<svg viewBox="0 0 150 50" style="height:38px;width:auto;display:block" aria-label="MÉTODO">
+<defs><mask id="tq-mt">
+<rect x="0" y="0" width="150" height="46" fill="#fff"></rect>
+<text x="75" y="36" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="34" letter-spacing="-1.5" fill="#000">MÉTODO</text>
+<circle cx="6" cy="12" r="1.7" fill="#000"></circle><circle cx="6" cy="23" r="1.7" fill="#000"></circle><circle cx="6" cy="34" r="1.7" fill="#000"></circle>
+<circle cx="144" cy="12" r="1.7" fill="#000"></circle><circle cx="144" cy="23" r="1.7" fill="#000"></circle><circle cx="144" cy="34" r="1.7" fill="#000"></circle>
+</mask></defs>
+<rect x="0" y="0" width="150" height="46" fill="#D8CDB4" mask="url(#tq-mt)"></rect>
+<rect x="0" y="46" width="150" height="4" fill="#6B7A5E"></rect>
+</svg>
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#6B7A5E;letter-spacing:.14em;padding-bottom:5px">SIN LETRA CHICA</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#8C7F68;margin-top:9px">Cómo pensamos cada partido<div style="flex:1;height:1px;background:#3A322580"></div></div>
+</div>
+<div style="padding:22px 18px 30px">
+<div style="font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty"><span style="float:left;font-family:'Anton',Impact,sans-serif;font-size:44px;line-height:.82;color:#EEE3CE;margin:2px 9px 0 0">E</span>stimamos cuántos goles esperamos de cada equipo, y de ahí sale la probabilidad de cada resultado posible. La estimación se ajusta con todos los partidos de la temporada, pesando más los recientes.</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:24px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Probabilidad, no promesa</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">Un <b style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#EEE3CE">74%</b> no es una promesa: es que de cada cuatro partidos así, tres terminan de esa forma y <b style="color:#EEE3CE;font-weight:600">uno no</b>. Si decimos 74% y acertamos las diez de diez, no somos buenos: estamos mal calibrados.</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:22px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Umbral, no cuota</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">Nuestra referencia es DraftKings, que ni siquiera opera en Argentina. Decirte «@2.20» sería una trampa: vas a tu casa, encontrás 2.05 y no sabés si sigue conviniendo. Por eso damos el umbral — <b style="color:#EEE3CE;font-weight:600">si te pagan más que eso, conviene</b>.</div>
+<div style="margin-top:12px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">Y no es la cuota justa pelada: a la justa exacta la ventaja es cero. Le sumamos <b style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#EEE3CE">4%</b> de margen, que también cubre el error de nuestra estimación, que no es chico.</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:22px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Cuando no decimos nada</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">Porque no siempre hay algo que decir. Las apuestas más seguras casi nunca tienen valor: el margen de la casa, <b style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#EEE3CE">7,7%</b> medido, se come la ventaja justo en las cuotas bajas. Preferimos quedarnos callados antes que inventar una jugada para llenar la pantalla.</div>
+<div style="margin-top:12px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">Por lo mismo la marca tiene techo: arriba de <b style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#EEE3CE">12</b> puntos de diferencia contra la línea limpia, lo más probable no es que hayas encontrado oro — es que nuestra estimación está mal en ese partido.</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:22px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Cómo nos medimos</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">Contra la cuota de cierre, que es el mejor predictor público que existe, sobre partidos que el modelo nunca vio. Más bajo es mejor:</div>
+<div style="background:#221C15;box-shadow:4px 4px 0 #13100B;padding:13px 12px 11px;margin-top:13px">
+<div style="display:flex;align-items:baseline;gap:8px">
+<div style="flex:1;font-size:12px;color:#8C7F68">No saber nada</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:#8C7F68">0,667</div>
+</div>
+<div style="position:relative;height:9px;margin-top:6px;background:#171310">
+<div style="position:absolute;left:0;top:0;bottom:0;width:16%;background:#3A3122"></div>
+</div>
+<div style="display:flex;align-items:baseline;gap:8px;margin-top:13px">
+<div style="flex:1;font-size:12px;color:#EEE3CE;font-weight:600">Nosotros</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:#EEE3CE">0,645</div>
+</div>
+<div style="position:relative;height:9px;margin-top:6px;background:#171310">
+<div style="position:absolute;left:0;top:0;bottom:0;width:44%;background:#6E6350"></div>
+<div style="position:absolute;left:0;top:0;bottom:0;width:2px;background:#EEE3CE;margin-left:44%"></div>
+</div>
+<div style="display:flex;align-items:baseline;gap:8px;margin-top:13px">
+<div style="flex:1;font-size:12px;color:#B8AD95">Cuota de cierre</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:#B8AD95">0,623</div>
+</div>
+<div style="position:relative;height:9px;margin-top:6px;background:#171310">
+<div style="position:absolute;left:0;top:0;bottom:0;width:71%;background:#4A4030"></div>
+</div>
+<div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:7.5px;color:#4A4030;letter-spacing:.08em;margin-top:5px"><span>PEOR</span><span>MEJOR</span></div>
+</div>
+<div style="margin-top:11px;font-size:12.5px;line-height:1.65;color:#8C7F68;text-wrap:pretty">Traducido: el mercado sabe bastante más que no saber nada, y nosotros capturamos cerca de la mitad de eso. <b style="color:#B8AD95;font-weight:600">Le seguimos perdiendo al cierre.</b> Es la verdad y no la escondemos.</div>
+
+<div style="display:flex;align-items:center;gap:8px;margin-top:22px">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:13px;letter-spacing:.06em;color:#8C7F68;text-transform:uppercase;white-space:nowrap">Lo que esto no es</div>
+<div style="flex:1;height:1px;background:#2A2318"></div>
+</div>
+<div style="margin-top:9px;font-size:13.5px;line-height:1.7;color:#D8CDB4;text-wrap:pretty">No es consejo financiero, no es una fuente de ingresos y no hay jugada segura. Es una lectura con números atrás. La decisión, y la plata, son tuyas.</div>
+<div style="display:flex;justify-content:flex-end;margin-top:22px">
+<div style="transform:rotate(-2.5deg);border:1.5px solid rgba(238,227,206,.4);padding:5px 9px 6px;text-align:center;animation:selló .5s cubic-bezier(.22,1,.36,1) both">
+<div style="border-top:1px solid rgba(238,227,206,.2);border-bottom:1px solid rgba(238,227,206,.2);padding:2px 0">
+<div style="font-family:'Anton',Impact,sans-serif;font-size:11px;letter-spacing:.05em;color:#D8CDB4;line-height:1.1">SIN GARANTÍA</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#8C7F68;letter-spacing:.1em;margin-top:1px">NUNCA HUBO</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+<nav style="position:fixed;left:0;right:0;bottom:0;background:#171310;border-top:1px solid #2A2318;display:flex;z-index:20">
+<div style="max-width:520px;margin:0 auto;display:flex;width:100%">
+<button onClick="{{ irFecha }}" style="flex:1;padding:13px 0 12px;border:none;background:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:{{ navFecha }};position:relative;box-shadow:inset 0 2px 0 -0px {{ navFechaRaya }}">Fecha</button>
+<button onClick="{{ irRegistro }}" style="flex:1;padding:13px 0 12px;border:none;background:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:{{ navRegistro }};position:relative;box-shadow:inset 0 2px 0 -0px {{ navRegistroRaya }}">Registro</button>
+<button onClick="{{ irMetodo }}" style="flex:1;padding:13px 0 12px;border:none;background:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:{{ navMetodo }};position:relative;box-shadow:inset 0 2px 0 -0px {{ navMetodoRaya }}">Método</button>
+</div>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:900}}">
+/* ════════════════════════════════════════════════════════════════
+   VALOR — el motor va copiado del repo (tag motor-verificado).
+   No se reescribe: está validado y tocarlo arriesga errores
+   numéricos silenciosos.
+   ════════════════════════════════════════════════════════════════ */
+const fact = n => { let r=1; for(let i=2;i<=n;i++) r*=i; return r; };
+const pois = (k,l) => Math.exp(-l)*Math.pow(l,k)/fact(k);
+function tau(i,j,lh,la,rho){
+  if(i===0&&j===0) return 1 - lh*la*rho;
+  if(i===0&&j===1) return 1 + lh*rho;
+  if(i===1&&j===0) return 1 + la*rho;
+  if(i===1&&j===1) return 1 - rho;
+  return 1;
+}
+function matrix(lh,la,rho,max=9){
+  const m=[]; let tot=0;
+  for(let i=0;i<=max;i++){ m[i]=[];
+    for(let j=0;j<=max;j++){ const p=pois(i,lh)*pois(j,la)*tau(i,j,lh,la,rho); m[i][j]=p; tot+=p; }
+  }
+  for(let i=0;i<=max;i++) for(let j=0;j<=max;j++) m[i][j]/=tot;
+  return m;
+}
+const sumIf = (m,f) => { let s=0; for(let i=0;i<m.length;i++) for(let j=0;j<m.length;j++) if(f(i,j)) s+=m[i][j]; return s; };
+const ev = (p,o) => p*o - 1;
+const kelly = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
+
+const MIN_EV = 0.04, MAX_ODDS = 4.5, EV_ABSURDO = 0.25;
+const VENTAJA_MIN = 0.02, VALOR_MIN = 0.06, VALOR_MAX = 0.12, ALERTA_MIN = 0.10;
+const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
+const FRANJAS = [
+  {n:"Lo más probable", lo:0.68, hi:0.93, sub:"Paga poco, justamente porque pasa seguido."},
+  {n:"Intermedia", lo:0.45, hi:0.68, sub:"Equilibrio entre lo que paga y lo seguido que pasa."},
+  {n:"Arriesgada", lo:0.12, hi:0.45, sub:"Paga bien porque se da poco. No es la más probable."},
+];
+
+/* Los tests salen de mercados() a nivel de módulo: el mismo criterio que
+   calcula la probabilidad antes del partido es el que decide si se cobró
+   después. Si alguna vez difieren, mentimos en una de las dos puntas. */
+const TESTS = {
+  "1x2_l":(i,j)=>i>j, "1x2_e":(i,j)=>i===j, "1x2_v":(i,j)=>i<j,
+  "dc_lx":(i,j)=>i>=j, "dc_x2":(i,j)=>i<=j, "dc_12":(i,j)=>i!==j,
+  "btts_si":(i,j)=>i>0&&j>0, "btts_no":(i,j)=>i===0||j===0,
+};
+[1.5,2.5,3.5].forEach(n=>{ TESTS["ov"+n]=(i,j)=>i+j>n; TESTS["un"+n]=(i,j)=>i+j<n; });
+
+/* ── Resolución automática ──────────────────────────────────────────────
+   La fuente no publica el marcador del partido que analizamos: cuando lo
+   analizamos todavía no se jugó. Pero el refresco siguiente lo arrastra
+   igual, porque cada equipo viene con sus últimos cinco (rival, si fue
+   local, marcador). Así que el resultado de lo que anotaste aparece en el
+   historial de cualquiera de los dos equipos la próxima vez que alguno
+   vuelva a jugar. Cruzamos por ahí, decimos de dónde lo sacamos, y dejamos
+   corregir a mano — porque un cruce por nombre de rival puede errar cuando
+   dos equipos se enfrentan tres veces en un mes. */
+const norm = s => (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+function hoyISO(){ const d=new Date(); const z=n=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate()); }
+function buscarResultado(H, A, matches, desde){
+  let mejor = null;
+  const mirar = (dueno, forma) => {
+    (forma||[]).forEach((f,k)=>{
+      if(!f || !f.marcador) return;
+      const [a,b] = String(f.marcador).split("-").map(Number);
+      if(!isFinite(a) || !isFinite(b)) return;
+      let i, j, fuente;
+      if(norm(dueno)===norm(H) && norm(f.rival)===norm(A) && f.local===true){ i=a; j=b; fuente=H; }
+      else if(norm(dueno)===norm(A) && norm(f.rival)===norm(H) && f.local===false){ i=b; j=a; fuente=A; }
+      else return;
+      /* El índice 0 es el más reciente: ante repetidos, el último jugado. */
+      if(!mejor || k < mejor.k) mejor = {i, j, k, fuente};
+    });
+  };
+  /* Primer candado: solo miramos historiales de partidos POSTERIORES al
+     nuestro. Un historial cargado antes no puede contenerlo — y sí puede
+     contener el cruce anterior entre los mismos dos equipos, que en
+     Libertadores pasa tres veces en un mes. */
+  (matches||[]).forEach(m=>{
+    if(desde && m.date && m.date <= desde) return;
+    mirar(m.home, m.formH); mirar(m.away, m.formA);
+  });
+  return mejor;
+}
+function resolver(b, matches, hoy){
+  if(b.manual) return {estado:b.estado, auto:false, res:null, esperando:false};
+  const H = b.home || (b.partido||"").split(" vs ")[0];
+  const A = b.away || (b.partido||"").split(" vs ")[1];
+  /* Segundo candado: si el partido sigue en la grilla y todavía no llegó su
+     día, no se jugó. Cualquier marcador que aparezca es de otro cruce. */
+  const enGrilla = (matches||[]).some(m=> m.id===b.matchId && m.date >= hoy);
+  if(enGrilla) return {estado:"pendiente", auto:true, res:null, esperando:false};
+  const res = buscarResultado(H, A, matches, b.fecha);
+  const test = TESTS[(b.key||"").split("__")[1]];
+  if(res && test) return {estado: test(res.i,res.j) ? "ganada" : "perdida", auto:true, res, esperando:false};
+  return {estado:"pendiente", auto:true, res:null, esperando: !!(b.fecha && b.fecha < hoy)};
+}
+
+function mercados(M, m){
+  const L=m.home, V=m.away, o=[];
+  const add = (fam,id,label,p,req,extra) => o.push(Object.assign({fam,id,label,p,req},extra||{}));
+  add("Resultado","1x2_l","Gana "+L, sumIf(M,(i,j)=>i>j), ["L"]);
+  add("Resultado","1x2_e","Empate", sumIf(M,(i,j)=>i===j), ["E"]);
+  add("Resultado","1x2_v","Gana "+V, sumIf(M,(i,j)=>i<j), ["V"]);
+  add("Resultado","dc_lx",L+" gana o empata", sumIf(M,(i,j)=>i>=j), ["L","E"]);
+  add("Resultado","dc_x2",V+" gana o empata", sumIf(M,(i,j)=>i<=j), ["V","E"]);
+  add("Resultado","dc_12","Gana alguno (sin empate)", sumIf(M,(i,j)=>i!==j), ["L","V"]);
+  [1.5,2.5,3.5].forEach(n=>{
+    add("Goles","ov"+n,"Más de "+n+" goles", sumIf(M,(i,j)=>i+j>n), null, {linea:n,lado:"over"});
+    add("Goles","un"+n,"Menos de "+n+" goles", sumIf(M,(i,j)=>i+j<n), null, {linea:n,lado:"under"});
+  });
+  add("Ambos","btts_si","Ambos marcan", sumIf(M,(i,j)=>i>0&&j>0), null);
+  add("Ambos","btts_no","No marcan los dos", sumIf(M,(i,j)=>i===0||j===0), null);
+  o.forEach(x=> x.test = TESTS[x.id]);
+  return o;
+}
+
+function cuandoCobra(op, m){
+  const L=m.home, V=m.away;
+  switch(op.id){
+    case "1x2_l": return "Se te paga solo si gana "+L+". El empate pierde.";
+    case "1x2_e": return "Se te paga solo si terminan iguales.";
+    case "1x2_v": return "Se te paga solo si gana "+V+". El empate pierde.";
+    case "dc_lx": return "Se te paga salvo que gane "+V+".";
+    case "dc_x2": return "Se te paga salvo que gane "+L+".";
+    case "dc_12": return "Se te paga con cualquier ganador. Solo pierde con empate.";
+    case "btts_si": return "Se te paga si los dos convierten, sin importar quién gane.";
+    case "btts_no": return "Se te paga si alguno de los dos se queda en cero.";
+  }
+  if(op.lado==="over"){ const min = Math.ceil(op.linea); return "Se te paga con "+min+" goles o más entre los dos equipos."; }
+  if(op.lado==="under"){ const max = Math.floor(op.linea); return "Se te paga con "+max+" "+(max===1?"gol":"goles")+" o menos en todo el partido."; }
+  return "";
+}
+
+function devig(mk){
+  if(!mk || !mk.local) return null;
+  const c=[1/mk.local, 1/mk.empate, 1/mk.visitante], t=c[0]+c[1]+c[2];
+  return {L:c[0]/t, E:c[1]/t, V:c[2]/t};
+}
+function pMercado(op, pq, mk){
+  if(op.req){ if(!pq) return null; return op.req.reduce((s,k)=>s+pq[k], 0); }
+  if(op.linea!=null && mk && mk.totalLinea===op.linea && mk.totalOver && mk.totalUnder){
+    const co=1/mk.totalOver, cu=1/mk.totalUnder;
+    return (op.lado==="over"?co:cu)/(co+cu);
+  }
+  return null;
+}
+
+const pc = p => Math.round(p*100)+"%";
+/* Decimal con coma: la app escribe en castellano. Las CUOTAS quedan con
+   punto, que es como las publica cualquier casa. */
+const com = s => String(s).replace(".", ",");
+const plata = n => "$"+Math.round(n).toLocaleString("es-AR");
+const DIAS = ["DOM","LUN","MAR","MIÉ","JUE","VIE","SÁB"];
+const MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+function fechaDe(iso){ const [a,m,d]=iso.split("-").map(Number); return new Date(a,m-1,d); }
+function grupoEs(g, comp){
+  if(!g) return "";
+  const letra = (g.match(/Group\s+([A-Z])/i)||[])[1];
+  if(!letra) return g;
+  return (/profesional/i.test(comp) ? "Zona " : "Grupo ") + letra;
+}
+function cadaCuanto(p){
+  const op = [[0.9,"9 de cada 10"],[0.83,"5 de cada 6"],[0.78,"4 de cada 5"],[0.72,"3 de cada 4"],
+    [0.64,"2 de cada 3"],[0.57,"3 de cada 5"],[0.47,"1 de cada 2"],[0.38,"2 de cada 5"],
+    [0.30,"1 de cada 3"],[0.22,"1 de cada 4"],[0.17,"1 de cada 5"],[0.12,"1 de cada 6"],[0,"menos de 1 de cada 8"]];
+  return "se da " + op.find(o=> p>=o[0])[1];
+}
+
+function lectura(m){
+  const M = matrix(m.lh, m.la, m.rho);
+  const p = {L:sumIf(M,(i,j)=>i>j), E:sumIf(M,(i,j)=>i===j), V:sumIf(M,(i,j)=>i<j)};
+  const lean = ["L","E","V"].reduce((a,b)=> p[a]>=p[b]?a:b);
+  const goles = m.lh + m.la;
+  const nombre = lean==="L" ? m.home : lean==="V" ? m.away : null;
+  let titulo, cuerpo, corto;
+  const claro = p[lean] >= 0.50;
+  if(lean==="E" || p[lean] < 0.40){
+    titulo = "Partido parejo, sin favorito claro";
+    cuerpo = "Ninguno de los dos saca diferencia en los números: le damos "+pc(p.L)+" a "+m.home+", "+pc(p.E)+" al empate y "+pc(p.V)+" a "+m.away+".";
+    corto  = "Partido parejo — ninguno de los tres resultados pasa de "+pc(p[lean])+".";
+  } else if(claro && goles < 2.4){
+    titulo = nombre+" lo controla, pero sin goleada";
+    cuerpo = "Le damos "+pc(p[lean])+" de ganar, y esperamos pocos goles: "+goles.toFixed(1)+" entre los dos.";
+    corto  = nombre+" lo controla, pero con pocos goles — le damos "+pc(p[lean])+".";
+  } else if(claro){
+    titulo = nombre+" es favorito y el partido pinta abierto";
+    cuerpo = "Le damos "+pc(p[lean])+" de ganar, con "+goles.toFixed(1)+" goles esperados entre los dos.";
+    corto  = nombre+" es favorito y pinta abierto — le damos "+pc(p[lean])+".";
+  } else {
+    titulo = nombre+" llega mejor, pero no lo damos por hecho";
+    cuerpo = "Es el más probable con "+pc(p[lean])+", aunque el empate ("+pc(p.E)+") sigue muy vivo.";
+    corto  = nombre+" llega mejor, sin darlo por hecho — le damos "+pc(p[lean])+".";
+  }
+  return {M, p, lean, nombre, goles, titulo, cuerpo, corto, claro,
+          parejo: lean==="E" || p[lean] < 0.40};
+}
+
+const contradice = (op, lean) => !!op.req && !op.req.includes(lean);
+
+function escalera(m){
+  const lec = lectura(m);
+  const ops = mercados(lec.M, m);
+  const mk  = m.mercado || {};
+  const pq  = devig(mk);
+  const filas = FRANJAS.map(f=>{
+    const cand = ops.filter(o=> o.p>=f.lo && o.p<f.hi && !contradice(o, lec.lean));
+    if(!cand.length) return {franja:f, op:null};
+    const conV = cand.map(o=>{ const pm = pMercado(o, pq, mk); return {o, v: pm==null ? null : o.p - pm}; });
+    const creibles = conV.filter(x=> x.v!=null && x.v>=VENTAJA_MIN && x.v<=VALOR_MAX).sort((a,b)=> b.v - a.v);
+    let elegido, ventaja;
+    if(creibles.length){ elegido = creibles[0].o; ventaja = creibles[0].v; }
+    else {
+      const centro = (f.lo+f.hi)/2;
+      elegido = cand.reduce((a,b)=> Math.abs(a.p-centro)<=Math.abs(b.p-centro)?a:b);
+      const pm = pMercado(elegido, pq, mk);
+      ventaja = pm==null ? null : elegido.p - pm;
+    }
+    const valor = ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX;
+    return {franja:f, op:elegido, ventaja, valor};
+  });
+  const marcables = filas.filter(x=> x.valor).sort((a,b)=> b.ventaja - a.ventaja);
+  marcables.slice(1).forEach(x=> x.valor = false);
+  return filas;
+}
+
+function combinada(m){
+  const esc = escalera(m).filter(x=>x.op);
+  const res = esc.find(x=> x.op.fam==="Resultado");
+  const otra = esc.find(x=> x.op.fam!=="Resultado");
+  if(!res || !otra || res.op.p<0.5) return null;
+  const lec = lectura(m);
+  const pExacta = sumIf(lec.M, (i,j)=> res.op.test(i,j) && otra.op.test(i,j));
+  const pIngenua = res.op.p * otra.op.p;
+  if(pExacta < 0.25) return null;
+  return {patas:[res.op, otra.op], p:pExacta, ingenua:pIngenua};
+}
+
+function alerta(m){
+  const lec = lectura(m), pq = devig(m.mercado);
+  if(!pq) return null;
+  const d = pq[lec.lean] - lec.p[lec.lean];
+  return d >= ALERTA_MIN ? {lean:lec.lean, dif:d, nombre:lec.nombre} : null;
+}
+
+const COMPS_ORDEN = ["Liga Profesional Argentina", "Copa Argentina", "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
+const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Copa Argentina":"Copa Arg.",
+  "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
+
+const guardar = (k,v)=>{ try{ localStorage.setItem("valor_"+k, JSON.stringify(v)); }catch(e){} };
+const leer = (k,def)=>{ try{ const v=localStorage.getItem("valor_"+k); return v?JSON.parse(v):def; }catch(e){ return def; } };
+
+class Component extends DCLogic {
+  state = {
+    vista:"fecha", dia:null, matchId:null, tab:"analisis", filtro:"todas",
+    cargando:true, error:null, matches:[], analisis:{}, equipos:{}, actualizado:"",
+    banca: leer("banca", null), cuotas: leer("cuotas", {}), log: leer("log", []),
+    cuotasTxt: {}, bancaTxt: "", corrigiendo: {},
+  };
+
+  async componentDidMount(){
+    /* La base del documento no siempre es la carpeta del proyecto, así
+       que probamos las rutas candidatas en vez de asumir una. */
+    const bases = ["", "./", "../", "/"];
+    const traer = async (rel, def) => {
+      for(const b of bases){
+        try{
+          const r = await fetch(b + rel);
+          if(r.ok) return await r.json();
+        }catch(e){}
+      }
+      return def;
+    };
+    const p = await traer("data/partidos.json", null);
+    if(!p) return this.setState({cargando:false, error:"No respondió data/partidos.json en ninguna de las rutas probadas."});
+    const matches = (p.partidos||p||[]).filter(m=> m.lh!=null && m.la!=null);
+    if(!matches.length) return this.setState({cargando:false, error:"El archivo de partidos vino vacío."});
+    const [an, eq] = await Promise.all([traer("data/analisis.json", {}), traer("data/equipos.json", {})]);
+    delete an._schema; delete eq._schema;
+    this.setState({cargando:false, matches, analisis:an||{}, equipos:eq||{}, actualizado:(p.actualizado||"").replace("T"," ")});
+  }
+
+  analizado(id){ const a = this.state.analisis[id]; return !!(a && (a.contexto || a.veredicto)); }
+
+  dias(){
+    const set = [...new Set(this.state.matches.map(m=>m.date))].sort();
+    return set.map(iso=>{
+      const d = fechaDe(iso);
+      return {iso, n:d.getDate(), dow:DIAS[d.getDay()], cuenta:this.state.matches.filter(m=>m.date===iso).length};
+    });
+  }
+  diaActual(){
+    const ds = this.dias();
+    const d = this.state.dia;
+    return (d && ds.some(x=>x.iso===d)) ? d : (ds.length ? ds[0].iso : null);
+  }
+
+  /* El sello: el veredicto en dos palabras, la firma de la portada. */
+  sello(lec){
+    const corto = n => { if(!n) return ""; const w = n.split(" "); return (n.length>13 ? w[0] : n).toUpperCase(); };
+    if(lec.parejo || !lec.nombre) return ["PARTIDO","PAREJO"];
+    if(lec.claro && lec.goles < 2.4) return [corto(lec.nombre), "SIN GOLEADA"];
+    if(lec.claro) return [corto(lec.nombre), "FAVORITO"];
+    return [corto(lec.nombre), "LLEGA MEJOR"];
+  }
+
+  tarjeta(m, num, total){
+    const lec = lectura(m), mk = m.mercado||{}, al = alerta(m), pq = devig(mk);
+    let valKey = null;
+    if(pq && this.analizado(m.id) && !al){
+      const dif = lec.p[lec.lean] - pq[lec.lean];
+      if(dif>=VALOR_MIN && dif<=VALOR_MAX) valKey = lec.lean;
+    }
+    const forma = f => (f||[]).slice().reverse().map(x=>({
+      t: x.r==="W" ? "G" : x.r==="D" ? "E" : "P",
+      bg: x.r==="W" ? "#EEE3CE" : x.r==="D" ? "#4A4030" : "#2A2318",
+      col: x.r==="W" ? "#171310" : x.r==="D" ? "#B8AD95" : "#6E6350",
+    }));
+    const cuota = v => v ? v.toFixed(2) : "—";
+    const bg = k => valKey===k ? "#2E2210" : (al && al.lean===k ? "#2B1912" : "#171310");
+    const col = k => valKey===k ? "#D6963A" : (al && al.lean===k ? "#C06848" : (mk.local ? "#EEE3CE" : "#6E6350"));
+    const pcol = k => valKey===k ? "#D6963A" : (al && al.lean===k ? "#C06848" : "#6E6350");
+    const s = this.sello(lec);
+    return {
+      id:m.id, num:String(num).padStart(2,"0"), deTotal:"DE "+String(total).padStart(2,"0"),
+      hora:m.hora||"—", home:m.home, away:m.away,
+      hl:m.homeLogo||"", al:m.awayLogo||"",
+      formH:forma(m.formH), formA:forma(m.formA),
+      cL:cuota(mk.local), cE:cuota(mk.empate), cV:cuota(mk.visitante),
+      pL:pc(lec.p.L), pE:pc(lec.p.E), pV:pc(lec.p.V),
+      bgL:bg("L"), bgE:bg("E"), bgV:bg("V"),
+      colL:col("L"), colE:col("E"), colV:col("V"),
+      pcolL:pcol("L"), pcolE:pcol("E"), pcolV:pcol("V"),
+      val:!!valKey, alerta:!!al, corto:lec.corto, selloA:s[0], selloB:s[1],
+      abrir: () => this.setState({vista:"partido", matchId:m.id, tab:"analisis"}),
+    };
+  }
+
+  marcadorTop(M){
+    let best = [0,0], bp = -1;
+    for(let i=0;i<6;i++) for(let j=0;j<6;j++) if(M[i][j]>bp){ bp=M[i][j]; best=[i,j]; }
+    return {txt: best[0]+"-"+best[1], p: bp};
+  }
+
+  /* Los rivales del historial vienen solo con nombre: el escudo se
+     resuelve contra los equipos que ya aparecen en los datos. */
+  logoDe(nombre){
+    if(!this._logos){
+      const map = {};
+      this.state.matches.forEach(p=>{
+        if(p.home) map[p.home] = p.homeLogo;
+        if(p.away) map[p.away] = p.awayLogo;
+        (p.tabla||[]).forEach(f=>{ if(f.t) map[f.t] = f.logo; });
+      });
+      this._logos = map;
+    }
+    return this._logos[nombre] || "";
+  }
+
+  histVals(m){
+    const marca = r => ({
+      t: r==="W" ? "G" : r==="D" ? "E" : "P",
+      bg: r==="W" ? "#EEE3CE" : r==="D" ? "#4A4030" : "#2A2318",
+      col: r==="W" ? "#171310" : r==="D" ? "#B8AD95" : "#6E6350",
+    });
+    const bloque = (nombre, logo, forma) => {
+      const f = forma || [];
+      const goles = x => (x.marcador||"").split("-").map(Number);
+      const g = f.filter(x=>x.r==="W").length, e = f.filter(x=>x.r==="D").length;
+      const hechos = f.reduce((s,x)=> s+(goles(x)[0]||0), 0);
+      const recib  = f.reduce((s,x)=> s+(goles(x)[1]||0), 0);
+      return {
+        nombre, logo,
+        tira: f.slice().reverse().map(x=> Object.assign({}, marca(x.r))),
+        racha: f.length ? g+"G "+e+"E "+(f.length-g-e)+"P · "+hechos+" hechos, "+recib+" recibidos" : "Sin partidos recientes cargados",
+        filas: f.map(x=> Object.assign({}, marca(x.r), {
+          rival: (x.local?"vs ":"@ ")+x.rival, logo: this.logoDe(x.rival),
+          loc: x.local ? "Local" : "Visita", sc: x.marcador||"",
+        })),
+      };
+    };
+    const h2h = (m.h2h||[]).map(x=>{
+      const p = (x.d||"").split("/");
+      return {dia:(p[0]||"")+"/"+(p[1]||""), anio:"20"+(p[2]||""), h:x.h, a:x.a, s:x.s,
+              hl:this.logoDe(x.h), al:this.logoDe(x.a)};
+    });
+    return {
+      equipos: [bloque(m.home, m.homeLogo, m.formH), bloque(m.away, m.awayLogo, m.formA)],
+      h2h,
+      cuentaH2h: h2h.length ? h2h.length+(h2h.length===1?" EN EL HISTORIAL":" EN EL HISTORIAL") : "NINGUNO",
+      notaH2h: h2h.length===1
+        ? "Es todo el antecedente que hay: cualquier lectura de «historia entre los dos» sale de un solo partido."
+        : (h2h.length ? "El historial que tenemos llega hasta acá — no es la serie completa entre los dos." : "No se cruzaron en el historial que tenemos."),
+    };
+  }
+
+  posVals(m){
+    const tabla = m.tabla || [];
+    if(!tabla.length) return {hay:false, vacio:true, titulo:"Posiciones", meta:"SIN TABLA", filas:[], falta:false};
+    const mios = new Set([String(m.homeId), String(m.awayId)]);
+    const presentes = tabla.filter(f=> mios.has(String(f.id))).length;
+    const ausente = presentes<2 ? (tabla.some(f=>String(f.id)===String(m.homeId)) ? m.away : m.home) : null;
+    return {
+      hay:true, vacio:false,
+      titulo: grupoEs(m.grupo, m.comp) || m.comp,
+      meta: (COMPS_CORTO[m.comp]||m.comp).toUpperCase(),
+      filas: tabla.map((f,i)=>{
+        const yo = mios.has(String(f.id));
+        return {rk:i+1, t:f.t, logo:f.logo||"", pts:f.pts, pj:f.pj, gep:f.g+"-"+f.e+"-"+f.p,
+                gf: f.gf!=null ? f.gf : "—",
+                bg: yo ? "#2A2318" : "transparent",
+                colRk: yo ? "#EEE3CE" : "#6E6350",
+                colT: yo ? "#EEE3CE" : "#B8AD95",
+                colPts: yo ? "#EEE3CE" : "#D8CDB4"};
+      }),
+      falta: !!ausente,
+      notaFalta: ausente ? ausente+" no aparece: la fuente devolvió estas "+tabla.length+" líneas y ninguna es suya. Preferimos mostrarte la tabla incompleta y decirlo, antes que inventarle una posición." : "",
+    };
+  }
+
+  plantelVals(m){
+    const st = this.state;
+    const sel = st.plEq==="A" ? "A" : "H";
+    const eq = sel==="H" ? {nom:m.home, id:m.homeId, forma:m.formH} : {nom:m.away, id:m.awayId, forma:m.formA};
+    const fila = (m.tabla||[]).find(f=> String(f.id)===String(eq.id));
+    const f = eq.forma || [];
+    const goles = x => (x.marcador||"").split("-").map(Number);
+    const num = v => v==null ? "—" : String(v);
+    const XI = [
+      {j:[{pos:"ARQ"}]},
+      {j:[{pos:"LD"},{pos:"DFC"},{pos:"DFC"},{pos:"LI"}]},
+      {j:[{pos:"MC"},{pos:"MC"},{pos:"MP"}]},
+      {j:[{pos:"EXT"},{pos:"DC"},{pos:"EXT"}]},
+    ];
+    const stSel = st.plSt || "T";
+    const cH = m.cornersH, cTot = m.corners;
+    const cA = (cTot!=null && cH!=null) ? (cTot-cH) : null;
+    const uno = v => v==null ? "—" : com(v.toFixed(1));
+    const D = {
+      T: {c: uno(cTot), f: m.fouls!=null ? m.fouls.toFixed(0) : "—", t: m.cards!=null ? com(m.cards.toFixed(1)) : "—",
+          nota:"Esperado entre los dos durante los 90 minutos."},
+      H: {c: uno(cH), f:"—", t:"—",
+          nota:"De los "+uno(cTot)+" córners del partido, "+uno(cH)+" son de "+m.home+". Faltas y tarjetas el motor las estima para el partido entero, no por equipo."},
+      A: {c: uno(cA), f:"—", t:"—",
+          nota:"De los "+uno(cTot)+" córners del partido, "+uno(cA)+" son de "+m.away+". Faltas y tarjetas el motor las estima para el partido entero, no por equipo."},
+    };
+    const d = D[stSel];
+    const apag = v => v==="—" ? "#4A4030" : "#EEE3CE";
+    const on = "#D8CDB4", onT = "#171310", off = "#171310", offT = "#8C7F68";
+    return {
+      nomH:m.home, nomA:m.away,
+      verH: () => this.setState({plEq:"H"}), verA: () => this.setState({plEq:"A"}),
+      bgH: sel==="H"?on:off, fgH: sel==="H"?onT:offT,
+      bgA: sel==="A"?on:off, fgA: sel==="A"?onT:offT,
+      xi: XI,
+      pts: fila ? num(fila.pts) : "—", pj: fila ? num(fila.pj) : "—",
+      g: fila ? num(fila.g) : "—", gf: fila && fila.gf!=null ? String(fila.gf) : "—",
+      notaTorneo: fila
+        ? "De "+eq.nom+" tenemos la fila del torneo. Los goles en contra no vienen en la tabla de la fuente — abajo están los de los últimos cinco, que sí se pueden contar."
+        : "De "+eq.nom+" no hay fila en la tabla que devuelve la fuente, así que la línea entera queda vacía. Abajo, lo que sí se puede contar.",
+      hechos: f.length ? String(f.reduce((s,x)=>s+(goles(x)[0]||0),0)) : "—",
+      recib: f.length ? String(f.reduce((s,x)=>s+(goles(x)[1]||0),0)) : "—",
+      vallas: f.length ? String(f.filter(x=>(goles(x)[1]||0)===0).length) : "—",
+      solapas: [["T","Del partido"],["H",m.home],["A",m.away]].map(([k,l])=>({
+        label:l, col: stSel===k ? "#EEE3CE" : "#6E6350", raya: stSel===k ? "#D8CDB4" : "transparent",
+        ir: () => this.setState({plSt:k}),
+      })),
+      stC:d.c, stF:d.f, stT:d.t, stNota:d.nota, stFCol:apag(d.f), stTCol:apag(d.t),
+    };
+  }
+
+  herramientasVals(m){
+    const st = this.state;
+    if(!st.banca){
+      return {pedirBanca:true, hayBanca:false, grupos:[],
+        bancaTxt: st.bancaTxt || "",
+        escribir: e => this.setState({bancaTxt: e.target.value}),
+        setBanca: () => {
+          const v = parseFloat((this.state.bancaTxt||"").replace(/[^\d]/g,""));
+          if(v>0){ guardar("banca", v); this.setState({banca:v, bancaTxt:""}); }
+        }};
+    }
+    const lec = lectura(m);
+    const ops = mercados(lec.M, m);
+    const kf = (m.conf>=72) ? 0.25 : (m.conf>=60) ? 0.125 : (m.conf>=50) ? 0.0625 : 0.005;
+    const tope = st.banca * 0.04;
+    const fams = ["Resultado","Goles","Ambos"];
+    return {
+      pedirBanca:false, hayBanca:true, banca: plata(st.banca),
+      reset: () => { guardar("banca", null); this.setState({banca:null}); },
+      grupos: fams.map(fam=>({
+        fam,
+        filas: ops.filter(o=>o.fam===fam).map(o=>{
+          const key = m.id+"__"+o.id;
+          const c = st.cuotas[key];
+          const val = c && c>1;
+          const e = val ? ev(o.p, c) : null;
+          const sano = val && e < EV_ABSURDO;
+          const jugable = !!(val && e>=MIN_EV && c<=MAX_ODDS && sano);
+          const stake = jugable ? Math.min(Math.round(st.banca*kelly(o.p,c)*kf), tope) : 0;
+          let evTxt, evCol = "#6E6350", nota = "", notaCol = "#5C513F", bg = "#221C15", borde = "none", bordeInput = "#2A2318";
+          if(!val){ evTxt = "Cargá tu cuota"; nota = "Conviene arriba de " + umbral(o.p).toFixed(2) + "."; }
+          else if(c > MAX_ODDS){ evTxt = "Cuota muy alta"; evCol = "#C06848"; nota = "Arriba de "+MAX_ODDS.toFixed(1)+" no la jugamos: el acierto se vuelve demasiado raro para medirlo."; notaCol = "#8C7F68"; }
+          else if(!sano){
+            evTxt = "EV +"+com((e*100).toFixed(0))+"% — revisá la cuota"; evCol = "#C06848";
+            nota = "Una ventaja así de grande casi nunca es del precio: es nuestra estimación fallando en este partido.";
+            notaCol = "#C06848"; borde = "2px solid #C06848"; bordeInput = "#4A2E20";
+          }
+          else if(e < MIN_EV){
+            evTxt = "EV "+(e>0?"+":"")+com((e*100).toFixed(1))+"%";
+            evCol = "#8C7F68"; nota = "Por debajo del umbral: hace falta "+umbral(o.p).toFixed(2)+" o más.";
+          }
+          else {
+            evTxt = "EV +"+com((e*100).toFixed(1))+"%"; evCol = "#D6963A"; bg = "#2E2210"; bordeInput = "#4A3C1E";
+            nota = stake>=tope ? "Kelly daría más; queda topeado en el 4% de tu banca." : "Kelly fraccionado según la confianza del modelo en este partido.";
+            notaCol = "#8C7F68";
+          }
+          return {
+            label:o.label, p:pc(o.p), cuota: val ? String(c) : "",
+            evTxt, evCol, nota, notaCol, bg, borde, bordeInput,
+            jugable, stake: plata(stake),
+            txt: st.cuotasTxt[key] != null ? st.cuotasTxt[key] : (val ? String(c) : ""),
+            setCuota: ev2 => {
+              /* Se guarda lo que el usuario TIPEA, no lo que ya parsea: si
+                 solo se guardara el número, escribir «1.30» moriría en el
+                 primer «1» — que no supera el umbral y borraría la clave. */
+              const raw = ev2.target.value || "";
+              const txt = Object.assign({}, this.state.cuotasTxt, {[key]: raw});
+              const v = parseFloat(raw.replace(",","."));
+              const cu = Object.assign({}, this.state.cuotas);
+              if(v>1) cu[key] = v; else delete cu[key];
+              guardar("cuotas", cu); this.setState({cuotas:cu, cuotasTxt:txt});
+            },
+            anotar: () => {
+              if(this.state.log.some(x=>x.key===key)) return this.setState({vista:"registro"});
+              const log = this.state.log.concat([{
+                key, partido:m.home+" vs "+m.away, home:m.home, away:m.away,
+                mercado:o.label, comp:m.comp,
+                cuota:c, p:o.p, ev:e, stake, estado:"pendiente", fecha:m.date, matchId:m.id,
+              }]);
+              guardar("log", log);
+              this.setState({log, vista:"registro"});
+            },
+          };
+        }),
+      })),
+    };
+  }
+
+  registroVals(){
+    const st = this.state, LOG = st.log || [], hoy = hoyISO();
+    /* Cada carga se resuelve contra los datos frescos en cada render: el
+       estado guardado solo manda si el usuario lo corrigió a mano. */
+    const R = LOG.map((b,idx)=> Object.assign({}, b, {idx}, resolver(b, st.matches, hoy)));
+    const cerradas = R.filter(x=>x.estado==="ganada"||x.estado==="perdida");
+    const invertido = cerradas.reduce((s,x)=>s+x.stake, 0);
+    const neto = cerradas.reduce((s,x)=> s + (x.estado==="ganada" ? x.stake*(x.cuota-1) : -x.stake), 0);
+    const roi = invertido ? neto/invertido : 0;
+    const aciertos = cerradas.filter(x=>x.estado==="ganada").length;
+    const signo = n => (n>0?"+":n<0?"−":"") + plata(Math.abs(n));
+    const colPlata = n => n>0 ? "#D6963A" : n<0 ? "#C06848" : "#EEE3CE";
+
+    /* La curva acumulada: la única línea curva de la app. */
+    let puntos = "", hayCurva = false;
+    if(cerradas.length > 1){
+      let acc = 0; const pts = [0];
+      cerradas.forEach(x=>{ acc += x.estado==="ganada" ? x.stake*(x.cuota-1) : -x.stake; pts.push(acc); });
+      const min = Math.min(...pts), max = Math.max(...pts), rango = (max-min)||1;
+      puntos = pts.map((v,i)=> (i/(pts.length-1)*300).toFixed(1)+","+(52-(v-min)/rango*48).toFixed(1)).join(" ");
+      hayCurva = true;
+    }
+
+    const cont = e => R.filter(x=> e==="todas" || x.estado===e).length;
+    const lista = R.filter(x=> st.filtro==="todas" || x.estado===st.filtro).slice().reverse();
+    const marcar = (idx, estado) => () => {
+      const log = this.state.log.slice();
+      log[idx] = Object.assign({}, log[idx], {estado, manual:true});
+      guardar("log", log); this.setState({log});
+    };
+    const soltar = (idx, key) => () => {
+      const log = this.state.log.slice();
+      log[idx] = Object.assign({}, log[idx], {manual:false, estado:"pendiente"});
+      const cor = Object.assign({}, this.state.corrigiendo); delete cor[key];
+      guardar("log", log); this.setState({log, corrigiendo:cor});
+    };
+    const est = (b, k, on, onCol, onBr) => ({
+      bg: b.estado===k ? on : "#171310",
+      col: b.estado===k ? onCol : "#6E6350",
+      br: b.estado===k ? onBr : "#2A2318",
+    });
+
+    /* La línea de arriba: de dónde viene cada estado, sin adornos. */
+    const nCruz = R.filter(x=>x.res).length, nEsp = R.filter(x=>x.esperando).length;
+    const nSin = R.filter(x=>x.auto && !x.res && !x.esperando).length, nMano = R.filter(x=>!x.auto).length;
+    const trozo = (n, uno, varios) => n ? (n + " " + (n===1?uno:varios)) : null;
+    const autoTxt = [
+      trozo(nCruz, "resuelta con el resultado", "resueltas con el resultado"),
+      trozo(nEsp, "esperando resultado", "esperando resultado"),
+      trozo(nSin, "sin jugar", "sin jugar"),
+      trozo(nMano, "corregida a mano", "corregidas a mano"),
+    ].filter(Boolean).join(" · ");
+
+    return {
+      kicker: LOG.length ? LOG.length + (LOG.length===1?" CARGADA":" CARGADAS") : "EN BLANCO",
+      vacio: !LOG.length, hayLista: LOG.length>0, hayCurva, puntos,
+      movs: (cerradas.length+1) + " MOVIMIENTOS",
+      op: LOG.length ? "1" : ".5",
+      neto: cerradas.length ? signo(neto) : "—",
+      netoCol: cerradas.length ? colPlata(neto) : "#4A4030",
+      tasa: cerradas.length ? Math.round(aciertos/cerradas.length*100)+"%" : "—",
+      tasaCol: LOG.length ? "#EEE3CE" : "#4A4030",
+      roi: invertido ? (roi>0?"+":roi<0?"−":"")+com(Math.abs(roi*100).toFixed(1))+"%" : "—",
+      roiCol: invertido ? colPlata(neto) : "#4A4030",
+      cerradas: String(cerradas.length),
+      chips: [["todas","Todas"],["ganada","Ganadas"],["perdida","Perdidas"],["pendiente","Pendientes"]].map(([k,l])=>({
+        label: l+" "+cont(k),
+        bg: st.filtro===k ? "#EEE3CE" : "#221C15",
+        col: st.filtro===k ? "#171310" : "#6E6350",
+        ir: () => this.setState({filtro:k}),
+      })),
+      autoTxt,
+      listaVacia: LOG.length>0 && !lista.length,
+      lista: lista.map(b=>{
+        const idx = b.idx;
+        const g = est(b,"ganada","#2E2210","#D6963A","#4A3C1E");
+        const p = est(b,"perdida","#2B1912","#C06848","#4A2E20");
+        const n = est(b,"pendiente","#2A2318","#D8CDB4","#3A3122");
+        const corr = !!st.corrigiendo[b.key];
+        const sello = b.estado==="ganada" ? ["GANADA","#D6963A","#2E2210"]
+          : b.estado==="perdida" ? ["PERDIDA","#C06848","#2B1912"]
+          : b.esperando ? ["SIN RESULTADO","#8C7F68","#221C15"]
+          : ["SIN JUGAR","#6E6350","#1D1811"];
+        const dev = b.estado==="ganada" ? "+"+plata(b.stake*(b.cuota-1))
+          : b.estado==="perdida" ? "−"+plata(b.stake) : "";
+        let fuenteTxt;
+        if(!b.auto) fuenteTxt = "Lo marcaste vos. No lo tocamos.";
+        else if(b.res) fuenteTxt = "Cruzado con el historial de " + b.res.fuente + ", que ya trae este partido.";
+        else if(b.esperando) fuenteTxt = "Se jugó, pero el resultado todavía no apareció en la fuente: aparece cuando alguno de los dos vuelva a jugar. Si ya lo sabés, cargalo.";
+        else fuenteTxt = b.fecha ? "Se juega el " + DIAS[fechaDe(b.fecha).getDay()] + " " + fechaDe(b.fecha).getDate() + ". Se resuelve solo." : "Se resuelve solo cuando haya resultado.";
+        return {
+          partido:b.partido, mercado:b.mercado, stake:plata(b.stake),
+          meta: (COMPS_CORTO[b.comp]||b.comp) + " · @" + b.cuota.toFixed(2) + " · EV " + (b.ev>0?"+":"") + com((b.ev*100).toFixed(1)) + "%",
+          selloTxt: sello[0], selloCol: sello[1], selloBg: sello[2],
+          marcador: b.res ? b.res.i + "-" + b.res.j : "",
+          devuelve: dev, devCol: b.estado==="ganada" ? "#D6963A" : "#C06848",
+          fuenteTxt,
+          hayBotones: corr || b.esperando || !b.auto,
+          hayCorregir: b.auto ? !!b.res : true,
+          corregirTxt: b.auto ? "Corregir a mano" : "Volver al automático",
+          corregir: b.auto
+            ? () => this.setState({corrigiendo: Object.assign({}, this.state.corrigiendo, {[b.key]: !corr})})
+            : soltar(idx, b.key),
+          bgG:g.bg, colG:g.col, brG:g.br, bgP:p.bg, colP:p.col, brP:p.br, bgN:n.bg, colN:n.col, brN:n.br,
+          ganada: marcar(idx,"ganada"), perdida: marcar(idx,"perdida"), pendiente: marcar(idx,"pendiente"),
+        };
+      }),
+    };
+  }
+
+  detalleVals(){
+    const st = this.state;
+    const m = st.matches.find(x=>x.id===st.matchId);
+    if(!m) return {det:{}, tabs:[], hist:{equipos:[],h2h:[]}, pos:{filas:[]}, pl:{xi:[],solapas:[]}, hr:{grupos:[]}};
+    const lec = lectura(m), mk = m.mercado||{}, al = alerta(m), pq = devig(mk);
+    const d = fechaDe(m.date);
+    const hay = this.analizado(m.id);
+    let valKey = null;
+    if(pq && hay && !al){
+      const dif = lec.p[lec.lean] - pq[lec.lean];
+      if(dif>=VALOR_MIN && dif<=VALOR_MAX) valKey = lec.lean;
+    }
+    const cuota = v => v ? v.toFixed(2) : "—";
+    const bg = k => valKey===k ? "#2E2210" : (al && al.lean===k ? "#2B1912" : "#221C15");
+    const col = k => valKey===k ? "#D6963A" : (al && al.lean===k ? "#C06848" : "#EEE3CE");
+    const pcol = k => valKey===k ? "#D6963A" : (al && al.lean===k ? "#C06848" : "#6E6350");
+    const s = this.sello(lec);
+    const top = this.marcadorTop(lec.M);
+    const corto = n => (n.length>13 ? n.split(" ")[0] : n).toUpperCase();
+    const a = st.analisis[m.id] || {};
+
+    const esc = escalera(m).map((f,i)=>({
+      n: String(i+1).padStart(2,"0"),
+      franja: f.franja.n.toUpperCase(),
+      bg: (f.op && f.valor && hay) ? "#2E2210" : "#221C15",
+      val: !!(f.op && f.valor && hay),
+      p: f.op ? Math.round(f.op.p*100) : "—",
+      label: f.op ? f.op.label : "Sin ninguna opción clara en esta franja",
+      ancho: f.op ? Math.round(f.op.p*100)+"%" : "0%",
+      umbral: f.op ? umbral(f.op.p).toFixed(2) : "—",
+      cobra: f.op ? cuandoCobra(f.op, m) : "Para este partido, ninguna opción cae en esta franja de probabilidad.",
+    }));
+
+    const cmb = combinada(m);
+    const h2h = m.h2h || [];
+    const ult = h2h[0];
+    const antecedente = h2h.length
+      ? "Se cruzaron " + (h2h.length===1 ? "una sola vez" : h2h.length+" veces") + " en el historial que tenemos; la última, " + ult.h + " " + ult.s + " " + ult.a + " el " + ult.d + "."
+      : "No se cruzaron en el historial que tenemos, así que no hay antecedente directo del que agarrarse.";
+    const ritmo = (m.fouls!=null && m.cards!=null)
+      ? " Esperamos " + m.fouls.toFixed(0) + " faltas y " + com(m.cards.toFixed(1)) + " tarjetas."
+      : "";
+
+    return {
+      det: {
+        linea: m.comp + " · " + DIAS[d.getDay()] + " " + d.getDate() + " " + MESES[d.getMonth()],
+        home: m.home, away: m.away, hl: m.homeLogo||"", al: m.awayLogo||"", hora: m.hora||"—",
+        grupo: grupoEs(m.grupo, m.comp) || m.comp,
+        cL:cuota(mk.local), cE:cuota(mk.empate), cV:cuota(mk.visitante),
+        pL:pc(lec.p.L), pE:pc(lec.p.E), pV:pc(lec.p.V),
+        bgL:bg("L"), bgE:bg("E"), bgV:bg("V"),
+        colL:col("L"), colE:col("E"), colV:col("V"),
+        pcolL:pcol("L"), pcolE:pcol("E"), pcolV:pcol("V"),
+        hayAnalisis: hay, sinAnalisis: !hay,
+        anContexto: a.contexto || "", anVeredicto: a.veredicto || "",
+        anFuente: a.actualizado ? "Escrito el " + a.actualizado + "." : "",
+        lh: com(m.lh.toFixed(2)), la: com(m.la.toFixed(2)),
+        homeCorto: corto(m.home), awayCorto: corto(m.away),
+        marcador: top.txt,
+        parrafoUno: lec.cuerpo + " El marcador más probable es " + top.txt + ", y aun así pasa " + Math.round(top.p*100) + " de cada 100 veces.",
+        parrafoDos: antecedente + ritmo,
+        selloA: s[0], selloB: s[1],
+        lecTitulo: lec.titulo, lecCuerpo: lec.cuerpo,
+        esc,
+        hayCombinada: !!(cmb && hay),
+        cmbLabel: cmb ? cmb.patas[0].label + " + " + cmb.patas[1].label : "",
+        cmbP: cmb ? pc(cmb.p) : "",
+        cmbCada: cmb ? cadaCuanto(cmb.p) : "",
+        cmbUmbral: cmb ? umbral(cmb.p).toFixed(2) : "",
+        cmbNota: cmb ? (Math.abs(cmb.p - cmb.ingenua) >= 0.02
+          ? "Calculado sobre la matriz del partido. Multiplicar las dos por separado daría " + pc(cmb.ingenua) + ", y estaría mal: las dos cosas pasan en el mismo partido y se afectan entre sí."
+          : "Calculado sobre la matriz del partido, teniendo en cuenta que las dos cosas pasan en el mismo partido.") : "",
+      },
+      tabs: [["analisis","Análisis"],["pronosticos","Pronósticos"],["historial","Historial"],
+             ["posiciones","Posiciones"],["plantel","Plantel"],["herramientas","Herramientas"]].map(([k,l])=>({
+        label:l, col: st.tab===k ? "#EEE3CE" : "#6E6350", raya: st.tab===k ? "#EEE3CE" : "transparent",
+        ir: () => this.setState({tab:k}),
+      })),
+      hist: this.histVals(m),
+      pos: this.posVals(m),
+      pl: this.plantelVals(m),
+      hr: this.herramientasVals(m),
+      tAnalisis: st.tab==="analisis", tPronosticos: st.tab==="pronosticos",
+      tHistorial: st.tab==="historial", tPosiciones: st.tab==="posiciones",
+      tPlantel: st.tab==="plantel", tHerramientas: st.tab==="herramientas",
+      volver: () => this.setState({vista:"fecha"}),
+    };
+  }
+
+  renderVals(){
+    const st = this.state;
+    const dia = this.diaActual();
+    const delDia = st.matches.filter(m=>m.date===dia);
+    const d = dia ? fechaDe(dia) : new Date();
+
+    const logos = {};
+    st.matches.forEach(m=>{ if(!logos[m.comp]) logos[m.comp] = m.compLogo; });
+    const hoy = new Set(delDia.map(m=>m.comp));
+
+    const porComp = {};
+    delDia.forEach(m=> (porComp[m.comp] = porComp[m.comp]||[]).push(m));
+    let i = 0;
+    const total = delDia.length;
+    const grupos = Object.keys(porComp).map(comp=>({
+      comp,
+      cuenta: porComp[comp].length + (porComp[comp].length===1 ? " PARTIDO" : " PARTIDOS"),
+      matches: porComp[comp].sort((a,b)=>(a.hora||"").localeCompare(b.hora||"")).map(m=> this.tarjeta(m, ++i, total)),
+    }));
+
+    const navCol = v => st.vista===v ? "#EEE3CE" : "#6E6350";
+    const navRaya = v => st.vista===v ? "#EEE3CE" : "transparent";
+
+    return {
+      cargando: st.cargando,
+      hayError: !st.cargando && !!st.error,
+      errorMsg: st.error || "",
+      vFecha: !st.cargando && !st.error && st.vista==="fecha",
+      vPartido: !st.cargando && !st.error && st.vista==="partido",
+      vRegistro: !st.cargando && !st.error && st.vista==="registro",
+      vMetodo: !st.cargando && !st.error && st.vista==="metodo",
+      titulo: dia ? DIAS[d.getDay()]+" "+d.getDate()+" DE "+MESES[d.getMonth()]+" · "+total+(total===1?" PARTIDO":" PARTIDOS") : "",
+      actualizado: st.actualizado || "—",
+      diaVacio: !!dia && !total,
+      dias: this.dias().map(x=>({
+        n:x.n, dow:x.dow,
+        bg: x.iso===dia ? "#EEE3CE" : "#221C15",
+        col: x.iso===dia ? "#171310" : (x.cuenta ? "#B8AD95" : "#5C513F"),
+        col2: x.iso===dia ? "#4A4030" : "#6E6350",
+        ir: () => this.setState({dia:x.iso}),
+      })),
+      comps: COMPS_ORDEN.filter(c=>logos[c]).map(c=>({
+        logo: logos[c], corto: COMPS_CORTO[c]||c, op: hoy.has(c) ? "1" : ".4",
+      })),
+      grupos,
+      irFecha: () => this.setState({vista:"fecha"}),
+      irRegistro: () => this.setState({vista:"registro"}),
+      irMetodo: () => this.setState({vista:"metodo"}),
+      navFecha: navCol("fecha"), navRegistro: navCol("registro"), navMetodo: navCol("metodo"),
+      navFechaRaya: navRaya("fecha"), navRegistroRaya: navRaya("registro"), navMetodoRaya: navRaya("metodo"),
+      ...this.detalleVals(),
+      reg: this.registroVals(),
+      hideImg: e => { e.currentTarget.style.visibility = "hidden"; },
+    };
+  }
+}
+</script>
+</body>
+</html>

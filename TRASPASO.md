@@ -3,6 +3,23 @@
 **Para:** la IA que arranque el proyecto de cero en una carpeta nueva.
 **Escrito:** 2026-08-17. **Repo de origen:** `gelucas2001-hub/VALOR`.
 
+> **Actualización 2026-08-18 — leer antes que el resto del documento.**
+> Después de escrito esto, se hizo el brainstorm visual que la sección
+> 11 (Fase 1, pasos 5-8) pedía como pendiente — **ya no está pendiente.**
+> Se hizo en Claude Design, con opciones comparadas y elegidas por
+> Lucas, y produjo dos cosas que este documento todavía no menciona:
+>
+> 1. **El elemento firma está resuelto** (una V con barras ascendientes,
+>    no el cupón). Ver la sección corregida más abajo y `DESIGN.md`.
+> 2. **Un handoff completo con una funcionalidad nueva, verificada y
+>    lista para implementar: la resolución automática del registro.**
+>    Vive en `docs/design-handoff/` — está en el repo, no hace falta ir
+>    a buscarlo a ningún lado externo. Ver la sección 6bis, nueva.
+>
+> La Fase 1 de la sección 11 (brainstorm) está **completa**. Empezá
+> directo por la Fase 2 (docs/design-handoff/ + reglas) — ver el orden
+> corregido al final de la sección 11.
+
 Este documento existe porque Lucas decidió rehacer el proyecto desde
 cero, pero **el motor matemático y el pipeline de datos están validados
 y medidos, y tirarlos sería destruir la única parte que costó semanas
@@ -505,23 +522,83 @@ Escala de grises tibios para jerarquía de texto: `#D8CDB4`, `#B8AD95`,
 - Grano/textura solo en el masthead, nunca sobre filas de datos.
 - La curva acumulada del Registro es la única línea curva de la app.
 
-### El elemento firma — estado: sin resolver
+### El elemento firma — estado: RESUELTO (2026-08-18)
 
 El spec lo definía como "la pieza memorable de VALOR, todavía sin
-encontrar". **Sigue sin encontrarse.**
+encontrar". Se intentó una idea acá mismo, en este repo — **el cupón de
+Prode** — y no convenció en dos ejecuciones distintas (ver el hallazgo
+2 de la sección 0, más abajo, que sigue siendo válido como lección de
+proceso aunque la firma ya esté resuelta).
 
-Se intentó una idea: **el cupón de Prode** — las tres casillas de
-resultado llenándose de tinta hasta la altura de nuestra probabilidad,
-para leer la forma del partido antes que ninguna palabra. La idea es
-razonable y sale del mundo del producto, pero **a Lucas no le convenció
-en dos ejecuciones distintas**. La primera era literalmente invisible
-(opacidad 0.085 contra fondo oscuro); la segunda, con más contraste,
-tampoco lo convenció.
+**Se resolvió en Claude Design, con un brainstorm real: cuatro
+candidatos aislados, comparados antes de integrar ninguno.** Ganó una
+**V** con cuatro barras ascendientes en verde oliva recortadas dentro
+del trazo derecho — la escalera de riesgo, hecha símbolo. El cupón no
+volvió a proponerse.
 
-**Recomendación para quien siga: no insistas una tercera vez con el
-cupón sin antes hacer un brainstorm real con variantes comparadas.** Dos
-intentos fallidos sobre la misma idea es señal de replantear, no de
-seguir puliendo.
+**El SVG real y la explicación completa están en `DESIGN.md`, sección
+"Marca".** No la reinventes ni la vuelvas a buscar: está verificada
+(extraída del prototipo final, no retipeada) y aprobada por Lucas.
+
+Un detalle de proceso que vale la pena repetir en el futuro: la entrega
+del handoff **cambió de marca entre una versión y la siguiente**
+(troquelado → V) y el README del bundle no se actualizó — seguía
+llamando "decisión final" a la versión vieja. Se corrigió a mano. **Si
+volvés a pedir un handoff externo, confirmá que la documentación
+coincide con el prototipo antes de darla por buena.**
+
+---
+
+## 6bis. El handoff de Claude Design — verificado, listo para implementar
+
+`docs/design-handoff/VALOR.dc.html` + `docs/design-handoff/README.md`
+son la entrega final de una ronda de diseño hecha en Claude Design,
+conectado a este mismo repo por GitHub. **No es un mockup a medias: se
+verificó línea por línea, no se aceptó de palabra.** Lo que sigue es lo
+que se comprobó corriendo código, no leyendo promesas:
+
+- **El motor matemático no fue tocado.** Se extrajeron las funciones
+  (`matrix`, `sumIf`, `ev`, `kelly`, `tau`, `pois`) del prototipo y las
+  del `app.html` del repo, se corrieron ambas sobre los 30 partidos
+  reales: **diferencia máxima 0** en las 90 probabilidades resultantes.
+  Motor idéntico, bit a bit.
+- **La resolución automática del registro es una funcionalidad nueva,
+  con lógica probada.** Hoy el registro depende de que el usuario marque
+  a mano si acertó — y eso nunca se llena. La solución: cruzar cada
+  apuesta anotada contra `formH`/`formA` de partidos futuros del mismo
+  equipo (el marcador aparece ahí, un refresco después de jugarse).
+  Verificado con Node contra los datos reales: **sin los dos candados
+  del algoritmo, 3 de 30 partidos cruzan con el resultado equivocado
+  (fase de grupos, mismos rivales repetidos). Con los candados, 0 de
+  30.** Está documentado con el algoritmo completo, los dos candados
+  explicados, y por qué hacen falta.
+- **Los tokens de diseño (color, tipografía, espaciado, movimiento)
+  están medidos, no elegidos a ojo** — ocho rondas de exploración con
+  Lucas eligiendo en cada una.
+- **Encontraron un hueco real en los datos que nadie había visto:** la
+  tabla del Grupo A de Libertadores trae 4 equipos y le falta uno de los
+  que juega ese partido (Cruzeiro). Verificado contra `data/partidos.json`
+  real. Diseñaron Posiciones y Plantel para declarar el hueco en vez de
+  esconderlo.
+
+**Orden de implementación recomendado, por valor:**
+
+1. **Resolución automática del registro primero.** Es lógica nueva y
+   probada; cambia qué *significa* la app (de "guarda opiniones" a
+   "mide aciertos").
+2. **El rediseño visual completo** de las cuatro pantallas, después.
+
+**Una limitación del archivo, no del diseño:** `VALOR.dc.html` usa un
+motor de plantillas propio de Claude Design que no corre completo fuera
+de su entorno (un solo error de consola conocido: la curva del Registro
+no reemplaza `{{ reg.puntos }}`). Es un documento para **leer**, no para
+ejecutar y copiar. La lógica de JS común (motor, `TESTS`, `resolver`,
+`buscarResultado`) sí se transplanta literal — el propio README lo
+señala.
+
+**Antes de escribir código de la fase visual: confirmá que `README.md`
+sigue describiendo lo que hay en `VALOR.dc.html`.** Ya pasó una vez que
+no coincidían (ver la nota en la sección anterior sobre la marca).
 
 ---
 
@@ -661,15 +738,23 @@ alineación necesita. Hay que agregarle un campo tipo `inclinacion`.
    Brier ≈ 0.645 vs 0.623. **Si no reproduce, algo se rompió al copiar
    — pará y averiguá antes de seguir.**
 
-**Fase 1 — Diseño, ANTES de código**
-5. **Invocar la skill de brainstorming.** No saltear este paso: saltearlo
-   es exactamente lo que falló la vez pasada.
-6. Producir **variantes comparadas** de la portada y del detalle, no una
-   sola propuesta. Mostrárselas a Lucas como imágenes.
-7. **Resolver el elemento firma con un brainstorm propio.** El cupón de
-   Prode ya se intentó dos veces y no convenció.
-8. Recién con una dirección elegida y aprobada, escribir el sistema de
-   diseño: escala de espacio, escala tipográfica, estados, movimiento.
+**Fase 1 — Diseño: YA HECHA, no la repitas**
+5. ~~Invocar la skill de brainstorming~~ — **ya se hizo, en Claude
+   Design.** Leé `docs/design-handoff/VALOR.dc.html` y
+   `docs/design-handoff/README.md` (sección 6bis explica qué es).
+6. ~~Producir variantes comparadas~~ — **ya se produjeron y Lucas ya
+   eligió.** No le vuelvas a pedir que elija entre direcciones de
+   portada: eso ya pasó.
+7. ~~Resolver el elemento firma~~ — **resuelto: la V.** Ver `DESIGN.md`.
+8. El sistema de diseño (color, tipografía, espaciado, movimiento) **ya
+   está escrito** en `docs/design-handoff/README.md`. Empezá por ahí,
+   no lo reinventes.
+
+Si después de leer el handoff **vos** ves algo genuinamente sin
+resolver o inconsistente (como pasó con la marca — ver arriba),
+mostraselo a Lucas con opciones antes de decidir solo. Pero no vuelvas a
+correr el proceso completo de cero: la mayor parte del trabajo de esta
+fase está terminado.
 
 **Fase 2 — Reglas antes de pantallas**
 9. Portar las reglas de recomendación de la sección 5 y **volver a

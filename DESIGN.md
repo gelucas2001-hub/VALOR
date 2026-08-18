@@ -25,6 +25,7 @@ colors:
   terracota-fondo: "#2B1912"
   terracota-borde: "#4A2E20"
   salvia: "#6B7A5E"
+  salvia-2: "#3A4A32"
 typography:
   display:
     fontFamily: "'Anton', Impact, sans-serif"
@@ -58,31 +59,57 @@ negro + celeste + insignias + "PRO AI" (cliché de SaaS de IA).
 | Tinta | `#EEE3CE` | Texto, datos neutros, y **estado seleccionado** de cualquier control |
 | Mostaza | `#D6963A` | **Valor**: acá hay algo mejor que el precio. Y nada más |
 | Terracota | `#C06848` | **Alerta**: cuidado, esto no rinde. Y nada más |
-| Salvia | `#6B7A5E` | Decorativo. Solo el filete bajo el masthead. Sin trabajo funcional |
+| Salvia | `#6B7A5E` | **Voz secundaria**: filete bajo la cabecera, antetítulos, acciones al margen. Nunca dice estado |
 
-### Pregunta abierta, sin resolver — decidir antes de la fase visual
+### Resultado ≠ valor — resuelto (2026-08-18)
 
-**Registro usa mostaza para "ganada" y terracota para "perdida"**, además
-de sus trabajos ya definidos (valor / alerta). No es lo mismo: "valor" es
-una afirmación de *antes* del partido (acá el precio está a favor);
-"ganada" es un hecho de *después* (esta apuesta puntual pagó). Una
-apuesta con valor real puede perder — es el punto entero de jugar en
-probabilidad — y una sin valor puede ganar de pura suerte. Usar el mismo
-color para las dos cosas las hace parecer la misma afirmación cuando no
-lo son.
+**El resultado de una apuesta no se pinta. Se dice con intensidad
+tipográfica.** Ganada en tinta plena, perdida casi apagada — el mismo
+recurso que ya usa Historial. Mostaza y terracota **no** entran acá.
 
-**No se resolvió todavía porque el Registro no tiene su rediseño visual
-final** (se construyó la resolución automática sobre el chrome viejo, a
-propósito — funcionalidad antes que estética). Cuando llegue esa fase,
-elegí uno de estos dos caminos, con Lucas, no en silencio:
+Por qué: "valor" es una afirmación de *antes* del partido (el precio
+está a favor); "ganada" es un hecho de *después* (esta apuesta pagó).
+Una apuesta con valor real puede perder — es el punto entero de jugar
+en probabilidad — y una sin valor puede ganar de pura suerte. Pintarlas
+del mismo color las hace parecer la misma afirmación, y le enseña al
+usuario que mostaza significa "salió bien". Ese es justo el sentido que
+arruina la única señal que importa.
 
-1. Mostaza/terracota también para resultado, aceptando que "bueno" y
-   "malo" es la única lectura y ampliando la definición de la tabla de
-   arriba.
-2. Un tratamiento distinto para el resultado (por ejemplo, intensidad
-   tipográfica — el mismo recurso que ya usa Historial para
-   ganado/perdido) y mostaza/terracota se quedan exclusivas de valor y
-   alerta.
+Elegido por Lucas sobre la alternativa de ampliar mostaza a
+"valor o ganada", que era lo que traía el handoff de Claude Design.
+
+| Elemento | Antes (handoff) | Ahora |
+|---|---|---|
+| Sello ganada | mostaza sobre `mostaza-fondo` | tinta plena sobre `hueco` |
+| Sello perdida | terracota sobre `terracota-fondo` | `gris-3` sobre `hueco`, apagado |
+| Devolución `+$` / `−$` | mostaza / terracota | `tinta-2` / `gris-2` |
+| Neto y ROI del balance | mostaza / terracota | `tinta` / `gris-2` |
+| Botones de corrección | mostaza / terracota | tinta / apagado |
+
+**Las dos excepciones que sí siguen en mostaza**, porque no son el
+resultado de una apuesta puntual: la **marca de valor** y la **curva
+acumulada** del Registro.
+
+### Salvia tiene tres trabajos, no cero (corregido 2026-08-18)
+
+Este archivo decía «decorativo, solo el filete bajo el masthead, sin
+trabajo funcional». El handoff aprobado dice «barra bajo cabecera,
+**antetítulos, acciones secundarias**», y el prototipo lo hace así.
+Manda el handoff: salvia es la **voz secundaria** de la interfaz.
+
+Donde aparece, y en ningún otro lado:
+
+- El filete de 3px bajo la cabecera, y el de 4px del troquelado.
+- Antetítulos y contadores al margen (`6 CARGAS`, la línea de
+  procedencia del Registro).
+- Acciones al margen: `Corregir a mano`, `Volver al automático`.
+  Fileteadas con `salvia-2` (`#3A4A32`), que es el mismo olivo apagado
+  — un subrayado en salvia plena competiría con el texto.
+
+**Lo que salvia nunca hace: decir estado.** No marca valor, no marca
+alerta, no marca ganada ni perdida. Por eso puede tener tres trabajos
+sin romper la regla de «un color, un solo trabajo»: esa regla rige los
+colores que comunican estado, y salvia no es uno.
 
 ### Reglas duras
 
@@ -136,6 +163,49 @@ no aplica acá porque las barras no comunican estado, son el dibujo.
 recurso para títulos de sección (`REGISTRO`, `MÉTODO`): la palabra
 calada en una barra entintada, vía `<mask>`. Ya no es el wordmark
 principal de la portada — eso es trabajo de la V.
+
+## Recursos de la línea — construidos (2026-08-18)
+
+Los cuatro que cargan la identidad. Están en `app.html`; si hacés una
+pantalla nueva, se arma con estos, no con inventos nuevos.
+
+| Recurso | Dónde | Qué es |
+|---|---|---|
+| **La V** | Portada (`marcaV()`) | 58px, centrada, con «VALOR» entre dos filetes debajo |
+| **Troquelado** | Registro y Método (`troquel()`) | La palabra calada en barra beige + 3 perforaciones por lado + filete olivo de 4px |
+| **Talón** | Tarjeta de partido | Riel de 52px con `Nº 01` / hora / `DE 03`, perforado vertical punteado, y pie perforado horizontal con `VALOR · PROGRAMA` |
+| **Sello** | Tarjeta y análisis (`sello()`) | Veredicto en dos palabras, rotado −2,5°, doble filete interno |
+
+**Sombra dura, siempre:** `box-shadow: 4px 4px 0 #13100B`, sin blur. La
+tarjeta tiene margen derecho mayor que el izquierdo (20 contra 16) para
+que la sombra tenga dónde caer.
+
+**El grano va en la columna, no en las filas.** Tres `radial-gradient`
+de medio píxel desfasados, tamaños `4px / 7px / 5px`:
+
+```css
+rgba(238,227,206,.05)   /* tinta, mota clara */
+rgba(238,227,206,.035)  /* tinta, mota más tenue */
+rgba(0,0,0,.06)         /* negro, mota oscura */
+```
+
+Las tarjetas son opacas y se apoyan encima, así que ningún dato se lee
+sobre textura.
+
+**El negro del grano es la única excepción a la paleta, y es
+deliberada.** No es un color funcional: es sombra de textura al 6%, y
+un token de la paleta no la da — `#13100B` sobre `#1B1611` no oscurece
+igual que negro translúcido. Sale del handoff verificado, que la
+especifica así («opacidades .05 / .035 beige y .06 negro»), y del
+prototipo, que trae el mismo literal. Sin el grano la superficie se ve
+digital y se pierde el registro de papel de programa de cancha.
+
+**Bandas entintadas al revés** (papel beige, texto `#171310`) para
+separar secciones: competición en portada, «ÚLTIMAS CARGADAS» en
+Registro.
+
+**La forma de los últimos cinco** usa intensidad, no color: ganado en
+tinta plena, empate en neutro, perdido apagado.
 
 ## Chrome y densidad
 

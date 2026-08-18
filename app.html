@@ -27,13 +27,17 @@
   --gris:#8C7F68;
   --gris2:#6E6350;
   --gris3:#5C513F;
+  --neutro:#4A4030;     /* rótulos de talón y de gráfico: el gris más callado */
   --linea:#241D16;
   --linea2:#2A2318;
+  --linea3:#3A3122;
   --mostaza:#D6963A;    /* VALOR. y nada más */
   --mostazaBg:#2E2210;
+  --mostazaBorde:#4A3C1E;
   --terracota:#C06848;  /* ALERTA. y nada más */
   --terracotaBg:#2B1912;
-  --salvia:#6B7A5E;     /* decorativo, sin trabajo funcional */
+  --salvia:#6B7A5E;     /* voz secundaria: filete de cabecera, antetítulos, acciones al margen */
+  --salvia2:#3A4A32;    /* el mismo olivo apagado, para filetear texto en salvia */
   --anton:'Anton',Impact,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --cuerpo:'Archivo',system-ui,sans-serif;
@@ -48,9 +52,17 @@
   --e1:4px; --e2:6px; --e3:9px; --e4:13px; --e5:18px; --e6:26px; --e7:36px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0}
+/* `clip` y no `hidden`: recorta sin crear un contenedor de scroll, así
+   que no rompe la barra fija ni el scroll vertical. Está para que nada
+   pueda correr la página de costado — las tiras de días, competiciones
+   y pestañas scrollean adentro suyo, y mientras animan el documento
+   quedaba momentáneamente arrastrable 10px. */
+html,body{margin:0;padding:0;overflow-x:clip}
+/* Afuera de la columna va más oscuro que el papel: la app es una hoja
+   apoyada sobre una mesa, no un fondo infinito. En un teléfono no se
+   ve nunca; aparece de 520px para arriba. */
 body{
-  background:var(--fondo);color:var(--tinta);
+  background:#13100B;color:var(--tinta);
   font-family:var(--cuerpo);font-size:15px;line-height:1.5;
   -webkit-font-smoothing:antialiased;
   padding-bottom:calc(64px + env(safe-area-inset-bottom));
@@ -60,7 +72,19 @@ a{color:inherit}
 :focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-.app{max-width:520px;margin:0 auto;position:relative}
+/* El papel. El grano son tres tramas de medio píxel desfasadas entre
+   sí: de cerca no se ve nada, de lejos la superficie deja de ser un
+   color plano digital y pasa a ser papel de programa de cancha. Va en
+   la columna, no en las filas — las tarjetas son opacas y se apoyan
+   encima, así que ningún dato queda leyéndose sobre textura. */
+.app{max-width:520px;margin:0 auto;position:relative;min-height:100vh;
+  background-color:var(--fondo);
+  background-image:
+    radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),
+    radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px),
+    radial-gradient(rgba(0,0,0,.06) .5px,transparent .6px);
+  background-size:4px 4px,7px 7px,5px 5px;
+  background-position:0 0,2px 3px,3px 1px}
 
 /* ── masthead ──────────────────────────────────────────────────── */
 .masthead{
@@ -73,6 +97,31 @@ a{color:inherit}
 .masthead::before{content:"";position:absolute;inset:0;opacity:.055;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
 .masthead > *{position:relative}
+
+/* ── cabecera de portada: la V centrada ────────────────────────────
+   La V es la marca (ver DESIGN.md § Marca). El troquelado no
+   desapareció: cambió de trabajo, ahora titula Registro y Método. */
+.masthead.portada{display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:calc(20px + env(safe-area-inset-top)) 16px 15px}
+.marca{height:58px;width:58px;display:block}
+/* "VALOR" entre dos filetes: nombre de cabecera de diario, no logo. */
+.nombre{display:flex;align-items:center;gap:11px;width:100%;max-width:250px}
+.nombre::before,.nombre::after{content:"";flex:1;height:1px;background:#3A3225}
+.nombre b{font-family:var(--anton);font-size:15px;line-height:1;letter-spacing:.3em;
+  color:var(--tinta2);padding-left:.3em;font-weight:400}
+.bajada{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gris)}
+
+/* ── cabecera de sección: la palabra troquelada ────────────────────
+   Registro y Método se titulan con la palabra calada en la barra, no
+   con texto plano. El filete olivo va dentro del SVG, así que acá se
+   anula el de la barra general para no tener dos. */
+.masthead.titulada::after{display:none}
+.tq{display:flex;align-items:flex-end;gap:9px}
+.troquel{height:38px;width:auto;display:block}
+.tq .cuenta{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--salvia);
+  letter-spacing:.14em;padding-bottom:5px;white-space:nowrap}
+
 .wordmark{font-family:var(--anton);font-size:44px;line-height:.88;letter-spacing:-.005em;
   display:flex;align-items:flex-end;gap:9px}
 .wordmark .tilde{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--salvia);
@@ -120,18 +169,84 @@ a{color:inherit}
 .compchip.vacio{opacity:.4}
 .compchip:disabled{cursor:default}
 
-/* ── encabezado de liga ────────────────────────────────────────── */
-.lg{font-family:var(--anton);font-size:15px;color:var(--gris);padding:var(--e5) 16px var(--e2);display:flex;align-items:center;gap:9px;letter-spacing:.01em}
-.lg::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,#3A322580 0 5px,transparent 5px 9px)}
+/* ── banda de competición ──────────────────────────────────────────
+   Entintada al revés: papel beige, texto negro. Es el recurso de la
+   tapa de revista para separar secciones, y separa mucho más fuerte
+   que un título gris sobre el mismo fondo. */
+.lg{margin:20px 16px 11px;background:var(--tinta2);padding:5px 10px 6px;
+  display:flex;align-items:center;gap:8px}
+.lg b{font-family:var(--anton);font-size:15px;color:var(--hueco);letter-spacing:.03em;
+  text-transform:uppercase;line-height:1;font-weight:400}
+.lg em{margin-left:auto;font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.1em;color:var(--neutro);font-style:normal}
 
-/* ── tarjeta de partido ────────────────────────────────────────── */
-.card{display:block;width:100%;text-align:left;margin:0 16px var(--e3);background:var(--panel);padding:var(--e4) 14px;border:none}
+/* ── tarjeta de partido ────────────────────────────────────────────
+   Es un talón de programa de cancha: número de orden y hora en el
+   riel izquierdo, línea de perforado, y el partido a la derecha. La
+   sombra es dura (4px, sin blur) — una hoja apoyada, no una tarjeta
+   de dashboard con blur. El margen derecho es mayor que el izquierdo
+   a propósito: deja ver la sombra. */
+/* `width:auto`, no `100%`: con márgenes laterales, un 100% se suma a
+   los márgenes y desborda. Un botón en `display:flex` es un bloque y
+   ya ocupa el ancho disponible menos los márgenes. */
+.card{display:flex;width:auto;text-align:left;margin:0 20px var(--e4) 16px;
+  background:var(--panel);border:none;padding:0;
+  box-shadow:4px 4px 0 #13100B}
 .card:active{background:#28211a}
-.meta{font-family:var(--mono);font-size:9.5px;color:var(--gris);margin-bottom:9px;letter-spacing:.03em}
-.teams{font-family:var(--anton);font-size:17px;line-height:1.2;color:var(--tinta);margin-bottom:11px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+
+.talon{flex:0 0 52px;padding:13px 0 13px 11px}
+.talon .n{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--gris3)}
+.talon .hora{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--tinta);
+  margin-top:7px;letter-spacing:-.01em}
+.talon .de{font-family:var(--mono);font-size:8px;color:var(--gris3);margin-top:2px;letter-spacing:.08em}
+/* El perforado que separa el talón del cuerpo. */
+.perf{flex:0 0 1px;margin:11px 0;background:repeating-linear-gradient(180deg,#3A3122 0 3px,transparent 3px 8px)}
+.cuerpo{flex:1;min-width:0;padding:13px 12px}
+
+.eq{display:flex;align-items:center;gap:8px}
+.eq + .eq{margin-top:5px}
+.eq .nom{flex:1;min-width:0;font-family:var(--anton);font-size:15.5px;line-height:1.18;
+  color:var(--tinta);font-weight:400}
+.crest{width:17px;height:17px;object-fit:contain;flex:0 0 17px}
+.crest.ph{background:var(--linea3);border-radius:50%}
+
+/* Cabecera del partido abierto y meta del Registro: la portada ya no
+   las usa (tiene talón), pero el detalle sí. */
+.meta{font-family:var(--mono);font-size:9.5px;color:var(--gris);letter-spacing:.03em}
+.teams{font-family:var(--anton);font-size:17px;line-height:1.2;color:var(--tinta);
+  margin-bottom:5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-weight:400}
 .teams i{color:var(--gris3);font-style:normal;font-size:12px;font-family:var(--cuerpo)}
-.crest{width:19px;height:19px;object-fit:contain;flex:0 0 19px;border-radius:2px}
-.crest.ph{background:#3A3122;border-radius:50%}
+.teams .crest{width:19px;height:19px;flex:0 0 19px}
+
+/* Los últimos cinco, del más viejo al más nuevo. Ganado en tinta
+   plena, perdido casi apagado: la intensidad dice el resultado, no el
+   color — mostaza y terracota tienen otro trabajo. */
+.forma{flex:0 0 auto;display:flex;gap:2px}
+/* La variante grande va en la cabecera de un bloque de Historial, donde
+   la tira es el dato principal y no un adorno al costado del nombre. */
+.forma.gr{margin-left:auto;gap:3px}
+.forma.gr i{width:15px;height:15px;font-size:8.5px}
+.forma i{width:12px;height:12px;display:grid;place-items:center;font-family:var(--mono);
+  font-size:7.5px;font-weight:700;font-style:normal}
+.forma i.g{background:var(--tinta);color:var(--hueco)}
+.forma i.e{background:var(--neutro);color:var(--tinta3)}
+.forma i.p{background:var(--linea2);color:var(--gris2)}
+
+/* El sello: el veredicto en dos palabras. Rotado y encajonado, como
+   el sello de goma de una mesa de entradas. */
+.sellov{flex:0 0 auto;transform:rotate(-2.5deg);border:1.5px solid rgba(238,227,206,.4);
+  padding:4px 8px 5px;text-align:center}
+.sellov > div{border-top:1px solid rgba(238,227,206,.2);border-bottom:1px solid rgba(238,227,206,.2);
+  padding:2px 0}
+.sellov .a{font-family:var(--anton);font-size:10.5px;letter-spacing:.05em;color:var(--tinta2);
+  line-height:1.1;font-weight:400}
+.sellov .b{font-family:var(--mono);font-size:8px;font-weight:700;color:var(--gris);
+  letter-spacing:.09em;margin-top:1px}
+
+/* Pie perforado: la tarjeta termina como termina un cupón. */
+.piecard{height:1px;margin-top:11px;background:repeating-linear-gradient(90deg,#3A3122 0 3px,transparent 3px 7px)}
+.firma{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7.5px;
+  letter-spacing:.12em;color:var(--neutro);margin-top:6px}
 
 /* ═══ ELEMENTO FIRMA · el cupón ═══════════════════════════════════
    Las tres casillas del Prode, llenadas de tinta hasta la altura de
@@ -141,7 +256,7 @@ a{color:inherit}
    Una alta a la izquierda = local claro. El cupón lo llenamos
    nosotros, y el que apuesta ve dónde pusimos la tinta.
    ══════════════════════════════════════════════════════════════════ */
-.odds{display:flex;gap:5px}
+.odds{display:flex;gap:4px;margin-top:12px}
 .o{flex:1;background:var(--hueco);padding:8px 2px 7px;text-align:center;min-width:0;position:relative;overflow:hidden;isolation:isolate}
 /* La altura va inline al construir el elemento y no se anima: cada
    render reemplaza el innerHTML entero, así que la casilla siempre es
@@ -169,19 +284,35 @@ a{color:inherit}
 .o.alerta b{color:var(--terracota)}
 .o.sin b{color:var(--gris2)}
 
-.sig{margin-top:10px;font-family:var(--anton);font-size:11px;letter-spacing:.02em;color:var(--mostaza)}
+.sig{margin-top:10px;font-family:var(--anton);font-size:11px;letter-spacing:.03em;color:var(--mostaza)}
 .sig.alerta{color:var(--terracota)}
 .pron{margin-top:6px;font-size:11.5px;line-height:1.45;color:var(--tinta3)}
 .pron b{color:var(--tinta);font-weight:600}
+
+/* La lectura y el sello comparten renglón: la frase a la izquierda, el
+   veredicto sellado a la derecha, alineados por la base. */
+.cierre{display:flex;align-items:flex-end;gap:10px;margin-top:10px}
+.cierre .corto{flex:1;min-width:0;font-size:11.5px;line-height:1.45;color:var(--tinta3)}
+.cierre .corto b{color:var(--tinta);font-weight:600}
 .quiet{margin-top:9px;font-size:10.5px;color:var(--gris3)}
 
 /* ── detalle: cabecera ─────────────────────────────────────────── */
 .top{padding:calc(14px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px;background:var(--hueco)}
 .back{font-family:var(--mono);font-size:16px;color:var(--gris);padding:0 4px 0 0}
 .comp{font-family:var(--mono);font-size:10px;color:var(--gris);letter-spacing:.06em}
-.head{padding:14px 16px 16px;text-align:center;background:var(--hueco)}
-.head .teams{font-family:var(--anton);font-size:21px;justify-content:center;margin-bottom:5px}
-.head .meta{margin:0;text-align:center}
+/* Los dos equipos apilados y alineados a la izquierda, no centrados con
+   un "vs" en el medio: así los nombres arrancan en la misma columna y
+   se comparan de un vistazo, que es lo que uno hace al abrir un
+   partido. La hora va a la derecha del local, en el mismo renglón. */
+.head{padding:6px 16px 16px;background:var(--hueco)}
+.head .eq{display:flex;align-items:center;gap:9px}
+.head .eq + .eq{margin-top:3px}
+.head .nom{flex:1;min-width:0;font-family:var(--anton);font-size:24px;line-height:1.1;
+  color:var(--tinta);font-weight:400}
+.head .hora{flex:0 0 auto;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--tinta3)}
+.head .grupo{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gris3);margin-top:9px}
+.crest.gr{width:24px;height:24px;flex:0 0 24px}
 
 .dodds{display:flex;gap:6px;padding:14px 16px 0}
 .dodds .o{background:var(--panel)}
@@ -204,6 +335,62 @@ a{color:inherit}
 .an .veredicto{color:var(--tinta);font-weight:600}
 .an .fuente{font-size:10px;color:var(--gris3);font-style:italic;margin-top:14px}
 .vacio{padding:22px 0 8px;font-size:12.5px;line-height:1.7;color:#7E7360}
+
+/* ── hueco declarado ───────────────────────────────────────────────
+   Cuando falta el análisis escrito a mano, la pantalla no disimula:
+   dice qué falta y muestra lo que sí hay. Es la decisión del handoff
+   y se mantiene — un "próximamente" sería peor. */
+/* Título de pantalla o de estado vacío. Se usa tal cual en el hueco
+   del análisis y en el Registro sin cargas. */
+.big{font-family:var(--anton);font-size:22px;line-height:1.12;color:var(--tinta);
+  font-weight:400;text-wrap:pretty}
+.hueco .sub{font-size:12.5px;line-height:1.6;color:var(--gris);margin:10px 0 0;text-wrap:pretty}
+.cifras{display:flex;margin-top:20px;border-top:1px solid var(--linea2);border-bottom:1px solid var(--linea2)}
+.cifras div{flex:1;padding:10px 4px;text-align:center;min-width:0}
+.cifras div + div{border-left:1px solid var(--linea2)}
+.cifras b{display:block;font-family:var(--mono);font-size:19px;font-weight:600;color:var(--tinta);line-height:1}
+.cifras small{display:block;font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:var(--gris2);
+  margin-top:4px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cifras-pie{font-size:10.5px;line-height:1.5;color:var(--gris3);margin-top:7px}
+
+/* Rótulo de sección con filete: separa sin abrir una caja nueva. */
+.rot{display:flex;align-items:center;gap:8px;margin-top:22px}
+.rot span{font-family:var(--anton);font-size:13px;letter-spacing:.06em;color:var(--gris);
+  text-transform:uppercase;white-space:nowrap;font-weight:400}
+.rot::after{content:"";flex:1;height:1px;background:var(--linea2)}
+.prosa{margin:9px 0 0;font-size:13.5px;line-height:1.68;color:var(--tinta2);text-wrap:pretty}
+
+/* Capitular: recurso de revista. Solo en el primer párrafo de una
+   pantalla de texto, nunca en listas ni en fichas. */
+.capitular::first-letter{font-family:var(--anton);font-size:44px;line-height:.82;
+  float:left;margin:2px 8px 0 0;color:var(--tinta)}
+/* El rótulo que CIERRA una pantalla vacía lleva filete de los dos
+   lados: no abre nada, termina. */
+.rot.cerrar{margin-top:26px}
+.rot.cerrar::before{content:"";flex:1;height:1px;background:var(--linea2)}
+.rot.cerrar span{color:var(--gris2);font-size:11px}
+
+/* Banda de sección: mismo recurso que la de competición en portada. */
+/* Variante con dato al margen derecho, como la banda de la portada. */
+.banda2{display:flex;align-items:center;gap:8px}
+.banda2 em{margin-left:auto;font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.1em;color:var(--neutro);font-style:normal}
+/* La tabla también se apoya en el papel, con la misma sombra dura. */
+.tablawrap{margin:0 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+  padding:12px 12px 6px}
+.banda{margin:20px 16px 11px;background:var(--tinta2);padding:5px 10px 6px;
+  font-family:var(--anton);font-size:13px;color:var(--hueco);letter-spacing:.05em;
+  text-transform:uppercase;line-height:1;font-weight:400}
+
+/* La curva, hundida en el hueco, con sus extremos rotulados. */
+/* La curva acumulada, con la escala declarada arriba y abajo: una
+   línea sin extremos rotulados no dice de dónde sale ni a dónde llega. */
+.curva{margin:18px 16px 0}
+.curva .chart{margin:0;width:100%;height:56px;display:block;background:var(--hueco)}
+.curva .ejes{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--neutro)}
+.curva .ejes.arriba{margin-bottom:5px}
+.curva .ejes.abajo{margin-top:3px;letter-spacing:0}
 .vacio b{color:var(--tinta3);display:block;margin-bottom:8px;font-weight:600;font-size:14px}
 
 /* ── pronósticos: lectura + escalera de riesgo ─────────────────── */
@@ -213,28 +400,61 @@ a{color:inherit}
 /* La escalera baja de verdad: un travesaño por escalón, unidos por un
    larguero. El peldaño se acorta a medida que baja — la probabilidad
    dibujada, no solo escrita. */
-.escalera{position:relative;padding-left:24px;margin-top:6px}
-.escalera::before{content:"";position:absolute;left:4px;top:34px;bottom:30px;width:1px;
-  background:repeating-linear-gradient(180deg,var(--gris3) 0 3px,transparent 3px 7px)}
-.rh{display:flex;align-items:baseline;gap:8px;margin:var(--e6) 0 2px;position:relative}
-.peldano{position:absolute;left:-20px;top:8px;height:1px;background:var(--gris3)}
-.peldano::before{content:"";position:absolute;left:-2px;top:-2px;width:5px;height:5px;
-  border-radius:50%;background:var(--gris3)}
-.paso.val .peldano,.paso.val .peldano::before{background:var(--mostaza)}
-.rh b{font-family:var(--anton);font-size:13.5px;color:var(--tinta2);letter-spacing:.02em}
-.rh .pct{font-family:var(--mono);font-size:10px;color:var(--gris3);margin-left:auto}
-.rsub{font-size:10.5px;color:var(--gris3);margin:0 0 9px}
-.bet{background:var(--panel);padding:11px 12px;margin-bottom:6px}
-.bet.val{background:var(--mostazaBg)}
-.bet .l1{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
-.bet .mkt{font-size:13.5px;color:var(--tinta)}
-.bet .prob{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--tinta3);flex:0 0 auto}
-.bet.val .prob{color:var(--mostaza)}
-.bet .l2{font-family:var(--mono);font-size:10.5px;color:var(--gris2)}
-.bet .l2 b{color:var(--tinta3);font-weight:500}
-.bet.val .l2 b{color:var(--mostaza)}
-.bet .valtag{font-family:var(--anton);font-size:10.5px;color:var(--mostaza);margin-top:7px;letter-spacing:.02em}
-.bet .expl{font-size:10.5px;color:var(--gris3);margin-top:5px;line-height:1.45}
+/* ── escalera de riesgo ────────────────────────────────────────────
+   Cada escalón es un talón numerado: la app usa el mismo recurso que
+   la tarjeta de portada para decir "esto es una de N opciones". */
+.pasos{margin:0}
+.paso{display:flex;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+  margin:0 20px 14px 16px;animation:sube .34s cubic-bezier(.22,1,.36,1) backwards}
+.paso.val{background:var(--mostazaBg)}
+.paso .talon{flex:0 0 40px;padding:12px 0 12px 11px}
+.paso .pn{font-family:var(--anton);font-size:21px;color:var(--gris3);line-height:.9;font-weight:400}
+.paso.val .pn{color:var(--mostaza)}
+.paso .de{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;color:var(--gris2);margin-top:3px}
+.paso .cuerpo{flex:1;min-width:0;padding:12px 12px 12px 11px}
+.paso .ph{display:flex;align-items:baseline;gap:8px}
+.paso .franja{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--gris)}
+.paso .pp{margin-left:auto;font-family:var(--mono);font-size:20px;font-weight:600;color:var(--tinta);
+  line-height:1;letter-spacing:-.02em}
+.paso .pp i{font-size:11px;color:var(--gris);font-style:normal}
+.paso .oplabel{font-family:var(--anton);font-size:17.5px;line-height:1.15;color:var(--tinta);
+  margin-top:7px;text-wrap:pretty;font-weight:400}
+
+/* La barra con escala 0/50/100. Un porcentaje suelto no se compara con
+   nada; contra la escala se ve de un saque si el escalón está por
+   encima o por debajo de jugarse una moneda. */
+.paso .barra{position:relative;height:11px;margin-top:10px;background:var(--hueco)}
+.paso .barra i{position:absolute;left:0;top:0;bottom:0;background:var(--neutro)}
+.paso .barra u{position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--tinta)}
+.paso.val .barra u{background:var(--mostaza)}
+.paso .escala{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7.5px;
+  color:var(--gris2);letter-spacing:.08em;margin-top:3px}
+.paso .umb{font-family:var(--mono);font-size:10.5px;color:var(--tinta2);margin-top:10px}
+.paso .umb b{font-size:13.5px;color:var(--tinta);font-weight:600}
+.paso.val .umb b{color:var(--mostaza)}
+.paso .cobra{font-size:11.5px;line-height:1.5;color:var(--tinta3);margin-top:7px}
+.paso .sinop{font-size:11.5px;line-height:1.5;color:var(--gris2);margin-top:8px}
+.paso .rsub{font-size:10.5px;color:var(--gris3);margin:6px 0 0}
+
+/* Aviso de "todavía no lo estudiamos": caja hundida, no tarjeta. */
+.nota{margin-top:16px;padding:11px 12px;background:#1F1913;font-size:11.5px;line-height:1.6;
+  color:var(--gris);text-wrap:pretty}
+
+/* La combinada. Misma sombra, sin talón: no es un escalón más. */
+.cmb{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:12px;margin-top:11px}
+.cmb .l1{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.cmb .mkt{font-size:13px;color:var(--tinta2);min-width:0}
+.cmb .mkt i{color:var(--gris3);font-style:normal}
+.cmb .prob{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--tinta);flex:0 0 auto}
+.cmb .umb{font-family:var(--mono);font-size:10.5px;color:var(--gris);margin-top:7px}
+.cmb .umb b{font-size:13px;color:var(--tinta2);font-weight:600}
+.cmb .cobra{font-size:10.5px;line-height:1.5;color:var(--gris2);margin-top:6px;text-wrap:pretty}
+/* Dato al margen del rótulo con filete. El filete es un ::after, que
+   se genera después del último hijo, así que el orden va explícito:
+   rótulo, filete, dato. */
+.rot em{font-family:var(--mono);font-size:9px;color:var(--gris2);font-style:normal;
+  flex:0 0 auto;order:2}
+.rot::after{order:1}
 .foot{margin-top:var(--e6);font-size:11px;line-height:1.6;color:var(--gris3);border-top:1px solid var(--linea);padding-top:var(--e4)}
 
 /* ── historial ─────────────────────────────────────────────────── */
@@ -245,26 +465,41 @@ a{color:inherit}
    La intensidad hace el trabajo del color — ganado en tinta plena,
    perdido casi apagado. Mostaza y terracota no entran acá: están
    reservadas y significan otra cosa. */
-.tira{display:flex;gap:3px;margin-left:auto;flex:0 0 auto}
-.tira i{width:15px;height:15px;display:grid;place-items:center;font-family:var(--mono);
-  font-size:8.5px;font-weight:700;font-style:normal}
-.tira i.W{background:var(--tinta);color:var(--hueco)}
-.tira i.D{background:var(--neutro-medio,#4A4030);color:var(--tinta3)}
-.tira i.L{background:var(--linea2);color:var(--gris2)}
-.racha{font-family:var(--mono);font-size:10px;color:var(--gris2);margin:-4px 0 10px;letter-spacing:.02em}
+/* ── Historial ─────────────────────────────────────────────────────
+   Una tarjeta por equipo, con la tira de los cinco arriba y los cinco
+   partidos listados abajo. Ganado en tinta plena, empate neutro,
+   perdido apagado: intensidad, nunca color. */
+.fcard{background:var(--panel);box-shadow:4px 4px 0 #13100B;margin:0 20px 14px 16px;
+  animation:sube .34s cubic-bezier(.22,1,.36,1) backwards}
+.fhd{display:flex;align-items:center;gap:8px;padding:11px 12px 9px}
+.fhd b{flex:1;min-width:0;font-family:var(--anton);font-size:17px;line-height:1.1;
+  color:var(--tinta);font-weight:400}
+.racha{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--gris);
+  padding:0 12px 10px}
+.flist{padding:0 12px 11px}
 .frow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
-.frow:first-of-type{border-top:none}
-.frow .r{width:16px;height:16px;display:grid;place-items:center;font-family:var(--mono);font-size:9px;font-weight:700;flex:0 0 16px}
+.frow .r{width:16px;height:16px;display:grid;place-items:center;font-family:var(--mono);
+  font-size:9px;font-weight:700;flex:0 0 16px}
 .frow .r.W{background:var(--tinta);color:var(--hueco)}
-.frow .r.D{background:#4A4030;color:var(--tinta3)}
+.frow .r.D{background:var(--neutro);color:var(--tinta3)}
 .frow .r.L{background:var(--linea2);color:var(--gris2)}
-.frow .rival{flex:1;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frow .rival{flex:1;min-width:0;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .frow .loc{font-family:var(--mono);font-size:9.5px;color:var(--gris2);flex:0 0 34px}
-.frow .sc{font-family:var(--mono);color:var(--gris);flex:0 0 38px;text-align:right}
-.h2hrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--linea);font-size:11.5px}
-.h2hrow:first-of-type{border-top:none}
-.h2hrow .dt{font-family:var(--mono);font-size:9.5px;color:var(--gris2);flex:0 0 auto}
-.h2hrow .sc{font-family:var(--mono);color:var(--tinta);font-weight:600}
+.frow .sc{font-family:var(--mono);color:var(--gris);flex:0 0 34px;text-align:right}
+
+/* Cruces directos: talón con la fecha, marcador grande en el medio. */
+.h2h{display:flex;background:var(--panel);box-shadow:4px 4px 0 #13100B;margin:0 20px 14px 16px}
+.h2h .talon{flex:0 0 52px;padding:13px 0 13px 11px}
+.h2h .pn2{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--tinta3);line-height:1}
+.h2h .de{font-family:var(--mono);font-size:8px;color:var(--gris3);margin-top:3px;letter-spacing:.08em}
+.h2h .cuerpo{flex:1;min-width:0;padding:13px 12px 13px 11px}
+.h2h .linea{display:flex;align-items:center;gap:8px}
+.h2h .lado{flex:1;min-width:0;display:flex;align-items:center;gap:6px}
+.h2h .lado.der{justify-content:flex-end}
+.h2h .lado span{min-width:0;font-family:var(--anton);font-size:14px;color:var(--tinta2);
+  line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}
+.h2h .marc{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--tinta);
+  line-height:1;flex:0 0 auto}
 
 /* ── posiciones ────────────────────────────────────────────────── */
 .stand{width:100%;border-collapse:collapse;font-size:11.5px}
@@ -276,9 +511,14 @@ a{color:inherit}
 .stand td.l span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .stand td.rk{width:18px}
 .stand td.pts{color:var(--tinta);font-weight:600}
-.stand tr.me{background:var(--panel)}
+/* Los dos equipos del partido, resaltados en TINTA. Antes el número de
+   posición iba en mostaza: eso es usar el color del valor para marcar
+   selección, que es la regla que DESIGN.md llama "el error que más
+   caro paga el usuario". */
+.stand tr.me{background:var(--linea2)}
 .stand tr.me td.l span{color:var(--tinta);font-weight:600}
-.stand tr.me td.rk{color:var(--mostaza)}
+.stand tr.me td.rk{color:var(--tinta)}
+.stand tr.me td.pts{color:var(--tinta)}
 .grupo{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin:var(--e5) 0 var(--e2)}
 
 /* ── plantel ───────────────────────────────────────────────────── */
@@ -308,24 +548,29 @@ a{color:inherit}
 
 /* ── herramientas ──────────────────────────────────────────────── */
 .expl{font-size:11.5px;line-height:1.55;color:#7E7360;margin:0 0 18px}
-.askbank{padding:22px 0;text-align:center}
+.askbank{padding:22px 16px;text-align:center}
 .askbank b{display:block;font-size:15px;color:var(--tinta2);margin-bottom:7px;font-weight:600}
 .askbank p{font-size:11.5px;color:#7E7360;line-height:1.55;margin:0 0 16px}
 .campo{width:100%;background:var(--panel);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:18px;text-align:center;padding:12px 0;border-radius:2px}
 .askbank small{display:block;font-size:10px;color:var(--gris3);margin:6px 0 14px}
 .btn{width:100%;background:var(--mostaza);color:var(--hueco);border:none;padding:12px 0;font-family:var(--anton);font-size:14px;letter-spacing:.02em}
-.bankline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:var(--hueco);margin-bottom:18px;font-size:10.5px;color:var(--gris2)}
+.bankline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:var(--hueco);margin:12px 0 0;font-size:10.5px;color:var(--gris2)}
 .bankline b{color:var(--tinta3);font-family:var(--mono);font-weight:500}
 .bankline button{color:var(--gris2);text-decoration:underline;font-size:10.5px;padding:0}
 .grp{margin-bottom:var(--e5)}
-.gh{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);margin-bottom:8px}
-.mrow{padding:11px 0;border-top:1px solid var(--linea)}
-.mrow:first-of-type{border-top:none}
+.gh{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);margin:20px 16px 9px}
+/* Cada mercado es una tarjeta con sombra, no una fila con filete: acá
+   el usuario carga un dato y espera una respuesta, así que cada uno es
+   una unidad con la que interactúa, no un renglón de tabla. */
+.mrow{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:11px 12px;margin:0 20px 12px 16px}
+.mrow.val{background:var(--mostazaBg);border-left:2px solid var(--mostaza)}
+.mrow.mal{border-left:2px solid var(--terracota)}
 .mrow .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
 .mrow .mkt{font-size:13px;color:var(--tinta2)}
 .mrow .modelo{font-family:var(--mono);font-size:10px;color:var(--gris2);flex:0 0 auto}
 .inrow{display:flex;gap:10px;align-items:center}
-.inrow input{flex:1;min-width:0;background:var(--hueco);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:13px;text-align:center;padding:8px 0;border-radius:2px}
+.inrow input{flex:1;min-width:0;background:var(--hueco);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:13px;text-align:center;padding:8px 0}
+.mrow.val .inrow input{border-color:var(--mostazaBorde)}
 .inrow input::placeholder{color:#4A4030}
 .out{flex:1.4;display:flex;justify-content:space-between;align-items:baseline;gap:6px}
 .out .ev{font-family:var(--mono);font-size:11px;color:var(--gris2)}
@@ -336,57 +581,82 @@ a{color:inherit}
 .juega b{font-family:var(--mono);font-size:15px;color:var(--mostaza);font-weight:600}
 
 /* ── registro ──────────────────────────────────────────────────── */
-.ledger{display:flex;margin:0 16px 6px;background:var(--panel)}
+.ledger{display:flex;margin:14px 16px 0;background:var(--panel);box-shadow:4px 4px 0 #13100B}
+.ledger.vacio2{opacity:.5}
 .ledger div{flex:1;text-align:center;padding:12px 4px;border-right:1px solid var(--linea2);min-width:0}
 .ledger div:last-child{border-right:none}
 .ledger small{display:block;font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);margin-bottom:4px}
 .ledger b{font-family:var(--mono);font-size:15px;font-weight:600}
-.ledger b.pos{color:var(--mostaza)}
-.ledger b.neg{color:var(--terracota)}
+/* Mismo criterio que los sellos: el resultado no se pinta. Ganar es
+   tinta plena, perder es apagado. */
+.ledger b.pos{color:var(--tinta)}
+.ledger b.neg{color:var(--gris2)}
 .chart{margin:14px 16px 4px;height:56px;width:calc(100% - 32px)}
 .filters{display:flex;gap:6px;padding:14px 16px 0;overflow-x:auto;scrollbar-width:none}
 .filters::-webkit-scrollbar{display:none}
 .chip{flex:0 0 auto;font-family:var(--mono);font-size:10px;color:var(--gris2);background:var(--panel);padding:6px 11px;white-space:nowrap;border:none}
 .chip.on{background:var(--tinta);color:var(--hueco)}
-.lbet{margin:0 16px;padding:12px 0;border-top:1px solid var(--linea)}
+/* ── ficha del Registro ────────────────────────────────────────────
+   Tarjeta con sombra, no fila con filete: cada carga es una unidad que
+   se puede corregir, no un renglón de planilla. */
+.lbet{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:11px 12px;
+  margin:0 20px 12px 16px}
 .lbet .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.lbet .mkt{font-size:12.5px;color:var(--tinta2)}
+.lbet .part{font-size:12.5px;color:var(--tinta2);min-width:0}
 .lbet .stake{font-family:var(--mono);font-size:13px;color:var(--tinta3);flex:0 0 auto}
-.lbet .meta{font-family:var(--mono);font-size:10px;color:var(--gris2);margin:3px 0 0}
+.lbet .mkt{font-size:11.5px;color:var(--gris);margin-top:3px}
+.lbet .meta{font-family:var(--mono);font-size:9.5px;color:var(--gris2);margin-top:4px}
+.lbet .estado{display:flex;align-items:center;gap:8px;margin-top:10px}
+.lbet .marc{font-family:var(--mono);font-size:12px;color:var(--tinta3)}
+.lbet.perdida .marc{color:var(--gris2)}
+.lbet .dev{font-family:var(--mono);font-size:11.5px;margin-left:auto}
+.lbet .dev.pos{color:var(--tinta2)}
+.lbet .dev.neg{color:var(--gris2)}
+.lbet .proced{font-size:10.5px;line-height:1.55;color:var(--gris2);margin-top:6px}
+.lbet .acc{margin-top:8px}
+/* La ficha perdida entera baja de intensidad: mismo recurso que
+   Historial, aplicado a la tarjeta completa. */
+.lbet.perdida .part{color:var(--gris)}
+
+/* El sello del Registro es PLANO, sin rotación ni marco: el sello
+   rotado es el del veredicto de un partido, y son cosas distintas —
+   uno es una opinión nuestra, este es un hecho ya cerrado. */
+.sello{font-family:var(--anton);font-size:13px;line-height:1.25;letter-spacing:.05em;
+  text-transform:uppercase;padding:3px 8px;flex:0 0 auto;font-weight:400;border:none;transform:none}
+.sello.gan{background:var(--tinta);color:var(--hueco)}
+.sello.per{background:var(--linea2);color:var(--gris)}
+.sello.sin{background:#1D1811;color:var(--gris2)}
+.sello.esp{background:#1D1811;color:var(--tinta3)}
+.sello.man{background:var(--linea2);color:var(--tinta3)}
+
 .res{display:flex;gap:6px;margin-top:9px}
-.res button{flex:1;padding:7px 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--hueco);color:var(--gris2);border:1px solid var(--linea2)}
-.res button.on.w{background:var(--mostazaBg);color:var(--mostaza);border-color:#4A3C1E}
-.res button.on.l{background:var(--terracotaBg);color:var(--terracota);border-color:#4A2E20}
-.res button.on.p{background:var(--linea2);color:var(--tinta3);border-color:#3A3122}
+.res button{flex:1;padding:7px 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;
+  text-transform:uppercase;background:var(--hueco);color:var(--gris2);border:1px solid var(--linea2)}
+.res button.on.w{background:var(--tinta);color:var(--hueco);border-color:var(--tinta)}
+.res button.on.l{background:var(--linea2);color:var(--gris);border-color:var(--linea3)}
+.res button.on.p{background:var(--linea2);color:var(--tinta3);border-color:var(--linea3)}
 
-/* De dónde salió cada estado del registro. En salvia porque no es un
-   estado — es procedencia, y no compite con mostaza ni terracota. */
-.proc{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--salvia);
-  margin:2px 16px 0;padding-top:6px;border-top:1px solid var(--linea)}
+/* De dónde salió cada estado. En salvia porque no es un estado — es
+   procedencia, y no compite con mostaza ni terracota. */
+.proc{display:flex;align-items:center;gap:9px;margin:10px 16px 0;font-family:var(--mono);
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--salvia)}
+.proc::after{content:"";flex:1;height:1px;background:var(--linea)}
 
-.lbet .estado{display:flex;align-items:center;gap:8px;margin-top:8px}
-/* El sello entra rotado y se queda rotado: es un sello, no una etiqueta. */
-.sello{font-family:var(--anton);font-size:10px;letter-spacing:.05em;text-transform:uppercase;
-  padding:3px 8px;border:1px solid;transform:rotate(-2.5deg);flex:0 0 auto}
-.sello.gan{background:var(--mostazaBg);color:var(--mostaza);border-color:#4A3C1E}
-.sello.per{background:var(--terracotaBg);color:var(--terracota);border-color:#4A2E20}
-.sello.sin{background:#1D1811;color:var(--gris2);border-color:#3A3122}
-.sello.esp{background:#1D1811;color:var(--tinta3);border-color:#3A3122}
-.sello.man{background:var(--linea2);color:var(--tinta3);border-color:#3A3122}
-.lbet .marc{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--tinta2)}
-.lbet .dev{font-family:var(--mono);font-size:12px;margin-left:auto}
-.lbet .dev.pos{color:var(--mostaza)}
-.lbet .dev.neg{color:var(--terracota)}
 
-.lbet .proced{font-size:11px;line-height:1.5;color:var(--gris2);margin-top:6px}
-/* Enlace, no botón con caja: corregir es la excepción, no la acción
-   principal de la ficha. */
-.lnk{background:none;border:none;padding:0;margin-left:6px;font-family:var(--mono);
-  font-size:10px;color:var(--salvia);text-decoration:underline;text-underline-offset:2px}
+/* Enlace de corrección: mono en mayúscula con filete abajo, no
+   subrayado de link. Es una acción de excepción, no la principal. */
+.lnk{background:none;border:none;padding:0;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--salvia);
+  border-bottom:1px solid var(--salvia2)}
 
 /* ── método ────────────────────────────────────────────────────── */
-.metodo h3{font-family:var(--anton);font-size:17px;font-weight:400;margin:26px 0 8px;color:var(--tinta)}
-.metodo h3:first-child{margin-top:0}
+/* Texto puro, sin cajas: es una nota de revista, no un dashboard. El
+   título de sección se apoya en un filete, igual que en el análisis. */
+.metodo h3{font-family:var(--anton);font-size:13px;font-weight:400;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--gris);margin:26px 0 9px;
+  display:flex;align-items:center;gap:8px;white-space:nowrap}
+.metodo h3::after{content:"";flex:1;height:1px;background:var(--linea2)}
+.metodo h3:first-of-type{margin-top:0}
 .metodo p{font-size:13px;line-height:1.7;color:var(--tinta3);margin:0 0 12px}
 .metodo p b{color:var(--tinta2);font-weight:600}
 .metodo .dato{font-family:var(--mono);font-size:11.5px;color:var(--gris)}
@@ -403,6 +673,11 @@ a{color:inherit}
    render, o se vuelve un tic. */
 @keyframes sube{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
 .card{animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
+/* El sello entra golpeando y queda torcido. La rotación final es la
+   misma que la de reposo, así que al terminar no salta. */
+@keyframes selló{from{opacity:0;transform:scale(1.14) rotate(-2.5deg)}
+                 to{opacity:1;transform:scale(1) rotate(-2.5deg)}}
+.sellov{animation:selló .5s cubic-bezier(.22,1,.36,1) backwards}
 
 /* El despliegue de pestaña: las pestañas están dispuestas en
    horizontal, así que el contenido entra en horizontal — no la misma
@@ -416,16 +691,19 @@ a{color:inherit}
 /* Carga: el esqueleto del cupón, no un spinner. Se ve lo que va a
    venir en vez de un símbolo que no dice nada. */
 @keyframes late{0%,100%{opacity:.28}50%{opacity:.6}}
-.skel{margin:0 16px 10px;background:var(--panel);padding:13px 14px;animation:late 1.4s ease-in-out infinite}
+.skel{margin:0 20px 12px 16px;background:var(--panel);padding:13px 14px;
+  box-shadow:4px 4px 0 #13100B;animation:late 1.4s ease-in-out infinite}
 .skel .b{background:var(--linea2);height:9px;margin-bottom:9px}
 .skel .b.t{height:15px;width:72%;margin-bottom:12px}
 .skel .row{display:flex;gap:5px}
 .skel .row div{flex:1;height:38px;background:var(--hueco)}
 @media (prefers-reduced-motion:reduce){.skel{animation:none;opacity:.4}}
 
-.aviso{margin:16px;padding:12px 14px;background:var(--panel);font-size:12px;line-height:1.6;color:var(--tinta3)}
-.aviso b{color:var(--tinta);display:block;margin-bottom:5px}
-.fin{padding:26px 16px;text-align:center;font-size:11px;color:var(--gris3);font-family:var(--mono)}
+.aviso{margin:16px 20px 16px 16px;padding:14px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+  font-size:12.5px;line-height:1.6;color:var(--tinta3)}
+.aviso b{display:block;font-family:var(--anton);font-size:17px;color:var(--tinta);
+  font-weight:400;margin-bottom:6px}
+.fin{padding:22px 16px 34px;text-align:center;font-size:9px;color:var(--gris3);font-family:var(--mono)}
 </style>
 </head>
 <body>
@@ -753,7 +1031,12 @@ function lectura(m){
     cuerpo = `Es el más probable con ${pc(p[lean])}, aunque el empate (${pc(p.E)}) sigue muy vivo.`;
     corto  = `${esc_(nombre)} llega mejor, sin darlo por hecho — le damos <b>${pc(p[lean])}</b>.`;
   }
-  return {M, p, lean, nombre, goles, titulo, cuerpo, corto};
+  /* `parejo` y `claro` son las mismas cuatro ramas de arriba, expuestas
+     para que el sello de la portada diga exactamente lo mismo que la
+     prosa. Si el sello tuviera su propio criterio, un día la tarjeta
+     diría "FAVORITO" arriba y "partido parejo" abajo. */
+  return {M, p, lean, nombre, goles, titulo, cuerpo, corto,
+          parejo: lean==="E" || p[lean] < 0.40, claro};
 }
 
 /* La regla de alineación: nada contradice nuestra propia lectura.
@@ -850,9 +1133,14 @@ const plata = n => "$"+Math.round(n).toLocaleString("es-AR");
 const DIAS = ["DOM","LUN","MAR","MIÉ","JUE","VIE","SÁB"];
 const MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
 function fechaDe(iso){ const [a,m,d]=iso.split("-").map(Number); return new Date(a,m-1,d); }
-function crest(url, alt){
-  return url ? `<img class="crest" src="${esc_(url)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
-             : `<span class="crest ph"></span>`;
+/* `px` sobreescribe el tamaño cuando el contexto lo pide (20 en la
+   cabecera de un bloque, 15 en una fila). Todo escudo lleva onerror:
+   ESPN devuelve 404 para varios equipos chicos y un ícono roto en cada
+   fila se ve peor que el hueco. */
+function crest(url, px){
+  const st = px ? ` style="width:${px}px;height:${px}px;flex-basis:${px}px"` : "";
+  return url ? `<img class="crest" src="${esc_(url)}"${st} alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
+             : `<span class="crest ph"${st}></span>`;
 }
 /* ESPN devuelve "Group B" en inglés para todo. En la liga local eso es
    una zona del torneo; en copas es un grupo. */
@@ -911,9 +1199,10 @@ function viewFecha(){
 
   /* El contador no es adorno: dice el tamaño del día antes de scrollear. */
   const n = delDia.length;
-  let h = `<header class="masthead">
-    <div class="wordmark">VALOR<span class="tilde">${n} ${n===1?"PARTIDO":"PARTIDOS"}</span></div>
-    <div class="kicker">${DIAS[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]}</div>
+  let h = `<header class="masthead portada">
+    ${marcaV("f")}
+    <div class="nombre"><b>VALOR</b></div>
+    <div class="bajada">${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]} · ${n} ${n===1?"partido":"partidos"}</div>
   </header>
   <div class="days">${dias.map(x=>`
     <button class="day ${x.iso===DIA?"on":""} ${x.n?"":"vacio"}" data-dia="${x.iso}">
@@ -931,16 +1220,18 @@ function viewFecha(){
 
   let i = 0;
   for(const comp in grupos){
-    h += `<div class="lg" data-comp="${esc_(comp)}">${esc_(comp)}</div>`;
+    const cuantos = grupos[comp].length;
+    h += `<div class="lg" data-comp="${esc_(comp)}"><b>${esc_(comp)}</b>
+      <em>${String(cuantos).padStart(2,"0")} ${cuantos===1?"PARTIDO":"PARTIDOS"}</em></div>`;
     grupos[comp].sort((a,b)=>(a.hora||"").localeCompare(b.hora||"")).forEach(m=>{
-      h += tarjeta(m, i++);
+      h += tarjeta(m, i++, delDia.length);
     });
   }
   h += `<div class="fin">Datos actualizados ${esc_((ACTUALIZADO||"").replace("T"," "))}</div>`;
   return h;
 }
 
-function tarjeta(m, orden=0){
+function tarjeta(m, orden=0, total=0){
   const lec = lectura(m);
   const mk = m.mercado || {};
   const al = alerta(m);
@@ -971,30 +1262,126 @@ function tarjeta(m, orden=0){
       <i class="fill" style="height:${tinta(k)}%"></i>
       <span>${etiqueta}</span><b>${cuota(c)}</b><em>${pc(lec.p[k])}</em></div>`;
 
-  let pie;
-  if(al){
-    pie = `<div class="sig alerta">Cuidado con el precio</div>
-      <div class="pron">El mercado le da <b>${pc(pq[al.lean])}</b> a ${al.nombre?esc_(al.nombre):"el empate"} y nosotros solo ${pc(lec.p[al.lean])}. Ese precio ya está mejor de lo que vemos justo.</div>`;
-  } else if(valKey){
-    pie = `<div class="sig">Acá el precio está a favor</div>
-      <div class="pron">${lec.corto}</div>`;
-  } else {
-    /* Sin marca no hace falta aclarar que no la hay: repetir "todavía no
-       lo estudiamos" en las diez tarjetas del día no es honestidad, es
-       ruido. La pestaña Pronósticos lo dice donde importa. */
-    pie = `<div class="pron">${lec.corto}</div>`;
-  }
+  /* La señal es una línea sola, y la mayoría de las tarjetas no la
+     tienen. Sin marca no hace falta aclarar que no la hay: repetir
+     "todavía no lo estudiamos" en las diez tarjetas del día no es
+     honestidad, es ruido. El detalle de por qué vive en el partido. */
+  const pie = al ? `<div class="sig alerta">Cuidado con el precio</div>`
+            : valKey ? `<div class="sig">Acá el precio está a favor</div>`
+            : "";
+
+  const s = sello(lec);
+  const num = String(orden+1).padStart(2,"0");
+  const eq = (logo, nombre, forma) => `<div class="eq">${crest(logo)}
+    <div class="nom">${esc_(nombre)}</div>${tiraForma(forma)}</div>`;
 
   return `<button class="card" data-partido="${esc_(m.id)}" style="animation-delay:${Math.min(orden,7)*38}ms">
-    <div class="meta">${esc_(m.hora||"")}${m.grupo?" · "+esc_(grupoEs(m.grupo,m.comp)):""}</div>
-    <div class="teams">${crest(m.homeLogo)}${esc_(m.home)}<i>vs</i>${crest(m.awayLogo)}${esc_(m.away)}</div>
-    <div class="odds">
-      ${casilla("L","Local",mk.local)}
-      ${casilla("E","Empate",mk.empate)}
-      ${casilla("V","Visita",mk.visitante)}
+    <div class="talon">
+      <div class="n">Nº ${num}</div>
+      <div class="hora">${esc_(m.hora||"—")}</div>
+      <div class="de">DE ${String(total).padStart(2,"0")}</div>
     </div>
-    ${pie}
+    <div class="perf"></div>
+    <div class="cuerpo">
+      ${eq(m.homeLogo, m.home, m.formH)}
+      ${eq(m.awayLogo, m.away, m.formA)}
+      <div class="odds">
+        ${casilla("L","Local",mk.local)}
+        ${casilla("E","Empate",mk.empate)}
+        ${casilla("V","Visita",mk.visitante)}
+      </div>
+      ${pie}
+      <div class="cierre">
+        <div class="corto">${lec.corto}</div>
+        <div class="sellov"><div><div class="a">${esc_(s[0])}</div><div class="b">${esc_(s[1])}</div></div></div>
+      </div>
+      <div class="piecard"></div>
+      <div class="firma"><span>VALOR · PROGRAMA</span><span>${num} DE ${String(total).padStart(2,"0")}</span></div>
+    </div>
   </button>`;
+}
+
+/* Los últimos cinco, del más viejo al más nuevo — se lee como se lee
+   una tabla, hacia la derecha llega el presente. */
+function tiraForma(forma, tam){
+  const cls = {W:"g", D:"e", L:"p"}, txt = {W:"G", D:"E", L:"P"};
+  return `<div class="forma ${tam||""}">${(forma||[]).slice().reverse()
+    .map(f=>`<i class="${cls[f.r]||"p"}">${txt[f.r]||"P"}</i>`).join("")}</div>`;
+}
+
+/* El marcador exacto más probable. Se muestra siempre con su
+   probabilidad al lado, porque suelta miente: el más probable de un
+   partido de fútbol ronda el 10-12%, o sea que casi nunca pasa. */
+function marcadorTop(M){
+  let best=[0,0], bp=-1;
+  for(let i=0;i<6;i++) for(let j=0;j<6;j++) if(M[i][j]>bp){ bp=M[i][j]; best=[i,j]; }
+  return best[0]+"-"+best[1];
+}
+function probMarcadorTop(M){
+  let bp=-1;
+  for(let i=0;i<6;i++) for(let j=0;j<6;j++) if(M[i][j]>bp) bp=M[i][j];
+  return bp;
+}
+
+/* El antecedente directo, más el ritmo esperado si lo tenemos. Cuando
+   no se cruzaron, se dice — no se rellena con una frase vacía. */
+function antecedente(m){
+  const h2h = m.h2h || [], u = h2h[0];
+  const cruce = h2h.length
+    ? `Se cruzaron ${h2h.length===1 ? "una sola vez" : h2h.length+" veces"} en el historial que tenemos; la última, ${esc_(u.h)} ${esc_(u.s)} ${esc_(u.a)} el ${esc_(u.d)}.`
+    : "No se cruzaron en el historial que tenemos, así que no hay antecedente directo del que agarrarse.";
+  const ritmo = (m.fouls!=null && m.cards!=null)
+    ? ` Esperamos ${m.fouls.toFixed(0)} faltas y ${m.cards.toFixed(1).replace(".",",")} tarjetas.` : "";
+  return cruce + ritmo;
+}
+
+/* El veredicto en dos palabras. Sale de las mismas cuatro ramas que la
+   prosa de lectura(), no de un criterio propio: si tuviera el suyo, un
+   día el sello diría FAVORITO y el renglón de abajo "partido parejo". */
+function sello(lec){
+  const corto = n => { if(!n) return ""; const w = n.split(" "); return (n.length>13 ? w[0] : n).toUpperCase(); };
+  if(lec.parejo || !lec.nombre) return ["PARTIDO","PAREJO"];
+  if(lec.claro && lec.goles < 2.4) return [corto(lec.nombre), "SIN GOLEADA"];
+  if(lec.claro) return [corto(lec.nombre), "FAVORITO"];
+  return [corto(lec.nombre), "LLEGA MEJOR"];
+}
+
+/* El troquelado: la palabra CALADA en una barra entintada, no dibujada
+   encima. La máscara perfora el rect y deja ver el fondo a través de
+   las letras, más tres perforaciones por lado — el talón de un cupón.
+   Es el recurso para titular secciones; el wordmark de la portada es
+   la V (ver DESIGN.md § Marca). */
+function troquel(texto, sfx, ancho=176){
+  const id = "tq-"+sfx, mitad = ancho/2, der = ancho-6;
+  const perf = x => [12,23,34].map(y=>`<circle cx="${x}" cy="${y}" r="1.7" fill="#000"/>`).join("");
+  return `<svg viewBox="0 0 ${ancho} 50" class="troquel" aria-label="${esc_(texto)}">
+    <defs><mask id="${id}">
+      <rect x="0" y="0" width="${ancho}" height="46" fill="#fff"/>
+      <text x="${mitad}" y="36" text-anchor="middle" font-family="Anton, Impact, sans-serif"
+            font-size="34" letter-spacing="-1.5" fill="#000">${esc_(texto)}</text>
+      ${perf(6)}${perf(der)}
+    </mask></defs>
+    <rect x="0" y="0" width="${ancho}" height="46" fill="#D8CDB4" mask="url(#${id})"/>
+    <rect x="0" y="46" width="${ancho}" height="4" fill="#6B7A5E"/>
+  </svg>`;
+}
+
+/* La marca. `id` único por instancia: si hay dos V en la misma
+   pantalla con el mismo id de clip, la segunda hereda el recorte de la
+   primera y se dibuja rota. */
+function marcaV(sfx, alto=58){
+  const id = "vm-"+sfx;
+  return `<svg viewBox="0 0 100 100" class="marca" style="height:${alto}px;width:${alto}px" aria-label="VALOR">
+    <defs><clipPath id="${id}"><polygon points="34,18 55,64 70,18"/></clipPath></defs>
+    <polygon points="17,18 34,18 55,64 70,18 83,18 56,84 46,84" fill="#D8CDB4"/>
+    <g clip-path="url(#${id})">
+      <polygon points="42.5,38 47.1,38 36.65,70 32.05,70" fill="#5A6338"/>
+      <polygon points="50.5,30 55.1,30 42.05,70 37.45,70" fill="#4E5730"/>
+      <polygon points="57.8,24 62.4,24 47.45,70 42.85,70" fill="#616B3C"/>
+      <polygon points="64.9,19 69.5,19 52.85,70 48.25,70" fill="#757F4E"/>
+    </g>
+    <line x1="27.5" y1="30.3" x2="44.3" y2="68.6" stroke="#171310" stroke-width="2"/>
+  </svg>`;
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1029,10 +1416,14 @@ function viewPartido(){
   }[TAB](m);
 
   return `<div class="top"><button class="back" data-volver="1">←</button>
-      <span class="comp">${esc_(m.comp)} · ${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]} · ${esc_(m.hora||"")}</span></div>
+      <span class="comp">${esc_(m.comp)} · ${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]}</span></div>
     <div class="head">
-      <div class="teams">${crest(m.homeLogo)}${esc_(m.home)}<i>vs</i>${crest(m.awayLogo)}${esc_(m.away)}</div>
-      <div class="meta">${esc_(grupoEs(m.grupo,m.comp)||m.comp)}</div>
+      <div class="eq"><img class="crest gr" src="${esc_(m.homeLogo||"")}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div class="nom">${esc_(m.home)}</div>
+        <div class="hora">${esc_(m.hora||"")}</div></div>
+      <div class="eq"><img class="crest gr" src="${esc_(m.awayLogo||"")}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+        <div class="nom">${esc_(m.away)}</div></div>
+      <div class="grupo">${esc_(grupoEs(m.grupo,m.comp)||m.comp)}</div>
     </div>
     <div class="dodds">
       ${casilla("L","Local",mk.local)}
@@ -1040,7 +1431,7 @@ function viewPartido(){
       ${casilla("V","Visita",mk.visitante)}
     </div>
     <div class="tabs">${TABS.map(([k,l])=>`<button class="tab ${TAB===k?"on":""}" data-tab="${k}">${l}</button>`).join("")}</div>
-    <div class="sec tabsec">${cuerpo}</div>
+    <div class="tabsec">${cuerpo}</div>
     <div style="height:20px"></div>`;
 }
 
@@ -1048,16 +1439,41 @@ function viewPartido(){
 function tabAnalisis(m){
   const a = ANALISIS[m.id];
   if(!a || (!a.contexto && !a.veredicto)){
-    return `<div class="vacio"><b>Todavía no estudiamos este partido</b>
-      El análisis es lo que la estadística sola no ve: bajas, contexto de tabla,
-      si a alguno no le sirve ganar. Se carga a mano, partido por partido.
-      Mientras tanto tenés los números en las otras pestañas.</div>`;
+    /* Hoy `analisis.json` está vacío, así que esta rama es la que se ve
+       en todos los partidos. No se disimula el hueco: se declara qué
+       falta, quién lo carga, y se pone abajo lo que sí sabemos por los
+       números — que no es poco. Un cartel de "próximamente" sería
+       peor que decir la verdad. */
+    const lec = lectura(m);
+    const s = sello(lec);
+    const corto = n => (n||"").length>11 ? n.split(" ")[0] : n;
+    return `<div class="banda banda2">Análisis<em>SIN CARGAR</em></div><div class="sec hueco">
+      <div class="big">Todavía nadie escribió la nota de este partido</div>
+      <p class="sub">Las bajas, el contexto de tabla y a quién le sirve el empate los carga
+        una persona. Esto es lo que sí sabemos por los números.</p>
+      <div class="cifras">
+        <div><b>${m.lh.toFixed(2)}</b><small>${esc_(corto(m.home))}</small></div>
+        <div><b>${m.la.toFixed(2)}</b><small>${esc_(corto(m.away))}</small></div>
+        <div><b>${marcadorTop(lec.M)}</b><small>Más probable</small></div>
+      </div>
+      <div class="cifras-pie">Goles esperados de cada uno, y el marcador exacto que más
+        se repite — que aun así pasa ${Math.round(probMarcadorTop(lec.M)*100)} de cada 100 veces.
+      </div>
+      <div class="rot"><span>El partido</span></div>
+      <p class="prosa">${lec.cuerpo}</p>
+      <div class="rot"><span>El antecedente</span></div>
+      <p class="prosa">${antecedente(m)}</p>
+      <div class="cierre" style="justify-content:flex-end">
+        <div class="sellov"><div><div class="a">${esc_(s[0])}</div><div class="b">${esc_(s[1])}</div></div></div>
+      </div>
+    </div>`;
   }
-  let h = `<div class="an"><div class="lbl">Nuestro análisis</div>`;
+  let h = `<div class="banda banda2">Análisis<em>NUESTRA NOTA</em></div>
+    <div class="sec an"><div class="lbl">Nuestro análisis</div>`;
   if(a.contexto)  h += `<p>${esc_(a.contexto)}</p>`;
   if(a.veredicto) h += `<p class="veredicto">${esc_(a.veredicto)}</p>`;
   if(a.actualizado) h += `<p class="fuente">Escrito el ${esc_(a.actualizado)}.</p>`;
-  return h + `</div>`;
+  return h + `</div></div>`;
 }
 
 /* ── 2. Pronósticos ────────────────────────────────────────────── */
@@ -1066,42 +1482,56 @@ function tabPronosticos(m){
   const hay = analizado(m.id);
   const esc = escalera(m);
 
-  let h = `<div class="read">
+  let h = `<div class="banda banda2">Pronósticos<em>ESCALERA DE RIESGO</em></div>
+    <div class="sec"><div class="read">
     <div class="lbl">Nuestra lectura</div>
     <div class="big">${esc_(lec.titulo)}</div>
     <p>${esc_(lec.cuerpo)}</p>
   </div>`;
 
   if(!hay){
-    h += `<div class="vacio" style="padding-top:20px">
-      <b>Todavía no estudiamos este partido</b>
-      Abajo está la escalera con lo que dice el modelo, para que la veas.
-      Pero no vas a encontrar nada marcado como oportunidad: solo señalamos
-      precio a favor en partidos que miramos en serio, y este todavía no.</div>`;
+    h += `<div class="nota">Abajo está la escalera con lo que dice el modelo, para que la veas.
+      No vas a encontrar nada marcado como oportunidad: solo señalamos precio a favor en
+      partidos que miramos en serio, y este todavía no.</div>`;
   }
+  h += `</div>`;   // cierra el .sec de la lectura
 
-  h += `<div class="escalera">`;
-  esc.forEach(({franja, op, ventaja, valor})=>{
+  /* Cada escalón es un talón numerado, igual que la tarjeta de portada:
+     la app usa el mismo recurso para decir "esto es una de N opciones".
+     La barra con escala 0/50/100 está porque un porcentaje suelto no se
+     compara con nada — al lado de la escala se ve de un saque si el
+     escalón está por encima o por debajo de jugarse una moneda. */
+  const total = String(esc.length).padStart(2,"0");
+  h += `<div class="banda banda2">Escalera de riesgo<em>${esc.length} FORMAS</em></div>
+    <div class="pasos">`;
+
+  esc.forEach(({franja, op, valor}, i)=>{
     const marcar = op && valor && hay;
-    /* el travesaño se acorta con la probabilidad: el escalón seguro es
-       ancho, el arriesgado apenas un saliente */
-    const ancho = op ? Math.round(7 + op.p*11) : 8;
+    const n = String(i+1).padStart(2,"0");
     h += `<div class="paso ${marcar?"val":""}">
-      <div class="rh"><span class="peldano" style="width:${ancho}px"></span>
-        <b>${franja.n}</b><span class="pct">${op?cadaCuanto(op.p):""}</span></div>
-      <p class="rsub">${franja.sub}</p>`;
+      <div class="talon">
+        <div class="pn">${n}</div>
+        <div class="de">DE ${total}</div>
+      </div>
+      <div class="perf"></div>
+      <div class="cuerpo">
+        <div class="ph"><span class="franja">${esc_(franja.n.toUpperCase())}</span>
+          ${op?`<span class="pp">${Math.round(op.p*100)}<i>%</i></span>`:""}</div>`;
     if(!op){
-      h += `<div class="bet"><div class="l2">Sin ninguna opción clara en esta franja para este partido.</div></div></div>`;
+      h += `<div class="sinop">Sin ninguna opción clara en esta franja para este partido.</div>
+        <p class="rsub">${franja.sub}</p></div></div>`;
       return;
     }
-    h += `<div class="bet ${marcar?"val":""}">
-      <div class="l1"><span class="mkt">${esc_(op.label)}</span><span class="prob">${pc(op.p)}</span></div>
-      <div class="l2">Conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>
-      ${marcar?`<div class="valtag">Acá el precio está a favor</div>`:""}
-      <div class="expl">${esc_(cuandoCobra(op,m))}</div>
+    const pct = Math.round(op.p*100);
+    h += `<div class="oplabel">${esc_(op.label)}</div>
+      <div class="barra"><i style="width:${pct}%"></i><u style="margin-left:${pct}%"></u></div>
+      <div class="escala"><span>0</span><span>50</span><span>100</span></div>
+      ${marcar?`<div class="sig">Acá el precio está a favor</div>`:""}
+      <div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>
+      <div class="cobra">${esc_(cuandoCobra(op,m))}</div>
     </div></div>`;
   });
-  h += `</div>`;
+  h += `</div><div class="sec">`;
 
   const cmb = combinada(m);
   if(cmb && hay){
@@ -1112,19 +1542,18 @@ function tabPronosticos(m){
     const nota = Math.abs(dif) >= 0.02
       ? `Calculado sobre la matriz del partido. Multiplicar las dos por separado daría ${pc(cmb.ingenua)}, y estaría mal: las dos cosas pasan en el mismo partido y se afectan entre sí.`
       : `Calculado sobre la matriz del partido, teniendo en cuenta que las dos cosas pasan en el mismo partido.`;
-    h += `<div class="rh"><b>Las dos juntas</b><span class="pct">${cadaCuanto(cmb.p)}</span></div>
-      <p class="rsub">Las dos cosas en un solo ticket. Paga más, pero tienen que darse las dos.</p>
-      <div class="bet">
-        <div class="l1"><span class="mkt">${esc_(cmb.patas[0].label)} <i style="color:var(--gris3);font-style:normal">+</i> ${esc_(cmb.patas[1].label)}</span><span class="prob">${pc(cmb.p)}</span></div>
-        <div class="l2">Conviene si te pagan más de <b>${umbral(cmb.p).toFixed(2)}</b></div>
-        <div class="expl">${nota}</div>
+    h += `<div class="rot"><span>Las dos juntas</span><em>${cadaCuanto(cmb.p)}</em></div>
+      <div class="cmb">
+        <div class="l1"><span class="mkt">${esc_(cmb.patas[0].label)} <i>+</i> ${esc_(cmb.patas[1].label)}</span><span class="prob">${pc(cmb.p)}</span></div>
+        <div class="umb">conviene si te pagan más de <b>${umbral(cmb.p).toFixed(2)}</b></div>
+        <div class="cobra">${nota}</div>
       </div>`;
   }
 
   h += `<div class="foot">Las tres salen de la misma lectura — elegís vos cuánto arriesgar.
     El umbral ya incluye un margen de seguridad: a la cuota justa pelada la ventaja es cero.
     Y solo marcamos en dorado cuando además el precio está a favor.</div>`;
-  return h;
+  return h + `</div>`;
 }
 
 /* ── 3. Historial ──────────────────────────────────────────────── */
@@ -1141,45 +1570,80 @@ function tabHistorial(m){
     const goles = f => (f.marcador||"").split("-").map(Number);
     const hechos = forma.reduce((s,f)=> s + (goles(f)[0]||0), 0);
     const recib  = forma.reduce((s,f)=> s + (goles(f)[1]||0), 0);
-    return `<div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b>
-        <span class="tira">${forma.slice().reverse().map(f=>`<i class="${f.r}">${f.r}</i>`).join("")}</span></div>
-      <div class="racha">${g}G ${e}E ${p}P · ${hechos} hechos, ${recib} recibidos en los últimos ${forma.length}</div>` +
-      forma.map(f=>`
-      <div class="frow">
-        <span class="r ${f.r}">${f.r}</span>
-        <span class="rival">${f.local?"vs":"@"} ${esc_(f.rival)}</span>
-        <span class="loc">${f.local?"Local":"Visita"}</span>
-        <span class="sc">${esc_(f.marcador||"")}</span>
-      </div>`).join("");
+    /* El escudo del rival se resuelve por nombre contra los equipos que
+       ya están en el archivo: no hay un campo de logo en `formH`. */
+    return `<div class="fcard">
+      <div class="fhd">${crest(logo, 20)}<b>${esc_(nombre)}</b>
+        ${tiraForma(forma, "gr")}</div>
+      <div class="racha">${g}G ${e}E ${p}P · ${hechos} hechos, ${recib} recibidos en los últimos ${forma.length}</div>
+      <div class="flist">${forma.map(f=>`
+        <div class="frow">
+          <span class="r ${f.r}">${f.r==="W"?"G":f.r==="D"?"E":"P"}</span>
+          ${crest(logoDe(f.rival), 15)}
+          <span class="rival">${esc_(f.rival)}</span>
+          <span class="loc">${f.local?"Local":"Visita"}</span>
+          <span class="sc">${esc_(f.marcador||"")}</span>
+        </div>`).join("")}</div>
+    </div>`;
   };
-  let h = `<div class="lbl">Últimos partidos</div>`;
+  let h = `<div class="banda banda2">Últimos cinco<em>DEL MÁS VIEJO AL DE HOY</em></div>`;
   h += bloque(m.home, m.homeLogo, m.formH);
   h += bloque(m.away, m.awayLogo, m.formA);
 
-  h += `<div class="lbl sep">Cruces directos</div>`;
+  h += `<div class="banda banda2">Cruces directos<em>${m.h2h&&m.h2h.length?String(m.h2h.length).padStart(2,"0"):"00"}</em></div>`;
   if(m.h2h && m.h2h.length){
-    h += m.h2h.map(x=>`<div class="h2hrow">
-      <span>${esc_(x.h)} <b class="sc">${esc_(x.s)}</b> ${esc_(x.a)}</span>
-      <span class="dt">${esc_(x.d)}</span></div>`).join("");
+    /* Cada cruce es un talón, con la fecha en el riel y el marcador
+       grande en el medio: se lee como el resultado de un programa, no
+       como una fila de planilla. */
+    h += m.h2h.map(x=>`<div class="h2h">
+      <div class="talon"><div class="pn2">${esc_((x.d||"").slice(0,5))}</div>
+        <div class="de">${esc_((x.d||"").slice(6))}</div></div>
+      <div class="perf"></div>
+      <div class="cuerpo">
+        <div class="linea">
+          <div class="lado">${crest(logoDe(x.h))}<span>${esc_(x.h)}</span></div>
+          <div class="marc">${esc_(x.s)}</div>
+          <div class="lado der"><span>${esc_(x.a)}</span>${crest(logoDe(x.a))}</div>
+        </div>
+      </div></div>`).join("");
   } else {
-    h += `<div class="vacio" style="padding:8px 0">No se cruzaron en el historial que tenemos.</div>`;
+    h += `<div class="sec"><p class="prosa" style="font-size:11.5px;color:var(--gris2)">
+      No se cruzaron en el historial que tenemos, así que no hay antecedente directo.</p></div>`;
   }
   return h;
+}
+
+/* El escudo de un rival, buscado por nombre entre los equipos que ya
+   están en el archivo. No siempre está, y cuando no está el hueco se
+   esconde solo — el crest con `ph` ya lo maneja. */
+function logoDe(nombre){
+  const n = norm(nombre);
+  let url = "";
+  MATCHES.forEach(m=>{
+    if(!url && norm(m.home)===n) url = m.homeLogo;
+    if(!url && norm(m.away)===n) url = m.awayLogo;
+  });
+  return url;
 }
 
 /* ── 4. Posiciones ─────────────────────────────────────────────── */
 function tabPosiciones(m){
   if(!m.tabla || !m.tabla.length){
-    return `<div class="vacio"><b>Sin tabla para esta competición</b>
-      En copas por eliminación no hay tabla que mostrar.</div>`;
+    return `<div class="banda">Posiciones</div>
+      <div class="sec"><div class="big" style="font-size:20px">Sin tabla para esta competición</div>
+      <p class="prosa" style="color:var(--gris)">En las llaves por eliminación no hay tabla que
+        mostrar, y la fuente tampoco la devuelve.</p></div>`;
   }
   const mios = new Set([String(m.homeId), String(m.awayId)]);
   const porGrupo = {};
   m.tabla.forEach(f=> (porGrupo[f.grupo||""] = porGrupo[f.grupo||""]||[]).push(f));
 
-  let h = `<div class="lbl">${esc_(m.comp)}</div>`;
+  let h = `<div class="banda banda2">${esc_(grupoEs(m.grupo, m.comp) || m.comp)}
+    <em>${esc_((COMPS_CORTO[m.comp]||m.comp).toUpperCase())}</em></div><div class="tablawrap">`;
+
   for(const g in porGrupo){
-    if(g) h += `<div class="grupo">${esc_(grupoEs(g, m.comp))}</div>`;
+    if(Object.keys(porGrupo).length > 1 && g)
+      h += `<div class="lbl" style="margin-top:14px">${esc_(grupoEs(g, m.comp))}</div>`;
     /* Sin columna de diferencia de gol: la tabla de ESPN trae goles a
        favor pero no en contra, así que DG saldría vacía en todas las
        filas. Va G-E-P, que sí tenemos. */
@@ -1195,7 +1659,63 @@ function tabPosiciones(m){
           <td>${f.gf!=null?f.gf:"—"}</td></tr>`;
       }).join("") + `</table>`;
   }
+  h += `</div>`;
+
+  const n = quienFalta(m);
+  if(n) h += `<div class="sec"><div class="rot"><span>${esc_(n.rotulo)}</span></div>
+    <p class="prosa">${n.texto}</p></div>`;
   return h;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   POR QUÉ FALTA UN EQUIPO EN LA TABLA
+
+   Hay DOS motivos distintos y decir el equivocado es peor que callarse.
+
+   Medido sobre los 34 partidos del 2026-08-17: de 24 partidos donde uno
+   de los dos equipos no está en la tabla, en 19 el equipo está en otra
+   zona o grupo de la misma competición — o sea que la tabla está
+   completa y el cruce es entre grupos. Solo en 5 el equipo no aparece
+   en ninguna tabla de esa competición: ahí sí falta el dato.
+
+   El handoff de diseño trataba los 24 como hueco de datos, citando
+   Flamengo vs Cruzeiro. Verificado: Cruzeiro está en el Grupo D de la
+   misma Libertadores, así que ese caso es un cruce de llave y la nota
+   habría dicho algo falso. Por eso se parte en dos.
+   ══════════════════════════════════════════════════════════════════ */
+function quienFalta(m){
+  const tabla = m.tabla || [];
+  if(!tabla.length) return null;
+  const hayLocal = tabla.some(f=> String(f.id)===String(m.homeId));
+  const hayVisita = tabla.some(f=> String(f.id)===String(m.awayId));
+  if(hayLocal && hayVisita) return null;
+  if(!hayLocal && !hayVisita) return null;   // ninguno: no es "su" tabla
+
+  const nombre = hayLocal ? m.away : m.home;
+  const id = String(hayLocal ? m.awayId : m.homeId);
+  const zona = grupoEs(m.grupo, m.comp) || "esta tabla";
+
+  /* ¿Está en otro grupo de la misma competición? Se busca en las tablas
+     del resto de los partidos, que es todo lo que tenemos a mano. */
+  let otro = null;
+  MATCHES.forEach(x=>{
+    if(x.comp !== m.comp || x.grupo === m.grupo) return;
+    if((x.tabla||[]).some(f=> String(f.id)===id)) otro = grupoEs(x.grupo, x.comp);
+  });
+
+  if(otro) return {
+    rotulo: "Juegan cruzado",
+    texto: `${esc_(nombre)} no está en esta tabla porque no está en este grupo: juega en
+      <b>${esc_(otro)}</b>. La tabla de arriba es la de ${esc_(zona)} y está completa —
+      este partido cruza los dos grupos.`,
+  };
+
+  return {
+    rotulo: "Falta uno",
+    texto: `${esc_(nombre)} no aparece: la fuente devolvió estas ${tabla.length} líneas y
+      ninguna es suya, y tampoco figura en las otras tablas de la competición. Preferimos
+      mostrarte la tabla incompleta y decírtelo, antes que inventarle una posición.`,
+  };
 }
 
 /* ── 5. Plantel ────────────────────────────────────────────────── */
@@ -1226,7 +1746,7 @@ function tabPlantel(m){
   /* Cara a cara antes del detalle de cada equipo: es lo primero que uno
      quiere saber cuando abre esta pestaña. */
   const tl = stat(m.homeId, m.tabla), tv = stat(m.awayId, m.tabla);
-  let h = "";
+  let h = `<div class="banda banda2">Plantel<em>ESTILO Y ACTUALIDAD</em></div><div class="sec">`;
   if(tl && tv){
     const fila = (etiqueta, a, b)=>{
       const tope = Math.max(a, b, 1);
@@ -1243,6 +1763,16 @@ function tabPlantel(m){
       ${fila("Ganados", tl.g, tv.g)}
       ${fila("Goles", tl.gf!=null?tl.gf:0, tv.gf!=null?tv.gf:0)}
     </div>`;
+  } else {
+    /* Sin los dos en la misma tabla no hay comparación posible. Antes
+       el bloque simplemente no aparecía y el usuario no sabía si era
+       que no había datos o que la app se los guardaba. Se declara. */
+    const n = quienFalta(m);
+    h += `<div class="lbl">Cara a cara en el torneo</div>
+      <p class="blurb" style="color:var(--gris)">${n
+        ? n.texto.replace(/La tabla de arriba[^.]*\./, "").trim() +
+          " Sin los dos en la misma tabla no hay comparación que hacer."
+        : "No tenemos a los dos equipos en una misma tabla, así que no hay comparación que hacer."}</p>`;
   }
   h += bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
   h += `<div class="lbl sep">Del partido</div>
@@ -1251,9 +1781,10 @@ function tabPlantel(m){
       <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
       <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
     </div>
-    <div class="vacio" style="padding-top:18px">La lista de jugadores todavía no está: el plantel de ESPN
-      pide un llamado por jugador para traer estadísticas, y serían unos 50 por pestaña.
-      Va a entrar cuando lo bajemos en el cron, no en vivo.</div>`;
+    <div class="rot"><span>Sin jugadores</span></div>
+    <p class="prosa" style="font-size:12.5px">La lista de jugadores todavía no está: el plantel
+      de ESPN pide un llamado por jugador para traer estadísticas, y serían unos 50 por
+      pestaña. Va a entrar cuando lo bajemos en el cron, nunca en vivo.</p></div>`;
   return h;
 }
 
@@ -1274,7 +1805,8 @@ function tabHerramientas(m){
   const kf = (m.conf>=72) ? 0.25 : (m.conf>=60) ? 0.125 : (m.conf>=50) ? 0.0625 : 0.005;
   const tope = BANCA * 0.04;
 
-  let h = `<p class="expl">Esta pestaña es para vos, no para la gente. Cargá la cuota que
+  let h = `<div class="banda banda2">Herramientas<em>PARA VOS</em></div><div class="sec">
+    <p class="expl">Esta pestaña es para vos, no para la gente. Cargá la cuota que
     te da <em>tu</em> casa y te devuelve la ventaja real y cuánto jugar contra ese precio.</p>
     <div class="bankline">Jugás con <b>${plata(BANCA)}</b> separados
       <button data-resetbanca="1">cambiar</button></div>`;
@@ -1298,7 +1830,7 @@ function tabHerramientas(m){
       else if(e<MIN_EV) out = `<span class="ev neg">EV ${(e*100).toFixed(1)}%</span>`;
       else out = `<span class="ev pos">EV +${(e*100).toFixed(1)}%</span>
         <div class="juega"><span>Jugale</span><b>${plata(stake)}</b></div>`;
-      h += `<div class="mrow">
+      h += `<div class="mrow ${jugable?"val":(val&&!sano)?"mal":""}">
         <div class="top2"><span class="mkt">${esc_(o.label)}</span><span class="modelo">modelo ${pc(o.p)}</span></div>
         <div class="inrow">
           <input inputmode="decimal" placeholder="—" value="${val?c:""}" data-cuota="${esc_(key)}">
@@ -1310,21 +1842,28 @@ function tabHerramientas(m){
     });
     h += `</div>`;
   });
-  return h;
+  return h + `</div>`;
 }
 
 /* ══════════════════════════════════════════════════════════════════
    PANTALLA: REGISTRO
    ══════════════════════════════════════════════════════════════════ */
 function viewRegistro(){
-  let h = `<header class="masthead"><div class="wordmark">Registro</div>
+  const n = LOG.length;
+  let h = `<header class="masthead titulada">
+    <div class="tq">${troquel("REGISTRO","rg")}
+      <span class="cuenta">${n} ${n===1?"CARGA":"CARGAS"}</span></div>
     <div class="kicker">Tu bitácora — acá los números van sin traducir</div></header>`;
 
-  if(!LOG.length){
-    h += `<div class="aviso"><b>Todavía no anotaste nada</b>
-      Cuando cargues una cuota en Herramientas y tenga ventaja, vas a poder anotarla acá
-      con un toque. Después se resuelve sola: cuando el partido se juega, buscamos el
-      resultado y marcamos si entró. No tenés que volver a tocar nada.</div>`;
+  if(!n){
+    h += `<div class="sec" style="padding-top:22px">
+      <div class="big">Todavía no anotaste nada</div>
+      <p class="prosa capitular">Cuando cargues una cuota en Herramientas y tenga ventaja,
+        vas a poder anotarla acá con un toque. Después se resuelve sola: cuando el partido
+        se juega, buscamos el resultado y marcamos si entró. No tenés que volver a tocar
+        nada, ni acordarte.</p>
+      <div class="rot cerrar"><span>Sin movimientos</span></div>
+    </div>`;
     return h;
   }
 
@@ -1362,21 +1901,28 @@ function viewRegistro(){
   ].filter(Boolean).join(" · ");
   if(proc) h += `<div class="proc">${esc_(proc)}</div>`;
 
-  /* curva acumulada — la única línea curva de la app, en mostaza */
+  /* La curva acumulada: la única línea curva de toda la app, y la
+     única cosa del Registro que sigue en mostaza. No es el resultado
+     de una apuesta puntual — es la trayectoria entera, que sí es la
+     lectura que la app quiere que mires. */
   if(cerradas.length>1){
     let acc=0; const pts=[0];
     cerradas.forEach(f=>{ acc += f.r.estado==="ganada" ? f.carga.stake*(f.carga.cuota-1) : -f.carga.stake; pts.push(acc); });
     const min=Math.min(...pts), max=Math.max(...pts), rango=(max-min)||1;
     const d = pts.map((v,i)=>`${(i/(pts.length-1)*300).toFixed(1)},${(52-(v-min)/rango*48).toFixed(1)}`).join(" ");
-    h += `<svg class="chart" viewBox="0 0 300 56" preserveAspectRatio="none" aria-label="Acumulado">
-      <polyline points="${d}" fill="none" stroke="#D6963A" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
+    h += `<div class="curva">
+      <div class="ejes arriba"><span>Acumulado</span><span>${cerradas.length} ${cerradas.length===1?"movimiento":"movimientos"}</span></div>
+      <svg class="chart" viewBox="0 0 300 56" preserveAspectRatio="none" aria-label="Acumulado">
+        <polyline points="${d}" fill="none" stroke="#D6963A" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+      <div class="ejes abajo"><span>Arranque</span><span>${neto>0?"+":""}${plata(neto)}</span></div>
+    </div>`;
   }
 
   const cont = e => filas.filter(f=> e==="todas" || f.r.estado===e).length;
   h += `<div class="filters">
     ${[["todas","Todas"],["ganada","Ganadas"],["perdida","Perdidas"],["pendiente","Pendientes"]]
       .map(([k,l])=>`<button class="chip ${FILTRO===k?"on":""}" data-filtro="${k}">${l} ${cont(k)}</button>`).join("")}
-  </div><div class="lbl" style="margin:18px 16px 8px">Últimas cargadas</div>`;
+  </div><div class="banda banda2">Últimas cargadas<em>DE LA MÁS NUEVA</em></div>`;
 
   const lista = filas.filter(f=> FILTRO==="todas" || f.r.estado===FILTRO).slice().reverse();
   if(!lista.length) h += `<div class="aviso">Nada con ese filtro.</div>`;
@@ -1422,11 +1968,13 @@ function fichaRegistro({carga:x, idx, r}){
 
   const marcador = r.res ? `<span class="marc">${r.res.i}-${r.res.j}</span>` : "";
 
-  return `<div class="lbet">
-    <div class="top2"><span class="mkt">${esc_(x.partido)} — ${esc_(x.mercado)}</span><span class="stake">${plata(x.stake)}</span></div>
+  return `<div class="lbet ${r.estado==="perdida"?"perdida":""}">
+    <div class="top2"><span class="part">${esc_(x.partido)}</span><span class="stake">${plata(x.stake)}</span></div>
+    <div class="mkt">${esc_(x.mercado)}</div>
     <div class="meta">${esc_(x.comp)} · @${x.cuota.toFixed(2)} · EV ${x.ev>0?"+":""}${(x.ev*100).toFixed(1)}%</div>
     <div class="estado">${sello}${marcador}${dev}</div>
-    <div class="proced">${esc_(detalle)} ${enlace}</div>
+    <div class="proced">${esc_(detalle)}</div>
+    ${enlace ? `<div class="acc">${enlace}</div>` : ""}
     ${botones}</div>`;
 }
 
@@ -1441,14 +1989,15 @@ function cuando(iso){
    PANTALLA: MÉTODO
    ══════════════════════════════════════════════════════════════════ */
 function viewMetodo(){
-  return `<header class="masthead"><div class="wordmark">Método</div>
+  return `<header class="masthead titulada">
+    <div class="tq">${troquel("MÉTODO","mt",150)}</div>
     <div class="kicker">Cómo pensamos cada partido</div></header>
   <div class="sec metodo" style="padding-top:20px">
 
     <h3>Qué hacemos</h3>
-    <p>Estimamos cuántos goles esperamos de cada equipo, y de ahí sale la probabilidad
-      de cada resultado posible. La estimación se ajusta con todos los partidos de la
-      temporada, pesando más los recientes.</p>
+    <p class="capitular">Estimamos cuántos goles esperamos de cada equipo, y de ahí sale la
+      probabilidad de cada resultado posible. La estimación se ajusta con todos los partidos
+      de la temporada, pesando más los recientes.</p>
 
     <h3>Por qué probabilidad y no "va a ganar X"</h3>
     <p>Un 74% no es una promesa: es que de cada 4 partidos así, 3 terminan de esa forma
@@ -1486,11 +2035,14 @@ function viewMetodo(){
 
     <h3>Cómo nos medimos</h3>
     <p>Contra la cuota de cierre real, que es el mejor predictor público que existe.
-      Sobre la Liga Profesional, con partidos que el modelo nunca vio:</p>
-    <p class="dato">no saber nada &nbsp;0,667<br>nosotros &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,645<br>cuota de cierre &nbsp;0,623</p>
+      Sobre la Liga Profesional, con <b>289 partidos</b> que el modelo nunca vio:</p>
+    <p class="dato">no saber nada &nbsp;0,667<br>nosotros &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,648<br>cuota de cierre &nbsp;0,625</p>
     <p>Traducido: el mercado sabe bastante más que no saber nada, y nosotros capturamos
-      cerca de la <b>mitad</b> de eso. Le seguimos perdiendo al cierre. Es la verdad y no
+      el <b>44%</b> de eso. Le seguimos perdiendo al cierre. Es la verdad y no
       la escondemos.</p>
+    <p>Estos tres números se vuelven a medir con <span class="dato">medir_vs_mercado.py</span>
+      y se actualizan acá cuando cambian. Si algún día ves un número redondo y viejo en esta
+      pantalla, es que dejamos de medir — y eso sería peor que perder contra el cierre.</p>
 
     <h3>Lo que esto no es</h3>
     <p>No es consejo financiero, no es una fuente de ingresos y no hay una jugada segura.
@@ -1506,9 +2058,10 @@ function viewMetodo(){
 function esqueleto(){
   const fila = `<div class="skel"><div class="b" style="width:38%"></div><div class="b t"></div>
     <div class="row"><div></div><div></div><div></div></div></div>`;
-  return `<header class="masthead"><div class="wordmark">VALOR</div>
-      <div class="kicker">Buscando la fecha</div></header>
-    <div class="lg">&nbsp;</div>${fila.repeat(3)}`;
+  return `<header class="masthead portada">${marcaV("s")}
+      <div class="nombre"><b>VALOR</b></div>
+      <div class="bajada">Buscando la fecha</div></header>
+    <div style="height:18px"></div>${fila.repeat(3)}`;
 }
 
 function render(){
@@ -1586,7 +2139,12 @@ document.addEventListener("click", e=>{
 document.addEventListener("change", e=>{
   const inp = e.target.closest("[data-cuota]");
   if(!inp) return;
-  const v = parseFloat((inp.value||"").replace(",","."));
+  /* Se redondea a dos decimales: ninguna casa paga 2.591907, y guardar
+     esa precisión hace que el input muestre un número imposible.
+     El evento es `change`, no `input`, así que dispara al salir del
+     campo — escribir "1.30" no muere en el primer "1". */
+  const n = parseFloat((inp.value||"").replace(",","."));
+  const v = isFinite(n) ? Math.round(n*100)/100 : NaN;
   if(v>1) CUOTAS[inp.dataset.cuota] = v; else delete CUOTAS[inp.dataset.cuota];
   guardar("cuotas", CUOTAS);
   render();

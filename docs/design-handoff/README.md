@@ -8,6 +8,19 @@
 > recurso para los títulos de sección (Registro, Método), no el
 > wordmark de portada. El resto de este documento (motor, resolución
 > automática, tokens, pantallas) sigue vigente y verificado.
+>
+> **Corrección 2 (2026-08-18):** la sección "Files" más abajo lista el
+> contenido del zip original de Claude Design, no lo que efectivamente
+> vive en esta carpeta. De los cinco archivos, acá quedaron tres:
+> `VALOR.dc.html`, este `README.md`, y `Wordmark - tres direcciones.dc.html`
+> (se sumó después, porque `DESIGN.md` la cita como fuente). **Los otros
+> dos se dejaron afuera a propósito, no por error:**
+> `support.js` porque el propio README de abajo pide no llevarlo al
+> repo, y `Portada - direcciones.dc.html` (260 KB) porque es puro
+> registro histórico de direcciones descartadas — el mismo README dice
+> "no las implementes". `data/partidos.json` del bundle tampoco hace
+> falta: el repo ya tiene su propio `data/partidos.json`, más
+> actualizado.
 
 ## Overview
 

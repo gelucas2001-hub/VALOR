@@ -60,6 +60,30 @@ negro + celeste + insignias + "PRO AI" (cliché de SaaS de IA).
 | Terracota | `#C06848` | **Alerta**: cuidado, esto no rinde. Y nada más |
 | Salvia | `#6B7A5E` | Decorativo. Solo el filete bajo el masthead. Sin trabajo funcional |
 
+### Pregunta abierta, sin resolver — decidir antes de la fase visual
+
+**Registro usa mostaza para "ganada" y terracota para "perdida"**, además
+de sus trabajos ya definidos (valor / alerta). No es lo mismo: "valor" es
+una afirmación de *antes* del partido (acá el precio está a favor);
+"ganada" es un hecho de *después* (esta apuesta puntual pagó). Una
+apuesta con valor real puede perder — es el punto entero de jugar en
+probabilidad — y una sin valor puede ganar de pura suerte. Usar el mismo
+color para las dos cosas las hace parecer la misma afirmación cuando no
+lo son.
+
+**No se resolvió todavía porque el Registro no tiene su rediseño visual
+final** (se construyó la resolución automática sobre el chrome viejo, a
+propósito — funcionalidad antes que estética). Cuando llegue esa fase,
+elegí uno de estos dos caminos, con Lucas, no en silencio:
+
+1. Mostaza/terracota también para resultado, aceptando que "bueno" y
+   "malo" es la única lectura y ampliando la definición de la tabla de
+   arriba.
+2. Un tratamiento distinto para el resultado (por ejemplo, intensidad
+   tipográfica — el mismo recurso que ya usa Historial para
+   ganado/perdido) y mostaza/terracota se quedan exclusivas de valor y
+   alerta.
+
 ### Reglas duras
 
 - **Nunca un tercer color funcional.**

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EDE7DB;font-family:'Archivo',system-ui,sans-serif;color:#1a1a1a}
+a{color:#8a5a2a}a:hover{color:#5c3a15}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.1);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 'Archivo',system-ui,sans-serif;color:#1a1a1a}
+.dv-brief{max-width:760px;margin:0 0 26px;font:400 12.5px/1.7 'Archivo',system-ui,sans-serif;color:#4a4238}
+.dv-brief b{color:#1a1a1a}
+.dv-brief ul{margin:8px 0 0;padding-left:18px}
+.dv-brief li{margin-bottom:5px}
+.dv-grouphd{font:600 10px ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:#7a7065;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.dv-grouphd::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.13)}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-bottom:38px}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px;max-width:375px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:600 11.5px/1.35 'Archivo',system-ui,sans-serif;color:#2a251f}
+.dv-why{font:400 11px/1.55 'Archivo',system-ui,sans-serif;color:#6b6259;margin:0}
+.dv-why b{color:#2a251f;font-weight:600}
+.dv-card{max-width:100%;background:#1B1611;border:1px solid rgba(0,0,0,.18);box-shadow:0 2px 10px rgba(0,0,0,.14);overflow:hidden}
+.dv-opt:target .dv-oid{background:#8a5a2a;color:#fff}
+.dv-next{margin:22px 0 0;font:12px/1.6 'Archivo',system-ui,sans-serif;color:rgba(0,0,0,.5)}
+@keyframes selló{from{opacity:0;transform:scale(1.14) rotate(-2.5deg)}to{opacity:1;transform:scale(1) rotate(-2.5deg)}}
+@keyframes sube{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes entra{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></helmet>
+
+<section class="dv-turn" id="t12">
+<div class="dv-thd"><a class="dv-tid" href="#t12">12</a><span class="dv-tname">El troquelado, afinado — versión final</span></div>
+<div class="dv-brief">
+Cuatro arreglos sobre <a class="dv-oid" href="#9c">9c</a>, ninguno cosmético: la palabra ahora está <b>centrada de verdad</b> en el bloque y con el aire parejo arriba y abajo; la letra va <b>más apretada</b>, así el conjunto se lee como una pieza y no como una caja con texto adentro; el <b>filete salvia dejó de flotar</b> debajo y pasó a ser la base del bloque; y el <b>perforado del talón</b> está calado en los dos bordes, que es la firma que ya usan la portada y el detalle.
+</div>
+<div class="dv-opts">
+<div class="dv-opt" id="12a">
+<div class="dv-olabel"><a class="dv-oid" href="#12a">12a</a>En su cabecera, y las pruebas que importan</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+
+<svg viewBox="0 0 150 50" style="height:40px;width:auto;display:block" aria-label="VALOR">
+<defs><mask id="tq-h">
+<rect x="0" y="0" width="150" height="46" fill="#fff"></rect>
+<text x="75" y="36" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="41" letter-spacing="-2" fill="#000">VALOR</text>
+<circle cx="6" cy="12" r="1.7" fill="#000"></circle><circle cx="6" cy="23" r="1.7" fill="#000"></circle><circle cx="6" cy="34" r="1.7" fill="#000"></circle>
+<circle cx="144" cy="12" r="1.7" fill="#000"></circle><circle cx="144" cy="23" r="1.7" fill="#000"></circle><circle cx="144" cy="34" r="1.7" fill="#000"></circle>
+</mask></defs>
+<rect x="0" y="0" width="150" height="46" fill="#D8CDB4" mask="url(#tq-h)"></rect>
+<rect x="0" y="46" width="150" height="4" fill="#6B7A5E"></rect>
+</svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="padding:16px">
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:#5C513F;margin-bottom:8px">INVERTIDO SOBRE LA BARRA ENTINTADA</div>
+<div style="background:#D8CDB4;padding:10px 12px">
+<svg viewBox="0 0 150 50" style="height:26px;width:auto;display:block" aria-label="VALOR">
+<defs><mask id="tq-i">
+<rect x="0" y="0" width="150" height="46" fill="#fff"></rect>
+<text x="75" y="36" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="41" letter-spacing="-2" fill="#000">VALOR</text>
+<circle cx="6" cy="12" r="1.7" fill="#000"></circle><circle cx="6" cy="23" r="1.7" fill="#000"></circle><circle cx="6" cy="34" r="1.7" fill="#000"></circle>
+<circle cx="144" cy="12" r="1.7" fill="#000"></circle><circle cx="144" cy="23" r="1.7" fill="#000"></circle><circle cx="144" cy="34" r="1.7" fill="#000"></circle>
+</mask></defs>
+<rect x="0" y="0" width="150" height="46" fill="#171310" mask="url(#tq-i)"></rect>
+<rect x="0" y="46" width="150" height="4" fill="#6B7A5E"></rect>
+</svg></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:#5C513F;margin:16px 0 8px">ÍCONO DE APP · 44PX</div>
+<div style="display:flex;align-items:flex-end;gap:14px">
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center">
+<svg viewBox="0 0 44 46" style="height:36px;width:auto;display:block" aria-label="VALOR">
+<defs><mask id="ic-a">
+<rect x="0" y="0" width="44" height="46" fill="#fff"></rect>
+<text x="22" y="37" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="44" fill="#000">V</text>
+
+</mask></defs>
+<rect x="0" y="0" width="44" height="46" fill="#D8CDB4" mask="url(#ic-a)"></rect>
+<rect x="0" y="42" width="44" height="4" fill="#6B7A5E"></rect>
+</svg></div>
+<div style="flex:0 0 44px;height:44px;background:#D8CDB4;display:grid;place-items:center">
+<svg viewBox="0 0 44 46" style="height:36px;width:auto;display:block" aria-label="VALOR">
+<defs><mask id="ic-b">
+<rect x="0" y="0" width="44" height="46" fill="#fff"></rect>
+<text x="22" y="37" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="44" fill="#000">V</text>
+
+</mask></defs>
+<rect x="0" y="0" width="44" height="46" fill="#171310" mask="url(#ic-b)"></rect>
+<rect x="0" y="42" width="44" height="4" fill="#6B7A5E"></rect>
+</svg></div>
+<div style="flex:1;min-width:0">
+<div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:#5C513F;margin-bottom:6px">A 16PX</div>
+
+<svg viewBox="0 0 150 50" style="height:16px;width:auto;display:block" aria-label="VALOR">
+<defs><mask id="tq-m">
+<rect x="0" y="0" width="150" height="46" fill="#fff"></rect>
+<text x="75" y="36" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="41" letter-spacing="-2" fill="#000">VALOR</text>
+<circle cx="6" cy="12" r="1.7" fill="#000"></circle><circle cx="6" cy="23" r="1.7" fill="#000"></circle><circle cx="6" cy="34" r="1.7" fill="#000"></circle>
+<circle cx="144" cy="12" r="1.7" fill="#000"></circle><circle cx="144" cy="23" r="1.7" fill="#000"></circle><circle cx="144" cy="34" r="1.7" fill="#000"></circle>
+</mask></defs>
+<rect x="0" y="0" width="150" height="46" fill="#D8CDB4" mask="url(#tq-m)"></rect>
+<rect x="0" y="46" width="150" height="4" fill="#6B7A5E"></rect>
+</svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-why">La prueba dura es la última: a 16px el bloque sigue siendo un rectángulo de tinta con la palabra calada, no una mancha — porque lo que se reconoce primero es la forma del bloque, no las letras. Y como es SVG, en el ícono la V hereda el mismo troquel sin exportar nada aparte.</p>
+</div>
+</div>
+<p class="dv-next">Si te cierra, la llevo a la app: cabecera de la fecha, <b>REGISTRO</b> y <b>MÉTODO</b> con el mismo bloque.</p>
+</section>
+
+<section class="dv-turn" id="t11">
+<div class="dv-thd"><a class="dv-tid" href="#t11">11</a><span class="dv-tname">Letras macizas dibujadas — la ruta de imprenta, no la de pantalla</span></div>
+<div class="dv-brief">
+Las de <a class="dv-oid" href="#10a">10a</a>–<a class="dv-oid" href="#10c">10c</a> están dibujadas de verdad, pero salen a tablero de LED, y este producto es papel: programa de cancha, talón, tinta. Estas otras tres son el mismo ejercicio con letras <b>macizas</b>, cada trazo definido a mano sobre una grilla de 100 de alto — sin curvas, con la <b>O convertida en casillero</b>, que es exactamente el objeto del cupón.
+</div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="11a">
+<div class="dv-olabel"><a class="dv-oid" href="#11a">11a</a>Macizas — la base dibujada</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 338 100" style="height:30px;width:auto;display:block" aria-label="VALOR"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(278,0)"></path></svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:11px"><svg viewBox="0 0 338 100" style="height:22px;width:auto;display:block" aria-label="VALOR"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#171310" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="#171310" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="#171310" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="#171310" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="#171310" fill-rule="evenodd" transform="translate(278,0)"></path></svg></div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center"><svg viewBox="0 0 60 100" style="height:30px;width:auto;display:block" aria-label="VALOR"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#EEE3CE" fill-rule="evenodd"></path></svg></div>
+</div>
+</div>
+</div>
+<p class="dv-why">Cinco letras construidas con rectas y diagonales, condensadas y con remates planos. La O no es un óvalo: es el casillero rectangular del cupón, y eso ya la aleja de cualquier tipografía comprada.</p>
+</div>
+
+<div class="dv-opt" id="11b">
+<div class="dv-olabel"><a class="dv-oid" href="#11b">11b</a>Con el nivel de tinta</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 338 100" style="height:30px;width:auto;display:block" aria-label="VALOR">
+<defs>
+<clipPath id="ar-a"><rect x="0" y="0" width="338" height="38"></rect></clipPath>
+<clipPath id="ab-a"><rect x="0" y="38" width="338" height="62"></rect></clipPath>
+</defs>
+<g clip-path="url(#ar-a)"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#4A4030" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="#4A4030" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="#4A4030" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="#4A4030" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="#4A4030" fill-rule="evenodd" transform="translate(278,0)"></path></g>
+<g clip-path="url(#ab-a)"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(278,0)"></path></g></svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:11px"><svg viewBox="0 0 338 100" style="height:22px;width:auto;display:block" aria-label="VALOR">
+<defs>
+<clipPath id="ar-b"><rect x="0" y="0" width="338" height="38"></rect></clipPath>
+<clipPath id="ab-b"><rect x="0" y="38" width="338" height="62"></rect></clipPath>
+</defs>
+<g clip-path="url(#ar-b)"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="rgba(23,19,16,.26)" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="rgba(23,19,16,.26)" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="rgba(23,19,16,.26)" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="rgba(23,19,16,.26)" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="rgba(23,19,16,.26)" fill-rule="evenodd" transform="translate(278,0)"></path></g>
+<g clip-path="url(#ab-b)"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#171310" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="#171310" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="#171310" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="#171310" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="#171310" fill-rule="evenodd" transform="translate(278,0)"></path></g></svg></div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center"><svg viewBox="0 0 60 100" style="height:30px;width:auto;display:block" aria-label="VALOR"><defs><clipPath id="v-ar"><rect x="0" y="0" width="60" height="38"></rect></clipPath><clipPath id="v-ab"><rect x="0" y="38" width="60" height="62"></rect></clipPath></defs><g clip-path="url(#v-ar)"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#4A4030" fill-rule="evenodd"></path></g><g clip-path="url(#v-ab)"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#EEE3CE" fill-rule="evenodd"></path></g></svg></div>
+</div>
+</div>
+</div>
+<p class="dv-why">Las mismas letras llenas de tinta hasta una altura. Es el elemento firma del producto —la probabilidad dibujada como nivel— metido en el logotipo, y funciona igual en hueso sobre negro que al revés.</p>
+</div>
+
+<div class="dv-opt" id="11c">
+<div class="dv-olabel"><a class="dv-oid" href="#11c">11c</a>Con el puente de esténcil</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 338 100" style="height:30px;width:auto;display:block" aria-label="VALOR"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="#EEE3CE" fill-rule="evenodd" transform="translate(278,0)"></path><rect x="-4" y="46" width="346" height="7" fill="#171310"></rect></svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:11px"><svg viewBox="0 0 338 100" style="height:22px;width:auto;display:block" aria-label="VALOR"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#171310" fill-rule="evenodd" transform="translate(0,0)"></path><path d="M21,0 H39 L60,100 H41 L37,82 H23 L19,100 H0 Z M26,64 H34 L30,42 Z" fill="#171310" fill-rule="evenodd" transform="translate(71,0)"></path><path d="M0,0 H19 V82 H54 V100 H0 Z" fill="#171310" fill-rule="evenodd" transform="translate(142,0)"></path><path d="M0,0 H60 V100 H0 Z M19,18 H41 V82 H19 Z" fill="#171310" fill-rule="evenodd" transform="translate(207,0)"></path><path d="M0,0 H60 V54 H41 L60,100 H40 L21,56 V100 H0 Z M19,18 H41 V36 H19 Z" fill="#171310" fill-rule="evenodd" transform="translate(278,0)"></path><rect x="-4" y="46" width="346" height="7" fill="#D8CDB4"></rect></svg></div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center"><svg viewBox="0 0 60 100" style="height:30px;width:auto;display:block" aria-label="VALOR"><path d="M0,0 H19 L30,64 L41,0 H60 L39,100 H21 Z" fill="#EEE3CE" fill-rule="evenodd"></path><rect x="-4" y="46" width="68" height="7" fill="#171310"></rect></svg></div>
+</div>
+</div>
+</div>
+<p class="dv-why">Un corte horizontal atraviesa las cinco letras, como el puente que deja una plantilla de esténcil o el hilo que separa secciones. Es el que mejor se lleva con el troquelado del talón.</p>
+</div>
+</div>
+<p class="dv-next">Entre <a class="dv-oid" href="#10b">10b</a> (grilla) y estas tres hay dos mundos distintos: pantalla o imprenta. Decime cuál te suena a VALOR y afino esa — proporciones, versión de una línea, cómo se comporta a 16px.</p>
+</section>
+
+<section class="dv-turn" id="t10">
+<div class="dv-thd"><a class="dv-tid" href="#t10">10</a><span class="dv-tname">Wordmark dibujado: las letras construidas, no tipeadas</span></div>
+<div class="dv-brief">
+Tenías razón con <a class="dv-oid" href="#9a">9a</a>–<a class="dv-oid" href="#9c">9c</a>: eso era Anton con el kerning tocado. Estas tres no usan ninguna tipografía — las cinco letras están <b>dibujadas celda por celda</b> sobre una grilla de 5×7, como un marcador de cancha. El módulo es el mismo en las tres; lo que cambia es qué hace la app con él.
+</div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="10a">
+<div class="dv-olabel"><a class="dv-oid" href="#10a">10a</a>Marcador — la grilla pelada</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 388 96" style="height:34px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="28" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="94" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="108" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="122" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="94" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="108" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="122" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="174" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="188" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="202" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="216" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="254" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="268" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="282" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="240" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="240" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="240" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="240" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="240" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="254" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="268" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="282" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="334" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="348" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="362" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="376" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="376" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="334" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="348" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="362" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="348" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="362" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="376" y="84" width="12" height="12" fill="#EEE3CE"></rect></svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:11px"><svg viewBox="0 0 388 96" style="height:24px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#171310"></rect><rect x="56" y="0" width="12" height="12" fill="#171310"></rect><rect x="0" y="14" width="12" height="12" fill="#171310"></rect><rect x="56" y="14" width="12" height="12" fill="#171310"></rect><rect x="0" y="28" width="12" height="12" fill="#171310"></rect><rect x="56" y="28" width="12" height="12" fill="#171310"></rect><rect x="0" y="42" width="12" height="12" fill="#171310"></rect><rect x="56" y="42" width="12" height="12" fill="#171310"></rect><rect x="14" y="56" width="12" height="12" fill="#171310"></rect><rect x="42" y="56" width="12" height="12" fill="#171310"></rect><rect x="14" y="70" width="12" height="12" fill="#171310"></rect><rect x="42" y="70" width="12" height="12" fill="#171310"></rect><rect x="28" y="84" width="12" height="12" fill="#171310"></rect><rect x="94" y="0" width="12" height="12" fill="#171310"></rect><rect x="108" y="0" width="12" height="12" fill="#171310"></rect><rect x="122" y="0" width="12" height="12" fill="#171310"></rect><rect x="80" y="14" width="12" height="12" fill="#171310"></rect><rect x="136" y="14" width="12" height="12" fill="#171310"></rect><rect x="80" y="28" width="12" height="12" fill="#171310"></rect><rect x="136" y="28" width="12" height="12" fill="#171310"></rect><rect x="80" y="42" width="12" height="12" fill="#171310"></rect><rect x="94" y="42" width="12" height="12" fill="#171310"></rect><rect x="108" y="42" width="12" height="12" fill="#171310"></rect><rect x="122" y="42" width="12" height="12" fill="#171310"></rect><rect x="136" y="42" width="12" height="12" fill="#171310"></rect><rect x="80" y="56" width="12" height="12" fill="#171310"></rect><rect x="136" y="56" width="12" height="12" fill="#171310"></rect><rect x="80" y="70" width="12" height="12" fill="#171310"></rect><rect x="136" y="70" width="12" height="12" fill="#171310"></rect><rect x="80" y="84" width="12" height="12" fill="#171310"></rect><rect x="136" y="84" width="12" height="12" fill="#171310"></rect><rect x="160" y="0" width="12" height="12" fill="#171310"></rect><rect x="160" y="14" width="12" height="12" fill="#171310"></rect><rect x="160" y="28" width="12" height="12" fill="#171310"></rect><rect x="160" y="42" width="12" height="12" fill="#171310"></rect><rect x="160" y="56" width="12" height="12" fill="#171310"></rect><rect x="160" y="70" width="12" height="12" fill="#171310"></rect><rect x="160" y="84" width="12" height="12" fill="#171310"></rect><rect x="174" y="84" width="12" height="12" fill="#171310"></rect><rect x="188" y="84" width="12" height="12" fill="#171310"></rect><rect x="202" y="84" width="12" height="12" fill="#171310"></rect><rect x="216" y="84" width="12" height="12" fill="#171310"></rect><rect x="254" y="0" width="12" height="12" fill="#171310"></rect><rect x="268" y="0" width="12" height="12" fill="#171310"></rect><rect x="282" y="0" width="12" height="12" fill="#171310"></rect><rect x="240" y="14" width="12" height="12" fill="#171310"></rect><rect x="296" y="14" width="12" height="12" fill="#171310"></rect><rect x="240" y="28" width="12" height="12" fill="#171310"></rect><rect x="296" y="28" width="12" height="12" fill="#171310"></rect><rect x="240" y="42" width="12" height="12" fill="#171310"></rect><rect x="296" y="42" width="12" height="12" fill="#171310"></rect><rect x="240" y="56" width="12" height="12" fill="#171310"></rect><rect x="296" y="56" width="12" height="12" fill="#171310"></rect><rect x="240" y="70" width="12" height="12" fill="#171310"></rect><rect x="296" y="70" width="12" height="12" fill="#171310"></rect><rect x="254" y="84" width="12" height="12" fill="#171310"></rect><rect x="268" y="84" width="12" height="12" fill="#171310"></rect><rect x="282" y="84" width="12" height="12" fill="#171310"></rect><rect x="320" y="0" width="12" height="12" fill="#171310"></rect><rect x="334" y="0" width="12" height="12" fill="#171310"></rect><rect x="348" y="0" width="12" height="12" fill="#171310"></rect><rect x="362" y="0" width="12" height="12" fill="#171310"></rect><rect x="320" y="14" width="12" height="12" fill="#171310"></rect><rect x="376" y="14" width="12" height="12" fill="#171310"></rect><rect x="320" y="28" width="12" height="12" fill="#171310"></rect><rect x="376" y="28" width="12" height="12" fill="#171310"></rect><rect x="320" y="42" width="12" height="12" fill="#171310"></rect><rect x="334" y="42" width="12" height="12" fill="#171310"></rect><rect x="348" y="42" width="12" height="12" fill="#171310"></rect><rect x="362" y="42" width="12" height="12" fill="#171310"></rect><rect x="320" y="56" width="12" height="12" fill="#171310"></rect><rect x="348" y="56" width="12" height="12" fill="#171310"></rect><rect x="320" y="70" width="12" height="12" fill="#171310"></rect><rect x="362" y="70" width="12" height="12" fill="#171310"></rect><rect x="320" y="84" width="12" height="12" fill="#171310"></rect><rect x="376" y="84" width="12" height="12" fill="#171310"></rect></svg></div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center"><svg viewBox="0 0 68 96" style="height:30px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="28" y="84" width="12" height="12" fill="#EEE3CE"></rect></svg></div>
+</div>
+</div>
+</div>
+<p class="dv-why">Las letras salen de la misma grilla con la que se arman los tableros de cancha: celdas cuadradas, aire parejo, cero curvas. No hay tipografía adentro, y por eso no se parece a ninguna app.</p>
+</div>
+
+<div class="dv-opt" id="10b">
+<div class="dv-olabel"><a class="dv-oid" href="#10b">10b</a>Nivel de tinta — el cupón dentro del logo</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 388 96" style="height:34px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="56" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="0" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="56" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="0" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="56" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="0" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="28" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="94" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="108" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="122" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="80" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="136" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="80" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="136" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="80" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="94" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="108" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="122" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="80" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="136" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="160" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="160" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="160" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="160" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="174" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="188" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="202" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="216" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="254" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="268" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="282" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="240" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="296" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="240" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="296" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="240" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="240" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="240" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="296" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="254" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="268" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="282" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="334" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="348" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="362" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="320" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="376" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="320" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="376" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="320" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="334" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="348" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="362" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="348" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="362" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="320" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="376" y="84" width="12" height="12" fill="#EEE3CE"></rect></svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:11px"><svg viewBox="0 0 388 96" style="height:24px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="56" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="0" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="56" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="0" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="56" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="0" y="42" width="12" height="12" fill="#171310"></rect><rect x="56" y="42" width="12" height="12" fill="#171310"></rect><rect x="14" y="56" width="12" height="12" fill="#171310"></rect><rect x="42" y="56" width="12" height="12" fill="#171310"></rect><rect x="14" y="70" width="12" height="12" fill="#171310"></rect><rect x="42" y="70" width="12" height="12" fill="#171310"></rect><rect x="28" y="84" width="12" height="12" fill="#171310"></rect><rect x="94" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="108" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="122" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="80" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="136" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="80" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="136" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="80" y="42" width="12" height="12" fill="#171310"></rect><rect x="94" y="42" width="12" height="12" fill="#171310"></rect><rect x="108" y="42" width="12" height="12" fill="#171310"></rect><rect x="122" y="42" width="12" height="12" fill="#171310"></rect><rect x="136" y="42" width="12" height="12" fill="#171310"></rect><rect x="80" y="56" width="12" height="12" fill="#171310"></rect><rect x="136" y="56" width="12" height="12" fill="#171310"></rect><rect x="80" y="70" width="12" height="12" fill="#171310"></rect><rect x="136" y="70" width="12" height="12" fill="#171310"></rect><rect x="80" y="84" width="12" height="12" fill="#171310"></rect><rect x="136" y="84" width="12" height="12" fill="#171310"></rect><rect x="160" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="160" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="160" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="160" y="42" width="12" height="12" fill="#171310"></rect><rect x="160" y="56" width="12" height="12" fill="#171310"></rect><rect x="160" y="70" width="12" height="12" fill="#171310"></rect><rect x="160" y="84" width="12" height="12" fill="#171310"></rect><rect x="174" y="84" width="12" height="12" fill="#171310"></rect><rect x="188" y="84" width="12" height="12" fill="#171310"></rect><rect x="202" y="84" width="12" height="12" fill="#171310"></rect><rect x="216" y="84" width="12" height="12" fill="#171310"></rect><rect x="254" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="268" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="282" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="240" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="296" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="240" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="296" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="240" y="42" width="12" height="12" fill="#171310"></rect><rect x="296" y="42" width="12" height="12" fill="#171310"></rect><rect x="240" y="56" width="12" height="12" fill="#171310"></rect><rect x="296" y="56" width="12" height="12" fill="#171310"></rect><rect x="240" y="70" width="12" height="12" fill="#171310"></rect><rect x="296" y="70" width="12" height="12" fill="#171310"></rect><rect x="254" y="84" width="12" height="12" fill="#171310"></rect><rect x="268" y="84" width="12" height="12" fill="#171310"></rect><rect x="282" y="84" width="12" height="12" fill="#171310"></rect><rect x="320" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="334" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="348" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="362" y="0" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="320" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="376" y="14" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="320" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="376" y="28" width="12" height="12" fill="rgba(23,19,16,.28)"></rect><rect x="320" y="42" width="12" height="12" fill="#171310"></rect><rect x="334" y="42" width="12" height="12" fill="#171310"></rect><rect x="348" y="42" width="12" height="12" fill="#171310"></rect><rect x="362" y="42" width="12" height="12" fill="#171310"></rect><rect x="320" y="56" width="12" height="12" fill="#171310"></rect><rect x="348" y="56" width="12" height="12" fill="#171310"></rect><rect x="320" y="70" width="12" height="12" fill="#171310"></rect><rect x="362" y="70" width="12" height="12" fill="#171310"></rect><rect x="320" y="84" width="12" height="12" fill="#171310"></rect><rect x="376" y="84" width="12" height="12" fill="#171310"></rect></svg></div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center"><svg viewBox="0 0 68 96" style="height:30px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="56" y="0" width="12" height="12" fill="#4A4030"></rect><rect x="0" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="56" y="14" width="12" height="12" fill="#4A4030"></rect><rect x="0" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="56" y="28" width="12" height="12" fill="#4A4030"></rect><rect x="0" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="28" y="84" width="12" height="12" fill="#EEE3CE"></rect></svg></div>
+</div>
+</div>
+</div>
+<p class="dv-why">La misma grilla, con las celdas llenas hasta cierta altura: es el cupón de la portada metido en el logotipo. El logo dice lo que hace el producto — hasta acá llega la tinta, esto es lo que le damos.</p>
+</div>
+
+<div class="dv-opt" id="10c">
+<div class="dv-olabel"><a class="dv-oid" href="#10c">10c</a>Troquel — la inicial maciza, el resto calado</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 388 96" style="height:34px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="28" y="84" width="12" height="12" fill="#EEE3CE"></rect><rect x="95" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="109" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="123" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="81" y="15" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="137" y="15" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="81" y="29" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="137" y="29" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="81" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="95" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="109" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="123" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="137" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="81" y="57" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="137" y="57" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="81" y="71" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="137" y="71" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="81" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="137" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="161" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="161" y="15" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="161" y="29" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="161" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="161" y="57" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="161" y="71" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="161" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="175" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="189" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="203" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="217" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="255" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="269" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="283" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="241" y="15" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="297" y="15" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="241" y="29" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="297" y="29" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="241" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="297" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="241" y="57" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="297" y="57" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="241" y="71" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="297" y="71" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="255" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="269" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="283" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="321" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="335" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="349" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="363" y="1" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="321" y="15" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="377" y="15" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="321" y="29" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="377" y="29" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="321" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="335" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="349" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="363" y="43" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="321" y="57" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="349" y="57" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="321" y="71" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="363" y="71" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="321" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect><rect x="377" y="85" width="10" height="10" fill="none" stroke="#EEE3CE" stroke-width="2"></rect></svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:11px"><svg viewBox="0 0 388 96" style="height:24px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#171310"></rect><rect x="56" y="0" width="12" height="12" fill="#171310"></rect><rect x="0" y="14" width="12" height="12" fill="#171310"></rect><rect x="56" y="14" width="12" height="12" fill="#171310"></rect><rect x="0" y="28" width="12" height="12" fill="#171310"></rect><rect x="56" y="28" width="12" height="12" fill="#171310"></rect><rect x="0" y="42" width="12" height="12" fill="#171310"></rect><rect x="56" y="42" width="12" height="12" fill="#171310"></rect><rect x="14" y="56" width="12" height="12" fill="#171310"></rect><rect x="42" y="56" width="12" height="12" fill="#171310"></rect><rect x="14" y="70" width="12" height="12" fill="#171310"></rect><rect x="42" y="70" width="12" height="12" fill="#171310"></rect><rect x="28" y="84" width="12" height="12" fill="#171310"></rect><rect x="95" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="109" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="123" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="81" y="15" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="137" y="15" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="81" y="29" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="137" y="29" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="81" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="95" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="109" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="123" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="137" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="81" y="57" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="137" y="57" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="81" y="71" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="137" y="71" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="81" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="137" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="161" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="161" y="15" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="161" y="29" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="161" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="161" y="57" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="161" y="71" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="161" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="175" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="189" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="203" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="217" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="255" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="269" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="283" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="241" y="15" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="297" y="15" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="241" y="29" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="297" y="29" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="241" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="297" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="241" y="57" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="297" y="57" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="241" y="71" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="297" y="71" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="255" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="269" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="283" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="321" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="335" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="349" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="363" y="1" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="321" y="15" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="377" y="15" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="321" y="29" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="377" y="29" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="321" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="335" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="349" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="363" y="43" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="321" y="57" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="349" y="57" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="321" y="71" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="363" y="71" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="321" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect><rect x="377" y="85" width="10" height="10" fill="none" stroke="#171310" stroke-width="2"></rect></svg></div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center"><svg viewBox="0 0 68 96" style="height:30px;width:auto;display:block" aria-label="VALOR"><rect x="0" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="0" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="14" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="28" width="12" height="12" fill="#EEE3CE"></rect><rect x="0" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="56" y="42" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="56" width="12" height="12" fill="#EEE3CE"></rect><rect x="14" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="42" y="70" width="12" height="12" fill="#EEE3CE"></rect><rect x="28" y="84" width="12" height="12" fill="#EEE3CE"></rect></svg></div>
+</div>
+</div>
+</div>
+<p class="dv-why">La V va llena y las otras cuatro letras quedan como celdas vacías, al modo del talón perforado. Da una jerarquía natural: la inicial es la marca y el resto la acompaña.</p>
+</div>
+</div>
+<p class="dv-next">Si alguna va por buen camino decímelo y la trabajo en serio (proporciones, versión chica, la variante de una línea). Si ninguna, la otra ruta honesta es que un diseñador dibuje el logo y yo lo integre.</p>
+</section>
+
+<section class="dv-turn" id="t9">
+<div class="dv-thd"><a class="dv-tid" href="#t9">9</a><span class="dv-tname">Wordmark: tres formas de que VALOR deje de ser «una fuente en mayúscula»</span></div>
+<div class="dv-brief">
+Las tres en <b>SVG</b>, no PNG: heredan el color (por eso cada una se muestra también invertida sobre la barra entintada), quedan nítidas a cualquier tamaño y se editan después. Cada opción va en su cabecera real, con dos pruebas debajo — <b>invertida</b> y como <b>ícono de app a 44px</b>, que es donde un wordmark se cae si está mal resuelto.
+</div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="9a">
+<div class="dv-olabel"><a class="dv-oid" href="#9a">9a</a>La V como marca</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 122 42" style="height:38px;width:auto;display:block;color:#EEE3CE" aria-label="VALOR">
+<text x="0" y="40" font-family="Anton, Impact, sans-serif" font-size="50" fill="currentColor">V</text>
+<text x="26" y="40" font-family="Anton, Impact, sans-serif" font-size="33" letter-spacing="-1.2" fill="currentColor">ALOR</text>
+<rect x="26" y="7" width="94" height="2.5" fill="#6B7A5E"></rect>
+</svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:9px 11px">
+<svg viewBox="0 0 122 42" style="height:26px;width:auto;display:block;color:#171310">
+<text x="0" y="40" font-family="Anton, Impact, sans-serif" font-size="50" fill="currentColor">V</text>
+<text x="26" y="40" font-family="Anton, Impact, sans-serif" font-size="33" letter-spacing="-1.2" fill="currentColor">ALOR</text>
+<rect x="26" y="7" width="94" height="2.5" fill="#6B7A5E"></rect>
+</svg>
+</div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center">
+<svg viewBox="0 0 29 42" style="height:32px;width:auto;color:#EEE3CE">
+<text x="0" y="40" font-family="Anton, Impact, sans-serif" font-size="50" fill="currentColor">V</text>
+<rect x="0" y="7" width="27" height="2.5" fill="#6B7A5E"></rect>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-why">La V crece por encima del resto y el filete salvia arranca donde ella termina: la palabra queda apoyada sobre su propia inicial. Sirve sola como ícono, que es lo que ninguna de las otras dos hace tan limpio.</p>
+</div>
+
+<div class="dv-opt" id="9b">
+<div class="dv-olabel"><a class="dv-oid" href="#9b">9b</a>Wordmark de diario — el filete cruza la palabra</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 134 42" style="height:36px;width:auto;display:block;color:#EEE3CE" aria-label="VALOR">
+<text x="0" y="39" font-family="Anton, Impact, sans-serif" font-size="46" letter-spacing="-3" fill="currentColor">VALOR</text>
+<rect x="0" y="21" width="120" height="2.5" fill="#171310"></rect>
+<rect x="0" y="23.5" width="120" height="1.2" fill="#6B7A5E"></rect>
+</svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:9px 11px">
+<svg viewBox="0 0 134 42" style="height:25px;width:auto;display:block;color:#171310">
+<text x="0" y="39" font-family="Anton, Impact, sans-serif" font-size="46" letter-spacing="-3" fill="currentColor">VALOR</text>
+<rect x="0" y="21" width="120" height="2.5" fill="#D8CDB4"></rect>
+<rect x="0" y="23.5" width="120" height="1.2" fill="#6B7A5E"></rect>
+</svg>
+</div>
+<div style="flex:0 0 44px;height:44px;background:#171310;display:grid;place-items:center;overflow:hidden">
+<svg viewBox="0 0 27 42" style="height:32px;width:auto;color:#EEE3CE">
+<text x="0" y="39" font-family="Anton, Impact, sans-serif" font-size="46" fill="currentColor">V</text>
+<rect x="0" y="21" width="27" height="2.5" fill="#171310"></rect>
+<rect x="0" y="23.5" width="27" height="1.2" fill="#6B7A5E"></rect>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-why">Letras casi tocándose y un filete que las corta a media altura, como el hilo que separa secciones en el programa. Es la más «publicación» de las tres — y la que peor se recorta a ícono, porque el corte necesita ancho para leerse.</p>
+</div>
+
+<div class="dv-opt" id="9c">
+<div class="dv-olabel"><a class="dv-oid" href="#9c">9c</a>Troquelado — la palabra recortada del hueso</div>
+<div class="dv-card" style="width:375px">
+<div style="background-color:#1B1611;background-image:radial-gradient(rgba(238,227,206,.05) .5px,transparent .6px),radial-gradient(rgba(238,227,206,.035) .5px,transparent .6px);background-size:4px 4px,7px 7px">
+<header style="background:#171310;padding:18px 16px 14px;position:relative;display:flex;align-items:flex-end;gap:12px">
+<svg viewBox="0 0 146 44" style="height:40px;width:auto;display:block" aria-label="VALOR">
+<defs><mask id="troquel-a"><rect x="0" y="0" width="146" height="44" fill="#fff"></rect>
+<text x="9" y="37" font-family="Anton, Impact, sans-serif" font-size="42" letter-spacing="-1" fill="#000">VALOR</text></mask></defs>
+<rect x="0" y="0" width="146" height="44" fill="#D8CDB4" mask="url(#troquel-a)"></rect>
+<rect x="0" y="41" width="146" height="3" fill="#6B7A5E"></rect>
+</svg>
+<div style="flex:1;text-align:right;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#8C7F68;line-height:1.6">LUN 17 DE AGO · 4 PARTIDOS<br><span style="color:#5C513F">PROGRAMA DEL DÍA</span></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#6B7A5E"></div>
+</header>
+<div style="display:flex;align-items:center;gap:12px;padding:16px">
+<div style="flex:1;background:#D8CDB4;padding:9px 11px">
+<svg viewBox="0 0 146 44" style="height:27px;width:auto;display:block">
+<defs><mask id="troquel-b"><rect x="0" y="0" width="146" height="44" fill="#fff"></rect>
+<text x="9" y="37" font-family="Anton, Impact, sans-serif" font-size="42" letter-spacing="-1" fill="#000">VALOR</text></mask></defs>
+<rect x="0" y="0" width="146" height="44" fill="#171310" mask="url(#troquel-b)"></rect>
+</svg>
+</div>
+<div style="flex:0 0 44px;height:44px;background:#D8CDB4;display:grid;place-items:center">
+<svg viewBox="0 0 34 44" style="height:34px;width:auto">
+<defs><mask id="troquel-c"><rect x="0" y="0" width="34" height="44" fill="#fff"></rect>
+<text x="2" y="37" font-family="Anton, Impact, sans-serif" font-size="42" fill="#000">V</text></mask></defs>
+<rect x="0" y="0" width="34" height="44" fill="#171310" mask="url(#troquel-c)"></rect>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-why">La palabra no está impresa: está calada en un bloque de tinta hueso, el mismo material de los separadores. Es la más fuerte de lejos y la que mejor dialoga con la barra entintada — pero se come más aire en la cabecera que las otras dos.</p>
+</div>
+
+</div>
+<p class="dv-next">Elegí una y la llevo a la app (cabecera, Registro y Método), o pedime una cuarta si ninguna. Si preferís que un diseñador lo dibuje, subí el archivo y lo uso en vez de estas.</p>
+</section>
+
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:700}}">
+class Component extends DCLogic {
+  renderVals(){ return {}; }
+}
+</script>
+</body>
+</html>

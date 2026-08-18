@@ -1708,7 +1708,9 @@ function tabHistorial(m){
       <div class="fhd">${crest(logo, 20)}<b>${esc_(nombre)}</b>
         ${tiraForma(forma, "gr")}</div>
       <div class="racha">${g}G ${e}E ${p}P · ${hechos} hechos, ${recib} recibidos en los últimos ${forma.length}</div>
-      <div class="flist">${forma.map(f=>`
+      <!-- Del más viejo al de hoy, igual que la tirita de arriba y que el
+           título de la banda. El array viene del más nuevo al más viejo. -->
+      <div class="flist">${forma.slice().reverse().map(f=>`
         <div class="frow">
           <span class="r ${f.r}">${f.r==="W"?"G":f.r==="D"?"E":"P"}</span>
           ${crest(logoDe(f.rival), 15)}

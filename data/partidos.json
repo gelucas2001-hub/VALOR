@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-18T14:06",
- "requests": 324,
+ "actualizado": "2026-08-18T15:01",
+ "requests": 318,
  "partidos": [
   {
    "id": "espn401896916",
@@ -54,17 +54,19 @@
    "h2h": [],
    "tabla": [],
    "grupo": "",
+   "estadio": "Norberto Tomaghello",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.45,
+    "local": 3.4,
     "empate": 2.6,
-    "visitante": 2.6,
+    "visitante": 2.65,
     "totalLinea": 1.5,
     "totalOver": 1.74,
-    "totalUnder": 2.05,
+    "totalUnder": 2.0,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.48,
-    "hcapVisitante": 2.45
+    "hcapLocal": 1.47,
+    "hcapVisitante": 2.5
    },
    "preload": {}
   },
@@ -220,17 +222,19 @@
     }
    ],
    "grupo": "Group C",
+   "estadio": "Malvinas Argentinas (Mendoza)",
+   "ciudad": "Mendoza",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.6,
-    "empate": 2.75,
-    "visitante": 3.15,
+    "empate": 2.85,
+    "visitante": 3.1,
     "totalLinea": 1.5,
-    "totalOver": 1.62,
-    "totalUnder": 2.2,
+    "totalOver": 1.56,
+    "totalUnder": 2.35,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.5,
-    "hcapVisitante": 1.48
+    "hcapLocal": 2.45,
+    "hcapVisitante": 1.49
    },
    "preload": {}
   },
@@ -362,17 +366,19 @@
     }
    ],
    "grupo": "Group D",
+   "estadio": "Defensores del Chaco",
+   "ciudad": "Asunción",
    "mercado": {
     "prov": "DraftKings",
     "local": 6.0,
-    "empate": 4.1,
-    "visitante": 1.56,
+    "empate": 4.3,
+    "visitante": 1.53,
     "totalLinea": 2.5,
-    "totalOver": 1.95,
-    "totalUnder": 1.8,
+    "totalOver": 1.8,
+    "totalUnder": 1.95,
     "hcapLinea": 0.5,
-    "hcapLocal": 2.4,
-    "hcapVisitante": 1.51
+    "hcapLocal": 2.45,
+    "hcapVisitante": 1.49
    },
    "preload": {}
   },
@@ -428,17 +434,19 @@
    "h2h": [],
    "tabla": [],
    "grupo": "",
+   "estadio": "Estadio Nuevo Francisco Urbano",
+   "ciudad": "Morón",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.87,
-    "empate": 3.45,
-    "visitante": 4.3,
+    "local": 1.91,
+    "empate": 3.4,
+    "visitante": 4.1,
     "totalLinea": 2.5,
-    "totalOver": 2.35,
-    "totalUnder": 1.56,
+    "totalOver": 2.3,
+    "totalUnder": 1.57,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.8,
-    "hcapVisitante": 1.91
+    "hcapLocal": 1.87,
+    "hcapVisitante": 1.83
    },
    "preload": {}
   },
@@ -575,6 +583,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Estadio Manuel Murillo Toro",
+   "ciudad": "Ibague",
    "mercado": {
     "prov": "DraftKings",
     "local": 3.1,
@@ -582,7 +592,7 @@
     "visitante": 2.45,
     "totalLinea": 2.5,
     "totalOver": 2.4,
-    "totalUnder": 1.54,
+    "totalUnder": 1.53,
     "hcapLinea": 0.5,
     "hcapLocal": 1.54,
     "hcapVisitante": 2.35
@@ -729,16 +739,18 @@
     }
    ],
    "grupo": "Group D",
+   "estadio": "Estadio San Carlos de Apoquindo",
+   "ciudad": "Santiago",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.15,
-    "empate": 3.0,
-    "visitante": 2.45,
+    "local": 3.25,
+    "empate": 2.95,
+    "visitante": 2.4,
     "totalLinea": 1.5,
-    "totalOver": 1.51,
-    "totalUnder": 2.45,
+    "totalOver": 1.53,
+    "totalUnder": 2.4,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.54,
+    "hcapLocal": 1.56,
     "hcapVisitante": 2.3
    },
    "preload": {}
@@ -871,17 +883,19 @@
     }
    ],
    "grupo": "Group C",
+   "estadio": "Estádio Cícero Pompeu de Toledo",
+   "ciudad": "Sao Paulo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.4,
-    "empate": 4.7,
+    "local": 1.43,
+    "empate": 4.6,
     "visitante": 7.5,
     "totalLinea": 2.5,
     "totalOver": 1.77,
-    "totalUnder": 2.0,
+    "totalUnder": 1.95,
     "hcapLinea": -1.5,
-    "hcapLocal": 2.1,
-    "hcapVisitante": 1.65
+    "hcapLocal": 2.15,
+    "hcapVisitante": 1.61
    },
    "preload": {}
   },
@@ -1049,6 +1063,8 @@
     }
    ],
    "grupo": "Group F",
+   "estadio": "Estadio ueno La Nueva Olla",
+   "ciudad": "Asunción",
    "mercado": {
     "prov": "DraftKings",
     "local": 5.0,
@@ -1203,6 +1219,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Estadio Francisco Sánchez Rumoroso",
+   "ciudad": "Coquimbo",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.2,
@@ -1357,6 +1375,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Arena MRV",
+   "ciudad": "Belo Horizonte",
    "mercado": null,
    "preload": {}
   },
@@ -1412,17 +1432,19 @@
    "h2h": [],
    "tabla": [],
    "grupo": "",
+   "estadio": "Estadio Único de Villa Mercedes",
+   "ciudad": "San Luis",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.85,
-    "empate": 2.8,
-    "visitante": 2.6,
+    "local": 2.95,
+    "empate": 2.75,
+    "visitante": 2.65,
     "totalLinea": 1.5,
-    "totalOver": 1.53,
-    "totalUnder": 2.3,
+    "totalOver": 1.59,
+    "totalUnder": 2.2,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.45,
-    "hcapVisitante": 2.45
+    "hcapLocal": 1.43,
+    "hcapVisitante": 2.5
    },
    "preload": {}
   },
@@ -1566,16 +1588,18 @@
     }
    ],
    "grupo": "Group A",
+   "estadio": "Estadio do Maracana",
+   "ciudad": "Rio de Janeiro",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.65,
+    "local": 1.67,
     "empate": 3.55,
     "visitante": 5.5,
     "totalLinea": 2.5,
     "totalOver": 1.91,
     "totalUnder": 1.77,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.59,
+    "hcapLocal": 1.61,
     "hcapVisitante": 2.15
    },
    "preload": {}
@@ -1695,17 +1719,19 @@
     }
    ],
    "grupo": "Group H",
+   "estadio": "Estadio Nemesio Camacho El Campín",
+   "ciudad": "Bogota",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.4,
+    "local": 3.35,
     "empate": 3.0,
-    "visitante": 2.2,
+    "visitante": 2.25,
     "totalLinea": 2.5,
-    "totalOver": 2.35,
-    "totalUnder": 1.51,
+    "totalOver": 2.4,
+    "totalUnder": 1.5,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.61,
-    "hcapVisitante": 2.1
+    "hcapLocal": 1.59,
+    "hcapVisitante": 2.15
    },
    "preload": {}
   },
@@ -1849,17 +1875,19 @@
     }
    ],
    "grupo": "Group F",
+   "estadio": "Estadio Centenario",
+   "ciudad": "Montevideo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.65,
+    "local": 2.75,
     "empate": 3.1,
-    "visitante": 2.65,
+    "visitante": 2.6,
     "totalLinea": 2.5,
     "totalOver": 2.25,
     "totalUnder": 1.56,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.44,
-    "hcapVisitante": 2.45
+    "hcapLocal": 1.47,
+    "hcapVisitante": 2.4
    },
    "preload": {}
   },
@@ -2015,16 +2043,18 @@
     }
    ],
    "grupo": "Group G",
+   "estadio": "Rodrigo Paz Delgado",
+   "ciudad": "Quito",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.54,
-    "empate": 3.9,
+    "local": 1.56,
+    "empate": 3.8,
     "visitante": 6.0,
     "totalLinea": 2.5,
     "totalOver": 2.05,
     "totalUnder": 1.67,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.5,
+    "hcapLocal": 1.51,
     "hcapVisitante": 2.35
    },
    "preload": {}
@@ -2181,14 +2211,16 @@
     }
    ],
    "grupo": "Group G",
+   "estadio": "Defensores del Chaco",
+   "ciudad": "Asunción",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.35,
     "empate": 3.15,
     "visitante": 3.0,
     "totalLinea": 2.5,
-    "totalOver": 2.1,
-    "totalUnder": 1.62,
+    "totalOver": 2.15,
+    "totalUnder": 1.61,
     "hcapLinea": -0.5,
     "hcapLocal": 2.25,
     "hcapVisitante": 1.53
@@ -2335,17 +2367,19 @@
     }
    ],
    "grupo": "Group A",
+   "estadio": "Estadio Bellavista",
+   "ciudad": "Ambato",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.65,
-    "empate": 3.05,
-    "visitante": 2.7,
+    "local": 2.4,
+    "empate": 3.15,
+    "visitante": 2.95,
     "totalLinea": 2.5,
-    "totalOver": 2.05,
-    "totalUnder": 1.67,
+    "totalOver": 2.0,
+    "totalUnder": 1.69,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.5,
-    "hcapVisitante": 1.43
+    "hcapLocal": 2.25,
+    "hcapVisitante": 1.53
    },
    "preload": {}
   },
@@ -2489,6 +2523,8 @@
     }
    ],
    "grupo": "Group E",
+   "estadio": "Neo Química Arena",
+   "ciudad": "Sao Paulo",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.91,
@@ -2643,6 +2679,8 @@
     }
    ],
    "grupo": "Group E",
+   "estadio": "Joao Havelange Stadium",
+   "ciudad": "Rio de Janeiro",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.09,
@@ -2930,17 +2968,19 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "José María Minella",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
     "local": 3.45,
     "empate": 2.95,
     "visitante": 2.25,
     "totalLinea": 1.5,
-    "totalOver": 1.51,
-    "totalUnder": 2.3,
+    "totalOver": 1.53,
+    "totalUnder": 2.35,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.59,
-    "hcapVisitante": 2.1
+    "hcapLocal": 1.61,
+    "hcapVisitante": 2.15
    },
    "preload": {}
   },
@@ -3205,6 +3245,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Ciudad de Río Cuarto Antonio Candini",
+   "ciudad": "Rio Cuarto",
    "mercado": {
     "prov": "DraftKings",
     "local": 3.05,
@@ -3498,6 +3540,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Monumental Presidente José Fierro",
+   "ciudad": "Tucuman",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.65,
@@ -3773,6 +3817,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Juan Carmelo Zerillo (El Bosque)",
+   "ciudad": "La Plata",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.83,
@@ -4060,6 +4106,8 @@
     }
    ],
    "grupo": "Group A",
+   "estadio": "Estadio Libertadores de América",
+   "ciudad": "Avellaneda",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.91,
@@ -4347,6 +4395,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Estadio Tomás Adolfo Ducó",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.95,
@@ -4640,6 +4690,8 @@
     }
    ],
    "grupo": "Group A",
+   "estadio": "Marcelo Bielsa",
+   "ciudad": "Rosario",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.2,
@@ -4921,6 +4973,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Estadio Claudio Chiqui Tapia",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.55,
@@ -5202,6 +5256,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Eva Perón",
+   "ciudad": "Junin",
    "mercado": {
     "prov": "DraftKings",
     "local": 3.3,
@@ -5495,6 +5551,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "El Gigante de Alberdi",
+   "ciudad": "Córdoba",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.8,
@@ -5788,6 +5846,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Estadio Más Monumental",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.61,
@@ -6087,6 +6147,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Presidente Perón (Cilindro de Avellaneda)",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
     "local": 3.0,
@@ -6380,6 +6442,8 @@
     }
    ],
    "grupo": "Group B",
+   "estadio": "Monumental de Victoria (José Dellagiovanna)",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
     "local": 1.54,
@@ -6667,6 +6731,8 @@
     }
    ],
    "grupo": "Group A",
+   "estadio": "Ciudad de Lanús",
+   "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.65,
@@ -6960,6 +7026,8 @@
     }
    ],
    "grupo": "Group A",
+   "estadio": "Mario Alberto Kempes",
+   "ciudad": "Córdoba",
    "mercado": {
     "prov": "DraftKings",
     "local": 2.65,

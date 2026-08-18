@@ -30,6 +30,17 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 
 OUT = Path("data/partidos.json")
+RESULTADOS = Path("data/resultados.json")   # "espn401841517" -> "2-1", en la
+                            # perspectiva local-visitante. Se ACUMULA entre
+                            # corridas y nunca se borra una clave: es la
+                            # memoria de marcadores que el frontend necesita
+                            # para resolver el registro de apuestas de forma
+                            # exacta. Sin esto, el registro tiene que cruzar
+                            # por nombre de rival contra formH/formA, que
+                            # funciona pero se equivoca cuando dos equipos se
+                            # cruzan más de una vez con el mismo local (fase
+                            # de grupos). Sale gratis: los marcadores ya
+                            # vienen en el mismo pedido que calibra fuerzas.
 CACHE_DISCIPLINA = Path("data/cache_disciplina.json")  # event_id -> {team_id:
                             # {fouls,corners,cards}}. Persiste ENTRE corridas
                             # (a diferencia de todos los otros caches, que
@@ -558,7 +569,7 @@ def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factor
     return (ataque * q, defensa / q)
 
 
-def registrar_pronosticos(partidos, season, hoy):
+def registrar_pronosticos(partidos, season, hoy, traer_resultados=None):
     """Guarda, por partido, qué probabilidad implicaba la línea y con qué
     λ pronosticamos nosotros — y resuelve los que ya se jugaron.
 
@@ -608,8 +619,14 @@ def registrar_pronosticos(partidos, season, hoy):
             if not slug:
                 continue
             try:
-                jugados = {f"espn{p['id']}": p
-                           for p in resultados_temporada(slug, season, hoy)}
+                # `traer_resultados` viene de main con los resultados ya
+                # pedidos para calibrar fuerzas y para data/resultados.json.
+                # Sin eso, esta función volvía a pedir la temporada completa
+                # de cada competición — hasta cuatro pedidos repetidos por
+                # corrida, con la respuesta idéntica.
+                crudos = (traer_resultados(slug) if traer_resultados
+                          else resultados_temporada(slug, season, hoy))
+                jugados = {f"espn{p['id']}": p for p in crudos}
             except Exception:
                 continue
             for k in claves:
@@ -659,10 +676,21 @@ def main():
         except Exception:
             cache_ligas = {}
 
+    # Los resultados crudos de la temporada se piden UNA vez por competición
+    # y se reusan: los usa la calibración de fuerzas y también la memoria de
+    # marcadores de data/resultados.json. Antes esto vivía adentro de
+    # get_fuerzas y no se podía reusar sin repetir el pedido.
+    cache_resultados = {}
+
+    def get_resultados(slug):
+        if slug not in cache_resultados:
+            cache_resultados[slug] = resultados_temporada(slug, season, hoy)
+        return cache_resultados[slug]
+
     def get_fuerzas(slug):
         if slug not in cache_fuerzas:
             print(f"  · calibrando fuerzas de ataque/defensa — {slug}")
-            resultados = resultados_temporada(slug, season, hoy)
+            resultados = get_resultados(slug)
             # Ancla: cada equipo se regulariza hacia lo que vale en su liga
             # local, no hacia el promedio de esta copa. En arg.1 no aplica
             # (la liga local ES esta competición) y ancla_de devuelve None.
@@ -710,6 +738,13 @@ def main():
             loc_id, vis_id = loc["team"]["id"], vis["team"]["id"]
             loc_nombre, vis_nombre = loc["team"]["displayName"], vis["team"]["displayName"]
             mercado = mercado_referencia(comp)
+
+            # Estadio y ciudad: vienen en el propio scoreboard, sin pedido
+            # extra. Verificado el 2026-08-18 contra arg.1: 15 de 15 eventos
+            # traen venue.fullName. Puede faltar, así que cae a "".
+            venue = comp.get("venue") or {}
+            estadio = venue.get("fullName") or ""
+            ciudad = (venue.get("address") or {}).get("city") or ""
 
             jug_loc = get_hist(slug, loc_id)
             jug_vis = get_hist(slug, vis_id)
@@ -815,9 +850,40 @@ def main():
                 "note": nota,
                 "formH": forma(jug_loc), "formA": forma(jug_vis),
                 "h2h": h2h, "tabla": tabla, "grupo": grupo,
+                "estadio": estadio, "ciudad": ciudad,
                 "mercado": mercado,
                 "preload": {},
             })
+
+    # ── memoria de marcadores ────────────────────────────────────────
+    # Se acumula: lo que ya está no se toca ni se borra. Un marcador de
+    # un partido jugado no cambia, y si ESPN un día deja de devolver una
+    # temporada vieja, el registro del usuario no puede quedarse sin el
+    # resultado de una apuesta que ya anotó.
+    resultados_previos = {}
+    if RESULTADOS.exists():
+        try:
+            resultados_previos = json.loads(RESULTADOS.read_text(encoding="utf-8"))
+        except Exception:
+            resultados_previos = {}
+    antes_res = len(resultados_previos)
+
+    for slug in COMPETICIONES:
+        # arg.copa no calibra fuerzas, así que para esa competición este es
+        # el único pedido de resultados de la corrida. Para las otras tres
+        # ya está en cache y no cuesta nada.
+        for p in get_resultados(slug):
+            eid = p.get("id")
+            if not eid:
+                continue
+            resultados_previos[f"espn{eid}"] = f"{int(p['gh'])}-{int(p['ga'])}"
+
+    RESULTADOS.parent.mkdir(parents=True, exist_ok=True)
+    RESULTADOS.write_text(
+        json.dumps(resultados_previos, ensure_ascii=False, indent=0, sort_keys=True),
+        encoding="utf-8")
+    print(f"· marcadores guardados: {len(resultados_previos)} "
+          f"(+{len(resultados_previos) - antes_res} nuevos)")
 
     partidos.sort(key=lambda p: (p["date"], p["hora"]))
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -832,7 +898,7 @@ def main():
     CACHE_LIGAS.write_text(json.dumps(cache_ligas, ensure_ascii=False, indent=1),
                            encoding="utf-8")
 
-    registrar_pronosticos(partidos, season, hoy)
+    registrar_pronosticos(partidos, season, hoy, traer_resultados=get_resultados)
 
     con_h2h = sum(1 for p in partidos if p["h2h"])
     con_tabla = sum(1 for p in partidos if p["tabla"])

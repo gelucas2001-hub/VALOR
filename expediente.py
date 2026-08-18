@@ -90,6 +90,29 @@ def expediente(p):
         avisos.append(
             f"Solo {len(p['h2h'])} cruce(s) de historial: es una anécdota, "
             "no una tendencia. No la uses para inclinar.")
+    # La forma sale de /{slug}/teams/{id}/schedule: el slug de la competición
+    # va en la ruta, así que SOLO trae partidos de esta competencia. Un equipo
+    # que juega liga y copa tiene dos formas distintas en el mismo archivo —
+    # verificado con Boca, que aparece con 5 partidos de Liga en un partido y
+    # 3 de Sudamericana en otro, sin un solo cruce en común.
+    avisos.append(
+        f"formH/formA son SOLO partidos de {p.get('comp','esta competencia')}. "
+        "No son los últimos partidos del equipo: los de otros torneos, en el "
+        "mismo período, no están. No escribas 'los últimos cinco partidos' — "
+        "escribí 'los últimos cinco de este torneo'. Tampoco hay fechas, así "
+        "que no sabés si abarcan un mes o seis.")
+
+    from collections import Counter
+    for lado, quien in (("formH", "el local"), ("formA", "el visitante")):
+        reps = [r for r, c in Counter(f["rival"] for f in p.get(lado, [])).items()
+                if c > 1]
+        if reps:
+            avisos.append(
+                f"En la forma d{'el' if quien=='el local' else 'el'} "
+                f"{quien[3:]} se repite {', '.join(reps)}: es una fase de "
+                "grupos, ida y vuelta contra los mismos rivales. Eso describe "
+                "el fixture, no un momento del equipo.")
+
     if len(p.get("formH", [])) < 5 or len(p.get("formA", [])) < 5:
         avisos.append(
             f"Forma corta: {len(p.get('formH', []))} partidos del local y "

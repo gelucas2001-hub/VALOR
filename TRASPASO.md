@@ -458,6 +458,51 @@ probable es que nuestro λ esté mal. Herramientas debe respetarlo y **no
 recomendar monto** en ese caso, o la app se desmiente a sí misma en dos
 pantallas.
 
+### 5bis. El barrido rehecho — y el problema que encontró
+
+Medido el 2026-08-18 con `node barrer_valor.js`, sobre el snapshot
+congelado de 34 partidos. Las funciones salen de `app.html`, no de una
+copia.
+
+**La forma del barrido se reproduce.** Al 3pp da 32% de los picks
+marcados, idéntico a lo que decía la tabla original medida sobre 30
+partidos:
+
+```
+piso    marcados   % de picks   partidos con marca
+ 3pp        33         32%        21 de 34
+ 4pp        32         31%        21 de 34
+ 5pp        32         31%        21 de 34
+ 6pp        27         26%        19 de 34   ← el que rige
+ 7pp        22         22%        17 de 34
+ 8pp        16         16%        13 de 34
+10pp         8          8%         8 de 34
+```
+
+**Dos números del TRASPASO se confirman y uno no.** La alerta se
+enciende en el **7%** de los partidos con cuota (decía 8%). El margen
+de las casas da mediana **7,68%** (decía 7,7%). Pero el apartamiento
+del modelo respecto de la línea limpia da **media 8,5%, mediana 7,3%,
+percentil 90 15,3%** — el documento decía "9-15pp en promedio", y la
+media queda apenas por debajo de ese rango.
+
+**El problema, y es el mismo que motivó subir el piso de 3pp a 6pp:**
+la mediana del apartamiento es **7,3pp** y el piso es **6pp**. O sea
+que el piso actual también está por debajo del apartamiento típico.
+El argumento que descartó el 3pp le aplica igual al 6pp.
+
+**No se tocó la constante.** Elegir 8pp porque "queda arriba de la
+mediana" sería exactamente el error que el repo prohíbe: mover un
+número para que la medición se vea bien. Y además la pregunta está mal
+planteada — apartarse del mercado no es lo mismo que equivocarse. La
+única forma honesta de fijar el piso es medir **si los picks marcados
+ganan más que los no marcados**, y para eso hacen falta resultados.
+
+**Ese camino ahora existe:** la resolución automática del registro
+(sección 6ter) acumula resultados sola. Cuando haya volumen, el piso
+se decide con datos de cobro, no con distancia al mercado. Hasta
+entonces el 6pp se queda, declarado como provisorio.
+
 ### Regla de ritmo
 
 **Siempre hay pronóstico, no siempre hay recomendación.** Habrá días sin
@@ -588,9 +633,9 @@ que se comprobó corriendo código, no leyendo promesas:
    `/* ==== INICIO RESOLUCION ==== */`, con `test_registro.js` (17
    casos, `node test_registro.js`) corriendo contra el snapshot
    congelado `tests/partidos-snapshot.json`. Ver la sección 6ter.
-2. **El rediseño visual completo** de las cuatro pantallas, después.
-   Sigue pendiente: el Registro nuevo se construyó con el chrome
-   visual que ya tenía `app.html`, no con el del handoff.
+2. ~~**El rediseño visual completo** de las cuatro pantallas.~~
+   **HECHO (2026-08-18).** Las cuatro están construidas contra el
+   prototipo. Ver la sección 6quater.
 
 **Una limitación del archivo, no del diseño:** `VALOR.dc.html` usa un
 motor de plantillas propio de Claude Design que no corre completo fuera
@@ -649,6 +694,71 @@ colores para ganada/perdida en los botones del Registro desde antes.
 La regla de `DESIGN.md` sobre intensidad tipográfica habla del
 **Historial** (la pestaña del partido), que es otra pantalla. Vale
 aclararlo en `DESIGN.md` antes de la fase visual.
+
+---
+
+## 6quater. La fase visual — hecha, y contra qué se construyó
+
+**El README del handoff está desactualizado en dos puntos. Se verificó
+contra `VALOR.dc.html` antes de escribir código, y manda el prototipo:**
+
+1. El README dice que la portada lleva el **wordmark troquelado**. El
+   prototipo (`:29-31`) usa **la V**, y reserva el troquelado para
+   `REGISTRO` y `MÉTODO` (máscaras `tq-rg`, `tq-mt`). Coincide con
+   `DESIGN.md`. Es el mismo desajuste que ya había pasado con la marca:
+   el README no se actualizó cuando el prototipo cambió.
+2. El README dice "seis pestañas" y después lista cinco, llamando "el
+   resumen" a Pronósticos. El prototipo (`:1536`) tiene las seis con
+   Pronósticos por nombre, como esta sección 7.
+
+**Decisión de color tomada por Lucas:** el resultado de una apuesta
+(ganada/perdida) **no se pinta** — va por intensidad tipográfica, como
+Historial. Mostaza y terracota se quedan exclusivas de valor y alerta.
+La única excepción es la curva acumulada, que sigue en mostaza porque
+es la trayectoria, no una apuesta puntual. Está documentado en
+`DESIGN.md § Resultado ≠ valor`, con la tabla de qué cambió.
+
+**Corrección al hallazgo de datos del handoff — medido.** El handoff
+decía haber encontrado un hueco: «la tabla del Grupo A de Libertadores
+trae 4 equipos y le falta uno de los que juega ese partido
+(Cruzeiro)», y diseñó Posiciones y Plantel para declararlo.
+**Verificado sobre los 34 partidos: Cruzeiro está en el Grupo D de la
+misma Libertadores.** Ese partido es un cruce entre grupos, no un
+agujero de datos.
+
+De 24 partidos donde uno de los dos equipos no figura en la tabla:
+
+```
+19   el equipo está en otro grupo/zona de la MISMA competición   → tabla completa, cruce de llave
+ 5   no figura en ninguna tabla de esa competición               → hueco real
+```
+
+En Liga Profesional el patrón es sistemático: Zona A y Zona B son
+tablas separadas, así que el rival de la otra zona nunca va a estar.
+La nota del handoff, tal cual, habría dicho «la fuente devolvió estas
+15 líneas y ninguna es suya» en partidos donde la fuente está
+perfecta. **Se partió en dos casos** (`quienFalta()` en `app.html`):
+«Juegan cruzado» cuando el rival está en otro grupo, «Falta uno» solo
+cuando de verdad no está. Los tres casos verificados en navegador:
+Flamengo–Cruzeiro da cruzado, Tolima–Independiente del Valle da falta,
+Lanús–Independiente no da nota.
+
+**Regla violada en el código viejo, corregida:** la tabla de Posiciones
+resaltaba el puesto de tus equipos en **mostaza**. `DESIGN.md` dice
+«Nunca mostaza para selección de UI» y lo llama «el error que más caro
+paga el usuario». Ahora va en tinta, como el prototipo.
+
+**Lo que NO se copió del prototipo, y por qué:** las casillas de cuota
+de `app.html` tienen una barra de tinta que dibuja la probabilidad con
+escala fija al 70%. El prototipo usa casillas planas. Se conservó la
+barra: es información real que el prototipo no tiene, y borrarla sería
+perder funcionalidad para parecerse más a una maqueta.
+
+**Verificado en navegador, a 375px, con datos reales:** cero errores de
+consola; las cuatro pantallas y las seis pestañas sin desborde
+horizontal — medido intentando `scrollTo(500,0)` y confirmando que
+`scrollX` queda en 0, no solo leyendo `scrollWidth`, que reporta de más
+mientras la tira de pestañas todavía está animando.
 
 ---
 
@@ -807,12 +917,13 @@ correr el proceso completo de cero: la mayor parte del trabajo de esta
 fase está terminado.
 
 **Fase 2 — Reglas antes de pantallas**
-9. Portar las reglas de recomendación de la sección 5 y **volver a
-   barrerlas contra los datos reales del momento**. No copiar las
-   constantes a ciegas: reproducir la medición.
-10. Confirmar que el port a JavaScript da el mismo número que el
-    cálculo en Python. Esa doble vía es lo que detecta errores
-    numéricos silenciosos.
+9. ~~Portar las reglas y volver a barrerlas~~ **HECHO (2026-08-18):**
+   `node barrer_valor.js`. Ver la sección 5bis — reprodujo la forma del
+   barrido pero encontró un problema con el piso.
+10. ~~Confirmar que el port a JavaScript da el mismo número que
+    Python~~ **HECHO (2026-08-18):** `python doble_via.py`. Diferencia
+    máxima **6,7e-16** sobre 476 probabilidades. El port no introdujo
+    error numérico.
 
 **Fase 3 — Interfaz**
 11. Construirla pantalla por pantalla, mostrando **capturas reales

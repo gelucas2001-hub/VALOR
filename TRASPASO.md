@@ -768,9 +768,11 @@ La interfaz nueva dejó de llamarse `app.html`: **es `index.html`.** El
 archivo viejo (negro frío, cian, verde semáforo) se borró; su contenido
 sigue en el historial de git si alguna vez hace falta.
 
-Se hizo con `git rm index.html && git mv app.html index.html`, un rename
-que git registra como tal, así que `git log --follow index.html` sigue
-trayendo la historia completa de la app nueva.
+Se hizo con `git rm index.html && git mv app.html index.html`. **Ojo con
+la historia:** como `index.html` ya existía, git no lo anota como rename
+sino como borrado más modificación. `git log --follow index.html`
+devuelve la historia de la interfaz **vieja**, no la de esta. Para la de
+la app actual: `git log -- app.html`, hasta el commit del cambio.
 
 **Lo que arrastró el cambio de nombre**, porque cuatro scripts leen el
 HTML publicado en vez de una copia — que es exactamente por qué se

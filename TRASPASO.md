@@ -461,7 +461,7 @@ pantallas.
 ### 5bis. El barrido rehecho — y el problema que encontró
 
 Medido el 2026-08-18 con `node barrer_valor.js`, sobre el snapshot
-congelado de 34 partidos. Las funciones salen de `app.html`, no de una
+congelado de 34 partidos. Las funciones salen de `index.html`, no de una
 copia.
 
 **La forma del barrido se reproduce.** Al 3pp da 32% de los picks
@@ -604,7 +604,7 @@ que se comprobó corriendo código, no leyendo promesas:
 
 - **El motor matemático no fue tocado.** Se extrajeron las funciones
   (`matrix`, `sumIf`, `ev`, `kelly`, `tau`, `pois`) del prototipo y las
-  del `app.html` del repo, se corrieron ambas sobre los 30 partidos
+  del `index.html` del repo, se corrieron ambas sobre los 30 partidos
   reales: **diferencia máxima 0** en las 90 probabilidades resultantes.
   Motor idéntico, bit a bit.
 - **La resolución automática del registro es una funcionalidad nueva,
@@ -629,7 +629,7 @@ que se comprobó corriendo código, no leyendo promesas:
 **Orden de implementación recomendado, por valor:**
 
 1. ~~**Resolución automática del registro primero.**~~ **HECHO
-   (2026-08-18).** Está en `app.html`, en la región marcada
+   (2026-08-18).** Está en `index.html`, en la región marcada
    `/* ==== INICIO RESOLUCION ==== */`, con `test_registro.js` (17
    casos, `node test_registro.js`) corriendo contra el snapshot
    congelado `tests/partidos-snapshot.json`. Ver la sección 6ter.
@@ -689,7 +689,7 @@ archivo exista.
 **Contradicción de documentación, sin resolver:** `DESIGN.md` dice
 "mostaza = valor, y nada más" y "terracota = alerta, y nada más"; el
 handoff le asigna mostaza a *ganada* y terracota a *perdida* en el
-Registro. Se siguió el handoff porque `app.html` ya usaba esos dos
+Registro. Se siguió el handoff porque `index.html` ya usaba esos dos
 colores para ganada/perdida en los botones del Registro desde antes.
 La regla de `DESIGN.md` sobre intensidad tipográfica habla del
 **Historial** (la pestaña del partido), que es otra pantalla. Vale
@@ -737,7 +737,7 @@ En Liga Profesional el patrón es sistemático: Zona A y Zona B son
 tablas separadas, así que el rival de la otra zona nunca va a estar.
 La nota del handoff, tal cual, habría dicho «la fuente devolvió estas
 15 líneas y ninguna es suya» en partidos donde la fuente está
-perfecta. **Se partió en dos casos** (`quienFalta()` en `app.html`):
+perfecta. **Se partió en dos casos** (`quienFalta()` en `index.html`):
 «Juegan cruzado» cuando el rival está en otro grupo, «Falta uno» solo
 cuando de verdad no está. Los tres casos verificados en navegador:
 Flamengo–Cruzeiro da cruzado, Tolima–Independiente del Valle da falta,
@@ -749,7 +749,7 @@ resaltaba el puesto de tus equipos en **mostaza**. `DESIGN.md` dice
 paga el usuario». Ahora va en tinta, como el prototipo.
 
 **Lo que NO se copió del prototipo, y por qué:** las casillas de cuota
-de `app.html` tienen una barra de tinta que dibuja la probabilidad con
+de `index.html` tienen una barra de tinta que dibuja la probabilidad con
 escala fija al 70%. El prototipo usa casillas planas. Se conservó la
 barra: es información real que el prototipo no tiene, y borrarla sería
 perder funcionalidad para parecerse más a una maqueta.
@@ -759,6 +759,40 @@ consola; las cuatro pantallas y las seis pestañas sin desborde
 horizontal — medido intentando `scrollTo(500,0)` y confirmando que
 `scrollX` queda en 0, no solo leyendo `scrollWidth`, que reporta de más
 mientras la tira de pestañas todavía está animando.
+
+---
+
+## 6quinquies. El cambio de guardia — hecho (2026-08-18)
+
+La interfaz nueva dejó de llamarse `app.html`: **es `index.html`.** El
+archivo viejo (negro frío, cian, verde semáforo) se borró; su contenido
+sigue en el historial de git si alguna vez hace falta.
+
+Se hizo con `git rm index.html && git mv app.html index.html`, un rename
+que git registra como tal, así que `git log --follow index.html` sigue
+trayendo la historia completa de la app nueva.
+
+**Lo que arrastró el cambio de nombre**, porque cuatro scripts leen el
+HTML publicado en vez de una copia — que es exactamente por qué se
+enteraron del rename:
+
+| Archivo | Qué lee |
+|---|---|
+| `test_registro.js` | La región `/* ==== INICIO RESOLUCION ==== */` |
+| `test_alineacion.js` | Las funciones de lectura y sello |
+| `barrer_valor.js` | Las constantes de valor que rigen hoy |
+| `doble_via.py` | El motor, para compararlo contra el de Python |
+
+Más `CLAUDE.md`, `DESIGN.md` y este documento. Los de
+`docs/design-handoff/` y `docs/superpowers/specs/` se dejaron como
+estaban: son actas de una entrega cerrada y dicen `app.html` porque eso
+era cierto cuando se escribieron.
+
+**Verificado después del cambio:** `node test_registro.js` 22 ok,
+`node test_alineacion.js` 19 ok, `python doble_via.py` diferencia máxima
+6,7e-16. Y `manifest.json`, que se había quedado con `#070B14` — el azul
+de la línea descartada — ahora arranca en `#1B1611`: la pantalla de
+carga del PWA ya no destella el color viejo.
 
 ---
 
@@ -925,15 +959,20 @@ fase está terminado.
     máxima **6,7e-16** sobre 476 probabilidades. El port no introdujo
     error numérico.
 
-**Fase 3 — Interfaz**
-11. Construirla pantalla por pantalla, mostrando **capturas reales
-    enviadas al chat** después de cada una.
-12. Verificar en navegador: sin errores de consola, sin desborde
-    horizontal en 375px, `prefers-reduced-motion` respetado.
+**Fase 3 — Interfaz: HECHA (2026-08-18)**
+11. ~~Construirla pantalla por pantalla~~ **HECHO.** Las cuatro
+    pantallas y las seis pestañas del detalle. Ver sección 6quater.
+12. ~~Verificar en navegador~~ **HECHO:** cero errores de consola, sin
+    desborde horizontal a 375px.
+12bis. ~~Cambio de guardia `index.html`~~ **HECHO.** Ver 6quinquies.
 
-**Fase 4 — Contenido**
+**Fase 4 — Contenido: es lo que queda, y es el cuello de botella**
 13. Arreglar la skill `analisis-futbol-valor-json` (agregarle
-    `inclinacion`).
+    `inclinacion`). **Lucas la está tocando él.** La semántica está
+    cerrada: `"L"`/`"E"`/`"V"`/`null`, sale de la lectura cualitativa y
+    **nunca** del modelo — si se deriva de Dixon-Coles, la regla de
+    alineación compara el modelo contra sí mismo y el texto de Método
+    pasa a ser falso.
 14. Cargar análisis real de al menos 3-4 partidos y confirmar que la
     marca de valor aparece.
 

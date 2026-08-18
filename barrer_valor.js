@@ -9,7 +9,7 @@
    explícita: "No copiar las constantes a ciegas: reproducir la
    medición." Esto la reproduce.
 
-   Usa las funciones REALES de app.html — no una copia — sobre el
+   Usa las funciones REALES de index.html — no una copia — sobre el
    snapshot congelado, por la misma razón que test_registro.js: el cron
    reescribe data/partidos.json dos veces por día y el mismo código
    daría números distintos a la mañana y a la tarde.
@@ -22,14 +22,14 @@
 const fs = require("fs");
 const path = require("path");
 
-/* ── Cargar la lógica de app.html ──────────────────────────────────
+/* ── Cargar la lógica de index.html ──────────────────────────────────
    Se corta antes de "RENDER Y RUTEO": de ahí para abajo hay acceso al
    DOM. Todo lo de arriba es motor, constantes y reglas. */
 function cargarLogica(){
-  const html = fs.readFileSync(path.join(__dirname, "app.html"), "utf8");
+  const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
   const script = html.slice(html.indexOf("<script>") + 8, html.lastIndexOf("</script>"));
   const corte = script.indexOf("RENDER Y RUTEO");
-  if(corte < 0) throw new Error("no encontré el corte 'RENDER Y RUTEO' en app.html");
+  if(corte < 0) throw new Error("no encontré el corte 'RENDER Y RUTEO' en index.html");
   const src = script.slice(0, script.lastIndexOf("/*", corte));
 
   /* localStorage de mentira: el bloque de ESTADO lo lee al cargar. */
@@ -57,7 +57,7 @@ const pc = n => (n*100).toFixed(1) + "%";
 
 console.log(`\nBarrido de las constantes de valor`);
 console.log(`Snapshot: tests/partidos-snapshot.json — ${snap.actualizado} — ${PARTIDOS.length} partidos\n`);
-console.log(`Constantes que rigen hoy en app.html:`);
+console.log(`Constantes que rigen hoy en index.html:`);
 console.log(`  VALOR_MIN ${L.VALOR_MIN}   VALOR_MAX ${L.VALOR_MAX}   ALERTA_MIN ${L.ALERTA_MIN}`);
 console.log(`  MIN_EV ${L.MIN_EV}   MAX_ODDS ${L.MAX_ODDS}   EV_ABSURDO ${L.EV_ABSURDO}   VENTAJA_MIN ${L.VENTAJA_MIN}\n`);
 

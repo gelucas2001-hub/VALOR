@@ -1,8 +1,10 @@
 {
   "_schema": {
     "_comentario": "Análisis específico de UN cruce puntual — lo que la estadística sola no ve (motivación, contexto de tabla, algo raro de esta semana). actualizar.py nunca escribe este archivo. Clave = mismo id de partido que usa data/partidos.json (formato espnNNNNNNNNN).",
+    "_inclinacion": "OBLIGATORIO para que la app marque valor. Es la dirección que sale del análisis HUMANO, no del modelo: 'L' local, 'V' visitante, 'E' empate, o null si el análisis no inclina para ningún lado. La regla de alineación la usa para descartar cualquier apuesta que contradiga esta lectura, y el valor se calcula sobre ella. Si viniera del modelo, sería el modelo dándose la razón a sí mismo — y eso es justo lo que la regla existe para evitar. Sin inclinacion, el partido cuenta como no analizado y no se marca nada.",
     "_ejemplo": {
       "actualizado": "2026-08-14",
+      "inclinacion": "L",
       "contexto": "Por qué este partido en particular, más allá de los números",
       "veredicto": "Lectura final: hacia dónde inclina esto el análisis"
     }

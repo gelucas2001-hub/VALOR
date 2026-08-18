@@ -40,10 +40,10 @@ typography:
 
 # Sistema de diseño VALOR
 
-**Archivo en vivo:** `app.html`.
-`index.html` es la versión anterior (línea gráfica descartada: negro frío,
-cian, verde semáforo). Queda publicada hasta que `app.html` la reemplace;
-no tomarla como referencia de diseño.
+**Archivo en vivo:** `index.html`.
+Desde el 2026-08-18 es esta línea. La anterior (negro frío, cian, verde
+semáforo) está descartada: si la ves en una captura vieja o en el historial
+de git, no es referencia de diseño.
 
 ## Dirección
 
@@ -166,7 +166,7 @@ principal de la portada — eso es trabajo de la V.
 
 ## Recursos de la línea — construidos (2026-08-18)
 
-Los cuatro que cargan la identidad. Están en `app.html`; si hacés una
+Los cuatro que cargan la identidad. Están en `index.html`; si hacés una
 pantalla nueva, se arma con estos, no con inventos nuevos.
 
 | Recurso | Dónde | Qué es |

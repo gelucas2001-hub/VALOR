@@ -3,7 +3,7 @@
 
    Corré:  node test_registro.js
 
-   Extrae la lógica de resolución del propio `app.html` — no una copia —
+   Extrae la lógica de resolución del propio `index.html` — no una copia —
    y la corre contra un snapshot congelado de `data/partidos.json`.
 
    Por qué contra el archivo real y no contra una copia: el proyecto ya
@@ -20,17 +20,18 @@ const RAIZ = __dirname;
 const INICIO = "/* ==== INICIO RESOLUCION ==== */";
 const FIN    = "/* ==== FIN RESOLUCION ==== */";
 
-/* ── Extracción: la región marcada de app.html, evaluada tal cual ── */
+/* ── Extracción: la región marcada de index.html, evaluada tal cual ── */
 function cargarResolucion(){
-  const html = fs.readFileSync(path.join(RAIZ, "app.html"), "utf8");
+  const html = fs.readFileSync(path.join(RAIZ, "index.html"), "utf8");
   const a = html.indexOf(INICIO), b = html.indexOf(FIN);
   if(a < 0 || b < 0)
-    throw new Error(`app.html no tiene la región marcada ${INICIO} … ${FIN}`);
+    throw new Error(`index.html no tiene la región marcada ${INICIO} … ${FIN}`);
   const src = html.slice(a + INICIO.length, b);
   const salida = {};
-  new Function("exportar", src + "\nexportar({TESTS, norm, buscarResultado, resolver});")(
-    o => Object.assign(salida, o)
-  );
+  new Function("exportar", src + `
+    exportar({TESTS, norm, buscarResultado, resolver,
+              fijarResultados: r => { RESULTADOS = r || {}; }});
+  `)(o => Object.assign(salida, o));
   return salida;
 }
 
@@ -50,7 +51,7 @@ const igual = (a, b, msg) => {
 };
 const cierto = (v, msg) => { if(!v) throw new Error(msg || "esperaba verdadero"); };
 
-const { TESTS, buscarResultado, resolver } = cargarResolucion();
+const { TESTS, buscarResultado, resolver, fijarResultados } = cargarResolucion();
 
 console.log("\nResolución automática del registro — " + MATCHES.length + " partidos reales\n");
 
@@ -272,6 +273,70 @@ test("una carga vieja sin home/away se resuelve por el nombre del partido", ()=>
   const b = {key:"x__1x2_v", partido:"Aldosivi vs Gimnasia La Plata",
              fecha:"2026-08-01", matchId:"x", manual:false, estado:"pendiente"};
   igual(resolver(b, MATCHES, "2026-08-18").estado, "ganada", "carga vieja:");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   6. La vía exacta: el marcador guardado por id de partido
+
+   Es la mejora de fondo que señalaba el handoff y que ahora existe:
+   actualizar.py persiste los marcadores finales en data/resultados.json.
+   Cruza por id, así que no puede equivocarse de partido — y por eso
+   resuelve el único caso que el cruce por historial no puede resolver
+   bien: dos partidos entre los mismos equipos con el mismo local.
+   ══════════════════════════════════════════════════════════════════ */
+test("con marcador guardado, resuelve por id y no mira historiales", ()=>{
+  const m = {home:"Equipo Inventado", away:"Otro Inventado", id:"espnXYZ", date:"2026-08-01"};
+  /* Ninguno de los dos existe en los historiales del snapshot, así que
+     el cruce por historial no puede resolverlo. El marcador guardado
+     sí. */
+  fijarResultados({"espnXYZ": "3-1"});
+  const r = resolver(carga(m, "1x2_l"), MATCHES, "2026-08-18");
+  igual(r.estado, "ganada", "local ganó 3-1:");
+  igual([r.res.i, r.res.j], [3, 1], "marcador exacto:");
+  igual(r.res.exacto, true, "marcado como exacto:");
+  fijarResultados({});
+});
+
+test("el marcador guardado gana al cruce por historial", ()=>{
+  /* Aldosivi 1-2 Gimnasia según los historiales. Si el archivo de
+     resultados dijera otra cosa para ese id, manda el archivo: es dato
+     directo del partido, no inferido por nombre de rival. */
+  const m = {home:"Aldosivi", away:"Gimnasia La Plata", id:"espnAG", date:"2026-08-01"};
+  fijarResultados({"espnAG": "4-0"});
+  const r = resolver(carga(m, "1x2_l"), MATCHES, "2026-08-18");
+  igual([r.res.i, r.res.j], [4, 0], "manda el guardado:");
+  igual(r.estado, "ganada", "con 4-0 el local cobra:");
+  fijarResultados({});
+});
+
+test("sin marcador guardado sigue funcionando el respaldo por historial", ()=>{
+  /* El respaldo no se puede perder: cubre lo anotado antes de que
+     resultados.json existiera. */
+  fijarResultados({});
+  const m = {home:"Aldosivi", away:"Gimnasia La Plata", id:"espnAG", date:"2026-08-01"};
+  const r = resolver(carga(m, "1x2_v"), MATCHES, "2026-08-18");
+  igual(r.estado, "ganada", "Gimnasia ganó 2-1:");
+  igual(r.res.exacto, undefined, "vino del historial, no del archivo:");
+});
+
+test("un marcador guardado ilegible no rompe: cae al respaldo", ()=>{
+  fijarResultados({"espnAG": "sin datos"});
+  const m = {home:"Aldosivi", away:"Gimnasia La Plata", id:"espnAG", date:"2026-08-01"};
+  const r = resolver(carga(m, "1x2_v"), MATCHES, "2026-08-18");
+  igual(r.estado, "ganada", "resolvió igual por historial:");
+  fijarResultados({});
+});
+
+test("el candado de la grilla manda incluso con marcador guardado", ()=>{
+  /* Si el partido sigue en la grilla con fecha de hoy o posterior, no se
+     jugó, y un marcador guardado para ese id sería un error de datos.
+     El candado tiene que seguir adelante de todo. */
+  const hoy = "2026-08-18";
+  const futuro = MATCHES.find(m => m.date >= hoy);
+  fijarResultados({[futuro.id]: "9-0"});
+  const r = resolver(carga(futuro, "1x2_l"), MATCHES, hoy);
+  igual(r.estado, "pendiente", `${futuro.home} vs ${futuro.away} sigue en grilla:`);
+  fijarResultados({});
 });
 
 /* Una carga del registro, como la escribe anotar(). */

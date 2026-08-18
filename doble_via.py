@@ -11,7 +11,7 @@ mismo por dos caminos independientes y comparar.
 
 Python es la vía de referencia (`backtest.py`, que fue lo que se usó
 para calibrar). JavaScript es la vía que corre en el frontend
-(`app.html`). Si divergen, manda Python y hay que arreglar el JS.
+(`index.html`). Si divergen, manda Python y hay que arreglar el JS.
 
 Solo biblioteca estándar, como el resto del repo.
 """
@@ -84,7 +84,7 @@ def main():
     tmp.write_text(JS, encoding="utf-8")
     try:
         crudo = subprocess.run(
-            ["node", str(tmp), str(RAIZ / "app.html"), str(SNAPSHOT)],
+            ["node", str(tmp), str(RAIZ / "index.html"), str(SNAPSHOT)],
             capture_output=True, text=True, encoding="utf-8", check=True,
         ).stdout
     except subprocess.CalledProcessError as e:
@@ -95,7 +95,7 @@ def main():
 
     delJs = {x["id"]: x for x in json.loads(crudo)}
 
-    print(f"\nChequeo de doble vía — Python (backtest.py) vs JavaScript (app.html)")
+    print(f"\nChequeo de doble vía — Python (backtest.py) vs JavaScript (index.html)")
     print(f"Snapshot congelado: {SNAPSHOT.name} — {len(partidos)} partidos")
     print(f"Mercados por partido: {len(CRITERIOS)}  →  "
           f"{len(partidos) * len(CRITERIOS)} probabilidades comparadas\n")

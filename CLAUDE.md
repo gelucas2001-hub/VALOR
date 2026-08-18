@@ -18,8 +18,10 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | Archivo | Qué hace | Quién lo toca |
 |---|---|---|
 | `actualizar.py` | Baja datos de ESPN y calcula λ. Corre solo, 2 veces por día, vía GitHub Actions | Con cuidado — es el motor |
-| `app.html` | La interfaz nueva, en construcción | Ver "rediseño en curso" |
-| `index.html` | La interfaz vieja, todavía en vivo hasta que `app.html` la reemplace | No tocar salvo emergencia |
+| `index.html` | La app. Es la interfaz nueva: reemplazó a la vieja el 2026-08-18 | Una herramienta por vez — ver abajo |
+| `test_registro.js`, `test_alineacion.js` | Suites que leen el `index.html` publicado, no una copia | Correr después de tocar la app |
+| `doble_via.py` | Compara el motor de Python contra el de JavaScript | Correr después de tocar el motor |
+| `data/resultados.json` | Marcadores finales que escribe el cron. Hace exacto el cruce del Registro | Nadie |
 | `TRASPASO.md` | Informe de traspaso — léelo primero | A mano, mantenerlo al día |
 | `docs/design-handoff/` | Entrega de diseño de Claude Design, verificada | No editar; es referencia |
 | `backtest.py` | Calibración contra resultados | A mano |
@@ -36,16 +38,21 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 - **No cambiar el contrato de `data/partidos.json`.** Agregar campos sí; renombrar o cambiar tipos rompe el frontend.
 - **No tocar constantes del modelo para que un número dé mejor.** Si una medición no mejora, el hallazgo es que no mejoró. Hay scripts para medir: usalos.
 
-## Rediseño en curso
+## El rediseño, ya cerrado
 
-La interfaz nueva es `app.html`. Reglas:
+La interfaz nueva **es** `index.html` desde el 2026-08-18. Se construyó
+aparte, como `app.html`, y recién cuando estuvo terminada y verificada
+reemplazó a la vieja. Lo que queda vigente de aquellas reglas:
 
-- Se construye ahí, no editando `index.html`.
-- `index.html` queda en vivo hasta que `app.html` esté terminada y verificada.
-- El motor matemático (Dixon-Coles, Kelly, combinadas) se **copia**, no se reescribe: está validado y reescribirlo arriesga errores numéricos silenciosos.
-- Referencia del motor verificado: tag `motor-verificado` (versión con ancla doméstica: tag `motor-v2-ancla`).
+- El motor matemático (Dixon-Coles, Kelly, combinadas) se **copia**, no se
+  reescribe: está validado y reescribirlo arriesga errores numéricos
+  silenciosos. `doble_via.py` existe para probar que no se movió.
+- Referencia del motor verificado: tag `motor-verificado` (versión con ancla
+  doméstica: tag `motor-v2-ancla`).
 - Trabajo previo descartado: rama `ui-antigravity` (no borrar, es respaldo).
-- Próximo paso concreto: la resolución automática del registro, documentada en `docs/design-handoff/`. Ver `TRASPASO.md` sección 6bis.
+- La región `/* ==== INICIO RESOLUCION ==== */` de `index.html` la lee
+  `test_registro.js` tal cual. Si la movés o le cambiás el nombre, la suite
+  deja de encontrarla — es a propósito.
 
 ## Para evitar el problema que originó este archivo
 

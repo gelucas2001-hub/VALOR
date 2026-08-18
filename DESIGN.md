@@ -72,6 +72,47 @@ negro + celeste + insignias + "PRO AI" (cliché de SaaS de IA).
 - En Historial el "color" viene de **intensidad tipográfica** — ganado en
   tinta plena, perdido casi apagado — nunca de mostaza ni terracota.
 
+## Marca
+
+**La V es la marca de VALOR — no el troquelado.** Elegida por Lucas en
+la ronda de exploración de Claude Design (`Wordmark - tres
+direcciones.dc.html`), sobre una entrega anterior donde el troquelado
+había ganado. Esa decisión quedó superada por esta; si algún documento
+viejo dice lo contrario, manda este.
+
+SVG real, extraído del prototipo final (uso en portada, 45×45):
+
+```html
+<svg viewBox="0 0 100 100" style="height:45px;width:45px" aria-label="VALOR">
+  <defs><clipPath id="vm-s"><polygon points="34,18 55,64 70,18"/></clipPath></defs>
+  <polygon points="17,18 34,18 55,64 70,18 83,18 56,84 46,84" fill="#D8CDB4"/>
+  <g clip-path="url(#vm-s)">
+    <polygon points="42.5,38 47.1,38 36.65,70 32.05,70" fill="#5A6338"/>
+    <polygon points="50.5,30 55.1,30 42.05,70 37.45,70" fill="#4E5730"/>
+    <polygon points="57.8,24 62.4,24 47.45,70 42.85,70" fill="#616B3C"/>
+    <polygon points="64.9,19 69.5,19 52.85,70 48.25,70" fill="#757F4E"/>
+  </g>
+  <line x1="27.5" y1="30.3" x2="44.3" y2="68.6" stroke="#171310" stroke-width="2"/>
+</svg>
+```
+
+Una V tallada en tinta papel (`#D8CDB4`), con cuatro barras ascendentes
+en verde oliva recortadas dentro del trazo derecho — la escalera de
+riesgo, hecha símbolo. `id` de la máscara/clip único por instancia
+cuando hay más de una V en la misma pantalla.
+
+**Los cuatro verdes son un ramo tonal propio de la marca, no del
+sistema funcional.** `#5A6338`, `#4E5730`, `#616B3C`, `#757F4E` no son
+variantes de `salvia` (`#6B7A5E`) — son hex propios que solo existen
+adentro de este SVG. La regla de "un color, un solo trabajo" rige los
+colores *funcionales* de la interfaz (mostaza=valor, terracota=alerta);
+no aplica acá porque las barras no comunican estado, son el dibujo.
+
+**El troquelado no desapareció — cambió de trabajo.** Sigue siendo el
+recurso para títulos de sección (`REGISTRO`, `MÉTODO`): la palabra
+calada en una barra entintada, vía `<mask>`. Ya no es el wordmark
+principal de la portada — eso es trabajo de la V.
+
 ## Chrome y densidad
 
 - **Pestañas silenciosas:** línea inferior de 2px y cambio de color de

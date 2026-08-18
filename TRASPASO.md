@@ -583,10 +583,14 @@ que se comprobó corriendo código, no leyendo promesas:
 
 **Orden de implementación recomendado, por valor:**
 
-1. **Resolución automática del registro primero.** Es lógica nueva y
-   probada; cambia qué *significa* la app (de "guarda opiniones" a
-   "mide aciertos").
+1. ~~**Resolución automática del registro primero.**~~ **HECHO
+   (2026-08-18).** Está en `app.html`, en la región marcada
+   `/* ==== INICIO RESOLUCION ==== */`, con `test_registro.js` (17
+   casos, `node test_registro.js`) corriendo contra el snapshot
+   congelado `tests/partidos-snapshot.json`. Ver la sección 6ter.
 2. **El rediseño visual completo** de las cuatro pantallas, después.
+   Sigue pendiente: el Registro nuevo se construyó con el chrome
+   visual que ya tenía `app.html`, no con el del handoff.
 
 **Una limitación del archivo, no del diseño:** `VALOR.dc.html` usa un
 motor de plantillas propio de Claude Design que no corre completo fuera
@@ -599,6 +603,52 @@ señala.
 **Antes de escribir código de la fase visual: confirmá que `README.md`
 sigue describiendo lo que hay en `VALOR.dc.html`.** Ya pasó una vez que
 no coincidían (ver la nota en la sección anterior sobre la marca).
+
+---
+
+## 6ter. Resolución automática — implementada, y lo que se midió
+
+Implementada el 2026-08-18 siguiendo el algoritmo del handoff **sin
+cambiarlo**. Lo que sigue es lo que se comprobó corriendo código.
+
+**Reproduce la medición del handoff.** Sobre los 34 partidos de
+`data/partidos.json` del 2026-08-17 (el handoff midió sobre 30): sin el
+candado de fecha cruzan mal **3** — Independiente Rivadavia vs
+Fluminense, Cerro Porteño vs Palmeiras, Club Olimpia vs Vasco da Gama.
+Con los dos candados, **0**. El handoff decía 3 y nombraba Cerro
+Porteño vs Palmeiras: coincide.
+
+**La orientación del marcador se verificó sin fixtures a mano.** Un
+partido puede aparecer en dos historiales independientes (el del local
+y el del visitante, este último con el marcador al revés). De 78
+partidos que aparecen en las dos fuentes, 75 se jugaron una sola vez y
+**coinciden sin una sola excepción**. Ese test es el que atrapa un
+error de signo.
+
+**Hallazgo nuevo, no estaba en el handoff:** los otros 3 son cruces
+**repetidos con el mismo local**. Olimpia y Vasco se cruzaron tres
+veces dentro de los últimos cinco de Olimpia, dos de ellas en Brasil
+(0-0 y 3-0). El desempate por `k` se queda con el más reciente, que es
+lo correcto en ese caso, pero **es una grieta real del cruce por
+historial**: si anotás el primero de dos partidos con el mismo local y
+después se juega el segundo, el cruce puede traer el marcador del
+segundo. Pasa solo en fase de grupos y solo con localía repetida.
+
+**La solución de fondo ya estaba señalada por el handoff, y conviene
+hacerla:** que `actualizar.py` persista los marcadores finales en
+`data/resultados.json` (`{matchId: "2-1"}`). Eso vuelve el cruce exacto
+y hace innecesarios los dos candados. **Dejar el cruce por historial
+como respaldo**, no borrarlo: cubre los partidos anteriores a que ese
+archivo exista.
+
+**Contradicción de documentación, sin resolver:** `DESIGN.md` dice
+"mostaza = valor, y nada más" y "terracota = alerta, y nada más"; el
+handoff le asigna mostaza a *ganada* y terracota a *perdida* en el
+Registro. Se siguió el handoff porque `app.html` ya usaba esos dos
+colores para ganada/perdida en los botones del Registro desde antes.
+La regla de `DESIGN.md` sobre intensidad tipográfica habla del
+**Historial** (la pestaña del partido), que es otra pantalla. Vale
+aclararlo en `DESIGN.md` antes de la fase visual.
 
 ---
 

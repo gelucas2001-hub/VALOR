@@ -359,6 +359,31 @@ a{color:inherit}
 .res button.on.l{background:var(--terracotaBg);color:var(--terracota);border-color:#4A2E20}
 .res button.on.p{background:var(--linea2);color:var(--tinta3);border-color:#3A3122}
 
+/* De dónde salió cada estado del registro. En salvia porque no es un
+   estado — es procedencia, y no compite con mostaza ni terracota. */
+.proc{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--salvia);
+  margin:2px 16px 0;padding-top:6px;border-top:1px solid var(--linea)}
+
+.lbet .estado{display:flex;align-items:center;gap:8px;margin-top:8px}
+/* El sello entra rotado y se queda rotado: es un sello, no una etiqueta. */
+.sello{font-family:var(--anton);font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid;transform:rotate(-2.5deg);flex:0 0 auto}
+.sello.gan{background:var(--mostazaBg);color:var(--mostaza);border-color:#4A3C1E}
+.sello.per{background:var(--terracotaBg);color:var(--terracota);border-color:#4A2E20}
+.sello.sin{background:#1D1811;color:var(--gris2);border-color:#3A3122}
+.sello.esp{background:#1D1811;color:var(--tinta3);border-color:#3A3122}
+.sello.man{background:var(--linea2);color:var(--tinta3);border-color:#3A3122}
+.lbet .marc{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--tinta2)}
+.lbet .dev{font-family:var(--mono);font-size:12px;margin-left:auto}
+.lbet .dev.pos{color:var(--mostaza)}
+.lbet .dev.neg{color:var(--terracota)}
+
+.lbet .proced{font-size:11px;line-height:1.5;color:var(--gris2);margin-top:6px}
+/* Enlace, no botón con caja: corregir es la excepción, no la acción
+   principal de la ficha. */
+.lnk{background:none;border:none;padding:0;margin-left:6px;font-family:var(--mono);
+  font-size:10px;color:var(--salvia);text-decoration:underline;text-underline-offset:2px}
+
 /* ── método ────────────────────────────────────────────────────── */
 .metodo h3{font-family:var(--anton);font-size:17px;font-weight:400;margin:26px 0 8px;color:var(--tinta)}
 .metodo h3:first-child{margin-top:0}
@@ -492,6 +517,7 @@ const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
    ══════════════════════════════════════════════════════════════════ */
 let MATCHES=[], ANALISIS={}, EQUIPOS={}, ACTUALIZADO="";
 let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
+let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
 let BOOT_ERROR=null, CARGANDO=true;
 
 const guardar = (k,v)=>{ try{ localStorage.setItem("valor_"+k, JSON.stringify(v)); }catch(e){} };
@@ -500,6 +526,116 @@ const leer = (k,def)=>{ try{ const v=localStorage.getItem("valor_"+k); return v?
 let BANCA = leer("banca", null);
 let CUOTAS = leer("cuotas", {});   // { "matchId__mercadoId": 2.35 }
 let LOG    = leer("log", []);
+
+/* ══════════════════════════════════════════════════════════════════
+   RESOLUCIÓN AUTOMÁTICA DEL REGISTRO
+
+   El problema: cuando analizamos un partido, todavía no se jugó, así
+   que el marcador final no está en partidos.json. La versión anterior
+   le pedía al usuario que marcara a mano si había acertado, y un
+   registro que depende de esa disciplina no se llena nunca. La app
+   terminaba midiendo opiniones en vez de aciertos.
+
+   La solución entra por una puerta lateral: cada partido trae los
+   últimos cinco de cada equipo en formH/formA, con rival, localía y
+   marcador. Entonces el resultado de lo que anotamos aparece igual,
+   un refresco después, en el historial de cualquiera de los dos
+   equipos — la próxima vez que alguno vuelva a jugar.
+
+   Esta región está marcada con centinelas porque `test_registro.js`
+   la extrae y la corre en Node contra datos reales. Si movés los
+   comentarios INICIO/FIN, el test deja de encontrarla.
+   ══════════════════════════════════════════════════════════════════ */
+/* ==== INICIO RESOLUCION ==== */
+
+/* Los criterios de cobro. mercados() los usa para calcular la
+   probabilidad previa y resolver() para verificar el cobro: tiene que
+   ser EL MISMO objeto. Si se duplican, tarde o temprano divergen y la
+   app miente en una de las dos puntas — promete con un criterio y
+   paga con otro. */
+const TESTS = {
+  "1x2_l":(i,j)=>i>j, "1x2_e":(i,j)=>i===j, "1x2_v":(i,j)=>i<j,
+  "dc_lx":(i,j)=>i>=j, "dc_x2":(i,j)=>i<=j, "dc_12":(i,j)=>i!==j,
+  "btts_si":(i,j)=>i>0&&j>0, "btts_no":(i,j)=>i===0||j===0,
+};
+[1.5,2.5,3.5].forEach(n=>{
+  TESTS["ov"+n]=(i,j)=>i+j>n; TESTS["un"+n]=(i,j)=>i+j<n;
+});
+
+/* Los nombres vienen de ESPN y se comparan entre historiales
+   distintos: acentos y puntuación no son confiables. */
+const norm = s => (s||"").toLowerCase().normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"");
+
+function hoyISO(){
+  const d = new Date(), z = n => String(n).padStart(2,"0");
+  return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate());
+}
+
+/* Busca el marcador de H vs A en los historiales, y lo devuelve
+   orientado: `i` es siempre del local, `j` del visitante.
+
+   `marcador` viene en la perspectiva del dueño del historial — el
+   primer número es del equipo de la fila, no del local. Verificado
+   sobre 206 partidos: 206 de 206 cierran así, solo 109 con la otra
+   lectura. Por eso el caso visitante invierte (i=b, j=a).
+
+   `desde` es el candado 1. */
+function buscarResultado(H, A, matches, desde){
+  let mejor = null;
+  const mirar = (dueno, forma) => {
+    (forma||[]).forEach((f,k)=>{
+      if(!f || !f.marcador) return;
+      const [a,b] = String(f.marcador).split("-").map(Number);
+      if(!isFinite(a) || !isFinite(b)) return;
+      let i, j, fuente;
+      if(norm(dueno)===norm(H) && norm(f.rival)===norm(A) && f.local===true){ i=a; j=b; fuente=H; }
+      else if(norm(dueno)===norm(A) && norm(f.rival)===norm(H) && f.local===false){ i=b; j=a; fuente=A; }
+      else return;
+      if(!mejor || k < mejor.k) mejor = {i, j, k, fuente};   // k=0 es el más reciente
+    });
+  };
+  (matches||[]).forEach(m=>{
+    /* CANDADO 1 — solo historiales posteriores a nuestro partido.
+       Un historial cargado antes no puede contenerlo, pero sí puede
+       contener el cruce ANTERIOR entre los mismos dos equipos. En
+       fase de grupos, con rivales repetidos, ahí es donde la app
+       anota como resultado un partido que no es el nuestro. */
+    if(desde && m.date && m.date <= desde) return;
+    mirar(m.home, m.formH); mirar(m.away, m.formA);
+  });
+  return mejor;
+}
+
+/* Resuelve una carga del registro contra los datos frescos.
+
+   El estado guardado NO manda: se recalcula en cada render. Lo único
+   que se persiste como verdad es la corrección manual. Si guardáramos
+   el resultado, un cruce equivocado quedaría fosilizado en el
+   registro y ya no habría dato fresco que lo arreglara. */
+function resolver(b, matches, hoy){
+  if(b.manual) return {estado:b.estado, auto:false, res:null, esperando:false};
+
+  /* home/away se agregaron con esta funcionalidad; las cargas
+     anotadas antes solo tienen "X vs Y" y no se pueden perder. */
+  const H = b.home || (b.partido||"").split(" vs ")[0];
+  const A = b.away || (b.partido||"").split(" vs ")[1];
+
+  /* CANDADO 2 — si el partido sigue en la grilla con fecha de hoy o
+     posterior, no se jugó. Ni miramos marcadores. */
+  const enGrilla = (matches||[]).some(m=> m.id===b.matchId && m.date >= hoy);
+  if(enGrilla) return {estado:"pendiente", auto:true, res:null, esperando:false};
+
+  const res = buscarResultado(H, A, matches, b.fecha);
+  const test = TESTS[(b.key||"").split("__")[1]];
+  if(res && test) return {estado: test(res.i,res.j) ? "ganada" : "perdida", auto:true, res, esperando:false};
+
+  /* Ya se jugó pero el marcador no apareció: ninguno de los dos
+     equipos volvió a jugar dentro de la ventana del archivo. Se
+     declara en pantalla en vez de esconderlo. */
+  return {estado:"pendiente", auto:true, res:null, esperando: !!(b.fecha && b.fecha < hoy)};
+}
+/* ==== FIN RESOLUCION ==== */
 
 /* ══════════════════════════════════════════════════════════════════
    MERCADOS CORTOS
@@ -527,16 +663,10 @@ function mercados(M, m){
   add("Ambos","btts_si","Ambos marcan",      sumIf(M,(i,j)=>i>0&&j>0),  null);
   add("Ambos","btts_no","No marcan los dos", sumIf(M,(i,j)=>i===0||j===0), null);
 
-  /* el test sirve para la probabilidad conjunta exacta de la combinada */
-  const tests = {
-    "1x2_l":(i,j)=>i>j, "1x2_e":(i,j)=>i===j, "1x2_v":(i,j)=>i<j,
-    "dc_lx":(i,j)=>i>=j, "dc_x2":(i,j)=>i<=j, "dc_12":(i,j)=>i!==j,
-    "btts_si":(i,j)=>i>0&&j>0, "btts_no":(i,j)=>i===0||j===0,
-  };
-  [1.5,2.5,3.5].forEach(n=>{
-    tests["ov"+n]=(i,j)=>i+j>n; tests["un"+n]=(i,j)=>i+j<n;
-  });
-  o.forEach(x=> x.test = tests[x.id]);
+  /* El mismo TESTS que resuelve el registro. Acá sirve para la
+     probabilidad conjunta exacta de la combinada; allá para verificar
+     el cobro. Un solo objeto, a propósito. */
+  o.forEach(x=> x.test = TESTS[x.id]);
   return o;
 }
 
@@ -1193,54 +1323,118 @@ function viewRegistro(){
   if(!LOG.length){
     h += `<div class="aviso"><b>Todavía no anotaste nada</b>
       Cuando cargues una cuota en Herramientas y tenga ventaja, vas a poder anotarla acá
-      con un toque. Después se resuelve sola con el resultado del partido.</div>`;
+      con un toque. Después se resuelve sola: cuando el partido se juega, buscamos el
+      resultado y marcamos si entró. No tenés que volver a tocar nada.</div>`;
     return h;
   }
 
-  const cerradas = LOG.filter(x=>x.estado==="ganada"||x.estado==="perdida");
-  const invertido = cerradas.reduce((s,x)=>s+x.stake, 0);
-  const neto = cerradas.reduce((s,x)=> s + (x.estado==="ganada" ? x.stake*(x.cuota-1) : -x.stake), 0);
+  /* El estado guardado no manda. Se resuelve en cada render contra los
+     datos frescos, y lo único que se persiste como verdad es la
+     corrección manual. Si guardáramos el resultado, un cruce
+     equivocado quedaría fosilizado y ningún dato nuevo lo arreglaría. */
+  const hoy = hoyISO();
+  const filas = LOG.map((x, idx)=> ({carga:x, idx, r: resolver(x, MATCHES, hoy)}));
+
+  const cerradas = filas.filter(f=> f.r.estado==="ganada" || f.r.estado==="perdida");
+  const invertido = cerradas.reduce((s,f)=> s + f.carga.stake, 0);
+  const neto = cerradas.reduce((s,f)=> s + (f.r.estado==="ganada" ? f.carga.stake*(f.carga.cuota-1) : -f.carga.stake), 0);
   const roi = invertido ? neto/invertido : 0;
-  const aciertos = cerradas.filter(x=>x.estado==="ganada").length;
+  const aciertos = cerradas.filter(f=> f.r.estado==="ganada").length;
   const tasa = cerradas.length ? aciertos/cerradas.length : 0;
 
   h += `<div class="ledger">
     <div><small>Resultado</small><b class="${neto>0?"pos":neto<0?"neg":""}">${neto>0?"+":""}${plata(neto)}</b></div>
     <div><small>Acierto</small><b>${cerradas.length?pc(tasa):"—"}</b></div>
     <div><small>ROI</small><b class="${roi>0?"pos":roi<0?"neg":""}">${invertido?(roi>0?"+":"")+(roi*100).toFixed(1)+"%":"—"}</b></div>
-    <div><small>Cargadas</small><b>${LOG.length}</b></div>
+    <div><small>Cerradas</small><b>${cerradas.length}</b></div>
   </div>`;
+
+  /* De dónde viene cada estado. Va arriba de la lista porque el cruce
+     por nombre de rival es frágil: el usuario tiene que poder ver de
+     un vistazo cuánto de su registro lo decidió la app sola. */
+  const nAuto = cerradas.filter(f=> f.r.auto).length;
+  const nEsper = filas.filter(f=> f.r.esperando).length;
+  const nManual = filas.filter(f=> !f.r.auto).length;
+  const proc = [
+    nAuto  ? `${nAuto} ${nAuto===1?"resuelta":"resueltas"} con el resultado` : "",
+    nEsper ? `${nEsper} esperando resultado` : "",
+    nManual? `${nManual} ${nManual===1?"corregida":"corregidas"} a mano` : "",
+  ].filter(Boolean).join(" · ");
+  if(proc) h += `<div class="proc">${esc_(proc)}</div>`;
 
   /* curva acumulada — la única línea curva de la app, en mostaza */
   if(cerradas.length>1){
     let acc=0; const pts=[0];
-    cerradas.forEach(x=>{ acc += x.estado==="ganada" ? x.stake*(x.cuota-1) : -x.stake; pts.push(acc); });
+    cerradas.forEach(f=>{ acc += f.r.estado==="ganada" ? f.carga.stake*(f.carga.cuota-1) : -f.carga.stake; pts.push(acc); });
     const min=Math.min(...pts), max=Math.max(...pts), rango=(max-min)||1;
     const d = pts.map((v,i)=>`${(i/(pts.length-1)*300).toFixed(1)},${(52-(v-min)/rango*48).toFixed(1)}`).join(" ");
     h += `<svg class="chart" viewBox="0 0 300 56" preserveAspectRatio="none" aria-label="Acumulado">
       <polyline points="${d}" fill="none" stroke="#D6963A" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
   }
 
-  const cont = e => LOG.filter(x=> e==="todas" || x.estado===e).length;
+  const cont = e => filas.filter(f=> e==="todas" || f.r.estado===e).length;
   h += `<div class="filters">
     ${[["todas","Todas"],["ganada","Ganadas"],["perdida","Perdidas"],["pendiente","Pendientes"]]
       .map(([k,l])=>`<button class="chip ${FILTRO===k?"on":""}" data-filtro="${k}">${l} ${cont(k)}</button>`).join("")}
   </div><div class="lbl" style="margin:18px 16px 8px">Últimas cargadas</div>`;
 
-  const lista = LOG.filter(x=> FILTRO==="todas" || x.estado===FILTRO).slice().reverse();
+  const lista = filas.filter(f=> FILTRO==="todas" || f.r.estado===FILTRO).slice().reverse();
   if(!lista.length) h += `<div class="aviso">Nada con ese filtro.</div>`;
-  lista.forEach((x,i)=>{
-    const idx = LOG.indexOf(x);
-    h += `<div class="lbet">
-      <div class="top2"><span class="mkt">${esc_(x.partido)} — ${esc_(x.mercado)}</span><span class="stake">${plata(x.stake)}</span></div>
-      <div class="meta">${esc_(x.comp)} · @${x.cuota.toFixed(2)} · EV ${x.ev>0?"+":""}${(x.ev*100).toFixed(1)}%</div>
-      <div class="res">
-        <button class="w ${x.estado==="ganada"?"on":""}" data-estado="${idx}|ganada">Ganada</button>
-        <button class="l ${x.estado==="perdida"?"on":""}" data-estado="${idx}|perdida">Perdida</button>
-        <button class="p ${x.estado==="pendiente"?"on":""}" data-estado="${idx}|pendiente">Pendiente</button>
-      </div></div>`;
-  });
+  lista.forEach(f=> h += fichaRegistro(f));
   return h + `<div style="height:16px"></div>`;
+}
+
+/* Una carga del registro. El sello dice en qué estado quedó y la línea
+   de abajo dice por qué — de dónde salió ese estado. */
+function fichaRegistro({carga:x, idx, r}){
+  const dev = r.estado==="ganada" ? `<span class="dev pos">+${plata(x.stake*(x.cuota-1))}</span>`
+            : r.estado==="perdida" ? `<span class="dev neg">−${plata(x.stake)}</span>` : "";
+
+  let sello, detalle;
+  if(!r.auto){
+    sello = `<span class="sello man">A mano</span>`;
+    detalle = "Lo marcaste vos. No lo tocamos.";
+  } else if(r.estado==="ganada" || r.estado==="perdida"){
+    sello = `<span class="sello ${r.estado==="ganada"?"gan":"per"}">${r.estado==="ganada"?"Ganada":"Perdida"}</span>`;
+    detalle = `Cruzado con el historial de ${r.res.fuente}.`;
+  } else if(r.esperando){
+    sello = `<span class="sello esp">Sin resultado</span>`;
+    detalle = "Se jugó, pero el marcador todavía no aparece. Si ya lo sabés, cargalo vos.";
+  } else {
+    sello = `<span class="sello sin">Sin jugar</span>`;
+    detalle = `Se juega el ${cuando(x.fecha)}. Se resuelve solo.`;
+  }
+
+  /* Los tres botones no viven en la ficha: aparecen cuando el usuario
+     pide corregir, o cuando la app se quedó sin resultado y necesita
+     que alguien la ayude. Mostrarlos siempre era la fricción que hacía
+     que el registro no se llenara. */
+  const abierto = CORRIGIENDO === x.key || (r.auto && r.esperando);
+  const botones = abierto ? `<div class="res">
+      <button class="w ${r.estado==="ganada"?"on":""}" data-estado="${idx}|ganada">Ganada</button>
+      <button class="l ${r.estado==="perdida"?"on":""}" data-estado="${idx}|perdida">Perdida</button>
+      <button class="p ${r.estado==="pendiente"?"on":""}" data-estado="${idx}|pendiente">Pendiente</button>
+    </div>` : "";
+
+  const enlace = !r.auto
+    ? `<button class="lnk" data-auto="${idx}">Volver al automático</button>`
+    : (abierto ? "" : `<button class="lnk" data-corregir="${esc_(x.key)}">Corregir a mano</button>`);
+
+  const marcador = r.res ? `<span class="marc">${r.res.i}-${r.res.j}</span>` : "";
+
+  return `<div class="lbet">
+    <div class="top2"><span class="mkt">${esc_(x.partido)} — ${esc_(x.mercado)}</span><span class="stake">${plata(x.stake)}</span></div>
+    <div class="meta">${esc_(x.comp)} · @${x.cuota.toFixed(2)} · EV ${x.ev>0?"+":""}${(x.ev*100).toFixed(1)}%</div>
+    <div class="estado">${sello}${marcador}${dev}</div>
+    <div class="proced">${esc_(detalle)} ${enlace}</div>
+    ${botones}</div>`;
+}
+
+/* "MAR 18" — la fecha de un partido que todavía no se jugó. */
+function cuando(iso){
+  if(!iso) return "—";
+  const d = fechaDe(iso);
+  return `${DIAS[d.getDay()]} ${d.getDate()}`;
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1351,7 +1545,7 @@ function ir(v, extra){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar]");
+  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
   if(!t) return;
   const d = t.dataset;
 
@@ -1367,8 +1561,19 @@ document.addEventListener("click", e=>{
   else if(d.volver){ ir("fecha"); }
   else if(d.filtro){ FILTRO = d.filtro; render(); }
   else if(d.estado){
+    /* Marcar a mano desautoriza el cruce para siempre en esa carga.
+       Es a propósito: el cruce por nombre de rival es frágil, y si el
+       usuario lo corrige es porque sabe algo que la app no sabe. */
     const [i, est] = d.estado.split("|");
-    LOG[+i].estado = est; guardar("log", LOG); render();
+    Object.assign(LOG[+i], {estado:est, manual:true});
+    CORRIGIENDO = null;
+    guardar("log", LOG); render();
+  }
+  else if(d.corregir){ CORRIGIENDO = d.corregir; render(); }
+  else if(d.auto){
+    LOG[+d.auto].manual = false;
+    CORRIGIENDO = null;
+    guardar("log", LOG); render();
   }
   else if(d.banca){
     const v = parseFloat((document.getElementById("banca-in").value||"").replace(/[^\d]/g,""));
@@ -1397,8 +1602,15 @@ function anotar(key){
 
   const kf = (m.conf>=72)?0.25:(m.conf>=60)?0.125:(m.conf>=50)?0.0625:0.005;
   const stake = Math.min(Math.round(BANCA*kelly(op.p,c)*kf), BANCA*0.04);
-  LOG.push({key, partido:`${m.home} vs ${m.away}`, mercado:op.label, comp:m.comp,
-            cuota:c, p:op.p, ev:ev(op.p,c), stake, estado:"pendiente",
+  /* home y away van aparte del texto "X vs Y": son las claves con las
+     que después se cruza el resultado contra los historiales, y un
+     nombre de equipo puede tener " vs " adentro el día que ESPN
+     cambie algo. `p`, `ev` y `cuota` quedan congelados: son el precio
+     y la creencia de este momento, y recalcularlos con datos nuevos
+     borraría la evidencia de si acertamos. */
+  LOG.push({key, partido:`${m.home} vs ${m.away}`, home:m.home, away:m.away,
+            mercado:op.label, comp:m.comp,
+            cuota:c, p:op.p, ev:ev(op.p,c), stake, estado:"pendiente", manual:false,
             fecha:m.date, matchId:mid});
   guardar("log", LOG);
   ir("registro");

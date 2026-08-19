@@ -31,7 +31,7 @@ function cargarLogica(){
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
-              mercados, otrosMercados,
+              mercados, otrosMercados, divergen,
               cargar: (ms, an) => { MATCHES = ms; ANALISIS = an || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
@@ -350,6 +350,39 @@ test("sin análisis cargado, otrosMercados no marca nada — la escalera sola no
     if(L.otrosMercados(m).some(x=> x.esVal)) marcaron++;
   });
   igual(marcaron, 0, "otrosMercados marcó valor sin análisis cargado");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   7. Divergencia modelo/análisis — cuando "Nuestra lectura" de
+   Pronósticos nombra a un equipo y "Hacia dónde inclina" de Análisis
+   nombra al otro, el usuario tiene que enterarse de que son dos
+   lecturas separadas a propósito, no un error de la app.
+   ══════════════════════════════════════════════════════════════════ */
+test("divergen() detecta cuando el análisis humano no coincide con el modelo", ()=>{
+  let vistas = 0;
+  PARTIDOS.forEach(m=>{
+    const lean = L.lectura(m).lean;
+    const otras = DIRS.filter(d=> d !== lean);
+    if(!otras.length) return;
+    L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion: otras[0]}});
+    const d = L.divergen(m);
+    cierto(d, `${m.home} vs ${m.away}: análisis ${otras[0]} vs modelo ${lean}, divergen() dio null`);
+    igual(d.dirHumana, otras[0]); igual(d.dirModelo, lean);
+    vistas++;
+  });
+  cierto(vistas > 0, "no se probó ningún caso de divergencia real");
+});
+
+test("divergen() no marca nada cuando el análisis coincide con el modelo, o no hay análisis", ()=>{
+  PARTIDOS.forEach(m=>{
+    const lean = L.lectura(m).lean;
+    L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion: lean}});
+    igual(L.divergen(m), null, `${m.home} vs ${m.away} coincide y igual divergió:`);
+  });
+  L.cargar(PARTIDOS, {});
+  PARTIDOS.forEach(m=>{
+    igual(L.divergen(m), null, `${m.home} vs ${m.away} sin análisis y igual divergió:`);
+  });
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

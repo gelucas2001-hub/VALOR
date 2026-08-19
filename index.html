@@ -1135,6 +1135,20 @@ function escalera(m){
    Pronósticos: hace falta análisis cargado, no alcanza con el lean
    del modelo.
    ══════════════════════════════════════════════════════════════════ */
+/* Cuándo avisar que el modelo y el análisis humano no coinciden. Sin
+   esto, "Nuestra lectura" de Pronósticos puede nombrar a un equipo y
+   "Hacia dónde inclina" de Análisis nombrar al otro — dos lecturas
+   separadas a propósito (esa es la regla de alineación), pero nada se
+   lo explica al usuario si no hay un aviso puntual para ese caso.
+   Devuelve null cuando coinciden o cuando no hay análisis cargado: en
+   ese último caso "Nuestra lectura" ya es lo único que hay. */
+function divergen(m){
+  const dirHumana = inclinacionDe(m.id);
+  if(!dirHumana) return null;
+  const dirModelo = lectura(m).lean;
+  return dirHumana === dirModelo ? null : {dirHumana, dirModelo};
+}
+
 function otrosMercados(m){
   const lec = lectura(m);
   const ops = mercados(lec.M, m);
@@ -1653,6 +1667,16 @@ function tabPronosticos(m){
     h += `<div class="nota">Abajo está la escalera con lo que dice el modelo, para que la veas.
       No vas a encontrar nada marcado como oportunidad: solo señalamos precio a favor en
       partidos que miramos en serio, y este todavía no.</div>`;
+  } else {
+    const dv = divergen(m);
+    if(dv){
+      const comoQuien = {L:m.home, V:m.away, E:"el empate"};
+      h += `<div class="nota">Los números crudos del modelo dan más chance a
+        <b>${esc_(comoQuien[dv.dirModelo])}</b> arriba, pero nuestro análisis vio algo que los
+        números solos no ven, y se inclina para <b>${esc_(comoQuien[dv.dirHumana])}</b>. Son dos
+        lecturas distintas a propósito — no vas a encontrar nada marcado como oportunidad en
+        contra de la del análisis, aunque el modelo diga otra cosa.</div>`;
+    }
   }
   h += `</div>`;   // cierra el .sec de la lectura
 

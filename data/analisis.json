@@ -9,10 +9,34 @@
       "veredicto": "Lectura final: hacia dónde inclina esto el análisis"
     }
   },
+  "espn401841518": {
+    "actualizado": "2026-08-18",
+    "inclinacion": "V",
+    "contexto": "River llega con bajas de peso que vienen de semanas atrás — Acuña, Driussi, Ramírez, Portillo y Ruberto no estuvieron ni en el último partido de Liga — y recién cortó una racha de cuatro derrotas seguidas en el torneo con un triunfo ajustado. Vélez, en cambio, llega más entero: la única baja confirmada es Jano Gordon, con una lesión de rodilla que lo deja afuera hasta fin de octubre, y viene de cinco partidos de Liga sin perder.",
+    "veredicto": "El historial no ayuda a River como parece a primera vista: los dos cruces más recientes entre ellos se jugaron en la cancha de Vélez, no en el Monumental, y River no le ganó a ninguno (una derrota, un empate). Los dos que sí fueron en el Monumental son los más viejos de la lista, de hace más de un año. Sin ese antecedente a favor, y con Vélez llegando con muchas menos bajas y mejor funcionamiento reciente, la lectura se inclina para la visita."
+  },
   "espn401841517": {
     "actualizado": "2026-08-18",
     "inclinacion": "L",
     "contexto": "Los dos llegan golpeados atrás, pero a Boca se le complica más: perdió a Pellegrino por un desgarro confirmado el 16 de agosto, y todavía no está claro si Paredes y Lozano —lesionados el 15 de agosto ante Platense— llegan a jugar. A eso se le suma la vuelta de la Sudamericana en Asunción el 18 de agosto, apenas cinco días antes de este partido. Racing tampoco está fino: viene de perder tres seguidos en la Liga y trabaja cerca del fondo de su zona, pero tiene una sola baja de peso confirmada, Di Cesare, con fractura de tobillo desde el 9 de agosto.",
     "veredicto": "En el Cilindro, Racing le ganó los dos últimos cruces a Boca —aunque son apenas dos antecedentes—, y esta vez recibe a un rival con más bajas, con la duda del capitán, y con un viaje a Paraguay encima. Ninguno de los dos llega fino, pero el que llega con menos jugadores de peso afuera es el local."
+  },
+  "espn401841510": {
+    "actualizado": "2026-08-18",
+    "inclinacion": "L",
+    "contexto": "No hay bajas de peso confirmadas para ninguno de los dos en la previa. Belgrano llega entero, funcionando bien de local y peleando arriba en su zona. Defensa y Justicia, en cambio, no rinde de visitante últimamente — perdió 0-3 en su salida más reciente y no gana afuera hace rato.",
+    "veredicto": "Sin bajas que inclinen la lectura, la diferencia está en el funcionamiento: Belgrano sólido de local, Defensa incómodo de visitante. Se inclina para el local."
+  },
+  "espn401841509": {
+    "actualizado": "2026-08-18",
+    "inclinacion": null,
+    "contexto": "Barracas llega con tres lesionados musculares (Martínez, Briasco, Rak) tras un buen arranque de campaña que se frenó con dos derrotas seguidas. Platense tiene una baja confirmada, el defensor Cuesta, y un funcionamiento irregular en las últimas fechas. Ninguno de los dos tiene un antecedente de peso en esta cancha puntual — los cruces entre ellos que hay se jugaron en la cancha de Platense.",
+    "veredicto": "Los dos llegan con bajas y ninguno con una racha clara a favor. No hay una lectura que se sostenga mejor que la otra."
+  },
+  "espn401841519": {
+    "actualizado": "2026-08-18",
+    "inclinacion": "L",
+    "contexto": "No hay ausencias de peso confirmadas para ninguno de los dos. Sarmiento llega de racha, con tres triunfos seguidos y funcionando bien de local. Estudiantes no gana de visitante en sus últimas dos salidas, con dos derrotas en el medio.",
+    "veredicto": "Sarmiento en levantada y de local, Estudiantes sin rendir afuera — la balanza se inclina para el local."
   }
 }

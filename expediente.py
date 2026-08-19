@@ -14,11 +14,13 @@ Se va con la biblioteca estándar, igual que actualizar.py.
 
     python expediente.py espn401896916      un partido
     python expediente.py --fecha 2026-08-19 todos los de esa fecha, uno por uno
-    python expediente.py --lista            qué hay para elegir
+    python expediente.py --lista            lo de hoy y mañana (ventana de research)
+    python expediente.py --lista --todos    la grilla completa, sin recortar
 """
 
 import json
 import sys
+from datetime import date
 from pathlib import Path
 
 # La consola de Windows escribe en cp1252 y se rompe con la λ y con los
@@ -32,6 +34,12 @@ for flujo in (sys.stdout, sys.stderr):
 
 RAIZ = Path(__file__).resolve().parent
 PARTIDOS = RAIZ / "data" / "partidos.json"
+
+# La prensa habla fuerte recién 24-48h antes del partido: research hecho una
+# semana antes se pisa con la nota que sale la víspera. Por eso --lista
+# recorta a esta ventana por omisión — el research se hace el día antes o el
+# mismo día, no con toda la grilla de la semana por delante.
+VENTANA_DIAS = 1
 
 # Lo que SÍ ve la skill. Todo lo que no esté acá queda afuera por omisión,
 # que es la única forma de que agregar un campo nuevo al pipeline no filtre
@@ -90,6 +98,18 @@ def expediente(p):
         avisos.append(
             f"Solo {len(p['h2h'])} cruce(s) de historial: es una anécdota, "
             "no una tendencia. No la uses para inclinar.")
+    # Encontrado en auditoría (River-Vélez, 2026-08-18): un análisis dijo
+    # "los dos últimos cruces en el Monumental" cuando los dos más recientes
+    # del h2h se habían jugado en la cancha del visitante, y los que sí fueron
+    # en el Monumental eran los dos más viejos. El orden (más reciente primero)
+    # y la sede (campo "h") son independientes — hay que leer "h" fila por
+    # fila, no asumir que los últimos cruces fueron en esta cancha.
+    if len(p.get("h2h", [])) >= 2:
+        avisos.append(
+            "h2h viene del más reciente al más viejo, pero la sede no sigue "
+            "ningún patrón: mirá el campo 'h' en CADA fila antes de decir "
+            "dónde se jugó un cruce. 'los últimos cruces fueron en esta "
+            "cancha' es una afirmación sobre 'h', no sobre el orden de la lista.")
     # La forma sale de /{slug}/teams/{id}/schedule: el slug de la competición
     # va en la ruta, así que SOLO trae partidos de esta competencia. Un equipo
     # que juega liga y copa tiene dos formas distintas en el mismo archivo —
@@ -161,10 +181,25 @@ def main():
         return 0
 
     if args[0] == "--lista":
-        for p in ps:
+        recorte = "--todos" not in args
+        if recorte:
+            hoy = date.today()
+            def en_ventana(p):
+                try:
+                    d = date.fromisoformat(p.get("date", ""))
+                except ValueError:
+                    return False
+                return 0 <= (d - hoy).days <= VENTANA_DIAS
+            vista = [p for p in ps if en_ventana(p)]
+        else:
+            vista = ps
+        for p in vista:
             print(f"{p['id']}  {p.get('date','')}  {p['comp'][:22]:22}  "
                   f"{p['home']} vs {p['away']}")
-        print(f"\n{len(ps)} partidos. Los campos que NO se entregan:")
+        if recorte:
+            print(f"\n{len(vista)} de {len(ps)} — ventana de hoy a +{VENTANA_DIAS} día(s). "
+                  "--todos para ver la grilla completa.")
+        print(f"\n{len(ps)} partidos en total. Los campos que NO se entregan:")
         for k, v in EXCLUIDOS.items():
             print(f"  {k:10} {v}")
         return 0

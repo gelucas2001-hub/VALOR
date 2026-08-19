@@ -31,6 +31,7 @@ function cargarLogica(){
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
+              mercados, otrosMercados,
               cargar: (ms, an) => { MATCHES = ms; ANALISIS = an || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
@@ -309,6 +310,46 @@ test("el sello distingue dos equipos que comparten el nombre", ()=>{
 test("con nombres distintos, el recorte no cambia", ()=>{
   igual(L.nombreSello("Boca Juniors", "River Plate"), "BOCA JUNIORS", "nombre corto:");
   igual(L.nombreSello("Independiente Rivadavia", "Fluminense"), "INDEPENDIENTE", "nombre largo:");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   6. Otros mercados — la escalera elige uno por franja, pero alguien
+   que juega siempre 1X2 o siempre doble oportunidad tiene que poder
+   ver esa lectura igual, aunque no haya sido la elegida.
+   ══════════════════════════════════════════════════════════════════ */
+test("otrosMercados devuelve TODOS los mercados elegibles, no solo los de la escalera", ()=>{
+  PARTIDOS.slice(0, 10).forEach(m=>{
+    const todos = L.mercados(L.lectura(m).M, m);
+    const otros = L.otrosMercados(m);
+    igual(otros.length, todos.length, `${m.home} vs ${m.away}:`);
+  });
+});
+
+test("otrosMercados marca el mismo mercado que ganó la escalera, y ninguno más", ()=>{
+  let revisados = 0;
+  PARTIDOS.forEach(m=>{
+    const lean = L.lectura(m).lean;
+    L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion:lean}});
+    const marcado = L.escalera(m).find(f=> f.valor);
+    if(!marcado) return;
+    revisados++;
+    const marcados = L.otrosMercados(m).filter(x=> x.esVal);
+    igual(marcados.length, 1, `${m.home} vs ${m.away}:`);
+    igual(marcados[0].op.id, marcado.op.id, `${m.home} vs ${m.away}:`);
+  });
+  cierto(revisados > 0, "ningún partido tuvo marca de valor para revisar");
+});
+
+test("sin análisis cargado, otrosMercados no marca nada — la escalera sola no alcanza", ()=>{
+  /* escalera() calcula .valor a partir del lean del modelo si no hay
+     inclinación humana, pero esa marca no es real sin análisis: la
+     gatea `analizado()`, igual que en el render de Pronósticos. */
+  L.cargar(PARTIDOS, {});
+  let marcaron = 0;
+  PARTIDOS.forEach(m=>{
+    if(L.otrosMercados(m).some(x=> x.esVal)) marcaron++;
+  });
+  igual(marcaron, 0, "otrosMercados marcó valor sin análisis cargado");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

@@ -574,6 +574,7 @@ a{color:inherit}
 .mrow .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
 .mrow .mkt{font-size:13px;color:var(--tinta2)}
 .mrow .modelo{font-family:var(--mono);font-size:10px;color:var(--gris2);flex:0 0 auto}
+.mrow .umb{font-family:var(--mono);font-size:10px;color:var(--gris2);margin-top:0}
 .inrow{display:flex;gap:10px;align-items:center}
 .inrow input{flex:1;min-width:0;background:var(--hueco);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:13px;text-align:center;padding:8px 0}
 .mrow.val .inrow input{border-color:var(--mostazaBorde)}
@@ -1119,6 +1120,33 @@ function escalera(m){
   const marcables = filas.filter(x=> x.valor).sort((a,b)=> b.ventaja - a.ventaja);
   marcables.slice(1).forEach(x=> x.valor = false);
   return filas;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   OTROS MERCADOS
+
+   La escalera elige un mercado por franja de riesgo, por ventaja — no
+   por familia. Alguien que juega siempre 1X2, o siempre doble
+   oportunidad, puede no ver nunca su mercado ahí aunque el número
+   exista. Esta lista muestra TODOS los mercados elegibles con nuestra
+   lectura, sin filtrar por franja — pero sin inventar una marca de
+   valor nueva: sigue habiendo una sola por partido, la misma que ya
+   eligió escalera(). Por eso el gate es el mismo que en el render de
+   Pronósticos: hace falta análisis cargado, no alcanza con el lean
+   del modelo.
+   ══════════════════════════════════════════════════════════════════ */
+function otrosMercados(m){
+  const lec = lectura(m);
+  const ops = mercados(lec.M, m);
+  const mk  = m.mercado || {};
+  const pq  = devig(mk);
+  const marcado = analizado(m.id) ? escalera(m).find(x=> x.valor) : null;
+  const marcadoId = marcado ? marcado.op.id : null;
+  return ops.map(o=>{
+    const pm = pMercado(o, pq, mk);
+    const ventaja = pm==null ? null : o.p - pm;
+    return {op:o, ventaja, esVal: o.id===marcadoId};
+  });
 }
 
 /* Combinada del partido: dos patas de familias distintas, con la
@@ -1681,6 +1709,26 @@ function tabPronosticos(m){
         <div class="cobra">${nota}</div>
       </div>`;
   }
+
+  /* La escalera elige un mercado por franja, por ventaja — no por
+     familia. Si jugás siempre 1X2, o siempre doble oportunidad, tu
+     mercado puede no salir nunca ahí aunque el número exista. Acá está
+     nuestra lectura de TODOS los mercados elegibles, no solo el que
+     ganó arriba — pero solo ese sigue en mostaza: una marca por
+     partido, la misma de siempre, no una nueva por mercado. */
+  const otros = otrosMercados(m);
+  const fams = ["Resultado","Goles","Ambos"];
+  h += `<div class="banda banda2">Otros mercados<em>NUESTRA LECTURA DE CADA UNO</em></div>`;
+  fams.forEach(fam=>{
+    h += `<div class="grp"><div class="gh">${esc_(fam)}</div>`;
+    otros.filter(x=> x.op.fam===fam).forEach(({op, esVal})=>{
+      h += `<div class="mrow ${esVal?"val":""}">
+        <div class="top2"><span class="mkt">${esc_(op.label)}</span><span class="modelo">${pc(op.p)}</span></div>
+        <div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>
+      </div>`;
+    });
+    h += `</div>`;
+  });
 
   h += `<div class="foot">Las tres salen de la misma lectura — elegís vos cuánto arriesgar.
     El umbral ya incluye un margen de seguridad: a la cuota justa pelada la ventaja es cero.

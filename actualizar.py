@@ -314,6 +314,22 @@ def forma(jugados, n=5):
     return out
 
 
+def forma_general(*listas_jugados, n=5):
+    """Los últimos n partidos de un equipo sin importar torneo — la fecha
+    manda, no la competencia.
+
+    Existe porque una copa de baja frecuencia (fase de grupos de
+    Sudamericana, por ejemplo) deja la forma de ESA competencia con meses
+    de antigüedad mientras el equipo sigue jugando cada semana en otro
+    lado. La API no tiene una ruta que traiga el historial de un equipo
+    sin scope de competencia (probado contra site.api.espn.com:
+    /teams/{id}/schedule sin slug da 404 Not Found), así que se arma
+    juntando el historial ya pedido de cada competencia por separado."""
+    todos = [j for lista in listas_jugados for j in lista]
+    todos.sort(key=lambda p: p.get("fecha") or "", reverse=True)
+    return forma(todos, n)
+
+
 def tabla_competicion(slug, season):
     """/standings: devuelve {team_id: [filas del grupo]} para poder mostrar
     la zona del equipo que juega. En liga sin grupos ESPN igual devuelve
@@ -675,6 +691,13 @@ def main():
             cache_hist[k] = historial(slug, tid, yr)
         return cache_hist[k]
 
+    def get_hist_general(tid):
+        # Un pedido por competencia que seguimos, no por partido: si el
+        # equipo ya se consultó en su propio slug (jug_loc/jug_vis, más
+        # abajo) esa llamada se recicla vía cache_hist. Las que no
+        # participa devuelven lista vacía y forma_general las ignora sola.
+        return [get_hist(s, tid) for s in COMPETICIONES]
+
     def get_tabla(slug):
         if slug not in cache_tabla:
             cache_tabla[slug] = tabla_competicion(slug, season)
@@ -862,6 +885,8 @@ def main():
                 "fouls": fouls, "cards": cards,
                 "note": nota,
                 "formH": forma(jug_loc), "formA": forma(jug_vis),
+                "formH_general": forma_general(*get_hist_general(loc_id)),
+                "formA_general": forma_general(*get_hist_general(vis_id)),
                 "h2h": h2h, "tabla": tabla, "grupo": grupo,
                 "estadio": estadio, "ciudad": ciudad,
                 "mercado": mercado,

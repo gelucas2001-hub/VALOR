@@ -46,7 +46,7 @@ VENTANA_DIAS = 1
 # sin querer la salida del modelo hacia el análisis.
 EXPEDIENTE = [
     "comp", "grupo", "fecha", "hora", "estadio", "ciudad",
-    "formH", "formA", "h2h", "tabla",
+    "formH", "formA", "formH_general", "formA_general", "h2h", "tabla",
     "corners", "cornersH", "fouls", "cards",
 ]
 
@@ -119,8 +119,33 @@ def expediente(p):
         f"formH/formA son SOLO partidos de {p.get('comp','esta competencia')}. "
         "No son los últimos partidos del equipo: los de otros torneos, en el "
         "mismo período, no están. No escribas 'los últimos cinco partidos' — "
-        "escribí 'los últimos cinco de este torneo'. Tampoco hay fechas, así "
-        "que no sabés si abarcan un mes o seis.")
+        "escribí 'los últimos cinco de este torneo'. Para eso está "
+        "formH_general/formA_general: los últimos 5 del equipo sin importar "
+        "torneo, con fecha real — usalo cuando formH/formA esté vieja o "
+        "cuando quieras hablar del momento actual del equipo en general.")
+
+    # En copas de baja frecuencia (grupos, ida y vuelta) el partido más
+    # viejo de formH/formA puede tener meses — visto con River en
+    # Sudamericana: los 5 partidos de su forma iban del 16/04 al 28/05,
+    # tres meses antes del partido que se estaba analizando. Con fecha ya
+    # en la forma, esto se puede medir en vez de suponer.
+    hoy = date.today()
+    for lado, quien in (("formH", "el local"), ("formA", "el visitante")):
+        fechas = [f.get("d", "") for f in p.get(lado, [])]
+        if not fechas or not fechas[-1]:
+            continue
+        try:
+            dd, mm, aa = fechas[-1].split("/")
+            viejo = date(2000 + int(aa), int(mm), int(dd))
+        except (ValueError, IndexError):
+            continue
+        dias = (hoy - viejo).days
+        if dias > 45:
+            avisos.append(
+                f"La forma d{'el' if quien=='el local' else 'el'} {quien[3:]} "
+                f"({lado}) abarca {dias} días — el partido más viejo es del "
+                f"{fechas[-1]}. Es vieja para hablar de 'cómo llega' hoy: "
+                f"apoyate en {lado}_general en vez de esta.")
 
     from collections import Counter
     for lado, quien in (("formH", "el local"), ("formA", "el visitante")):
@@ -165,6 +190,11 @@ def expediente(p):
         "corners/fouls/cards son totales del PARTIDO (los dos equipos sumados); "
         "cornersH es la parte del local. cards suma amarillas y rojas. "
         "En formH/formA, 'local' dice si ese partido lo jugó de local. "
+        "formH_general/formA_general son los últimos 5 del equipo cruzando TODAS "
+        "las competencias que seguimos, ordenados por fecha real — a diferencia de "
+        "formH/formA, que son solo de esta competencia. Usá la de competencia como "
+        "base (pesa más, porque el equipo encara distinto un torneo que otro) y la "
+        "general para contrastar o cuando la de competencia esté vieja. "
         "En h2h, 'h' es quien fue local y 's' el marcador. "
         "tabla es la del grupo o zona del LOCAL — el visitante puede no estar ahí — "
         "y no trae goles en contra, solo 'gf'."

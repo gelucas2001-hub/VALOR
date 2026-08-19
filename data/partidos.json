@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-19T14:06",
- "requests": 272,
+ "actualizado": "2026-08-19T14:49",
+ "requests": 558,
  "partidos": [
   {
    "id": "espn401874155",
@@ -61,6 +61,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Cerro Porteño",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "28/05/26",
+     "r": "W",
+     "rival": "Atlético Junior",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "d": "21/05/26",
+     "r": "L",
+     "rival": "Cerro Porteño",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "05/05/26",
+     "r": "W",
+     "rival": "Sporting Cristal",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "30/04/26",
+     "r": "D",
+     "rival": "Cerro Porteño",
+     "local": false,
+     "marcador": "1-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Palmeiras",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "28/05/26",
+     "r": "W",
+     "rival": "Sporting Cristal",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "21/05/26",
+     "r": "W",
+     "rival": "Palmeiras",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "08/05/26",
+     "r": "W",
+     "rival": "Atlético Junior",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "30/04/26",
+     "r": "D",
+     "rival": "Palmeiras",
+     "local": true,
+     "marcador": "1-1"
+    }
+   ],
+   "formA_general": [
     {
      "d": "12/08/26",
      "r": "D",
@@ -184,8 +258,8 @@
     "empate": 3.25,
     "visitante": 1.83,
     "totalLinea": 2.5,
-    "totalOver": 2.4,
-    "totalUnder": 1.53,
+    "totalOver": 2.45,
+    "totalUnder": 1.51,
     "hcapLinea": 0.5,
     "hcapLocal": 1.95,
     "hcapVisitante": 1.77
@@ -287,6 +361,80 @@
      "marcador": "2-1"
     }
    ],
+   "formH_general": [
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "27/05/26",
+     "r": "L",
+     "rival": "Nacional",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "19/05/26",
+     "r": "W",
+     "rival": "Deportes Tolima",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "08/05/26",
+     "r": "W",
+     "rival": "Universitario",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "29/04/26",
+     "r": "L",
+     "rival": "Deportes Tolima",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Coquimbo Unido",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "03/08/26",
+     "r": "L",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "0-4"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
    "h2h": [
     {
      "d": "12/08/26",
@@ -346,15 +494,15 @@
    "ciudad": "Coquimbo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.35,
-    "empate": 2.95,
-    "visitante": 3.35,
+    "local": 2.4,
+    "empate": 2.85,
+    "visitante": 3.45,
     "totalLinea": 1.5,
-    "totalOver": 1.61,
-    "totalUnder": 2.25,
+    "totalOver": 1.67,
+    "totalUnder": 2.15,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.25,
-    "hcapVisitante": 1.57
+    "hcapLocal": 2.3,
+    "hcapVisitante": 1.56
    },
    "preload": {}
   },
@@ -417,6 +565,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "12/08/26",
+     "r": "L",
+     "rival": "Atlético-MG",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "30/07/26",
+     "r": "W",
+     "rival": "Sporting Cristal",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "23/07/26",
+     "r": "D",
+     "rival": "Sporting Cristal",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "28/05/26",
+     "r": "W",
+     "rival": "Carabobo",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "21/05/26",
+     "r": "D",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "12/08/26",
+     "r": "W",
+     "rival": "Red Bull Bragantino",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Academia Puerto Cabello",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "21/05/26",
+     "r": "W",
+     "rival": "Cienciano del Cusco",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "05/05/26",
+     "r": "D",
+     "rival": "Juventud",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "d": "30/04/26",
+     "r": "L",
+     "rival": "Cienciano del Cusco",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formA_general": [
     {
      "d": "12/08/26",
      "r": "L",
@@ -566,6 +788,80 @@
      "marcador": "3-0"
     }
    ],
+   "formH_general": [
+    {
+     "d": "14/08/26",
+     "r": "L",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "d": "29/07/26",
+     "r": "D",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "24/07/26",
+     "r": "W",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "10/08/26",
+     "r": "W",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "06/08/26",
+     "r": "D",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "23/07/26",
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
    "h2h": [],
    "tabla": [],
    "grupo": "",
@@ -574,14 +870,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 2.85,
-    "empate": 2.75,
+    "empate": 2.8,
     "visitante": 2.85,
     "totalLinea": 1.5,
     "totalOver": 1.51,
     "totalUnder": 2.45,
     "hcapLinea": 0.5,
     "hcapLocal": 1.42,
-    "hcapVisitante": 2.7
+    "hcapVisitante": 2.65
    },
    "preload": {}
   },
@@ -644,6 +940,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "13/08/26",
+     "r": "D",
+     "rival": "Flamengo",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "29/05/26",
+     "r": "W",
+     "rival": "Barcelona SC",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "d": "20/05/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "07/05/26",
+     "r": "D",
+     "rival": "Universidad Católica",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "29/04/26",
+     "r": "W",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "13/08/26",
+     "r": "D",
+     "rival": "Cruzeiro",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Cusco FC",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "21/05/26",
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "30/04/26",
+     "r": "D",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "17/04/26",
+     "r": "W",
+     "rival": "Independiente Medellín",
+     "local": true,
+     "marcador": "4-1"
+    }
+   ],
+   "formA_general": [
     {
      "d": "13/08/26",
      "r": "D",
@@ -825,6 +1195,80 @@
      "marcador": "1-0"
     }
    ],
+   "formH_general": [
+    {
+     "d": "31/07/26",
+     "r": "W",
+     "rival": "Caracas FC",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "d": "24/07/26",
+     "r": "W",
+     "rival": "Caracas FC",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "28/05/26",
+     "r": "W",
+     "rival": "Peñarol",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "20/05/26",
+     "r": "W",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "07/05/26",
+     "r": "D",
+     "rival": "Corinthians",
+     "local": true,
+     "marcador": "1-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "02/08/26",
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "25/07/26",
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
    "h2h": [],
    "tabla": [
     {
@@ -881,7 +1325,7 @@
     "empate": 3.0,
     "visitante": 2.3,
     "totalLinea": 1.5,
-    "totalOver": 1.51,
+    "totalOver": 1.53,
     "totalUnder": 2.45,
     "hcapLinea": 0.5,
     "hcapLocal": 1.59,
@@ -984,6 +1428,80 @@
      "marcador": "1-1"
     }
    ],
+   "formH_general": [
+    {
+     "d": "12/08/26",
+     "r": "W",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "26/05/26",
+     "r": "D",
+     "rival": "Grêmio",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "d": "19/05/26",
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "d": "06/05/26",
+     "r": "W",
+     "rival": "Palestino",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "29/04/26",
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "15/08/26",
+     "r": "D",
+     "rival": "Aldosivi",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "12/08/26",
+     "r": "L",
+     "rival": "Montevideo City Torque",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "06/08/26",
+     "r": "D",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "01/08/26",
+     "r": "W",
+     "rival": "Racing Club",
+     "local": false,
+     "marcador": "3-1"
+    }
+   ],
    "h2h": [
     {
      "d": "12/08/26",
@@ -1043,15 +1561,15 @@
    "ciudad": "Montevideo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.0,
-    "empate": 3.05,
-    "visitante": 2.55,
+    "local": 3.8,
+    "empate": 3.0,
+    "visitante": 2.15,
     "totalLinea": 1.5,
-    "totalOver": 1.5,
-    "totalUnder": 2.5,
+    "totalOver": 1.56,
+    "totalUnder": 2.35,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.51,
-    "hcapVisitante": 2.4
+    "hcapLocal": 1.67,
+    "hcapVisitante": 2.1
    },
    "preload": {}
   },
@@ -1114,6 +1632,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "13/08/26",
+     "r": "D",
+     "rival": "Liga de Quito",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "26/05/26",
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "20/05/26",
+     "r": "W",
+     "rival": "Always Ready",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "07/05/26",
+     "r": "W",
+     "rival": "Liga de Quito",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "29/04/26",
+     "r": "W",
+     "rival": "Always Ready",
+     "local": true,
+     "marcador": "2-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "13/08/26",
+     "r": "D",
+     "rival": "Mirassol",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "26/05/26",
+     "r": "W",
+     "rival": "Always Ready",
+     "local": true,
+     "marcador": "3-2"
+    },
+    {
+     "d": "21/05/26",
+     "r": "W",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "07/05/26",
+     "r": "L",
+     "rival": "Mirassol",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "28/04/26",
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formA_general": [
     {
      "d": "13/08/26",
      "r": "D",
@@ -1222,14 +1814,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.56,
-    "empate": 3.85,
+    "empate": 3.75,
     "visitante": 6.0,
     "totalLinea": 2.5,
-    "totalOver": 2.05,
-    "totalUnder": 1.67,
+    "totalOver": 2.15,
+    "totalUnder": 1.61,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.51,
-    "hcapVisitante": 2.35
+    "hcapLocal": 1.53,
+    "hcapVisitante": 2.3
    },
    "preload": {}
   },
@@ -1292,6 +1884,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "13/08/26",
+     "r": "D",
+     "rival": "Club Olimpia",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "Independiente Medellín",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "22/07/26",
+     "r": "D",
+     "rival": "Independiente Medellín",
+     "local": false,
+     "marcador": "2-2"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "20/05/26",
+     "r": "L",
+     "rival": "Club Olimpia",
+     "local": false,
+     "marcador": "1-3"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "13/08/26",
+     "r": "D",
+     "rival": "Vasco da Gama",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Audax Italiano",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "d": "20/05/26",
+     "r": "W",
+     "rival": "Vasco da Gama",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "d": "07/05/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "30/04/26",
+     "r": "L",
+     "rival": "Vasco da Gama",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "formA_general": [
     {
      "d": "13/08/26",
      "r": "D",
@@ -1506,6 +2172,80 @@
      "marcador": "2-2"
     }
    ],
+   "formH_general": [
+    {
+     "d": "13/08/26",
+     "r": "L",
+     "rival": "Santos",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "29/05/26",
+     "r": "D",
+     "rival": "América de Cali",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "22/05/26",
+     "r": "D",
+     "rival": "Alianza Atlético",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "07/05/26",
+     "r": "D",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "2-2"
+    },
+    {
+     "d": "01/05/26",
+     "r": "W",
+     "rival": "Alianza Atlético",
+     "local": false,
+     "marcador": "2-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "13/08/26",
+     "r": "W",
+     "rival": "Macará",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "UCV FC",
+     "local": true,
+     "marcador": "4-2"
+    },
+    {
+     "d": "22/07/26",
+     "r": "W",
+     "rival": "UCV FC",
+     "local": false,
+     "marcador": "4-1"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Deportivo Cuenca",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "20/05/26",
+     "r": "D",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
    "h2h": [
     {
      "d": "13/08/26",
@@ -1672,6 +2412,80 @@
      "marcador": "3-0"
     }
    ],
+   "formH_general": [
+    {
+     "d": "14/08/26",
+     "r": "D",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "28/05/26",
+     "r": "L",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "d": "22/05/26",
+     "r": "D",
+     "rival": "Peñarol",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "07/05/26",
+     "r": "D",
+     "rival": "Independiente Santa Fe",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "01/05/26",
+     "r": "W",
+     "rival": "Peñarol",
+     "local": true,
+     "marcador": "2-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "14/08/26",
+     "r": "D",
+     "rival": "Corinthians",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "07/08/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "D",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "0-0"
+    }
+   ],
    "h2h": [
     {
      "d": "14/08/26",
@@ -1733,13 +2547,13 @@
     "prov": "DraftKings",
     "local": 1.91,
     "empate": 3.0,
-    "visitante": 4.7,
+    "visitante": 4.6,
     "totalLinea": 1.5,
     "totalOver": 1.62,
     "totalUnder": 2.15,
     "hcapLinea": -0.5,
     "hcapLocal": 1.83,
-    "hcapVisitante": 1.83
+    "hcapVisitante": 1.8
    },
    "preload": {}
   },
@@ -1802,6 +2616,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "14/08/26",
+     "r": "W",
+     "rival": "Botafogo",
+     "local": true,
+     "marcador": "6-1"
+    },
+    {
+     "d": "30/07/26",
+     "r": "W",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "d": "23/07/26",
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "27/05/26",
+     "r": "D",
+     "rival": "Juventud",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "21/05/26",
+     "r": "L",
+     "rival": "Atlético-MG",
+     "local": false,
+     "marcador": "0-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "14/08/26",
+     "r": "L",
+     "rival": "Cienciano del Cusco",
+     "local": false,
+     "marcador": "1-6"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Caracas FC",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "d": "21/05/26",
+     "r": "W",
+     "rival": "Independiente Petrolero",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "d": "07/05/26",
+     "r": "W",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "28/04/26",
+     "r": "W",
+     "rival": "Independiente Petrolero",
+     "local": true,
+     "marcador": "3-0"
+    }
+   ],
+   "formA_general": [
     {
      "d": "14/08/26",
      "r": "W",
@@ -1968,6 +2856,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "11/08/26",
+     "r": "L",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "d": "06/08/26",
+     "r": "W",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "25/07/26",
+     "r": "D",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "2-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "15/08/26",
+     "r": "D",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "07/08/26",
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "02/08/26",
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "D",
+     "rival": "Defensa y Justicia",
+     "local": false,
+     "marcador": "1-1"
+    }
+   ],
+   "formA_general": [
     {
      "d": "15/08/26",
      "r": "L",
@@ -2303,6 +3265,80 @@
      "marcador": "0-1"
     }
    ],
+   "formH_general": [
+    {
+     "d": "17/08/26",
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "01/08/26",
+     "r": "D",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "d": "25/07/26",
+     "r": "W",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Unión (Santa Fe)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Huracán",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "d": "04/08/26",
+     "r": "L",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "28/07/26",
+     "r": "W",
+     "rival": "Gimnasia (Mendoza)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "26/07/26",
+     "r": "L",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
    "h2h": [
     {
      "d": "22/02/26",
@@ -2590,6 +3626,80 @@
      "marcador": "0-1"
     }
    ],
+   "formH_general": [
+    {
+     "d": "17/08/26",
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "12/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "d": "04/08/26",
+     "r": "D",
+     "rival": "Huracán",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "31/07/26",
+     "r": "W",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": false,
+     "marcador": "2-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Gimnasia (Mendoza)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "W",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
    "h2h": [
     {
      "d": "20/02/26",
@@ -2790,13 +3900,13 @@
     "prov": "DraftKings",
     "local": 2.65,
     "empate": 2.9,
-    "visitante": 3.0,
+    "visitante": 2.8,
     "totalLinea": 1.5,
     "totalOver": 1.5,
     "totalUnder": 2.35,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
-    "hcapVisitante": 1.43
+    "hcapVisitante": 1.44
    },
    "preload": {}
   },
@@ -2859,6 +3969,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "18/08/26",
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "01/08/26",
+     "r": "W",
+     "rival": "Unión (Santa Fe)",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "28/07/26",
+     "r": "L",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "W",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "18/08/26",
+     "r": "D",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "0-4"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
     {
      "d": "18/08/26",
      "r": "W",
@@ -3182,6 +4366,80 @@
      "marcador": "0-0"
     }
    ],
+   "formH_general": [
+    {
+     "d": "17/08/26",
+     "r": "W",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "d": "12/08/26",
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": false,
+     "marcador": "0-4"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "03/08/26",
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "31/07/26",
+     "r": "W",
+     "rival": "Newell's Old Boys",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "18/08/26",
+     "r": "D",
+     "rival": "Fluminense",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "11/08/26",
+     "r": "D",
+     "rival": "Fluminense",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "08/08/26",
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "03/08/26",
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
    "h2h": [
     {
      "d": "21/02/26",
@@ -3481,6 +4739,80 @@
      "marcador": "3-0"
     }
    ],
+   "formH_general": [
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "04/08/26",
+     "r": "D",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "25/07/26",
+     "r": "W",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "18/08/26",
+     "r": "D",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "08/08/26",
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "02/08/26",
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Defensa y Justicia",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
    "h2h": [
     {
      "d": "21/02/26",
@@ -3778,6 +5110,80 @@
      "rival": "Huracán",
      "local": false,
      "marcador": "0-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Defensa y Justicia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "02/08/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "2-2"
+    },
+    {
+     "d": "31/07/26",
+     "r": "L",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "25/07/26",
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "19/08/26",
+     "r": "D",
+     "rival": "Midland",
+     "local": true,
+     "marcador": "2-2"
+    },
+    {
+     "d": "14/08/26",
+     "r": "W",
+     "rival": "Racing Club",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "10/08/26",
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "d": "01/08/26",
+     "r": "D",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "28/07/26",
+     "r": "W",
+     "rival": "Sarmiento (Junín)",
+     "local": true,
+     "marcador": "3-2"
     }
    ],
    "h2h": [
@@ -4085,6 +5491,80 @@
      "marcador": "2-2"
     }
    ],
+   "formH_general": [
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "25/07/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Coquimbo Unido",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "03/08/26",
+     "r": "L",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "0-4"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
    "h2h": [
     {
      "d": "21/02/26",
@@ -4378,6 +5858,80 @@
      "marcador": "0-2"
     }
    ],
+   "formH_general": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Huracán",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "08/08/26",
+     "r": "W",
+     "rival": "Atlético Tucumán",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "28/07/26",
+     "r": "L",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-3"
+    },
+    {
+     "d": "23/07/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "2-3"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "19/08/26",
+     "r": "W",
+     "rival": "Universidad Católica",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Universidad Católica",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "05/08/26",
+     "r": "L",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
    "h2h": [
     {
      "d": "20/02/26",
@@ -4635,6 +6189,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "17/08/26",
+     "r": "D",
+     "rival": "Vélez Sarsfield",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Newell's Old Boys",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "D",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "1-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "10/08/26",
+     "r": "W",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "06/08/26",
+     "r": "D",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "23/07/26",
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formA_general": [
     {
      "d": "17/08/26",
      "r": "D",
@@ -4976,6 +6604,80 @@
      "marcador": "1-0"
     }
    ],
+   "formH_general": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "02/08/26",
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "25/07/26",
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "17/08/26",
+     "r": "D",
+     "rival": "Defensa y Justicia",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "W",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
    "h2h": [
     {
      "d": "22/02/26",
@@ -5281,6 +6983,80 @@
      "marcador": "0-3"
     }
    ],
+   "formH_general": [
+    {
+     "d": "14/08/26",
+     "r": "L",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Tigre",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "d": "29/07/26",
+     "r": "D",
+     "rival": "Rosario Central",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "24/07/26",
+     "r": "W",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "18/08/26",
+     "r": "W",
+     "rival": "Deportivo Recoleta",
+     "local": false,
+     "marcador": "4-0"
+    },
+    {
+     "d": "16/08/26",
+     "r": "D",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "11/08/26",
+     "r": "W",
+     "rival": "Deportivo Recoleta",
+     "local": true,
+     "marcador": "3-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "D",
+     "rival": "Vélez Sarsfield",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "05/08/26",
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
    "h2h": [
     {
      "d": "20/02/26",
@@ -5556,6 +7332,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "11/08/26",
+     "r": "W",
+     "rival": "Unión (Santa Fe)",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "04/08/26",
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "31/07/26",
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "d": "24/07/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "15/08/26",
+     "r": "D",
+     "rival": "Aldosivi",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "12/08/26",
+     "r": "L",
+     "rival": "Montevideo City Torque",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "06/08/26",
+     "r": "D",
+     "rival": "Belgrano (Córdoba)",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "01/08/26",
+     "r": "W",
+     "rival": "Racing Club",
+     "local": false,
+     "marcador": "3-1"
+    }
+   ],
+   "formA_general": [
     {
      "d": "16/08/26",
      "r": "L",
@@ -5897,6 +7747,80 @@
      "marcador": "3-2"
     }
    ],
+   "formH_general": [
+    {
+     "d": "17/08/26",
+     "r": "L",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "d": "12/08/26",
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "d": "06/08/26",
+     "r": "L",
+     "rival": "Unión (Santa Fe)",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "03/08/26",
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Cienciano del Cusco",
+     "local": false,
+     "marcador": "0-4"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "01/08/26",
+     "r": "W",
+     "rival": "Belgrano (Córdoba)",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "23/07/26",
+     "r": "W",
+     "rival": "Sarmiento (Junín)",
+     "local": false,
+     "marcador": "3-2"
+    }
+   ],
    "h2h": [
     {
      "d": "10/05/26",
@@ -6196,6 +8120,80 @@
      "marcador": "1-2"
     }
    ],
+   "formH_general": [
+    {
+     "d": "18/08/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "1-3"
+    },
+    {
+     "d": "12/08/26",
+     "r": "L",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "0-3"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "4-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "d": "25/07/26",
+     "r": "L",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "14/08/26",
+     "r": "D",
+     "rival": "Corinthians",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "07/08/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "D",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "0-0"
+    }
+   ],
    "h2h": [
     {
      "d": "21/02/26",
@@ -6465,6 +8463,80 @@
     }
    ],
    "formA": [
+    {
+     "d": "19/08/26",
+     "r": "L",
+     "rival": "Independiente del Valle",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "27/05/26",
+     "r": "D",
+     "rival": "Universitario",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "19/05/26",
+     "r": "L",
+     "rival": "Coquimbo Unido",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "d": "07/05/26",
+     "r": "W",
+     "rival": "Nacional",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "29/04/26",
+     "r": "W",
+     "rival": "Coquimbo Unido",
+     "local": true,
+     "marcador": "3-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "19/08/26",
+     "r": "W",
+     "rival": "Deportes Tolima",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "20/05/26",
+     "r": "W",
+     "rival": "Libertad",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "d": "06/05/26",
+     "r": "L",
+     "rival": "UCV FC",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "28/04/26",
+     "r": "W",
+     "rival": "Libertad",
+     "local": false,
+     "marcador": "3-2"
+    }
+   ],
+   "formA_general": [
     {
      "d": "19/08/26",
      "r": "L",

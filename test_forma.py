@@ -67,5 +67,31 @@ prueba("pierde de visitante", f[0]["r"] == "L" and f[0]["local"] is False)
 f = actualizar.forma([jugado(f"2026-08-{d:02d}T20:00Z", 1, 1) for d in range(1, 10)])
 prueba("corta en 5 partidos", len(f) == 5)
 
+print("\nforma_general() — la forma sin importar torneo\n")
+
+# Un equipo con partidos recientes en dos competencias: la Liga (semanal,
+# fresca) y una copa de baja frecuencia (vieja). forma_general tiene que
+# mezclar las dos y ordenar por fecha real, no por competencia.
+liga = [jugado("2026-08-16T23:00Z", 2, 0, rival="Boca"),
+        jugado("2026-08-09T20:00Z", 1, 1, rival="River")]
+copa = [jugado("2026-05-28T23:00Z", 3, 0, rival="Blooming"),
+        jugado("2026-05-21T23:00Z", 1, 1, rival="Bragantino")]
+
+fg = actualizar.forma_general(liga, copa)
+prueba("junta las dos competencias", len(fg) == 4)
+prueba("ordena por fecha, no por competencia",
+       [p["d"] for p in fg] == ["16/08/26", "09/08/26", "28/05/26", "21/05/26"])
+prueba("el más reciente es el de la Liga", fg[0]["rival"] == "Boca")
+
+fg = actualizar.forma_general(liga, copa, n=2)
+prueba("corta en n incluso mezclando competencias", len(fg) == 2)
+prueba("el corte respeta el orden por fecha",
+       [p["rival"] for p in fg] == ["Boca", "River"])
+
+# Competencia sin partidos (el equipo no juega esa copa esta temporada):
+# historial() ya devuelve lista vacía, forma_general no debe romperse.
+fg = actualizar.forma_general(liga, [])
+prueba("una lista vacía no rompe la mezcla", len(fg) == 2)
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

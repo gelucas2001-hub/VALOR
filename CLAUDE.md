@@ -31,25 +31,27 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `data/*.json` | Lo escribe el cron. **No editar a mano** | Nadie |
 | `data/analisis.json`, `data/equipos.json` | Análisis cualitativo, carga manual. El cron **nunca** los toca | A mano |
 
-## El research de `analisis.json` nunca se invoca desde acá
+## El research de `analisis.json` — con qué skill, y con cuál no
 
-El flujo real, el que viene dando resultado limpio: esta terminal arma
-el expediente objetivo (`python expediente.py <id>`), Lucas lo lleva a
-su sesión de Claude.ai, ahí se hace el research y se escribe
-`inclinacion`/`contexto`/`veredicto`, y el resultado vuelve acá para
-cargarse en `data/analisis.json`. Esta terminal **nunca** corre la
-investigación — ni con una skill instalada, ni a mano.
+Desde el 2026-08-19, esta terminal SÍ puede correr la investigación:
+`python expediente.py <id>` arma el expediente objetivo, y la skill
+versionada en `.claude/skills/valor-analisis-inclinacion/SKILL.md`
+hace el research y escribe `inclinacion`/`contexto`/`veredicto`. Esa
+skill es la fuente de verdad — se edita ahí, en el repo, no en
+Claude.ai (evita el problema de dos copias divergiendo sin que nadie
+lo note).
 
-Por qué: hay una skill instalada localmente con un nombre parecido a
-`analisis-futbol-valor-json` que **no** es la que Lucas edita en
-Claude.ai — tiene un esquema de salida distinto (`hallazgo_principal`,
+**Ojo con el nombre parecido.** Hay (o puede volver a haber) una skill
+instalada localmente como `analisis-futbol-valor-json`, que NO es
+esta — tiene un esquema de salida distinto (`hallazgo_principal`,
 `texto_corto`, sin `inclinacion`, que es el único campo que lee
-`index.html`) y encima espera como input los números del modelo
+`index.html`) y espera como input los números del modelo
 (`probabilidades_modelo`, `ev_mercado_principal`), justo lo que
 `expediente.py` existe para esconder. Invocarla sin querer produce un
 JSON que la app no usa y que además viola la regla de alineación. Pasó
-una vez (2026-08-19); no invocar ninguna skill para esto, sea cual sea
-su nombre.
+una vez (2026-08-19). Antes de correr el análisis, confirmar que es
+`valor-analisis-inclinacion` — si el nombre no coincide exacto, no es
+esta.
 
 ## Restricciones duras
 

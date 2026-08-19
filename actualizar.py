@@ -330,6 +330,35 @@ def forma_general(*listas_jugados, n=5):
     return forma(todos, n)
 
 
+def jugados_de_resultados(team_id, resultados):
+    """Adapta la lista cruda de resultados_temporada() -- home/away como
+    ID, sin nombre de rival, fecha como date -- al formato que usan
+    forma()/forma_general() para UN equipo puntual.
+
+    Existe para no pedir nada nuevo: esa lista ya se baja para anclar la
+    fuerza de ataque/defensa de cada equipo a su liga local (ancla_de) en
+    Libertadores y Sudamericana -- se pide igual, la única diferencia es
+    que hoy se tira después de calcular las fuerzas. Reusarla acá le suma
+    forma doméstica real a un equipo sudamericano, sin ningún pedido de
+    red adicional."""
+    tid = str(team_id)
+    out = []
+    for p in resultados:
+        h, a = str(p["home"]), str(p["away"])
+        if tid not in (h, a):
+            continue
+        local = h == tid
+        gf, gc = (p["gh"], p["ga"]) if local else (p["ga"], p["gh"])
+        fecha = p["fecha"]
+        fecha = fecha.isoformat() if hasattr(fecha, "isoformat") else fecha
+        out.append({
+            "fecha": fecha, "local": local, "gf": gf, "gc": gc,
+            "home": p.get("home_nombre", ""), "away": p.get("away_nombre", ""),
+        })
+    out.sort(key=lambda x: x["fecha"], reverse=True)
+    return out
+
+
 def tabla_competicion(slug, season):
     """/standings: devuelve {team_id: [filas del grupo]} para poder mostrar
     la zona del equipo que juega. En liga sin grupos ESPN igual devuelve
@@ -454,6 +483,11 @@ def resultados_temporada(slug, season, hoy):
             # el id del evento no lo usa el ajuste de fuerzas, pero sirve para
             # cruzar contra los pronósticos ya registrados (registrar_pronosticos)
             "id": ev.get("id", ""),
+            # el nombre tampoco lo usa el ajuste de fuerzas -- ya viene en la
+            # misma respuesta, así que jugados_de_resultados() lo aprovecha
+            # sin pedir nada de más.
+            "home_nombre": loc["team"].get("displayName", ""),
+            "away_nombre": vis["team"].get("displayName", ""),
         })
     return partidos
 
@@ -558,7 +592,8 @@ def factores_liga():
         return {}
 
 
-def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factores=None):
+def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factores=None,
+             cache_dom_resultados=None):
     """(ataque, defensa) del equipo en SU liga local, o None.
 
     Es el valor hacia el que la regularización va a empujar a este equipo
@@ -580,8 +615,15 @@ def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factor
             print(f"  · fuerza doméstica — {slug_liga}")
             resultados = resultados_temporada(slug_liga, season, hoy)
             cache_dom[slug_liga] = fuerzas_equipos(resultados, hoy)
+            # Se guarda crudo además de reducido a fuerzas: jugados_de_resultados()
+            # lo reusa para forma_general() de equipos sudamericanos sin pedir
+            # nada nuevo -- este pedido ya se hace para anclar la fuerza.
+            if cache_dom_resultados is not None:
+                cache_dom_resultados[slug_liga] = resultados
         except Exception:
             cache_dom[slug_liga] = ({}, 1.0, 1.0, {})   # liga que no responde
+            if cache_dom_resultados is not None:
+                cache_dom_resultados[slug_liga] = []
     fuerzas, _mu_l, _mu_v, pj = cache_dom[slug_liga]
 
     if pj.get(str(team_id), 0) < MIN_PARTIDOS_ANCLA:
@@ -691,12 +733,24 @@ def main():
             cache_hist[k] = historial(slug, tid, yr)
         return cache_hist[k]
 
-    def get_hist_general(tid):
+    def get_hist_general(tid, slug_consulta):
         # Un pedido por competencia que seguimos, no por partido: si el
         # equipo ya se consultó en su propio slug (jug_loc/jug_vis, más
         # abajo) esa llamada se recicla vía cache_hist. Las que no
         # participa devuelven lista vacía y forma_general las ignora sola.
-        return [get_hist(s, tid) for s in COMPETICIONES]
+        fuentes = [get_hist(s, tid) for s in COMPETICIONES]
+        # Solo vale la pena preguntar en Libertadores/Sudamericana: ahí es
+        # donde puede haber un rival de otro país. En Copa Argentina y en
+        # la Liga los dos equipos ya son de arg.1, que ya está en
+        # COMPETICIONES -- preguntar igual sería un pedido nuevo (resolver
+        # la liga del equipo vía /teams/{id}) que no suma nada.
+        if slug_consulta in ("conmebol.libertadores", "conmebol.sudamericana"):
+            # cache_dom_resultados ya lo llenó get_fuerzas() al calibrar la
+            # fuerza de este mismo partido -- acá no se pide nada de más.
+            slug_liga = liga_domestica(tid, slug_consulta, cache_ligas)
+            if slug_liga and slug_liga not in COMPETICIONES and slug_liga in cache_dom_resultados:
+                fuentes.append(jugados_de_resultados(tid, cache_dom_resultados[slug_liga]))
+        return fuentes
 
     def get_tabla(slug):
         if slug not in cache_tabla:
@@ -705,6 +759,7 @@ def main():
 
     cache_fuerzas = {}   # slug -> (fuerzas, mu_local, mu_visita, partidos_por_equipo)
     cache_dom = {}       # slug de liga local -> lo mismo, para las anclas
+    cache_dom_resultados = {}   # slug de liga local -> resultados crudos, para forma_general
     factores = factores_liga()   # cuánto vale cada liga, para comparar entre países
     cache_ligas = {}     # team_id -> slug de su liga local (persiste en disco)
     if CACHE_LIGAS.exists():
@@ -734,7 +789,8 @@ def main():
             equipos = {p["home"] for p in resultados} | {p["away"] for p in resultados}
             anclas = {}
             for tid in equipos:
-                a = ancla_de(tid, slug, season, hoy, cache_ligas, cache_dom, factores)
+                a = ancla_de(tid, slug, season, hoy, cache_ligas, cache_dom, factores,
+                             cache_dom_resultados=cache_dom_resultados)
                 if a:
                     anclas[tid] = a
             if anclas:
@@ -885,8 +941,8 @@ def main():
                 "fouls": fouls, "cards": cards,
                 "note": nota,
                 "formH": forma(jug_loc), "formA": forma(jug_vis),
-                "formH_general": forma_general(*get_hist_general(loc_id)),
-                "formA_general": forma_general(*get_hist_general(vis_id)),
+                "formH_general": forma_general(*get_hist_general(loc_id, slug)),
+                "formA_general": forma_general(*get_hist_general(vis_id, slug)),
                 "h2h": h2h, "tabla": tabla, "grupo": grupo,
                 "estadio": estadio, "ciudad": ciudad,
                 "mercado": mercado,

@@ -93,5 +93,34 @@ prueba("el corte respeta el orden por fecha",
 fg = actualizar.forma_general(liga, [])
 prueba("una lista vacía no rompe la mezcla", len(fg) == 2)
 
+print("\njugados_de_resultados() — la forma doméstica, sin pedido nuevo\n")
+
+# La forma de resultados_temporada(): home/away son IDS, no nombres, y
+# fecha es un date, no string -- así sale del scoreboard crudo.
+import datetime as _dt
+crudos = [
+    {"fecha": _dt.date(2026, 8, 16), "home": "15", "away": "5",
+     "gh": 2, "ga": 1, "id": "1", "home_nombre": "Racing Club", "away_nombre": "Boca Juniors"},
+    {"fecha": _dt.date(2026, 8, 9), "home": "3", "away": "15",
+     "gh": 0, "ga": 0, "id": "2", "home_nombre": "Argentinos Juniors", "away_nombre": "Racing Club"},
+    {"fecha": _dt.date(2026, 8, 2), "home": "999", "away": "888",
+     "gh": 3, "ga": 3, "id": "3", "home_nombre": "Otro", "away_nombre": "Otro2"},
+]
+
+jr = actualizar.jugados_de_resultados("15", crudos)
+prueba("filtra solo los partidos del equipo pedido", len(jr) == 2)
+prueba("ordena del más reciente al más viejo",
+       [j["fecha"] for j in jr] == ["2026-08-16", "2026-08-09"])
+prueba("de local: gf/gc sin invertir", jr[0]["local"] is True and jr[0]["gf"] == 2 and jr[0]["gc"] == 1)
+prueba("de visitante: gf/gc invertidos respecto de home/away", jr[1]["local"] is False and jr[1]["gf"] == 0 and jr[1]["gc"] == 0)
+prueba("fecha en formato ISO (para fecha_corta)", jr[0]["fecha"] == "2026-08-16")
+
+# El resultado tiene que poder alimentar forma() directo, sin adaptar nada más.
+f = actualizar.forma(jr)
+prueba("alimenta forma() sin adaptar nada más", f[0]["rival"] == "Boca Juniors" and f[1]["rival"] == "Argentinos Juniors")
+
+jr_vacio = actualizar.jugados_de_resultados("15", [])
+prueba("lista de resultados vacía no rompe", jr_vacio == [])
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

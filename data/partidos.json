@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-19T14:49",
+ "actualizado": "2026-08-19T19:13",
  "requests": 558,
  "partidos": [
   {
@@ -499,7 +499,7 @@
     "visitante": 3.45,
     "totalLinea": 1.5,
     "totalOver": 1.67,
-    "totalUnder": 2.15,
+    "totalUnder": 2.1,
     "hcapLinea": -0.5,
     "hcapLocal": 2.3,
     "hcapVisitante": 1.56
@@ -869,15 +869,15 @@
    "ciudad": "San Luis",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.85,
+    "local": 3.0,
     "empate": 2.8,
-    "visitante": 2.85,
+    "visitante": 2.7,
     "totalLinea": 1.5,
     "totalOver": 1.51,
     "totalUnder": 2.45,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.42,
-    "hcapVisitante": 2.65
+    "hcapLocal": 1.45,
+    "hcapVisitante": 2.55
    },
    "preload": {}
   },
@@ -1113,8 +1113,8 @@
     "empate": 3.7,
     "visitante": 5.5,
     "totalLinea": 2.5,
-    "totalOver": 1.95,
-    "totalUnder": 1.8,
+    "totalOver": 1.91,
+    "totalUnder": 1.83,
     "hcapLinea": -0.5,
     "hcapLocal": 1.61,
     "hcapVisitante": 2.2
@@ -1561,15 +1561,15 @@
    "ciudad": "Montevideo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.8,
+    "local": 3.9,
     "empate": 3.0,
     "visitante": 2.15,
     "totalLinea": 1.5,
     "totalOver": 1.56,
     "totalUnder": 2.35,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.67,
-    "hcapVisitante": 2.1
+    "hcapLocal": 1.69,
+    "hcapVisitante": 2.05
    },
    "preload": {}
   },
@@ -3523,7 +3523,7 @@
     "empate": 2.75,
     "visitante": 2.65,
     "totalLinea": 1.5,
-    "totalOver": 1.62,
+    "totalOver": 1.65,
     "totalUnder": 2.15,
     "hcapLinea": 0.5,
     "hcapLocal": 1.47,
@@ -3902,8 +3902,8 @@
     "empate": 2.9,
     "visitante": 2.8,
     "totalLinea": 1.5,
-    "totalOver": 1.5,
-    "totalUnder": 2.35,
+    "totalOver": 1.51,
+    "totalUnder": 2.4,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
     "hcapVisitante": 1.44
@@ -4259,15 +4259,15 @@
    "ciudad": "La Plata",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.87,
+    "local": 1.91,
     "empate": 3.25,
     "visitante": 4.2,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
+    "totalOver": 2.35,
     "totalUnder": 1.51,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.8,
-    "hcapVisitante": 1.8
+    "hcapLocal": 1.83,
+    "hcapVisitante": 1.83
    },
    "preload": {}
   },

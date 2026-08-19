@@ -81,7 +81,9 @@ Cada entrada trae `d` (fecha corta, mismo formato que `h2h`) — usala. Con fech
 
 Cómo pesarlo: priorizá la forma de la competencia que se está jugando — un equipo no encara un mano a mano de copa igual que un partido de campeonato, así que esa forma específica es la señal más relevante para este partido puntual. Pero no la trates como si fuera toda la película: si el input trae `formH_general`/`formA_general`, usalos como contraste directo (son la fuente más confiable, no hace falta salir a buscarlo) — **salvo que vengan idénticos a `formH`/`formA` (ver sección 1), en cuyo caso no aportan nada nuevo**. Si no vienen, o vienen sin diferencia real, y tu research encuentra que el equipo viene de un tramo muy distinto en su otra competencia activa, traelo igual. En la prosa, nunca digas "los últimos N partidos" sin calificarlo por torneo si hay ambigüedad real sobre a qué forma te referís.
 
-**C. Lo reciente gana, pero verificalo.** Ante fuentes contradictorias, priorizá la más reciente con fecha, no la que suena más oficial.
+**C. Lo reciente gana, pero verificalo.** Ante fuentes contradictorias, priorizá la más reciente con fecha, no la que suena más oficial. Un cambio de DT o una noticia de crisis es el principio de una historia, no el final: buscá también el resultado más reciente que la confirme o la contradiga antes de escribir "en crisis" o "recién llegado" — la noticia del nombramiento no te dice cómo le fue desde entonces.
+
+**I. Tu propio expediente pesa más que el research.** Antes de escribir cualquier frase sobre racha o momento de un equipo ("crisis", "viene mal", "en levantada", "acomodándose"), cruzala contra `formH_general`/`formA_general` si están presentes — son datos medidos y con fecha, no una impresión de una nota. Encontrado en auditoría real: un análisis dijo "Platense en crisis" con el propio `formA_general` mostrando 1 victoria y 2 empates en sus últimos 3 partidos — el dato correcto estaba en el input, se escribió la frase igual, sin cruzarla. Si el research y tu propio expediente no coinciden, gana el expediente.
 
 **D. Idioma:** español rioplatense, siempre.
 
@@ -150,6 +152,7 @@ Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contr
 - [ ] Si `_avisos` prohíbe comparar tabla, ¿mencionaste la posición o los puntos del rival en algún lado?
 - [ ] Sede (principio G): ¿le atribuiste un antecedente a esta cancha sin contar cuántos cruces del `h2h` se jugaron ahí, mirando `h` fila por fila? ¿Mostraste también la forma general de local (`formH`), o solo la que convenía al relato?
 - [ ] Competencia (principio H): ¿dijiste "los últimos N partidos" sin calificar el torneo? ¿Hay una campaña de copa vieja que estás tratando como forma actual? ¿Comparaste `formH_general` contra `formH` antes de tratarlo como más fresco, o asumiste que lo era sin chequear si son iguales?
+- [ ] Racha o momento (principio I): toda frase tipo "en crisis", "viene mal", "en levantada" — ¿la cruzaste contra `formH_general`/`formA_general`, o salió solo del research? Si un cambio de DT o una noticia de crisis es lo que encontraste, ¿buscaste también el resultado más reciente para confirmarla?
 - [ ] ¿Hay alguna fecha relativa ("el sábado", "hace poco") en vez de una fecha absoluta?
 - [ ] ¿Inventaste algo — un nombre, un patrón, una cifra — que no esté literalmente en el input o en una fuente de research con fecha propia?
 - [ ] `contexto` y `veredicto`: ¿uno explica y el otro concluye, o están diciendo lo mismo dos veces?

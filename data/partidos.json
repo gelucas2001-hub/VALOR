@@ -1,904 +1,7 @@
 {
- "actualizado": "2026-08-18T15:01",
- "requests": 318,
+ "actualizado": "2026-08-19T14:06",
+ "requests": 272,
  "partidos": [
-  {
-   "id": "espn401896916",
-   "date": "2026-08-18",
-   "comp": "Copa Argentina",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2320.png",
-   "hora": "17:00",
-   "home": "Deportivo Riestra",
-   "away": "Gimnasia La Plata",
-   "homeId": "17702",
-   "awayId": "9",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
-   "lh": 1.35,
-   "la": 1.1,
-   "rho": 0.0,
-   "conf": 45,
-   "corners": 9.0,
-   "cornersH": 5.0,
-   "fouls": 26.0,
-   "cards": 5.6,
-   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
-   "formH": [
-    {
-     "r": "D",
-     "rival": "San Lorenzo",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "r": "W",
-     "rival": "Deportivo Maipú",
-     "local": true,
-     "marcador": "1-0"
-    }
-   ],
-   "formA": [
-    {
-     "r": "W",
-     "rival": "Acassuso",
-     "local": false,
-     "marcador": "3-0"
-    },
-    {
-     "r": "W",
-     "rival": "Camioneros",
-     "local": true,
-     "marcador": "4-1"
-    }
-   ],
-   "h2h": [],
-   "tabla": [],
-   "grupo": "",
-   "estadio": "Norberto Tomaghello",
-   "ciudad": "Buenos Aires",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 3.4,
-    "empate": 2.6,
-    "visitante": 2.65,
-    "totalLinea": 1.5,
-    "totalOver": 1.74,
-    "totalUnder": 2.0,
-    "hcapLinea": 0.5,
-    "hcapLocal": 1.47,
-    "hcapVisitante": 2.5
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401874156",
-   "date": "2026-08-18",
-   "comp": "CONMEBOL Libertadores",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/58.png",
-   "hora": "19:00",
-   "home": "Independiente Rivadavia",
-   "away": "Fluminense",
-   "homeId": "9744",
-   "awayId": "3445",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3445.png",
-   "lh": 1.217,
-   "la": 0.594,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 8.3,
-   "cornersH": 3.7,
-   "fouls": 23.3,
-   "cards": 4.7,
-   "note": "λ calculados ajustando ataque/defensa de Independiente Rivadavia y Fluminense contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "r": "D",
-     "rival": "Fluminense",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "r": "W",
-     "rival": "Bolívar",
-     "local": false,
-     "marcador": "3-1"
-    },
-    {
-     "r": "W",
-     "rival": "Deportivo La Guaira",
-     "local": false,
-     "marcador": "4-2"
-    },
-    {
-     "r": "D",
-     "rival": "Fluminense",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "r": "W",
-     "rival": "Deportivo La Guaira",
-     "local": true,
-     "marcador": "4-1"
-    }
-   ],
-   "formA": [
-    {
-     "r": "D",
-     "rival": "Independiente Rivadavia",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "r": "W",
-     "rival": "Deportivo La Guaira",
-     "local": true,
-     "marcador": "3-1"
-    },
-    {
-     "r": "W",
-     "rival": "Bolívar",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "r": "D",
-     "rival": "Independiente Rivadavia",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "r": "L",
-     "rival": "Bolívar",
-     "local": false,
-     "marcador": "0-2"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "11/08/26",
-     "h": "Fluminense",
-     "a": "Independiente Rivadavia",
-     "s": "0-0"
-    },
-    {
-     "d": "07/05/26",
-     "h": "Independiente Rivadavia",
-     "a": "Fluminense",
-     "s": "1-1"
-    },
-    {
-     "d": "16/04/26",
-     "h": "Fluminense",
-     "a": "Independiente Rivadavia",
-     "s": "1-2"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 16,
-     "pj": 6,
-     "g": 5,
-     "e": 1,
-     "p": 0,
-     "gf": 15
-    },
-    {
-     "t": "Fluminense",
-     "id": "3445",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3445.png",
-     "pts": 8,
-     "pj": 6,
-     "g": 2,
-     "e": 2,
-     "p": 2,
-     "gf": 7
-    },
-    {
-     "t": "Bolívar",
-     "id": "2681",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2681.png",
-     "pts": 5,
-     "pj": 6,
-     "g": 1,
-     "e": 2,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo La Guaira",
-     "id": "17090",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17090.png",
-     "pts": 3,
-     "pj": 6,
-     "g": 0,
-     "e": 3,
-     "p": 3,
-     "gf": 6
-    }
-   ],
-   "grupo": "Group C",
-   "estadio": "Malvinas Argentinas (Mendoza)",
-   "ciudad": "Mendoza",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 2.6,
-    "empate": 2.85,
-    "visitante": 3.1,
-    "totalLinea": 1.5,
-    "totalOver": 1.56,
-    "totalUnder": 2.35,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.45,
-    "hcapVisitante": 1.49
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401903231",
-   "date": "2026-08-18",
-   "comp": "CONMEBOL Sudamericana",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1208.png",
-   "hora": "19:00",
-   "home": "Deportivo Recoleta",
-   "away": "Boca Juniors",
-   "homeId": "22517",
-   "awayId": "5",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/22517.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-   "lh": 1.389,
-   "la": 1.64,
-   "rho": 0.0,
-   "conf": 55,
-   "corners": 8.7,
-   "cornersH": 2.3,
-   "fouls": 22.0,
-   "cards": 5.0,
-   "note": "λ calculados ajustando ataque/defensa de Deportivo Recoleta y Boca Juniors contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 3 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "r": "L",
-     "rival": "Boca Juniors",
-     "local": false,
-     "marcador": "1-3"
-    },
-    {
-     "r": "W",
-     "rival": "San Lorenzo",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "r": "D",
-     "rival": "Deportivo Cuenca",
-     "local": false,
-     "marcador": "2-2"
-    },
-    {
-     "r": "D",
-     "rival": "Santos",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "r": "D",
-     "rival": "Deportivo Cuenca",
-     "local": true,
-     "marcador": "0-0"
-    }
-   ],
-   "formA": [
-    {
-     "r": "W",
-     "rival": "Deportivo Recoleta",
-     "local": true,
-     "marcador": "3-1"
-    },
-    {
-     "r": "L",
-     "rival": "O'Higgins",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "r": "W",
-     "rival": "O'Higgins",
-     "local": true,
-     "marcador": "1-0"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "11/08/26",
-     "h": "Boca Juniors",
-     "a": "Deportivo Recoleta",
-     "s": "3-1"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Deportivo Recoleta",
-     "id": "22517",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/22517.png",
-     "pts": 8,
-     "pj": 6,
-     "g": 1,
-     "e": 5,
-     "p": 0,
-     "gf": 6
-    },
-    {
-     "t": "Santos",
-     "id": "2674",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2674.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 1,
-     "e": 4,
-     "p": 1,
-     "gf": 8
-    },
-    {
-     "t": "San Lorenzo",
-     "id": "18",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 1,
-     "e": 4,
-     "p": 1,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo Cuenca",
-     "id": "4812",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4812.png",
-     "pts": 6,
-     "pj": 6,
-     "g": 1,
-     "e": 3,
-     "p": 2,
-     "gf": 3
-    }
-   ],
-   "grupo": "Group D",
-   "estadio": "Defensores del Chaco",
-   "ciudad": "Asunción",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 6.0,
-    "empate": 4.3,
-    "visitante": 1.53,
-    "totalLinea": 2.5,
-    "totalOver": 1.8,
-    "totalUnder": 1.95,
-    "hcapLinea": 0.5,
-    "hcapLocal": 2.45,
-    "hcapVisitante": 1.49
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401872289",
-   "date": "2026-08-18",
-   "comp": "Copa Argentina",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2320.png",
-   "hora": "21:15",
-   "home": "Banfield",
-   "away": "Midland",
-   "homeId": "235",
-   "awayId": "10109",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10109.png",
-   "lh": 1.474,
-   "la": 1.026,
-   "rho": 0.0,
-   "conf": 50,
-   "corners": 9.0,
-   "cornersH": 5.0,
-   "fouls": 26.0,
-   "cards": 5.6,
-   "note": "λ calculados con datos de ESPN: Banfield promedia sus últimos 2 partidos de local, Midland sus últimos 2 de visitante. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "r": "D",
-     "rival": "San Martín (Tucumán)",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "r": "W",
-     "rival": "Real Pilar",
-     "local": true,
-     "marcador": "3-0"
-    }
-   ],
-   "formA": [
-    {
-     "r": "W",
-     "rival": "Deportivo Morón",
-     "local": false,
-     "marcador": "2-1"
-    },
-    {
-     "r": "D",
-     "rival": "Argentinos Juniors",
-     "local": false,
-     "marcador": "1-1"
-    }
-   ],
-   "h2h": [],
-   "tabla": [],
-   "grupo": "",
-   "estadio": "Estadio Nuevo Francisco Urbano",
-   "ciudad": "Morón",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 1.91,
-    "empate": 3.4,
-    "visitante": 4.1,
-    "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.57,
-    "hcapLinea": -0.5,
-    "hcapLocal": 1.87,
-    "hcapVisitante": 1.83
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401874152",
-   "date": "2026-08-18",
-   "comp": "CONMEBOL Libertadores",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/58.png",
-   "hora": "21:30",
-   "home": "Deportes Tolima",
-   "away": "Independiente del Valle",
-   "homeId": "5489",
-   "awayId": "17086",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
-   "lh": 1.156,
-   "la": 1.583,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 16.3,
-   "cornersH": 7.3,
-   "fouls": 16.3,
-   "cards": 3.0,
-   "note": "λ calculados ajustando ataque/defensa de Deportes Tolima y Independiente del Valle contra toda la red de cruces de CONMEBOL Libertadores esta temporada (10 y 6 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "r": "D",
-     "rival": "Universitario",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "r": "L",
-     "rival": "Coquimbo Unido",
-     "local": false,
-     "marcador": "0-3"
-    },
-    {
-     "r": "W",
-     "rival": "Nacional",
-     "local": true,
-     "marcador": "3-0"
-    },
-    {
-     "r": "W",
-     "rival": "Coquimbo Unido",
-     "local": true,
-     "marcador": "3-0"
-    },
-    {
-     "r": "L",
-     "rival": "Nacional",
-     "local": false,
-     "marcador": "1-3"
-    }
-   ],
-   "formA": [
-    {
-     "r": "W",
-     "rival": "Rosario Central",
-     "local": true,
-     "marcador": "1-0"
-    },
-    {
-     "r": "W",
-     "rival": "Libertad",
-     "local": true,
-     "marcador": "4-1"
-    },
-    {
-     "r": "L",
-     "rival": "UCV FC",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "r": "W",
-     "rival": "Libertad",
-     "local": false,
-     "marcador": "3-2"
-    },
-    {
-     "r": "W",
-     "rival": "UCV FC",
-     "local": true,
-     "marcador": "3-1"
-    }
-   ],
-   "h2h": [],
-   "tabla": [
-    {
-     "t": "Coquimbo Unido",
-     "id": "8186",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8186.png",
-     "pts": 10,
-     "pj": 6,
-     "g": 3,
-     "e": 1,
-     "p": 2,
-     "gf": 8
-    },
-    {
-     "t": "Nacional",
-     "id": "2684",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2684.png",
-     "pts": 8,
-     "pj": 6,
-     "g": 2,
-     "e": 2,
-     "p": 2,
-     "gf": 7
-    },
-    {
-     "t": "Deportes Tolima",
-     "id": "5489",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
-     "pts": 8,
-     "pj": 6,
-     "g": 2,
-     "e": 2,
-     "p": 2,
-     "gf": 7
-    },
-    {
-     "t": "Universitario",
-     "id": "2685",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2685.png",
-     "pts": 6,
-     "pj": 6,
-     "g": 1,
-     "e": 3,
-     "p": 2,
-     "gf": 5
-    }
-   ],
-   "grupo": "Group B",
-   "estadio": "Estadio Manuel Murillo Toro",
-   "ciudad": "Ibague",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 3.1,
-    "empate": 3.05,
-    "visitante": 2.45,
-    "totalLinea": 2.5,
-    "totalOver": 2.4,
-    "totalUnder": 1.53,
-    "hcapLinea": 0.5,
-    "hcapLocal": 1.54,
-    "hcapVisitante": 2.35
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401874163",
-   "date": "2026-08-18",
-   "comp": "CONMEBOL Libertadores",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/58.png",
-   "hora": "21:30",
-   "home": "Universidad Católica",
-   "away": "Estudiantes de La Plata",
-   "homeId": "885",
-   "awayId": "8",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/885.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
-   "lh": 1.081,
-   "la": 0.745,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 12.3,
-   "cornersH": 4.0,
-   "fouls": 24.3,
-   "cards": 4.3,
-   "note": "λ calculados ajustando ataque/defensa de Universidad Católica y Estudiantes de La Plata contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "r": "D",
-     "rival": "Estudiantes de La Plata",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "r": "W",
-     "rival": "Boca Juniors",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "r": "W",
-     "rival": "Barcelona SC",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "r": "D",
-     "rival": "Cruzeiro",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "r": "W",
-     "rival": "Barcelona SC",
-     "local": false,
-     "marcador": "2-1"
-    }
-   ],
-   "formA": [
-    {
-     "r": "D",
-     "rival": "Universidad Católica",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "r": "W",
-     "rival": "Independiente Medellín",
-     "local": true,
-     "marcador": "1-0"
-    },
-    {
-     "r": "L",
-     "rival": "Flamengo",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "r": "D",
-     "rival": "Cusco FC",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "r": "D",
-     "rival": "Flamengo",
-     "local": true,
-     "marcador": "1-1"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "12/08/26",
-     "h": "Estudiantes de La Plata",
-     "a": "Universidad Católica",
-     "s": "1-1"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Universidad Católica",
-     "id": "885",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/885.png",
-     "pts": 13,
-     "pj": 6,
-     "g": 4,
-     "e": 1,
-     "p": 1,
-     "gf": 8
-    },
-    {
-     "t": "Cruzeiro",
-     "id": "2022",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2022.png",
-     "pts": 11,
-     "pj": 6,
-     "g": 3,
-     "e": 2,
-     "p": 1,
-     "gf": 8
-    },
-    {
-     "t": "Boca Juniors",
-     "id": "5",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 2,
-     "e": 1,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Barcelona SC",
-     "id": "2686",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2686.png",
-     "pts": 3,
-     "pj": 6,
-     "g": 1,
-     "e": 0,
-     "p": 5,
-     "gf": 2
-    }
-   ],
-   "grupo": "Group D",
-   "estadio": "Estadio San Carlos de Apoquindo",
-   "ciudad": "Santiago",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 3.25,
-    "empate": 2.95,
-    "visitante": 2.4,
-    "totalLinea": 1.5,
-    "totalOver": 1.53,
-    "totalUnder": 2.4,
-    "hcapLinea": 0.5,
-    "hcapLocal": 1.56,
-    "hcapVisitante": 2.3
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401903294",
-   "date": "2026-08-18",
-   "comp": "CONMEBOL Sudamericana",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1208.png",
-   "hora": "21:30",
-   "home": "São Paulo",
-   "away": "Bolívar",
-   "homeId": "2026",
-   "awayId": "2681",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2026.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2681.png",
-   "lh": 1.365,
-   "la": 0.857,
-   "rho": 0.0,
-   "conf": 55,
-   "corners": 11.0,
-   "cornersH": 6.0,
-   "fouls": 19.3,
-   "cards": 3.0,
-   "note": "λ calculados ajustando ataque/defensa de São Paulo y Bolívar contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 3 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "r": "D",
-     "rival": "Bolívar",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "r": "W",
-     "rival": "Boston River",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "r": "D",
-     "rival": "Millonarios",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "r": "D",
-     "rival": "O'Higgins",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "r": "D",
-     "rival": "Millonarios",
-     "local": false,
-     "marcador": "0-0"
-    }
-   ],
-   "formA": [
-    {
-     "r": "D",
-     "rival": "São Paulo",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "r": "W",
-     "rival": "Grêmio",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "r": "W",
-     "rival": "Grêmio",
-     "local": true,
-     "marcador": "3-2"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "12/08/26",
-     "h": "Bolívar",
-     "a": "São Paulo",
-     "s": "1-1"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "São Paulo",
-     "id": "2026",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2026.png",
-     "pts": 12,
-     "pj": 6,
-     "g": 3,
-     "e": 3,
-     "p": 0,
-     "gf": 6
-    },
-    {
-     "t": "O'Higgins",
-     "id": "6072",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6072.png",
-     "pts": 10,
-     "pj": 6,
-     "g": 3,
-     "e": 1,
-     "p": 2,
-     "gf": 8
-    },
-    {
-     "t": "Millonarios",
-     "id": "5484",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5484.png",
-     "pts": 8,
-     "pj": 6,
-     "g": 2,
-     "e": 2,
-     "p": 2,
-     "gf": 7
-    },
-    {
-     "t": "Boston River",
-     "id": "9999",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9999.png",
-     "pts": 3,
-     "pj": 6,
-     "g": 1,
-     "e": 0,
-     "p": 5,
-     "gf": 5
-    }
-   ],
-   "grupo": "Group C",
-   "estadio": "Estádio Cícero Pompeu de Toledo",
-   "ciudad": "Sao Paulo",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 1.43,
-    "empate": 4.6,
-    "visitante": 7.5,
-    "totalLinea": 2.5,
-    "totalOver": 1.77,
-    "totalUnder": 1.95,
-    "hcapLinea": -1.5,
-    "hcapLocal": 2.15,
-    "hcapVisitante": 1.61
-   },
-   "preload": {}
-  },
   {
    "id": "espn401874155",
    "date": "2026-08-19",
@@ -911,8 +14,8 @@
    "awayId": "2029",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2671.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2029.png",
-   "lh": 0.957,
-   "la": 0.754,
+   "lh": 0.868,
+   "la": 0.862,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.0,
@@ -922,30 +25,35 @@
    "note": "λ calculados ajustando ataque/defensa de Cerro Porteño y Palmeiras contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "12/08/26",
      "r": "D",
      "rival": "Palmeiras",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "28/05/26",
      "r": "W",
      "rival": "Sporting Cristal",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "21/05/26",
      "r": "W",
      "rival": "Palmeiras",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "08/05/26",
      "r": "W",
      "rival": "Atlético Junior",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "30/04/26",
      "r": "D",
      "rival": "Palmeiras",
      "local": true,
@@ -954,30 +62,35 @@
    ],
    "formA": [
     {
+     "d": "12/08/26",
      "r": "D",
      "rival": "Cerro Porteño",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "28/05/26",
      "r": "W",
      "rival": "Atlético Junior",
      "local": true,
      "marcador": "4-1"
     },
     {
+     "d": "21/05/26",
      "r": "L",
      "rival": "Cerro Porteño",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "05/05/26",
      "r": "W",
      "rival": "Sporting Cristal",
      "local": false,
      "marcador": "2-0"
     },
     {
+     "d": "30/04/26",
      "r": "D",
      "rival": "Cerro Porteño",
      "local": false,
@@ -1067,15 +180,15 @@
    "ciudad": "Asunción",
    "mercado": {
     "prov": "DraftKings",
-    "local": 5.0,
-    "empate": 3.35,
-    "visitante": 1.77,
+    "local": 4.9,
+    "empate": 3.25,
+    "visitante": 1.83,
     "totalLinea": 2.5,
-    "totalOver": 2.35,
+    "totalOver": 2.4,
     "totalUnder": 1.53,
     "hcapLinea": 0.5,
     "hcapLocal": 1.95,
-    "hcapVisitante": 1.71
+    "hcapVisitante": 1.77
    },
    "preload": {}
   },
@@ -1091,8 +204,8 @@
    "awayId": "7764",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8186.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
-   "lh": 1.21,
-   "la": 0.754,
+   "lh": 1.106,
+   "la": 0.868,
    "rho": 0.0,
    "conf": 65,
    "corners": 11.3,
@@ -1102,30 +215,35 @@
    "note": "λ calculados ajustando ataque/defensa de Coquimbo Unido y Platense contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "12/08/26",
      "r": "D",
      "rival": "Platense",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "27/05/26",
      "r": "L",
      "rival": "Nacional",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "19/05/26",
      "r": "W",
      "rival": "Deportes Tolima",
      "local": true,
      "marcador": "3-0"
     },
     {
+     "d": "08/05/26",
      "r": "W",
      "rival": "Universitario",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "29/04/26",
      "r": "L",
      "rival": "Deportes Tolima",
      "local": false,
@@ -1134,30 +252,35 @@
    ],
    "formA": [
     {
+     "d": "12/08/26",
      "r": "D",
      "rival": "Coquimbo Unido",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "28/05/26",
      "r": "W",
      "rival": "Corinthians",
      "local": false,
      "marcador": "2-0"
     },
     {
+     "d": "20/05/26",
      "r": "L",
      "rival": "Independiente Santa Fe",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "07/05/26",
      "r": "D",
      "rival": "Peñarol",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "29/04/26",
      "r": "W",
      "rival": "Independiente Santa Fe",
      "local": true,
@@ -1223,15 +346,15 @@
    "ciudad": "Coquimbo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.2,
-    "empate": 3.05,
+    "local": 2.35,
+    "empate": 2.95,
     "visitante": 3.35,
     "totalLinea": 1.5,
-    "totalOver": 1.5,
-    "totalUnder": 2.45,
+    "totalOver": 1.61,
+    "totalUnder": 2.25,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.15,
-    "hcapVisitante": 1.59
+    "hcapLocal": 2.25,
+    "hcapVisitante": 1.57
    },
    "preload": {}
   },
@@ -1247,8 +370,8 @@
    "awayId": "6079",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7632.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6079.png",
-   "lh": 1.156,
-   "la": 0.539,
+   "lh": 1.13,
+   "la": 0.575,
    "rho": 0.0,
    "conf": 65,
    "corners": 12.7,
@@ -1258,30 +381,35 @@
    "note": "λ calculados ajustando ataque/defensa de Atlético-MG y Red Bull Bragantino contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "12/08/26",
      "r": "W",
      "rival": "Red Bull Bragantino",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "27/05/26",
      "r": "W",
      "rival": "Academia Puerto Cabello",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "21/05/26",
      "r": "W",
      "rival": "Cienciano del Cusco",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "05/05/26",
      "r": "D",
      "rival": "Juventud",
      "local": false,
      "marcador": "2-2"
     },
     {
+     "d": "30/04/26",
      "r": "L",
      "rival": "Cienciano del Cusco",
      "local": false,
@@ -1290,30 +418,35 @@
    ],
    "formA": [
     {
+     "d": "12/08/26",
      "r": "L",
      "rival": "Atlético-MG",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "30/07/26",
      "r": "W",
      "rival": "Sporting Cristal",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "23/07/26",
      "r": "D",
      "rival": "Sporting Cristal",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "28/05/26",
      "r": "W",
      "rival": "Carabobo",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "21/05/26",
      "r": "D",
      "rival": "River Plate",
      "local": false,
@@ -1403,12 +536,14 @@
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
     {
+     "d": "16/07/26",
      "r": "W",
      "rival": "Defensa y Justicia",
      "local": true,
      "marcador": "4-1"
     },
     {
+     "d": "29/03/26",
      "r": "W",
      "rival": "San Martín de Formosa",
      "local": true,
@@ -1417,12 +552,14 @@
    ],
    "formA": [
     {
+     "d": "30/05/26",
      "r": "D",
      "rival": "Gimnasia y Esgrima (Jujuy)",
      "local": false,
      "marcador": "2-2"
     },
     {
+     "d": "28/03/26",
      "r": "W",
      "rival": "Atletico Rafaela",
      "local": true,
@@ -1436,15 +573,15 @@
    "ciudad": "San Luis",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.95,
+    "local": 2.85,
     "empate": 2.75,
-    "visitante": 2.65,
+    "visitante": 2.85,
     "totalLinea": 1.5,
-    "totalOver": 1.59,
-    "totalUnder": 2.2,
+    "totalOver": 1.51,
+    "totalUnder": 2.45,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.43,
-    "hcapVisitante": 2.5
+    "hcapLocal": 1.42,
+    "hcapVisitante": 2.7
    },
    "preload": {}
   },
@@ -1460,8 +597,8 @@
    "awayId": "2022",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/819.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2022.png",
-   "lh": 1.429,
-   "la": 0.598,
+   "lh": 1.332,
+   "la": 0.655,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.3,
@@ -1471,30 +608,35 @@
    "note": "λ calculados ajustando ataque/defensa de Flamengo y Cruzeiro contra toda la red de cruces de CONMEBOL Libertadores esta temporada (6 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "13/08/26",
      "r": "D",
      "rival": "Cruzeiro",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "27/05/26",
      "r": "W",
      "rival": "Cusco FC",
      "local": true,
      "marcador": "3-0"
     },
     {
+     "d": "21/05/26",
      "r": "W",
      "rival": "Estudiantes de La Plata",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "30/04/26",
      "r": "D",
      "rival": "Estudiantes de La Plata",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "17/04/26",
      "r": "W",
      "rival": "Independiente Medellín",
      "local": true,
@@ -1503,30 +645,35 @@
    ],
    "formA": [
     {
+     "d": "13/08/26",
      "r": "D",
      "rival": "Flamengo",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "29/05/26",
      "r": "W",
      "rival": "Barcelona SC",
      "local": true,
      "marcador": "4-0"
     },
     {
+     "d": "20/05/26",
      "r": "D",
      "rival": "Boca Juniors",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "07/05/26",
      "r": "D",
      "rival": "Universidad Católica",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "29/04/26",
      "r": "W",
      "rival": "Boca Juniors",
      "local": true,
@@ -1592,15 +739,15 @@
    "ciudad": "Rio de Janeiro",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.67,
-    "empate": 3.55,
+    "local": 1.65,
+    "empate": 3.7,
     "visitante": 5.5,
     "totalLinea": 2.5,
-    "totalOver": 1.91,
-    "totalUnder": 1.77,
+    "totalOver": 1.95,
+    "totalUnder": 1.8,
     "hcapLinea": -0.5,
     "hcapLocal": 1.61,
-    "hcapVisitante": 2.15
+    "hcapVisitante": 2.2
    },
    "preload": {}
   },
@@ -1627,12 +774,14 @@
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 3 partidos jugados esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
     {
+     "d": "31/07/26",
      "r": "W",
      "rival": "Caracas FC",
      "local": false,
      "marcador": "3-0"
     },
     {
+     "d": "24/07/26",
      "r": "W",
      "rival": "Caracas FC",
      "local": true,
@@ -1641,30 +790,35 @@
    ],
    "formA": [
     {
+     "d": "28/05/26",
      "r": "W",
      "rival": "Blooming",
      "local": true,
      "marcador": "3-0"
     },
     {
+     "d": "21/05/26",
      "r": "D",
      "rival": "Red Bull Bragantino",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "08/05/26",
      "r": "W",
      "rival": "Carabobo",
      "local": false,
      "marcador": "2-1"
     },
     {
+     "d": "01/05/26",
      "r": "W",
      "rival": "Red Bull Bragantino",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "16/04/26",
      "r": "W",
      "rival": "Carabobo",
      "local": true,
@@ -1723,15 +877,15 @@
    "ciudad": "Bogota",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.35,
+    "local": 3.4,
     "empate": 3.0,
-    "visitante": 2.25,
-    "totalLinea": 2.5,
-    "totalOver": 2.4,
-    "totalUnder": 1.5,
+    "visitante": 2.3,
+    "totalLinea": 1.5,
+    "totalOver": 1.51,
+    "totalUnder": 2.45,
     "hcapLinea": 0.5,
     "hcapLocal": 1.59,
-    "hcapVisitante": 2.15
+    "hcapVisitante": 2.2
    },
    "preload": {}
   },
@@ -1747,8 +901,8 @@
    "awayId": "7767",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19002.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
-   "lh": 1.283,
-   "la": 0.762,
+   "lh": 1.248,
+   "la": 0.816,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.7,
@@ -1758,30 +912,35 @@
    "note": "λ calculados ajustando ataque/defensa de Montevideo City Torque y Tigre contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "12/08/26",
      "r": "W",
      "rival": "Tigre",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "26/05/26",
      "r": "D",
      "rival": "Grêmio",
      "local": false,
      "marcador": "2-2"
     },
     {
+     "d": "19/05/26",
      "r": "W",
      "rival": "Deportivo Riestra",
      "local": true,
      "marcador": "4-1"
     },
     {
+     "d": "06/05/26",
      "r": "W",
      "rival": "Palestino",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "29/04/26",
      "r": "L",
      "rival": "Deportivo Riestra",
      "local": false,
@@ -1790,30 +949,35 @@
    ],
    "formA": [
     {
+     "d": "12/08/26",
      "r": "L",
      "rival": "Montevideo City Torque",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "28/07/26",
      "r": "L",
      "rival": "Nacional",
      "local": true,
      "marcador": "1-2"
     },
     {
+     "d": "21/07/26",
      "r": "W",
      "rival": "Nacional",
      "local": false,
      "marcador": "3-0"
     },
     {
+     "d": "29/05/26",
      "r": "W",
      "rival": "Alianza Atlético",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "20/05/26",
      "r": "D",
      "rival": "América de Cali",
      "local": false,
@@ -1879,14 +1043,14 @@
    "ciudad": "Montevideo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.75,
-    "empate": 3.1,
-    "visitante": 2.6,
-    "totalLinea": 2.5,
-    "totalOver": 2.25,
-    "totalUnder": 1.56,
+    "local": 3.0,
+    "empate": 3.05,
+    "visitante": 2.55,
+    "totalLinea": 1.5,
+    "totalOver": 1.5,
+    "totalUnder": 2.5,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.47,
+    "hcapLocal": 1.51,
     "hcapVisitante": 2.4
    },
    "preload": {}
@@ -1903,8 +1067,8 @@
    "awayId": "9169",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4816.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9169.png",
-   "lh": 1.287,
-   "la": 0.633,
+   "lh": 1.172,
+   "la": 0.716,
    "rho": 0.0,
    "conf": 65,
    "corners": 8.7,
@@ -1914,30 +1078,35 @@
    "note": "λ calculados ajustando ataque/defensa de Liga de Quito y Mirassol contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "13/08/26",
      "r": "D",
      "rival": "Mirassol",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "26/05/26",
      "r": "W",
      "rival": "Always Ready",
      "local": true,
      "marcador": "3-2"
     },
     {
+     "d": "21/05/26",
      "r": "W",
      "rival": "Lanús",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "07/05/26",
      "r": "L",
      "rival": "Mirassol",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "28/04/26",
      "r": "L",
      "rival": "Lanús",
      "local": false,
@@ -1946,30 +1115,35 @@
    ],
    "formA": [
     {
+     "d": "13/08/26",
      "r": "D",
      "rival": "Liga de Quito",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "26/05/26",
      "r": "L",
      "rival": "Lanús",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "20/05/26",
      "r": "W",
      "rival": "Always Ready",
      "local": false,
      "marcador": "2-1"
     },
     {
+     "d": "07/05/26",
      "r": "W",
      "rival": "Liga de Quito",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "29/04/26",
      "r": "W",
      "rival": "Always Ready",
      "local": true,
@@ -2048,7 +1222,7 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.56,
-    "empate": 3.8,
+    "empate": 3.85,
     "visitante": 6.0,
     "totalLinea": 2.5,
     "totalOver": 2.05,
@@ -2071,8 +1245,8 @@
    "awayId": "3454",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2675.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3454.png",
-   "lh": 1.136,
-   "la": 0.655,
+   "lh": 1.109,
+   "la": 0.698,
    "rho": 0.0,
    "conf": 65,
    "corners": 11.7,
@@ -2082,30 +1256,35 @@
    "note": "λ calculados ajustando ataque/defensa de Club Olimpia y Vasco da Gama contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "13/08/26",
      "r": "D",
      "rival": "Vasco da Gama",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "27/05/26",
      "r": "W",
      "rival": "Audax Italiano",
      "local": true,
      "marcador": "3-1"
     },
     {
+     "d": "20/05/26",
      "r": "W",
      "rival": "Vasco da Gama",
      "local": true,
      "marcador": "3-1"
     },
     {
+     "d": "07/05/26",
      "r": "W",
      "rival": "Barracas Central",
      "local": false,
      "marcador": "2-1"
     },
     {
+     "d": "30/04/26",
      "r": "L",
      "rival": "Vasco da Gama",
      "local": false,
@@ -2114,30 +1293,35 @@
    ],
    "formA": [
     {
+     "d": "13/08/26",
      "r": "D",
      "rival": "Club Olimpia",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "29/07/26",
      "r": "W",
      "rival": "Independiente Medellín",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "22/07/26",
      "r": "D",
      "rival": "Independiente Medellín",
      "local": false,
      "marcador": "2-2"
     },
     {
+     "d": "27/05/26",
      "r": "W",
      "rival": "Barracas Central",
      "local": true,
      "marcador": "3-0"
     },
     {
+     "d": "20/05/26",
      "r": "L",
      "rival": "Club Olimpia",
      "local": false,
@@ -2219,11 +1403,11 @@
     "empate": 3.15,
     "visitante": 3.0,
     "totalLinea": 2.5,
-    "totalOver": 2.15,
-    "totalUnder": 1.61,
+    "totalOver": 2.25,
+    "totalUnder": 1.57,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.25,
-    "hcapVisitante": 1.53
+    "hcapLocal": 2.3,
+    "hcapVisitante": 1.51
    },
    "preload": {}
   },
@@ -2239,8 +1423,8 @@
    "awayId": "2674",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18439.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2674.png",
-   "lh": 1.92,
-   "la": 1.175,
+   "lh": 1.89,
+   "la": 1.238,
    "rho": 0.0,
    "conf": 65,
    "corners": 11.3,
@@ -2250,30 +1434,35 @@
    "note": "λ calculados ajustando ataque/defensa de Macará y Santos contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "13/08/26",
      "r": "L",
      "rival": "Santos",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "29/05/26",
      "r": "D",
      "rival": "América de Cali",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "22/05/26",
      "r": "D",
      "rival": "Alianza Atlético",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "07/05/26",
      "r": "D",
      "rival": "Tigre",
      "local": true,
      "marcador": "2-2"
     },
     {
+     "d": "01/05/26",
      "r": "W",
      "rival": "Alianza Atlético",
      "local": false,
@@ -2282,30 +1471,35 @@
    ],
    "formA": [
     {
+     "d": "13/08/26",
      "r": "W",
      "rival": "Macará",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "29/07/26",
      "r": "W",
      "rival": "UCV FC",
      "local": true,
      "marcador": "4-2"
     },
     {
+     "d": "22/07/26",
      "r": "W",
      "rival": "UCV FC",
      "local": false,
      "marcador": "4-1"
     },
     {
+     "d": "27/05/26",
      "r": "W",
      "rival": "Deportivo Cuenca",
      "local": true,
      "marcador": "3-0"
     },
     {
+     "d": "20/05/26",
      "r": "D",
      "rival": "San Lorenzo",
      "local": true,
@@ -2372,14 +1566,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 2.4,
-    "empate": 3.15,
+    "empate": 3.25,
     "visitante": 2.95,
     "totalLinea": 2.5,
     "totalOver": 2.0,
     "totalUnder": 1.69,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.25,
-    "hcapVisitante": 1.53
+    "hcapLocal": 2.2,
+    "hcapVisitante": 1.56
    },
    "preload": {}
   },
@@ -2395,8 +1589,8 @@
    "awayId": "17",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/874.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-   "lh": 0.629,
-   "la": 0.425,
+   "lh": 0.584,
+   "la": 0.489,
    "rho": 0.0,
    "conf": 65,
    "corners": 9.3,
@@ -2406,30 +1600,35 @@
    "note": "λ calculados ajustando ataque/defensa de Corinthians y Rosario Central contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "14/08/26",
      "r": "D",
      "rival": "Rosario Central",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "28/05/26",
      "r": "L",
      "rival": "Platense",
      "local": true,
      "marcador": "0-2"
     },
     {
+     "d": "22/05/26",
      "r": "D",
      "rival": "Peñarol",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "07/05/26",
      "r": "D",
      "rival": "Independiente Santa Fe",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "01/05/26",
      "r": "W",
      "rival": "Peñarol",
      "local": true,
@@ -2438,30 +1637,35 @@
    ],
    "formA": [
     {
+     "d": "14/08/26",
      "r": "D",
      "rival": "Corinthians",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "27/05/26",
      "r": "L",
      "rival": "Independiente del Valle",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "19/05/26",
      "r": "W",
      "rival": "UCV FC",
      "local": true,
      "marcador": "4-0"
     },
     {
+     "d": "05/05/26",
      "r": "W",
      "rival": "Libertad",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "29/04/26",
      "r": "W",
      "rival": "UCV FC",
      "local": false,
@@ -2551,8 +1755,8 @@
    "awayId": "3372",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6086.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3372.png",
-   "lh": 1.752,
-   "la": 2.145,
+   "lh": 1.7,
+   "la": 2.28,
    "rho": 0.0,
    "conf": 65,
    "corners": 9.7,
@@ -2562,30 +1766,35 @@
    "note": "λ calculados ajustando ataque/defensa de Botafogo y Cienciano del Cusco contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 10 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "14/08/26",
      "r": "L",
      "rival": "Cienciano del Cusco",
      "local": false,
      "marcador": "1-6"
     },
     {
+     "d": "27/05/26",
      "r": "W",
      "rival": "Caracas FC",
      "local": false,
      "marcador": "3-1"
     },
     {
+     "d": "21/05/26",
      "r": "W",
      "rival": "Independiente Petrolero",
      "local": false,
      "marcador": "3-0"
     },
     {
+     "d": "07/05/26",
      "r": "W",
      "rival": "Racing Club",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "28/04/26",
      "r": "W",
      "rival": "Independiente Petrolero",
      "local": true,
@@ -2594,30 +1803,35 @@
    ],
    "formA": [
     {
+     "d": "14/08/26",
      "r": "W",
      "rival": "Botafogo",
      "local": true,
      "marcador": "6-1"
     },
     {
+     "d": "30/07/26",
      "r": "W",
      "rival": "Lanús",
      "local": true,
      "marcador": "4-0"
     },
     {
+     "d": "23/07/26",
      "r": "L",
      "rival": "Lanús",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "27/05/26",
      "r": "D",
      "rival": "Juventud",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "21/05/26",
      "r": "L",
      "rival": "Atlético-MG",
      "local": false,
@@ -2685,12 +1899,12 @@
     "prov": "DraftKings",
     "local": 1.09,
     "empate": 10.0,
-    "visitante": 17.0,
+    "visitante": 16.0,
     "totalLinea": 3.5,
-    "totalOver": 1.61,
+    "totalOver": 1.62,
     "totalUnder": 2.15,
     "hcapLinea": -2.5,
-    "hcapLocal": 1.71,
+    "hcapLocal": 1.74,
     "hcapVisitante": 1.91
    },
    "preload": {}
@@ -2707,7 +1921,7 @@
    "awayId": "20",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
-   "lh": 1.142,
+   "lh": 1.143,
    "la": 0.995,
    "rho": 0.05,
    "conf": 75,
@@ -2718,30 +1932,35 @@
    "note": "λ calculados ajustando ataque/defensa de Aldosivi y Unión (Santa Fe) contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 23 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "15/08/26",
      "r": "D",
      "rival": "Tigre",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "07/08/26",
      "r": "L",
      "rival": "Rosario Central",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "02/08/26",
      "r": "L",
      "rival": "Gimnasia La Plata",
      "local": true,
      "marcador": "1-2"
     },
     {
+     "d": "29/07/26",
      "r": "L",
      "rival": "Barracas Central",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "24/07/26",
      "r": "D",
      "rival": "Defensa y Justicia",
      "local": false,
@@ -2750,30 +1969,35 @@
    ],
    "formA": [
     {
+     "d": "15/08/26",
      "r": "L",
      "rival": "San Lorenzo",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "11/08/26",
      "r": "L",
      "rival": "Central Córdoba (Santiago del Estero)",
      "local": true,
      "marcador": "1-2"
     },
     {
+     "d": "06/08/26",
      "r": "W",
      "rival": "Lanús",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "01/08/26",
      "r": "L",
      "rival": "Gimnasia (Mendoza)",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "25/07/26",
      "r": "D",
      "rival": "Platense",
      "local": false,
@@ -2996,8 +2220,8 @@
    "awayId": "18",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
-   "lh": 0.663,
-   "la": 0.697,
+   "lh": 0.665,
+   "la": 0.699,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.3,
@@ -3007,30 +2231,35 @@
    "note": "λ calculados ajustando ataque/defensa de Estudiantes de Río Cuarto y San Lorenzo contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "17/08/26",
      "r": "L",
      "rival": "Atlético Tucumán",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "08/08/26",
      "r": "L",
      "rival": "Independiente Rivadavia",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "01/08/26",
      "r": "D",
      "rival": "Banfield",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "29/07/26",
      "r": "L",
      "rival": "Argentinos Juniors",
      "local": false,
      "marcador": "0-3"
     },
     {
+     "d": "25/07/26",
      "r": "W",
      "rival": "Tigre",
      "local": true,
@@ -3039,30 +2268,35 @@
    ],
    "formA": [
     {
+     "d": "15/08/26",
      "r": "W",
      "rival": "Unión (Santa Fe)",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "09/08/26",
      "r": "L",
      "rival": "Huracán",
      "local": true,
      "marcador": "0-2"
     },
     {
+     "d": "04/08/26",
      "r": "L",
      "rival": "Central Córdoba (Santiago del Estero)",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "28/07/26",
      "r": "W",
      "rival": "Gimnasia (Mendoza)",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "26/07/26",
      "r": "L",
      "rival": "Lanús",
      "local": false,
@@ -3249,14 +2483,14 @@
    "ciudad": "Rio Cuarto",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.05,
-    "empate": 2.7,
-    "visitante": 2.6,
+    "local": 3.1,
+    "empate": 2.75,
+    "visitante": 2.65,
     "totalLinea": 1.5,
     "totalOver": 1.62,
-    "totalUnder": 2.1,
+    "totalUnder": 2.15,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.44,
+    "hcapLocal": 1.47,
     "hcapVisitante": 2.45
    },
    "preload": {}
@@ -3273,8 +2507,8 @@
    "awayId": "2975",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-   "lh": 0.666,
-   "la": 0.636,
+   "lh": 0.668,
+   "la": 0.637,
    "rho": 0.05,
    "conf": 75,
    "corners": 15.3,
@@ -3284,30 +2518,35 @@
    "note": "λ calculados ajustando ataque/defensa de Atlético Tucumán y Instituto (Córdoba) contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "17/08/26",
      "r": "W",
      "rival": "Estudiantes de Río Cuarto",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "08/08/26",
      "r": "L",
      "rival": "Sarmiento (Junín)",
      "local": true,
      "marcador": "1-2"
     },
     {
+     "d": "04/08/26",
      "r": "D",
      "rival": "Huracán",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "31/07/26",
      "r": "W",
      "rival": "Central Córdoba (Santiago del Estero)",
      "local": false,
      "marcador": "2-0"
     },
     {
+     "d": "26/07/26",
      "r": "D",
      "rival": "Independiente Rivadavia",
      "local": true,
@@ -3316,30 +2555,35 @@
    ],
    "formA": [
     {
+     "d": "16/08/26",
      "r": "W",
      "rival": "Central Córdoba (Santiago del Estero)",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "09/08/26",
      "r": "W",
      "rival": "Gimnasia (Mendoza)",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "03/08/26",
      "r": "W",
      "rival": "Lanús",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "30/07/26",
      "r": "W",
      "rival": "Platense",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "24/07/26",
      "r": "L",
      "rival": "Vélez Sarsfield",
      "local": false,
@@ -3568,7 +2812,7 @@
    "awayId": "11972",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-   "lh": 1.273,
+   "lh": 1.272,
    "la": 1.119,
    "rho": 0.05,
    "conf": 75,
@@ -3579,30 +2823,35 @@
    "note": "λ calculados ajustando ataque/defensa de Gimnasia La Plata y Gimnasia (Mendoza) contra toda la red de cruces de Liga Profesional Argentina esta temporada (23 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "15/08/26",
      "r": "L",
      "rival": "Estudiantes de La Plata",
      "local": false,
      "marcador": "0-4"
     },
     {
+     "d": "09/08/26",
      "r": "W",
      "rival": "Barracas Central",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "02/08/26",
      "r": "W",
      "rival": "Aldosivi",
      "local": false,
      "marcador": "2-1"
     },
     {
+     "d": "29/07/26",
      "r": "W",
      "rival": "River Plate",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "24/07/26",
      "r": "L",
      "rival": "Racing Club",
      "local": false,
@@ -3611,30 +2860,35 @@
    ],
    "formA": [
     {
+     "d": "18/08/26",
      "r": "W",
      "rival": "Talleres (Córdoba)",
      "local": true,
      "marcador": "3-1"
     },
     {
+     "d": "09/08/26",
      "r": "L",
      "rival": "Instituto (Córdoba)",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "01/08/26",
      "r": "W",
      "rival": "Unión (Santa Fe)",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "28/07/26",
      "r": "L",
      "rival": "San Lorenzo",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "24/07/26",
      "r": "W",
      "rival": "Central Córdoba (Santiago del Estero)",
      "local": true,
@@ -3821,15 +3075,15 @@
    "ciudad": "La Plata",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.83,
+    "local": 1.87,
     "empate": 3.25,
-    "visitante": 4.3,
+    "visitante": 4.2,
     "totalLinea": 2.5,
     "totalOver": 2.3,
-    "totalUnder": 1.53,
+    "totalUnder": 1.51,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.77,
-    "hcapVisitante": 1.87
+    "hcapLocal": 1.8,
+    "hcapVisitante": 1.8
    },
    "preload": {}
   },
@@ -3845,8 +3099,8 @@
    "awayId": "9744",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-   "lh": 1.458,
-   "la": 0.936,
+   "lh": 1.457,
+   "la": 0.935,
    "rho": 0.05,
    "conf": 75,
    "corners": 12.3,
@@ -3856,30 +3110,35 @@
    "note": "λ calculados ajustando ataque/defensa de Independiente y Independiente Rivadavia contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "17/08/26",
      "r": "W",
      "rival": "Lanús",
      "local": false,
      "marcador": "3-1"
     },
     {
+     "d": "09/08/26",
      "r": "L",
      "rival": "Platense",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "03/08/26",
      "r": "L",
      "rival": "Vélez Sarsfield",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "31/07/26",
      "r": "W",
      "rival": "Newell's Old Boys",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "26/07/26",
      "r": "W",
      "rival": "Estudiantes de La Plata",
      "local": false,
@@ -3888,30 +3147,35 @@
    ],
    "formA": [
     {
+     "d": "15/08/26",
      "r": "L",
      "rival": "Belgrano (Córdoba)",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "08/08/26",
      "r": "W",
      "rival": "Estudiantes de Río Cuarto",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "03/08/26",
      "r": "L",
      "rival": "Sarmiento (Junín)",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "30/07/26",
      "r": "W",
      "rival": "Huracán",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "26/07/26",
      "r": "D",
      "rival": "Atlético Tucumán",
      "local": false,
@@ -4111,11 +3375,11 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.91,
-    "empate": 3.25,
-    "visitante": 4.1,
+    "empate": 3.3,
+    "visitante": 3.95,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.53,
+    "totalOver": 2.25,
+    "totalUnder": 1.54,
     "hcapLinea": -0.5,
     "hcapLocal": 1.83,
     "hcapVisitante": 1.8
@@ -4134,8 +3398,8 @@
    "awayId": "17702",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
-   "lh": 1.057,
-   "la": 0.698,
+   "lh": 1.058,
+   "la": 0.699,
    "rho": 0.05,
    "conf": 75,
    "corners": 7.3,
@@ -4145,30 +3409,35 @@
    "note": "λ calculados ajustando ataque/defensa de Huracán y Deportivo Riestra contra toda la red de cruces de Liga Profesional Argentina esta temporada (23 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "16/08/26",
      "r": "L",
      "rival": "Sarmiento (Junín)",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "09/08/26",
      "r": "W",
      "rival": "San Lorenzo",
      "local": false,
      "marcador": "2-0"
     },
     {
+     "d": "04/08/26",
      "r": "D",
      "rival": "Atlético Tucumán",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "30/07/26",
      "r": "L",
      "rival": "Independiente Rivadavia",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "25/07/26",
      "r": "W",
      "rival": "Banfield",
      "local": true,
@@ -4177,30 +3446,35 @@
    ],
    "formA": [
     {
+     "d": "15/08/26",
      "r": "L",
      "rival": "Newell's Old Boys",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "08/08/26",
      "r": "W",
      "rival": "Estudiantes de La Plata",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "02/08/26",
      "r": "L",
      "rival": "Barracas Central",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "29/07/26",
      "r": "L",
      "rival": "Defensa y Justicia",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "26/07/26",
      "r": "W",
      "rival": "Boca Juniors",
      "local": true,
@@ -4400,8 +3674,8 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.95,
-    "empate": 2.9,
-    "visitante": 4.4,
+    "empate": 2.95,
+    "visitante": 4.3,
     "totalLinea": 1.5,
     "totalOver": 1.61,
     "totalUnder": 2.15,
@@ -4423,7 +3697,7 @@
    "awayId": "235",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
-   "lh": 1.192,
+   "lh": 1.193,
    "la": 0.859,
    "rho": 0.05,
    "conf": 75,
@@ -4434,30 +3708,35 @@
    "note": "λ calculados ajustando ataque/defensa de Newell's Old Boys y Banfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "15/08/26",
      "r": "W",
      "rival": "Deportivo Riestra",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "09/08/26",
      "r": "L",
      "rival": "Defensa y Justicia",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "02/08/26",
      "r": "D",
      "rival": "Boca Juniors",
      "local": true,
      "marcador": "2-2"
     },
     {
+     "d": "31/07/26",
      "r": "L",
      "rival": "Independiente",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "25/07/26",
      "r": "W",
      "rival": "Talleres (Córdoba)",
      "local": true,
@@ -4466,30 +3745,35 @@
    ],
    "formA": [
     {
+     "d": "14/08/26",
      "r": "W",
      "rival": "Racing Club",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "10/08/26",
      "r": "L",
      "rival": "Belgrano (Córdoba)",
      "local": true,
      "marcador": "0-2"
     },
     {
+     "d": "01/08/26",
      "r": "D",
      "rival": "Estudiantes de Río Cuarto",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "28/07/26",
      "r": "W",
      "rival": "Sarmiento (Junín)",
      "local": true,
      "marcador": "3-2"
     },
     {
+     "d": "25/07/26",
      "r": "L",
      "rival": "Huracán",
      "local": false,
@@ -4718,8 +4002,8 @@
    "awayId": "7764",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
-   "lh": 1.214,
-   "la": 0.627,
+   "lh": 1.215,
+   "la": 0.628,
    "rho": 0.05,
    "conf": 75,
    "corners": 6.0,
@@ -4729,30 +4013,35 @@
    "note": "λ calculados ajustando ataque/defensa de Barracas Central y Platense contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "16/08/26",
      "r": "L",
      "rival": "Rosario Central",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "09/08/26",
      "r": "L",
      "rival": "Gimnasia La Plata",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "02/08/26",
      "r": "W",
      "rival": "Deportivo Riestra",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "29/07/26",
      "r": "W",
      "rival": "Aldosivi",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "25/07/26",
      "r": "W",
      "rival": "River Plate",
      "local": false,
@@ -4761,30 +4050,35 @@
    ],
    "formA": [
     {
+     "d": "16/08/26",
      "r": "D",
      "rival": "Boca Juniors",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "09/08/26",
      "r": "W",
      "rival": "Independiente",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "03/08/26",
      "r": "L",
      "rival": "Talleres (Córdoba)",
      "local": true,
      "marcador": "0-4"
     },
     {
+     "d": "30/07/26",
      "r": "L",
      "rival": "Instituto (Córdoba)",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "25/07/26",
      "r": "D",
      "rival": "Unión (Santa Fe)",
      "local": true,
@@ -4984,8 +4278,8 @@
     "totalOver": 1.61,
     "totalUnder": 2.1,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.4,
-    "hcapVisitante": 1.47
+    "hcapLocal": 2.35,
+    "hcapVisitante": 1.48
    },
    "preload": {}
   },
@@ -5001,8 +4295,8 @@
    "awayId": "8",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
-   "lh": 1.455,
-   "la": 1.283,
+   "lh": 1.454,
+   "la": 1.281,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.3,
@@ -5012,30 +4306,35 @@
    "note": "λ calculados ajustando ataque/defensa de Sarmiento (Junín) y Estudiantes de La Plata contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "16/08/26",
      "r": "W",
      "rival": "Huracán",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "08/08/26",
      "r": "W",
      "rival": "Atlético Tucumán",
      "local": false,
      "marcador": "2-1"
     },
     {
+     "d": "03/08/26",
      "r": "W",
      "rival": "Independiente Rivadavia",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "28/07/26",
      "r": "L",
      "rival": "Banfield",
      "local": false,
      "marcador": "2-3"
     },
     {
+     "d": "23/07/26",
      "r": "L",
      "rival": "Argentinos Juniors",
      "local": true,
@@ -5044,30 +4343,35 @@
    ],
    "formA": [
     {
+     "d": "15/08/26",
      "r": "W",
      "rival": "Gimnasia La Plata",
      "local": true,
      "marcador": "4-0"
     },
     {
+     "d": "08/08/26",
      "r": "L",
      "rival": "Deportivo Riestra",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "05/08/26",
      "r": "L",
      "rival": "Boca Juniors",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "01/08/26",
      "r": "W",
      "rival": "Defensa y Justicia",
      "local": true,
      "marcador": "3-0"
     },
     {
+     "d": "26/07/26",
      "r": "L",
      "rival": "Independiente",
      "local": true,
@@ -5260,15 +4564,15 @@
    "ciudad": "Junin",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.3,
+    "local": 3.2,
     "empate": 2.95,
     "visitante": 2.3,
     "totalLinea": 1.5,
     "totalOver": 1.49,
     "totalUnder": 2.4,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.56,
-    "hcapVisitante": 2.15
+    "hcapLocal": 1.54,
+    "hcapVisitante": 2.2
    },
    "preload": {}
   },
@@ -5284,8 +4588,8 @@
    "awayId": "8950",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
-   "lh": 1.775,
-   "la": 0.627,
+   "lh": 1.771,
+   "la": 0.628,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.7,
@@ -5295,30 +4599,35 @@
    "note": "λ calculados ajustando ataque/defensa de Belgrano (Córdoba) y Defensa y Justicia contra toda la red de cruces de Liga Profesional Argentina esta temporada (25 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "15/08/26",
      "r": "W",
      "rival": "Independiente Rivadavia",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "10/08/26",
      "r": "W",
      "rival": "Banfield",
      "local": false,
      "marcador": "2-0"
     },
     {
+     "d": "06/08/26",
      "r": "D",
      "rival": "Tigre",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "01/08/26",
      "r": "L",
      "rival": "Argentinos Juniors",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "23/07/26",
      "r": "W",
      "rival": "Rosario Central",
      "local": true,
@@ -5327,30 +4636,35 @@
    ],
    "formA": [
     {
+     "d": "17/08/26",
      "r": "D",
      "rival": "Vélez Sarsfield",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "09/08/26",
      "r": "W",
      "rival": "Newell's Old Boys",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "01/08/26",
      "r": "L",
      "rival": "Estudiantes de La Plata",
      "local": false,
      "marcador": "0-3"
     },
     {
+     "d": "29/07/26",
      "r": "W",
      "rival": "Deportivo Riestra",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "24/07/26",
      "r": "D",
      "rival": "Aldosivi",
      "local": true,
@@ -5556,13 +4870,13 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.8,
-    "empate": 3.2,
-    "visitante": 4.7,
+    "empate": 3.25,
+    "visitante": 4.6,
     "totalLinea": 2.5,
     "totalOver": 2.4,
     "totalUnder": 1.49,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.71,
+    "hcapLocal": 1.74,
     "hcapVisitante": 1.91
    },
    "preload": {}
@@ -5579,8 +4893,8 @@
    "awayId": "21",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
-   "lh": 0.853,
-   "la": 0.82,
+   "lh": 0.854,
+   "la": 0.821,
    "rho": 0.05,
    "conf": 75,
    "corners": 10.0,
@@ -5590,30 +4904,35 @@
    "note": "λ calculados ajustando ataque/defensa de River Plate y Vélez Sarsfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (25 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "16/08/26",
      "r": "W",
      "rival": "Argentinos Juniors",
      "local": true,
      "marcador": "2-0"
     },
     {
+     "d": "08/08/26",
      "r": "L",
      "rival": "Tigre",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "02/08/26",
      "r": "L",
      "rival": "Rosario Central",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "29/07/26",
      "r": "L",
      "rival": "Gimnasia La Plata",
      "local": false,
      "marcador": "0-1"
     },
     {
+     "d": "25/07/26",
      "r": "L",
      "rival": "Barracas Central",
      "local": true,
@@ -5622,30 +4941,35 @@
    ],
    "formA": [
     {
+     "d": "17/08/26",
      "r": "D",
      "rival": "Defensa y Justicia",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "08/08/26",
      "r": "D",
      "rival": "Boca Juniors",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "03/08/26",
      "r": "W",
      "rival": "Independiente",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "30/07/26",
      "r": "W",
      "rival": "Talleres (Córdoba)",
      "local": false,
      "marcador": "3-1"
     },
     {
+     "d": "24/07/26",
      "r": "W",
      "rival": "Instituto (Córdoba)",
      "local": true,
@@ -5850,14 +5174,14 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.61,
+    "local": 1.62,
     "empate": 3.5,
-    "visitante": 5.75,
+    "visitante": 5.5,
     "totalLinea": 2.5,
     "totalOver": 2.3,
     "totalUnder": 1.53,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.56,
+    "hcapLocal": 1.57,
     "hcapVisitante": 2.15
    },
    "preload": {}
@@ -5874,8 +5198,8 @@
    "awayId": "5",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-   "lh": 1.143,
-   "la": 1.099,
+   "lh": 1.142,
+   "la": 1.098,
    "rho": 0.05,
    "conf": 75,
    "corners": 11.0,
@@ -5885,30 +5209,35 @@
    "note": "λ calculados ajustando ataque/defensa de Racing Club y Boca Juniors contra toda la red de cruces de Liga Profesional Argentina esta temporada (23 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "14/08/26",
      "r": "L",
      "rival": "Banfield",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "09/08/26",
      "r": "L",
      "rival": "Argentinos Juniors",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "01/08/26",
      "r": "L",
      "rival": "Tigre",
      "local": true,
      "marcador": "1-3"
     },
     {
+     "d": "29/07/26",
      "r": "D",
      "rival": "Rosario Central",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "24/07/26",
      "r": "W",
      "rival": "Gimnasia La Plata",
      "local": true,
@@ -5917,30 +5246,35 @@
    ],
    "formA": [
     {
+     "d": "16/08/26",
      "r": "D",
      "rival": "Platense",
      "local": false,
      "marcador": "1-1"
     },
     {
+     "d": "08/08/26",
      "r": "D",
      "rival": "Vélez Sarsfield",
      "local": true,
      "marcador": "1-1"
     },
     {
+     "d": "05/08/26",
      "r": "W",
      "rival": "Estudiantes de La Plata",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "02/08/26",
      "r": "D",
      "rival": "Newell's Old Boys",
      "local": false,
      "marcador": "2-2"
     },
     {
+     "d": "26/07/26",
      "r": "L",
      "rival": "Deportivo Riestra",
      "local": false,
@@ -6175,8 +5509,8 @@
    "awayId": "11989",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
-   "lh": 1.168,
-   "la": 0.511,
+   "lh": 1.167,
+   "la": 0.513,
    "rho": 0.05,
    "conf": 75,
    "corners": 9.0,
@@ -6186,30 +5520,35 @@
    "note": "λ calculados ajustando ataque/defensa de Tigre y Central Córdoba (Santiago del Estero) contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "15/08/26",
      "r": "D",
      "rival": "Aldosivi",
      "local": false,
      "marcador": "0-0"
     },
     {
+     "d": "08/08/26",
      "r": "W",
      "rival": "River Plate",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "06/08/26",
      "r": "D",
      "rival": "Belgrano (Córdoba)",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "01/08/26",
      "r": "W",
      "rival": "Racing Club",
      "local": false,
      "marcador": "3-1"
     },
     {
+     "d": "25/07/26",
      "r": "L",
      "rival": "Estudiantes de Río Cuarto",
      "local": false,
@@ -6218,30 +5557,35 @@
    ],
    "formA": [
     {
+     "d": "16/08/26",
      "r": "L",
      "rival": "Instituto (Córdoba)",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "11/08/26",
      "r": "W",
      "rival": "Unión (Santa Fe)",
      "local": false,
      "marcador": "2-1"
     },
     {
+     "d": "04/08/26",
      "r": "W",
      "rival": "San Lorenzo",
      "local": true,
      "marcador": "1-0"
     },
     {
+     "d": "31/07/26",
      "r": "L",
      "rival": "Atlético Tucumán",
      "local": true,
      "marcador": "0-2"
     },
     {
+     "d": "24/07/26",
      "r": "L",
      "rival": "Gimnasia (Mendoza)",
      "local": false,
@@ -6446,11 +5790,11 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.54,
+    "local": 1.56,
     "empate": 3.6,
     "visitante": 6.5,
     "totalLinea": 2.5,
-    "totalOver": 2.4,
+    "totalOver": 2.45,
     "totalUnder": 1.48,
     "hcapLinea": -0.5,
     "hcapLocal": 1.5,
@@ -6470,8 +5814,8 @@
    "awayId": "3",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
-   "lh": 1.11,
-   "la": 1.288,
+   "lh": 1.111,
+   "la": 1.286,
    "rho": 0.05,
    "conf": 75,
    "corners": 10.7,
@@ -6481,30 +5825,35 @@
    "note": "λ calculados ajustando ataque/defensa de Lanús y Argentinos Juniors contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 24 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "17/08/26",
      "r": "L",
      "rival": "Independiente",
      "local": true,
      "marcador": "1-3"
     },
     {
+     "d": "12/08/26",
      "r": "W",
      "rival": "Talleres (Córdoba)",
      "local": false,
      "marcador": "3-0"
     },
     {
+     "d": "06/08/26",
      "r": "L",
      "rival": "Unión (Santa Fe)",
      "local": false,
      "marcador": "1-2"
     },
     {
+     "d": "03/08/26",
      "r": "L",
      "rival": "Instituto (Córdoba)",
      "local": true,
      "marcador": "0-1"
     },
     {
+     "d": "26/07/26",
      "r": "W",
      "rival": "San Lorenzo",
      "local": true,
@@ -6513,30 +5862,35 @@
    ],
    "formA": [
     {
+     "d": "16/08/26",
      "r": "L",
      "rival": "River Plate",
      "local": false,
      "marcador": "0-2"
     },
     {
+     "d": "09/08/26",
      "r": "W",
      "rival": "Racing Club",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "01/08/26",
      "r": "W",
      "rival": "Belgrano (Córdoba)",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "29/07/26",
      "r": "W",
      "rival": "Estudiantes de Río Cuarto",
      "local": true,
      "marcador": "3-0"
     },
     {
+     "d": "23/07/26",
      "r": "W",
      "rival": "Sarmiento (Junín)",
      "local": false,
@@ -6739,8 +6093,8 @@
     "empate": 2.75,
     "visitante": 2.95,
     "totalLinea": 1.5,
-    "totalOver": 1.54,
-    "totalUnder": 2.25,
+    "totalOver": 1.53,
+    "totalUnder": 2.3,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
     "hcapVisitante": 1.43
@@ -6759,8 +6113,8 @@
    "awayId": "17",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-   "lh": 1.041,
-   "la": 1.426,
+   "lh": 1.042,
+   "la": 1.422,
    "rho": 0.05,
    "conf": 75,
    "corners": 7.7,
@@ -6770,30 +6124,35 @@
    "note": "λ calculados ajustando ataque/defensa de Talleres (Córdoba) y Rosario Central contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 24 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
+     "d": "18/08/26",
      "r": "L",
      "rival": "Gimnasia (Mendoza)",
      "local": false,
      "marcador": "1-3"
     },
     {
+     "d": "12/08/26",
      "r": "L",
      "rival": "Lanús",
      "local": true,
      "marcador": "0-3"
     },
     {
+     "d": "03/08/26",
      "r": "W",
      "rival": "Platense",
      "local": false,
      "marcador": "4-0"
     },
     {
+     "d": "30/07/26",
      "r": "L",
      "rival": "Vélez Sarsfield",
      "local": true,
      "marcador": "1-3"
     },
     {
+     "d": "25/07/26",
      "r": "L",
      "rival": "Newell's Old Boys",
      "local": false,
@@ -6802,30 +6161,35 @@
    ],
    "formA": [
     {
+     "d": "16/08/26",
      "r": "W",
      "rival": "Barracas Central",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "07/08/26",
      "r": "W",
      "rival": "Aldosivi",
      "local": true,
      "marcador": "2-1"
     },
     {
+     "d": "02/08/26",
      "r": "W",
      "rival": "River Plate",
      "local": false,
      "marcador": "1-0"
     },
     {
+     "d": "29/07/26",
      "r": "D",
      "rival": "Racing Club",
      "local": true,
      "marcador": "0-0"
     },
     {
+     "d": "23/07/26",
      "r": "L",
      "rival": "Belgrano (Córdoba)",
      "local": false,
@@ -7040,6 +6404,161 @@
     "hcapLocal": 2.45,
     "hcapVisitante": 1.43
    },
+   "preload": {}
+  },
+  {
+   "id": "espn401874147",
+   "date": "2026-08-25",
+   "comp": "CONMEBOL Libertadores",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/58.png",
+   "hora": "21:30",
+   "home": "Independiente del Valle",
+   "away": "Deportes Tolima",
+   "homeId": "17086",
+   "awayId": "5489",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
+   "lh": 1.925,
+   "la": 0.535,
+   "rho": 0.0,
+   "conf": 65,
+   "corners": 12.3,
+   "cornersH": 6.7,
+   "fouls": 21.0,
+   "cards": 2.7,
+   "note": "λ calculados ajustando ataque/defensa de Independiente del Valle y Deportes Tolima contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 11 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "19/08/26",
+     "r": "W",
+     "rival": "Deportes Tolima",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "27/05/26",
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "20/05/26",
+     "r": "W",
+     "rival": "Libertad",
+     "local": true,
+     "marcador": "4-1"
+    },
+    {
+     "d": "06/05/26",
+     "r": "L",
+     "rival": "UCV FC",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "28/04/26",
+     "r": "W",
+     "rival": "Libertad",
+     "local": false,
+     "marcador": "3-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "19/08/26",
+     "r": "L",
+     "rival": "Independiente del Valle",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "27/05/26",
+     "r": "D",
+     "rival": "Universitario",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "19/05/26",
+     "r": "L",
+     "rival": "Coquimbo Unido",
+     "local": false,
+     "marcador": "0-3"
+    },
+    {
+     "d": "07/05/26",
+     "r": "W",
+     "rival": "Nacional",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "29/04/26",
+     "r": "W",
+     "rival": "Coquimbo Unido",
+     "local": true,
+     "marcador": "3-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "19/08/26",
+     "h": "Deportes Tolima",
+     "a": "Independiente del Valle",
+     "s": "0-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Independiente del Valle",
+     "id": "17086",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
+     "pts": 13,
+     "pj": 6,
+     "g": 4,
+     "e": 1,
+     "p": 1,
+     "gf": 11
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 13,
+     "pj": 6,
+     "g": 4,
+     "e": 1,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "UCV FC",
+     "id": "10094",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10094.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 3,
+     "e": 0,
+     "p": 3,
+     "gf": 7
+    },
+    {
+     "t": "Libertad",
+     "id": "2670",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2670.png",
+     "pts": 0,
+     "pj": 6,
+     "g": 0,
+     "e": 0,
+     "p": 6,
+     "gf": 4
+    }
+   ],
+   "grupo": "Group H",
+   "estadio": "Estadio Banco Guayaquil",
+   "ciudad": "Quito",
+   "mercado": null,
    "preload": {}
   }
  ]

@@ -31,6 +31,26 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `data/*.json` | Lo escribe el cron. **No editar a mano** | Nadie |
 | `data/analisis.json`, `data/equipos.json` | Análisis cualitativo, carga manual. El cron **nunca** los toca | A mano |
 
+## El research de `analisis.json` nunca se invoca desde acá
+
+El flujo real, el que viene dando resultado limpio: esta terminal arma
+el expediente objetivo (`python expediente.py <id>`), Lucas lo lleva a
+su sesión de Claude.ai, ahí se hace el research y se escribe
+`inclinacion`/`contexto`/`veredicto`, y el resultado vuelve acá para
+cargarse en `data/analisis.json`. Esta terminal **nunca** corre la
+investigación — ni con una skill instalada, ni a mano.
+
+Por qué: hay una skill instalada localmente con un nombre parecido a
+`analisis-futbol-valor-json` que **no** es la que Lucas edita en
+Claude.ai — tiene un esquema de salida distinto (`hallazgo_principal`,
+`texto_corto`, sin `inclinacion`, que es el único campo que lee
+`index.html`) y encima espera como input los números del modelo
+(`probabilidades_modelo`, `ev_mercado_principal`), justo lo que
+`expediente.py` existe para esconder. Invocarla sin querer produce un
+JSON que la app no usa y que además viola la regla de alineación. Pasó
+una vez (2026-08-19); no invocar ninguna skill para esto, sea cual sea
+su nombre.
+
 ## Restricciones duras
 
 - **`actualizar.py`: solo biblioteca estándar.** Corre en GitHub Actions sin `pip install`. Nada de dependencias.

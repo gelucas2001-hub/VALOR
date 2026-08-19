@@ -1,5 +1,7 @@
 # Herramientas locales
 .claude/
+!.claude/skills/
+!.claude/skills/**
 .impeccable/
 
 # Python

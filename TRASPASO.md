@@ -27,8 +27,7 @@
 > siguiendo la regla de alineación. **Se edita ahí, no en Claude.ai.**
 > `data/analisis.json` tiene 12 partidos cargados (era 0). Ver la
 > sección 10 corregida y la 6quinsexies para el resto: qué se agregó
-> (`forma_general`, "Otros mercados", `divergen()`) y qué falta
-> (`equipos.json` sigue vacío).
+> (`forma_general`, "Otros mercados", `divergen()`).
 >
 > **Actualización 2026-08-20 — el plantel ya no es un hueco.** El cron
 > escribe `data/planteles.json` (42 equipos, 1152 jugadores con partidos
@@ -1009,8 +1008,11 @@ Herramientas la primera vez que hace falta.
 3. **Historial** — forma reciente y cruces directos.
 4. **Posiciones** — tabla de la competición, con los dos equipos
    resaltados. Separada de Historial a pedido explícito de Lucas.
-5. **Plantel** — resumen corto de estilo y actualidad por equipo, desde
-   `data/equipos.json`, más estadísticas del equipo.
+5. **Plantel** — la cancha con el once inferido, la lista de jugadores
+   con sus estadísticas, y la comparativa de equipo (`data/planteles.json`,
+   `data/estadisticas.json`). `data/equipos.json` existió con este
+   propósito y se borró el 2026-08-20 sin haberse usado nunca — ver la
+   sección 10.
 6. **Herramientas** — explícitamente "para vos, no para la gente". Cuota
    real de tu casa → EV y stake en pesos. **La etiqueta "Kelly" no
    aparece**; el monto habla solo y el porqué está en Método.
@@ -1073,11 +1075,25 @@ Verificado sobre 206 partidos: 206 de 206 cierran con esta lectura, solo
 
 ---
 
-## 10. El hueco más grande del producto — resuelto para analisis.json, sigue abierto para equipos.json
+## 10. El hueco más grande del producto — resuelto para analisis.json; equipos.json se borró (2026-08-20)
 
 **Estado 2026-08-19:** `data/analisis.json` ya no está vacío — 12
 partidos cargados, generados por la skill versionada (ver 6quinsexies).
-`data/equipos.json` **sigue vacío**, solo el esquema.
+
+**`data/equipos.json` se borró el 2026-08-20**, junto con el código que
+lo leía en `index.html` (la variable `EQUIPOS`, su fetch, y los tres
+campos `resumen`/`forma`/`localVisita`/`bajas` en la pestaña Plantel).
+Nunca se cargó — quedó en `{_schema}` desde que se creó — y todo lo que
+prometía terminó cubierto por otra vía, mejor: `resumen`/`forma` los
+reemplaza el campo `local`/`visitante` de la skill (por partido, no
+genérico); `bajas` las busca la skill y las **pesa** contra el plantel
+en vez de listarlas a mano. Lo único que no tiene reemplazo es
+`fichajes`, y ni eso justificaba mantener un archivo con esquema y
+código de lectura sin ningún dato adentro — el riesgo real era que la
+próxima IA lo viera "cargado" (con esquema) y asumiera que hacía algo.
+Si algún día hace falta una ficha de equipo con identidad estable, se
+diseña de cero: este archivo mezclaba cosas que caducan en días
+(lesiones) con cosas que no (estilo), y por eso nadie lo mantuvo nunca.
 
 El riesgo que motivó esta sección **se resolvió, no desapareció solo**:
 la generación de `inclinacion`/`contexto`/`veredicto` ya no depende de
@@ -1091,13 +1107,11 @@ modelo, lo que rompería la regla de alineación si se usara sin querer.
 Antes de correr el research, confirmar el nombre exacto.
 
 **El plantel dejó de ser un hueco el 2026-08-20.** Lo que esta sección
-daba por pendiente ya está construido, aunque no en `equipos.json`: el
-cron escribe `data/planteles.json` (42 equipos, 1152 jugadores con
-`pj`, goles, asistencias y `peso_goles`), `/roster` costó 2 requests
-más sobre 592, y `expediente.py` se lo entrega a la skill. Va en un
-archivo aparte a propósito: `equipos.json` es carga manual y el cron no
-puede tocarlo. `equipos.json` sigue vacío y ahora importa menos.
-`injuries`/`status` del mismo endpoint están
+daba por pendiente ya está construido: el cron escribe
+`data/planteles.json` (42 equipos, 1152 jugadores con `pj`, goles,
+asistencias y `peso_goles`), `/roster` costó 2 requests más sobre 592, y
+`expediente.py` se lo entrega a la skill. `injuries`/`status` del mismo
+endpoint están
 presentes en el esquema pero vacíos/no mantenidos para ligas
 sudamericanas (verificado en vivo: Valentín Carboni de Racing, con
 rotura de ligamento cruzado real, aparece `Active`/`[]`). Tampoco sirve
@@ -1157,7 +1171,7 @@ fase está terminado.
     desborde horizontal a 375px.
 12bis. ~~Cambio de guardia `index.html`~~ **HECHO.** Ver 6quinquies.
 
-**Fase 4 — Contenido: HECHA para analisis.json (2026-08-19), sigue abierta para equipos.json**
+**Fase 4 — Contenido: HECHA (2026-08-19/20)**
 13. ~~Arreglar la skill de análisis~~ **HECHO — pero es otra skill.**
     La vieja `analisis-futbol-valor-json` quedó descartada, no
     arreglada: nació con el modelo como input, lo que viola la regla de
@@ -1167,7 +1181,7 @@ fase está terminado.
     (WebSearch). Ver la sección 6quinsexies.
 14. ~~Cargar análisis real~~ **HECHO — 12 partidos en `data/analisis.json`.**
     La marca de valor aparece donde `inclinacion` coincide con el
-    mercado. Pendiente, no urgente: `data/equipos.json` sigue vacío
+    mercado. `data/equipos.json` se borró (2026-08-20): nunca se cargó
     (ver sección 10).
 
 **Fase 5 — Modelo (opcional, con tiempo)**

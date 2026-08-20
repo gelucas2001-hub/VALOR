@@ -860,7 +860,7 @@ const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
 /* ══════════════════════════════════════════════════════════════════
    ESTADO
    ══════════════════════════════════════════════════════════════════ */
-let MATCHES=[], ANALISIS={}, EQUIPOS={}, PLANTELES={}, ACTUALIZADO="";
+let MATCHES=[], ANALISIS={}, PLANTELES={}, ACTUALIZADO="";
 let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
 /* Qué equipo muestra la cancha de Plantel: "H" local, "A" visitante.
    Los dos no entran en un dibujo solo, y apilarlos obliga a scrollear
@@ -2012,17 +2012,8 @@ function quienFalta(m){
 function tabPlantel(m){
   const stat = (id, tabla)=> (tabla||[]).find(f=>String(f.id)===String(id));
   const bloque = (nombre, id, logo)=>{
-    const e = EQUIPOS[String(id)];
     const t = stat(id, m.tabla);
     let h = `<div class="eqblock"><div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>`;
-    /* El resumen escrito a mano de `equipos.json` nunca se cargó, y el
-       plan cambió: lo que se quería contar acá lo cuentan ahora los
-       números de abajo (comparativa y plantel) y la nota del Análisis.
-       Se muestra si algún día está, pero ya no se declara como hueco:
-       era un cartel de "falta algo" arriba de una pantalla llena. */
-    if(e && e.resumen) h += `<p class="blurb">${esc_(e.resumen)}</p>`;
-    if(e && e.forma) h += `<p class="blurb">${esc_(e.forma)}</p>`;
-    if(e && e.localVisita) h += `<p class="blurb">${esc_(e.localVisita)}</p>`;
     if(t){
       h += `<div class="tstats">
         <div class="t"><span>Puntos</span><b>${t.pts}</b></div>
@@ -2030,9 +2021,6 @@ function tabPlantel(m){
         <div class="t"><span>Ganados</span><b>${t.g}</b></div>
         <div class="t"><span>Goles a favor</span><b>${t.gf!=null?t.gf:"—"}</b></div>
       </div>`;
-    }
-    if(e && e.bajas && e.bajas.length){
-      h += `<div class="lbl sep">Bajas</div>` + e.bajas.map(b=>`<div class="frow"><span class="rival">${esc_(b)}</span></div>`).join("");
     }
     return h + `</div>`;
   };
@@ -2726,15 +2714,14 @@ async function traer(url, def){
   ACTUALIZADO = p.actualizado || "";
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
-  const [an, eq, rs, pl, es] = await Promise.all([
-    traer("data/analisis.json", {}), traer("data/equipos.json", {}),
+  const [an, rs, pl, es] = await Promise.all([
+    traer("data/analisis.json", {}),
     traer("data/resultados.json", {}), traer("data/planteles.json", {}),
     traer("data/estadisticas.json", {}),
   ]);
   RESULTADOS = rs || {};
   /* la clave _schema es documentación del formato, no un partido */
   ANALISIS = an || {}; delete ANALISIS._schema;
-  EQUIPOS  = eq || {}; delete EQUIPOS._schema;
   PLANTELES = (pl && pl.equipos) || {};
   ESTADISTICAS = (es && es.equipos) || {};
 

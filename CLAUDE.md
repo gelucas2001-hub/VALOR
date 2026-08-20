@@ -37,7 +37,12 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 Desde el 2026-08-19, esta terminal SÍ puede correr la investigación:
 `python expediente.py <id>` arma el expediente objetivo, y la skill
 versionada en `.claude/skills/valor-analisis-inclinacion/SKILL.md`
-hace el research y escribe `inclinacion`/`contexto`/`veredicto`. Esa
+hace el research y escribe `inclinacion`/`local`/`visitante`/
+`contexto`/`veredicto`. Desde el 2026-08-20 el expediente incluye el
+plantel de los dos equipos con partidos jugados y peso goleador: la
+skill **pesa** las bajas contra esos números en vez de enumerarlas, y
+escribe una lectura por equipo (antes el rival quedaba sin describir).
+Esa
 skill es la fuente de verdad — se edita ahí, en el repo, no en
 Claude.ai (evita el problema de dos copias divergiendo sin que nadie
 lo note).

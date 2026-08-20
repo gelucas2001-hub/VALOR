@@ -34,6 +34,18 @@ for flujo in (sys.stdout, sys.stderr):
 
 RAIZ = Path(__file__).resolve().parent
 PARTIDOS = RAIZ / "data" / "partidos.json"
+PLANTELES = RAIZ / "data" / "planteles.json"
+
+# Cuántos jugadores por equipo viajan al análisis. Un roster completo son
+# 38-40, de los cuales un tercio no jugó nunca. Los 25 que más jugaron
+# cubren a cualquiera que pueda ser noticia; el resto es ruido que compite
+# por la atención del que lee.
+TOPE_PLANTEL = 25
+
+# Los únicos campos del plantel que sirven para pesar una baja. Remates,
+# faltas y tarjetas están en planteles.json y son útiles en la app, pero
+# acá no cambian ninguna conclusión.
+CAMPOS_JUGADOR = ("nombre", "pos", "pj", "goles", "asist", "peso_goles")
 
 # La prensa habla fuerte recién 24-48h antes del partido: research hecho una
 # semana antes se pisa con la nota que sale la víspera. Por eso --lista
@@ -74,8 +86,24 @@ def cargar():
     return d["partidos"] if isinstance(d, dict) and "partidos" in d else d
 
 
-def expediente(p):
+def cargar_planteles():
+    """{team_id: [jugadores]}. Si el cron todavía no lo escribió, vacío."""
+    try:
+        with open(PLANTELES, encoding="utf-8") as f:
+            return json.load(f).get("equipos", {})
+    except (FileNotFoundError, ValueError):
+        return {}
+
+
+def recortar_plantel(plantel):
+    """Los que más jugaron, con los campos que pesan una baja y nada más."""
+    js = sorted(plantel or [], key=lambda j: -j.get("pj", 0))[:TOPE_PLANTEL]
+    return [{k: j.get(k) for k in CAMPOS_JUGADOR} for j in js]
+
+
+def expediente(p, planteles=None):
     """El objeto que recibe la skill. Los avisos son para el humano que revisa."""
+    planteles = cargar_planteles() if planteles is None else planteles
     e = {
         "espn_id": p["id"],
         "equipo_local": p["home"],
@@ -88,10 +116,32 @@ def expediente(p):
         if k in p and k not in e:
             e[k] = p[k]
 
+    # El plantel de cada equipo, con partidos jugados y peso goleador. Es lo
+    # que separa "no está Driussi" de "no está Arambarri": sin estos números
+    # el análisis solo puede enumerar nombres, que es exactamente lo que
+    # pasaba antes de que esto viajara.
+    faltan_plantel = []
+    for lado, tid, nombre in (("H", p.get("homeId"), p["home"]),
+                              ("A", p.get("awayId"), p["away"])):
+        js = recortar_plantel(planteles.get(str(tid)))
+        if js:
+            e["plantel" + lado] = js
+            # "Jugó 5" no dice nada sin saber sobre cuántos, y ningún dato de
+            # la fuente trae los partidos del equipo. El máximo del plantel es
+            # la mejor escala disponible — y se entrega diciendo que es eso.
+            e["pjMax" + lado] = max(j["pj"] for j in js)
+        else:
+            faltan_plantel.append(nombre)
+
     # Avisos de calidad del expediente. Sin esto la skill trata cualquier dato
     # como firme, y hay campos que a veces vienen flacos o directamente son un
     # supuesto del pipeline.
     avisos = []
+    if faltan_plantel:
+        avisos.append(
+            f"Sin plantel de {' ni de '.join(faltan_plantel)}: para ese equipo "
+            "no podés pesar una baja con números propios. Si nombrás una "
+            "ausencia suya, decí de dónde sale el peso o no le atribuyas peso.")
     if len(p.get("h2h", [])) == 0:
         avisos.append("Sin historial entre estos dos: no hables de antecedentes.")
     elif len(p.get("h2h", [])) < 3:
@@ -197,7 +247,16 @@ def expediente(p):
         "general para contrastar o cuando la de competencia esté vieja. "
         "En h2h, 'h' es quien fue local y 's' el marcador. "
         "tabla es la del grupo o zona del LOCAL — el visitante puede no estar ahí — "
-        "y no trae goles en contra, solo 'gf'."
+        "y no trae goles en contra, solo 'gf'. "
+        "plantelH/plantelA son los 25 que más jugaron de cada equipo: 'pj' son "
+        "partidos jugados sumando todas las competencias que seguimos, 'peso_goles' "
+        "es la fracción de los goles del equipo que hizo ese jugador (0.5 = la mitad). "
+        "pjMaxH/pjMaxA es el 'pj' más alto del plantel: sirve de escala para leer un "
+        "'pj' (5 sobre 5 es titular fijo, 1 sobre 26 es indiferente), pero no es un "
+        "dato de la fuente sobre cuántos partidos jugó el equipo — es el máximo "
+        "observado. El plantel no dice quién está lesionado: ESPN devuelve a todos "
+        "como activos. Sirve para PESAR una baja que encontraste en tu research, "
+        "no para descubrirla."
     )
     return e
 

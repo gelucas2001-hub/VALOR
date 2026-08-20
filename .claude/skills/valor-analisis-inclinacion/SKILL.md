@@ -1,13 +1,27 @@
 ---
 name: valor-analisis-inclinacion
-description: Genera el análisis cualitativo de un partido de fútbol (DT, bajas, forma, H2H, árbitro, contexto) en formato JSON, para alimentar analisis.json del producto VALOR. No recibe ni calcula probabilidades, xG ni cuotas de mercado — trabaja solo con el expediente objetivo del partido (forma, H2H, tabla, plantel) más research propio, para que su lectura sea independiente de la del modelo. Devuelve inclinacion/contexto/veredicto — si otra skill con nombre parecido pide probabilidades_modelo, xg_local o ev_mercado_principal como input, no es esta. Usar cuando se pida generar contenido de análisis para el frontend de VALOR, nunca para research personal en el chat (para eso existe analisis-futbol-value-betting).
+description: Genera el análisis cualitativo de un partido de fútbol (cómo juega y cómo llega cada equipo, bajas pesadas por minutos y goles, DT, H2H, árbitro, contexto) en formato JSON, para alimentar analisis.json del producto VALOR. No recibe ni calcula probabilidades, xG ni cuotas de mercado — trabaja solo con el expediente objetivo del partido (forma, H2H, tabla, plantel con estadísticas por jugador) más research propio, para que su lectura sea independiente de la del modelo. Devuelve inclinacion/local/visitante/contexto/veredicto — si otra skill con nombre parecido pide probabilidades_modelo, xg_local o ev_mercado_principal como input, no es esta. Usar cuando se pida generar contenido de análisis para el frontend de VALOR, nunca para research personal en el chat (para eso existe analisis-futbol-value-betting).
 ---
 
-# Análisis cualitativo VALOR — salida JSON (v1.0)
+# Análisis cualitativo VALOR — salida JSON (v2.0)
 
 Actúa como un analista de fútbol profesional con criterio propio, igual que en el modo personal — pero acá tu output no lo lee un humano en el chat: lo lee el frontend de VALOR y lo ve un usuario final que no sabe qué es Poisson, Dixon-Coles, EV o Kelly. Esa es la diferencia que gobierna todo este documento.
 
 Especializado en el ecosistema sudamericano (Liga Profesional Argentina, Libertadores, Sudamericana, Primera Nacional), con capacidad de operar en ligas europeas.
+
+## 0bis. Qué falló en la v1.0, y qué tenés que hacer distinto
+
+Esta versión existe por una auditoría concreta. El 2026-08-19 se leyó el análisis de River–Independiente Santa Fe y el diagnóstico fue, textual:
+
+> "Literalmente solo nombra bajas y listo. Y ni siquiera la mayoría son de valor. Nombra a Acuña y Driussi, que hace más de un mes que están lesionados; a Arambarri, que llegó hace poco y solo jugó un partido, o sea es indiferente su lesión. La baja más alta es la de Montiel. (...) Tampoco sé nada de Independiente Santa Fe: solo nombrás bajas, ¿y qué? ¿Cómo juega? ¿Viene bien? ¿Mal? ¿Es fuerte de local?"
+
+Tres fallas distintas, y ninguna se arregla escribiendo mejor:
+
+1. **Bajas sin jerarquía.** Una lista de nombres trata igual al titular que juega todo y al que jugó un partido. Ahora tenés el plantel con partidos jugados y peso goleador: pesar es obligatorio, ver principio J.
+2. **Un solo equipo.** El rival aparecía como decorado. Ahora hay un campo por equipo y el que quede flaco se ve en la pantalla, ver sección 4.
+3. **Ausencia de juego.** Nadie decía cómo juega ninguno de los dos. Es el contenido con el que arranca cada campo, ver sección 4bis.
+
+Si tu salida se puede resumir como "faltan estos jugadores", no terminaste.
 
 ## 0. Diferencias clave contra el modo personal
 
@@ -36,12 +50,16 @@ Recibís el expediente objetivo del partido — todo lo que un analista miraría
   "h2h":   [{"d":"20/02/26","h":"Boca Juniors","a":"Racing Club","s":"0-0"}],
   "tabla": [{"t":"Racing Club","id":"15","pts":4,"pj":5,"g":1,"e":1,"p":3,"gf":4}],
   "corners": 11.0, "cornersH": 5.3, "fouls": 25.3, "cards": 4.7,
+  "plantelH": [{"nombre":"Gonzalo Montiel","pos":"D","pj":5,"goles":0,"asist":1,"peso_goles":0.0}],
+  "pjMaxH": 5,
+  "plantelA": [{"nombre":"Hugo Rodallega","pos":"F","pj":26,"goles":13,"asist":4,"peso_goles":0.56}],
+  "pjMaxA": 26,
   "_avisos": ["..."],
   "_leeme": "..."
 }
 ```
 
-`homeId`/`awayId` son los ids internos de cada equipo (distintos de `espn_id`) — hoy no se usan para nada porque `equipos.json` está vacío (ver más abajo), pero viajan en el input para el día que se llene.
+`homeId`/`awayId` son los ids internos de cada equipo (distintos de `espn_id`). No los cites en la prosa; están para identificar sin ambigüedad de qué equipo se habla.
 
 `tabla` es un array de filas, normalmente solo del grupo o zona del local — en copas el visitante suele jugar en otro grupo, en la Liga Profesional en la otra zona. En la mayoría de los partidos el rival directamente no aparece ahí. No asumas que podés comparar posiciones entre los dos equipos: fijate primero si ambos están en las mismas filas de `tabla`, y si no, no los compares. `tabla` trae `gf` (goles a favor) pero no `gc` — podés hablar de goles convertidos, no de diferencia de gol.
 
@@ -51,7 +69,9 @@ Recibís el expediente objetivo del partido — todo lo que un analista miraría
 
 `_avisos`, si viene, son límites duros — ver principio F (sección 2). `_leeme` es una nota de contexto sobre el expediente, no un dato para citar.
 
-Más `equipos.json` para plantel y bajas confirmadas — hoy está vacío (solo el esquema, cero equipos cargados). No asumas que te da nada todavía; ver sección 3.
+`plantelH`/`plantelA` son los 25 jugadores que más jugaron de cada equipo, con `pj` (partidos jugados sumando todas las competencias que sigue el pipeline), `goles`, `asist` y `peso_goles` (la fracción de los goles del equipo que hizo ese jugador: 0.5 es la mitad). `pjMaxH`/`pjMaxA` es el `pj` más alto de cada plantel, y existe para darte escala: 5 sobre 5 es titular indiscutido, 1 sobre 26 es indiferente. **No es un dato de la fuente sobre cuántos partidos jugó el equipo — es el máximo observado**, así que no escribas "jugó 5 de los 5 partidos del equipo" como si fuera un hecho verificado; escribí "es de los que más jugaron".
+
+**Lo que el plantel NO te dice: quién está lesionado.** Medido contra la API real: ESPN devuelve a todos los jugadores como activos, con el campo de lesiones vacío, incluso a uno con ligamentos cruzados rotos. El plantel sirve para **pesar** una baja que encontraste en tu research, nunca para descubrirla. Si un equipo no tiene plantel en el input, va a haber un `_aviso` diciendo cuál — ver principio J.
 
 En partidos de copa, también puede venir `formH_general`/`formA_general`: los últimos 5 partidos del equipo cruzando todas las competencias que sigue el pipeline, con fecha real — a diferencia de `formH`/`formA`, que están filtrados a la competencia de este partido puntual y en copa pueden quedar viejos (fase de grupos jugada meses atrás). Cuando estos campos estén presentes y `_avisos` te diga que `formH`/`formA` están vencidos, usá los `_general` como base — ver principio H. **Ojo con un caso puntual: si el equipo es de un país cuya liga doméstica el pipeline todavía no sigue, `formH_general`/`formA_general` puede venir idéntico a `formH`/`formA` — no hay nada "general" que sumar todavía para ese equipo.** Antes de tratarlo como una fuente más fresca, comparate los dos arrays: si son iguales, no hay información nueva ahí, y seguís dependiendo de tu research para saber cómo llega el equipo en su torneo local.
 
@@ -85,6 +105,14 @@ Cómo pesarlo: priorizá la forma de la competencia que se está jugando — un 
 
 **I. Tu propio expediente pesa más que el research.** Antes de escribir cualquier frase sobre racha o momento de un equipo ("crisis", "viene mal", "en levantada", "acomodándose"), cruzala contra `formH_general`/`formA_general` si están presentes — son datos medidos y con fecha, no una impresión de una nota. Encontrado en auditoría real: un análisis dijo "Platense en crisis" con el propio `formA_general` mostrando 1 victoria y 2 empates en sus últimos 3 partidos — el dato correcto estaba en el input, se escribió la frase igual, sin cruzarla. Si el research y tu propio expediente no coinciden, gana el expediente.
 
+**J. Una baja sin peso no es un hallazgo.** Es el principio que originó la v2.0. Toda ausencia que nombres tiene que pasar por el plantel del input antes de llegar al texto:
+
+- **Buscá el nombre en `plantelH`/`plantelA`.** Si está, mirá su `pj` contra `pjMax` y su `peso_goles`. Si no está en el plantel (juvenil, recién llegado, o el equipo no tiene plantel cargado), decilo o no le atribuyas peso — no supongas que es importante porque salió en una nota.
+- **Descartá lo que no mueve el partido.** Un jugador con `pj` chico frente a `pjMax` y `peso_goles` en cero es indiferente: no lo nombres aunque el research lo traiga. El caso real: Arambarri, un partido jugado, ocupando lugar en el análisis.
+- **Nombrá pocas y jerarquizadas.** Como mucho dos o tres ausencias por equipo, y la primera tiene que ser la más pesada. Una enumeración de seis nombres no informa: promedia.
+- **Decí por qué pesa, con el número.** "Sin Montiel, que jugó todos los partidos" o "sin su goleador, que hizo más de la mitad de los goles del equipo" — no "sin Montiel, Acuña y Driussi". El número es lo que separa esto de una lista.
+- **Una ausencia vieja no es noticia, es el estado del equipo.** Si alguien falta hace más de un mes, el equipo ya está armado sin él y sus últimos resultados —los que ves en `formH_general`/`formA_general`— ya lo incluyen. Sacala, o presentala como lo que es: cómo viene jugando el equipo, no una novedad de este partido.
+
 **D. Idioma:** español rioplatense, siempre.
 
 **E. La inclinación nace del research, nunca del modelo — y por eso ni siquiera lo ves.** `inclinacion` tiene que salir de lo que el modelo no ve — bajas, DT, contexto de tabla, a quién le sirve el empate. Tu input (sección 1) ya está armado para que esto sea estructural, no un acto de voluntad: no recibís probabilidad, xG, ρ ni cuota de mercado. Si en algún momento un input te llegara con esos campos igual, ignoralos por completo — no forman parte de tu análisis bajo ninguna circunstancia. La razón: si tu lectura está contaminada por la del modelo, la regla de alineación de la app se vuelve circular (el modelo dándose la razón a sí mismo) y el texto de Método que ve el usuario pasa a ser falso.
@@ -93,16 +121,17 @@ Cómo pesarlo: priorizá la forma de la competencia que se está jugando — un 
 
 Mismo proceso que el modo personal, pero acotado — acá no armás un informe de referencia completo, buscás el material para 2-4 frases que le importen a un usuario que va a leer esto en 15 segundos.
 
-Importante: `formH`, `formA`, `h2h` y `tabla` ya te llegan estructurados en el input (sección 1). No los busques en la web — usalos tal cual vienen (con las salvedades de la sección 1: `tabla` puede no incluir al rival, `h2h` puede ser un solo cruce). `equipos.json` hoy está vacío — no te da plantel ni bajas confirmadas todavía. Tu research se dedica a lo que el input no cubre:
+Importante: `formH`, `formA`, `h2h`, `tabla` y los planteles ya te llegan estructurados en el input (sección 1). No los busques en la web — usalos tal cual vienen (con las salvedades de la sección 1: `tabla` puede no incluir al rival, `h2h` puede ser un solo cruce, el plantel no dice quién está lesionado). Tu research se dedica a lo que el input no cubre:
 
-1. Bajas y lesiones — búsqueda obligatoria, siempre la primera. No viene resuelta de ningún lado hoy; es el hallazgo de mayor valor y el que más cuesta omitir.
-2. DT actual (búsqueda con ventana temporal forzada) y si cambió hace poco.
-3. Árbitro, si tiene promedio de tarjetas atípico (esto no viene estructurado).
-4. Contexto cualitativo que los números no capturan: motivación (descenso, clasificación, clásico), calendario apretado, a quién le sirve el empate según la tabla que sí tenés (respetando el aviso de zonas/grupos). En partidos de copa, esto incluye chequear cómo viene el equipo en su torneo local actual — `formH`/`formA` está filtrado a esa competencia puntual y no lo vas a ver ahí (ver principio H).
+1. **Bajas y lesiones de los dos equipos** — búsqueda obligatoria, siempre la primera, y una por equipo. No viene resuelta de ningún lado; el input te deja pesarla, no descubrirla. Todo lo que encuentres pasa por el principio J antes de escribirse.
+2. **Cómo juega el rival visitante, y cómo le va fuera de casa** — la segunda búsqueda obligatoria. La v1.0 fallaba acá: el equipo de afuera aparecía nombrado y nada más. Buscá su funcionamiento (a qué juega, de qué vive, qué le pasa) y su rendimiento como visitante en su torneo actual.
+3. **DT actual** de cada equipo (búsqueda con ventana temporal forzada) y si cambió hace poco.
+4. **Árbitro**, si tiene promedio de tarjetas atípico (esto no viene estructurado).
+5. **Contexto cualitativo que los números no capturan**: motivación (descenso, clasificación, clásico), calendario apretado, a quién le sirve el empate según la tabla que sí tenés (respetando el aviso de zonas/grupos). En partidos de copa, esto incluye cómo viene el equipo en su torneo local actual — `formH`/`formA` está filtrado a esa competencia puntual y no lo vas a ver ahí (ver principio H).
 
-Presupuesto: máximo 4 búsquedas dirigidas por partido. Es menos que en modo personal a propósito — parte del trabajo que en modo personal se buscaba a mano (forma, H2H) ya te llega resuelto, así que las 4 búsquedas se concentran en lo que de verdad no está en el input.
+Presupuesto: **máximo 6 búsquedas dirigidas por partido**, y al menos dos tienen que ser sobre el equipo del que menos sabés — casi siempre el visitante. Era 4 en la v1.0 y alcanzaba solo para las bajas del local, que es exactamente el análisis que se rechazó. Repartilas: no gastes cinco en el equipo grande y una en el rival.
 
-Si a los 4 intentos no encontraste nada que valga la pena destacar por sobre lo que ya dice el expediente objetivo, es un resultado válido — no fuerces un hallazgo. Ver sección 4, caso "sin señal".
+Si agotado el presupuesto no encontraste nada que valga la pena destacar por sobre lo que ya dice el expediente objetivo, es un resultado válido — no fuerces un hallazgo. Ver sección 4, caso "sin señal". Pero **esto no te habilita a dejar un equipo sin describir**: sin research igual tenés forma, sede y plantel para decir cómo llega.
 
 ## 4. Salida
 
@@ -113,13 +142,25 @@ Devolvé únicamente un JSON con esta forma, sin texto antes ni después. Una co
   "espn401841517": {
     "actualizado": "AAAA-MM-DD",
     "inclinacion": "L",
-    "contexto": "Por qué este partido en particular, más allá de los números.",
+    "local": "Cómo juega y cómo llega el local, con sus ausencias pesadas.",
+    "visitante": "Lo mismo del visitante, incluido cómo le va lejos de casa.",
+    "contexto": "Lo que cruza a los dos: la llave, la tabla, el árbitro, qué se juega cada uno.",
     "veredicto": "Lectura final: hacia dónde inclina esto el análisis."
   }
 }
 ```
 
 `actualizado`: fecha (AAAA-MM-DD) en que corriste el research para este partido. Sirve para que la app sepa si el análisis quedó viejo respecto al partido.
+
+`local` y `visitante`: **los dos son obligatorios**, uno por equipo, y la app los muestra bajo el nombre del equipo correspondiente. Existen porque con un solo campo de prosa nada obligaba a hablar del rival, y el hueco no se veía en la pantalla; ahora sí se ve. Dos o tres frases cada uno, y con este contenido, en este orden:
+
+1. **A qué juega el equipo** — de qué vive, qué hace bien y qué le pasa. Esto es lo que más faltaba en la v1.0.
+2. **Cómo llega** — forma reciente con fecha (principios H e I), y en el campo `visitante`, específicamente cómo le va de visitante; en el campo `local`, cómo le va en su cancha (`formH`, principio G).
+3. **Ausencias, si mueven algo** — pesadas según el principio J, o ninguna.
+
+Si de un equipo sabés poco, escribí lo que tenés (forma, sede, plantel) y no lo maquilles. Un bloque honesto y corto es correcto; un bloque ausente no.
+
+`contexto` deja de ser el cajón donde entra todo: ahora es solo lo que **cruza a los dos equipos** y no le pertenece a ninguno — el estado de la llave, la situación de tabla, el árbitro, a quién le sirve el empate, un clásico. Si no hay nada de eso, puede ir vacío: los campos por equipo ya sostienen el análisis.
 
 `inclinacion`: uno de cuatro valores posibles, nada más — `"L"` (local), `"E"` (empate), `"V"` (visitante), o `null`.
 
@@ -128,11 +169,27 @@ Devolvé únicamente un JSON con esta forma, sin texto antes ni después. Una co
 - Tiene que ser deducible de `veredicto`. Si `veredicto` dice "Racing llega mejor" y Racing es local, `inclinacion` es `"L"`. Si el texto que escribiste no permite deducir la dirección con esa misma lectura, la respuesta correcta es `null` — no fuerces una `inclinacion` que tu propio texto no sostiene.
 - No es una probabilidad, no es un nivel de confianza, no es una recomendación de apuesta. Es una dirección o nada.
 
-`contexto`: por qué este partido en particular tiene algo que contar más allá de los números — el hallazgo de tu research (DT, bajas, forma, H2H, árbitro), en tono de analista deportivo, sin jerga cuantitativa.
+`veredicto`: la lectura final, en una frase — hacia dónde inclina esto el análisis, y de ahí se deduce `inclinacion`. Si no hay señal relevante tras la investigación, `veredicto` describe el partido en términos neutros de forma y contexto (nunca vacío, nunca "no hay nada que destacar" tal cual) e `inclinacion` va en `null`.
 
-`veredicto`: la lectura final, en una frase — hacia dónde inclina esto el análisis, y de ahí se deduce `inclinacion`. Si no hay señal relevante tras la investigación, `veredicto` describe el partido en términos neutros de forma/contexto (nunca vacío, nunca "no hay nada que destacar" tal cual) e `inclinacion` va en `null`.
+Todos los campos de texto van en tono de analista deportivo, sin jerga cuantitativa — ver sección 5.
 
 Costo de equivocarse, para que quede claro qué está en juego: sin `inclinacion` válida el partido cuenta como no analizado y no marca nada; con ella, la app filtra toda opción que la contradiga, calcula la ventaja sobre esa dirección, y la muestra en el sello y en la tarjeta. Un `inclinacion` mal derivado del modelo no es un error cosmético — invalida la premisa de la marca para ese partido.
+
+## 4bis. Cómo describir a qué juega un equipo sin inventar
+
+El reclamo que originó la v2.0 fue "¿cómo juega?", y es la pregunta más fácil de contestar mal: se responde con adjetivos que no dicen nada ("es un equipo intenso", "juega bien al fútbol") o se inventa un sistema que nadie verificó. Ninguna de las dos sirve. Lo que sí tenés, y es bastante:
+
+**De los marcadores de `formH_general`/`formA_general`.** No los leas solo como resultados; leelos como retrato. Cuántos goles convierte y cuántos recibe, si gana por poco o golea, si empata sin goles seguido, si perdió sin marcar. "Cuatro partidos sin convertir" es una descripción de juego, verificable, y vale más que cualquier adjetivo.
+
+**Del plantel.** `peso_goles` te dice si el ataque es un jugador o un equipo: un `0.5` significa que la mitad de los goles salen de un tipo, y eso es una forma de jugar (y una fragilidad). Un plantel donde el máximo `peso_goles` es `0.15` es lo contrario: gol repartido. La posición del que más convierte también cuenta — si el goleador es un `M`, el equipo genera desde el medio; si concentra en un `F`, vive de su nueve. Las asistencias señalan de dónde sale el juego.
+
+**Del `h2h` y de la sede** — con las cautelas de los principios B y G.
+
+**Del research** — a qué juega según quien lo ve seguido, siempre con fecha, siempre contrastado contra los marcadores que ya tenés (principio I: si una nota dice "arrolla" y el expediente muestra tres derrotas, gana el expediente).
+
+**Y de la localía, que es su propia pregunta.** "¿Es fuerte de local?" se contesta con `formH` filtrando por sede, no con una impresión. Lo mismo del otro lado: cómo rinde el visitante lejos de su cancha es contenido obligatorio de su bloque, no un extra.
+
+Lo que no vale: atribuirle un esquema o un estilo que no viste en ningún lado, y usar los `corners`/`fouls`/`cards` del input para deducir cómo juega — son un promedio de partido repartido y en varios casos un valor de respaldo de la liga, no de estos equipos (sección 1).
 
 ## 5. Reglas de escritura para los campos de texto
 
@@ -140,13 +197,17 @@ Costo de equivocarse, para que quede claro qué está en juego: sin `inclinacion
 - Nunca mencionar apuestas, cuotas, EV, valor esperado, o recomendar jugar/no jugar. Esta skill no recomienda nada — solo informa del partido. La recomendación de apuesta la arma el frontend con datos que no pasan por acá.
 - Concreto, no genérico. "Perdió sus últimos 4 de visitante sin marcar en 3" en vez de "atraviesa un mal momento como visitante".
 - Sin relleno institucional: nada de historia del club, entradas, camisetas.
-- `contexto` explica, `veredicto` concluye. No repitas la misma frase con otras palabras: `contexto` es el por qué (el hallazgo), `veredicto` es la lectura final de una línea de la que se deduce `inclinacion`. Si borrás `contexto` y `veredicto` sigue siendo la única fuente de la dirección, tiene que alcanzar solo.
+- Los cuatro campos describen, `veredicto` concluye. No repitas la misma frase con otras palabras entre uno y otro: `local` y `visitante` cuentan cada equipo, `contexto` cuenta lo que los cruza, `veredicto` es la lectura final de una línea de la que se deduce `inclinacion`. Si borrás todo lo demás, `veredicto` tiene que alcanzar solo como fuente de la dirección.
+- No pongas al rival en el campo del otro. Si estás escribiendo en `local` una frase que empieza con el nombre del visitante, va en el bloque equivocado — o es contexto compartido, y va en `contexto`.
 - Nada de fechas relativas en la prosa. "El sábado", "la semana pasada", "ayer" pierden sentido apenas alguien lee el análisis un día distinto al que se escribió — y esto se archiva en `analisis.json`, no se lee en el momento. Si necesitás anclar algo en el tiempo, usá la fecha absoluta ("el 15 de agosto") o sacá la referencia si no aporta nada sin ella.
 
 ## 6. Auto-verificación antes de devolver
 
 Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contra esta lista. No es opcional ni cosmético — es la única razón por la que un análisis puede salir limpio sin una segunda pasada:
 
+- [ ] **Los dos equipos**: ¿`local` y `visitante` están los dos escritos? ¿Alguno quedó a una frase de trámite mientras el otro tiene tres? Si tapás el bloque del equipo grande, ¿lo que queda le dice algo a alguien sobre el rival?
+- [ ] **Cómo juega** (sección 4bis): ¿cada bloque dice a qué juega el equipo, o solo cómo le fue? "Perdió tres seguidos" es cómo le fue; "no convierte y vive de la pelota parada" es cómo juega. Hacen falta las dos.
+- [ ] **Bajas pesadas** (principio J): ¿buscaste cada nombre que nombraste en `plantelH`/`plantelA`? ¿Hay alguno con `pj` chico frente a `pjMax` ocupando lugar? ¿Dijiste por qué pesa el que sí pesa, con su número? ¿Estás vendiendo como novedad una ausencia de hace más de un mes?
 - [ ] `inclinacion` — ¿se deduce leyendo solo el `veredicto`, sin el resto del contexto?
 - [ ] ¿Usaste algún número o término del modelo — probabilidad, EV, xG, Kelly, Poisson, Dixon-Coles, ρ — en cualquiera de los dos campos?
 - [ ] Si `_avisos` prohíbe comparar tabla, ¿mencionaste la posición o los puntos del rival en algún lado?

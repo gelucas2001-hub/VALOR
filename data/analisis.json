@@ -3,11 +3,14 @@
     "_comentario": "Análisis específico de UN cruce puntual — lo que la estadística sola no ve (motivación, contexto de tabla, algo raro de esta semana). actualizar.py nunca escribe este archivo. Clave = mismo id de partido que usa data/partidos.json (formato espnNNNNNNNNN).",
     "_inclinacion": "OBLIGATORIO para que la app marque valor. Es la dirección que sale del análisis HUMANO, no del modelo: 'L' local, 'V' visitante, 'E' empate, o null si el análisis no inclina para ningún lado. La regla de alineación la usa para descartar cualquier apuesta que contradiga esta lectura, y el valor se calcula sobre ella. Si viniera del modelo, sería el modelo dándose la razón a sí mismo — y eso es justo lo que la regla existe para evitar. Sin inclinacion, el partido cuenta como no analizado y no se marca nada.",
     "_ejemplo": {
-      "actualizado": "2026-08-14",
+      "actualizado": "2026-08-20",
       "inclinacion": "L",
-      "contexto": "Por qué este partido en particular, más allá de los números",
+      "local": "Cómo juega y cómo llega el local, con sus ausencias pesadas por partidos jugados y goles",
+      "visitante": "Lo mismo del visitante, incluido cómo le va lejos de su cancha",
+      "contexto": "Solo lo que cruza a los dos: la llave, la tabla, el árbitro, qué se juega cada uno",
       "veredicto": "Lectura final: hacia dónde inclina esto el análisis"
-    }
+    },
+    "_local_visitante": "Una lectura por equipo, agregadas el 2026-08-20. Existen porque con un solo campo de prosa nada obligaba a hablar del rival y el hueco no se veía en pantalla: los análisis terminaban siendo una lista de bajas del equipo grande. La app las muestra bajo el nombre de cada equipo. Son opcionales para atrás — los análisis viejos solo tienen contexto/veredicto y siguen andando — pero la skill los exige para todo análisis nuevo."
   },
   "espn401874155": {
     "actualizado": "2026-08-19",
@@ -80,5 +83,13 @@
     "inclinacion": "L",
     "contexto": "No hay ausencias de peso confirmadas para ninguno de los dos. Sarmiento llega de racha, con tres triunfos seguidos y funcionando bien de local. Estudiantes no gana de visitante en sus últimas dos salidas, con dos derrotas en el medio.",
     "veredicto": "Sarmiento en levantada y de local, Estudiantes sin rendir afuera — la balanza se inclina para el local."
+  },
+  "espn401841522": {
+    "actualizado": "2026-08-20",
+    "inclinacion": "E",
+    "local": "El problema de Aldosivi es el gol: en los cinco partidos de este torneo no marcó más de uno por partido, y suma tres en total. El reparto del plantel cuenta lo mismo — entre sus seis delanteros hay un solo gol, y el que más convirtió es un volante. En el Minella jugó dos veces en este torneo: 0-0 con Tigre el 15 de agosto y 1-2 con Gimnasia La Plata el 2 de agosto. Sigue sin ganar, último de su zona con dos puntos. Israel Damonte lo dirige desde fines de marzo de 2026, así que la sequía ya no es cosa de un técnico recién llegado.",
+    "visitante": "Unión es un equipo de gol repartido y escaso: su máximo goleador es un volante, Menossi, y el centrodelantero Tarragona lleva uno. Fuera de casa todavía no ganó en este torneo — empató 2-2 con Platense el 25 de julio y después perdió 0-2 con Gimnasia de Mendoza y 0-1 con San Lorenzo, los dos sin convertir. Su única victoria fue de local, 2-1 a Lanús el 6 de agosto. Y llega desarmado: pierde por lesión a Vargas, Malcorra y Mosqueira, tres de los que más habían jugado, y Mosqueira además había hecho uno de los pocos goles del equipo.",
+    "contexto": "Se cruzaron tres veces desde 2025, pero solo una en el Minella: el 27 de marzo de 2025, con victoria de Aldosivi 2-1. Es un antecedente suelto, no un patrón. Se juega a las 14:30.",
+    "veredicto": "Dos equipos a los que les cuesta convertir y que llegan sin ganar: el local no puede en su cancha, el visitante no gana afuera y pierde a tres titulares. El reparto de puntos es la salida más consistente con lo que muestran los dos."
   }
 }

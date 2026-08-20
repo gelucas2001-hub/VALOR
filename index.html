@@ -1268,7 +1268,14 @@ function inclinacionDe(id){
    lo que habilita la marca. */
 const analizado = id => inclinacionDe(id) !== null;
 /* Hay prosa para mostrar, con o sin dirección. */
-const hayProsa = id => { const a=ANALISIS[id]; return !!(a && (a.contexto || a.veredicto)); };
+/* "a Aldosivi", pero "al empate": la preposición se contrae con el
+   artículo. Estaba escrita fija en dos frases distintas y las dos decían
+   "a el empate". Vive acá para arreglarse una sola vez. */
+const aQuien = (dir, m) =>
+  dir === "E" ? "al <b>empate</b>"
+  : `a <b>${esc_({L:m.home, V:m.away}[dir] || "")}</b>`;
+const hayProsa = id => { const a=ANALISIS[id];
+  return !!(a && (a.contexto || a.veredicto || a.local || a.visitante)); };
 
 /* La marca de valor de la portada y de la cabecera del partido: la más
    estricta de la app. Solo la línea 1X2, solo sobre la dirección que
@@ -1643,7 +1650,7 @@ function viewPartido(){
 /* ── 1. Análisis ───────────────────────────────────────────────── */
 function tabAnalisis(m){
   const a = ANALISIS[m.id];
-  if(!a || (!a.contexto && !a.veredicto)){
+  if(!hayProsa(m.id)){
     /* Hoy `analisis.json` está vacío, así que esta rama es la que se ve
        en todos los partidos. No se disimula el hueco: se declara qué
        falta, quién lo carga, y se pone abajo lo que sí sabemos por los
@@ -1675,6 +1682,18 @@ function tabAnalisis(m){
   }
   let h = `<div class="banda banda2">Análisis<em>NUESTRA NOTA</em></div>
     <div class="sec an"><div class="lbl">Nuestro análisis</div>`;
+
+  /* Una lectura por equipo, cada una bajo el nombre del equipo. El campo
+     único de antes no obligaba a nada: un análisis podía enumerar las
+     bajas del local y no decir una palabra del rival, y en la pantalla
+     no se veía el hueco. Acá sí se ve. Son campos agregados, no un
+     reemplazo — los análisis viejos solo tienen `contexto`. */
+  const lado = (txt, equipo) => txt
+    ? `<div class="rot"><span>${esc_(equipo)}</span></div><p class="prosa">${esc_(txt)}</p>`
+    : "";
+  h += lado(a.local, m.home) + lado(a.visitante, m.away);
+  if((a.local || a.visitante) && a.contexto)
+    h += `<div class="rot"><span>El partido</span></div>`;
   if(a.contexto)  h += `<p>${esc_(a.contexto)}</p>`;
   if(a.veredicto) h += `<p class="veredicto">${esc_(a.veredicto)}</p>`;
 
@@ -1682,10 +1701,9 @@ function tabAnalisis(m){
      habilita la marca de valor, y el usuario tiene derecho a ver contra
      qué se está alineando la app. Si no hay, se dice también. */
   const dir = inclinacionDe(m.id);
-  const comoQuien = {L:m.home, V:m.away, E:"el empate"}[dir];
   h += `<div class="rot"><span>Hacia dónde inclina</span></div>
     <p class="prosa">${dir
-      ? `Este análisis inclina a <b>${esc_(comoQuien)}</b>. Con eso puesto, no vamos a
+      ? `Este análisis inclina ${aQuien(dir, m)}. Con eso puesto, no vamos a
          recomendar nada que lo contradiga, y solo marcamos precio a favor sobre esa lectura.`
       : `Este análisis no declara para dónde inclina, así que no marcamos precio a favor en
          este partido. La escalera igual está en Pronósticos.`}</p>`;
@@ -1714,10 +1732,9 @@ function tabPronosticos(m){
   } else {
     const dv = divergen(m);
     if(dv){
-      const comoQuien = {L:m.home, V:m.away, E:"el empate"};
-      h += `<div class="nota">Los números crudos del modelo dan más chance a
-        <b>${esc_(comoQuien[dv.dirModelo])}</b> arriba, pero nuestro análisis vio algo que los
-        números solos no ven, y se inclina para <b>${esc_(comoQuien[dv.dirHumana])}</b>. Son dos
+      h += `<div class="nota">Los números crudos del modelo dan más chance
+        ${aQuien(dv.dirModelo, m)} arriba, pero nuestro análisis vio algo que los
+        números solos no ven, y se inclina ${aQuien(dv.dirHumana, m)}. Son dos
         lecturas distintas a propósito — no vas a encontrar nada marcado como oportunidad en
         contra de la del análisis, aunque el modelo diga otra cosa.</div>`;
     }

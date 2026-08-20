@@ -32,7 +32,7 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
-              onceProbable,
+              onceProbable, tabAnalisis, aQuien,
               cargar: (ms, an, pl) => { MATCHES = ms; ANALISIS = an || {}; PLANTELES = pl || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
@@ -551,6 +551,86 @@ test("onceProbable no rompe con un plantel incompleto", ()=>{
   cierto(o.lineas.flat().length <= 11, "inventó jugadores que no existen");
   const vacio = L.onceProbable([]);
   cierto(vacio && vacio.lineas.flat().length === 0, "un plantel vacío rompió");
+});
+
+/* ── 11. Una lectura por equipo ─────────────────────────────────────
+   El 2026-08-19 Lucas leyó el análisis de River-Santa Fe y encontró que
+   solo enumeraba bajas de River: "es como que no sé nada de
+   Independiente Santa Fe, o sea solo nombrás bajas y qué? Cómo juega?
+   Viene bien? Es fuerte de local?".
+
+   La causa no era el texto sino el esquema: con un único campo `contexto`
+   nada obligaba a cubrir a los dos equipos, y el hueco no se veía. Con
+   un campo por equipo, dejar al rival afuera se nota en la pantalla. */
+
+const analisisCompleto = m => ({[m.id]: {
+  actualizado: "2026-08-20", inclinacion: "L",
+  local: "El local llega con cuatro victorias seguidas en su cancha.",
+  visitante: "El visitante no gana de visitante desde el 12 de mayo.",
+  contexto: "Es la vuelta de la llave; la ida terminó 1-1.",
+  veredicto: "Llega mejor el local.",
+}});
+
+test("el analisis muestra la lectura de cada equipo, con su nombre", ()=>{
+  L.cargar(PARTIDOS, analisisCompleto(claro));
+  const h = L.tabAnalisis(claro);
+  cierto(h.includes("cuatro victorias seguidas"), "no muestra la lectura del local");
+  cierto(h.includes("no gana de visitante"), "no muestra la lectura del visitante");
+  cierto(h.includes(claro.home) && h.includes(claro.away),
+         "no dice de qué equipo habla cada bloque");
+});
+
+test("los analisis viejos, con solo contexto y veredicto, siguen andando", ()=>{
+  /* `analisis.json` ya tiene partidos escritos con el esquema anterior.
+     Agregar campos no puede romperlos: se agrega, no se reemplaza. */
+  L.cargar(PARTIDOS, {[claro.id]: {
+    actualizado: "2026-08-18", inclinacion: "V",
+    contexto: "Un contexto del esquema viejo.",
+    veredicto: "Un veredicto del esquema viejo.",
+  }});
+  const h = L.tabAnalisis(claro);
+  cierto(h.includes("Un contexto del esquema viejo"), "perdió el contexto viejo");
+  cierto(h.includes("Un veredicto del esquema viejo"), "perdió el veredicto viejo");
+  cierto(!h.includes("SIN CARGAR"), "trató un análisis viejo como no cargado");
+});
+
+test("un analisis con solo lectura por equipo cuenta como cargado", ()=>{
+  /* Al revés del anterior: si la skill escribe local/visitante pero deja
+     `contexto` vacío porque no había nada que cruce a los dos equipos,
+     eso es un análisis válido, no un partido sin analizar. */
+  L.cargar(PARTIDOS, {[claro.id]: {
+    actualizado: "2026-08-20", inclinacion: "L",
+    local: "Algo del local.", visitante: "Algo del visitante.",
+  }});
+  cierto(L.hayProsa(claro.id), "lo contó como partido sin nota");
+  cierto(!L.tabAnalisis(claro).includes("SIN CARGAR"),
+         "mostró el cartel de sin cargar teniendo prosa");
+});
+
+test("la frase de la inclinacion esta bien escrita para las tres direcciones", ()=>{
+  /* Visto en pantalla con el análisis real de Aldosivi-Unión: decía
+     "inclina a el empate". La preposición estaba fija afuera del mapa. */
+  const con = dir => { L.cargar(PARTIDOS, {[claro.id]: {
+    actualizado: "2026-08-20", inclinacion: dir, veredicto: "Algo.",
+  }}); return L.tabAnalisis(claro); };
+  cierto(con("E").includes("al <b>empate"), "escribió 'a el empate'");
+  cierto(!con("E").includes("a el "), "quedó una preposición mal armada");
+  cierto(con("L").includes("a <b>" + claro.home), "rompió la frase del local");
+  cierto(con("V").includes("a <b>" + claro.away), "rompió la frase del visitante");
+});
+
+test("aQuien contrae la preposicion para el empate y no para los equipos", ()=>{
+  /* El mismo error estaba escrito en dos lugares (Análisis y
+     Pronósticos). Vive en una función para arreglarse una sola vez. */
+  igual(L.aQuien("E", claro), "al <b>empate</b>");
+  igual(L.aQuien("L", claro), `a <b>${claro.home}</b>`);
+  igual(L.aQuien("V", claro), `a <b>${claro.away}</b>`);
+});
+
+test("sin nada escrito sigue mostrando el hueco declarado", ()=>{
+  L.cargar(PARTIDOS, {[claro.id]: {actualizado: "2026-08-20", inclinacion: "L"}});
+  cierto(L.tabAnalisis(claro).includes("SIN CARGAR"),
+         "una inclinación sin prosa no es una nota escrita");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

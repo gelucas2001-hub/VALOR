@@ -26,9 +26,17 @@
 > que hace el research y escribe `inclinacion`/`contexto`/`veredicto`
 > siguiendo la regla de alineación. **Se edita ahí, no en Claude.ai.**
 > `data/analisis.json` tiene 12 partidos cargados (era 0). Ver la
-> sección 10 corregida y la 13bis, nueva, para el resto: qué se agregó
+> sección 10 corregida y la 6quinsexies para el resto: qué se agregó
 > (`forma_general`, "Otros mercados", `divergen()`) y qué falta
 > (`equipos.json` sigue vacío).
+>
+> **Actualización 2026-08-20 — el plantel ya no es un hueco.** El cron
+> escribe `data/planteles.json` (42 equipos, 1152 jugadores con partidos
+> jugados, goles y peso goleador), la pestaña Plantel lo muestra con la
+> cancha del handoff, y `expediente.py` se lo pasa a la skill. Con eso,
+> la skill pasó a **v2.0**: una lectura por equipo (campos `local` y
+> `visitante`, nuevos en `analisis.json`) y bajas pesadas contra el
+> plantel en vez de enumeradas. Ver la sección 6septies.
 
 Este documento existe porque Lucas decidió rehacer el proyecto desde
 cero, pero **el motor matemático y el pipeline de datos están validados
@@ -846,6 +854,75 @@ nada de su actualidad real en el torneo local.
 
 ---
 
+## 6septies. El plantel y la skill v2.0 (2026-08-20)
+
+Todo esto salió de una sola auditoría de Lucas: leyó el análisis de
+River–Independiente Santa Fe y dijo que solo nombraba bajas, que la
+mayoría no valían nada (Acuña y Driussi hacía más de un mes que
+faltaban; Arambarri había jugado un partido), y que del rival no sabía
+nada — "¿cómo juega? ¿viene bien? ¿es fuerte de local?".
+
+Resultaron ser **tres causas distintas**, y esto importa porque
+arreglar solo la última no hubiera servido:
+
+1. **Un bug de cableado.** La app mostraba `formH`/`formA` (filtrado
+   por competencia, viejo en copa) donde ya existía `formH_general`.
+   River aparecía con cinco resultados de la fase de grupos mientras el
+   dato fresco —cuatro derrotas 0-1— estaba en el mismo archivo, sin
+   usar. Dos líneas en `tabHistorial()` y `tarjeta()`.
+2. **Faltaba el dato para pesar.** Sin partidos jugados ni goles por
+   jugador, "no está Montiel" y "no está Arambarri" se escriben igual.
+   Ahora el cron escribe `data/planteles.json`.
+3. **La skill nunca pidió describir el juego.** Recién con (2) resuelto
+   tenía sentido tocarla.
+
+**`data/planteles.json`** — 42 equipos, 1152 jugadores, ~300 KB. Sale
+de `/{slug}/teams/{id}/roster`, que medido en vivo devuelve 38-40
+jugadores con estadísticas completas en **un pedido de ~0.5s** (la app
+afirmaba que hacían falta 50 pedidos; era falso, se corrigió). La
+trampa de siempre: las estadísticas son **por competición**, igual que
+la forma. Se resolvió acumulando los slugs por equipo
+(`slugs_de_equipos()`) y fusionando después — acumular planteles por
+partido haría que un equipo con dos fechas de la misma liga se sume a
+sí mismo. Verificado: Driussi pasó de 3 PJ/1 gol a 5 PJ/3 goles, y el
+costo total subió de 592 a 594 requests.
+
+**La pestaña Plantel** dibuja la cancha del handoff de Claude Design,
+con el once inferido por partidos jugados. El prototipo tenía un 4-3-3
+fijo; al derivarlo de datos reales, 13 de 42 equipos daban esquemas
+imposibles (el peor, 7-0-3) porque ESPN clasifica mal a varios
+jugadores. Con cupos por línea acotados a rangos reales: 0 de 42, y
+siguen apareciendo nueve esquemas distintos. La pantalla dice que es
+una inferencia, no un dato.
+
+**La skill v2.0** (`.claude/skills/valor-analisis-inclinacion/`):
+
+- `expediente.py` ahora entrega `plantelH`/`plantelA` (los 25 que más
+  jugaron, con `pj`, goles, asistencias y `peso_goles`) y `pjMaxH`/
+  `pjMaxA` como escala. El recorte del modelo sigue intacto y hay un
+  test que lo verifica (`test_expediente.py`).
+- **Principio J:** toda ausencia se cruza contra el plantel antes de
+  escribirse. Se descarta la que no mueve el partido, se nombran dos o
+  tres como mucho, se dice por qué pesa con el número, y una ausencia
+  de más de un mes es el estado del equipo, no una novedad.
+- **Campos `local` y `visitante`** en `analisis.json`, uno por equipo,
+  que la app muestra bajo el nombre de cada uno. El cambio es
+  estructural a propósito: con un campo único nada obligaba a hablar
+  del rival y el hueco no se veía. Son aditivos — los análisis viejos
+  siguen andando, y hay un test que lo cubre.
+- **Sección 4bis:** cómo describir a qué juega un equipo sin inventar,
+  usando los marcadores como retrato y `peso_goles` para saber si el
+  ataque es un equipo o un jugador.
+- Presupuesto de búsqueda de 4 a 6, con al menos dos sobre el equipo
+  del que menos se sabe.
+
+Probada en Aldosivi–Unión: encontró tres titulares lesionados del
+visitante (Vargas, Malcorra, Mosqueira), los tres con `pj` alto en el
+plantel, y describió a los dos equipos por su problema real —ninguno
+convierte— en vez de listar nombres.
+
+---
+
 ## 7. Arquitectura de información
 
 **Tres destinos: Fecha · Registro · Método.**
@@ -947,7 +1024,7 @@ Verificado sobre 206 partidos: 206 de 206 cierran con esta lectura, solo
 ## 10. El hueco más grande del producto — resuelto para analisis.json, sigue abierto para equipos.json
 
 **Estado 2026-08-19:** `data/analisis.json` ya no está vacío — 12
-partidos cargados, generados por la skill versionada (ver 13bis).
+partidos cargados, generados por la skill versionada (ver 6quinsexies).
 `data/equipos.json` **sigue vacío**, solo el esquema.
 
 El riesgo que motivó esta sección **se resolvió, no desapareció solo**:
@@ -961,10 +1038,14 @@ distinto, sin `inclinacion`, y espera como input los números del propio
 modelo, lo que rompería la regla de alineación si se usara sin querer.
 Antes de correr el research, confirmar el nombre exacto.
 
-**Lo que sí sigue siendo un hueco real:** `equipos.json` (plantel,
-stats por jugador). Técnicamente viable —`/roster` de ESPN trae goles,
-asistencias, remates y faltas reales por jugador en un solo pedido por
-equipo— pero no construido. `injuries`/`status` del mismo endpoint están
+**El plantel dejó de ser un hueco el 2026-08-20.** Lo que esta sección
+daba por pendiente ya está construido, aunque no en `equipos.json`: el
+cron escribe `data/planteles.json` (42 equipos, 1152 jugadores con
+`pj`, goles, asistencias y `peso_goles`), `/roster` costó 2 requests
+más sobre 592, y `expediente.py` se lo entrega a la skill. Va en un
+archivo aparte a propósito: `equipos.json` es carga manual y el cron no
+puede tocarlo. `equipos.json` sigue vacío y ahora importa menos.
+`injuries`/`status` del mismo endpoint están
 presentes en el esquema pero vacíos/no mantenidos para ligas
 sudamericanas (verificado en vivo: Valentín Carboni de Racing, con
 rotura de ligamento cruzado real, aparece `Active`/`[]`). Tampoco sirve

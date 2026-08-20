@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-20T14:10",
+ "actualizado": "2026-08-20T19:46",
  "requests": 594,
  "partidos": [
   {
@@ -247,9 +247,9 @@
     "visitante": 6.0,
     "totalLinea": 2.5,
     "totalOver": 2.1,
-    "totalUnder": 1.67,
+    "totalUnder": 1.69,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.54,
+    "hcapLocal": 1.53,
     "hcapVisitante": 2.35
    },
    "preload": {}
@@ -734,15 +734,15 @@
    "ciudad": "Ambato",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.4,
-    "empate": 3.2,
-    "visitante": 3.0,
+    "local": 2.3,
+    "empate": 3.25,
+    "visitante": 3.35,
     "totalLinea": 2.5,
     "totalOver": 2.05,
     "totalUnder": 1.71,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.3,
-    "hcapVisitante": 1.56
+    "hcapLocal": 2.1,
+    "hcapVisitante": 1.65
    },
    "preload": {}
   },
@@ -974,15 +974,15 @@
    "ciudad": "Sao Paulo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.15,
+    "local": 2.25,
     "empate": 2.8,
-    "visitante": 4.0,
+    "visitante": 3.95,
     "totalLinea": 1.5,
-    "totalOver": 1.67,
-    "totalUnder": 2.15,
+    "totalOver": 1.69,
+    "totalUnder": 2.1,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.1,
-    "hcapVisitante": 1.67
+    "hcapLocal": 2.15,
+    "hcapVisitante": 1.62
    },
    "preload": {}
   },
@@ -1587,15 +1587,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.4,
-    "empate": 2.95,
+    "local": 3.45,
+    "empate": 3.0,
     "visitante": 2.3,
     "totalLinea": 1.5,
-    "totalOver": 1.53,
+    "totalOver": 1.56,
     "totalUnder": 2.35,
     "hcapLinea": 0.5,
     "hcapLocal": 1.59,
-    "hcapVisitante": 2.15
+    "hcapVisitante": 2.2
    },
    "preload": {}
   },
@@ -2329,13 +2329,13 @@
     "prov": "DraftKings",
     "local": 2.65,
     "empate": 2.9,
-    "visitante": 2.8,
+    "visitante": 2.85,
     "totalLinea": 1.5,
     "totalOver": 1.51,
-    "totalUnder": 2.4,
+    "totalUnder": 2.35,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
-    "hcapVisitante": 1.44
+    "hcapVisitante": 1.45
    },
    "preload": {}
   },
@@ -3062,11 +3062,11 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.95,
-    "empate": 3.3,
-    "visitante": 4.0,
+    "empate": 3.25,
+    "visitante": 4.1,
     "totalLinea": 2.5,
     "totalOver": 2.3,
-    "totalUnder": 1.54,
+    "totalUnder": 1.56,
     "hcapLinea": -0.5,
     "hcapLocal": 1.87,
     "hcapVisitante": 1.8
@@ -3434,15 +3434,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.0,
-    "empate": 2.9,
-    "visitante": 4.4,
+    "local": 2.05,
+    "empate": 2.85,
+    "visitante": 4.3,
     "totalLinea": 1.5,
-    "totalOver": 1.65,
-    "totalUnder": 2.15,
+    "totalOver": 1.67,
+    "totalUnder": 2.05,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.91,
-    "hcapVisitante": 1.74
+    "hcapLocal": 1.95,
+    "hcapVisitante": 1.71
    },
    "preload": {}
   },
@@ -4182,13 +4182,13 @@
     "prov": "DraftKings",
     "local": 2.55,
     "empate": 2.8,
-    "visitante": 3.05,
+    "visitante": 3.1,
     "totalLinea": 1.5,
-    "totalOver": 1.61,
+    "totalOver": 1.65,
     "totalUnder": 2.1,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.35,
-    "hcapVisitante": 1.48
+    "hcapLocal": 2.45,
+    "hcapVisitante": 1.47
    },
    "preload": {}
   },
@@ -4547,14 +4547,14 @@
    "ciudad": "Junin",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.2,
-    "empate": 2.95,
-    "visitante": 2.3,
+    "local": 3.25,
+    "empate": 3.0,
+    "visitante": 2.35,
     "totalLinea": 1.5,
-    "totalOver": 1.49,
-    "totalUnder": 2.4,
+    "totalOver": 1.5,
+    "totalUnder": 2.45,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.54,
+    "hcapLocal": 1.56,
     "hcapVisitante": 2.2
    },
    "preload": {}
@@ -4926,14 +4926,14 @@
    "ciudad": "Córdoba",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.8,
-    "empate": 3.25,
-    "visitante": 4.6,
+    "local": 1.77,
+    "empate": 3.3,
+    "visitante": 4.7,
     "totalLinea": 2.5,
-    "totalOver": 2.4,
-    "totalUnder": 1.49,
+    "totalOver": 2.35,
+    "totalUnder": 1.5,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.74,
+    "hcapLocal": 1.71,
     "hcapVisitante": 1.91
    },
    "preload": {}
@@ -5305,14 +5305,14 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.62,
+    "local": 1.61,
     "empate": 3.5,
-    "visitante": 5.5,
+    "visitante": 5.75,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.53,
+    "totalOver": 2.25,
+    "totalUnder": 1.54,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.57,
+    "hcapLocal": 1.56,
     "hcapVisitante": 2.15
    },
    "preload": {}

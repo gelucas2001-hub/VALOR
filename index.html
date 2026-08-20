@@ -124,8 +124,6 @@ a{color:inherit}
 
 .wordmark{font-family:var(--anton);font-size:44px;line-height:.88;letter-spacing:-.005em;
   display:flex;align-items:flex-end;gap:9px}
-.wordmark .tilde{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--salvia);
-  letter-spacing:.14em;padding-bottom:6px;white-space:nowrap}
 .kicker{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);
   margin-top:var(--e3);display:flex;align-items:center;gap:8px}
 .kicker::after{content:"";flex:1;height:1px;background:var(--linea-punteada,#3A322580)}
@@ -213,10 +211,6 @@ a{color:inherit}
 /* Cabecera del partido abierto y meta del Registro: la portada ya no
    las usa (tiene talón), pero el detalle sí. */
 .meta{font-family:var(--mono);font-size:9.5px;color:var(--gris);letter-spacing:.03em}
-.teams{font-family:var(--anton);font-size:17px;line-height:1.2;color:var(--tinta);
-  margin-bottom:5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-weight:400}
-.teams i{color:var(--gris3);font-style:normal;font-size:12px;font-family:var(--cuerpo)}
-.teams .crest{width:19px;height:19px;flex:0 0 19px}
 
 /* Los últimos cinco, del más viejo al más nuevo. Ganado en tinta
    plena, perdido casi apagado: la intensidad dice el resultado, no el
@@ -292,15 +286,12 @@ a{color:inherit}
 
 .sig{margin-top:10px;font-family:var(--anton);font-size:11px;letter-spacing:.03em;color:var(--mostaza)}
 .sig.alerta{color:var(--terracota)}
-.pron{margin-top:6px;font-size:11.5px;line-height:1.45;color:var(--tinta3)}
-.pron b{color:var(--tinta);font-weight:600}
 
 /* La lectura y el sello comparten renglón: la frase a la izquierda, el
    veredicto sellado a la derecha, alineados por la base. */
 .cierre{display:flex;align-items:flex-end;gap:10px;margin-top:10px}
 .cierre .corto{flex:1;min-width:0;font-size:11.5px;line-height:1.45;color:var(--tinta3)}
 .cierre .corto b{color:var(--tinta);font-weight:600}
-.quiet{margin-top:9px;font-size:10.5px;color:var(--gris3)}
 
 /* ── detalle: cabecera ─────────────────────────────────────────── */
 .top{padding:calc(14px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px;background:var(--hueco)}
@@ -660,7 +651,6 @@ a{color:inherit}
 
 /* ── registro ──────────────────────────────────────────────────── */
 .ledger{display:flex;margin:14px 16px 0;background:var(--panel);box-shadow:4px 4px 0 #13100B}
-.ledger.vacio2{opacity:.5}
 .ledger div{flex:1;text-align:center;padding:12px 4px;border-right:1px solid var(--linea2);min-width:0}
 .ledger div:last-child{border-right:none}
 .ledger small{display:block;font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);margin-bottom:4px}
@@ -820,7 +810,6 @@ function matrix(lh,la,rho,max=9){
 const sumIf = (m,f) => { let s=0; for(let i=0;i<m.length;i++) for(let j=0;j<m.length;j++) if(f(i,j)) s+=m[i][j]; return s; };
 
 const ev    = (p,o) => p*o - 1;
-const fair  = p => p>0 ? 1/p : Infinity;
 const kelly = (p,o) => { const b=o-1; if(b<=0) return 0; return Math.max(0,(p*b-(1-p))/b); };
 
 /* ══════════════════════════════════════════════════════════════════
@@ -878,7 +867,7 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
    dos canchas para comparar. El prototipo ya lo resolvía con un par de
    botones arriba; se conserva esa decisión. */
 let PL_EQ="H";
-let ESTADISTICAS={}, EST_SOBRE=0;   /* promedios por equipo, del cron */
+let ESTADISTICAS={};   /* promedios por partido de cada equipo, del cron */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
 let BOOT_ERROR=null, CARGANDO=true;
@@ -1695,8 +1684,8 @@ function tabAnalisis(m){
     const corto = n => (n||"").length>11 ? n.split(" ")[0] : n;
     return `<div class="banda banda2">Análisis<em>SIN CARGAR</em></div><div class="sec hueco">
       <div class="big">Todavía nadie escribió la nota de este partido</div>
-      <p class="sub">Las bajas, el contexto de tabla y a quién le sirve el empate los carga
-        una persona. Esto es lo que sí sabemos por los números.</p>
+      <p class="sub">Las bajas, el contexto de tabla y a quién le sirve el empate se escriben
+        aparte, partido por partido, y este todavía no. Esto es lo que sí sabemos por los números.</p>
       <div class="cifras">
         <div><b>${m.lh.toFixed(2)}</b><small>${esc_(corto(m.home))}</small></div>
         <div><b>${m.la.toFixed(2)}</b><small>${esc_(corto(m.away))}</small></div>
@@ -2026,8 +2015,12 @@ function tabPlantel(m){
     const e = EQUIPOS[String(id)];
     const t = stat(id, m.tabla);
     let h = `<div class="eqblock"><div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>`;
+    /* El resumen escrito a mano de `equipos.json` nunca se cargó, y el
+       plan cambió: lo que se quería contar acá lo cuentan ahora los
+       números de abajo (comparativa y plantel) y la nota del Análisis.
+       Se muestra si algún día está, pero ya no se declara como hueco:
+       era un cartel de "falta algo" arriba de una pantalla llena. */
     if(e && e.resumen) h += `<p class="blurb">${esc_(e.resumen)}</p>`;
-    else h += `<p class="blurb" style="color:var(--gris3)">Todavía no cargamos el resumen de este equipo.</p>`;
     if(e && e.forma) h += `<p class="blurb">${esc_(e.forma)}</p>`;
     if(e && e.localVisita) h += `<p class="blurb">${esc_(e.localVisita)}</p>`;
     if(t){
@@ -2076,13 +2069,20 @@ function tabPlantel(m){
         : "No tenemos a los dos equipos en una misma tabla, así que no hay comparación que hacer."}</p>`;
   }
   h += bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
-  h += `<div class="lbl sep">Del partido</div>
+  /* Primero lo que hicieron, después lo que esperamos. Las dos cosas
+     hablan de córners y faltas, así que el orden y las etiquetas tienen
+     que dejar claro cuál es cuál: una es medición, la otra es
+     estimación. Juntas y sin distinguir se leían como el mismo número
+     dicho dos veces. */
+  h += comparativa(m);
+  h += `<div class="lbl sep">Lo que esperamos acá</div>
     <div class="tstats">
-      <div class="t"><span>Córners esperados</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
+      <div class="t"><span>Córners</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
       <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
       <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
-    </div>`;
-  h += comparativa(m);
+    </div>
+    <p class="fuente">Estimación para este partido, sumando a los dos equipos. Los números
+      de arriba son lo que cada uno viene haciendo; estos son lo que esperamos hoy.</p>`;
   h += cancha(m);
   return h + `</div>`;
 }
@@ -2102,6 +2102,11 @@ const COMPARA = [
   {k:"tarjetas", et:"Tarjetas"},
   {k:"offsides", et:"Offsides"},
   {k:"atajadas", et:"Atajadas"},
+  {k:"tackles",  et:"Quites"},
+  /* Los pases dados solos no dicen nada ("380" ¿de cuántos?): lo que
+     describe a un equipo es qué proporción le sale bien. */
+  {k:"precision", et:"Pases OK", suf:"%",
+   calc: e => e.pases != null && e.pases_tot ? (e.pases / e.pases_tot) * 100 : null},
 ];
 
 function comparativa(m){
@@ -2110,7 +2115,8 @@ function comparativa(m){
      invita a compararlos igual. Sin los dos no hay comparación. */
   if(!L_ || !V_) return "";
   const filas = COMPARA.map(x=>{
-    const a = L_[x.k], b = V_[x.k];
+    const a = x.calc ? x.calc(L_) : L_[x.k];
+    const b = x.calc ? x.calc(V_) : V_[x.k];
     if(a == null && b == null) return "";   // ninguno la tiene: no se dibuja
     const num = v => v == null ? "—" : v.toFixed(1) + (x.suf||"");
     /* El más alto en tinta plena. No es "el mejor" — más faltas no es
@@ -2731,7 +2737,6 @@ async function traer(url, def){
   EQUIPOS  = eq || {}; delete EQUIPOS._schema;
   PLANTELES = (pl && pl.equipos) || {};
   ESTADISTICAS = (es && es.equipos) || {};
-  EST_SOBRE = (es && es.sobre) || 0;
 
   desdeHash();
   render();

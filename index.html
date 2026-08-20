@@ -590,6 +590,24 @@ a{color:inherit}
 .jrow .jn{flex:1;min-width:0;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .jrow .peso{font-family:var(--mono);font-size:9.5px;color:var(--tinta);white-space:nowrap}
 .jrow .js{font-family:var(--mono);font-size:10px;color:var(--gris2);flex:0 0 34px;text-align:right}
+/* El promedio por partido es el número que se mira para una línea de
+   jugador — "26 remates" no dice nada sin saber en cuántos partidos.
+   Va en tinta plena; el total al lado, apagado. Sin mostaza: es
+   estadística, no una marca de valor. */
+.jrow .prom{color:var(--tinta);font-size:11px;flex:0 0 40px}
+/* Selector de estadística. Scrollea en horizontal dentro de su caja
+   para no empujar el ancho de la página en 375px. */
+.mets{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.mets::-webkit-scrollbar{display:none}
+.met{flex:0 0 auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;
+     text-transform:uppercase;padding:5px 9px;border:1px solid var(--linea);
+     background:transparent;color:var(--gris2);cursor:pointer}
+.met.on{border-color:var(--tinta);color:var(--tinta)}
+.jhead{display:flex;gap:8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;
+       text-transform:uppercase;color:var(--gris3);padding-bottom:4px}
+.jhead span:first-child{flex:1}
+.jhead span:not(:first-child){flex:0 0 34px;text-align:right}
+.jhead span:last-child{flex:0 0 40px}
 
 /* ── herramientas ──────────────────────────────────────────────── */
 .expl{font-size:11.5px;line-height:1.55;color:#7E7360;margin:0 0 18px}
@@ -846,6 +864,7 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
    dos canchas para comparar. El prototipo ya lo resolvía con un par de
    botones arriba; se conserva esa decisión. */
 let PL_EQ="H";
+let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
 let BOOT_ERROR=null, CARGANDO=true;
 
@@ -2087,7 +2106,7 @@ function cancha(m){
     <p class="blurb" style="font-size:11.5px;color:var(--gris2);margin-top:10px">Este once sale de
       quiénes vienen jugando más, no de una formación confirmada: ESPN no publica ni el equipo
       titular ni el esquema. Sirve para ver la forma del equipo, no para dar por hecho quién entra.</p>`;
-  return h + jugadores(nombre, id);
+  return h + jugadores(nombre, id, PL_MET);
 }
 
 /* Un nombre completo no entra abajo de un dorsal de 26px. Se corta al
@@ -2160,28 +2179,60 @@ function onceProbable(plantel){
    Rodallega" y "no está el cuarto suplente" se leen igual. Solo se
    muestra a partir de 15%, porque abajo de eso es ruido y llenaría la
    columna de porcentajes irrelevantes. */
-function jugadores(nombre, id){
+/* Lo que se puede mirar por jugador. Son las columnas que el cron ya
+   baja en planteles.json — nada acá inventa un campo que no exista, y
+   hay un test que lo verifica contra el archivo real.
+
+   Se muestra de a una y la lista se ordena por ella: en 375px no entran
+   ocho columnas por fila, y además así es como esto se mira de verdad
+   ("quién remata más en este equipo"), no leyendo una grilla. */
+const METRICAS = [
+  {k:"goles",     et:"Goles"},
+  {k:"asist",     et:"Asist."},
+  {k:"remates",   et:"Remates"},
+  {k:"al_arco",   et:"Al arco"},
+  {k:"faltas",    et:"Faltas"},
+  {k:"amarillas", et:"Amarillas"},
+];
+
+function jugadores(nombre, id, met){
   const js = PLANTELES[String(id)] || [];
   if(!js.length){
     return `<div class="lbl sep">${esc_(nombre)} — jugadores</div>
       <p class="blurb" style="color:var(--gris3)">Todavía no tenemos el plantel de este equipo.</p>`;
   }
+  const clave = (METRICAS.find(x=> x.k === met) || METRICAS[0]).k;
   /* Los que no jugaron nunca no aportan nada a la lectura del partido y
      son un tercio del roster. Se ocultan. */
   const activos = js.filter(j=> j.pj > 0);
-  const filas = (activos.length ? activos : js).slice(0, 12).map(j=>{
-    const peso = j.peso_goles >= 0.15
+  const filas = (activos.length ? activos : js)
+    .slice().sort((a,b)=> (b[clave]||0) - (a[clave]||0))
+    .slice(0, 12).map(j=>{
+    /* El peso goleador se muestra cuando se están mirando los goles.
+       En las otras métricas competiría con el número de la columna y le
+       come el nombre al jugador, que ya venía cortándose. */
+    const peso = (clave === "goles" || clave === "asist") && j.peso_goles >= 0.15
       ? `<span class="peso">${Math.round(j.peso_goles*100)}% de los goles</span>` : "";
+    /* Un campo ausente no es un cero medido: el cron todavía no baja
+       atajadas, y mostrar "0" sería afirmar una medición que no existe. */
+    const hay = j[clave] != null;
+    const tot = hay ? j[clave] : "—";
+    const media = hay && j.pj > 0 ? (j[clave] / j.pj).toFixed(1) : "—";
     return `<div class="jrow">
       <span class="pos">${esc_(j.pos||"—")}</span>
       <span class="jn">${esc_(j.nombre)}</span>
       ${peso}
       <span class="js">${j.pj} PJ</span>
-      <span class="js">${j.goles} G</span>
-      <span class="js">${j.asist} A</span>
+      <span class="js">${tot}</span>
+      <span class="js prom">${media}</span>
     </div>`;
   }).join("");
+  const botones = METRICAS.map(x=>
+    `<button class="met${x.k === clave ? " on" : ""}" data-plmet="${x.k}">${x.et}</button>`
+  ).join("");
   return `<div class="lbl sep">${esc_(nombre)} — jugadores</div>
+    <div class="mets">${botones}</div>
+    <div class="jhead"><span>Jugador</span><span>PJ</span><span>Total</span><span>Prom.</span></div>
     <div class="jlist">${filas}</div>`;
 }
 
@@ -2503,7 +2554,7 @@ function ir(v, extra){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-pleq],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
+  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-pleq],[data-plmet],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
   if(!t) return;
   const d = t.dataset;
 
@@ -2517,6 +2568,7 @@ document.addEventListener("click", e=>{
   else if(d.partido){ ir("partido", d.partido); }
   else if(d.tab){ TAB = d.tab; render(); }
   else if(d.pleq){ PL_EQ = d.pleq; render(); }
+  else if(d.plmet){ PL_MET = d.plmet; render(); }
   else if(d.volver){ ir("fecha"); }
   else if(d.filtro){ FILTRO = d.filtro; render(); }
   else if(d.estado){

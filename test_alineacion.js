@@ -32,7 +32,7 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
-              onceProbable, tabAnalisis, aQuien,
+              onceProbable, tabAnalisis, aQuien, jugadores, METRICAS,
               cargar: (ms, an, pl) => { MATCHES = ms; ANALISIS = an || {}; PLANTELES = pl || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
@@ -631,6 +631,93 @@ test("sin nada escrito sigue mostrando el hueco declarado", ()=>{
   L.cargar(PARTIDOS, {[claro.id]: {actualizado: "2026-08-20", inclinacion: "L"}});
   cierto(L.tabAnalisis(claro).includes("SIN CARGAR"),
          "una inclinación sin prosa no es una nota escrita");
+});
+
+/* ── 12. Las estadísticas por jugador ───────────────────────────────
+   Lucas empezó a mirar apuestas de estadísticas (remates, al arco,
+   faltas, tarjetas) y pidió poder verlas. Los números ya estaban
+   bajados en planteles.json desde el 2026-08-20; la pestaña mostraba
+   goles y asistencias nada más, y el resto viajaba sin usarse.
+
+   En 375px no entran ocho columnas por fila. La forma en que esto se
+   mira de verdad es "quién remata más en este equipo", así que la
+   lista se ordena por la métrica elegida en vez de apretar todo. */
+
+test("METRICAS cubre lo que hay bajado, sin inventar campos", ()=>{
+  /* Contra el archivo real que escribe el cron, no contra un fixture:
+     lo que este test protege es que la pantalla no ofrezca una métrica
+     que el pipeline no baja. */
+  const pl = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "planteles.json"), "utf8"));
+  const alguno = Object.values(pl.equipos).find(e=> e.length);
+  const campos = Object.keys(alguno[0]);
+  L.METRICAS.forEach(x=>{
+    cierto(campos.includes(x.k), `la métrica ${x.k} no existe en el plantel`);
+    cierto(x.et && x.et.length <= 10, `la etiqueta de ${x.k} no entra en pantalla`);
+  });
+  cierto(L.METRICAS.some(x=> x.k === "remates"), "falta remates");
+  cierto(L.METRICAS.some(x=> x.k === "al_arco"), "falta remates al arco");
+  cierto(L.METRICAS.some(x=> x.k === "faltas"), "falta faltas");
+});
+
+test("la lista se ordena por la metrica elegida", ()=>{
+  const plantel = {"99": [
+    {id:"1", nombre:"El Goleador",  pos:"F", pj:10, goles:9, asist:0,
+     remates:20, al_arco:9, faltas:2,  amarillas:0, rojas:0, peso_goles:0.9},
+    {id:"2", nombre:"El Rompepatas", pos:"M", pj:10, goles:0, asist:0,
+     remates:2,  al_arco:0, faltas:30, amarillas:7, rojas:1, peso_goles:0},
+  ]};
+  L.cargar(PARTIDOS, {}, plantel);
+  const porFaltas = L.jugadores("Equipo", "99", "faltas");
+  const porGoles  = L.jugadores("Equipo", "99", "goles");
+  cierto(porFaltas.indexOf("Rompepatas") < porFaltas.indexOf("Goleador"),
+         "ordenando por faltas, el que más falta no quedó primero");
+  cierto(porGoles.indexOf("Goleador") < porGoles.indexOf("Rompepatas"),
+         "ordenando por goles, el goleador no quedó primero");
+});
+
+test("muestra el promedio por partido, que es lo que se mira para esto", ()=>{
+  /* "26 remates" no dice nada sin saber en cuántos partidos. Para mirar
+     una línea de jugador lo que importa es el número por partido. */
+  const plantel = {"99": [
+    {id:"1", nombre:"Rematador", pos:"F", pj:10, goles:0, asist:0,
+     remates:21, al_arco:7, faltas:0, amarillas:0, rojas:0, peso_goles:0},
+  ]};
+  L.cargar(PARTIDOS, {}, plantel);
+  const h = L.jugadores("Equipo", "99", "remates");
+  cierto(h.includes("2.1"), "no muestra los 2.1 remates por partido");
+  cierto(h.includes("21"), "perdió el total");
+});
+
+test("no divide por cero con un jugador sin partidos", ()=>{
+  const plantel = {"99": [
+    {id:"1", nombre:"Nunca Jugó", pos:"M", pj:0, goles:0, asist:0,
+     remates:0, al_arco:0, faltas:0, amarillas:0, rojas:0, peso_goles:0},
+  ]};
+  L.cargar(PARTIDOS, {}, plantel);
+  const h = L.jugadores("Equipo", "99", "remates");
+  cierto(!/NaN|Infinity/.test(h), "el promedio salió NaN o Infinity");
+});
+
+test("la metrica sin dato no se inventa en cero", ()=>{
+  /* `atajadas` todavía no está en planteles.json: el cron no la baja.
+     Un jugador sin el campo no puede aparecer como si tuviera cero
+     atajadas medidas — eso sería afirmar un dato que no existe. */
+  const plantel = {"99": [
+    {id:"1", nombre:"Arquero", pos:"G", pj:10, goles:0, asist:0,
+     remates:0, al_arco:0, faltas:0, amarillas:0, rojas:0, peso_goles:0},
+  ]};
+  L.cargar(PARTIDOS, {}, plantel);
+  const h = L.jugadores("Equipo", "99", "atajadas");
+  cierto(/—|sin dato/i.test(h), "inventó un cero donde no hay medición");
+});
+
+test("el selector de metrica esta en la pantalla y marca la elegida", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.tabPlantel(m);
+  L.METRICAS.forEach(x=>
+    cierto(html.includes(`data-plmet="${x.k}"`), `no se puede elegir ${x.k}`));
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

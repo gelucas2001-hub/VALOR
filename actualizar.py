@@ -41,6 +41,13 @@ RESULTADOS = Path("data/resultados.json")   # "espn401841517" -> "2-1", en la
                             # cruzan más de una vez con el mismo local (fase
                             # de grupos). Sale gratis: los marcadores ya
                             # vienen en el mismo pedido que calibra fuerzas.
+PLANTELES = Path("data/planteles.json")     # team_id -> plantel con números
+                            # (PJ, goles, asistencias, remates, tarjetas por
+                            # jugador) sumando liga doméstica + competición.
+                            # Es un archivo APARTE de data/equipos.json a
+                            # propósito: equipos.json es prosa cualitativa de
+                            # carga manual y el cron no lo toca nunca. Acá van
+                            # los números, que sí son automáticos.
 CACHE_DISCIPLINA = Path("data/cache_disciplina.json")  # event_id -> {team_id:
                             # {fouls,corners,cards}}. Persiste ENTRE corridas
                             # (a diferencia de todos los otros caches, que
@@ -242,6 +249,72 @@ def historial(slug, team_id, season=None):
     return jugados
 
 
+def roster(slug, team_id):
+    """/teams/{id}/roster: el plantel entero con estadísticas, en UN solo
+    pedido (~0,5s, 38-40 jugadores).
+
+    Medido el 2026-08-20 contra la API real, porque la app afirmaba lo
+    contrario — decía que las estadísticas pedían un llamado por jugador
+    y que serían "unos 50 por pestaña". Es falso: vienen todas en la
+    misma respuesta, anidadas en athletes[].statistics.
+
+    Lo que NO sirve de este endpoint, también verificado: `injuries`
+    viene vacío y `status` dice "Active" incluso para un jugador con
+    rotura de ligamento cruzado (Carboni, Racing). Y el campo `coach`
+    es una lista histórica vieja, no el DT actual (para River devolvió
+    Gorosito/Cappa/Lopez/Almeyda, no a Coudet). Bajas y DT siguen
+    saliendo del research, no de acá."""
+    d = api(f"{SITE_V2}/{slug}/teams/{team_id}/roster")
+    if not d:
+        return []
+    atletas = d.get("athletes") or []
+    # Algunas ligas agrupan por posición ({position, items:[...]}) y otras
+    # devuelven la lista plana. Se aceptan las dos formas.
+    if atletas and isinstance(atletas[0], dict) and "items" in atletas[0]:
+        atletas = [a for g in atletas for a in (g.get("items") or [])]
+    return [stats_jugador(a) for a in atletas]
+
+
+def slugs_plantel(slug_consulta, slug_liga):
+    """De qué competiciones pedir el roster de un equipo.
+
+    Siempre la liga doméstica además de la competición del partido, sin
+    duplicarla cuando son la misma. La liga es la que tiene muestra
+    (~25 partidos contra ~5 de copa); la copa aporta los goles que la
+    liga no ve. Quedarse con una sola miente en las dos direcciones."""
+    slugs = [slug_consulta]
+    if slug_liga and slug_liga != slug_consulta:
+        slugs.append(slug_liga)
+    return slugs
+
+
+def solo_los_que_jugaron(plantel):
+    """Saca del plantel a los que no jugaron ningún partido.
+
+    Es un tercio del roster (juveniles, recién llegados, arqueros
+    suplentes) y no aporta nada a la lectura de un partido. Se filtra
+    acá y no en la app porque el archivo lo baja un teléfono. Si no
+    jugó NADIE se devuelve entero: dejar la pestaña vacía sería peor
+    que mostrar un plantel sin minutos."""
+    jugaron = [j for j in plantel if j.get("pj", 0) > 0]
+    return jugaron if jugaron else list(plantel)
+
+
+def slugs_de_equipos(apariciones):
+    """team_id -> competiciones de las que pedirle el roster, sin repetir.
+
+    Recibe (team_id, slug_del_partido, slug_liga_domestica) por cada vez
+    que un equipo aparece en la ventana. Se acumulan los SLUGS y no los
+    planteles a propósito: un equipo con dos partidos de la misma
+    competición devolvería el mismo roster dos veces, y fusionarlo
+    consigo mismo duplicaría todos sus números."""
+    mapa = {}
+    for tid, slug, slug_liga in apariciones:
+        vistos = mapa.setdefault(str(tid), set())
+        vistos.update(slugs_plantel(slug, slug_liga))
+    return {tid: sorted(s) for tid, s in mapa.items()}
+
+
 def liga_domestica(team_id, slug_consulta, cache):
     """Slug de la liga local del equipo, vía el campo defaultLeague.
 
@@ -386,6 +459,77 @@ def tabla_competicion(slug, season):
         for i in ids:
             por_equipo[i] = info
     return por_equipo
+
+
+def stats_jugador(atleta):
+    """Aplana un jugador de /roster: los números vienen anidados en
+    splits.categories[].stats[], repartidos entre 'general', 'offensive'
+    y 'goalKeeping' sin que la categoría importe para leerlos."""
+    crudos = {}
+    sp = (atleta.get("statistics") or {}).get("splits") or {}
+    for cat in sp.get("categories", []) or []:
+        for s in cat.get("stats", []) or []:
+            crudos[s.get("name")] = s.get("value")
+
+    def num(k):
+        try:
+            return float(crudos.get(k) or 0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    return {
+        "id": str(atleta.get("id", "")),
+        "nombre": atleta.get("displayName", ""),
+        "pos": (atleta.get("position") or {}).get("abbreviation", ""),
+        "pj": num("appearances"),
+        "goles": num("totalGoals"),
+        "asist": num("goalAssists"),
+        "remates": num("totalShots"),
+        "al_arco": num("shotsOnTarget"),
+        "faltas": num("foulsCommitted"),
+        "amarillas": num("yellowCards"),
+        "rojas": num("redCards"),
+    }
+
+
+# Los campos que se suman al fusionar dos competiciones. El resto
+# (nombre, posición) identifica al jugador y se conserva tal cual.
+SUMABLES = ("pj", "goles", "asist", "remates", "al_arco",
+            "faltas", "amarillas", "rojas")
+
+
+def fusionar_planteles(*listas):
+    """Suma el mismo jugador a través de competiciones.
+
+    Las estadísticas de /roster son POR COMPETICIÓN: el mismo River da
+    5 partidos con el slug de la Liga y 3 con el de la Sudamericana.
+    Ninguno de los dos solo sirve para pesar una baja — 'jugó 5 de 5'
+    no significa nada si además jugó 3 de copa. Es el mismo problema
+    que resolvió forma_general() para la forma reciente."""
+    por_id = {}
+    for lista in listas:
+        for j in lista or []:
+            base = por_id.get(j["id"])
+            if base is None:
+                por_id[j["id"]] = dict(j)
+                continue
+            for k in SUMABLES:
+                base[k] = base.get(k, 0) + j.get(k, 0)
+    # El que más juega primero: la pestaña Plantel muestra los de arriba,
+    # y un plantel de 40 encabezado por suplentes no informa nada.
+    return sorted(por_id.values(), key=lambda j: -j["pj"])
+
+
+def peso_goleador(plantel):
+    """Qué fracción de los goles del equipo puso cada jugador.
+
+    Sin este número la baja de un goleador y la de un suplente se leen
+    igual en el análisis. Con él, 'no está Rodallega' es 'no está el 57%
+    de los goles del equipo'."""
+    total = sum(j.get("goles", 0) for j in plantel)
+    if not total:
+        return {j["id"]: 0.0 for j in plantel}
+    return {j["id"]: j.get("goles", 0) / total for j in plantel}
 
 
 def resumen_partido(slug, event_id):
@@ -761,6 +905,9 @@ def main():
     cache_dom = {}       # slug de liga local -> lo mismo, para las anclas
     cache_dom_resultados = {}   # slug de liga local -> resultados crudos, para forma_general
     factores = factores_liga()   # cuánto vale cada liga, para comparar entre países
+    cache_roster = {}    # (slug, team_id) -> plantel, para no pedir dos veces
+    apariciones = []     # (team_id, slug del partido, slug de su liga)
+    planteles = {}       # team_id -> plantel fusionado, se escribe a disco
     cache_ligas = {}     # team_id -> slug de su liga local (persiste en disco)
     if CACHE_LIGAS.exists():
         try:
@@ -949,6 +1096,42 @@ def main():
                 "preload": {},
             })
 
+            # El plantel con números, para los dos equipos. Un pedido por
+            # (equipo, competición), cacheado: los dos partidos de un mismo
+            # equipo en la misma corrida no lo pagan dos veces.
+            # Un equipo puede jugar dos competiciones en la misma ventana
+            # (River: Liga el 23/08, Sudamericana el 26/08). Se anota
+            # dónde aparece y el roster se pide después, una vez por
+            # (equipo, competición). Ver slugs_de_equipos().
+            for tid in (loc_id, vis_id):
+                try:
+                    slug_liga = liga_domestica(tid, slug, cache_ligas)
+                except Exception:
+                    slug_liga = None
+                apariciones.append((tid, slug, slug_liga))
+
+    # ── planteles ────────────────────────────────────────────────────
+    # Un pedido por (equipo, competición). Las estadísticas de /roster son
+    # por competición, así que un equipo que juega Liga y copa necesita
+    # las dos para que "jugó 5 de 5" signifique algo.
+    for tid, slugs in slugs_de_equipos(apariciones).items():
+        fuentes = []
+        for s in slugs:
+            clave = (s, str(tid))
+            if clave not in cache_roster:
+                try:
+                    cache_roster[clave] = roster(s, tid)
+                except Exception:
+                    cache_roster[clave] = []
+            fuentes.append(cache_roster[clave])
+        js = solo_los_que_jugaron(fusionar_planteles(*fuentes))
+        if not js:
+            continue
+        peso = peso_goleador(js)
+        for j in js:
+            j["peso_goles"] = round(peso.get(j["id"], 0.0), 3)
+        planteles[tid] = js
+
     # ── memoria de marcadores ────────────────────────────────────────
     # Se acumula: lo que ya está no se toca ni se borra. Un marcador de
     # un partido jugado no cambia, y si ESPN un día deja de devolver una
@@ -986,6 +1169,13 @@ def main():
         "requests": _req_count,
         "partidos": partidos,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    PLANTELES.write_text(json.dumps({
+        "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
+        "equipos": planteles,
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"· planteles: {len(planteles)} equipos, "
+          f"{sum(len(v) for v in planteles.values())} jugadores")
 
     CACHE_DISCIPLINA.parent.mkdir(parents=True, exist_ok=True)
     CACHE_DISCIPLINA.write_text(json.dumps(cache_resumen, ensure_ascii=False), encoding="utf-8")

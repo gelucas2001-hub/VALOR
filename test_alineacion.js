@@ -31,8 +31,8 @@ function cargarLogica(){
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
-              mercados, otrosMercados, divergen, tabHistorial, tarjeta,
-              cargar: (ms, an) => { MATCHES = ms; ANALISIS = an || {}; }});
+              mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
+              cargar: (ms, an, pl) => { MATCHES = ms; ANALISIS = an || {}; PLANTELES = pl || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
 }
@@ -420,6 +420,49 @@ test("tarjeta (portada) usa formH_general/formA_general, no formH/formA", ()=>{
   // la tarjeta muestra "G" donde debería mostrar "P".
   const franja = html.slice(html.indexOf('class="eq"'));
   cierto(franja.includes('class="p">P<'), "la tarjeta de portada sigue mostrando formH/formA, no la forma general");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   9. Plantel — la pestaña decía "todavía no está la lista de jugadores"
+   porque se creía que las estadísticas pedían un llamado por jugador.
+   Medido contra la API el 2026-08-20: vienen todas en el mismo pedido
+   del roster. Ahora se muestran, y el peso goleador es el número que
+   permite distinguir la baja de un titular de la de un suplente.
+   ══════════════════════════════════════════════════════════════════ */
+const PL_DEMO = {
+  "99": [
+    {id:"1", nombre:"Hugo Rodallega", pos:"F", pj:26, goles:13, asist:4,
+     remates:50, al_arco:22, amarillas:3, rojas:0, peso_goles:0.565},
+    {id:"2", nombre:"Suplente Cualquiera", pos:"M", pj:3, goles:0, asist:0,
+     remates:1, al_arco:0, amarillas:0, rojas:0, peso_goles:0},
+  ],
+};
+
+test("tabPlantel muestra los jugadores cuando hay plantel cargado", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.tabPlantel(m);
+  cierto(html.includes("Hugo Rodallega"), "no aparece el jugador del plantel");
+  cierto(html.includes("Suplente Cualquiera"), "no aparecen los jugadores de menos peso");
+  cierto(!html.includes("Sin jugadores"),
+         "sigue diciendo 'Sin jugadores' aunque el plantel está cargado");
+});
+
+test("tabPlantel muestra el peso goleador, que es lo que pesa una baja", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.tabPlantel(m);
+  cierto(/57\s*%|56\s*%/.test(html),
+         "no muestra la fracción de goles del equipo que puso el goleador");
+});
+
+test("tabPlantel sin plantel cargado lo declara, no miente", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"77", awayId:"76" };
+  L.cargar(PARTIDOS, {}, {});
+  const html = L.tabPlantel(m);
+  cierto(!html.includes("Hugo Rodallega"), "mostró un plantel que no corresponde");
+  cierto(/todav[íi]a no|no tenemos|sin jugadores/i.test(html),
+         "sin plantel cargado no declara el hueco");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

@@ -974,6 +974,64 @@ conseguir cuotas, no más estadísticas.
 
 ---
 
+## 6nonies. El análisis estaba copiando al modelo (2026-08-20)
+
+La primera medición de la `inclinacion` contra resultados reales, con
+`medir_analisis.py`. Los números, sobre 6 partidos ya jugados y 13
+análisis escritos:
+
+- **El análisis coincidió con el modelo en 5 de 6 (83%).**
+- Eligió `"L"` en 9 de 12 direcciones (**75%**), contra ~45% de locales
+  que gana el fútbol sudamericano y 50% en esta muestra.
+- Eligió `"E"` una sola vez (8%), contra ~28% de empates reales.
+- Usó `null` una sola vez en 13 análisis.
+- Acertó 2 de 6, contra 3 de 6 del modelo y 3 de 6 de la estrategia sin
+  trabajo de apostar siempre al local.
+
+**El diagnóstico no es "acierta poco" — con 6 partidos eso es ruido.**
+Es que la distribución está mal, y eso se ve con muestra chica porque es
+sesgo de proceso. Leyendo los 13 veredictos, la causa aparece sola: casi
+todos argumentaban sobre **forma, tabla o localía**, que es exactamente
+lo que el modelo ya procesa (los λ salen de ahí). El análisis no estaba
+aportando una segunda lectura: estaba rehaciendo la primera, a mano y
+con menos rigor.
+
+Eso rompe la promesa de Método por una vía que la regla de alineación no
+protege. Método dice que la lectura viene "de donde el modelo no llega".
+Nunca vio un número del modelo —el recorte de `expediente.py` funciona—
+pero llegaba al mismo lugar por el mismo camino.
+
+Y como consecuencia, **la regla de alineación está prácticamente
+inerte**: solo actúa cuando las dos lecturas difieren, y difieren el 17%
+de las veces. En la única divergencia medida, acertó el modelo.
+
+**Lo que se hizo (skill v2.1):**
+
+- **Principio K:** si el motivo de la dirección lo puede ver el modelo
+  (forma, tabla, localía), va `null`. Solo se inclina nombrando un
+  factor que el modelo no ve: una baja pesada, un DT recién llegado, un
+  equipo ya clasificado, calendario o viaje. `null` pasa a ser la
+  respuesta por omisión. Prueba dura incluida en la auto-verificación:
+  tapar la frase de la baja — si la dirección sigue en pie sin ella,
+  salió de la forma y era decorado.
+- **Principio L:** estar golpeado no es perder, también es empatar. De
+  los análisis que fallaron, **tres terminaron en empate** (0-0, 2-2,
+  0-0), todos razonando "a X le faltan más jugadores, gana Y". Un equipo
+  con bajas juega peor, y peor sube el empate tanto como la derrota.
+
+**Se espera que baje la cantidad de partidos marcados.** Es el punto: la
+marca hoy aparece porque el análisis repite al modelo, que es justo lo
+que la app promete que no pasa.
+
+**Límite conocido: esto no se puede backtestear.** La skill hace research
+web; corrida sobre un partido viejo, la web ya sabe el resultado. La
+muestra solo crece hacia adelante, fecha a fecha. Por eso
+`medir_analisis.py` avisa cuando la muestra es chica y empuja a mirar la
+distribución antes que el acierto: es el error más caro que puede
+inducir un medidor — que alguien "corrija" la skill por una racha.
+
+---
+
 ## 7. Arquitectura de información
 
 **Tres destinos: Fecha · Registro · Método.**

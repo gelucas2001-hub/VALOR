@@ -27,6 +27,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `backtest.py` | Calibración contra resultados | A mano |
 | `medir_sesgo.py` | Cuánto nos apartamos de la línea del mercado | A mano, antes y después de tocar el modelo |
 | `medir_vs_mercado.py` | Brier contra la cuota de cierre real | A mano |
+| `medir_analisis.py` | Si la `inclinacion` del análisis acierta, y si la regla de alineación suma o resta. Correr después de cada fecha | A mano |
 | `calibrar_ligas.py` | Cuánto vale cada liga sudamericana | A mano, cada tanto |
 | `data/*.json` | Lo escribe el cron. **No editar a mano** | Nadie |
 | `data/planteles.json` | Jugadores con números (PJ, goles, peso goleador). Lo escribe el cron | Nadie |

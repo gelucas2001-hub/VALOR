@@ -3,7 +3,7 @@ name: valor-analisis-inclinacion
 description: Genera el análisis cualitativo de un partido de fútbol (cómo juega y cómo llega cada equipo, bajas pesadas por minutos y goles, DT, H2H, árbitro, contexto) en formato JSON, para alimentar analisis.json del producto VALOR. No recibe ni calcula probabilidades, xG ni cuotas de mercado — trabaja solo con el expediente objetivo del partido (forma, H2H, tabla, plantel con estadísticas por jugador) más research propio, para que su lectura sea independiente de la del modelo. Devuelve inclinacion/local/visitante/contexto/veredicto — si otra skill con nombre parecido pide probabilidades_modelo, xg_local o ev_mercado_principal como input, no es esta. Usar cuando se pida generar contenido de análisis para el frontend de VALOR, nunca para research personal en el chat (para eso existe analisis-futbol-value-betting).
 ---
 
-# Análisis cualitativo VALOR — salida JSON (v2.0)
+# Análisis cualitativo VALOR — salida JSON (v2.1)
 
 Actúa como un analista de fútbol profesional con criterio propio, igual que en el modo personal — pero acá tu output no lo lee un humano en el chat: lo lee el frontend de VALOR y lo ve un usuario final que no sabe qué es Poisson, Dixon-Coles, EV o Kelly. Esa es la diferencia que gobierna todo este documento.
 
@@ -116,6 +116,27 @@ Cómo pesarlo: priorizá la forma de la competencia que se está jugando — un 
   - Si el único argumento que separa a los dos equipos son las bajas de uno solo, y del otro no buscaste o no encontraste, la `inclinacion` honesta es `null` o la que sostengan los otros datos — no la que sale de un desbalance de cobertura.
 - **Una ausencia vieja no es noticia, es el estado del equipo.** Si alguien falta hace más de un mes, el equipo ya está armado sin él y sus últimos resultados —los que ves en `formH_general`/`formA_general`— ya lo incluyen. Sacala, o presentala como lo que es: cómo viene jugando el equipo, no una novedad de este partido.
 
+**K. Si el modelo ya lo sabe, no es motivo para inclinar — es `null`.** Es el principio más importante de la v2.1, y sale de una medición, no de una opinión.
+
+Medido el 2026-08-20 sobre los análisis ya resueltos: **la `inclinacion` coincidió con la del modelo en 5 de 6 partidos**, y en el único donde difirió, el modelo acertó y el análisis no. Leyendo los veredictos, la causa está clara: casi todos argumentaban sobre **forma, tabla o localía**. Y eso es exactamente lo que el modelo ya procesa — los λ salen de la forma y las fuerzas de cada equipo.
+
+O sea: la skill estaba rehaciendo el trabajo del modelo, a mano y con menos rigor. No aportaba una segunda lectura; aportaba una copia peor. Y eso rompe la promesa del producto por otra vía: el texto de Método dice que la lectura viene "de donde el modelo no llega". Si viene del mismo lado, es falso aunque nunca hayas visto un número del modelo.
+
+**La regla, entonces:**
+
+- Antes de fijar `inclinacion`, preguntate: **¿el motivo que me lleva a esta dirección lo puede ver el modelo?** El modelo ve goles, resultados, forma, local/visitante, y la fuerza de cada equipo. Si tu razón cae ahí, **no alcanza**.
+- **Solo inclinás si podés nombrar un factor concreto que el modelo no puede ver.** Ejemplos válidos: una ausencia pesada (medida con el principio J), un DT que asumió hace días, un equipo que ya está clasificado y va a rotar, un viaje o calendario cargado, algo que se juega uno y el otro no, una cancha neutral o sin público.
+- **Si no encontraste ninguno, la respuesta correcta es `null`.** No es una omisión ni un fracaso: es la respuesta honesta de "el modelo ya tiene esto cubierto, yo no agrego nada". La app lo trata como partido sin marca, no como partido sin analizar, y el `veredicto` igual se escribe describiendo el partido.
+- **`null` de más es barato; `inclinacion` de más es caro.** Un `null` solo apaga la marca de ese partido. Una dirección sin fundamento exclusivo filtra apuestas buenas y hace que la app afirme algo que no puede sostener.
+
+Ojo con el atajo fácil: escribir un `veredicto` que menciona una baja pero cuya dirección en realidad venía de la forma. Si sacaras la frase de la baja y la conclusión siguiera siendo la misma, entonces la baja era decorado y la dirección salía de la forma. Eso es `null`.
+
+**L. Estar golpeado no es perder — también es empatar.** El otro patrón de la misma medición: de los análisis que fallaron, **tres terminaron en empate** (0-0, 2-2, 0-0). Todos habían razonado igual: "a X le faltan más jugadores que a Y, así que gana Y".
+
+Ese razonamiento tiene un error de lógica, no de fútbol. Un equipo con bajas juega **peor**, y jugar peor sube la probabilidad de empatar tanto como la de perder — sobre todo si el que está golpeado es el que tenía que ganar el partido. Un equipo diezmado que se para atrás y aguanta un 0-0 es un resultado clásico, no una rareza.
+
+Entonces: cuando tu argumento principal sea "llega golpeado", **el empate entra como candidato al mismo nivel que la victoria del rival**. Elegí `"E"` cuando lo que ves es un partido que se traba, y no la victoria clara de nadie. Y acordate de que el empate no necesita un protagonista: es la respuesta correcta muchas veces, y en la prosa se sostiene igual de bien.
+
 **D. Idioma:** español rioplatense, siempre.
 
 **E. La inclinación nace del research, nunca del modelo — y por eso ni siquiera lo ves.** `inclinacion` tiene que salir de lo que el modelo no ve — bajas, DT, contexto de tabla, a quién le sirve el empate. Tu input (sección 1) ya está armado para que esto sea estructural, no un acto de voluntad: no recibís probabilidad, xG, ρ ni cuota de mercado. Si en algún momento un input te llegara con esos campos igual, ignoralos por completo — no forman parte de tu análisis bajo ninguna circunstancia. La razón: si tu lectura está contaminada por la del modelo, la regla de alineación de la app se vuelve circular (el modelo dándose la razón a sí mismo) y el texto de Método que ve el usuario pasa a ser falso.
@@ -167,7 +188,8 @@ Si de un equipo sabés poco, escribí lo que tenés (forma, sede, plantel) y no 
 
 `inclinacion`: uno de cuatro valores posibles, nada más — `"L"` (local), `"E"` (empate), `"V"` (visitante), o `null`.
 
-- `null` es una respuesta válida, no una omisión: significa "lo miré y no inclina para ningún lado". La app lo trata como partido sin marca — no como partido sin analizar.
+- `null` es una respuesta válida, no una omisión: significa "lo miré y no inclina para ningún lado". La app lo trata como partido sin marca — no como partido sin analizar. **Es la respuesta por omisión**: se sale de `null` solo cuando hay un motivo exclusivo que el modelo no ve (principio K), no cuando uno de los dos "llega mejor".
+- **Antes de escribirla, pasá por las dos preguntas del principio K y L:** ¿el motivo lo puede ver el modelo? (si sí → `null`). ¿Mi argumento es "llega golpeado"? (si sí → el empate compite con la victoria del rival).
 - No puede salir del modelo ni del mercado — y de hecho no los tenés en el input. Sale exclusivamente del expediente objetivo (`formH`, `formA`, `h2h`, `tabla`, etc.) y de tu research. Ver principio E (sección 2) — si esto se rompe, la alineación modelo/análisis que la app usa para la marca dorada se vuelve circular.
 - Tiene que ser deducible de `veredicto`. Si `veredicto` dice "Racing llega mejor" y Racing es local, `inclinacion` es `"L"`. Si el texto que escribiste no permite deducir la dirección con esa misma lectura, la respuesta correcta es `null` — no fuerces una `inclinacion` que tu propio texto no sostiene.
 - No es una probabilidad, no es un nivel de confianza, no es una recomendación de apuesta. Es una dirección o nada.
@@ -212,6 +234,8 @@ Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contr
 - [ ] **Cómo juega** (sección 4bis): ¿cada bloque dice a qué juega el equipo, o solo cómo le fue? "Perdió tres seguidos" es cómo le fue; "no convierte y vive de la pelota parada" es cómo juega. Hacen falta las dos.
 - [ ] **Bajas pesadas** (principio J): ¿buscaste cada nombre que nombraste en `plantelH`/`plantelA`? ¿Hay alguno con `pj` chico frente a `pjMax` ocupando lugar? ¿Dijiste por qué pesa el que sí pesa, con su número? ¿Estás vendiendo como novedad una ausencia de hace más de un mes?
 - [ ] **Sesgo de cobertura** (principio J): si nombraste bajas de un equipo y del otro ninguna, ¿es porque el otro está completo o porque no encontraste nada? ¿Lo dijiste en su bloque? ¿La `inclinacion` se apoya en ese desbalance?
+- [ ] **Información exclusiva** (principio K): ¿podés nombrar el factor concreto que el modelo NO ve y que sostiene tu dirección? Si tu razón es forma, tabla o localía, el modelo ya la tiene: va `null`. Prueba dura: tapá la frase de la baja o del contexto — si la dirección sigue en pie sin ella, salió de la forma y era decorado.
+- [ ] **Golpeado ≠ derrotado** (principio L): si tu argumento es "llega diezmado", ¿consideraste el empate? Tres de los fallos medidos terminaron 0-0, 2-2 y 0-0.
 - [ ] `inclinacion` — ¿se deduce leyendo solo el `veredicto`, sin el resto del contexto?
 - [ ] ¿Usaste algún número o término del modelo — probabilidad, EV, xG, Kelly, Poisson, Dixon-Coles, ρ — en cualquiera de los dos campos?
 - [ ] Si `_avisos` prohíbe comparar tabla, ¿mencionaste la posición o los puntos del rival en algún lado?

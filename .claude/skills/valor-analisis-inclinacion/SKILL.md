@@ -111,6 +111,9 @@ Cómo pesarlo: priorizá la forma de la competencia que se está jugando — un 
 - **Descartá lo que no mueve el partido.** Un jugador con `pj` chico frente a `pjMax` y `peso_goles` en cero es indiferente: no lo nombres aunque el research lo traiga. El caso real: Arambarri, un partido jugado, ocupando lugar en el análisis.
 - **Nombrá pocas y jerarquizadas.** Como mucho dos o tres ausencias por equipo, y la primera tiene que ser la más pesada. Una enumeración de seis nombres no informa: promedia.
 - **Decí por qué pesa, con el número.** "Sin Montiel, que jugó todos los partidos" o "sin su goleador, que hizo más de la mitad de los goles del equipo" — no "sin Montiel, Acuña y Driussi". El número es lo que separa esto de una lista.
+- **"No encontré bajas" no es "no hay bajas", y la diferencia tiene sesgo.** La única fuente de lesiones es la prensa, y la prensa no cubre igual a todos: un equipo con diario propio publica la formación probable dos días antes, y uno chico no aparece en ningún lado. Medido en la corrida de Aldosivi–Unión (2026-08-20): del visitante salieron tres bajas, del local ninguna — y no hay razón para creer que Aldosivi estuviera completo. Si dejás que eso pese, terminás inclinando en contra del equipo que **tiene más prensa**, que no es un motivo futbolístico. Dos reglas que salen de ahí:
+  - Si de un equipo no encontraste nada, **decilo en su bloque** ("no trascendieron bajas") en vez de dejar el silencio, que se lee como plantel completo.
+  - Si el único argumento que separa a los dos equipos son las bajas de uno solo, y del otro no buscaste o no encontraste, la `inclinacion` honesta es `null` o la que sostengan los otros datos — no la que sale de un desbalance de cobertura.
 - **Una ausencia vieja no es noticia, es el estado del equipo.** Si alguien falta hace más de un mes, el equipo ya está armado sin él y sus últimos resultados —los que ves en `formH_general`/`formA_general`— ya lo incluyen. Sacala, o presentala como lo que es: cómo viene jugando el equipo, no una novedad de este partido.
 
 **D. Idioma:** español rioplatense, siempre.
@@ -208,6 +211,7 @@ Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contr
 - [ ] **Los dos equipos**: ¿`local` y `visitante` están los dos escritos? ¿Alguno quedó a una frase de trámite mientras el otro tiene tres? Si tapás el bloque del equipo grande, ¿lo que queda le dice algo a alguien sobre el rival?
 - [ ] **Cómo juega** (sección 4bis): ¿cada bloque dice a qué juega el equipo, o solo cómo le fue? "Perdió tres seguidos" es cómo le fue; "no convierte y vive de la pelota parada" es cómo juega. Hacen falta las dos.
 - [ ] **Bajas pesadas** (principio J): ¿buscaste cada nombre que nombraste en `plantelH`/`plantelA`? ¿Hay alguno con `pj` chico frente a `pjMax` ocupando lugar? ¿Dijiste por qué pesa el que sí pesa, con su número? ¿Estás vendiendo como novedad una ausencia de hace más de un mes?
+- [ ] **Sesgo de cobertura** (principio J): si nombraste bajas de un equipo y del otro ninguna, ¿es porque el otro está completo o porque no encontraste nada? ¿Lo dijiste en su bloque? ¿La `inclinacion` se apoya en ese desbalance?
 - [ ] `inclinacion` — ¿se deduce leyendo solo el `veredicto`, sin el resto del contexto?
 - [ ] ¿Usaste algún número o término del modelo — probabilidad, EV, xG, Kelly, Poisson, Dixon-Coles, ρ — en cualquiera de los dos campos?
 - [ ] Si `_avisos` prohíbe comparar tabla, ¿mencionaste la posición o los puntos del rival en algún lado?

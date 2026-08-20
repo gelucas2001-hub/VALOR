@@ -552,6 +552,36 @@ a{color:inherit}
 .tstats .t span{display:block;font-size:7px;letter-spacing:.07em;color:var(--gris2);text-transform:uppercase}
 .tstats .t b{display:block;font-family:var(--mono);font-size:14px;font-weight:600;margin-top:3px}
 
+/* ── cancha del once probable ───────────────────────────────────────
+   Geometría y colores tomados del prototipo (docs/design-handoff):
+   caja hundida, líneas en --linea/--linea2, sin un solo acento de
+   color. La cancha es contexto, no una señal — si llevara mostaza
+   competiría con la marca de valor, que es la única que debe destacar. */
+.plsel{display:flex;background:var(--hueco);padding:3px;gap:3px;margin-bottom:10px}
+.plsel .pleq{flex:1;border:0;cursor:pointer;padding:8px 4px;font-family:var(--anton);
+  font-size:13px;letter-spacing:.03em;line-height:1;background:transparent;color:var(--gris);
+  transition:background .18s ease,color .18s ease;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plsel .pleq.on{background:var(--tinta);color:var(--hueco)}
+.plcampo{position:relative;background:var(--hueco);box-shadow:4px 4px 0 #13100B;
+  padding:14px 8px;height:342px;display:flex;flex-direction:column-reverse}
+.plcampo i{position:absolute;pointer-events:none}
+.plcampo .borde{left:14px;right:14px;top:14px;bottom:14px;border:1px solid var(--linea2)}
+.plcampo .medio{left:14px;right:14px;top:50%;height:1px;background:var(--linea)}
+.plcampo .circulo{left:50%;top:50%;width:74px;height:74px;margin:-37px 0 0 -37px;
+  border:1px solid var(--linea);border-radius:50%}
+.plcampo .area{left:50%;width:132px;height:44px;margin-left:-66px;border:1px solid var(--linea)}
+.plcampo .area.ab{bottom:14px;border-bottom:0}
+.plcampo .area.ar{top:14px;border-top:0}
+.pllinea{flex:1;display:flex;justify-content:space-around;align-items:center;position:relative}
+.plj{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;max-width:74px}
+.plj .dorsal{width:26px;height:26px;display:grid;place-items:center;background:var(--panel);
+  border:1px solid var(--linea2);color:var(--gris);font-family:var(--mono);font-size:9px;
+  font-weight:700;border-radius:50%}
+.plj .pln{font-family:var(--mono);font-size:8px;letter-spacing:.04em;line-height:1.15;
+  color:var(--tinta3);text-align:center;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plpie{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;
+  letter-spacing:.1em;color:var(--gris3);margin-top:6px}
+
 /* Filas planas, como el resto de las listas largas de la app. El peso
    goleador va en tinta plena porque es el dato que cambia una lectura;
    los números de al lado, apagados. Nada de mostaza acá: no es valor. */
@@ -811,6 +841,11 @@ const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
    ══════════════════════════════════════════════════════════════════ */
 let MATCHES=[], ANALISIS={}, EQUIPOS={}, PLANTELES={}, ACTUALIZADO="";
 let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
+/* Qué equipo muestra la cancha de Plantel: "H" local, "A" visitante.
+   Los dos no entran en un dibujo solo, y apilarlos obliga a scrollear
+   dos canchas para comparar. El prototipo ya lo resolvía con un par de
+   botones arriba; se conserva esa decisión. */
+let PL_EQ="H";
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
 let BOOT_ERROR=null, CARGANDO=true;
 
@@ -1996,8 +2031,111 @@ function tabPlantel(m){
       <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
       <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
     </div>`;
-  h += jugadores(m.home, m.homeId) + jugadores(m.away, m.awayId);
+  h += cancha(m);
   return h + `</div>`;
+}
+
+/* La cancha con el once probable, como la diseñó el prototipo: un
+   equipo por vez, elegido con los dos botones de arriba. Debajo, la
+   lista completa — la cancha muestra once y la lista es donde se pesa
+   una baja, así que hacen falta las dos. */
+function cancha(m){
+  const esH = PL_EQ !== "A";
+  const nombre = esH ? m.home : m.away;
+  const id = esH ? m.homeId : m.awayId;
+  const js = PLANTELES[String(id)] || [];
+  const btn = (k, txt) => `<button class="pleq ${(PL_EQ!=="A")===(k==="H")?"on":""}" data-pleq="${k}">${esc_(txt)}</button>`;
+  let h = `<div class="lbl sep">Once probable</div>
+    <div class="plsel">${btn("H", m.home)}${btn("A", m.away)}</div>`;
+
+  if(!js.length){
+    return h + `<p class="blurb" style="color:var(--gris3)">Todavía no tenemos el plantel de este equipo.</p>`;
+  }
+
+  const o = onceProbable(js);
+  /* column-reverse: el arquero abajo y el ataque arriba, como en el
+     prototipo — "ataca hacia arriba" solo se lee si el dibujo lo hace. */
+  const filas = o.lineas.map(linea=> `<div class="pllinea">${linea.map(j=>`
+      <div class="plj">
+        <span class="dorsal">${j.pos||"·"}</span>
+        <span class="pln">${esc_(cortarNombre(j.nombre))}</span>
+      </div>`).join("")}</div>`).join("");
+
+  h += `<div class="plcampo">
+      <i class="borde"></i><i class="medio"></i><i class="circulo"></i>
+      <i class="area ab"></i><i class="area ar"></i>
+      ${filas}
+    </div>
+    <div class="plpie"><span>${o.esquema} · ESQUEMA INFERIDO</span><span>ATACA HACIA ARRIBA</span></div>
+    <p class="blurb" style="font-size:11.5px;color:var(--gris2);margin-top:10px">Este once sale de
+      quiénes vienen jugando más, no de una formación confirmada: ESPN no publica ni el equipo
+      titular ni el esquema. Sirve para ver la forma del equipo, no para dar por hecho quién entra.</p>`;
+  return h + jugadores(nombre, id);
+}
+
+/* Un nombre completo no entra abajo de un dorsal de 26px. Se corta al
+   apellido, que es como se nombra a un jugador en una cancha. */
+function cortarNombre(n){
+  const partes = String(n||"").trim().split(/\s+/);
+  return partes.length > 1 ? partes[partes.length-1] : (partes[0]||"");
+}
+
+/* El once probable que se dibuja en la cancha.
+
+   El prototipo de Claude Design traía un 4-3-3 fijo, escrito a mano
+   como placeholder mientras no hubiera datos ("la cancha se llena
+   sola", decía su propia nota). Ahora los datos existen, así que el
+   esquema se DERIVA: un equipo que juega con cinco defensores no
+   puede dibujarse igual que uno que juega con cuatro.
+
+   Es una inferencia, no un dato: ESPN no publica la formación ni los
+   titulares. Se aproxima por partidos jugados, y la pantalla lo dice
+   con todas las letras en vez de hacerlo pasar por confirmado. */
+function onceProbable(plantel){
+  const js = (plantel||[]).slice().sort((a,b)=> b.pj - a.pj);
+  const arq = js.filter(j=> j.pos === "G").slice(0,1);
+  const campo = js.filter(j=> j.pos !== "G");
+  const cupo = 11 - arq.length;
+
+  /* Los cupos por línea existen porque la fuente clasifica mal. Medido
+     sobre los 42 equipos del 2026-08-20: 13 daban esquemas que no
+     existen, el peor un 7-0-3 — siete defensores y ningún volante. Ese
+     equipo no juega así; ESPN etiqueta como defensor a gente que juega
+     de volante. Acotar a rangos reales corrige el error de la fuente,
+     no le impone una formación al equipo: adentro de esos rangos el
+     esquema lo siguen decidiendo los datos (4-4-2, 5-3-2 y 4-3-3 salen
+     todos de acá). */
+  const tope = {D:5, M:6, F:3}, piso = {D:3, M:2, F:1};
+  const tomar = (p, n) => campo.filter(j=> j.pos === p).slice(0, n);
+  /* La cuenta sale de los diez que MÁS JUEGAN, no del plantel entero:
+     mirar el plantel completo metería en la defensa titular al quinto
+     zaguero, que jugó cuatro partidos. */
+  const titulares = campo.slice(0, cupo);
+  const cuenta = {};
+  ["D","F","M"].forEach(p=>{
+    const hay = titulares.filter(j=> j.pos === p).length;
+    cuenta[p] = Math.min(Math.max(hay, piso[p]), tope[p]);
+  });
+  /* Los pisos y topes no tienen por qué sumar diez. Se ajusta el
+     mediocampo, que es la línea elástica de cualquier esquema. */
+  cuenta.M = Math.min(Math.max(cupo - cuenta.D - cuenta.F, piso.M), tope.M);
+  cuenta.D = Math.min(Math.max(cupo - cuenta.M - cuenta.F, piso.D), tope.D);
+
+  const def = tomar("D", cuenta.D), del = tomar("F", cuenta.F);
+  let med = tomar("M", cuenta.M);
+  /* Si no hay volantes de sobra (o ESPN no le puso posición a nadie),
+     el hueco lo llenan los mejores que quedaron sin usar. Un dibujo con
+     ocho jugadores miente sobre el equipo tanto como uno con cuatro
+     delanteros. */
+  const usados = new Set([...arq, ...def, ...del, ...med].map(j=> j.id));
+  const faltan = cupo - def.length - del.length - med.length;
+  if(faltan > 0) med = med.concat(campo.filter(j=> !usados.has(j.id)).slice(0, faltan));
+
+  return {
+    lineas: [arq, def, med, del],
+    esquema: [def.length, med.length, del.length].join("-"),
+    total: arq.length + def.length + med.length + del.length,
+  };
 }
 
 /* La lista de jugadores de un equipo, con los números que permiten pesar
@@ -2348,7 +2486,7 @@ function ir(v, extra){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
+  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-pleq],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
   if(!t) return;
   const d = t.dataset;
 
@@ -2361,6 +2499,7 @@ document.addEventListener("click", e=>{
   }
   else if(d.partido){ ir("partido", d.partido); }
   else if(d.tab){ TAB = d.tab; render(); }
+  else if(d.pleq){ PL_EQ = d.pleq; render(); }
   else if(d.volver){ ir("fecha"); }
   else if(d.filtro){ FILTRO = d.filtro; render(); }
   else if(d.estado){

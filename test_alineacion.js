@@ -32,6 +32,7 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
+              onceProbable,
               cargar: (ms, an, pl) => { MATCHES = ms; ANALISIS = an || {}; PLANTELES = pl || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
@@ -463,6 +464,93 @@ test("tabPlantel sin plantel cargado lo declara, no miente", ()=>{
   cierto(!html.includes("Hugo Rodallega"), "mostró un plantel que no corresponde");
   cierto(/todav[íi]a no|no tenemos|sin jugadores/i.test(html),
          "sin plantel cargado no declara el hueco");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   10. El once probable que dibuja la cancha. El prototipo de Claude
+   Design traía un 4-3-3 hardcodeado como placeholder, esperando datos.
+   Ahora los datos existen, así que el esquema se DERIVA de quién juega
+   en vez de inventarse — un equipo que juega con tres delanteros y uno
+   que juega con dos no pueden dibujarse igual.
+   ══════════════════════════════════════════════════════════════════ */
+const j_ = (id, pos, pj) => ({id:String(id), nombre:"J"+id, pos, pj,
+  goles:0, asist:0, peso_goles:0});
+
+test("onceProbable elige once jugadores, los de más partidos", ()=>{
+  const plantel = [
+    j_(1,"G",30), j_(2,"G",5),
+    j_(3,"D",30), j_(4,"D",29), j_(5,"D",28), j_(6,"D",27), j_(7,"D",4),
+    j_(8,"M",30), j_(9,"M",29), j_(10,"M",28), j_(11,"M",27),
+    j_(12,"F",30), j_(13,"F",29), j_(14,"F",3),
+  ];
+  const o = L.onceProbable(plantel);
+  const todos = o.lineas.flat();
+  igual(todos.length, 11, "no eligió once jugadores");
+  cierto(!todos.some(j=> j.id==="7" || j.id==="14" || j.id==="2"),
+         "metió a un suplente de pocos partidos en el once");
+});
+
+test("onceProbable pone exactamente un arquero, y es el que más jugó", ()=>{
+  const plantel = [
+    j_(1,"G",30), j_(2,"G",12),
+    j_(3,"D",30), j_(4,"D",29), j_(5,"D",28), j_(6,"D",27),
+    j_(8,"M",30), j_(9,"M",29), j_(10,"M",28), j_(11,"M",27),
+    j_(12,"F",30),
+  ];
+  const o = L.onceProbable(plantel);
+  igual(o.lineas[0].length, 1, "la línea del arquero no tiene exactamente uno");
+  igual(o.lineas[0][0].id, "1", "eligió al arquero suplente");
+  igual(o.lineas.flat().filter(j=> j.pos==="G").length, 1,
+        "hay más de un arquero en el once");
+});
+
+test("el esquema sale de los datos, no de un 4-3-3 fijo", ()=>{
+  /* Un equipo con cinco defensores y dos delanteros no puede dibujarse
+     como 4-3-3: sería inventar una formación que el equipo no usa. */
+  const cincoAtras = [
+    j_(1,"G",30),
+    j_(2,"D",30), j_(3,"D",29), j_(4,"D",28), j_(5,"D",27), j_(6,"D",26),
+    j_(7,"M",30), j_(8,"M",29), j_(9,"M",28),
+    j_(10,"F",30), j_(11,"F",29),
+  ];
+  igual(L.onceProbable(cincoAtras).esquema, "5-3-2");
+
+  const cuatroTres = [
+    j_(1,"G",30),
+    j_(2,"D",30), j_(3,"D",29), j_(4,"D",28), j_(5,"D",27),
+    j_(6,"M",30), j_(7,"M",29), j_(8,"M",28),
+    j_(9,"F",30), j_(10,"F",29), j_(11,"F",28),
+  ];
+  igual(L.onceProbable(cuatroTres).esquema, "4-3-3");
+});
+
+test("el esquema nunca sale imposible, aunque la fuente clasifique mal", ()=>{
+  /* Medido sobre los 42 equipos reales del 2026-08-20: 13 daban
+     esquemas que no existen en fútbol — el peor, 7-0-3. No es que esos
+     equipos jueguen así: es que ESPN etiqueta como defensor a gente que
+     juega de volante. Acotar a rangos reales corrige un error de la
+     fuente; no es imponerle una formación al equipo. */
+  const malClasificado = [
+    j_(1,"G",30),
+    j_(2,"D",30), j_(3,"D",29), j_(4,"D",28), j_(5,"D",27),
+    j_(6,"D",26), j_(7,"D",25), j_(8,"D",24),
+    j_(9,"F",30), j_(10,"F",29), j_(11,"F",28),
+  ];
+  const o = L.onceProbable(malClasificado);
+  const [d, m, f] = o.esquema.split("-").map(Number);
+  igual(d + m + f, 10, `${o.esquema}: los de campo no suman diez`);
+  cierto(d >= 3 && d <= 5, `${o.esquema}: ${d} defensores no es una defensa real`);
+  cierto(f >= 1 && f <= 3, `${o.esquema}: ${f} delanteros no es un ataque real`);
+  cierto(m >= 2, `${o.esquema}: un equipo no juega sin mediocampo`);
+  igual(o.lineas.flat().length, 11, "perdió jugadores al acotar las líneas");
+});
+
+test("onceProbable no rompe con un plantel incompleto", ()=>{
+  const o = L.onceProbable([j_(1,"G",5), j_(2,"D",4)]);
+  cierto(o && Array.isArray(o.lineas), "devolvió algo que no se puede dibujar");
+  cierto(o.lineas.flat().length <= 11, "inventó jugadores que no existen");
+  const vacio = L.onceProbable([]);
+  cierto(vacio && vacio.lineas.flat().length === 0, "un plantel vacío rompió");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

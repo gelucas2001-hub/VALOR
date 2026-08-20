@@ -20,6 +20,16 @@
 > directo por la Fase 2 (docs/design-handoff/ + reglas) — ver el orden
 > corregido al final de la sección 11.
 
+> **Actualización 2026-08-19 — leer antes que el resto del documento.**
+> La Fase 4 (sección 11, contenido) **ya no es un hueco**: hay una skill
+> versionada en el repo, `.claude/skills/valor-analisis-inclinacion/`,
+> que hace el research y escribe `inclinacion`/`contexto`/`veredicto`
+> siguiendo la regla de alineación. **Se edita ahí, no en Claude.ai.**
+> `data/analisis.json` tiene 12 partidos cargados (era 0). Ver la
+> sección 10 corregida y la 13bis, nueva, para el resto: qué se agregó
+> (`forma_general`, "Otros mercados", `divergen()`) y qué falta
+> (`equipos.json` sigue vacío).
+
 Este documento existe porque Lucas decidió rehacer el proyecto desde
 cero, pero **el motor matemático y el pipeline de datos están validados
 y medidos, y tirarlos sería destruir la única parte que costó semanas
@@ -798,6 +808,44 @@ carga del PWA ya no destella el color viejo.
 
 ---
 
+## 6quinsexies. Lo que se agregó el 2026-08-19
+
+**Problema de fondo que motivó todo esto:** la forma reciente de un
+equipo se calculaba *por competición*. Un equipo con partidos
+infrecuentes en copa (fase de grupos, 1 partido cada 3-4 semanas)
+mostraba una "forma" de meses de antigüedad el día del análisis, sin
+nada de su actualidad real en el torneo local.
+
+- **`forma_general()`** (`actualizar.py`) — junta la forma de todas las
+  competiciones de un equipo y ordena por fecha real, no por
+  competición. Para equipos en Libertadores/Sudamericana, reutiliza los
+  resultados de liga doméstica que `ancla_de()` **ya pedía** para el
+  ancla — sin pedido de red nuevo. Verificado en vivo: Cerro Porteño
+  (Paraguay) pasó de mostrar forma vieja/duplicada a forma real y
+  fresca de `par.1`. 23/23 tests en `test_forma.py`.
+- **"Otros mercados"** (`index.html`, `otrosMercados()`) — la escalera
+  de riesgo solo mostraba 3 mercados; si los tres caían en la misma
+  familia (ej. los tres de Goles), el usuario no veía 1X2 ni Ambos
+  Marcan. La sección nueva muestra **todos** los mercados calculados,
+  reusando los mismos valores — nunca agrega una segunda marca dorada.
+- **`divergen()`** (`index.html`) — si la lectura del modelo (`lectura().lean`)
+  y la inclinación humana (`inclinacionDe()`) señalan direcciones
+  distintas, la pestaña Pronósticos ahora lo dice explícito en vez de
+  mostrar los dos sin explicar por qué no coinciden.
+- **La skill de análisis pasó a vivir en el repo**, versionada:
+  `.claude/skills/valor-analisis-inclinacion/SKILL.md`. Se corrigieron
+  dos errores reales que Lucas encontró leyendo el contenido generado
+  (no un chequeo automático): una racha de Platense mal leída — el DT
+  nuevo ya había jugado dos partidos, no "seguía acomodándose" — y una
+  búsqueda floja que no identificó a Coudet como DT de River. Se
+  agregó **principio I** a la skill: cruzar cualquier afirmación de
+  racha/momento contra el propio `formH_general`/`formA_general` del
+  expediente antes de escribirla, porque ese dato ya está cargado y
+  fechado — no hace falta que lo confirme una búsqueda externa que
+  puede estar vieja o incompleta.
+
+---
+
 ## 7. Arquitectura de información
 
 **Tres destinos: Fecha · Registro · Método.**
@@ -896,27 +944,35 @@ Verificado sobre 206 partidos: 206 de 206 cierran con esta lectura, solo
 
 ---
 
-## 10. El hueco más grande del producto
+## 10. El hueco más grande del producto — resuelto para analisis.json, sigue abierto para equipos.json
 
-**`data/analisis.json` y `data/equipos.json` están vacíos** — solo
-tienen el esquema.
+**Estado 2026-08-19:** `data/analisis.json` ya no está vacío — 12
+partidos cargados, generados por la skill versionada (ver 13bis).
+`data/equipos.json` **sigue vacío**, solo el esquema.
 
-Esto no es un detalle: **la regla de alineación depende de que haya
-análisis cargado.** Sin contenido, la app funciona pero nunca marca
-valor. Es un pronosticador honesto pero mudo en la mitad de su promesa.
+El riesgo que motivó esta sección **se resolvió, no desapareció solo**:
+la generación de `inclinacion`/`contexto`/`veredicto` ya no depende de
+que Lucas escriba a mano cada partido. La hace esta misma terminal,
+corriendo `.claude/skills/valor-analisis-inclinacion/SKILL.md` vía el
+research (`expediente.py` + WebSearch). **Ojo con el nombre parecido:**
+existe (o puede volver a existir) una skill instalada localmente como
+`analisis-futbol-valor-json`, que NO es esta — esquema de salida
+distinto, sin `inclinacion`, y espera como input los números del propio
+modelo, lo que rompería la regla de alineación si se usara sin querer.
+Antes de correr el research, confirmar el nombre exacto.
 
-**Y hay un riesgo de producto sin resolver:** la app promete "análisis de
-expertos en lenguaje simple", y hoy eso es Lucas escribiendo a mano. Si
-un día hay seis partidos y no tiene tiempo de escribir seis análisis, la
-app vuelve a ser una calculadora bonita. **Esto hay que resolverlo antes
-de que sea urgente.**
-
-Existe una skill, `analisis-futbol-valor-json`, pensada para generar ese
-contenido. **Está desalineada y hay que arreglarla antes de usarla:** su
-esquema de salida (`hallazgo_principal`, `factores_clave`, `texto_corto`)
-no coincide con el de `analisis.json` (`contexto`, `veredicto`), y no
-produce una **lectura direccional**, que es justamente lo que la regla de
-alineación necesita. Hay que agregarle un campo tipo `inclinacion`.
+**Lo que sí sigue siendo un hueco real:** `equipos.json` (plantel,
+stats por jugador). Técnicamente viable —`/roster` de ESPN trae goles,
+asistencias, remates y faltas reales por jugador en un solo pedido por
+equipo— pero no construido. `injuries`/`status` del mismo endpoint están
+presentes en el esquema pero vacíos/no mantenidos para ligas
+sudamericanas (verificado en vivo: Valentín Carboni de Racing, con
+rotura de ligamento cruzado real, aparece `Active`/`[]`). Tampoco sirve
+para identificar DT actual — el campo `coach` del roster es una lista
+histórica vieja (verificado: devolvió a Gorosito/Cappa/Lopez/Almeyda
+para River en vez de Coudet, el DT real desde marzo). Esos dos —
+lesiones y DT— siguen necesitando research humano/IA, no automatizables
+con esta API.
 
 ---
 
@@ -968,15 +1024,18 @@ fase está terminado.
     desborde horizontal a 375px.
 12bis. ~~Cambio de guardia `index.html`~~ **HECHO.** Ver 6quinquies.
 
-**Fase 4 — Contenido: es lo que queda, y es el cuello de botella**
-13. Arreglar la skill `analisis-futbol-valor-json` (agregarle
-    `inclinacion`). **Lucas la está tocando él.** La semántica está
-    cerrada: `"L"`/`"E"`/`"V"`/`null`, sale de la lectura cualitativa y
-    **nunca** del modelo — si se deriva de Dixon-Coles, la regla de
-    alineación compara el modelo contra sí mismo y el texto de Método
-    pasa a ser falso.
-14. Cargar análisis real de al menos 3-4 partidos y confirmar que la
-    marca de valor aparece.
+**Fase 4 — Contenido: HECHA para analisis.json (2026-08-19), sigue abierta para equipos.json**
+13. ~~Arreglar la skill de análisis~~ **HECHO — pero es otra skill.**
+    La vieja `analisis-futbol-valor-json` quedó descartada, no
+    arreglada: nació con el modelo como input, lo que viola la regla de
+    alineación de raíz. La skill real es
+    `.claude/skills/valor-analisis-inclinacion/SKILL.md`, versionada en
+    el repo, con `expediente.py` como fuente objetiva y research propio
+    (WebSearch). Ver la sección 6quinsexies.
+14. ~~Cargar análisis real~~ **HECHO — 12 partidos en `data/analisis.json`.**
+    La marca de valor aparece donde `inclinacion` coincide con el
+    mercado. Pendiente, no urgente: `data/equipos.json` sigue vacío
+    (ver sección 10).
 
 **Fase 5 — Modelo (opcional, con tiempo)**
 15. Calibrar `rho` para copas.

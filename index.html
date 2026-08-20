@@ -1397,8 +1397,8 @@ function tarjeta(m, orden=0, total=0){
     </div>
     <div class="perf"></div>
     <div class="cuerpo">
-      ${eq(m.homeLogo, m.home, m.formH)}
-      ${eq(m.awayLogo, m.away, m.formA)}
+      ${eq(m.homeLogo, m.home, m.formH_general)}
+      ${eq(m.awayLogo, m.away, m.formA_general)}
       <div class="odds">
         ${casilla("L","Local",mk.local)}
         ${casilla("E","Empate",mk.empate)}
@@ -1793,8 +1793,8 @@ function tabHistorial(m){
     </div>`;
   };
   let h = `<div class="banda banda2">Últimos cinco<em>DEL MÁS VIEJO AL DE HOY</em></div>`;
-  h += bloque(m.home, m.homeLogo, m.formH);
-  h += bloque(m.away, m.awayLogo, m.formA);
+  h += bloque(m.home, m.homeLogo, m.formH_general);
+  h += bloque(m.away, m.awayLogo, m.formA_general);
 
   h += `<div class="banda banda2">Cruces directos<em>${m.h2h&&m.h2h.length?String(m.h2h.length).padStart(2,"0"):"00"}</em></div>`;
   if(m.h2h && m.h2h.length){

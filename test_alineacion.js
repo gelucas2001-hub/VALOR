@@ -31,7 +31,7 @@ function cargarLogica(){
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
-              mercados, otrosMercados, divergen,
+              mercados, otrosMercados, divergen, tabHistorial, tarjeta,
               cargar: (ms, an) => { MATCHES = ms; ANALISIS = an || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
@@ -383,6 +383,43 @@ test("divergen() no marca nada cuando el análisis coincide con el modelo, o no 
   PARTIDOS.forEach(m=>{
     igual(L.divergen(m), null, `${m.home} vs ${m.away} sin análisis y igual divergió:`);
   });
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   8. Historial debe mostrar la forma actual, no solo la de la propia
+   competición. Un equipo con partidos infrecuentes en copa (fase de
+   grupos) tenía forma vieja de meses en pantalla mientras el archivo
+   ya traía forma_general fresca — el bug era no usarla acá.
+   ══════════════════════════════════════════════════════════════════ */
+test("tabHistorial usa formH_general/formA_general, no formH/formA", ()=>{
+  const m = {
+    id: "test1", home: "Local FC", away: "Visita FC",
+    homeLogo: "", awayLogo: "", h2h: [],
+    formH: [{d:"01/08/26", r:"W", marcador:"1-0", local:true, rival:"Viejo Rival"}],
+    formA: [{d:"01/08/26", r:"W", marcador:"1-0", local:true, rival:"Viejo Rival"}],
+    formH_general: [{d:"16/08/26", r:"L", marcador:"0-1", local:true, rival:"Rival Fresco"}],
+    formA_general: [{d:"16/08/26", r:"L", marcador:"0-1", local:true, rival:"Rival Fresco"}],
+  };
+  const html = L.tabHistorial(m);
+  cierto(html.includes("Rival Fresco"), "tabHistorial no muestra el rival de formH_general/formA_general");
+  cierto(!html.includes("Viejo Rival"), "tabHistorial sigue mostrando formH/formA en vez de la forma general");
+});
+
+test("tarjeta (portada) usa formH_general/formA_general, no formH/formA", ()=>{
+  const base = PARTIDOS[0];
+  const m = { ...base,
+    formH: [{d:"01/08/26", r:"W", marcador:"1-0", local:true, rival:"Viejo Rival"}],
+    formA: [{d:"01/08/26", r:"W", marcador:"1-0", local:true, rival:"Viejo Rival"}],
+    formH_general: [{d:"16/08/26", r:"L", marcador:"0-1", local:true, rival:"Rival Fresco"}],
+    formA_general: [{d:"16/08/26", r:"L", marcador:"0-1", local:true, rival:"Rival Fresco"}],
+  };
+  L.cargar(PARTIDOS, {});
+  const html = L.tarjeta(m, 0, 1);
+  // tiraForma no imprime el nombre del rival, solo G/E/P: formH da "W"
+  // (letra G), formH_general da "L" (letra P). Si sigue leyendo formH,
+  // la tarjeta muestra "G" donde debería mostrar "P".
+  const franja = html.slice(html.indexOf('class="eq"'));
+  cierto(franja.includes('class="p">P<'), "la tarjeta de portada sigue mostrando formH/formA, no la forma general");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

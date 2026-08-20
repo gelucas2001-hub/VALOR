@@ -42,6 +42,11 @@ RESULTADOS = Path("data/resultados.json")   # "espn401841517" -> "2-1", en la
                             # de grupos). Sale gratis: los marcadores ya
                             # vienen en el mismo pedido que calibra fuerzas.
 PLANTELES = Path("data/planteles.json")     # team_id -> plantel con números
+# team_id -> promedios por partido (remates, córners, posesión, tackles...).
+# Sale del mismo /summary que ya se pide para los córners del modelo: no
+# cuesta un pedido más, cuesta dejar de descartar 22 de las 25 métricas.
+ESTADISTICAS = Path("data/estadisticas.json")
+ESTADISTICAS_N = 8                          # sobre cuántos partidos promedia
                             # (PJ, goles, asistencias, remates, tarjetas por
                             # jugador) sumando liga doméstica + competición.
                             # Es un archivo APARTE de data/equipos.json a
@@ -532,6 +537,111 @@ def peso_goleador(plantel):
     return {j["id"]: j.get("goles", 0) / total for j in plantel}
 
 
+# Lo que se guarda de cada partido, y con qué nombre nuestro. ESPN manda
+# 25 métricas por equipo en el mismo response que ya se pedía para los
+# córners: se estaban tirando 22. Esto no cuesta un pedido más.
+#
+# No están todas a propósito — pases largos, centros y porcentajes
+# derivados se pueden recalcular o no se miran nunca, y cada campo extra
+# es peso que baja un teléfono.
+METRICAS_PARTIDO = {
+    "remates":   "totalShots",
+    "al_arco":   "shotsOnTarget",
+    "corners":   "wonCorners",
+    "faltas":    "foulsCommitted",
+    "posesion":  "possessionPct",
+    "offsides":  "offsides",
+    "atajadas":  "saves",
+    "tackles":   "totalTackles",
+    "pases":     "accuratePasses",
+    "pases_tot": "totalPasses",
+}
+
+
+def estadisticas_equipo(crudo):
+    """{team_id: {metrica: valor}} de UN partido, desde /summary.
+
+    Lo que ESPN no trajo queda en None, nunca en 0: en pantalla un cero
+    medido y un dato ausente se leen igual, y no son lo mismo. Un equipo
+    que remató 0 veces es una noticia; uno cuyo partido no tiene
+    estadísticas cargadas, no.
+    """
+    out = {}
+    for t in (crudo or {}).get("boxscore", {}).get("teams", []) or []:
+        tid = t.get("team", {}).get("id", "")
+        s = {x.get("name"): x.get("displayValue") for x in t.get("statistics", [])}
+
+        def num(k):
+            v = s.get(k)
+            if v is None:
+                return None
+            try:
+                # Viene como texto y en algunas ligas con símbolo o
+                # separador de miles: "58.7%", "1,203".
+                return float(str(v).replace("%", "").replace(",", ""))
+            except (TypeError, ValueError):
+                return None
+
+        fila = {n: num(k) for n, k in METRICAS_PARTIDO.items()}
+        am, ro = num("yellowCards"), num("redCards")
+        fila["tarjetas"] = None if am is None and ro is None else (am or 0) + (ro or 0)
+        out[tid] = fila
+    return out
+
+
+def aplanar_resumen(crudo):
+    """Lo mismo, más los tres nombres que el motor viene usando desde
+    antes (`corners`/`fouls`/`cards`). Se mantienen porque
+    `disciplina_equipo()` los lee y los λ dependen de eso: renombrarlos
+    rompería el modelo en silencio."""
+    out = estadisticas_equipo(crudo)
+    for tid, f in out.items():
+        f["fouls"] = f["faltas"]
+        f["cards"] = f["tarjetas"]
+    return out
+
+
+def promedios_equipo(partidos):
+    """Promedio de cada métrica sobre los partidos que SÍ la traen.
+
+    Dividir por la cantidad de partidos contaría los ausentes como cero y
+    hundiría el promedio de cualquier equipo con un partido sin cargar.
+    Por eso cada métrica lleva su propio divisor, y se informa en `n`.
+    """
+    if not partidos:
+        return {}
+    claves = list(METRICAS_PARTIDO) + ["tarjetas"]
+    out, cuentas = {}, {}
+    for k in claves:
+        vals = [p[k] for p in partidos if p.get(k) is not None]
+        if not vals:
+            continue
+        out[k] = round(sum(vals) / len(vals), 2)
+        cuentas[k] = len(vals)
+    if not out:
+        return {}
+    out["pj"] = len(partidos)
+    out["n"] = cuentas
+    return out
+
+
+def resumen_completo(datos):
+    """¿Este registro del caché se escribió con las métricas nuevas?
+
+    El caché vive en disco entre corridas. Los registros anteriores al
+    2026-08-20 guardaban tres campos; si se dan por buenos, las métricas
+    nuevas no se pueblan nunca, porque el partido ya está cacheado y no
+    se vuelve a pedir. Se reconocen por la ausencia de la clave nueva.
+
+    Un partido que ESPN devolvió sin estadísticas cargadas SÍ cuenta como
+    completo: se pidió, no había nada, y volver a pedirlo en cada corrida
+    sería pagar para siempre por un dato que no existe.
+    """
+    if not datos:
+        return False
+    return all("remates" in v for v in datos.values())
+
+
 def resumen_partido(slug, event_id):
     """/summary?event=: córners ganados, faltas cometidas y tarjetas de
     cada equipo en ESE partido puntual. No hay versión masiva de esto
@@ -546,18 +656,10 @@ def resumen_partido(slug, event_id):
     # para siempre: ese partido no se volvía a pedir nunca más.
     if not d or "boxscore" not in d:
         return None
-    out = {}
-    for t in (d.get("boxscore") or {}).get("teams", []) or []:
-        tid = t.get("team", {}).get("id", "")
-        s = {x.get("name"): x.get("displayValue") for x in t.get("statistics", [])}
-        def num(k):
-            try:
-                return float(s.get(k))
-            except (TypeError, ValueError):
-                return None
-        out[tid] = {"fouls": num("foulsCommitted"), "corners": num("wonCorners"),
-                    "cards": (num("yellowCards") or 0) + (num("redCards") or 0)}
-    return out
+    # Guarda las 25 métricas del response, no las 3 que usa el modelo:
+    # el pedido ya está hecho y pagado, tirar el resto era gratis pero
+    # también era perderlo.
+    return aplanar_resumen(d)
 
 
 def disciplina_equipo(slug, team_id, jugados, cache_resumen, n=DISCIPLINA_N):
@@ -570,15 +672,28 @@ def disciplina_equipo(slug, team_id, jugados, cache_resumen, n=DISCIPLINA_N):
         eid = p.get("id")
         if not eid:
             continue
-        if eid not in cache_resumen:
+        # Un registro escrito antes de que se guardaran las 25 métricas
+        # sirve para los λ pero no para lo que se muestra. Se re-pide una
+        # sola vez: después queda completo y no se vuelve a pagar.
+        if eid not in cache_resumen or not resumen_completo(cache_resumen[eid]):
             r = resumen_partido(slug, eid)
-            if r is None:      # pedido fallido: no cachear, reintentar la próxima
-                continue
-            cache_resumen[eid] = r
+            if r is None:
+                # Pedido fallido: no se cachea, se reintenta la próxima.
+                # Si había un registro viejo, se usa igual — sirve para
+                # los λ, y perderlo por un error de red sería cambiar un
+                # dato bueno por ninguno.
+                if eid not in cache_resumen:
+                    continue
+            else:
+                cache_resumen[eid] = r
         datos = cache_resumen[eid].get(str(team_id))
         if not datos or datos["fouls"] is None or datos["corners"] is None:
             continue
-        corners += datos["corners"]; fouls += datos["fouls"]; cards += datos["cards"]
+        # `cards` puede venir en None desde que el resumen distingue
+        # "no hay dato" de "cero": un partido sin tarjetas cargadas no
+        # puede contarse como un partido sin tarjetas.
+        corners += datos["corners"]; fouls += datos["fouls"]
+        cards += datos.get("cards") or 0
         cuenta += 1
     if cuenta == 0:
         return None
@@ -907,6 +1022,7 @@ def main():
     factores = factores_liga()   # cuánto vale cada liga, para comparar entre países
     cache_roster = {}    # (slug, team_id) -> plantel, para no pedir dos veces
     apariciones = []     # (team_id, slug del partido, slug de su liga)
+    jugados_equipo = {}  # team_id -> sus últimos partidos jugados
     planteles = {}       # team_id -> plantel fusionado, se escribe a disco
     cache_ligas = {}     # team_id -> slug de su liga local (persiste en disco)
     if CACHE_LIGAS.exists():
@@ -1066,6 +1182,11 @@ def main():
             # (partido sin boxscore, equipo nuevo), cae a la constante.
             disc_loc = disciplina_equipo(slug, loc_id, jug_loc, cache_resumen)
             disc_vis = disciplina_equipo(slug, vis_id, jug_vis, cache_resumen)
+            # Los mismos partidos sirven después para las estadísticas que
+            # se muestran. Se anotan acá porque acá se tienen; los números
+            # ya quedaron en cache_resumen, así que armarlas es gratis.
+            for _tid, _jug in ((loc_id, jug_loc), (vis_id, jug_vis)):
+                jugados_equipo.setdefault(str(_tid), _jug)
             if disc_loc and disc_vis:
                 c_loc, f_loc, t_loc, _ = disc_loc
                 c_vis, f_vis, t_vis, _ = disc_vis
@@ -1132,6 +1253,21 @@ def main():
             j["peso_goles"] = round(peso.get(j["id"], 0.0), 3)
         planteles[tid] = js
 
+    # ── estadísticas de equipo ───────────────────────────────────────
+    # Cero pedidos nuevos: los partidos ya están en cache_resumen porque
+    # disciplina_equipo() los pidió para calcular los córners del modelo.
+    # Esto solo lee lo que quedó guardado y lo promedia.
+    estadisticas = {}
+    for tid, jug in jugados_equipo.items():
+        filas = []
+        for p in jug[:ESTADISTICAS_N]:
+            datos = (cache_resumen.get(p.get("id")) or {}).get(tid)
+            if datos:
+                filas.append(datos)
+        pr = promedios_equipo(filas)
+        if pr:
+            estadisticas[tid] = pr
+
     # ── memoria de marcadores ────────────────────────────────────────
     # Se acumula: lo que ya está no se toca ni se borra. Un marcador de
     # un partido jugado no cambia, y si ESPN un día deja de devolver una
@@ -1176,6 +1312,14 @@ def main():
     }, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"· planteles: {len(planteles)} equipos, "
           f"{sum(len(v) for v in planteles.values())} jugadores")
+
+    ESTADISTICAS.write_text(json.dumps({
+        "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
+        "sobre": ESTADISTICAS_N,
+        "equipos": estadisticas,
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"· estadísticas: {len(estadisticas)} equipos "
+          f"(promedio de hasta {ESTADISTICAS_N} partidos, sin pedidos extra)")
 
     CACHE_DISCIPLINA.parent.mkdir(parents=True, exist_ok=True)
     CACHE_DISCIPLINA.write_text(json.dumps(cache_resumen, ensure_ascii=False), encoding="utf-8")

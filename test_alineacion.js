@@ -33,7 +33,8 @@ function cargarLogica(){
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS,
-              cargar: (ms, an, pl) => { MATCHES = ms; ANALISIS = an || {}; PLANTELES = pl || {}; }});
+              cargar: (ms, an, pl, es) => { MATCHES = ms; ANALISIS = an || {};
+                                            PLANTELES = pl || {}; ESTADISTICAS = es || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
 }
@@ -718,6 +719,64 @@ test("el selector de metrica esta en la pantalla y marca la elegida", ()=>{
   const html = L.tabPlantel(m);
   L.METRICAS.forEach(x=>
     cierto(html.includes(`data-plmet="${x.k}"`), `no se puede elegir ${x.k}`));
+});
+
+/* ── 13. Las estadísticas del equipo ────────────────────────────────
+   Vienen del mismo /summary que el pipeline ya pedía para los córners
+   del modelo: 25 métricas por equipo y por partido, de las que se
+   guardaban 3. Acá se muestran los promedios, enfrentando a los dos
+   equipos — que es como se lee esto ("¿quién remata más?"). */
+
+const EST_DEMO = {
+  "99": {remates: 14.2, al_arco: 5.1, corners: 6.4, faltas: 11.0,
+         posesion: 57.3, tarjetas: 2.1, atajadas: 2.4, offsides: 2.0,
+         tackles: 15.0, pases: 380, pases_tot: 470,
+         pj: 8, n: {remates: 8, al_arco: 8, corners: 6, faltas: 8}},
+  "98": {remates: 8.5, al_arco: 2.6, corners: 3.1, faltas: 14.5,
+         posesion: 42.7, tarjetas: 3.4, atajadas: 4.1, offsides: 1.0,
+         tackles: 19.0, pases: 240, pases_tot: 350,
+         pj: 8, n: {remates: 8, al_arco: 8, corners: 8, faltas: 8}},
+};
+
+test("tabPlantel enfrenta las estadisticas de los dos equipos", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
+  const html = L.tabPlantel(m);
+  cierto(html.includes("14.2") && html.includes("8.5"),
+         "no muestra los remates de los dos equipos");
+  cierto(html.includes("57.3") || html.includes("57"),
+         "no muestra la posesión");
+});
+
+test("no muestra estadisticas si falta la de alguno de los dos", ()=>{
+  /* Enfrentar un número contra un hueco invita a compararlos igual.
+     Si de un equipo no hay dato, no hay comparación que mostrar. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"55" };
+  L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
+  const html = L.tabPlantel(m);
+  cierto(!html.includes("14.2"), "comparó contra un equipo sin datos");
+});
+
+test("declara sobre cuantos partidos se promedio", ()=>{
+  /* Un promedio de 8 partidos y uno de 2 no valen lo mismo, y la app no
+     puede presentarlos igual: es el principio de muestra chica que le
+     exigimos al análisis. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
+  cierto(/8 partidos|últimos 8/i.test(L.tabPlantel(m)),
+         "no dice sobre cuántos partidos está promediando");
+});
+
+test("una metrica que ningun equipo tiene no se dibuja vacia", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const sinPosesion = {
+    "99": {remates: 10, pj: 5, n: {remates: 5}},
+    "98": {remates: 12, pj: 5, n: {remates: 5}},
+  };
+  L.cargar(PARTIDOS, {}, PL_DEMO, sinPosesion);
+  const html = L.tabPlantel(m);
+  cierto(!/posesi[óo]n/i.test(html), "dibujó una fila sin ningún dato");
+  cierto(html.includes("10") && html.includes("12"), "perdió la que sí tenía");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

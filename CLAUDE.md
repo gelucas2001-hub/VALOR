@@ -30,6 +30,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `calibrar_ligas.py` | Cuánto vale cada liga sudamericana | A mano, cada tanto |
 | `data/*.json` | Lo escribe el cron. **No editar a mano** | Nadie |
 | `data/planteles.json` | Jugadores con números (PJ, goles, peso goleador). Lo escribe el cron | Nadie |
+| `data/estadisticas.json` | Promedios por partido de cada equipo (remates, córners, posesión, tackles). Sale del mismo `/summary` que ya se pedía: cero pedidos extra | Nadie |
 | `data/analisis.json`, `data/equipos.json` | Análisis cualitativo, carga manual. El cron **nunca** los toca | A mano |
 
 ## El research de `analisis.json` — con qué skill, y con cuál no

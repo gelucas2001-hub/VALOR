@@ -608,6 +608,20 @@ a{color:inherit}
 .jhead span:first-child{flex:1}
 .jhead span:not(:first-child){flex:0 0 34px;text-align:right}
 .jhead span:last-child{flex:0 0 40px}
+/* Comparativa entre los dos equipos: el número de cada uno a los
+   costados y qué se mide en el medio. El más alto en tinta plena — no
+   quiere decir "mejor" (más faltas no es mejor), solo cuál hace más. */
+.cmphead{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);
+         font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris3);
+         padding-bottom:6px}
+.cmphead span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmphead span:last-child{text-align:right}
+.cmp{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea)}
+.cmp b{font-family:var(--mono);font-size:13px;color:var(--gris2);flex:0 0 46px}
+.cmp b:last-child{text-align:right}
+.cmp b.alto{color:var(--tinta)}
+.cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:9px;
+          letter-spacing:.05em;text-transform:uppercase;color:var(--gris3)}
 
 /* ── herramientas ──────────────────────────────────────────────── */
 .expl{font-size:11.5px;line-height:1.55;color:#7E7360;margin:0 0 18px}
@@ -864,6 +878,7 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
    dos canchas para comparar. El prototipo ya lo resolvía con un par de
    botones arriba; se conserva esa decisión. */
 let PL_EQ="H";
+let ESTADISTICAS={}, EST_SOBRE=0;   /* promedios por equipo, del cron */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
 let BOOT_ERROR=null, CARGANDO=true;
@@ -2067,8 +2082,53 @@ function tabPlantel(m){
       <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
       <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
     </div>`;
+  h += comparativa(m);
   h += cancha(m);
   return h + `</div>`;
+}
+
+/* Lo que cada equipo hace por partido, uno al lado del otro. Sale del
+   mismo /summary que el pipeline ya pedía para los córners del modelo:
+   traía 25 métricas por equipo y se guardaban 3.
+
+   Enfrentadas y no en dos listas sueltas porque así es como se leen: la
+   pregunta es "quién remata más", no "cuánto remata este". */
+const COMPARA = [
+  {k:"remates",  et:"Remates"},
+  {k:"al_arco",  et:"Al arco"},
+  {k:"corners",  et:"Córners"},
+  {k:"posesion", et:"Posesión", suf:"%"},
+  {k:"faltas",   et:"Faltas"},
+  {k:"tarjetas", et:"Tarjetas"},
+  {k:"offsides", et:"Offsides"},
+  {k:"atajadas", et:"Atajadas"},
+];
+
+function comparativa(m){
+  const L_ = ESTADISTICAS[String(m.homeId)], V_ = ESTADISTICAS[String(m.awayId)];
+  /* Con los datos de uno solo, enfrentar un número contra un hueco
+     invita a compararlos igual. Sin los dos no hay comparación. */
+  if(!L_ || !V_) return "";
+  const filas = COMPARA.map(x=>{
+    const a = L_[x.k], b = V_[x.k];
+    if(a == null && b == null) return "";   // ninguno la tiene: no se dibuja
+    const num = v => v == null ? "—" : v.toFixed(1) + (x.suf||"");
+    /* El más alto en tinta plena. No es "el mejor" — más faltas no es
+       mejor — es solo cuál de los dos hace más de esa cosa. */
+    const may = (a||0) >= (b||0);
+    return `<div class="cmp">
+      <b class="${may?"alto":""}">${num(a)}</b>
+      <span>${x.et}</span>
+      <b class="${!may?"alto":""}">${num(b)}</b>
+    </div>`;
+  }).join("");
+  if(!filas) return "";
+  const n = Math.min(L_.pj||0, V_.pj||0);
+  return `<div class="lbl sep">Por partido</div>
+    <div class="cmphead"><span>${esc_(m.home)}</span><span>${esc_(m.away)}</span></div>
+    <div class="cmplist">${filas}</div>
+    <p class="fuente">Promedio de los últimos ${n} partidos de cada uno. Es lo que
+      hicieron, no una predicción de este partido.</p>`;
 }
 
 /* La cancha con el once probable, como la diseñó el prototipo: un
@@ -2660,15 +2720,18 @@ async function traer(url, def){
   ACTUALIZADO = p.actualizado || "";
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
-  const [an, eq, rs, pl] = await Promise.all([
+  const [an, eq, rs, pl, es] = await Promise.all([
     traer("data/analisis.json", {}), traer("data/equipos.json", {}),
     traer("data/resultados.json", {}), traer("data/planteles.json", {}),
+    traer("data/estadisticas.json", {}),
   ]);
   RESULTADOS = rs || {};
   /* la clave _schema es documentación del formato, no un partido */
   ANALISIS = an || {}; delete ANALISIS._schema;
   EQUIPOS  = eq || {}; delete EQUIPOS._schema;
   PLANTELES = (pl && pl.equipos) || {};
+  ESTADISTICAS = (es && es.equipos) || {};
+  EST_SOBRE = (es && es.sobre) || 0;
 
   desdeHash();
   render();

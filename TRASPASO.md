@@ -923,6 +923,58 @@ convierte— en vez de listar nombres.
 
 ---
 
+## 6octies. Estadísticas de equipo y de jugador (2026-08-20)
+
+Lucas empezó a mirar apuestas de estadísticas y pidió **ver** los
+números — remates, remates al arco, faltas, córners, tarjetas,
+atajadas. Explícitamente **no** como mercado: no hay línea, no hay
+cuota, no hay Kelly. Es información, no una recomendación.
+
+**El hallazgo:** el pipeline ya pedía `/summary?event=` de cada partido
+para calcular los córners del modelo (`disciplina_equipo`), y ese mismo
+response trae **25 métricas por equipo**. Se guardaban 3 y se tiraban
+22. Sumarlas no costó un pedido más — costó dejar de descartar.
+
+- `estadisticas_equipo()` aplana las métricas de un partido. Lo que
+  ESPN no trajo queda en `None`, **nunca en 0**: en pantalla un cero
+  medido y un dato ausente se leen igual, y un equipo que remató 0
+  veces es una noticia mientras que un partido sin estadísticas
+  cargadas no lo es.
+- `promedios_equipo()` promedia cada métrica sobre los partidos que sí
+  la traen, con divisor propio por métrica — dividir por el total
+  contaría los ausentes como cero y hundiría el promedio.
+- `data/estadisticas.json`: promedios de hasta 8 partidos por equipo.
+
+**Cuidado con el caché.** `data/cache_disciplina.json` persiste entre
+corridas y los registros anteriores a este cambio tienen solo tres
+campos. Si se dan por buenos, las métricas nuevas no se pueblan nunca
+(el partido ya está cacheado y no se vuelve a pedir). `resumen_completo()`
+los detecta y los re-pide **una sola vez**. Si ese re-pedido falla, se
+sigue usando el registro viejo: sirve para los λ, y perderlo por un
+error de red sería cambiar un dato bueno por ninguno.
+
+**Lo que casi rompe el motor:** `cards` pasó a poder ser `None`, y
+`disciplina_equipo()` le sumaba sin chequear. Lo agarró un test antes
+de correr. Los λ dependen de esa función.
+
+**En la app:**
+- Pestaña Plantel, por jugador: se elige una estadística y la lista se
+  ordena por ella. En 375px no entran ocho columnas, y además la
+  pregunta real es "quién remata más acá". La columna que importa es el
+  **promedio por partido**: en Aldosivi, Acevedo tiene más remates
+  totales (16) pero Sosa remata más seguido (2.6 contra 1.2).
+- Comparativa entre los dos equipos, enfrentada. Si falta el dato de
+  uno **no se muestra nada**: enfrentar un número contra un hueco
+  invita a compararlos igual.
+
+**El límite, que hay que decirlo:** no hay cuotas de props de jugador.
+ESPN no las da. Con esto se puede pronosticar un número, no decir si
+una línea está mal precificada. Mientras esto sea "para ver", no
+importa; si algún día se quiere marcar valor acá, lo primero es
+conseguir cuotas, no más estadísticas.
+
+---
+
 ## 7. Arquitectura de información
 
 **Tres destinos: Fecha · Registro · Método.**

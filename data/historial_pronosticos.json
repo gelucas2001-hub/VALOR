@@ -789,5 +789,25 @@
    2.9
   ],
   "resultado": null
+ },
+ "espn401874147": {
+  "fecha": "2026-08-25",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Independiente del Valle",
+  "away": "Deportes Tolima",
+  "lh": 1.895,
+  "la": 0.541,
+  "rho": 0.0,
+  "mercado": [
+   0.5911,
+   0.2475,
+   0.1614
+  ],
+  "cuotas": [
+   1.57,
+   3.75,
+   5.75
+  ],
+  "resultado": null
  }
 }

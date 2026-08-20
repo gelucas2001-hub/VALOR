@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-20T02:54",
- "requests": 594,
+ "actualizado": "2026-08-20T04:34",
+ "requests": 766,
  "partidos": [
   {
    "id": "espn401874142",
@@ -243,7 +243,7 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.56,
-    "empate": 3.8,
+    "empate": 3.85,
     "visitante": 6.5,
     "totalLinea": 2.5,
     "totalOver": 2.1,
@@ -494,14 +494,14 @@
    "ciudad": "Asunción",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.5,
-    "empate": 3.1,
-    "visitante": 3.0,
+    "local": 2.55,
+    "empate": 3.05,
+    "visitante": 2.9,
     "totalLinea": 2.5,
     "totalOver": 2.3,
     "totalUnder": 1.59,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.4,
+    "hcapLocal": 2.45,
     "hcapVisitante": 1.5
    },
    "preload": {}
@@ -1214,11 +1214,11 @@
    "ciudad": "Rio de Janeiro",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.1,
+    "local": 1.11,
     "empate": 10.5,
     "visitante": 18.0,
     "totalLinea": 3.5,
-    "totalOver": 1.67,
+    "totalOver": 1.69,
     "totalUnder": 2.1,
     "hcapLinea": -2.5,
     "hcapLocal": 1.87,
@@ -1591,7 +1591,7 @@
     "empate": 3.0,
     "visitante": 2.2,
     "totalLinea": 1.5,
-    "totalOver": 1.53,
+    "totalOver": 1.54,
     "totalUnder": 2.35,
     "hcapLinea": 0.5,
     "hcapLocal": 1.62,
@@ -7059,7 +7059,18 @@
    "grupo": "Group H",
    "estadio": "Estadio Banco Guayaquil",
    "ciudad": "Quito",
-   "mercado": null,
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.57,
+    "empate": 3.75,
+    "visitante": 5.75,
+    "totalLinea": 2.5,
+    "totalOver": 2.05,
+    "totalUnder": null,
+    "hcapLinea": -0.5,
+    "hcapLocal": 1.51,
+    "hcapVisitante": 2.25
+   },
    "preload": {}
   },
   {

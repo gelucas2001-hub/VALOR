@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-20T04:34",
- "requests": 766,
+ "actualizado": "2026-08-20T08:23",
+ "requests": 594,
  "partidos": [
   {
    "id": "espn401874142",
@@ -1587,15 +1587,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.55,
-    "empate": 3.0,
-    "visitante": 2.2,
+    "local": 3.4,
+    "empate": 2.95,
+    "visitante": 2.3,
     "totalLinea": 1.5,
-    "totalOver": 1.54,
+    "totalOver": 1.53,
     "totalUnder": 2.35,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.62,
-    "hcapVisitante": 2.1
+    "hcapLocal": 1.59,
+    "hcapVisitante": 2.15
    },
    "preload": {}
   },
@@ -7065,10 +7065,10 @@
     "empate": 3.75,
     "visitante": 5.75,
     "totalLinea": 2.5,
-    "totalOver": 2.05,
-    "totalUnder": null,
+    "totalOver": 2.1,
+    "totalUnder": 1.62,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.51,
+    "hcapLocal": 1.53,
     "hcapVisitante": 2.25
    },
    "preload": {}

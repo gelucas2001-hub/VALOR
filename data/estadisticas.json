@@ -1,61 +1,7 @@
 {
- "actualizado": "2026-08-21T14:07",
+ "actualizado": "2026-08-21T19:18",
  "sobre": 8,
  "equipos": {
-  "9739": {
-   "remates": 16.33,
-   "al_arco": 4.33,
-   "corners": 5.25,
-   "faltas": 11.67,
-   "posesion": 41.13,
-   "offsides": 3.0,
-   "atajadas": 2.33,
-   "tackles": 21.67,
-   "pases": 207.33,
-   "pases_tot": 311.33,
-   "tarjetas": 2.0,
-   "pj": 4,
-   "n": {
-    "remates": 3,
-    "al_arco": 3,
-    "corners": 4,
-    "faltas": 3,
-    "posesion": 3,
-    "offsides": 3,
-    "atajadas": 3,
-    "tackles": 3,
-    "pases": 3,
-    "pases_tot": 3,
-    "tarjetas": 3
-   }
-  },
-  "20": {
-   "remates": 13.75,
-   "al_arco": 3.75,
-   "corners": 4.5,
-   "faltas": 14.5,
-   "posesion": 48.65,
-   "offsides": 2.75,
-   "atajadas": 3.75,
-   "tackles": 22.0,
-   "pases": 262.0,
-   "pases_tot": 355.0,
-   "tarjetas": 1.75,
-   "pj": 4,
-   "n": {
-    "remates": 4,
-    "al_arco": 4,
-    "corners": 4,
-    "faltas": 4,
-    "posesion": 4,
-    "offsides": 4,
-    "atajadas": 4,
-    "tackles": 4,
-    "pases": 4,
-    "pases_tot": 4,
-    "tarjetas": 4
-   }
-  },
   "19685": {
    "remates": 8.67,
    "al_arco": 1.33,

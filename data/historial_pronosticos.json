@@ -824,5 +824,25 @@
    5.75
   ],
   "resultado": null
+ },
+ "espn401903295": {
+  "fecha": "2026-08-26",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "River Plate",
+  "away": "Independiente Santa Fe",
+  "lh": 0.723,
+  "la": 0.592,
+  "rho": 0.0,
+  "mercado": [
+   0.6251,
+   0.2419,
+   0.133
+  ],
+  "cuotas": [
+   1.49,
+   3.85,
+   7.0
+  ],
+  "resultado": null
  }
 }

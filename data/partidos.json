@@ -1,1231 +1,7 @@
 {
- "actualizado": "2026-08-20T19:46",
- "requests": 594,
+ "actualizado": "2026-08-21T14:07",
+ "requests": 496,
  "partidos": [
-  {
-   "id": "espn401874142",
-   "date": "2026-08-20",
-   "comp": "CONMEBOL Libertadores",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/58.png",
-   "hora": "19:00",
-   "home": "Liga de Quito",
-   "away": "Mirassol",
-   "homeId": "4816",
-   "awayId": "9169",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4816.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9169.png",
-   "lh": 1.14,
-   "la": 0.712,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 8.7,
-   "cornersH": 4.7,
-   "fouls": 22.3,
-   "cards": 4.0,
-   "note": "λ calculados ajustando ataque/defensa de Liga de Quito y Mirassol contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Mirassol",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "d": "26/05/26",
-     "r": "W",
-     "rival": "Always Ready",
-     "local": true,
-     "marcador": "3-2"
-    },
-    {
-     "d": "21/05/26",
-     "r": "W",
-     "rival": "Lanús",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "d": "07/05/26",
-     "r": "L",
-     "rival": "Mirassol",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "28/04/26",
-     "r": "L",
-     "rival": "Lanús",
-     "local": false,
-     "marcador": "0-1"
-    }
-   ],
-   "formA": [
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Liga de Quito",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "d": "26/05/26",
-     "r": "L",
-     "rival": "Lanús",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "20/05/26",
-     "r": "W",
-     "rival": "Always Ready",
-     "local": false,
-     "marcador": "2-1"
-    },
-    {
-     "d": "07/05/26",
-     "r": "W",
-     "rival": "Liga de Quito",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "d": "29/04/26",
-     "r": "W",
-     "rival": "Always Ready",
-     "local": true,
-     "marcador": "2-0"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "17/08/26",
-     "r": "W",
-     "rival": "Aucas",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Mirassol",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "d": "08/08/26",
-     "r": "L",
-     "rival": "Independiente del Valle",
-     "local": true,
-     "marcador": "0-2"
-    },
-    {
-     "d": "04/08/26",
-     "r": "W",
-     "rival": "Delfín",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "27/07/26",
-     "r": "W",
-     "rival": "Barcelona SC",
-     "local": false,
-     "marcador": "1-0"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "16/08/26",
-     "r": "L",
-     "rival": "Flamengo",
-     "local": true,
-     "marcador": "1-5"
-    },
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Liga de Quito",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "d": "09/08/26",
-     "r": "L",
-     "rival": "Cruzeiro",
-     "local": false,
-     "marcador": "1-3"
-    },
-    {
-     "d": "29/07/26",
-     "r": "W",
-     "rival": "Remo",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "25/07/26",
-     "r": "D",
-     "rival": "Vasco da Gama",
-     "local": false,
-     "marcador": "1-1"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "13/08/26",
-     "h": "Mirassol",
-     "a": "Liga de Quito",
-     "s": "1-1"
-    },
-    {
-     "d": "07/05/26",
-     "h": "Mirassol",
-     "a": "Liga de Quito",
-     "s": "2-0"
-    },
-    {
-     "d": "15/04/26",
-     "h": "Liga de Quito",
-     "a": "Mirassol",
-     "s": "2-0"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Liga de Quito",
-     "id": "4816",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4816.png",
-     "pts": 12,
-     "pj": 6,
-     "g": 4,
-     "e": 0,
-     "p": 2,
-     "gf": 8
-    },
-    {
-     "t": "Mirassol",
-     "id": "9169",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9169.png",
-     "pts": 12,
-     "pj": 6,
-     "g": 4,
-     "e": 0,
-     "p": 2,
-     "gf": 7
-    },
-    {
-     "t": "Lanús",
-     "id": "12",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-     "pts": 9,
-     "pj": 6,
-     "g": 3,
-     "e": 0,
-     "p": 3,
-     "gf": 3
-    },
-    {
-     "t": "Always Ready",
-     "id": "19425",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19425.png",
-     "pts": 3,
-     "pj": 6,
-     "g": 1,
-     "e": 0,
-     "p": 5,
-     "gf": 7
-    }
-   ],
-   "grupo": "Group G",
-   "estadio": "Rodrigo Paz Delgado",
-   "ciudad": "Quito",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 1.57,
-    "empate": 3.8,
-    "visitante": 6.0,
-    "totalLinea": 2.5,
-    "totalOver": 2.1,
-    "totalUnder": 1.69,
-    "hcapLinea": -0.5,
-    "hcapLocal": 1.53,
-    "hcapVisitante": 2.35
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401902740",
-   "date": "2026-08-20",
-   "comp": "CONMEBOL Sudamericana",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1208.png",
-   "hora": "19:00",
-   "home": "Club Olimpia",
-   "away": "Vasco da Gama",
-   "homeId": "2675",
-   "awayId": "3454",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2675.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3454.png",
-   "lh": 1.104,
-   "la": 0.696,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 11.7,
-   "cornersH": 5.0,
-   "fouls": 18.7,
-   "cards": 4.0,
-   "note": "λ calculados ajustando ataque/defensa de Club Olimpia y Vasco da Gama contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Vasco da Gama",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "27/05/26",
-     "r": "W",
-     "rival": "Audax Italiano",
-     "local": true,
-     "marcador": "3-1"
-    },
-    {
-     "d": "20/05/26",
-     "r": "W",
-     "rival": "Vasco da Gama",
-     "local": true,
-     "marcador": "3-1"
-    },
-    {
-     "d": "07/05/26",
-     "r": "W",
-     "rival": "Barracas Central",
-     "local": false,
-     "marcador": "2-1"
-    },
-    {
-     "d": "30/04/26",
-     "r": "L",
-     "rival": "Vasco da Gama",
-     "local": false,
-     "marcador": "0-3"
-    }
-   ],
-   "formA": [
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Club Olimpia",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "29/07/26",
-     "r": "W",
-     "rival": "Independiente Medellín",
-     "local": true,
-     "marcador": "1-0"
-    },
-    {
-     "d": "22/07/26",
-     "r": "D",
-     "rival": "Independiente Medellín",
-     "local": false,
-     "marcador": "2-2"
-    },
-    {
-     "d": "27/05/26",
-     "r": "W",
-     "rival": "Barracas Central",
-     "local": true,
-     "marcador": "3-0"
-    },
-    {
-     "d": "20/05/26",
-     "r": "L",
-     "rival": "Club Olimpia",
-     "local": false,
-     "marcador": "1-3"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "16/08/26",
-     "r": "W",
-     "rival": "Sportivo Ameliano",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Vasco da Gama",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "08/08/26",
-     "r": "L",
-     "rival": "2 de Mayo",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "02/08/26",
-     "r": "W",
-     "rival": "Rubio Ñú",
-     "local": true,
-     "marcador": "5-0"
-    },
-    {
-     "d": "29/07/26",
-     "r": "L",
-     "rival": "Nacional Asunción",
-     "local": false,
-     "marcador": "0-2"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "16/08/26",
-     "r": "L",
-     "rival": "Santos",
-     "local": true,
-     "marcador": "0-3"
-    },
-    {
-     "d": "13/08/26",
-     "r": "D",
-     "rival": "Club Olimpia",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "09/08/26",
-     "r": "D",
-     "rival": "Bahia",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "29/07/26",
-     "r": "W",
-     "rival": "Independiente Medellín",
-     "local": true,
-     "marcador": "1-0"
-    },
-    {
-     "d": "25/07/26",
-     "r": "D",
-     "rival": "Mirassol",
-     "local": true,
-     "marcador": "1-1"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "13/08/26",
-     "h": "Vasco da Gama",
-     "a": "Club Olimpia",
-     "s": "0-0"
-    },
-    {
-     "d": "20/05/26",
-     "h": "Club Olimpia",
-     "a": "Vasco da Gama",
-     "s": "3-1"
-    },
-    {
-     "d": "30/04/26",
-     "h": "Vasco da Gama",
-     "a": "Club Olimpia",
-     "s": "3-0"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Club Olimpia",
-     "id": "2675",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2675.png",
-     "pts": 13,
-     "pj": 6,
-     "g": 4,
-     "e": 1,
-     "p": 1,
-     "gf": 10
-    },
-    {
-     "t": "Vasco da Gama",
-     "id": "3454",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3454.png",
-     "pts": 10,
-     "pj": 6,
-     "g": 3,
-     "e": 1,
-     "p": 2,
-     "gf": 10
-    },
-    {
-     "t": "Audax Italiano",
-     "id": "4138",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4138.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 2,
-     "e": 1,
-     "p": 3,
-     "gf": 7
-    },
-    {
-     "t": "Barracas Central",
-     "id": "10060",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
-     "pts": 3,
-     "pj": 6,
-     "g": 0,
-     "e": 3,
-     "p": 3,
-     "gf": 2
-    }
-   ],
-   "grupo": "Group G",
-   "estadio": "Defensores del Chaco",
-   "ciudad": "Asunción",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 2.55,
-    "empate": 3.05,
-    "visitante": 2.9,
-    "totalLinea": 2.5,
-    "totalOver": 2.3,
-    "totalUnder": 1.59,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.45,
-    "hcapVisitante": 1.5
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401902449",
-   "date": "2026-08-20",
-   "comp": "CONMEBOL Sudamericana",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1208.png",
-   "hora": "19:00",
-   "home": "Macará",
-   "away": "Santos",
-   "homeId": "18439",
-   "awayId": "2674",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18439.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2674.png",
-   "lh": 1.871,
-   "la": 1.234,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 11.3,
-   "cornersH": 5.7,
-   "fouls": 22.3,
-   "cards": 6.0,
-   "note": "λ calculados ajustando ataque/defensa de Macará y Santos contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (8 y 9 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "13/08/26",
-     "r": "L",
-     "rival": "Santos",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "29/05/26",
-     "r": "D",
-     "rival": "América de Cali",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "22/05/26",
-     "r": "D",
-     "rival": "Alianza Atlético",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "07/05/26",
-     "r": "D",
-     "rival": "Tigre",
-     "local": true,
-     "marcador": "2-2"
-    },
-    {
-     "d": "01/05/26",
-     "r": "W",
-     "rival": "Alianza Atlético",
-     "local": false,
-     "marcador": "2-0"
-    }
-   ],
-   "formA": [
-    {
-     "d": "13/08/26",
-     "r": "W",
-     "rival": "Macará",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "29/07/26",
-     "r": "W",
-     "rival": "UCV FC",
-     "local": true,
-     "marcador": "4-2"
-    },
-    {
-     "d": "22/07/26",
-     "r": "W",
-     "rival": "UCV FC",
-     "local": false,
-     "marcador": "4-1"
-    },
-    {
-     "d": "27/05/26",
-     "r": "W",
-     "rival": "Deportivo Cuenca",
-     "local": true,
-     "marcador": "3-0"
-    },
-    {
-     "d": "20/05/26",
-     "r": "D",
-     "rival": "San Lorenzo",
-     "local": true,
-     "marcador": "2-2"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "18/08/26",
-     "r": "D",
-     "rival": "Universidad Católica (Quito)",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "d": "13/08/26",
-     "r": "L",
-     "rival": "Santos",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "09/08/26",
-     "r": "W",
-     "rival": "Barcelona SC",
-     "local": false,
-     "marcador": "2-1"
-    },
-    {
-     "d": "02/08/26",
-     "r": "W",
-     "rival": "Guayaquil City FC",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "26/07/26",
-     "r": "W",
-     "rival": "Aucas",
-     "local": false,
-     "marcador": "4-1"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "16/08/26",
-     "r": "W",
-     "rival": "Vasco da Gama",
-     "local": false,
-     "marcador": "3-0"
-    },
-    {
-     "d": "13/08/26",
-     "r": "W",
-     "rival": "Macará",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "09/08/26",
-     "r": "L",
-     "rival": "Athletico-PR",
-     "local": true,
-     "marcador": "0-2"
-    },
-    {
-     "d": "29/07/26",
-     "r": "W",
-     "rival": "UCV FC",
-     "local": true,
-     "marcador": "4-2"
-    },
-    {
-     "d": "25/07/26",
-     "r": "D",
-     "rival": "Chapecoense",
-     "local": true,
-     "marcador": "2-2"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "13/08/26",
-     "h": "Santos",
-     "a": "Macará",
-     "s": "2-1"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Macará",
-     "id": "18439",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18439.png",
-     "pts": 10,
-     "pj": 6,
-     "g": 2,
-     "e": 4,
-     "p": 0,
-     "gf": 6
-    },
-    {
-     "t": "Tigre",
-     "id": "7767",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
-     "pts": 9,
-     "pj": 6,
-     "g": 2,
-     "e": 3,
-     "p": 1,
-     "gf": 8
-    },
-    {
-     "t": "América de Cali",
-     "id": "8109",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8109.png",
-     "pts": 9,
-     "pj": 6,
-     "g": 2,
-     "e": 3,
-     "p": 1,
-     "gf": 6
-    },
-    {
-     "t": "Alianza Atlético",
-     "id": "5267",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5267.png",
-     "pts": 2,
-     "pj": 6,
-     "g": 0,
-     "e": 2,
-     "p": 4,
-     "gf": 2
-    }
-   ],
-   "grupo": "Group A",
-   "estadio": "Estadio Bellavista",
-   "ciudad": "Ambato",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 2.3,
-    "empate": 3.25,
-    "visitante": 3.35,
-    "totalLinea": 2.5,
-    "totalOver": 2.05,
-    "totalUnder": 1.71,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.1,
-    "hcapVisitante": 1.65
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401874149",
-   "date": "2026-08-20",
-   "comp": "CONMEBOL Libertadores",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/58.png",
-   "hora": "21:30",
-   "home": "Corinthians",
-   "away": "Rosario Central",
-   "homeId": "874",
-   "awayId": "17",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/874.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-   "lh": 0.578,
-   "la": 0.49,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 9.3,
-   "cornersH": 3.3,
-   "fouls": 21.0,
-   "cards": 4.7,
-   "note": "λ calculados ajustando ataque/defensa de Corinthians y Rosario Central contra toda la red de cruces de CONMEBOL Libertadores esta temporada (7 y 7 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "14/08/26",
-     "r": "D",
-     "rival": "Rosario Central",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "28/05/26",
-     "r": "L",
-     "rival": "Platense",
-     "local": true,
-     "marcador": "0-2"
-    },
-    {
-     "d": "22/05/26",
-     "r": "D",
-     "rival": "Peñarol",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "d": "07/05/26",
-     "r": "D",
-     "rival": "Independiente Santa Fe",
-     "local": false,
-     "marcador": "1-1"
-    },
-    {
-     "d": "01/05/26",
-     "r": "W",
-     "rival": "Peñarol",
-     "local": true,
-     "marcador": "2-0"
-    }
-   ],
-   "formA": [
-    {
-     "d": "14/08/26",
-     "r": "D",
-     "rival": "Corinthians",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "27/05/26",
-     "r": "L",
-     "rival": "Independiente del Valle",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "19/05/26",
-     "r": "W",
-     "rival": "UCV FC",
-     "local": true,
-     "marcador": "4-0"
-    },
-    {
-     "d": "05/05/26",
-     "r": "W",
-     "rival": "Libertad",
-     "local": true,
-     "marcador": "1-0"
-    },
-    {
-     "d": "29/04/26",
-     "r": "W",
-     "rival": "UCV FC",
-     "local": false,
-     "marcador": "3-0"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "16/08/26",
-     "r": "L",
-     "rival": "Cruzeiro",
-     "local": true,
-     "marcador": "1-2"
-    },
-    {
-     "d": "14/08/26",
-     "r": "D",
-     "rival": "Rosario Central",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "09/08/26",
-     "r": "W",
-     "rival": "Red Bull Bragantino",
-     "local": false,
-     "marcador": "2-0"
-    },
-    {
-     "d": "30/07/26",
-     "r": "D",
-     "rival": "Athletico-PR",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "26/07/26",
-     "r": "D",
-     "rival": "Bahia",
-     "local": false,
-     "marcador": "1-1"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "16/08/26",
-     "r": "W",
-     "rival": "Barracas Central",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "d": "14/08/26",
-     "r": "D",
-     "rival": "Corinthians",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "07/08/26",
-     "r": "W",
-     "rival": "Aldosivi",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "02/08/26",
-     "r": "W",
-     "rival": "River Plate",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "d": "29/07/26",
-     "r": "D",
-     "rival": "Racing Club",
-     "local": true,
-     "marcador": "0-0"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "14/08/26",
-     "h": "Rosario Central",
-     "a": "Corinthians",
-     "s": "0-0"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Corinthians",
-     "id": "874",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/874.png",
-     "pts": 11,
-     "pj": 6,
-     "g": 3,
-     "e": 2,
-     "p": 1,
-     "gf": 8
-    },
-    {
-     "t": "Platense",
-     "id": "7764",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
-     "pts": 10,
-     "pj": 6,
-     "g": 3,
-     "e": 1,
-     "p": 2,
-     "gf": 8
-    },
-    {
-     "t": "Independiente Santa Fe",
-     "id": "5488",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5488.png",
-     "pts": 8,
-     "pj": 6,
-     "g": 2,
-     "e": 2,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Peñarol",
-     "id": "2683",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2683.png",
-     "pts": 3,
-     "pj": 6,
-     "g": 0,
-     "e": 3,
-     "p": 3,
-     "gf": 4
-    }
-   ],
-   "grupo": "Group E",
-   "estadio": "Neo Química Arena",
-   "ciudad": "Sao Paulo",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 2.25,
-    "empate": 2.8,
-    "visitante": 3.95,
-    "totalLinea": 1.5,
-    "totalOver": 1.69,
-    "totalUnder": 2.1,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.15,
-    "hcapVisitante": 1.62
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401902741",
-   "date": "2026-08-20",
-   "comp": "CONMEBOL Sudamericana",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1208.png",
-   "hora": "21:30",
-   "home": "Botafogo",
-   "away": "Cienciano del Cusco",
-   "homeId": "6086",
-   "awayId": "3372",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6086.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3372.png",
-   "lh": 1.679,
-   "la": 2.237,
-   "rho": 0.0,
-   "conf": 65,
-   "corners": 9.7,
-   "cornersH": 3.0,
-   "fouls": 20.3,
-   "cards": 3.3,
-   "note": "λ calculados ajustando ataque/defensa de Botafogo y Cienciano del Cusco contra toda la red de cruces de CONMEBOL Sudamericana esta temporada (7 y 10 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "14/08/26",
-     "r": "L",
-     "rival": "Cienciano del Cusco",
-     "local": false,
-     "marcador": "1-6"
-    },
-    {
-     "d": "27/05/26",
-     "r": "W",
-     "rival": "Caracas FC",
-     "local": false,
-     "marcador": "3-1"
-    },
-    {
-     "d": "21/05/26",
-     "r": "W",
-     "rival": "Independiente Petrolero",
-     "local": false,
-     "marcador": "3-0"
-    },
-    {
-     "d": "07/05/26",
-     "r": "W",
-     "rival": "Racing Club",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "28/04/26",
-     "r": "W",
-     "rival": "Independiente Petrolero",
-     "local": true,
-     "marcador": "3-0"
-    }
-   ],
-   "formA": [
-    {
-     "d": "14/08/26",
-     "r": "W",
-     "rival": "Botafogo",
-     "local": true,
-     "marcador": "6-1"
-    },
-    {
-     "d": "30/07/26",
-     "r": "W",
-     "rival": "Lanús",
-     "local": true,
-     "marcador": "4-0"
-    },
-    {
-     "d": "23/07/26",
-     "r": "L",
-     "rival": "Lanús",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "27/05/26",
-     "r": "D",
-     "rival": "Juventud",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "d": "21/05/26",
-     "r": "L",
-     "rival": "Atlético-MG",
-     "local": false,
-     "marcador": "0-2"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "16/08/26",
-     "r": "L",
-     "rival": "Vitória",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "14/08/26",
-     "r": "L",
-     "rival": "Cienciano del Cusco",
-     "local": false,
-     "marcador": "1-6"
-    },
-    {
-     "d": "09/08/26",
-     "r": "D",
-     "rival": "Fluminense",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "d": "26/07/26",
-     "r": "W",
-     "rival": "Cruzeiro",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "d": "23/07/26",
-     "r": "D",
-     "rival": "Vitória",
-     "local": true,
-     "marcador": "0-0"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "16/08/26",
-     "r": "D",
-     "rival": "Deportivo Garcilaso",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "14/08/26",
-     "r": "W",
-     "rival": "Botafogo",
-     "local": true,
-     "marcador": "6-1"
-    },
-    {
-     "d": "06/08/26",
-     "r": "L",
-     "rival": "Alianza Atlético",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "02/08/26",
-     "r": "W",
-     "rival": "Universitario",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "d": "30/07/26",
-     "r": "W",
-     "rival": "Lanús",
-     "local": true,
-     "marcador": "4-0"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "14/08/26",
-     "h": "Cienciano del Cusco",
-     "a": "Botafogo",
-     "s": "6-1"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Botafogo",
-     "id": "6086",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6086.png",
-     "pts": 16,
-     "pj": 6,
-     "g": 5,
-     "e": 1,
-     "p": 0,
-     "gf": 15
-    },
-    {
-     "t": "Caracas FC",
-     "id": "4811",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4811.png",
-     "pts": 9,
-     "pj": 6,
-     "g": 2,
-     "e": 3,
-     "p": 1,
-     "gf": 9
-    },
-    {
-     "t": "Racing Club",
-     "id": "15",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
-     "pts": 8,
-     "pj": 6,
-     "g": 2,
-     "e": 2,
-     "p": 2,
-     "gf": 11
-    },
-    {
-     "t": "Independiente Petrolero",
-     "id": "20889",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/20889.png",
-     "pts": 0,
-     "pj": 6,
-     "g": 0,
-     "e": 0,
-     "p": 6,
-     "gf": 3
-    }
-   ],
-   "grupo": "Group E",
-   "estadio": "Joao Havelange Stadium",
-   "ciudad": "Rio de Janeiro",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 1.11,
-    "empate": 10.5,
-    "visitante": 18.0,
-    "totalLinea": 3.5,
-    "totalOver": 1.69,
-    "totalUnder": 2.1,
-    "hcapLinea": -2.5,
-    "hcapLocal": 1.87,
-    "hcapVisitante": 1.83
-   },
-   "preload": {}
-  },
   {
    "id": "espn401841522",
    "date": "2026-08-21",
@@ -1238,7 +14,7 @@
    "awayId": "20",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
-   "lh": 1.143,
+   "lh": 1.144,
    "la": 0.995,
    "rho": 0.05,
    "conf": 75,
@@ -1587,15 +363,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.45,
+    "local": 2.8,
     "empate": 3.0,
-    "visitante": 2.3,
+    "visitante": 2.75,
     "totalLinea": 1.5,
-    "totalOver": 1.56,
-    "totalUnder": 2.35,
+    "totalOver": 1.53,
+    "totalUnder": 2.45,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.59,
-    "hcapVisitante": 2.2
+    "hcapLocal": 1.44,
+    "hcapVisitante": 2.55
    },
    "preload": {}
   },
@@ -1611,8 +387,8 @@
    "awayId": "18",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
-   "lh": 0.667,
-   "la": 0.7,
+   "lh": 0.669,
+   "la": 0.702,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.3,
@@ -1948,14 +724,14 @@
    "ciudad": "Rio Cuarto",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.15,
+    "local": 3.35,
     "empate": 2.75,
     "visitante": 2.55,
     "totalLinea": 1.5,
-    "totalOver": 1.65,
-    "totalUnder": 2.15,
+    "totalOver": 1.74,
+    "totalUnder": 2.0,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.48,
+    "hcapLocal": 1.51,
     "hcapVisitante": 2.4
    },
    "preload": {}
@@ -1972,8 +748,8 @@
    "awayId": "2975",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-   "lh": 0.671,
-   "la": 0.639,
+   "lh": 0.673,
+   "la": 0.64,
    "rho": 0.05,
    "conf": 75,
    "corners": 15.3,
@@ -2332,7 +1108,7 @@
     "visitante": 2.85,
     "totalLinea": 1.5,
     "totalOver": 1.51,
-    "totalUnder": 2.35,
+    "totalUnder": 2.4,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
     "hcapVisitante": 1.45
@@ -2351,8 +1127,8 @@
    "awayId": "11972",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-   "lh": 1.27,
-   "la": 1.118,
+   "lh": 1.269,
+   "la": 1.117,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.7,
@@ -2693,7 +1469,7 @@
     "visitante": 4.2,
     "totalLinea": 2.5,
     "totalOver": 2.35,
-    "totalUnder": 1.51,
+    "totalUnder": 1.53,
     "hcapLinea": -0.5,
     "hcapLocal": 1.83,
     "hcapVisitante": 1.83
@@ -2712,7 +1488,7 @@
    "awayId": "9744",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-   "lh": 1.456,
+   "lh": 1.455,
    "la": 0.935,
    "rho": 0.05,
    "conf": 75,
@@ -3062,14 +1838,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.95,
-    "empate": 3.25,
-    "visitante": 4.1,
+    "empate": 3.2,
+    "visitante": 4.0,
     "totalLinea": 2.5,
     "totalOver": 2.3,
-    "totalUnder": 1.56,
+    "totalUnder": 1.54,
     "hcapLinea": -0.5,
     "hcapLocal": 1.87,
-    "hcapVisitante": 1.8
+    "hcapVisitante": 1.77
    },
    "preload": {}
   },
@@ -3085,8 +1861,8 @@
    "awayId": "17702",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
-   "lh": 1.058,
-   "la": 0.7,
+   "lh": 1.059,
+   "la": 0.702,
    "rho": 0.05,
    "conf": 75,
    "corners": 7.3,
@@ -3458,7 +2234,7 @@
    "awayId": "235",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
-   "lh": 1.193,
+   "lh": 1.194,
    "la": 0.86,
    "rho": 0.05,
    "conf": 75,
@@ -3821,7 +2597,7 @@
     "totalUnder": 1.56,
     "hcapLinea": -0.5,
     "hcapLocal": 2.1,
-    "hcapVisitante": 1.62
+    "hcapVisitante": 1.61
    },
    "preload": {}
   },
@@ -3838,7 +2614,7 @@
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
    "lh": 1.215,
-   "la": 0.63,
+   "la": 0.631,
    "rho": 0.05,
    "conf": 75,
    "corners": 6.0,
@@ -4204,8 +2980,8 @@
    "awayId": "8",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
-   "lh": 1.452,
-   "la": 1.28,
+   "lh": 1.451,
+   "la": 1.278,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.3,
@@ -4571,8 +3347,8 @@
    "awayId": "8950",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
-   "lh": 1.767,
-   "la": 0.63,
+   "lh": 1.763,
+   "la": 0.631,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.7,
@@ -4926,15 +3702,15 @@
    "ciudad": "Córdoba",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.77,
+    "local": 1.8,
     "empate": 3.3,
-    "visitante": 4.7,
+    "visitante": 4.8,
     "totalLinea": 2.5,
-    "totalOver": 2.35,
+    "totalOver": 2.45,
     "totalUnder": 1.5,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.71,
-    "hcapVisitante": 1.91
+    "hcapLocal": 1.74,
+    "hcapVisitante": 1.95
    },
    "preload": {}
   },
@@ -4950,8 +3726,8 @@
    "awayId": "21",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
-   "lh": 0.856,
-   "la": 0.822,
+   "lh": 0.857,
+   "la": 0.823,
    "rho": 0.05,
    "conf": 75,
    "corners": 10.0,
@@ -5305,15 +4081,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.61,
-    "empate": 3.5,
+    "local": 1.62,
+    "empate": 3.55,
     "visitante": 5.75,
     "totalLinea": 2.5,
-    "totalOver": 2.25,
-    "totalUnder": 1.54,
+    "totalOver": 2.3,
+    "totalUnder": 1.56,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.56,
-    "hcapVisitante": 2.15
+    "hcapLocal": 1.57,
+    "hcapVisitante": 2.2
    },
    "preload": {}
   },
@@ -5690,15 +4466,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.0,
-    "empate": 2.8,
-    "visitante": 2.55,
+    "local": 3.2,
+    "empate": 2.9,
+    "visitante": 2.45,
     "totalLinea": 1.5,
-    "totalOver": 1.51,
+    "totalOver": 1.53,
     "totalUnder": 2.35,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.45,
-    "hcapVisitante": 2.4
+    "hcapLocal": 1.51,
+    "hcapVisitante": 2.3
    },
    "preload": {}
   },
@@ -5714,8 +4490,8 @@
    "awayId": "11989",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
-   "lh": 1.167,
-   "la": 0.515,
+   "lh": 1.166,
+   "la": 0.516,
    "rho": 0.05,
    "conf": 75,
    "corners": 9.0,
@@ -6073,7 +4849,7 @@
     "empate": 3.6,
     "visitante": 6.5,
     "totalLinea": 2.5,
-    "totalOver": 2.4,
+    "totalOver": 2.45,
     "totalUnder": 1.48,
     "hcapLinea": -0.5,
     "hcapLocal": 1.5,
@@ -6093,8 +4869,8 @@
    "awayId": "3",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
-   "lh": 1.112,
-   "la": 1.284,
+   "lh": 1.113,
+   "la": 1.281,
    "rho": 0.05,
    "conf": 75,
    "corners": 10.7,
@@ -6442,11 +5218,11 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.65,
-    "empate": 2.75,
-    "visitante": 2.95,
+    "local": 2.6,
+    "empate": 2.85,
+    "visitante": 2.9,
     "totalLinea": 1.5,
-    "totalOver": 1.53,
+    "totalOver": 1.51,
     "totalUnder": 2.3,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
@@ -6466,8 +5242,8 @@
    "awayId": "17",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-   "lh": 1.042,
-   "la": 1.418,
+   "lh": 1.043,
+   "la": 1.415,
    "rho": 0.05,
    "conf": 75,
    "corners": 7.7,
@@ -6588,6 +5364,13 @@
    ],
    "formA_general": [
     {
+     "d": "21/08/26",
+     "r": "L",
+     "rival": "Corinthians",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
      "d": "16/08/26",
      "r": "W",
      "rival": "Barracas Central",
@@ -6614,13 +5397,6 @@
      "rival": "River Plate",
      "local": false,
      "marcador": "1-0"
-    },
-    {
-     "d": "29/07/26",
-     "r": "D",
-     "rival": "Racing Club",
-     "local": true,
-     "marcador": "0-0"
     }
    ],
    "h2h": [
@@ -6826,7 +5602,7 @@
     "visitante": 2.9,
     "totalLinea": 2.5,
     "totalOver": 2.4,
-    "totalUnder": 1.49,
+    "totalUnder": 1.48,
     "hcapLinea": -0.5,
     "hcapLocal": 2.45,
     "hcapVisitante": 1.43
@@ -6845,8 +5621,8 @@
    "awayId": "5489",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
-   "lh": 1.895,
-   "la": 0.541,
+   "lh": 1.852,
+   "la": 0.531,
    "rho": 0.0,
    "conf": 65,
    "corners": 12.3,
@@ -7061,15 +5837,15 @@
    "ciudad": "Quito",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.57,
-    "empate": 3.75,
-    "visitante": 5.75,
+    "local": 1.54,
+    "empate": 3.8,
+    "visitante": 6.0,
     "totalLinea": 2.5,
     "totalOver": 2.1,
     "totalUnder": 1.62,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.53,
-    "hcapVisitante": 2.25
+    "hcapLocal": 1.49,
+    "hcapVisitante": 2.3
    },
    "preload": {}
   },
@@ -7220,8 +5996,8 @@
    "awayId": "5488",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5488.png",
-   "lh": 0.749,
-   "la": 0.571,
+   "lh": 0.723,
+   "la": 0.592,
    "rho": 0.0,
    "conf": 55,
    "corners": 7.0,
@@ -7420,6 +6196,276 @@
    "grupo": "Group H",
    "estadio": "Estadio Más Monumental",
    "ciudad": "Buenos Aires",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401874402",
+   "date": "2026-08-27",
+   "comp": "Copa Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2320.png",
+   "hora": "19:00",
+   "home": "Estudiantes de La Plata",
+   "away": "Barracas Central",
+   "homeId": "8",
+   "awayId": "10060",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": 0.0,
+   "conf": 45,
+   "corners": 6.0,
+   "cornersH": 2.0,
+   "fouls": 20.0,
+   "cards": 3.0,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    {
+     "d": "31/05/26",
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "3-0"
+    },
+    {
+     "d": "20/01/26",
+     "r": "W",
+     "rival": "Ituzaingó",
+     "local": true,
+     "marcador": "4-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "03/06/26",
+     "r": "W",
+     "rival": "Huracán",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "06/02/26",
+     "r": "D",
+     "rival": "Temperley",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "19/08/26",
+     "r": "W",
+     "rival": "Universidad Católica",
+     "local": false,
+     "marcador": "3-0"
+    },
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Universidad Católica",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "05/08/26",
+     "r": "L",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "L",
+     "rival": "Gimnasia La Plata",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "25/07/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "h2h": [],
+   "tabla": [],
+   "grupo": "",
+   "estadio": "Norberto Tomaghello",
+   "ciudad": "Buenos Aires",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401874288",
+   "date": "2026-08-27",
+   "comp": "Copa Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/2320.png",
+   "hora": "21:15",
+   "home": "Platense",
+   "away": "Instituto (Córdoba)",
+   "homeId": "7764",
+   "awayId": "2975",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": 0.0,
+   "conf": 45,
+   "corners": 9.0,
+   "cornersH": 5.0,
+   "fouls": 26.0,
+   "cards": 5.6,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 2 partidos de local/visitante esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    {
+     "d": "13/05/26",
+     "r": "D",
+     "rival": "San Martín (San Juan)",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "05/02/26",
+     "r": "W",
+     "rival": "Argentino Monte Maíz",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "30/05/26",
+     "r": "W",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "02/04/26",
+     "r": "W",
+     "rival": "Atlanta",
+     "local": true,
+     "marcador": "2-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "19/08/26",
+     "r": "D",
+     "rival": "Coquimbo Unido",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "16/08/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "12/08/26",
+     "r": "D",
+     "rival": "Coquimbo Unido",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "03/08/26",
+     "r": "L",
+     "rival": "Talleres (Córdoba)",
+     "local": true,
+     "marcador": "0-4"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Gimnasia (Mendoza)",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Lanús",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "W",
+     "rival": "Platense",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "h2h": [],
+   "tabla": [],
+   "grupo": "",
+   "estadio": "Marcelo Bielsa",
+   "ciudad": "Rosario",
    "mercado": null,
    "preload": {}
   }

@@ -56,11 +56,11 @@
   },
   "espn401841518": {
     "actualizado": "2026-08-23",
-    "inclinacion": "V",
-    "local": "River llega en su peor racha en más de un siglo: cinco derrotas seguidas y último de su zona, con apenas dos goles convertidos en sus últimos cinco partidos de liga. El 20 de agosto, tres días antes de este partido, empató 0-0 con Independiente Santa Fe de visitante por la ida de cuartos de Copa Sudamericana — desgaste extra encima de una racha que ya venía mal. Driussi está jugando y convirtiendo (3 goles en 5 partidos), así que no hay una baja de peso que explique la sequía: el problema es de funcionamiento.",
+    "inclinacion": null,
+    "local": "River sigue en su peor racha en más de un siglo: cinco derrotas seguidas, último de su zona, apenas dos goles convertidos en sus últimos cinco de liga. Driussi está lesionado desde julio y no debutó en este Clausura; se especula con que llegue a la convocatoria para este partido, pero no hay formación confirmada. El plantel no tiene otras bajas identificadas más allá de esa duda.",
     "visitante": "Vélez llega invicto en sus últimos cinco: tres victorias y dos empates, incluyendo un 3-1 de visitante contra Talleres. El gol está repartido entre Lanzini y Valdés, un cuarto cada uno, sin depender de un solo nombre. No trascendieron bajas relevantes.",
-    "contexto": "El historial entre los dos es parejo —dos empates y una victoria de cada uno en los últimos cuatro cruces—, sin un patrón claro. La tabla no cruza a los dos: Vélez juega en otra zona.",
-    "veredicto": "Lo que el modelo no ve es el desgaste: River jugó la ida de Copa Sudamericana hace tres días, encima de una racha de cinco derrotas seguidas donde casi no convierte. Vélez llega invicto y sin ese desgaste. Se inclina para el visitante."
+    "contexto": "River jugó la ida de octavos de Copa Sudamericana el miércoles 20 en Bogotá (0-0), pero fue un partido de 90 minutos sin definición: el desgaste de jugar entre semana es el ritmo normal de cualquier equipo que compite en copa, no una ventaja exclusiva de este cruce. El historial entre los dos es parejo, sin un patrón claro en cuatro cruces. La tabla no cruza a los dos: Vélez juega en otra zona.",
+    "veredicto": "River está en crisis y Vélez invicto, pero eso ya lo ve el modelo en la forma de cada uno. No encontramos un factor propio —Driussi es una duda, no una baja confirmada, y el partido de copa fue un desgaste normal— que alcance para inclinar por sobre lo que los números ya muestran."
   },
   "espn401841517": {
     "actualizado": "2026-08-23",
@@ -68,7 +68,7 @@
     "local": "Racing viene irregular en su cancha —una victoria, tres derrotas y un empate en los últimos cinco de este torneo—, con Juan Pablo Vojvoda como técnico desde el 19 de junio, así que el proceso ya lleva dos meses y no es una novedad. No trascendieron bajas de peso para este partido.",
     "visitante": "Boca llega invicto en sus últimos cinco (tres victorias, dos empates) pero golpeado en el plantel: confirmó tres bajas —Paredes, Lozano y Pellegrino, ninguno de los tres entre los que convierten— y arrastra dudas físicas en dos jugadores más por acumulación de partidos, después de haber jugado por Copa Sudamericana el 18 de agosto, cinco días antes de este cruce. Ascacibar sigue disponible y es, con diferencia, el que más pesa en ataque: hizo 3 de los 5 goles del equipo en este tramo.",
     "contexto": "El historial reciente favorece a Boca —sin derrotas en los últimos tres cruces— pero los dos anteriores los había ganado Racing; con cinco cruces no hay un patrón parejo para apoyarse. La tabla no cruza a los dos: Boca juega en otra zona.",
-    "veredicto": "Lo que inclina esto es el desgaste de Boca: llega con tres bajas confirmadas y dudas físicas de otros dos, después de jugar Copa Sudamericana cinco días antes. Racing no tiene ese lastre, aunque su propio funcionamiento de local viene siendo flojo."
+    "veredicto": "Lo que inclina esto son las tres bajas confirmadas de Boca —Paredes, Lozano y Pellegrino— más las dos dudas físicas que la prensa reportó para este partido puntual. No es que jugar entre semana sea en sí una desventaja —es el ritmo normal de cualquier equipo en copa—, pero acá hay nombres concretos afuera, no una suposición de desgaste."
   },
   "espn401841510": {
     "actualizado": "2026-08-23",

@@ -1032,6 +1032,51 @@ inducir un medidor — que alguien "corrija" la skill por una racha.
 
 ---
 
+## 6nonies. Dos errores reales en la primera corrida de la v2.1 (2026-08-23)
+
+La primera corrida de la skill con los principios K/L, sobre los 5
+partidos del domingo, produjo un análisis de River-Vélez con dos
+errores. Los encontró Lucas leyendo el resultado, no un test — y los
+dos quedaron corregidos en la skill (v2.2) para que no se repitan.
+
+**1. El plantel puede mostrar a un lesionado como si estuviera jugando.**
+El expediente traía a Driussi con `pj:5, goles:3`, y con eso se escribió
+"está jugando y convirtiendo" para descartar una baja que el research
+había encontrado. Al revés: Driussi se lesionó en abril, se resintió en
+julio, y no había debutado en el Clausura. Verificado contra la API en
+vivo: `arg.1` da 3 apariciones/1 gol, `conmebol.sudamericana` da 2/2 —
+los dos totales son de ANTES de la lesión, y `/roster` los suma sin
+saber que hay una baja en el medio. `pj`/`goles` son acumulado de toda
+la temporada, no forma reciente, y pueden quedar congelados en el
+último partido que jugó alguien antes de lastimarse. Documentado como
+**principio M**: si el research trae una fecha, esa fecha manda sobre
+el plantel — el plantel pesa una baja que ya confirmaste, no la
+descarta.
+
+**2. "Jugó entre semana por copa" no es un factor exclusivo por sí solo.**
+El análisis usó que River jugó Sudamericana el miércoles como base para
+inclinar. Lucas: *"habría que ver si realmente las copas
+internacionales representan tanto desgaste como para mover un
+resultado, river jugo el miercoles ya por darte un ejemplo."* Tenía
+razón: jugar martes/miércoles y domingo después es el ritmo semanal
+normal de cualquier equipo de copa, no una desventaja puntual de ESE
+partido — tratarlo como hallazgo infla una rutina a algo que distingue
+al cruce. Lo que sí es exclusivo: tiempo extra y penales (Barracas-
+Platense, donde Platense jugó 120' + penales en Chile — eso sí es más
+carga que un partido normal), viajes largos, o ausencias confirmadas
+con nombre (Racing-Boca, tres bajas concretas). Documentado como
+**principio N**, con la pregunta de control: ¿esto distingue a este
+partido de la rutina semanal de cualquier equipo de copa, o es la
+rutina misma?
+
+River-Vélez se corrigió a `null` — sin el factor de la baja (que no
+era tal) ni el de la fatiga (que no era exclusivo), no quedaba nada que
+sostuviera una dirección. Racing-Boca se reescribió para apoyarse en
+las tres bajas confirmadas primero, con la fatiga como color
+secundario, no como base.
+
+---
+
 ## 7. Arquitectura de información
 
 **Tres destinos: Fecha · Registro · Método.**

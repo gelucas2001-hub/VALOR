@@ -256,7 +256,10 @@ def expediente(p, planteles=None):
         "dato de la fuente sobre cuántos partidos jugó el equipo — es el máximo "
         "observado. El plantel no dice quién está lesionado: ESPN devuelve a todos "
         "como activos. Sirve para PESAR una baja que encontraste en tu research, "
-        "no para descubrirla."
+        "no para descubrirla — y tampoco para descartarla: 'pj'/'goles' son "
+        "acumulado de TODA la temporada, así que un jugador lesionado hace meses "
+        "puede seguir mostrando partidos y goles de ANTES de lesionarse. Si el "
+        "research trae una fecha de baja, esa fecha manda sobre el plantel."
     )
     return e
 

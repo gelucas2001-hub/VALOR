@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-23T19:02",
+ "actualizado": "2026-08-23T16:53",
  "equipos": {
   "4": [
    {
@@ -4982,20 +4982,6 @@
     "remates": 3.0,
     "al_arco": 1.0,
     "faltas": 20.0,
-    "amarillas": 3.0,
-    "rojas": 0.0,
-    "peso_goles": 0.0
-   },
-   {
-    "id": "103293",
-    "nombre": "Matías García",
-    "pos": "M",
-    "pj": 10.0,
-    "goles": 0.0,
-    "asist": 0.0,
-    "remates": 2.0,
-    "al_arco": 0.0,
-    "faltas": 13.0,
     "amarillas": 3.0,
     "rojas": 0.0,
     "peso_goles": 0.0

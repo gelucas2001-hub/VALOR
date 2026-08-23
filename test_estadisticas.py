@@ -147,6 +147,57 @@ r2 = actualizar.disciplina_equipo("arg.1", "9739", jugados[:1], cache_viejo)
 prueba("un registro viejo del caché sigue alimentando el modelo",
        r2 is not None and r2[0] == 6.0)
 
+print("\npromedios_equipo() — también informa la constancia (desvío)\n")
+
+# El pedido de Lucas, textual: "no es lo mismo un jugador que remató 5
+# veces en 5 partidos pero hizo 4 en 1". El promedio solo no distingue
+# constante de errático — hace falta el desvío.
+parejo   = [{"remates": 1}, {"remates": 1}, {"remates": 1}, {"remates": 1}, {"remates": 1}]
+irregular = [{"remates": 4}, {"remates": 0}, {"remates": 0}, {"remates": 0}, {"remates": 1}]
+pp = actualizar.promedios_equipo(parejo)
+pi = actualizar.promedios_equipo(irregular)
+prueba("los dos promedian lo mismo", pp["remates"] == pi["remates"] == 1.0)
+prueba("el parejo tiene desvío bajo", pp["desvio"]["remates"] < 0.5)
+prueba("el irregular tiene desvío alto", pi["desvio"]["remates"] > 1.0)
+prueba("distingue a los dos aunque el promedio sea igual",
+       pp["desvio"]["remates"] < pi["desvio"]["remates"])
+
+prueba("con un solo partido el desvío no se calcula (no divide por cero)",
+       "remates" not in actualizar.promedios_equipo([{"remates": 3}])["desvio"])
+prueba("sin partidos no rompe (desvio)", actualizar.promedios_equipo([]) == {})
+
+print("\nfilas_partido() — cruzar el historial con el caché de resúmenes\n")
+
+# El historial ya trae 'local' y 'rival_id' por partido (historial() en
+# actualizar.py). filas_partido() lo cruza con cache_resumen para armar,
+# por cada partido, lo propio Y lo del rival — que es lo que hace falta
+# para "cuánto concede el rival" y para separar de local/visitante.
+jug = [
+    {"id": "e1", "local": True,  "rival_id": "50"},
+    {"id": "e2", "local": False, "rival_id": "60"},
+    {"id": "e3", "local": True,  "rival_id": "70"},   # sin resumen cacheado
+]
+cache = {
+    "e1": {"9739": {"remates": 10, "corners": 5}, "50": {"remates": 3, "corners": 2}},
+    "e2": {"9739": {"remates": 6,  "corners": 2}, "60": {"remates": 9, "corners": 6}},
+}
+filas = actualizar.filas_partido(jug, cache, "9739")
+
+prueba("una fila por partido con resumen", len(filas) == 2)
+prueba("descarta el partido sin resumen cacheado", all(f["propio"] for f in filas))
+prueba("conserva si fue local o visitante", filas[0]["local"] is True and filas[1]["local"] is False)
+prueba("lo propio es el equipo consultado", filas[0]["propio"]["remates"] == 10)
+prueba("lo del rival es del oponente en ESE partido", filas[0]["rival"]["remates"] == 3)
+prueba("distingue bien el segundo partido", filas[1]["propio"]["remates"] == 6
+       and filas[1]["rival"]["remates"] == 9)
+prueba("una lista vacía no rompe", actualizar.filas_partido([], {}, "9739") == [])
+
+# Un partido cacheado pero sin el equipo propio (raro, pero posible si
+# ESPN no trajo estadísticas de ese lado) se descarta, no rompe.
+cache_flaco = {"e1": {"50": {"remates": 3}}}
+prueba("sin datos propios en el caché, se descarta esa fila",
+       actualizar.filas_partido([jug[0]], cache_flaco, "9739") == [])
+
 print("\nel caché viejo se renueva solo, sin perder lo que ya servía\n")
 
 # El caché de resúmenes persiste en disco entre corridas. Los registros

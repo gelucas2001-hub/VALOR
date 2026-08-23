@@ -592,7 +592,10 @@
    2.8,
    3.05
   ],
-  "resultado": null
+  "resultado": [
+   1,
+   2
+  ]
  },
  "espn401841519": {
   "fecha": "2026-08-23",
@@ -612,7 +615,10 @@
    2.95,
    2.3
   ],
-  "resultado": null
+  "resultado": [
+   2,
+   0
+  ]
  },
  "espn401841517": {
   "fecha": "2026-08-23",
@@ -883,6 +889,46 @@
    3.75,
    3.3,
    1.95
+  ],
+  "resultado": null
+ },
+ "espn401874402": {
+  "fecha": "2026-08-27",
+  "comp": "Copa Argentina",
+  "home": "Estudiantes de La Plata",
+  "away": "Barracas Central",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.5488,
+   0.2899,
+   0.1613
+  ],
+  "cuotas": [
+   1.69,
+   3.2,
+   5.75
+  ],
+  "resultado": null
+ },
+ "espn401874288": {
+  "fecha": "2026-08-27",
+  "comp": "Copa Argentina",
+  "home": "Platense",
+  "away": "Instituto (Córdoba)",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.2941,
+   0.3496,
+   0.3563
+  ],
+  "cuotas": [
+   3.15,
+   2.65,
+   2.6
   ],
   "resultado": null
  }

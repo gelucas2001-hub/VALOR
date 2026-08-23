@@ -1104,6 +1104,53 @@ con el caso exacto (`slugs_plantel("arg.1", "arg.2") == ["arg.1"]`).
 
 ---
 
+## 6duodecies. Estadísticas: rival, local/visita, constancia (2026-08-23)
+
+Lucas empezó a mirar apuestas de estadísticas de verdad (córners,
+tarjetas, remates de jugador) y preguntó cómo mejorar la lectura ahí.
+Pidió explícitamente tres cosas, con un ejemplo propio: *"no es lo
+mismo un jugador que remató 5 veces en 5 partidos pero hizo 4 en 1"*.
+
+**Lo que se agregó, cero pedidos nuevos** (mismo hallazgo que motivó
+6octies: `/summary` ya se pedía para los córners del modelo):
+
+- **`concede`**: no solo lo que un equipo hace, sino lo que le hacen. Se
+  arma con los mismos partidos cacheados, mirando la fila del RIVAL en
+  cada uno — `filas_partido()` cruza el historial (que ya trae
+  `local`/`rival_id` por partido) con el caché de resúmenes.
+- **`local`/`visita`**: split por sede sobre esos mismos partidos.
+- **`desvio`**: desvío estándar por métrica, junto al promedio. Es lo
+  que responde el ejemplo de Lucas — "5 remates en 5 partidos, uno por
+  partido" y "4 en uno, 1 repartido en los otros cuatro" dan el mismo
+  promedio y desvíos completamente distintos. Con menos de 2 partidos
+  con dato no se calcula (sería ruido con forma de número).
+
+`promedios_equipo()` sigue devolviendo el mismo total que antes, y
+ahora además `local`/`visita`/`concede` como sub-objetos con la misma
+forma — aditivo, no rompe lo que ya leía la app.
+
+**En la comparativa de Plantel:** el local usa su propio split *de
+local* y el visitante el *de visita* — jugar en casa o afuera no es lo
+mismo, y promediarlo junto tapaba esa diferencia. Si no hay muestra
+para el split (equipo recién ascendido, pocas fechas), cae al total en
+vez de mostrar un hueco. El desvío se muestra como un `±` chico debajo
+del número, solo cuando es alto en relación al promedio (>60%) —
+mostrarlo siempre sería ruido en 375px.
+
+**Lo que queda para después, y es más grande:** el `/summary` que ya
+se pide también trae estadísticas **por jugador y por partido**
+(`rosters[].roster[].stats`), no solo el acumulado de temporada que
+usa `planteles.json`. Eso resolvería dos cosas a la vez: la lectura de
+constancia de un jugador partido a partido (el pedido original de
+Lucas), y de raíz el problema de 6nonies/principio M (`pj`/`goles` del
+plantel quedando congelados en el último partido antes de una lesión).
+Es un archivo nuevo (`data/jugadores_partidos.json` o similar) y más
+peso en el cron — se dejó afuera de este cambio a propósito, para no
+mezclar dos features en un commit y poder mostrar esto funcionando
+antes de sumar más.
+
+---
+
 ## 7. Arquitectura de información
 
 **Tres destinos: Fecha · Registro · Método.**

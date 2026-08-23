@@ -779,6 +779,46 @@ test("una metrica que ningun equipo tiene no se dibuja vacia", ()=>{
   cierto(html.includes("10") && html.includes("12"), "perdió la que sí tenía");
 });
 
+/* ── 13bis. Local y visitante, no el total mezclado ──────────────────
+   Lucas: "no es lo mismo un jugador que remató 5 veces en 5 partidos
+   pero hizo 4 en 1" — para el equipo es el mismo problema con el lado
+   de la cancha: mostrar el promedio general de los dos equipos cuando
+   el partido de HOY tiene uno de local y otro de visitante mezcla dos
+   situaciones distintas. actualizar.py ahora guarda `local`/`visita`/
+   `concede` además del total; la comparativa tiene que usar el split
+   que corresponde a cada uno en ESTE partido. */
+
+const EST_SPLIT = {
+  "99": {remates: 10.0, pj: 8, n: {remates: 8}, desvio: {remates: 3.0},
+         local: {remates: 14.0, pj: 4, n: {remates: 4}, desvio: {remates: 1.0}},
+         visita: {remates: 6.0, pj: 4, n: {remates: 4}, desvio: {remates: 1.0}}},
+  "98": {remates: 9.0, pj: 8, n: {remates: 8}, desvio: {remates: 2.0},
+         local: {remates: 11.0, pj: 4, n: {remates: 4}, desvio: {remates: 0.5}},
+         visita: {remates: 7.0, pj: 4, n: {remates: 4}, desvio: {remates: 0.5}}},
+};
+
+test("la comparativa usa el split de local para el local y de visita para el visitante", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, {}, EST_SPLIT);
+  const html = L.tabPlantel(m);
+  cierto(html.includes("14.0"), "no usó el promedio DE LOCAL del equipo 99");
+  cierto(html.includes("7.0"), "no usó el promedio DE VISITA del equipo 98");
+  cierto(!html.includes("10.0") && !html.includes("9.0"),
+         "mostró el total general en vez del split");
+});
+
+test("sin split disponible, cae al total en vez de romper", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const sinSplit = {
+    "99": {remates: 10.0, pj: 8, n: {remates: 8}},
+    "98": {remates: 9.0,  pj: 8, n: {remates: 8}},
+  };
+  L.cargar(PARTIDOS, {}, {}, sinSplit);
+  const html = L.tabPlantel(m);
+  cierto(html.includes("10.0") && html.includes("9.0"),
+         "no cayó al total cuando no hay local/visita");
+});
+
 /* ── 14. La escalera no puede contradecirse a sí misma ──────────────
    Lucas, después de usar la app varios días: "la incoherencia en las
    apuestas, por ahí te ponía que apuesta segura eran menos de 0.5

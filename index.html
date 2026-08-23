@@ -611,9 +611,13 @@ a{color:inherit}
 .cmphead span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cmphead span:last-child{text-align:right}
 .cmp{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea)}
-.cmp b{font-family:var(--mono);font-size:13px;color:var(--gris2);flex:0 0 46px}
+.cmp b{font-family:var(--mono);font-size:13px;color:var(--gris2);flex:0 0 54px;font-weight:600}
 .cmp b:last-child{text-align:right}
 .cmp b.alto{color:var(--tinta)}
+/* El desvío va como sub-línea chica, no al lado — al lado no entra en
+   54px y competiría en peso visual con el número que sí importa. */
+.cmp .desv{display:block;font-style:normal;font-size:8.5px;font-weight:400;
+           color:var(--gris3);letter-spacing:.02em}
 .cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:9px;
           letter-spacing:.05em;text-transform:uppercase;color:var(--gris3)}
 
@@ -2131,32 +2135,51 @@ const COMPARA = [
    calc: e => e.pases != null && e.pases_tot ? (e.pases / e.pases_tot) * 100 : null},
 ];
 
+/* Un split (local, visita o el total) cuenta como usable si tiene al
+   menos 2 partidos con esa métrica — con 1 solo no hay desvío posible
+   (promedios_equipo lo deja afuera) y el número es puro ruido. */
+const usable = (split, k) => split && split.n && (split.n[k]||0) >= 2;
+
 function comparativa(m){
-  const L_ = ESTADISTICAS[String(m.homeId)], V_ = ESTADISTICAS[String(m.awayId)];
+  const Lt = ESTADISTICAS[String(m.homeId)], Vt = ESTADISTICAS[String(m.awayId)];
   /* Con los datos de uno solo, enfrentar un número contra un hueco
      invita a compararlos igual. Sin los dos no hay comparación. */
-  if(!L_ || !V_) return "";
+  if(!Lt || !Vt) return "";
   const filas = COMPARA.map(x=>{
+    /* El local usa su propio split DE LOCAL, el visitante el DE VISITA
+       — jugar en casa o afuera no es lo mismo, y mezclarlos en un
+       promedio general tapa esa diferencia. Si no hay muestra para el
+       split (recién ascendido, pocas fechas), cae al total en vez de
+       mostrar un hueco. */
+    const L_ = usable(Lt.local, x.k) ? Lt.local : Lt;
+    const V_ = usable(Vt.visita, x.k) ? Vt.visita : Vt;
     const a = x.calc ? x.calc(L_) : L_[x.k];
     const b = x.calc ? x.calc(V_) : V_[x.k];
     if(a == null && b == null) return "";   // ninguno la tiene: no se dibuja
     const num = v => v == null ? "—" : v.toFixed(1) + (x.suf||"");
+    /* El desvío se muestra cuando es alto en relación al promedio —
+       "constante" no necesita aclaración, "errático" sí, y no hay
+       espacio en 375px para mostrarlo siempre. */
+    const irreg = (split, v) => split && split.desvio && v && split.desvio[x.k] > v * 0.6
+      ? `<i class="desv" title="Irregular: varía bastante partido a partido">±${split.desvio[x.k].toFixed(1)}</i>` : "";
     /* El más alto en tinta plena. No es "el mejor" — más faltas no es
        mejor — es solo cuál de los dos hace más de esa cosa. */
     const may = (a||0) >= (b||0);
     return `<div class="cmp">
-      <b class="${may?"alto":""}">${num(a)}</b>
+      <b class="${may?"alto":""}">${num(a)}${irreg(L_,a)}</b>
       <span>${x.et}</span>
-      <b class="${!may?"alto":""}">${num(b)}</b>
+      <b class="${!may?"alto":""}">${num(b)}${irreg(V_,b)}</b>
     </div>`;
   }).join("");
   if(!filas) return "";
-  const n = Math.min(L_.pj||0, V_.pj||0);
+  const n = Math.min(Lt.pj||0, Vt.pj||0);
   return `<div class="lbl sep">Por partido</div>
-    <div class="cmphead"><span>${esc_(m.home)}</span><span>${esc_(m.away)}</span></div>
+    <div class="cmphead"><span>${esc_(m.home)} · de local</span><span>${esc_(m.away)} · de visita</span></div>
     <div class="cmplist">${filas}</div>
-    <p class="fuente">Promedio de los últimos ${n} partidos de cada uno. Es lo que
-      hicieron, no una predicción de este partido.</p>`;
+    <p class="fuente">Lo que hizo cada uno en ese rol (local/visitante) — o el promedio general
+      si todavía no hay suficientes partidos en ese rol —, sobre los últimos ${n} partidos de
+      cada uno. El ± marca cuando varía mucho de partido a partido. Es lo que hicieron, no una
+      predicción de este partido.</p>`;
 }
 
 /* La cancha con el once probable, como la diseñó el prototipo: un

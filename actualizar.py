@@ -622,27 +622,61 @@ def aplanar_resumen(crudo):
 
 
 def promedios_equipo(partidos):
-    """Promedio de cada métrica sobre los partidos que SÍ la traen.
+    """Promedio de cada métrica sobre los partidos que SÍ la traen, más su
+    desvío (constancia).
 
     Dividir por la cantidad de partidos contaría los ausentes como cero y
     hundiría el promedio de cualquier equipo con un partido sin cargar.
     Por eso cada métrica lleva su propio divisor, y se informa en `n`.
+
+    El desvío existe porque el promedio solo miente sobre la regularidad:
+    "5 remates en 5 partidos, uno por partido" y "4 en uno, 1 en total en
+    los otros cuatro" dan el mismo promedio (1.0) y son lecturas opuestas
+    para una apuesta de estadísticas. Con menos de 2 partidos con dato no
+    se calcula — un desvío sobre un solo valor no es una medición, sería
+    ruido con forma de número.
     """
     if not partidos:
         return {}
     claves = list(METRICAS_PARTIDO) + ["tarjetas"]
-    out, cuentas = {}, {}
+    out, cuentas, desvios = {}, {}, {}
     for k in claves:
         vals = [p[k] for p in partidos if p.get(k) is not None]
         if not vals:
             continue
-        out[k] = round(sum(vals) / len(vals), 2)
+        media = sum(vals) / len(vals)
+        out[k] = round(media, 2)
         cuentas[k] = len(vals)
+        if len(vals) >= 2:
+            var = sum((v - media) ** 2 for v in vals) / (len(vals) - 1)
+            desvios[k] = round(var ** 0.5, 2)
     if not out:
         return {}
     out["pj"] = len(partidos)
     out["n"] = cuentas
+    out["desvio"] = desvios
     return out
+
+
+def filas_partido(jug, cache_resumen, team_id):
+    """Cruza el historial de un equipo (con `local`/`rival_id` por
+    partido, de `historial()`) con el caché de resúmenes (con los
+    números de cada equipo por partido, de `resumen_partido()`).
+
+    Da, por cada partido con resumen cacheado, lo que hizo el equipo
+    propio Y lo que hizo el rival en ese mismo cruce — que es lo que
+    hace falta para separar de local/visitante y para medir cuánto
+    concede el rival (no solo cuánto hace el equipo)."""
+    tid = str(team_id)
+    filas = []
+    for p in jug:
+        datos = cache_resumen.get(p.get("id")) or {}
+        propio = datos.get(tid)
+        if not propio:
+            continue
+        rival = datos.get(str(p.get("rival_id")))
+        filas.append({"local": p.get("local"), "propio": propio, "rival": rival})
+    return filas
 
 
 def resumen_completo(datos):
@@ -1276,17 +1310,19 @@ def main():
     # ── estadísticas de equipo ───────────────────────────────────────
     # Cero pedidos nuevos: los partidos ya están en cache_resumen porque
     # disciplina_equipo() los pidió para calcular los córners del modelo.
-    # Esto solo lee lo que quedó guardado y lo promedia.
+    # Esto solo lee lo que quedó guardado y lo promedia — total, y
+    # separado por local/visitante y por lo que el equipo hizo vs lo
+    # que le concedió el rival en esos mismos partidos.
     estadisticas = {}
     for tid, jug in jugados_equipo.items():
-        filas = []
-        for p in jug[:ESTADISTICAS_N]:
-            datos = (cache_resumen.get(p.get("id")) or {}).get(tid)
-            if datos:
-                filas.append(datos)
-        pr = promedios_equipo(filas)
-        if pr:
-            estadisticas[tid] = pr
+        filas = filas_partido(jug[:ESTADISTICAS_N], cache_resumen, tid)
+        pr = promedios_equipo([f["propio"] for f in filas])
+        if not pr:
+            continue
+        pr["local"] = promedios_equipo([f["propio"] for f in filas if f["local"]])
+        pr["visita"] = promedios_equipo([f["propio"] for f in filas if not f["local"]])
+        pr["concede"] = promedios_equipo([f["rival"] for f in filas if f["rival"]])
+        estadisticas[tid] = pr
 
     # ── memoria de marcadores ────────────────────────────────────────
     # Se acumula: lo que ya está no se toca ni se borra. Un marcador de

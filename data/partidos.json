@@ -1,1132 +1,7 @@
 {
- "actualizado": "2026-08-22T19:03",
- "requests": 418,
+ "actualizado": "2026-08-23T13:46",
+ "requests": 432,
  "partidos": [
-  {
-   "id": "espn401841514",
-   "date": "2026-08-22",
-   "comp": "Liga Profesional Argentina",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
-   "hora": "18:30",
-   "home": "Independiente",
-   "away": "Independiente Rivadavia",
-   "homeId": "11",
-   "awayId": "9744",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-   "lh": 1.452,
-   "la": 0.95,
-   "rho": 0.05,
-   "conf": 75,
-   "corners": 12.3,
-   "cornersH": 7.3,
-   "fouls": 21.7,
-   "cards": 4.3,
-   "note": "λ calculados ajustando ataque/defensa de Independiente y Independiente Rivadavia contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "17/08/26",
-     "r": "W",
-     "rival": "Lanús",
-     "local": false,
-     "marcador": "3-1"
-    },
-    {
-     "d": "09/08/26",
-     "r": "L",
-     "rival": "Platense",
-     "local": true,
-     "marcador": "0-1"
-    },
-    {
-     "d": "03/08/26",
-     "r": "L",
-     "rival": "Vélez Sarsfield",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "31/07/26",
-     "r": "W",
-     "rival": "Newell's Old Boys",
-     "local": true,
-     "marcador": "1-0"
-    },
-    {
-     "d": "26/07/26",
-     "r": "W",
-     "rival": "Estudiantes de La Plata",
-     "local": false,
-     "marcador": "2-0"
-    }
-   ],
-   "formA": [
-    {
-     "d": "15/08/26",
-     "r": "L",
-     "rival": "Belgrano (Córdoba)",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "08/08/26",
-     "r": "W",
-     "rival": "Estudiantes de Río Cuarto",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "03/08/26",
-     "r": "L",
-     "rival": "Sarmiento (Junín)",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "30/07/26",
-     "r": "W",
-     "rival": "Huracán",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "26/07/26",
-     "r": "D",
-     "rival": "Atlético Tucumán",
-     "local": false,
-     "marcador": "0-0"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "17/08/26",
-     "r": "W",
-     "rival": "Lanús",
-     "local": false,
-     "marcador": "3-1"
-    },
-    {
-     "d": "12/08/26",
-     "r": "L",
-     "rival": "Atlético Tucumán",
-     "local": false,
-     "marcador": "0-4"
-    },
-    {
-     "d": "09/08/26",
-     "r": "L",
-     "rival": "Platense",
-     "local": true,
-     "marcador": "0-1"
-    },
-    {
-     "d": "03/08/26",
-     "r": "L",
-     "rival": "Vélez Sarsfield",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "31/07/26",
-     "r": "W",
-     "rival": "Newell's Old Boys",
-     "local": true,
-     "marcador": "1-0"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "18/08/26",
-     "r": "D",
-     "rival": "Fluminense",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "d": "15/08/26",
-     "r": "L",
-     "rival": "Belgrano (Córdoba)",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "11/08/26",
-     "r": "D",
-     "rival": "Fluminense",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "08/08/26",
-     "r": "W",
-     "rival": "Estudiantes de Río Cuarto",
-     "local": true,
-     "marcador": "2-1"
-    },
-    {
-     "d": "03/08/26",
-     "r": "L",
-     "rival": "Sarmiento (Junín)",
-     "local": false,
-     "marcador": "1-2"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "21/02/26",
-     "h": "Independiente Rivadavia",
-     "a": "Independiente",
-     "s": "3-2"
-    },
-    {
-     "d": "11/05/25",
-     "h": "Independiente",
-     "a": "Independiente Rivadavia",
-     "s": "1-0"
-    },
-    {
-     "d": "27/07/24",
-     "h": "Independiente Rivadavia",
-     "a": "Independiente",
-     "s": "1-0"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Instituto (Córdoba)",
-     "id": "2975",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-     "pts": 12,
-     "pj": 5,
-     "g": 4,
-     "e": 0,
-     "p": 1,
-     "gf": 5
-    },
-    {
-     "t": "Vélez Sarsfield",
-     "id": "21",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
-     "pts": 11,
-     "pj": 5,
-     "g": 3,
-     "e": 2,
-     "p": 0,
-     "gf": 7
-    },
-    {
-     "t": "Independiente",
-     "id": "11",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Gimnasia (Mendoza)",
-     "id": "11972",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Defensa y Justicia",
-     "id": "8950",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 6
-    },
-    {
-     "t": "Unión (Santa Fe)",
-     "id": "20",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 2,
-     "e": 1,
-     "p": 3,
-     "gf": 8
-    },
-    {
-     "t": "Newell's Old Boys",
-     "id": "14",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "San Lorenzo",
-     "id": "18",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 2,
-     "e": 1,
-     "p": 3,
-     "gf": 2
-    },
-    {
-     "t": "Estudiantes de La Plata",
-     "id": "8",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 7
-    },
-    {
-     "t": "Lanús",
-     "id": "12",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo Riestra",
-     "id": "17702",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Boca Juniors",
-     "id": "5",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 1,
-     "e": 3,
-     "p": 1,
-     "gf": 5
-    },
-    {
-     "t": "Central Córdoba (Santiago del Estero)",
-     "id": "11989",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 3
-    },
-    {
-     "t": "Platense",
-     "id": "7764",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
-     "pts": 5,
-     "pj": 5,
-     "g": 1,
-     "e": 2,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Talleres (Córdoba)",
-     "id": "19",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
-     "pts": 3,
-     "pj": 5,
-     "g": 1,
-     "e": 0,
-     "p": 4,
-     "gf": 6
-    }
-   ],
-   "grupo": "Group A",
-   "estadio": "Estadio Libertadores de América",
-   "ciudad": "Avellaneda",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 2.3,
-    "empate": 3.05,
-    "visitante": 3.4,
-    "totalLinea": 2.5,
-    "totalOver": 2.4,
-    "totalUnder": 1.53,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.2,
-    "hcapVisitante": 1.61
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401841513",
-   "date": "2026-08-22",
-   "comp": "Liga Profesional Argentina",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
-   "hora": "21:00",
-   "home": "Huracán",
-   "away": "Deportivo Riestra",
-   "homeId": "10",
-   "awayId": "17702",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
-   "lh": 1.041,
-   "la": 0.724,
-   "rho": 0.05,
-   "conf": 75,
-   "corners": 7.3,
-   "cornersH": 4.0,
-   "fouls": 29.0,
-   "cards": 5.3,
-   "note": "λ calculados ajustando ataque/defensa de Huracán y Deportivo Riestra contra toda la red de cruces de Liga Profesional Argentina esta temporada (23 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "16/08/26",
-     "r": "L",
-     "rival": "Sarmiento (Junín)",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "09/08/26",
-     "r": "W",
-     "rival": "San Lorenzo",
-     "local": false,
-     "marcador": "2-0"
-    },
-    {
-     "d": "04/08/26",
-     "r": "D",
-     "rival": "Atlético Tucumán",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "30/07/26",
-     "r": "L",
-     "rival": "Independiente Rivadavia",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "25/07/26",
-     "r": "W",
-     "rival": "Banfield",
-     "local": true,
-     "marcador": "1-0"
-    }
-   ],
-   "formA": [
-    {
-     "d": "15/08/26",
-     "r": "L",
-     "rival": "Newell's Old Boys",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "08/08/26",
-     "r": "W",
-     "rival": "Estudiantes de La Plata",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "d": "02/08/26",
-     "r": "L",
-     "rival": "Barracas Central",
-     "local": true,
-     "marcador": "0-1"
-    },
-    {
-     "d": "29/07/26",
-     "r": "L",
-     "rival": "Defensa y Justicia",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "26/07/26",
-     "r": "W",
-     "rival": "Boca Juniors",
-     "local": true,
-     "marcador": "3-0"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "16/08/26",
-     "r": "L",
-     "rival": "Sarmiento (Junín)",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "09/08/26",
-     "r": "W",
-     "rival": "San Lorenzo",
-     "local": false,
-     "marcador": "2-0"
-    },
-    {
-     "d": "04/08/26",
-     "r": "D",
-     "rival": "Atlético Tucumán",
-     "local": true,
-     "marcador": "0-0"
-    },
-    {
-     "d": "30/07/26",
-     "r": "L",
-     "rival": "Independiente Rivadavia",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "25/07/26",
-     "r": "W",
-     "rival": "Banfield",
-     "local": true,
-     "marcador": "1-0"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "18/08/26",
-     "r": "D",
-     "rival": "Gimnasia La Plata",
-     "local": true,
-     "marcador": "1-1"
-    },
-    {
-     "d": "15/08/26",
-     "r": "L",
-     "rival": "Newell's Old Boys",
-     "local": false,
-     "marcador": "0-2"
-    },
-    {
-     "d": "08/08/26",
-     "r": "W",
-     "rival": "Estudiantes de La Plata",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "d": "02/08/26",
-     "r": "L",
-     "rival": "Barracas Central",
-     "local": true,
-     "marcador": "0-1"
-    },
-    {
-     "d": "29/07/26",
-     "r": "L",
-     "rival": "Defensa y Justicia",
-     "local": false,
-     "marcador": "1-2"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "21/02/26",
-     "h": "Deportivo Riestra",
-     "a": "Huracán",
-     "s": "0-0"
-    },
-    {
-     "d": "11/05/25",
-     "h": "Huracán",
-     "a": "Deportivo Riestra",
-     "s": "3-2"
-    },
-    {
-     "d": "13/09/24",
-     "h": "Deportivo Riestra",
-     "a": "Huracán",
-     "s": "1-0"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Argentinos Juniors",
-     "id": "3",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
-     "pts": 12,
-     "pj": 5,
-     "g": 4,
-     "e": 0,
-     "p": 1,
-     "gf": 9
-    },
-    {
-     "t": "Belgrano (Córdoba)",
-     "id": "4",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
-     "pts": 10,
-     "pj": 5,
-     "g": 3,
-     "e": 1,
-     "p": 1,
-     "gf": 6
-    },
-    {
-     "t": "Rosario Central",
-     "id": "17",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-     "pts": 10,
-     "pj": 5,
-     "g": 3,
-     "e": 1,
-     "p": 1,
-     "gf": 5
-    },
-    {
-     "t": "Sarmiento (Junín)",
-     "id": "10158",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 10
-    },
-    {
-     "t": "Gimnasia La Plata",
-     "id": "9",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Barracas Central",
-     "id": "10060",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 3
-    },
-    {
-     "t": "Tigre",
-     "id": "7767",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Atlético Tucumán",
-     "id": "9785",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Huracán",
-     "id": "10",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
-     "t": "Banfield",
-     "id": "235",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
-     "t": "Estudiantes de Río Cuarto",
-     "id": "19685",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
-     "pts": 5,
-     "pj": 6,
-     "g": 1,
-     "e": 2,
-     "p": 3,
-     "gf": 2
-    },
-    {
-     "t": "Racing Club",
-     "id": "15",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
-     "pts": 4,
-     "pj": 5,
-     "g": 1,
-     "e": 1,
-     "p": 3,
-     "gf": 4
-    },
-    {
-     "t": "River Plate",
-     "id": "16",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
-     "pts": 3,
-     "pj": 5,
-     "g": 1,
-     "e": 0,
-     "p": 4,
-     "gf": 2
-    },
-    {
-     "t": "Aldosivi",
-     "id": "9739",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
-     "pts": 2,
-     "pj": 6,
-     "g": 0,
-     "e": 2,
-     "p": 4,
-     "gf": 4
-    }
-   ],
-   "grupo": "Group B",
-   "estadio": "Estadio Tomás Adolfo Ducó",
-   "ciudad": "Buenos Aires",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 2.1,
-    "empate": 2.8,
-    "visitante": 4.2,
-    "totalLinea": 1.5,
-    "totalOver": 1.74,
-    "totalUnder": 2.0,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.05,
-    "hcapVisitante": 1.67
-   },
-   "preload": {}
-  },
-  {
-   "id": "espn401841516",
-   "date": "2026-08-22",
-   "comp": "Liga Profesional Argentina",
-   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
-   "hora": "21:00",
-   "home": "Newell's Old Boys",
-   "away": "Banfield",
-   "homeId": "14",
-   "awayId": "235",
-   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
-   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
-   "lh": 1.196,
-   "la": 0.869,
-   "rho": 0.05,
-   "conf": 75,
-   "corners": 9.3,
-   "cornersH": 6.0,
-   "fouls": 24.7,
-   "cards": 3.3,
-   "note": "λ calculados ajustando ataque/defensa de Newell's Old Boys y Banfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (21 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
-   "formH": [
-    {
-     "d": "15/08/26",
-     "r": "W",
-     "rival": "Deportivo Riestra",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "d": "09/08/26",
-     "r": "L",
-     "rival": "Defensa y Justicia",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "02/08/26",
-     "r": "D",
-     "rival": "Boca Juniors",
-     "local": true,
-     "marcador": "2-2"
-    },
-    {
-     "d": "31/07/26",
-     "r": "L",
-     "rival": "Independiente",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "25/07/26",
-     "r": "W",
-     "rival": "Talleres (Córdoba)",
-     "local": true,
-     "marcador": "1-0"
-    }
-   ],
-   "formA": [
-    {
-     "d": "14/08/26",
-     "r": "W",
-     "rival": "Racing Club",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "d": "10/08/26",
-     "r": "L",
-     "rival": "Belgrano (Córdoba)",
-     "local": true,
-     "marcador": "0-2"
-    },
-    {
-     "d": "01/08/26",
-     "r": "D",
-     "rival": "Estudiantes de Río Cuarto",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "28/07/26",
-     "r": "W",
-     "rival": "Sarmiento (Junín)",
-     "local": true,
-     "marcador": "3-2"
-    },
-    {
-     "d": "25/07/26",
-     "r": "L",
-     "rival": "Huracán",
-     "local": false,
-     "marcador": "0-1"
-    }
-   ],
-   "formH_general": [
-    {
-     "d": "15/08/26",
-     "r": "W",
-     "rival": "Deportivo Riestra",
-     "local": true,
-     "marcador": "2-0"
-    },
-    {
-     "d": "09/08/26",
-     "r": "L",
-     "rival": "Defensa y Justicia",
-     "local": false,
-     "marcador": "1-2"
-    },
-    {
-     "d": "02/08/26",
-     "r": "D",
-     "rival": "Boca Juniors",
-     "local": true,
-     "marcador": "2-2"
-    },
-    {
-     "d": "31/07/26",
-     "r": "L",
-     "rival": "Independiente",
-     "local": false,
-     "marcador": "0-1"
-    },
-    {
-     "d": "25/07/26",
-     "r": "W",
-     "rival": "Talleres (Córdoba)",
-     "local": true,
-     "marcador": "1-0"
-    }
-   ],
-   "formA_general": [
-    {
-     "d": "19/08/26",
-     "r": "D",
-     "rival": "Midland",
-     "local": true,
-     "marcador": "2-2"
-    },
-    {
-     "d": "14/08/26",
-     "r": "W",
-     "rival": "Racing Club",
-     "local": false,
-     "marcador": "1-0"
-    },
-    {
-     "d": "10/08/26",
-     "r": "L",
-     "rival": "Belgrano (Córdoba)",
-     "local": true,
-     "marcador": "0-2"
-    },
-    {
-     "d": "01/08/26",
-     "r": "D",
-     "rival": "Estudiantes de Río Cuarto",
-     "local": false,
-     "marcador": "0-0"
-    },
-    {
-     "d": "28/07/26",
-     "r": "W",
-     "rival": "Sarmiento (Junín)",
-     "local": true,
-     "marcador": "3-2"
-    }
-   ],
-   "h2h": [
-    {
-     "d": "21/02/26",
-     "h": "Banfield",
-     "a": "Newell's Old Boys",
-     "s": "3-0"
-    },
-    {
-     "d": "20/07/25",
-     "h": "Newell's Old Boys",
-     "a": "Banfield",
-     "s": "1-2"
-    },
-    {
-     "d": "27/01/25",
-     "h": "Banfield",
-     "a": "Newell's Old Boys",
-     "s": "3-0"
-    },
-    {
-     "d": "04/06/24",
-     "h": "Banfield",
-     "a": "Newell's Old Boys",
-     "s": "2-0"
-    }
-   ],
-   "tabla": [
-    {
-     "t": "Instituto (Córdoba)",
-     "id": "2975",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-     "pts": 12,
-     "pj": 5,
-     "g": 4,
-     "e": 0,
-     "p": 1,
-     "gf": 5
-    },
-    {
-     "t": "Vélez Sarsfield",
-     "id": "21",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
-     "pts": 11,
-     "pj": 5,
-     "g": 3,
-     "e": 2,
-     "p": 0,
-     "gf": 7
-    },
-    {
-     "t": "Independiente",
-     "id": "11",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Gimnasia (Mendoza)",
-     "id": "11972",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Defensa y Justicia",
-     "id": "8950",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 6
-    },
-    {
-     "t": "Unión (Santa Fe)",
-     "id": "20",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 2,
-     "e": 1,
-     "p": 3,
-     "gf": 8
-    },
-    {
-     "t": "Newell's Old Boys",
-     "id": "14",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "San Lorenzo",
-     "id": "18",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
-     "pts": 7,
-     "pj": 6,
-     "g": 2,
-     "e": 1,
-     "p": 3,
-     "gf": 2
-    },
-    {
-     "t": "Estudiantes de La Plata",
-     "id": "8",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 7
-    },
-    {
-     "t": "Lanús",
-     "id": "12",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo Riestra",
-     "id": "17702",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Boca Juniors",
-     "id": "5",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 1,
-     "e": 3,
-     "p": 1,
-     "gf": 5
-    },
-    {
-     "t": "Central Córdoba (Santiago del Estero)",
-     "id": "11989",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 3
-    },
-    {
-     "t": "Platense",
-     "id": "7764",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
-     "pts": 5,
-     "pj": 5,
-     "g": 1,
-     "e": 2,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Talleres (Córdoba)",
-     "id": "19",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
-     "pts": 3,
-     "pj": 5,
-     "g": 1,
-     "e": 0,
-     "p": 4,
-     "gf": 6
-    }
-   ],
-   "grupo": "Group A",
-   "estadio": "Marcelo Bielsa",
-   "ciudad": "Rosario",
-   "mercado": {
-    "prov": "DraftKings",
-    "local": 2.3,
-    "empate": 3.1,
-    "visitante": 3.45,
-    "totalLinea": 2.5,
-    "totalOver": 2.35,
-    "totalUnder": 1.56,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.15,
-    "hcapVisitante": 1.62
-   },
-   "preload": {}
-  },
   {
    "id": "espn401841509",
    "date": "2026-08-23",
@@ -1139,8 +14,8 @@
    "awayId": "7764",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
-   "lh": 1.151,
-   "la": 0.653,
+   "lh": 1.153,
+   "la": 0.673,
    "rho": 0.05,
    "conf": 75,
    "corners": 6.0,
@@ -1360,11 +235,22 @@
      "id": "9",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
      "pts": 9,
-     "pj": 5,
+     "pj": 6,
      "g": 3,
      "e": 0,
-     "p": 2,
-     "gf": 6
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
     },
     {
      "t": "Barracas Central",
@@ -1378,6 +264,28 @@
      "gf": 3
     },
     {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
      "t": "Tigre",
      "id": "7767",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
@@ -1389,48 +297,15 @@
      "gf": 4
     },
     {
-     "t": "Atlético Tucumán",
-     "id": "9785",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Huracán",
-     "id": "10",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
      "t": "Banfield",
      "id": "235",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
-     "gf": 4
+     "p": 3,
+     "gf": 5
     },
     {
      "t": "Estudiantes de Río Cuarto",
@@ -1482,15 +357,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.7,
-    "empate": 2.85,
-    "visitante": 3.0,
+    "local": 2.65,
+    "empate": 2.75,
+    "visitante": 3.1,
     "totalLinea": 1.5,
-    "totalOver": 1.67,
-    "totalUnder": 2.15,
+    "totalOver": 1.71,
+    "totalUnder": 2.05,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.55,
-    "hcapVisitante": 1.45
+    "hcapLocal": 2.5,
+    "hcapVisitante": 1.47
    },
    "preload": {}
   },
@@ -1506,8 +381,8 @@
    "awayId": "8",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
-   "lh": 1.418,
-   "la": 1.299,
+   "lh": 1.438,
+   "la": 1.329,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.3,
@@ -1727,11 +602,22 @@
      "id": "9",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
      "pts": 9,
-     "pj": 5,
+     "pj": 6,
      "g": 3,
      "e": 0,
-     "p": 2,
-     "gf": 6
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
     },
     {
      "t": "Barracas Central",
@@ -1745,6 +631,28 @@
      "gf": 3
     },
     {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
      "t": "Tigre",
      "id": "7767",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
@@ -1756,48 +664,15 @@
      "gf": 4
     },
     {
-     "t": "Atlético Tucumán",
-     "id": "9785",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Huracán",
-     "id": "10",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
      "t": "Banfield",
      "id": "235",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
-     "gf": 4
+     "p": 3,
+     "gf": 5
     },
     {
      "t": "Estudiantes de Río Cuarto",
@@ -1873,8 +748,8 @@
    "awayId": "8950",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
-   "lh": 1.718,
-   "la": 0.633,
+   "lh": 1.696,
+   "la": 0.646,
    "rho": 0.05,
    "conf": 75,
    "corners": 8.7,
@@ -2106,11 +981,22 @@
      "id": "9",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
      "pts": 9,
-     "pj": 5,
+     "pj": 6,
      "g": 3,
      "e": 0,
-     "p": 2,
-     "gf": 6
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
     },
     {
      "t": "Barracas Central",
@@ -2124,6 +1010,28 @@
      "gf": 3
     },
     {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
      "t": "Tigre",
      "id": "7767",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
@@ -2135,48 +1043,15 @@
      "gf": 4
     },
     {
-     "t": "Atlético Tucumán",
-     "id": "9785",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Huracán",
-     "id": "10",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
      "t": "Banfield",
      "id": "235",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
-     "gf": 4
+     "p": 3,
+     "gf": 5
     },
     {
      "t": "Estudiantes de Río Cuarto",
@@ -2229,14 +1104,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.8,
-    "empate": 3.3,
-    "visitante": 4.8,
+    "empate": 3.4,
+    "visitante": 4.9,
     "totalLinea": 2.5,
-    "totalOver": 2.45,
-    "totalUnder": 2.45,
+    "totalOver": 2.3,
+    "totalUnder": 1.57,
     "hcapLinea": -0.5,
     "hcapLocal": 1.74,
-    "hcapVisitante": 1.95
+    "hcapVisitante": 2.0
    },
    "preload": {}
   },
@@ -2252,8 +1127,8 @@
    "awayId": "21",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
-   "lh": 0.839,
-   "la": 0.847,
+   "lh": 0.827,
+   "la": 0.857,
    "rho": 0.05,
    "conf": 75,
    "corners": 10.0,
@@ -2485,11 +1360,22 @@
      "id": "9",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
      "pts": 9,
-     "pj": 5,
+     "pj": 6,
      "g": 3,
      "e": 0,
-     "p": 2,
-     "gf": 6
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
     },
     {
      "t": "Barracas Central",
@@ -2503,6 +1389,28 @@
      "gf": 3
     },
     {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
      "t": "Tigre",
      "id": "7767",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
@@ -2514,48 +1422,15 @@
      "gf": 4
     },
     {
-     "t": "Atlético Tucumán",
-     "id": "9785",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Huracán",
-     "id": "10",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
      "t": "Banfield",
      "id": "235",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
-     "gf": 4
+     "p": 3,
+     "gf": 5
     },
     {
      "t": "Estudiantes de Río Cuarto",
@@ -2607,15 +1482,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.62,
-    "empate": 3.55,
-    "visitante": 5.75,
+    "local": 1.69,
+    "empate": 3.45,
+    "visitante": 5.5,
     "totalLinea": 2.5,
-    "totalOver": 2.3,
+    "totalOver": 2.35,
     "totalUnder": 1.56,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.57,
-    "hcapVisitante": 2.2
+    "hcapLocal": 1.65,
+    "hcapVisitante": 2.1
    },
    "preload": {}
   },
@@ -2631,8 +1506,8 @@
    "awayId": "5",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
-   "lh": 1.114,
-   "la": 1.123,
+   "lh": 1.073,
+   "la": 1.128,
    "rho": 0.05,
    "conf": 75,
    "corners": 11.0,
@@ -2870,11 +1745,22 @@
      "id": "9",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
      "pts": 9,
-     "pj": 5,
+     "pj": 6,
      "g": 3,
      "e": 0,
-     "p": 2,
-     "gf": 6
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
     },
     {
      "t": "Barracas Central",
@@ -2888,6 +1774,28 @@
      "gf": 3
     },
     {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
      "t": "Tigre",
      "id": "7767",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
@@ -2899,48 +1807,15 @@
      "gf": 4
     },
     {
-     "t": "Atlético Tucumán",
-     "id": "9785",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Huracán",
-     "id": "10",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
      "t": "Banfield",
      "id": "235",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
-     "gf": 4
+     "p": 3,
+     "gf": 5
     },
     {
      "t": "Estudiantes de Río Cuarto",
@@ -2992,15 +1867,15 @@
    "ciudad": "Buenos Aires",
    "mercado": {
     "prov": "DraftKings",
-    "local": 3.2,
+    "local": 3.25,
     "empate": 2.9,
     "visitante": 2.45,
     "totalLinea": 1.5,
-    "totalOver": 1.53,
-    "totalUnder": 2.35,
+    "totalOver": 1.51,
+    "totalUnder": 2.45,
     "hcapLinea": 0.5,
     "hcapLocal": 1.54,
-    "hcapVisitante": 2.25
+    "hcapVisitante": 2.3
    },
    "preload": {}
   },
@@ -3016,8 +1891,8 @@
    "awayId": "11989",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
-   "lh": 1.101,
-   "la": 0.538,
+   "lh": 1.085,
+   "la": 0.552,
    "rho": 0.05,
    "conf": 75,
    "corners": 9.0,
@@ -3249,11 +2124,22 @@
      "id": "9",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
      "pts": 9,
-     "pj": 5,
+     "pj": 6,
      "g": 3,
      "e": 0,
-     "p": 2,
-     "gf": 6
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
     },
     {
      "t": "Barracas Central",
@@ -3267,6 +2153,28 @@
      "gf": 3
     },
     {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
      "t": "Tigre",
      "id": "7767",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
@@ -3278,48 +2186,15 @@
      "gf": 4
     },
     {
-     "t": "Atlético Tucumán",
-     "id": "9785",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
-     "pts": 8,
-     "pj": 5,
-     "g": 2,
-     "e": 2,
-     "p": 1,
-     "gf": 4
-    },
-    {
-     "t": "Independiente Rivadavia",
-     "id": "9744",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 5
-    },
-    {
-     "t": "Huracán",
-     "id": "10",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
-     "pts": 7,
-     "pj": 5,
-     "g": 2,
-     "e": 1,
-     "p": 2,
-     "gf": 4
-    },
-    {
      "t": "Banfield",
      "id": "235",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
-     "gf": 4
+     "p": 3,
+     "gf": 5
     },
     {
      "t": "Estudiantes de Río Cuarto",
@@ -3395,8 +2270,8 @@
    "awayId": "3",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
-   "lh": 1.119,
-   "la": 1.278,
+   "lh": 1.143,
+   "la": 1.296,
    "rho": 0.05,
    "conf": 75,
    "corners": 10.7,
@@ -3577,12 +2452,23 @@
      "t": "Instituto (Córdoba)",
      "id": "2975",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-     "pts": 12,
-     "pj": 5,
+     "pts": 13,
+     "pj": 6,
      "g": 4,
-     "e": 0,
+     "e": 1,
      "p": 1,
      "gf": 5
+    },
+    {
+     "t": "Gimnasia (Mendoza)",
+     "id": "11972",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
+     "pts": 12,
+     "pj": 6,
+     "g": 4,
+     "e": 0,
+     "p": 2,
+     "gf": 9
     },
     {
      "t": "Vélez Sarsfield",
@@ -3596,24 +2482,24 @@
      "gf": 7
     },
     {
+     "t": "Newell's Old Boys",
+     "id": "14",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
      "t": "Independiente",
      "id": "11",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-     "pts": 9,
-     "pj": 5,
+     "pts": 10,
+     "pj": 6,
      "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Gimnasia (Mendoza)",
-     "id": "11972",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
+     "e": 1,
      "p": 2,
      "gf": 6
     },
@@ -3640,14 +2526,14 @@
      "gf": 8
     },
     {
-     "t": "Newell's Old Boys",
-     "id": "14",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "t": "Deportivo Riestra",
+     "id": "17702",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
+     "p": 3,
      "gf": 6
     },
     {
@@ -3676,17 +2562,6 @@
      "t": "Lanús",
      "id": "12",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo Riestra",
-     "id": "17702",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 6,
      "pj": 5,
      "g": 2,
@@ -3746,13 +2621,13 @@
     "prov": "DraftKings",
     "local": 2.65,
     "empate": 2.85,
-    "visitante": 2.9,
+    "visitante": 2.95,
     "totalLinea": 1.5,
     "totalOver": 1.53,
     "totalUnder": 2.35,
     "hcapLinea": -0.5,
     "hcapLocal": 2.5,
-    "hcapVisitante": 1.44
+    "hcapVisitante": 1.45
    },
    "preload": {}
   },
@@ -3768,8 +2643,8 @@
    "awayId": "17",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
-   "lh": 1.043,
-   "la": 1.39,
+   "lh": 1.03,
+   "la": 1.347,
    "rho": 0.05,
    "conf": 75,
    "corners": 7.7,
@@ -3956,12 +2831,23 @@
      "t": "Instituto (Córdoba)",
      "id": "2975",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-     "pts": 12,
-     "pj": 5,
+     "pts": 13,
+     "pj": 6,
      "g": 4,
-     "e": 0,
+     "e": 1,
      "p": 1,
      "gf": 5
+    },
+    {
+     "t": "Gimnasia (Mendoza)",
+     "id": "11972",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
+     "pts": 12,
+     "pj": 6,
+     "g": 4,
+     "e": 0,
+     "p": 2,
+     "gf": 9
     },
     {
      "t": "Vélez Sarsfield",
@@ -3975,24 +2861,24 @@
      "gf": 7
     },
     {
+     "t": "Newell's Old Boys",
+     "id": "14",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
      "t": "Independiente",
      "id": "11",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-     "pts": 9,
-     "pj": 5,
+     "pts": 10,
+     "pj": 6,
      "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Gimnasia (Mendoza)",
-     "id": "11972",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
+     "e": 1,
      "p": 2,
      "gf": 6
     },
@@ -4019,14 +2905,14 @@
      "gf": 8
     },
     {
-     "t": "Newell's Old Boys",
-     "id": "14",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "t": "Deportivo Riestra",
+     "id": "17702",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
+     "p": 3,
      "gf": 6
     },
     {
@@ -4055,17 +2941,6 @@
      "t": "Lanús",
      "id": "12",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo Riestra",
-     "id": "17702",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 6,
      "pj": 5,
      "g": 2,
@@ -4147,8 +3022,8 @@
    "awayId": "5489",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
-   "lh": 1.904,
-   "la": 0.561,
+   "lh": 1.799,
+   "la": 0.524,
    "rho": 0.0,
    "conf": 65,
    "corners": 12.3,
@@ -4269,6 +3144,13 @@
    ],
    "formA_general": [
     {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Atlético Bucaramanga",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
      "d": "19/08/26",
      "r": "L",
      "rival": "Independiente del Valle",
@@ -4294,13 +3176,6 @@
      "r": "W",
      "rival": "Alianza FC",
      "local": false,
-     "marcador": "2-1"
-    },
-    {
-     "d": "26/07/26",
-     "r": "W",
-     "rival": "Atlético Junior",
-     "local": true,
      "marcador": "2-1"
     }
    ],
@@ -4363,15 +3238,15 @@
    "ciudad": "Quito",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.53,
-    "empate": 3.85,
+    "local": 1.59,
+    "empate": 3.8,
     "visitante": 6.0,
     "totalLinea": 2.5,
-    "totalOver": 2.1,
+    "totalOver": 2.15,
     "totalUnder": 1.62,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.49,
-    "hcapVisitante": 2.35
+    "hcapLocal": 1.54,
+    "hcapVisitante": 2.25
    },
    "preload": {}
   },
@@ -4467,6 +3342,13 @@
    ],
    "formA_general": [
     {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Independiente",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
      "d": "18/08/26",
      "r": "D",
      "rival": "Fluminense",
@@ -4493,13 +3375,6 @@
      "rival": "Estudiantes de Río Cuarto",
      "local": true,
      "marcador": "2-1"
-    },
-    {
-     "d": "03/08/26",
-     "r": "L",
-     "rival": "Sarmiento (Junín)",
-     "local": false,
-     "marcador": "1-2"
     }
    ],
    "h2h": [],
@@ -4507,7 +3382,18 @@
    "grupo": "",
    "estadio": "Florencio Solá",
    "ciudad": "Buenos Aires",
-   "mercado": null,
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 3.75,
+    "empate": 3.3,
+    "visitante": 1.95,
+    "totalLinea": 1.5,
+    "totalOver": 1.5,
+    "totalUnder": 2.35,
+    "hcapLinea": 0.5,
+    "hcapLocal": 1.77,
+    "hcapVisitante": 1.87
+   },
    "preload": {}
   },
   {
@@ -4522,8 +3408,8 @@
    "awayId": "5488",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5488.png",
-   "lh": 0.743,
-   "la": 0.607,
+   "lh": 0.677,
+   "la": 0.601,
    "rho": 0.0,
    "conf": 55,
    "corners": 7.0,
@@ -4630,6 +3516,13 @@
    ],
    "formA_general": [
     {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "América de Cali",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
      "d": "20/08/26",
      "r": "D",
      "rival": "River Plate",
@@ -4656,13 +3549,6 @@
      "rival": "Caracas FC",
      "local": false,
      "marcador": "3-0"
-    },
-    {
-     "d": "26/07/26",
-     "r": "L",
-     "rival": "Águilas Doradas",
-     "local": false,
-     "marcador": "1-2"
     }
    ],
    "h2h": [
@@ -4963,6 +3849,13 @@
    ],
    "formA_general": [
     {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Atlético Tucumán",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
      "d": "16/08/26",
      "r": "W",
      "rival": "Central Córdoba (Santiago del Estero)",
@@ -4989,13 +3882,6 @@
      "rival": "Platense",
      "local": true,
      "marcador": "2-1"
-    },
-    {
-     "d": "24/07/26",
-     "r": "L",
-     "rival": "Vélez Sarsfield",
-     "local": false,
-     "marcador": "0-1"
     }
    ],
    "h2h": [],
@@ -5018,8 +3904,8 @@
    "awayId": "10158",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
-   "lh": 1.773,
-   "la": 1.796,
+   "lh": 1.787,
+   "la": 1.791,
    "rho": 0.05,
    "conf": 75,
    "corners": 9.7,
@@ -5194,12 +4080,23 @@
      "t": "Instituto (Córdoba)",
      "id": "2975",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-     "pts": 12,
-     "pj": 5,
+     "pts": 13,
+     "pj": 6,
      "g": 4,
-     "e": 0,
+     "e": 1,
      "p": 1,
      "gf": 5
+    },
+    {
+     "t": "Gimnasia (Mendoza)",
+     "id": "11972",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
+     "pts": 12,
+     "pj": 6,
+     "g": 4,
+     "e": 0,
+     "p": 2,
+     "gf": 9
     },
     {
      "t": "Vélez Sarsfield",
@@ -5213,24 +4110,24 @@
      "gf": 7
     },
     {
+     "t": "Newell's Old Boys",
+     "id": "14",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
      "t": "Independiente",
      "id": "11",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-     "pts": 9,
-     "pj": 5,
+     "pts": 10,
+     "pj": 6,
      "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Gimnasia (Mendoza)",
-     "id": "11972",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
+     "e": 1,
      "p": 2,
      "gf": 6
     },
@@ -5257,14 +4154,14 @@
      "gf": 8
     },
     {
-     "t": "Newell's Old Boys",
-     "id": "14",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "t": "Deportivo Riestra",
+     "id": "17702",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
+     "p": 3,
      "gf": 6
     },
     {
@@ -5293,17 +4190,6 @@
      "t": "Lanús",
      "id": "12",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo Riestra",
-     "id": "17702",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 6,
      "pj": 5,
      "g": 2,
@@ -5374,8 +4260,8 @@
    "awayId": "12",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-   "lh": 1.375,
-   "la": 1.014,
+   "lh": 1.392,
+   "la": 1.037,
    "rho": 0.05,
    "conf": 75,
    "corners": 11.3,
@@ -5556,12 +4442,23 @@
      "t": "Instituto (Córdoba)",
      "id": "2975",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
-     "pts": 12,
-     "pj": 5,
+     "pts": 13,
+     "pj": 6,
      "g": 4,
-     "e": 0,
+     "e": 1,
      "p": 1,
      "gf": 5
+    },
+    {
+     "t": "Gimnasia (Mendoza)",
+     "id": "11972",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
+     "pts": 12,
+     "pj": 6,
+     "g": 4,
+     "e": 0,
+     "p": 2,
+     "gf": 9
     },
     {
      "t": "Vélez Sarsfield",
@@ -5575,24 +4472,24 @@
      "gf": 7
     },
     {
+     "t": "Newell's Old Boys",
+     "id": "14",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
      "t": "Independiente",
      "id": "11",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
-     "pts": 9,
-     "pj": 5,
+     "pts": 10,
+     "pj": 6,
      "g": 3,
-     "e": 0,
-     "p": 2,
-     "gf": 6
-    },
-    {
-     "t": "Gimnasia (Mendoza)",
-     "id": "11972",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
-     "pts": 9,
-     "pj": 5,
-     "g": 3,
-     "e": 0,
+     "e": 1,
      "p": 2,
      "gf": 6
     },
@@ -5619,14 +4516,14 @@
      "gf": 8
     },
     {
-     "t": "Newell's Old Boys",
-     "id": "14",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "t": "Deportivo Riestra",
+     "id": "17702",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 7,
-     "pj": 5,
+     "pj": 6,
      "g": 2,
      "e": 1,
-     "p": 2,
+     "p": 3,
      "gf": 6
     },
     {
@@ -5655,17 +4552,6 @@
      "t": "Lanús",
      "id": "12",
      "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
-     "pts": 6,
-     "pj": 5,
-     "g": 2,
-     "e": 0,
-     "p": 3,
-     "gf": 6
-    },
-    {
-     "t": "Deportivo Riestra",
-     "id": "17702",
-     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
      "pts": 6,
      "pj": 5,
      "g": 2,
@@ -5721,6 +4607,1804 @@
    "grupo": "Group A",
    "estadio": "Alberto José Armando (La Bombonera)",
    "ciudad": "Buenos Aires",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401841529",
+   "date": "2026-08-29",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "14:45",
+   "home": "Deportivo Riestra",
+   "away": "Vélez Sarsfield",
+   "homeId": "17702",
+   "awayId": "21",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
+   "lh": 0.761,
+   "la": 0.825,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 7.7,
+   "cornersH": 3.0,
+   "fouls": 31.3,
+   "cards": 6.7,
+   "note": "λ calculados ajustando ataque/defensa de Deportivo Riestra y Vélez Sarsfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Huracán",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "08/08/26",
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "02/08/26",
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Defensa y Justicia",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "17/08/26",
+     "r": "D",
+     "rival": "Defensa y Justicia",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "W",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Huracán",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "18/08/26",
+     "r": "D",
+     "rival": "Gimnasia La Plata",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "08/08/26",
+     "r": "W",
+     "rival": "Estudiantes de La Plata",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "02/08/26",
+     "r": "L",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "17/08/26",
+     "r": "D",
+     "rival": "Defensa y Justicia",
+     "local": true,
+     "marcador": "1-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "D",
+     "rival": "Boca Juniors",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "W",
+     "rival": "Talleres (Córdoba)",
+     "local": false,
+     "marcador": "3-1"
+    },
+    {
+     "d": "24/07/26",
+     "r": "W",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "25/02/26",
+     "h": "Vélez Sarsfield",
+     "a": "Deportivo Riestra",
+     "s": "0-0"
+    },
+    {
+     "d": "06/10/25",
+     "h": "Deportivo Riestra",
+     "a": "Vélez Sarsfield",
+     "s": "2-2"
+    },
+    {
+     "d": "29/03/25",
+     "h": "Vélez Sarsfield",
+     "a": "Deportivo Riestra",
+     "s": "0-1"
+    },
+    {
+     "d": "11/11/24",
+     "h": "Deportivo Riestra",
+     "a": "Vélez Sarsfield",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Instituto (Córdoba)",
+     "id": "2975",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
+     "pts": 13,
+     "pj": 6,
+     "g": 4,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Gimnasia (Mendoza)",
+     "id": "11972",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
+     "pts": 12,
+     "pj": 6,
+     "g": 4,
+     "e": 0,
+     "p": 2,
+     "gf": 9
+    },
+    {
+     "t": "Vélez Sarsfield",
+     "id": "21",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
+     "pts": 11,
+     "pj": 5,
+     "g": 3,
+     "e": 2,
+     "p": 0,
+     "gf": 7
+    },
+    {
+     "t": "Newell's Old Boys",
+     "id": "14",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
+     "t": "Independiente",
+     "id": "11",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 6
+    },
+    {
+     "t": "Defensa y Justicia",
+     "id": "8950",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Unión (Santa Fe)",
+     "id": "20",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Deportivo Riestra",
+     "id": "17702",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "San Lorenzo",
+     "id": "18",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 2
+    },
+    {
+     "t": "Estudiantes de La Plata",
+     "id": "8",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 2,
+     "e": 0,
+     "p": 3,
+     "gf": 7
+    },
+    {
+     "t": "Lanús",
+     "id": "12",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 2,
+     "e": 0,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "Boca Juniors",
+     "id": "5",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 1,
+     "e": 3,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Central Córdoba (Santiago del Estero)",
+     "id": "11989",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 2,
+     "e": 0,
+     "p": 3,
+     "gf": 3
+    },
+    {
+     "t": "Platense",
+     "id": "7764",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
+     "pts": 5,
+     "pj": 5,
+     "g": 1,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Talleres (Córdoba)",
+     "id": "19",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 6
+    }
+   ],
+   "grupo": "Group A",
+   "estadio": "Guillermo Laza",
+   "ciudad": "Buenos Aires",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401841535",
+   "date": "2026-08-29",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "17:00",
+   "home": "Rosario Central",
+   "away": "Gimnasia La Plata",
+   "homeId": "17",
+   "awayId": "9",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+   "lh": 1.775,
+   "la": 0.928,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 8.7,
+   "cornersH": 5.0,
+   "fouls": 17.3,
+   "cards": 4.7,
+   "note": "λ calculados ajustando ataque/defensa de Rosario Central y Gimnasia La Plata contra toda la red de cruces de Liga Profesional Argentina esta temporada (24 y 24 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "07/08/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "D",
+     "rival": "Racing Club",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "23/07/26",
+     "r": "L",
+     "rival": "Belgrano (Córdoba)",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": true,
+     "marcador": "2-3"
+    },
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "0-4"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "29/07/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": true,
+     "marcador": "1-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "21/08/26",
+     "r": "L",
+     "rival": "Corinthians",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "16/08/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "14/08/26",
+     "r": "D",
+     "rival": "Corinthians",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "07/08/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": true,
+     "marcador": "2-1"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "River Plate",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": true,
+     "marcador": "2-3"
+    },
+    {
+     "d": "18/08/26",
+     "r": "D",
+     "rival": "Deportivo Riestra",
+     "local": false,
+     "marcador": "1-1"
+    },
+    {
+     "d": "15/08/26",
+     "r": "L",
+     "rival": "Estudiantes de La Plata",
+     "local": false,
+     "marcador": "0-4"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "Barracas Central",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "02/08/26",
+     "r": "W",
+     "rival": "Aldosivi",
+     "local": false,
+     "marcador": "2-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "25/02/26",
+     "h": "Gimnasia La Plata",
+     "a": "Rosario Central",
+     "s": "1-2"
+    },
+    {
+     "d": "27/09/25",
+     "h": "Gimnasia La Plata",
+     "a": "Rosario Central",
+     "s": "0-3"
+    },
+    {
+     "d": "15/03/25",
+     "h": "Rosario Central",
+     "a": "Gimnasia La Plata",
+     "s": "2-1"
+    },
+    {
+     "d": "05/08/24",
+     "h": "Gimnasia La Plata",
+     "a": "Rosario Central",
+     "s": "0-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 3,
+     "e": 0,
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 5
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 5,
+     "pj": 6,
+     "g": 1,
+     "e": 2,
+     "p": 3,
+     "gf": 2
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 6,
+     "g": 0,
+     "e": 2,
+     "p": 4,
+     "gf": 4
+    }
+   ],
+   "grupo": "Group B",
+   "estadio": "Gigante de Arroyito",
+   "ciudad": "Rosario",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401841531",
+   "date": "2026-08-29",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "19:00",
+   "home": "Huracán",
+   "away": "Estudiantes de Río Cuarto",
+   "homeId": "10",
+   "awayId": "19685",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+   "lh": 1.09,
+   "la": 0.413,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 6.0,
+   "cornersH": 3.7,
+   "fouls": 29.0,
+   "cards": 5.0,
+   "note": "λ calculados ajustando ataque/defensa de Huracán y Estudiantes de Río Cuarto contra toda la red de cruces de Liga Profesional Argentina esta temporada (24 y 22 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "04/08/26",
+     "r": "D",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "21/08/26",
+     "r": "D",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "17/08/26",
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "01/08/26",
+     "r": "D",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Deportivo Riestra",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": false,
+     "marcador": "0-2"
+    },
+    {
+     "d": "09/08/26",
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "04/08/26",
+     "r": "D",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "21/08/26",
+     "r": "D",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "17/08/26",
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Independiente Rivadavia",
+     "local": false,
+     "marcador": "1-2"
+    },
+    {
+     "d": "01/08/26",
+     "r": "D",
+     "rival": "Banfield",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "29/07/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "26/02/26",
+     "h": "Estudiantes de Río Cuarto",
+     "a": "Huracán",
+     "s": "2-0"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 3,
+     "e": 0,
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 5
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 5,
+     "pj": 6,
+     "g": 1,
+     "e": 2,
+     "p": 3,
+     "gf": 2
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 6,
+     "g": 0,
+     "e": 2,
+     "p": 4,
+     "gf": 4
+    }
+   ],
+   "grupo": "Group B",
+   "estadio": "Estadio Tomás Adolfo Ducó",
+   "ciudad": "Buenos Aires",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401841538",
+   "date": "2026-08-29",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "21:30",
+   "home": "Atlético Tucumán",
+   "away": "Belgrano (Córdoba)",
+   "homeId": "9785",
+   "awayId": "4",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+   "lh": 0.591,
+   "la": 0.72,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 12.7,
+   "cornersH": 9.7,
+   "fouls": 24.3,
+   "cards": 4.3,
+   "note": "λ calculados ajustando ataque/defensa de Atlético Tucumán y Belgrano (Córdoba) contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 25 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "17/08/26",
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "d": "04/08/26",
+     "r": "D",
+     "rival": "Huracán",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "31/07/26",
+     "r": "W",
+     "rival": "Central Córdoba (Santiago del Estero)",
+     "local": false,
+     "marcador": "2-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "10/08/26",
+     "r": "W",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "06/08/26",
+     "r": "D",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "23/07/26",
+     "r": "W",
+     "rival": "Rosario Central",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-0"
+    },
+    {
+     "d": "17/08/26",
+     "r": "W",
+     "rival": "Estudiantes de Río Cuarto",
+     "local": false,
+     "marcador": "1-0"
+    },
+    {
+     "d": "12/08/26",
+     "r": "W",
+     "rival": "Independiente",
+     "local": true,
+     "marcador": "4-0"
+    },
+    {
+     "d": "08/08/26",
+     "r": "L",
+     "rival": "Sarmiento (Junín)",
+     "local": true,
+     "marcador": "1-2"
+    },
+    {
+     "d": "04/08/26",
+     "r": "D",
+     "rival": "Huracán",
+     "local": false,
+     "marcador": "0-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "19/08/26",
+     "r": "L",
+     "rival": "Racing Club",
+     "local": false,
+     "marcador": "0-1"
+    },
+    {
+     "d": "15/08/26",
+     "r": "W",
+     "rival": "Independiente Rivadavia",
+     "local": true,
+     "marcador": "2-0"
+    },
+    {
+     "d": "10/08/26",
+     "r": "W",
+     "rival": "Banfield",
+     "local": false,
+     "marcador": "2-0"
+    },
+    {
+     "d": "06/08/26",
+     "r": "D",
+     "rival": "Tigre",
+     "local": false,
+     "marcador": "0-0"
+    },
+    {
+     "d": "01/08/26",
+     "r": "L",
+     "rival": "Argentinos Juniors",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "25/02/26",
+     "h": "Belgrano (Córdoba)",
+     "a": "Atlético Tucumán",
+     "s": "3-1"
+    },
+    {
+     "d": "22/09/24",
+     "h": "Atlético Tucumán",
+     "a": "Belgrano (Córdoba)",
+     "s": "2-4"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Argentinos Juniors",
+     "id": "3",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3.png",
+     "pts": 12,
+     "pj": 5,
+     "g": 4,
+     "e": 0,
+     "p": 1,
+     "gf": 9
+    },
+    {
+     "t": "Belgrano (Córdoba)",
+     "id": "4",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/4.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Rosario Central",
+     "id": "17",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17.png",
+     "pts": 10,
+     "pj": 5,
+     "g": 3,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Sarmiento (Junín)",
+     "id": "10158",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10158.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 10
+    },
+    {
+     "t": "Gimnasia La Plata",
+     "id": "9",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 3,
+     "e": 0,
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Atlético Tucumán",
+     "id": "9785",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9785.png",
+     "pts": 9,
+     "pj": 6,
+     "g": 2,
+     "e": 3,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Barracas Central",
+     "id": "10060",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10060.png",
+     "pts": 9,
+     "pj": 5,
+     "g": 3,
+     "e": 0,
+     "p": 2,
+     "gf": 3
+    },
+    {
+     "t": "Independiente Rivadavia",
+     "id": "9744",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9744.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Huracán",
+     "id": "10",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/10.png",
+     "pts": 8,
+     "pj": 6,
+     "g": 2,
+     "e": 2,
+     "p": 2,
+     "gf": 4
+    },
+    {
+     "t": "Tigre",
+     "id": "7767",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7767.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 4
+    },
+    {
+     "t": "Banfield",
+     "id": "235",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/235.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 5
+    },
+    {
+     "t": "Estudiantes de Río Cuarto",
+     "id": "19685",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19685.png",
+     "pts": 5,
+     "pj": 6,
+     "g": 1,
+     "e": 2,
+     "p": 3,
+     "gf": 2
+    },
+    {
+     "t": "Racing Club",
+     "id": "15",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/15.png",
+     "pts": 4,
+     "pj": 5,
+     "g": 1,
+     "e": 1,
+     "p": 3,
+     "gf": 4
+    },
+    {
+     "t": "River Plate",
+     "id": "16",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 2
+    },
+    {
+     "t": "Aldosivi",
+     "id": "9739",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/9739.png",
+     "pts": 2,
+     "pj": 6,
+     "g": 0,
+     "e": 2,
+     "p": 4,
+     "gf": 4
+    }
+   ],
+   "grupo": "Group B",
+   "estadio": "Monumental Presidente José Fierro",
+   "ciudad": "Tucuman",
+   "mercado": null,
+   "preload": {}
+  },
+  {
+   "id": "espn401841536",
+   "date": "2026-08-29",
+   "comp": "Liga Profesional Argentina",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/1.png",
+   "hora": "21:30",
+   "home": "Talleres (Córdoba)",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "homeId": "19",
+   "awayId": "11989",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
+   "lh": 1.306,
+   "la": 1.006,
+   "rho": 0.05,
+   "conf": 75,
+   "corners": 6.3,
+   "cornersH": 2.7,
+   "fouls": 20.7,
+   "cards": 6.3,
+   "note": "λ calculados ajustando ataque/defensa de Talleres (Córdoba) y Central Córdoba (Santiago del Estero) contra toda la red de cruces de Liga Profesional Argentina esta temporada (22 y 21 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "18/08/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "1-3"
+    },
+    {
+     "d": "12/08/26",
+     "r": "L",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "0-3"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "4-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "d": "25/07/26",
+     "r": "L",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formA": [
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "11/08/26",
+     "r": "W",
+     "rival": "Unión (Santa Fe)",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "04/08/26",
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "31/07/26",
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "d": "24/07/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "18/08/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "1-3"
+    },
+    {
+     "d": "12/08/26",
+     "r": "L",
+     "rival": "Lanús",
+     "local": true,
+     "marcador": "0-3"
+    },
+    {
+     "d": "03/08/26",
+     "r": "W",
+     "rival": "Platense",
+     "local": false,
+     "marcador": "4-0"
+    },
+    {
+     "d": "30/07/26",
+     "r": "L",
+     "rival": "Vélez Sarsfield",
+     "local": true,
+     "marcador": "1-3"
+    },
+    {
+     "d": "25/07/26",
+     "r": "L",
+     "rival": "Newell's Old Boys",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "16/08/26",
+     "r": "L",
+     "rival": "Instituto (Córdoba)",
+     "local": true,
+     "marcador": "0-1"
+    },
+    {
+     "d": "11/08/26",
+     "r": "W",
+     "rival": "Unión (Santa Fe)",
+     "local": false,
+     "marcador": "2-1"
+    },
+    {
+     "d": "04/08/26",
+     "r": "W",
+     "rival": "San Lorenzo",
+     "local": true,
+     "marcador": "1-0"
+    },
+    {
+     "d": "31/07/26",
+     "r": "L",
+     "rival": "Atlético Tucumán",
+     "local": true,
+     "marcador": "0-2"
+    },
+    {
+     "d": "24/07/26",
+     "r": "L",
+     "rival": "Gimnasia (Mendoza)",
+     "local": false,
+     "marcador": "0-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "24/02/26",
+     "h": "Central Córdoba (Santiago del Estero)",
+     "a": "Talleres (Córdoba)",
+     "s": "2-0"
+    },
+    {
+     "d": "02/06/24",
+     "h": "Central Córdoba (Santiago del Estero)",
+     "a": "Talleres (Córdoba)",
+     "s": "2-4"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Instituto (Córdoba)",
+     "id": "2975",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2975.png",
+     "pts": 13,
+     "pj": 6,
+     "g": 4,
+     "e": 1,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Gimnasia (Mendoza)",
+     "id": "11972",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11972.png",
+     "pts": 12,
+     "pj": 6,
+     "g": 4,
+     "e": 0,
+     "p": 2,
+     "gf": 9
+    },
+    {
+     "t": "Vélez Sarsfield",
+     "id": "21",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/21.png",
+     "pts": 11,
+     "pj": 5,
+     "g": 3,
+     "e": 2,
+     "p": 0,
+     "gf": 7
+    },
+    {
+     "t": "Newell's Old Boys",
+     "id": "14",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/14.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 8
+    },
+    {
+     "t": "Independiente",
+     "id": "11",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11.png",
+     "pts": 10,
+     "pj": 6,
+     "g": 3,
+     "e": 1,
+     "p": 2,
+     "gf": 6
+    },
+    {
+     "t": "Defensa y Justicia",
+     "id": "8950",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8950.png",
+     "pts": 8,
+     "pj": 5,
+     "g": 2,
+     "e": 2,
+     "p": 1,
+     "gf": 6
+    },
+    {
+     "t": "Unión (Santa Fe)",
+     "id": "20",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/20.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 8
+    },
+    {
+     "t": "Deportivo Riestra",
+     "id": "17702",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/17702.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "San Lorenzo",
+     "id": "18",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/18.png",
+     "pts": 7,
+     "pj": 6,
+     "g": 2,
+     "e": 1,
+     "p": 3,
+     "gf": 2
+    },
+    {
+     "t": "Estudiantes de La Plata",
+     "id": "8",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 2,
+     "e": 0,
+     "p": 3,
+     "gf": 7
+    },
+    {
+     "t": "Lanús",
+     "id": "12",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/12.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 2,
+     "e": 0,
+     "p": 3,
+     "gf": 6
+    },
+    {
+     "t": "Boca Juniors",
+     "id": "5",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/5.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 1,
+     "e": 3,
+     "p": 1,
+     "gf": 5
+    },
+    {
+     "t": "Central Córdoba (Santiago del Estero)",
+     "id": "11989",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11989.png",
+     "pts": 6,
+     "pj": 5,
+     "g": 2,
+     "e": 0,
+     "p": 3,
+     "gf": 3
+    },
+    {
+     "t": "Platense",
+     "id": "7764",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7764.png",
+     "pts": 5,
+     "pj": 5,
+     "g": 1,
+     "e": 2,
+     "p": 2,
+     "gf": 5
+    },
+    {
+     "t": "Talleres (Córdoba)",
+     "id": "19",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/19.png",
+     "pts": 3,
+     "pj": 5,
+     "g": 1,
+     "e": 0,
+     "p": 4,
+     "gf": 6
+    }
+   ],
+   "grupo": "Group A",
+   "estadio": "Mario Alberto Kempes",
+   "ciudad": "Córdoba",
    "mercado": null,
    "preload": {}
   }

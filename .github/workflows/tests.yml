@@ -1,0 +1,63 @@
+# Guardar en:  .github/workflows/tests.yml
+#
+# Existe porque el workflow del cron solo corre `actualizar.py`: hasta el
+# 2026-08-23 las suites no las ejecutaba nadie salvo a mano. Un commit que
+# rompiera el motor llegaba a producción sin que saltara nada.
+#
+# Va aparte del cron a propósito. Si un test falla, lo que tiene que pasar
+# es que el commit quede en rojo — NO que la app deje de actualizar datos.
+
+name: Tests
+
+on:
+  push:
+    paths-ignore:
+      - 'data/**'          # el bot pushea datos 2 veces por día: no hay código que probar
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  suites:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Ninguna suite pide red ni instala nada: leen los .json ya commiteados
+      # y el index.html publicado. Corren todas aunque una falle, para ver
+      # de una sola pasada todo lo que se rompió y no de a una por corrida.
+      - name: Correr todas las suites
+        run: |
+          fallaron=""
+          for t in test_estadisticas.py test_expediente.py test_forma.py \
+                   test_plantel.py test_calibracion.py test_medir_analisis.py; do
+            echo "::group::$t"
+            python "$t" || fallaron="$fallaron $t"
+            echo "::endgroup::"
+          done
+          for t in test_registro.js test_alineacion.js; do
+            echo "::group::$t"
+            node "$t" || fallaron="$fallaron $t"
+            echo "::endgroup::"
+          done
+
+          # El motor de JavaScript tiene que seguir dando lo mismo que el de
+          # Python. Es la verificación más cara de perder: un error numérico
+          # silencioso no rompe ningún test, cambia los pronósticos.
+          echo "::group::doble_via.py"
+          python doble_via.py || fallaron="$fallaron doble_via.py"
+          echo "::endgroup::"
+
+          if [ -n "$fallaron" ]; then
+            echo "::error::Fallaron:$fallaron"
+            exit 1
+          fi
+          echo "Todo verde."

@@ -1148,6 +1148,29 @@ const contradice = (op, lean) => !!op.req && !op.req.includes(lean);
    oportunidad encontrada, es el modelo equivocado, y elegir por ahí
    es elegir justo el pick con más chance de estar mal.
    ══════════════════════════════════════════════════════════════════ */
+/* ¿Estos dos mercados pueden pasar los dos en el mismo partido?
+
+   No se calcula con una lista de pares escrita a mano —se recorren los
+   marcadores posibles y se busca uno donde los dos tests den verdadero.
+   Si no existe ninguno, son incompatibles. Así queda exacto y no hay
+   una tabla que se desactualice cuando se agregue un mercado nuevo.
+
+   Existe porque la escalera se contradecía: elegía cada franja por
+   separado y terminaba recomendando "Más de 1.5" arriba y "Menos de
+   1.5" abajo. Medido sobre los 20 partidos del 2026-08-23: pasaba en
+   3 (15%). Recomendar las dos es pedirle al usuario que apueste a que
+   algo pasa y a que no pasa. */
+function incompatibles(idA, idB){
+  const a = TESTS[idA], b = TESTS[idB];
+  if(!a || !b || idA === idB) return false;
+  /* 9 goles por lado cubre cualquier marcador de fútbol real; la
+     matriz del modelo usa el mismo rango. */
+  for(let i=0; i<=9; i++)
+    for(let j=0; j<=9; j++)
+      if(a(i,j) && b(i,j)) return false;   // hay un marcador que cumple los dos
+  return true;
+}
+
 function escalera(m){
   const lec = lectura(m);
   const ops = mercados(lec.M, m);
@@ -1161,8 +1184,15 @@ function escalera(m){
      decide marcaDeValor(), que exige inclinación. */
   const dir = inclinacionDe(m.id) || lec.lean;
 
+  /* Lo que ya eligieron las franjas de arriba. Las franjas se recorren
+     de la más probable a la más arriesgada, así que la que manda es la
+     más segura: si ya se recomendó "Más de 1.5", el escalón de abajo no
+     puede ofrecer "Menos de 1.5". */
+  const yaElegidos = [];
+
   const filas = FRANJAS.map(f=>{
-    const cand = ops.filter(o=> o.p>=f.lo && o.p<f.hi && !contradice(o, dir));
+    const cand = ops.filter(o=> o.p>=f.lo && o.p<f.hi && !contradice(o, dir)
+                                && !yaElegidos.some(id=> incompatibles(id, o.id)));
     if(!cand.length) return {franja:f, op:null};
 
     const conV = cand.map(o=>{
@@ -1181,6 +1211,7 @@ function escalera(m){
       ventaja = pm==null ? null : elegido.p - pm;
     }
     const valor = ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX;
+    yaElegidos.push(elegido.id);
     return {franja:f, op:elegido, ventaja, valor};
   });
 

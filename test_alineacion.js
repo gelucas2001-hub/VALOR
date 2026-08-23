@@ -32,7 +32,7 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
-              onceProbable, tabAnalisis, aQuien, jugadores, METRICAS,
+              onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
               cargar: (ms, an, pl, es) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {}; }});
   `)(localStorage, o => Object.assign(salida, o));
@@ -777,6 +777,64 @@ test("una metrica que ningun equipo tiene no se dibuja vacia", ()=>{
   const html = L.tabPlantel(m);
   cierto(!/posesi[óo]n/i.test(html), "dibujó una fila sin ningún dato");
   cierto(html.includes("10") && html.includes("12"), "perdió la que sí tenía");
+});
+
+/* ── 14. La escalera no puede contradecirse a sí misma ──────────────
+   Lucas, después de usar la app varios días: "la incoherencia en las
+   apuestas, por ahí te ponía que apuesta segura eran menos de 0.5
+   goles y intermedia más de 0.5 goles. Medio que confunde."
+
+   Tenía razón, y era un bug de verdad: escalera() elegía cada franja
+   por separado, sin mirar lo que ya habían elegido las otras. Medido
+   sobre los 20 partidos reales del 2026-08-23: 3 (15%) mostraban un
+   mercado y su contrario al mismo tiempo — "Más de 1.5" arriba y
+   "Menos de 1.5" abajo, o "No marcan los dos" y "Ambos marcan".
+
+   Recomendar las dos es decirle al usuario que apueste a que algo pasa
+   y a que no pasa. No es un matiz de riesgo: es ruido. */
+
+test("incompatibles() detecta dos mercados que no pueden pasar juntos", ()=>{
+  cierto(L.incompatibles("ov1.5", "un1.5"), "más y menos de 1.5 son incompatibles");
+  cierto(L.incompatibles("btts_si", "btts_no"), "ambos marcan y no marcan los dos");
+  cierto(L.incompatibles("1x2_l", "1x2_e"), "gana el local y empate");
+  cierto(L.incompatibles("1x2_l", "dc_x2"), "gana el local y el visitante gana o empata");
+  cierto(L.incompatibles("ov2.5", "un1.5"), "más de 2.5 y menos de 1.5");
+});
+
+test("incompatibles() no marca lo que sí puede pasar junto", ()=>{
+  cierto(!L.incompatibles("1x2_l", "ov2.5"), "el local puede ganar 2-1");
+  cierto(!L.incompatibles("1x2_l", "dc_lx"), "gana el local implica que no pierde");
+  cierto(!L.incompatibles("btts_si", "ov1.5"), "si ambos marcan hay 2+ goles");
+  cierto(!L.incompatibles("un2.5", "1x2_l"), "el local puede ganar 1-0");
+});
+
+test("la escalera nunca recomienda un mercado y su contrario", ()=>{
+  /* La prueba sobre los partidos reales del snapshot, que es donde
+     apareció. No sobre un caso armado: el bug dependía de dónde caían
+     las probabilidades reales dentro de las franjas. */
+  let choques = 0, detalle = "";
+  PARTIDOS.forEach(m=>{
+    const ops = L.escalera(m).filter(x=> x.op).map(x=> x.op);
+    for(let i=0; i<ops.length; i++)
+      for(let j=i+1; j<ops.length; j++)
+        if(L.incompatibles(ops[i].id, ops[j].id)){
+          choques++;
+          if(!detalle) detalle = `${m.home}-${m.away}: "${ops[i].label}" + "${ops[j].label}"`;
+        }
+  });
+  igual(choques, 0, `la escalera se contradice en ${choques} casos. Ej: ${detalle}`);
+});
+
+test("al resolver el choque no se pierde la franja si hay alternativa", ()=>{
+  /* Sacar la opción contradictoria no puede dejar el escalón vacío
+     cuando había otro mercado válido en esa franja: el usuario perdería
+     una recomendación legítima por un problema que no es suyo. */
+  let conOp = 0, total = 0;
+  PARTIDOS.forEach(m=>{
+    L.escalera(m).forEach(x=>{ total++; if(x.op) conOp++; });
+  });
+  cierto(conOp / total >= 0.8,
+         `solo ${conOp} de ${total} escalones quedaron con recomendación`);
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

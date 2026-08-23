@@ -55,34 +55,44 @@
     "veredicto": "Racing tiene la lista de bajas más larga que mostró en el año y no gana hace un mes, mientras Belgrano —campeón vigente y con el funcionamiento más sólido de los dos— no pierde nada por jugar en cancha neutral. Se inclina para la visita."
   },
   "espn401841518": {
-    "actualizado": "2026-08-18",
+    "actualizado": "2026-08-23",
     "inclinacion": "V",
-    "contexto": "River llega con bajas de peso que vienen de semanas atrás — Acuña, Driussi, Ramírez, Portillo y Ruberto no estuvieron ni en el último partido de Liga — y recién cortó una racha de cuatro derrotas seguidas en el torneo con un triunfo ajustado. Vélez, en cambio, llega más entero: la única baja confirmada es Jano Gordon, con una lesión de rodilla que lo deja afuera hasta fin de octubre, y viene de cinco partidos de Liga sin perder.",
-    "veredicto": "El historial no ayuda a River como parece a primera vista: los dos cruces más recientes entre ellos se jugaron en la cancha de Vélez, no en el Monumental, y River no le ganó a ninguno (una derrota, un empate). Los dos que sí fueron en el Monumental son los más viejos de la lista, de hace más de un año. Sin ese antecedente a favor, y con Vélez llegando con muchas menos bajas y mejor funcionamiento reciente, la lectura se inclina para la visita."
+    "local": "River llega en su peor racha en más de un siglo: cinco derrotas seguidas y último de su zona, con apenas dos goles convertidos en sus últimos cinco partidos de liga. El 20 de agosto, tres días antes de este partido, empató 0-0 con Independiente Santa Fe de visitante por la ida de cuartos de Copa Sudamericana — desgaste extra encima de una racha que ya venía mal. Driussi está jugando y convirtiendo (3 goles en 5 partidos), así que no hay una baja de peso que explique la sequía: el problema es de funcionamiento.",
+    "visitante": "Vélez llega invicto en sus últimos cinco: tres victorias y dos empates, incluyendo un 3-1 de visitante contra Talleres. El gol está repartido entre Lanzini y Valdés, un cuarto cada uno, sin depender de un solo nombre. No trascendieron bajas relevantes.",
+    "contexto": "El historial entre los dos es parejo —dos empates y una victoria de cada uno en los últimos cuatro cruces—, sin un patrón claro. La tabla no cruza a los dos: Vélez juega en otra zona.",
+    "veredicto": "Lo que el modelo no ve es el desgaste: River jugó la ida de Copa Sudamericana hace tres días, encima de una racha de cinco derrotas seguidas donde casi no convierte. Vélez llega invicto y sin ese desgaste. Se inclina para el visitante."
   },
   "espn401841517": {
-    "actualizado": "2026-08-18",
+    "actualizado": "2026-08-23",
     "inclinacion": "L",
-    "contexto": "Los dos llegan golpeados atrás, pero a Boca se le complica más: perdió a Pellegrino por un desgarro confirmado el 16 de agosto, y todavía no está claro si Paredes y Lozano —lesionados el 15 de agosto ante Platense— llegan a jugar. A eso se le suma la vuelta de la Sudamericana en Asunción el 18 de agosto, apenas cinco días antes de este partido. Racing tampoco está fino: viene de perder tres seguidos en la Liga y trabaja cerca del fondo de su zona, pero tiene una sola baja de peso confirmada, Di Cesare, con fractura de tobillo desde el 9 de agosto.",
-    "veredicto": "En el Cilindro, Racing le ganó los dos últimos cruces a Boca —aunque son apenas dos antecedentes—, y esta vez recibe a un rival con más bajas, con la duda del capitán, y con un viaje a Paraguay encima. Ninguno de los dos llega fino, pero el que llega con menos jugadores de peso afuera es el local."
+    "local": "Racing viene irregular en su cancha —una victoria, tres derrotas y un empate en los últimos cinco de este torneo—, con Juan Pablo Vojvoda como técnico desde el 19 de junio, así que el proceso ya lleva dos meses y no es una novedad. No trascendieron bajas de peso para este partido.",
+    "visitante": "Boca llega invicto en sus últimos cinco (tres victorias, dos empates) pero golpeado en el plantel: confirmó tres bajas —Paredes, Lozano y Pellegrino, ninguno de los tres entre los que convierten— y arrastra dudas físicas en dos jugadores más por acumulación de partidos, después de haber jugado por Copa Sudamericana el 18 de agosto, cinco días antes de este cruce. Ascacibar sigue disponible y es, con diferencia, el que más pesa en ataque: hizo 3 de los 5 goles del equipo en este tramo.",
+    "contexto": "El historial reciente favorece a Boca —sin derrotas en los últimos tres cruces— pero los dos anteriores los había ganado Racing; con cinco cruces no hay un patrón parejo para apoyarse. La tabla no cruza a los dos: Boca juega en otra zona.",
+    "veredicto": "Lo que inclina esto es el desgaste de Boca: llega con tres bajas confirmadas y dudas físicas de otros dos, después de jugar Copa Sudamericana cinco días antes. Racing no tiene ese lastre, aunque su propio funcionamiento de local viene siendo flojo."
   },
   "espn401841510": {
-    "actualizado": "2026-08-18",
-    "inclinacion": "L",
-    "contexto": "No hay bajas de peso confirmadas para ninguno de los dos en la previa. Belgrano llega entero, funcionando bien de local y peleando arriba en su zona. Defensa y Justicia, en cambio, no rinde de visitante últimamente — perdió 0-3 en su salida más reciente y no gana afuera hace rato.",
-    "veredicto": "Sin bajas que inclinen la lectura, la diferencia está en el funcionamiento: Belgrano sólido de local, Defensa incómodo de visitante. Se inclina para el local."
+    "actualizado": "2026-08-23",
+    "inclinacion": null,
+    "local": "Belgrano llega irregular pero sólido en su cancha: en los últimos cinco de este torneo ganó dos, perdió dos y empató uno, sin una racha marcada en ningún sentido. El gol está repartido entre cinco jugadores distintos, ninguno concentra más del 20%. No trascendieron bajas para este partido.",
+    "visitante": "Defensa y Justicia, con Julio Vaccari desde fines de mayo, viene mostrando señales de recuperación: dos victorias, dos empates y una derrota en los últimos cinco, incluyendo un 0-3 en contra con Estudiantes. Aaron Molinas es el nombre propio del equipo —30% de los goles y titular en 15 de los partidos que se tienen registrados—, pero no hay indicios de que esté en duda para este partido.",
+    "contexto": "Cuatro cruces desde 2024, parejos: un triunfo de cada uno y dos empates. No alcanza para marcar un patrón. La tabla no cruza a los dos: Defensa juega en otra zona.",
+    "veredicto": "Dos equipos irregulares, sin una baja que pese ni una racha que se imponga sobre la otra. No hay un factor propio que aporte algo por sobre lo que ya muestra la forma reciente de cada uno."
   },
   "espn401841509": {
-    "actualizado": "2026-08-18",
-    "inclinacion": null,
-    "contexto": "Barracas llega con tres lesionados musculares (Martínez, Briasco, Rak) tras un buen arranque de campaña que se frenó con dos derrotas seguidas. Platense tiene una baja confirmada, el defensor Cuesta, y un funcionamiento irregular en las últimas fechas. Ninguno de los dos tiene un antecedente de peso en esta cancha puntual — los cruces entre ellos que hay se jugaron en la cancha de Platense.",
-    "veredicto": "Los dos llegan con bajas y ninguno con una racha clara a favor. No hay una lectura que se sostenga mejor que la otra."
+    "actualizado": "2026-08-23",
+    "inclinacion": "L",
+    "local": "Barracas defiende bien y convierte poco: en sus últimos cinco de este torneo metió apenas tres goles, pero ganó tres de esos cinco por la mínima. El gol está repartido —tres jugadores distintos aportaron uno cada uno, incluido un defensor— y no depende de un nombre. De local viene de perder 0-1 con Rosario Central el 16 de agosto, así que no llega en racha, pero tampoco hay bajas que trascendieran.",
+    "visitante": "Platense llega desgastado: el 19 de agosto jugó 120 minutos más penales en Chile para eliminar a Coquimbo Unido y meterse por primera vez en su historia en cuartos de Copa Libertadores. Son cuatro días de descanso nada más, con viaje de por medio. En la liga viene de tres empates seguidos (Coquimbo, Boca, Coquimbo otra vez) y no ganó de visitante desde el 9 de agosto. El gol también está repartido entre varios delanteros, ninguno concentra más del 22%.",
+    "contexto": "La tabla no cruza a los dos: Platense juega en otra zona. El historial reciente es apenas dos cruces, así que no pesa.",
+    "veredicto": "El desgaste de Copa es el dato que más pesa acá: Platense viene de un cruce a penales fuera de casa hace cuatro días, mientras Barracas llega con la semana completa. Se inclina para el local."
   },
   "espn401841519": {
-    "actualizado": "2026-08-18",
-    "inclinacion": "L",
-    "contexto": "No hay ausencias de peso confirmadas para ninguno de los dos. Sarmiento llega de racha, con tres triunfos seguidos y funcionando bien de local. Estudiantes no gana de visitante en sus últimas dos salidas, con dos derrotas en el medio.",
-    "veredicto": "Sarmiento en levantada y de local, Estudiantes sin rendir afuera — la balanza se inclina para el local."
+    "actualizado": "2026-08-23",
+    "inclinacion": null,
+    "local": "Sarmiento depende de un nombre: Junior Marabel hizo 4 de los 11 goles del equipo en el torneo, más de un tercio. Ganó tres de los últimos cinco de local, pero también perdió dos por goleada corta (2-3 con Banfield y con Argentinos). La prensa mencionó dos bajas para este partido sin identificarlas, así que no se puede pesar ninguna.",
+    "visitante": "Estudiantes llega en el mejor momento de los dos: ganó sus últimos dos partidos de manera contundente, 4-0 a Gimnasia y 3-0 a Universidad Católica de visitante por Copa Libertadores, resultado con el que avanzó a cuartos de final. También arrastra el desgaste de ese viaje a Chile, jugado apenas cinco días antes. Un medio platense mencionó una baja sensible para este viaje, sin nombrarla.",
+    "contexto": "Los dos llegan de competir en el plano internacional en la misma semana, así que el desgaste físico se compensa entre ambos y no distingue a ninguno. El historial es de solo dos cruces, anécdota. La tabla no cruza a los dos: Estudiantes juega en otra zona.",
+    "veredicto": "Estudiantes llega mejor de racha, pero las dos bajas mencionadas en la prensa no se pudieron identificar ni pesar, y el desgaste de la semana europea-sudamericana golpea a los dos por igual. No hay un factor propio que decida esto por sobre lo que ya muestra la forma de cada uno."
   },
   "espn401841522": {
     "actualizado": "2026-08-20",

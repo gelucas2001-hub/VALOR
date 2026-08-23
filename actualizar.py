@@ -280,15 +280,35 @@ def roster(slug, team_id):
     return [stats_jugador(a) for a in atletas]
 
 
+# Las únicas ligas domésticas que este pipeline sigue directamente — el
+# resto de COMPETICIONES son copas. slugs_plantel() usa esto para saber
+# si un partido YA es de liga (y entonces no hace falta, ni corresponde,
+# sumar otra liga encima).
+LIGAS_DOMESTICAS = {"arg.1"}
+
+
 def slugs_plantel(slug_consulta, slug_liga):
     """De qué competiciones pedir el roster de un equipo.
 
-    Siempre la liga doméstica además de la competición del partido, sin
-    duplicarla cuando son la misma. La liga es la que tiene muestra
-    (~25 partidos contra ~5 de copa); la copa aporta los goles que la
-    liga no ve. Quedarse con una sola miente en las dos direcciones."""
+    La liga doméstica se suma cuando el partido es de COPA — ahí sí
+    falta muestra (~5 partidos) y la liga la completa (~25). Cuando el
+    partido YA es de liga, no se suma nada más: `slug_liga` en ese caso
+    solo puede ser la misma liga (deduplicada abajo) o, en un equipo
+    recién ascendido o descendido, la categoría de la que salió —
+    ESPN cachea el `defaultLeague` viejo y no lo actualiza.
+
+    Encontrado el 2026-08-23: Estudiantes de Río Cuarto ascendió a Liga
+    Profesional (arg.1), pero ESPN seguía devolviendo arg.2 (Primera
+    Nacional) como su liga local. slugs_plantel("arg.1", "arg.2") sumaba
+    las dos categorías del mismo jugador — no copa más liga, sino dos
+    categorías distintas — y un mediocampista terminó con 52 partidos
+    jugados en vez de los 16 reales de esta temporada en arg.1.
+
+    COMPETICIONES es la única liga doméstica que este pipeline sigue
+    directamente (arg.1); todo lo demás que aparece como slug_consulta
+    es copa."""
     slugs = [slug_consulta]
-    if slug_liga and slug_liga != slug_consulta:
+    if slug_liga and slug_liga != slug_consulta and slug_consulta not in LIGAS_DOMESTICAS:
         slugs.append(slug_liga)
     return slugs
 

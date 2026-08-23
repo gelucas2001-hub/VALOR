@@ -1032,7 +1032,7 @@ inducir un medidor — que alguien "corrija" la skill por una racha.
 
 ---
 
-## 6nonies. Dos errores reales en la primera corrida de la v2.1 (2026-08-23)
+## 6decies. Dos errores reales en la primera corrida de la v2.1 (2026-08-23)
 
 La primera corrida de la skill con los principios K/L, sobre los 5
 partidos del domingo, produjo un análisis de River-Vélez con dos
@@ -1074,6 +1074,33 @@ era tal) ni el de la fatiga (que no era exclusivo), no quedaba nada que
 sostuviera una dirección. Racing-Boca se reescribió para apoyarse en
 las tres bajas confirmadas primero, con la fatiga como color
 secundario, no como base.
+
+---
+
+## 6undecies. Un ascenso rompía el plantel (2026-08-23)
+
+Lucas preguntó por qué algunos jugadores figuraban con 20-40 partidos y
+otros con 5-6. La mayoría es normal —titular contra suplente—, pero un
+caso no lo era: un mediocampista de Estudiantes de Río Cuarto con **52
+partidos jugados**.
+
+Rastreado: 16 eran reales, de esta temporada en Liga Profesional
+(`arg.1`, la competencia del partido). Los otros 36 eran de Primera
+Nacional (`arg.2`) — la categoría de la que el club **ascendió**. ESPN
+sigue cacheando `arg.2` como el `defaultLeague` del club y no lo
+actualiza. `slugs_plantel()` estaba pensada para sumar la liga
+doméstica cuando el partido es de **copa** (ahí sí falta muestra), pero
+no distinguía ese caso de un partido que **ya es de liga** — y sumaba
+las dos categorías del mismo jugador, no copa más liga.
+
+Afectaba a 1 de 42 equipos en la corrida del 2026-08-23. Se va a repetir
+con cualquier equipo recién ascendido o descendido mientras ESPN no
+actualice esa metadata — que puede ser todo el resto de la temporada.
+
+Arreglado con `LIGAS_DOMESTICAS = {"arg.1"}`: `slugs_plantel()` ahora
+solo suma la liga doméstica cuando la competición del partido **no**
+es ya una liga doméstica conocida. Test agregado en `test_plantel.py`
+con el caso exacto (`slugs_plantel("arg.1", "arg.2") == ["arg.1"]`).
 
 ---
 

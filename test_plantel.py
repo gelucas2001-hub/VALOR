@@ -126,6 +126,16 @@ prueba("sin liga domestica conocida, solo la competicion del partido",
 prueba("la copa nacional tambien suma la liga",
        actualizar.slugs_plantel("arg.copa", "arg.1") == ["arg.copa", "arg.1"])
 
+# El otro lado del mismo problema, encontrado el 2026-08-23: Estudiantes
+# de Río Cuarto ascendió a Liga Profesional (arg.1), pero el
+# defaultLeague que ESPN cachea para el club todavía dice arg.2
+# (Primera Nacional, la categoría de la que salió). El partido real es
+# de arg.1 — ya es la liga — así que sumar arg.2 no agrega copa contra
+# liga, suma DOS CATEGORÍAS DISTINTAS del mismo jugador. Un mediocampista
+# terminó con 52 PJ (16 reales en arg.1 + 36 de la categoría vieja).
+prueba("un partido de LIGA no suma otra liga distinta, aunque el cache la marque",
+       actualizar.slugs_plantel("arg.1", "arg.2") == ["arg.1"])
+
 print("\nsolo_los_que_jugaron() — no mandar al móvil lo que no se usa\n")
 
 # Un tercio de cada roster nunca jugó (juveniles, recién llegados). Se

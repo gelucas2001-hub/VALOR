@@ -1131,11 +1131,36 @@ forma — aditivo, no rompe lo que ya leía la app.
 
 **En la comparativa de Plantel:** el local usa su propio split *de
 local* y el visitante el *de visita* — jugar en casa o afuera no es lo
-mismo, y promediarlo junto tapaba esa diferencia. Si no hay muestra
-para el split (equipo recién ascendido, pocas fechas), cae al total en
-vez de mostrar un hueco. El desvío se muestra como un `±` chico debajo
-del número, solo cuando es alto en relación al promedio (>60%) —
-mostrarlo siempre sería ruido en 375px.
+mismo, y promediarlo junto tapaba esa diferencia. Debajo de cada número
+va **lo que su rival le suele conceder** en esa misma métrica: rematar
+10 no significa lo mismo contra un equipo que concede 6 que contra uno
+que concede 15. Ese cruce es lo que convierte un promedio suelto en una
+lectura del partido.
+
+**Corregido el mismo día, tras una auto-auditoría a pedido de Lucas
+("¿está bien hecho?"):** la primera versión tenía tres fallas reales.
+
+1. `concede` se calculaba y **no se usaba en ningún lado** — la feature
+   que Lucas había pedido primero quedó a medias, con el dato guardado
+   y sin mostrar. Ahora es la sub-línea de cada fila.
+2. El split se mostraba con **2 partidos de muestra**. Medido sobre los
+   datos reales: el caché tiene mediana 3 partidos por equipo (tope de
+   `DISCIPLINA_N`, que existe para el modelo), y al partirlo por sede
+   quedan 1-2 por lado — el mismo "muestra chica" que el proyecto le
+   prohíbe al análisis, y encima **peor** que el total que reemplazaba.
+   Ahora `MIN_SPLIT = 4`: abajo de eso se usa el total, que duplica la
+   muestra aunque mezcle las sedes. El caché crece solo con cada fecha,
+   así que el split se va habilitando sin pedir un request más.
+3. El `±` de irregularidad usaba un umbral (>60% del promedio) **elegido
+   a ojo**, que es exactamente lo que el repo prohíbe. Se sacó: con 3
+   partidos de muestra un desvío no dice nada, y el cruce con `concede`
+   ocupa ese lugar con información que sí se sostiene. El desvío se
+   sigue calculando y guardando, para cuando haya muestra.
+
+`cruza:false` marca las métricas donde "lo que concede el rival" no
+significa nada: posesión (es complementaria — la de los dos suma 100),
+precisión de pase y atajadas describen al que las hace, no algo que el
+rival permita.
 
 **Lo que queda para después, y es más grande:** el `/summary` que ya
 se pide también trae estadísticas **por jugador y por partido**

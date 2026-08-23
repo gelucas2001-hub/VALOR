@@ -2119,26 +2119,42 @@ function tabPlantel(m){
 
    Enfrentadas y no en dos listas sueltas porque así es como se leen: la
    pregunta es "quién remata más", no "cuánto remata este". */
+/* `cruza:false` en las métricas donde "lo que concede el rival" no
+   significa nada. La posesión es complementaria (la de los dos suma
+   100, así que "conceder posesión" es literalmente lo mismo que tenerla
+   menos), y la precisión de pase y las atajadas describen al equipo que
+   las hace, no algo que el rival permita. */
 const COMPARA = [
   {k:"remates",  et:"Remates"},
   {k:"al_arco",  et:"Al arco"},
   {k:"corners",  et:"Córners"},
-  {k:"posesion", et:"Posesión", suf:"%"},
+  {k:"posesion", et:"Posesión", suf:"%", cruza:false},
   {k:"faltas",   et:"Faltas"},
   {k:"tarjetas", et:"Tarjetas"},
   {k:"offsides", et:"Offsides"},
-  {k:"atajadas", et:"Atajadas"},
+  {k:"atajadas", et:"Atajadas", cruza:false},
   {k:"tackles",  et:"Quites"},
   /* Los pases dados solos no dicen nada ("380" ¿de cuántos?): lo que
      describe a un equipo es qué proporción le sale bien. */
-  {k:"precision", et:"Pases OK", suf:"%",
+  {k:"precision", et:"Pases OK", suf:"%", cruza:false,
    calc: e => e.pases != null && e.pases_tot ? (e.pases / e.pases_tot) * 100 : null},
 ];
 
-/* Un split (local, visita o el total) cuenta como usable si tiene al
-   menos 2 partidos con esa métrica — con 1 solo no hay desvío posible
-   (promedios_equipo lo deja afuera) y el número es puro ruido. */
-const usable = (split, k) => split && split.n && (split.n[k]||0) >= 2;
+/* Cuántos partidos necesita un split (local o visita) para usarse en vez
+   del total.
+
+   Medido el 2026-08-23 sobre los datos reales: el caché de resúmenes
+   tiene mediana 3 partidos por equipo — es el tope de DISCIPLINA_N, que
+   existe para el modelo, no para esto. Al partir esos 3 en local/visita
+   quedan 1-2 por lado, y un promedio con un decimal sobre 2 partidos es
+   el mismo "muestra chica" que el proyecto le prohíbe al análisis.
+
+   Con 4 el split empieza a decir algo; abajo de eso el total (que
+   duplica la muestra) es más honesto aunque mezcle las dos sedes. El
+   caché crece solo con cada fecha, así que esto se va a ir habilitando
+   con el tiempo sin pedir un request más. */
+const MIN_SPLIT = 4;
+const usable = (split, k) => split && split.n && (split.n[k]||0) >= MIN_SPLIT;
 
 function comparativa(m){
   const Lt = ESTADISTICAS[String(m.homeId)], Vt = ESTADISTICAS[String(m.awayId)];
@@ -2157,28 +2173,39 @@ function comparativa(m){
     const b = x.calc ? x.calc(V_) : V_[x.k];
     if(a == null && b == null) return "";   // ninguno la tiene: no se dibuja
     const num = v => v == null ? "—" : v.toFixed(1) + (x.suf||"");
-    /* El desvío se muestra cuando es alto en relación al promedio —
-       "constante" no necesita aclaración, "errático" sí, y no hay
-       espacio en 375px para mostrarlo siempre. */
-    const irreg = (split, v) => split && split.desvio && v && split.desvio[x.k] > v * 0.6
-      ? `<i class="desv" title="Irregular: varía bastante partido a partido">±${split.desvio[x.k].toFixed(1)}</i>` : "";
+    /* Debajo de cada uno, lo que concede SU RIVAL en esa misma métrica:
+       rematar 10 no significa lo mismo contra un equipo que concede 6
+       que contra uno que concede 15. Es el cruce que convierte un
+       promedio suelto en una lectura del partido — y el dato ya se
+       calculaba sin usarse. Va debajo y no al lado porque el número
+       propio es el que manda; este es contexto. */
+    const contra = (rival) => {
+      if(x.cruza === false) return "";
+      const c = rival && rival.concede;
+      if(!c || c[x.k] == null) return "";
+      return `<i class="desv">rival concede ${c[x.k].toFixed(1)}${x.suf||""}</i>`;
+    };
     /* El más alto en tinta plena. No es "el mejor" — más faltas no es
        mejor — es solo cuál de los dos hace más de esa cosa. */
     const may = (a||0) >= (b||0);
     return `<div class="cmp">
-      <b class="${may?"alto":""}">${num(a)}${irreg(L_,a)}</b>
+      <b class="${may?"alto":""}">${num(a)}${contra(Vt)}</b>
       <span>${x.et}</span>
-      <b class="${!may?"alto":""}">${num(b)}${irreg(V_,b)}</b>
+      <b class="${!may?"alto":""}">${num(b)}${contra(Lt)}</b>
     </div>`;
   }).join("");
   if(!filas) return "";
+  /* Se declara la muestra más chica de las dos: es la que limita la
+     lectura, y esconderla haría que un promedio de 3 partidos se lea
+     igual que uno de 10. */
   const n = Math.min(Lt.pj||0, Vt.pj||0);
+  const hayConcede = !!(Lt.concede || Vt.concede);
   return `<div class="lbl sep">Por partido</div>
     <div class="cmphead"><span>${esc_(m.home)} · de local</span><span>${esc_(m.away)} · de visita</span></div>
     <div class="cmplist">${filas}</div>
-    <p class="fuente">Lo que hizo cada uno en ese rol (local/visitante) — o el promedio general
-      si todavía no hay suficientes partidos en ese rol —, sobre los últimos ${n} partidos de
-      cada uno. El ± marca cuando varía mucho de partido a partido. Es lo que hicieron, no una
+    <p class="fuente">Lo que viene haciendo cada uno${hayConcede ? `, y debajo lo que su rival
+      le suele conceder en eso mismo` : ""} — sobre ${n} partido${n===1?"":"s"} de cada uno,
+      contando solo los que jugó en ese rol cuando hay suficientes. Es lo que pasó, no una
       predicción de este partido.</p>`;
 }
 

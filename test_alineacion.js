@@ -819,6 +819,61 @@ test("sin split disponible, cae al total en vez de romper", ()=>{
          "no cayó al total cuando no hay local/visita");
 });
 
+test("un split con muestra insuficiente NO se usa, aunque exista", ()=>{
+  /* Medido el 2026-08-23 sobre los datos reales: el caché tiene mediana
+     3 partidos por equipo (tope de DISCIPLINA_N), así que al partirlo en
+     local/visita quedan 1-2 por lado. Un promedio con un decimal sobre 2
+     partidos es el mismo "muestra chica" que el propio proyecto le
+     prohíbe al análisis (principio B). Con menos de MIN_SPLIT se usa el
+     total, que al menos duplica la muestra. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const flaco = {
+    "99": {remates: 10.0, pj: 4, n: {remates: 4},
+           local:  {remates: 14.0, pj: 2, n: {remates: 2}}},
+    "98": {remates: 9.0,  pj: 4, n: {remates: 4},
+           visita: {remates: 7.0,  pj: 2, n: {remates: 2}}},
+  };
+  L.cargar(PARTIDOS, {}, {}, flaco);
+  const html = L.tabPlantel(m);
+  cierto(html.includes("10.0") && html.includes("9.0"),
+         "usó un split de 2 partidos en vez de caer al total");
+  cierto(!html.includes("14.0") && !html.includes("7.0"),
+         "mostró el split pese a la muestra insuficiente");
+});
+
+test("la comparativa muestra lo que el rival concede en esa metrica", ()=>{
+  /* Lo que Lucas pidió primero: ajustar por rival. "Remata 10" significa
+     una cosa contra un equipo que concede 6 y otra contra uno que
+     concede 15. El dato ya se calculaba y no se mostraba en ningún
+     lado. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const conConcede = {
+    "99": {remates: 10.0, pj: 6, n: {remates: 6},
+           concede: {remates: 8.0, pj: 6, n: {remates: 6}}},
+    "98": {remates: 9.0,  pj: 6, n: {remates: 6},
+           concede: {remates: 15.0, pj: 6, n: {remates: 6}}},
+  };
+  L.cargar(PARTIDOS, {}, {}, conConcede);
+  const html = L.tabPlantel(m);
+  /* Debajo del local va lo que concede SU RIVAL (el visitante), porque
+     eso es contra lo que va a rematar. Y al revés. */
+  cierto(html.includes("15.0"), "no muestra lo que concede el visitante bajo el local");
+  cierto(html.includes("8.0"), "no muestra lo que concede el local bajo el visitante");
+});
+
+test("sin dato de concede, la fila sigue mostrando lo propio", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const sinConcede = {
+    "99": {remates: 10.0, pj: 6, n: {remates: 6}},
+    "98": {remates: 9.0,  pj: 6, n: {remates: 6}},
+  };
+  L.cargar(PARTIDOS, {}, {}, sinConcede);
+  const html = L.tabPlantel(m);
+  cierto(html.includes("10.0") && html.includes("9.0"),
+         "perdió los números propios cuando falta concede");
+  cierto(!/NaN|undefined/.test(html), "dibujó basura donde no hay concede");
+});
+
 /* ── 14. La escalera no puede contradecirse a sí misma ──────────────
    Lucas, después de usar la app varios días: "la incoherencia en las
    apuestas, por ahí te ponía que apuesta segura eran menos de 0.5

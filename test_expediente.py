@@ -127,5 +127,36 @@ prueba("no manda un plantel de 40 al análisis", len(grande["plantelH"]) <= 25)
 prueba("manda a los que más jugaron, no a los primeros de la lista",
        grande["plantelH"][0]["pj"] == 39)
 
+
+print("")
+print("recortar_plantel() — la serie reciente, no solo el acumulado")
+print("")
+
+# El caso Driussi, textual de Lucas: "estaba lesionado hace rato, este
+# torneo ni siquiera debuto". El plantel decia pj=5 goles=3 y la skill
+# escribio "esta jugando y convirtiendo": los numeros eran de ANTES de
+# la lesion. El acumulado de temporada no puede distinguir eso; la serie
+# de los ultimos partidos si — quien no jugo no tiene serie.
+CON_SERIE = [
+    {"nombre": "El que juega", "pos": "F", "pj": 5, "goles": 3, "asist": 0,
+     "peso_goles": 0.4, "serie": {"remates": [2, 1, 3], "goles": [1, 0, 1],
+                                  "pj": 3, "tit": 3, "esp": {"remates": 2.1}}},
+    {"nombre": "El lesionado", "pos": "F", "pj": 5, "goles": 3, "asist": 0,
+     "peso_goles": 0.4},
+]
+r = expediente.recortar_plantel(CON_SERIE)
+prueba("pasa la serie del que viene jugando", r[0].get("serie") is not None)
+prueba("y el que no jugo queda sin serie", r[1].get("serie") is None)
+prueba("los dos tienen el mismo acumulado (por eso hacia falta)",
+       r[0]["pj"] == r[1]["pj"] and r[0]["goles"] == r[1]["goles"])
+prueba("la serie llega partido por partido",
+       r[0]["serie"]["goles"] == [1, 0, 1])
+prueba("dice en cuantos jugo de los recientes", r[0]["serie"]["pj"] == 3)
+prueba("y en cuantos fue titular", r[0]["serie"]["tit"] == 3)
+prueba("no arrastra el esperado del modelo de lineas",
+       "esp" not in r[0]["serie"])
+prueba("un plantel sin series no rompe",
+       expediente.recortar_plantel([{"nombre": "X", "pos": "M", "pj": 1}]) is not None)
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

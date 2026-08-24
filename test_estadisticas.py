@@ -447,5 +447,185 @@ prueba("un partido sin árbitro informado no se re-pide para siempre",
 prueba("un registro que es solo el árbitro no cuenta como completo",
        not actualizar.resumen_completo({"_arbitro": "X"}))
 
+
+print("")
+print("jugadores_partido() — lo que hizo cada jugador en ESE partido")
+print("")
+
+# El pedido original de Lucas, textual: "no es lo mismo un jugador que
+# remato 5 veces en 5 partidos pero hizo 4 en 1". Para contestar eso
+# hace falta el numero partido por partido, no el acumulado de
+# temporada. Viene en el mismo /summary que ya se pide, en rosters[].
+def atleta(pid, titular=True, **st):
+    st.setdefault("appearances", 1)
+    return {"athlete": {"id": pid}, "starter": titular,
+            "stats": [{"name": k, "value": v} for k, v in st.items()]}
+
+ROSTERS = {"rosters": [
+    {"team": {"id": "9739"}, "roster": [
+        atleta("1", True,  totalShots=4, shotsOnTarget=2, foulsCommitted=1,
+               yellowCards=1, totalGoals=1, goalAssists=0),
+        atleta("2", False, totalShots=0, shotsOnTarget=0, foulsCommitted=3,
+               yellowCards=0, totalGoals=0, goalAssists=1),
+        atleta("3", False, appearances=0, totalShots=0),   # no jugo
+    ]},
+    {"team": {"id": "20"}, "roster": [
+        atleta("9", True, totalShots=2, shotsOnTarget=1, foulsCommitted=0,
+               yellowCards=0, totalGoals=0, goalAssists=0),
+    ]},
+]}
+
+jp = actualizar.jugadores_partido(ROSTERS)
+prueba("toma a los dos equipos", set(jp) == {"1", "2", "9"})
+prueba("descarta al que no jugo", "3" not in jp)
+
+f = jp["1"]
+i = actualizar.CAMPOS_JUGADOR_PARTIDO.index
+prueba("remates", f[i("remates")] == 4)
+prueba("remates al arco", f[i("al_arco")] == 2)
+prueba("faltas", f[i("faltas")] == 1)
+prueba("amarillas", f[i("amarillas")] == 1)
+prueba("goles", f[i("goles")] == 1)
+prueba("asistencias", jp["2"][i("asist")] == 1)
+prueba("marca si fue titular", f[i("titular")] == 1)
+prueba("y si entro desde el banco", jp["2"][i("titular")] == 0)
+
+prueba("una estadistica que no vino queda en cero, no rompe",
+       actualizar.jugadores_partido(
+           {"rosters": [{"roster": [atleta("7")]}]})["7"][i("remates")] == 0)
+prueba("sin rosters no rompe", actualizar.jugadores_partido({}) == {})
+prueba("un jugador sin id se descarta",
+       actualizar.jugadores_partido(
+           {"rosters": [{"roster": [{"stats": [], "starter": True}]}]}) == {})
+
+print("")
+print("los jugadores viajan con el partido, como el arbitro")
+print("")
+
+pj_ = actualizar.aplanar_resumen(dict(CRUDO, **ROSTERS))
+prueba("quedan guardados en el registro del partido", "_jugadores" in pj_)
+prueba("con los tres que jugaron", set(pj_["_jugadores"]) == {"1", "2", "9"})
+prueba("y no se meten adentro de un equipo", "_jugadores" not in pj_["9739"])
+prueba("el motor sigue leyendo lo suyo", pj_["9739"]["corners"] == 3)
+prueba("muestras_por_equipo los ignora",
+       "_jugadores" not in actualizar.muestras_por_equipo({"e1": pj_}))
+prueba("dispersion_total no los confunde con un equipo",
+       actualizar.dispersion_total({f"e{i2}": pj_ for i2 in range(30)}) != {})
+
+# Mismo mecanismo que con el arbitro: sin la clave, el partido ya
+# cacheado nunca se volveria a pedir y la serie no se poblaria nunca.
+prueba("un registro sin la clave se reconoce como incompleto",
+       not actualizar.resumen_completo(
+           {k: v for k, v in pj_.items() if k != "_jugadores"}))
+prueba("uno con la clave se reconoce como completo",
+       actualizar.resumen_completo(pj_))
+
+print("")
+print("serie_jugadores() — el historial partido por partido")
+print("")
+
+# Dos jugadores con el MISMO total de remates y lecturas opuestas: el
+# regular y el que hizo todo en un partido. El promedio los iguala; la
+# serie los separa. Es exactamente lo que Lucas pidio ver.
+def part(**rem):
+    r = [atleta(pid, True, totalShots=v) for pid, v in rem.items()]
+    return actualizar.aplanar_resumen(dict(CRUDO, rosters=[{"roster": r}]))
+
+cache_s = {
+    "e1": part(regular=1, explosivo=0),
+    "e2": part(regular=1, explosivo=4),
+    "e3": part(regular=1, explosivo=0),
+    "e4": part(regular=1),                    # el explosivo no jugo
+}
+jugd = [{"id": "e1"}, {"id": "e2"}, {"id": "e3"}, {"id": "e4"}]
+se = actualizar.serie_jugadores(jugd, cache_s)
+
+prueba("arma una serie por jugador", set(se) == {"regular", "explosivo"})
+prueba("respeta el orden de los partidos",
+       se["regular"]["remates"] == [1, 1, 1, 1])
+prueba("el mismo total, repartido distinto",
+       sum(se["explosivo"]["remates"]) == 4
+       and se["explosivo"]["remates"] == [0, 4, 0])
+prueba("cuenta en cuantos jugo", se["explosivo"]["pj"] == 3)
+prueba("y en cuantos fue titular", se["regular"]["tit"] == 4)
+prueba("no inventa un partido que no jugo",
+       len(se["explosivo"]["remates"]) == 3)
+prueba("un partido sin resumen cacheado se saltea",
+       actualizar.serie_jugadores(jugd + [{"id": "nada"}], cache_s)
+       ["regular"]["remates"] == [1, 1, 1, 1])
+prueba("corta en el tope pedido",
+       len(actualizar.serie_jugadores(jugd, cache_s, tope=2)["regular"]["remates"]) == 2)
+prueba("sin partidos no rompe", actualizar.serie_jugadores([], {}) == {})
+
+
+print("")
+print("serie_jugadores() — una serie de un solo partido no es una serie")
+print("")
+
+# planteles.json lo baja el telefono en cada carga. Una "serie" de un
+# partido no distingue al regular del explosivo, que es para lo unico
+# que existe, y son 140 de 442 jugadores: peso sin lectura.
+uno = {"e1": part(fugaz=2, fijo=1), "e2": part(fijo=1), "e3": part(fijo=3)}
+jd = [{"id": "e1"}, {"id": "e2"}, {"id": "e3"}]
+se1 = actualizar.serie_jugadores(jd, uno, minimo=2)
+prueba("descarta al que aparece una sola vez", "fugaz" not in se1)
+prueba("conserva al que tiene con que comparar", se1["fijo"]["pj"] == 3)
+prueba("sin minimo entran todos",
+       "fugaz" in actualizar.serie_jugadores(jd, uno, minimo=1))
+
+
+print("")
+print("parametros_jugadores() — un central no se compara contra un 9")
+print("")
+
+# A nivel equipo, k en remates da 200: dos equipos no se distinguen. A
+# nivel jugador da 2.5 — un delantero y un central SI se distinguen, y
+# muchisimo (1.41 remates contra 0.48). Por eso el ancla no puede ser el
+# promedio de todos los jugadores: encogeria al 9 hacia abajo y al
+# central hacia arriba. Se agrupa por puesto.
+def jugador(pid, pos, serie):
+    return {"id": pid, "pos": pos, "serie": {"remates": serie, "pj": len(serie)}}
+
+PLA = {"t1": [jugador(f"f{i}", "F", [3, 2, 4, 3]) for i in range(10)]
+             + [jugador(f"d{i}", "D", [0, 1, 0, 0]) for i in range(10)]}
+pj = actualizar.parametros_jugadores(PLA)
+
+prueba("separa por puesto", set(pj) == {"F", "D"})
+prueba("el delantero tiene su propia media", pj["F"]["remates"]["media"] > 2.5)
+prueba("y el defensor la suya", pj["D"]["remates"]["media"] < 0.5)
+prueba("cada puesto trae su k", "k" in pj["F"]["remates"])
+prueba("y su dispersión", "disp" in pj["D"]["remates"])
+
+prueba("un jugador sin puesto no rompe",
+       actualizar.parametros_jugadores(
+           {"t1": [{"id": "x", "serie": {"remates": [1, 2], "pj": 2}}]}) == {})
+prueba("un puesto con pocos jugadores no inventa parámetros",
+       "F" not in actualizar.parametros_jugadores(
+           {"t1": [jugador("f1", "F", [1, 2])]}))
+prueba("sin planteles no rompe", actualizar.parametros_jugadores({}) == {})
+prueba("un jugador sin serie se saltea",
+       actualizar.parametros_jugadores({"t1": [{"id": "x", "pos": "F"}]}) == {})
+
+print("")
+print("esperado_jugador() — el numero al que se le puede creer")
+print("")
+
+par_F = pj["F"]
+# Un delantero con 4 partidos rematando 3 por partido: como los
+# delanteros SI se distinguen (k bajo), su numero se le respeta.
+alto = actualizar.esperado_jugador({"remates": [3, 3, 3, 3], "pj": 4}, par_F)
+prueba("le cree bastante al jugador", alto["remates"] > 2.0)
+prueba("pero no del todo", alto["remates"] <= 3.0)
+
+# Uno con un solo partido bueno tiene que quedar mas cerca del puesto.
+poco = actualizar.esperado_jugador({"remates": [6], "pj": 1}, par_F)
+prueba("con un solo partido se apoya en el puesto", poco["remates"] < alto["remates"] + 3)
+prueba("nunca se va arriba del propio dato", poco["remates"] <= 6.0)
+prueba("sin parámetros del puesto no inventa",
+       actualizar.esperado_jugador({"remates": [3], "pj": 1}, {}) == {})
+prueba("una métrica sin serie cae al puesto",
+       actualizar.esperado_jugador({"pj": 0}, par_F)["remates"]
+       == par_F["remates"]["media"])
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

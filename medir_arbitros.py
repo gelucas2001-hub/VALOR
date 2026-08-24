@@ -71,7 +71,11 @@ def pares_arbitro(cache, metrica):
         arb = partido.get("_arbitro")
         if not arb:
             continue
-        filas = [f for f in partido.values() if isinstance(f, dict)]
+        # Las claves con guion bajo son del partido, no equipos.
+        # `_jugadores` ES un diccionario, asi que filtrar por tipo no
+        # alcanza: contaria como un tercer equipo.
+        filas = [f for k, f in partido.items()
+                 if not str(k).startswith("_") and isinstance(f, dict)]
         if len(filas) != 2:
             continue
         vals = [f.get(metrica) for f in filas]

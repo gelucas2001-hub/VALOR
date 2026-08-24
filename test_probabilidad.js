@@ -29,13 +29,15 @@ function cargarLogica(){
   };
   const salida = {};
   new Function("localStorage", "exportar", src + `
-    exportar({ probMayor, lineasDe, pesoEquipo, bloqueLineas,
+    exportar({ probMayor, lineasDe, pesoEquipo, bloqueLineas, lineaJugador, filaJugador,
+               cargarJug: p => { PARAM_JUG = p; },
                cargarEst: (eq, par) => { ESTADISTICAS = eq; PARAMETROS = par; } });
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
 }
 
-const { probMayor, lineasDe, pesoEquipo, bloqueLineas, cargarEst } = cargarLogica();
+const { probMayor, lineasDe, pesoEquipo, bloqueLineas, cargarEst,
+        lineaJugador, filaJugador, cargarJug } = cargarLogica();
 
 let ok = 0, fallan = 0;
 function prueba(nombre, cond){
@@ -166,6 +168,55 @@ cargarEst(EQ, {});
 prueba("sin parámetros medidos no se inventa nada", bloqueLineas(M) === "");
 cargarEst(EQ, PAR);
 
+
+console.log("");
+console.log("lineaJugador() — el pedido original: 4 en un partido no es 1 en cada uno");
+console.log("");
+
+const PJUG = {
+  F: {remates: {media: 1.41, disp: 1.37, k: 3.6},
+      goles:   {media: 0.14, disp: 0.94, k: 10.1}},
+  D: {remates: {media: 0.48, disp: 1.23, k: 20.9}},
+};
+cargarJug(PJUG);
+
+const regular  = {pos: "F", serie: {remates: [1, 1, 1, 1, 1], pj: 5, esp: {remates: 1.2}}};
+const explosivo = {pos: "F", serie: {remates: [4, 0, 0, 0, 1], pj: 5, esp: {remates: 1.2}}};
+
+const r = lineaJugador(regular, "remates");
+const x = lineaJugador(explosivo, "remates");
+
+prueba("da una línea y una chance", r && r.linea > 0 && r.prob >= 0 && r.prob <= 1);
+prueba("los dos parten del mismo esperado",
+       regular.serie.esp.remates === explosivo.serie.esp.remates);
+prueba("y por eso la línea es la misma", r.linea === x.linea);
+
+/* Con el mismo esperado, la chance sale de la campana del PUESTO — que
+   es lo que hay. La serie no se usa para la campana porque con 5
+   partidos un desvío propio es ruido; se muestra para que se lea. */
+prueba("la campana es la del puesto, no la del jugador", r.prob === x.prob);
+
+prueba("sin serie no hay línea", lineaJugador({pos: "F"}, "remates") === null);
+prueba("sin parámetros del puesto tampoco",
+       lineaJugador({pos: "Z", serie: {remates: [1], pj: 1, esp: {remates: 1}}},
+                    "remates") === null);
+prueba("una métrica sin mercado no da línea",
+       lineaJugador(regular, "atajadas") === null);
+prueba("un delantero rematador supera más seguido una línea baja que un defensor",
+       lineaJugador({pos: "F", serie: {remates: [3, 3], pj: 2, esp: {remates: 2.5}}},
+                    "remates").prob
+       > lineaJugador({pos: "D", serie: {remates: [0, 0], pj: 2, esp: {remates: 0.4}}},
+                      "remates").prob);
+
+console.log("");
+console.log("la serie se muestra tal cual, que es lo que se pidió ver");
+console.log("");
+
+const fila = filaJugador(explosivo, "remates");
+prueba("dibuja la serie partido por partido", /4.+0.+0.+0.+1/.test(fila));
+prueba("y la chance de pasar la línea", fila.includes("%"));
+prueba("un jugador sin serie no rompe la fila",
+       typeof filaJugador({pos: "M"}, "remates") === "string");
 console.log("");
 console.log(ok + " ok, " + fallan + " fallando");
 console.log("");

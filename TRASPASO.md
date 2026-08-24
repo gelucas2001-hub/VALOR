@@ -1551,3 +1551,78 @@ El dato se sigue guardando porque llega gratis, y el script se vuelve a
 correr cuando haya más fechas. Cuando el veredicto cambie, ahí se
 mostrará.
 
+## 6quindecies · Estadísticas por jugador y por partido (2026-08-23)
+
+Paso 3, y el pedido original de Lucas, textual: *"no es lo mismo un
+jugador que remató 5 veces en 5 partidos pero hizo 4 en 1"*. El
+acumulado de temporada que traía el roster da lo mismo en los dos casos.
+
+Sale del mismo `/summary` que ya se pedía, en `rosters[]`: cero pedidos
+nuevos, igual que las 25 métricas de equipo y que el árbitro.
+
+### Lo que se guarda
+
+`jugadores_partido()` deja por partido, y solo de los que jugaron, una
+lista compacta `[remates, al_arco, faltas, amarillas, goles, asist,
+titular]`. Va como lista y no como diccionario porque son ~32 jugadores
+por partido: repetir siete nombres de clave por fila multiplicaba por
+seis el caché. Un cero de alguien que estuvo en el banco no es un cero,
+es una ausencia, y promediarlo hundiría su número — por eso solo entran
+los que jugaron.
+
+`serie_jugadores()` arma la serie de los últimos 8, en orden, y descarta
+a los que aparecen una sola vez: una serie de un partido no distingue al
+regular del explosivo, que es para lo único que existe.
+
+### El hallazgo: los jugadores SÍ se distinguen
+
+A nivel equipo, `k` en remates dio 200 — dos equipos no se separan del
+ruido. A nivel jugador da **2.5**. Un delantero y un central se
+distinguen y por mucho:
+
+| puesto | remates/partido | k |
+|---|---|---|
+| delantero | 1.41 | 3.6 |
+| mediocampista | 1.06 | 3.7 |
+| defensor | 0.48 | 20.9 |
+| arquero | 0.00 | — |
+
+Por eso al número de un jugador se le puede creer mucho más que al de un
+equipo. Pero el ancla no puede ser el promedio de todos los jugadores:
+encogería al 9 hacia abajo y al central hacia arriba, borrando la única
+diferencia que sí es real. `parametros_jugadores()` agrupa **por
+puesto**, que es la división que ESPN da gratis y la que más explica.
+
+En pantalla, cada jugador muestra su serie partido por partido sin
+promediar, y la chance de pasar la línea más cercana a lo que se espera
+de él. La campana es la de su puesto: con 3 a 8 partidos, un desvío
+propio sería ruido con forma de número.
+
+### Un bug que atrapó el test, no el navegador
+
+`_jugadores` **es un diccionario**, a diferencia de `_arbitro`. Todo lo
+que recorría el registro filtrando por tipo (`isinstance(f, dict)`) lo
+contaba como un tercer equipo y descartaba el partido entero.
+`dispersion_total()` y `medir_arbitros.py` tenían los dos ese bug. Ahora
+las claves con guion bajo se filtran por nombre, no por tipo.
+
+### Peso: bajó, no subió
+
+`planteles.json` se escribía con `indent=1` — 138 KB de espacios en un
+archivo que CLAUDE.md marca como "no editar a mano" y que el teléfono
+baja entero en cada carga. Compactado, y con las series de un solo
+partido descartadas:
+
+- antes de todo esto: **195 KB**
+- con la serie por jugador: **180 KB**
+
+### De paso, la causa raíz del principio M
+
+`expediente.py` pasa ahora la serie a la skill de análisis. Eso resuelve
+sin research la mitad del caso Driussi: **quien no viene jugando no
+tiene serie**. Verificado con datos reales — Bruno Leyes figura con 15
+PJ de temporada y sin serie reciente, que es exactamente la señal que
+faltaba. `esp` (la media encogida) queda afuera del expediente a
+propósito: es un número del modelo, y el expediente existe para que el
+análisis no lo vea.
+

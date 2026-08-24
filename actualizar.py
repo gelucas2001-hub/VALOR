@@ -609,6 +609,81 @@ def estadisticas_equipo(crudo):
     return out
 
 
+# Lo que se guarda de cada jugador en cada partido, en orden. Va como
+# lista y no como diccionario a proposito: son ~32 jugadores por partido
+# por 179 partidos, y repetir once nombres de clave por fila multiplica
+# por seis lo que ocupa el cache.
+CAMPOS_JUGADOR_PARTIDO = ("remates", "al_arco", "faltas", "amarillas",
+                          "goles", "asist", "titular")
+
+_STAT_JUGADOR = {
+    "remates":   "totalShots",
+    "al_arco":   "shotsOnTarget",
+    "faltas":    "foulsCommitted",
+    "amarillas": "yellowCards",
+    "goles":     "totalGoals",
+    "asist":     "goalAssists",
+}
+
+# Cuantos partidos hacia atras se guarda la serie de un jugador. Es la
+# misma ventana que usan las estadisticas de equipo.
+SERIE_N = 8
+
+
+def jugadores_partido(crudo):
+    """{jugador_id: [remates, al_arco, faltas, amarillas, goles, asist,
+    titular]} de UN partido, desde rosters[] del mismo /summary.
+
+    Existe por el pedido original de Lucas: "no es lo mismo un jugador
+    que remato 5 veces en 5 partidos pero hizo 4 en 1". El acumulado de
+    temporada que trae el roster no distingue esos dos casos — y encima
+    puede ser de antes de una lesion, que es como el plantel decia que
+    Driussi venia jugando y convirtiendo cuando llevaba meses afuera.
+
+    Solo entran los que jugaron: un cero de alguien que estuvo en el
+    banco no es un cero, es una ausencia, y promediarlo hundiria su
+    numero.
+    """
+    out = {}
+    for lado in (crudo or {}).get("rosters", []) or []:
+        for p in lado.get("roster") or []:
+            pid = str((p.get("athlete") or {}).get("id") or "")
+            if not pid or pid == "None":
+                continue
+            s = {x.get("name"): x.get("value") for x in (p.get("stats") or [])}
+            if not s.get("appearances"):
+                continue
+            fila = [int(s.get(_STAT_JUGADOR[k]) or 0)
+                    for k in CAMPOS_JUGADOR_PARTIDO[:-1]]
+            fila.append(1 if p.get("starter") else 0)
+            out[pid] = fila
+    return out
+
+
+def serie_jugadores(jugados, cache_resumen, tope=SERIE_N, minimo=1):
+    """{jugador_id: {metrica: [valor por partido], "pj": n, "tit": n}}.
+
+    El orden es el de `jugados` — que viene del mas reciente al mas
+    viejo — y solo se anotan los partidos que el jugador jugo. Asi la
+    serie [0, 4, 0] y la serie [1, 1, 1, 1] se pueden leer una al lado
+    de la otra: mismo total de remates, lecturas opuestas.
+    """
+    out = {}
+    metricas = CAMPOS_JUGADOR_PARTIDO[:-1]
+    for p in jugados[:tope]:
+        filas = (cache_resumen.get(p.get("id")) or {}).get("_jugadores") or {}
+        for pid, fila in filas.items():
+            d = out.setdefault(pid, {"pj": 0, "tit": 0})
+            for n, met in enumerate(metricas):
+                d.setdefault(met, []).append(fila[n])
+            d["pj"] += 1
+            d["tit"] += fila[len(metricas)]
+    # Una serie de un solo partido no distingue al regular del explosivo,
+    # que es para lo unico que existe. Y son peso: planteles.json lo baja
+    # el telefono entero en cada carga.
+    return {pid: d for pid, d in out.items() if d["pj"] >= minimo}
+
+
 def arbitro_de(crudo):
     """El juez principal del partido, del mismo /summary que ya se pide.
 
@@ -637,6 +712,7 @@ def aplanar_resumen(crudo):
     # El arbitro es del partido, no de un equipo: va con guion bajo para
     # que todo lo que recorre los equipos del registro lo saltee.
     out["_arbitro"] = arbitro_de(crudo)
+    out["_jugadores"] = jugadores_partido(crudo)
     return out
 
 
@@ -705,7 +781,7 @@ def muestras_por_equipo(cache_resumen):
         if str(eid).startswith("_") or not isinstance(partido, dict):
             continue
         for tid, fila in partido.items():
-            if not isinstance(fila, dict):
+            if str(tid).startswith("_") or not isinstance(fila, dict):
                 continue
             for met, v in fila.items():
                 if met in ALIAS_MOTOR or not isinstance(v, (int, float)):
@@ -788,6 +864,55 @@ def media_encogida(vals, media_liga, k):
 MIN_TOTALES = 20
 
 
+# Las metricas de jugador que tienen mercado por linea.
+METRICAS_JUGADOR = ("remates", "al_arco", "faltas", "amarillas", "goles", "asist")
+
+
+def parametros_jugadores(planteles):
+    """Media, dispersion y k por PUESTO, no por jugador suelto ni por
+    todos juntos.
+
+    A nivel equipo se midio k=200 en remates: dos equipos no se
+    distinguen con esta muestra. A nivel jugador da 2.5 — un delantero
+    y un central si se distinguen, y por mucho (1.41 remates por partido
+    contra 0.48). Por eso vale la pena creerle al numero de un jugador
+    mucho mas que al de un equipo.
+
+    Pero el ancla no puede ser el promedio de todos los jugadores:
+    encogeria al 9 hacia abajo y al central hacia arriba, que es
+    justamente borrar la diferencia que si es real. Se agrupa por
+    puesto, que es la unica division que ESPN da gratis y la que mas
+    explica.
+    """
+    por_pos = {}
+    for equipo in (planteles or {}).values():
+        for j in equipo or []:
+            pos, serie = j.get("pos"), j.get("serie")
+            if not pos or not serie:
+                continue
+            for met in METRICAS_JUGADOR:
+                vals = serie.get(met)
+                if vals:
+                    (por_pos.setdefault(pos, {}).setdefault(met, {})
+                     [str(j.get("id"))]) = [float(v) for v in vals]
+    out = {}
+    for pos, muestras in por_pos.items():
+        par = parametros_metricas(muestras)
+        if par:
+            out[pos] = par
+    return out
+
+
+def esperado_jugador(serie, par_pos):
+    """Lo que se espera de este jugador por partido, encogido hacia su
+    puesto segun cuanto se le pueda creer a su propia muestra."""
+    out = {}
+    for met, p in (par_pos or {}).items():
+        vals = [float(v) for v in (serie or {}).get(met) or []]
+        out[met] = round(media_encogida(vals, p["media"], p["k"]), 2)
+    return out
+
+
 def dispersion_total(cache_resumen):
     """Cuánto varía el TOTAL del partido, no cada equipo por separado.
 
@@ -806,7 +931,12 @@ def dispersion_total(cache_resumen):
     for eid, partido in (cache_resumen or {}).items():
         if str(eid).startswith("_") or not isinstance(partido, dict):
             continue
-        filas = [f for f in partido.values() if isinstance(f, dict)]
+        # Las claves con guion bajo son del partido (arbitro, jugadores),
+        # no equipos. `_jugadores` ademas ES un diccionario, asi que
+        # filtrar por tipo no alcanza: contaria como un tercer equipo y
+        # el partido entero se descartaria.
+        filas = [f for k, f in partido.items()
+                 if not str(k).startswith("_") and isinstance(f, dict)]
         if len(filas) != 2:
             continue                    # sin los dos lados no hay total
         for met in list(METRICAS_PARTIDO) + ["tarjetas"]:
@@ -890,7 +1020,7 @@ def resumen_completo(datos):
     # clave tiene que existir: es lo que distingue "no hay arbitro" de
     # "todavia no se pregunto", y sin eso los 177 partidos ya cacheados
     # nunca se volverian a pedir.
-    if "_arbitro" not in datos:
+    if "_arbitro" not in datos or "_jugadores" not in datos:
         return False
     return all("remates" in v for v in equipos)
 
@@ -1534,6 +1664,27 @@ def main():
         pr["esperado"] = esperados(propios, parametros)
         estadisticas[tid] = pr
 
+    # ── serie por jugador ────────────────────────────────────────────
+    # El acumulado de temporada que trae el roster no distingue al que
+    # remato 1 vez en cada uno de 5 partidos del que hizo 4 en uno solo.
+    # La serie si, y sale del mismo /summary que ya se pidio.
+    for tid, js in planteles.items():
+        serie = serie_jugadores(jugados_equipo.get(tid) or [], cache_resumen, minimo=2)
+        for j in js:
+            d = serie.get(j["id"])
+            if d:
+                j["serie"] = d
+
+    # Los parametros del puesto salen de TODOS los planteles juntos: para
+    # saber que es mucho para un delantero hay que mirar a los delanteros,
+    # no a los de un equipo. Recien despues se le pone a cada jugador lo
+    # que se espera de el, encogido hacia su puesto.
+    par_jug = parametros_jugadores(planteles)
+    for equipo in planteles.values():
+        for j in equipo:
+            if j.get("serie") and j.get("pos") in par_jug:
+                j["serie"]["esp"] = esperado_jugador(j["serie"], par_jug[j["pos"]])
+
     # ── memoria de marcadores ────────────────────────────────────────
     # Se acumula: lo que ya está no se toca ni se borra. Un marcador de
     # un partido jugado no cambia, y si ESPN un día deja de devolver una
@@ -1572,10 +1723,14 @@ def main():
         "partidos": partidos,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
 
+    # Compacto y no indentado: este archivo no se lee a mano (CLAUDE.md
+    # dice "no editar") y el telefono lo baja entero en cada carga. La
+    # indentacion eran 138 KB de espacios — mas de lo que ocupa toda la
+    # serie por jugador que se acaba de agregar.
     PLANTELES.write_text(json.dumps({
         "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
         "equipos": planteles,
-    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"· planteles: {len(planteles)} equipos, "
           f"{sum(len(v) for v in planteles.values())} jugadores")
 
@@ -1583,6 +1738,7 @@ def main():
         "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
         "sobre": ESTADISTICAS_N,
         "parametros": parametros,
+        "jugadores": par_jug,
         "equipos": estadisticas,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"· estadísticas: {len(estadisticas)} equipos "

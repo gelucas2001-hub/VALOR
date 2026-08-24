@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-23T22:07",
+ "actualizado": "2026-08-23T22:40",
  "sobre": 8,
  "parametros": {
   "remates": {
@@ -78,6 +78,160 @@
    "k": 183.0,
    "equipos": 46,
    "disp_total": 0.87
+  }
+ },
+ "jugadores": {
+  "D": {
+   "remates": {
+    "media": 0.48,
+    "disp": 1.23,
+    "k": 20.9,
+    "equipos": 103
+   },
+   "al_arco": {
+    "media": 0.13,
+    "disp": 0.86,
+    "k": 6.4,
+    "equipos": 103
+   },
+   "faltas": {
+    "media": 0.84,
+    "disp": 0.98,
+    "k": 9.7,
+    "equipos": 103
+   },
+   "amarillas": {
+    "media": 0.19,
+    "disp": 0.8,
+    "k": 130.2,
+    "equipos": 103
+   },
+   "goles": {
+    "media": 0.03,
+    "disp": 0.92,
+    "k": 200.0,
+    "equipos": 103
+   },
+   "asist": {
+    "media": 0.04,
+    "disp": 1.36,
+    "k": 26.1,
+    "equipos": 103
+   }
+  },
+  "M": {
+   "remates": {
+    "media": 1.06,
+    "disp": 1.19,
+    "k": 3.7,
+    "equipos": 96
+   },
+   "al_arco": {
+    "media": 0.33,
+    "disp": 0.93,
+    "k": 4.9,
+    "equipos": 96
+   },
+   "faltas": {
+    "media": 0.84,
+    "disp": 1.22,
+    "k": 17.4,
+    "equipos": 96
+   },
+   "amarillas": {
+    "media": 0.13,
+    "disp": 0.79,
+    "k": 9.2,
+    "equipos": 96
+   },
+   "goles": {
+    "media": 0.09,
+    "disp": 0.67,
+    "k": 3.2,
+    "equipos": 96
+   },
+   "asist": {
+    "media": 0.06,
+    "disp": 0.95,
+    "k": 200.0,
+    "equipos": 96
+   }
+  },
+  "F": {
+   "remates": {
+    "media": 1.41,
+    "disp": 1.37,
+    "k": 3.6,
+    "equipos": 83
+   },
+   "al_arco": {
+    "media": 0.47,
+    "disp": 1.09,
+    "k": 7.6,
+    "equipos": 83
+   },
+   "faltas": {
+    "media": 0.84,
+    "disp": 1.32,
+    "k": 6.8,
+    "equipos": 83
+   },
+   "amarillas": {
+    "media": 0.09,
+    "disp": 0.96,
+    "k": 200.0,
+    "equipos": 83
+   },
+   "goles": {
+    "media": 0.14,
+    "disp": 1.16,
+    "k": 200.0,
+    "equipos": 83
+   },
+   "asist": {
+    "media": 0.07,
+    "disp": 0.92,
+    "k": 89.8,
+    "equipos": 83
+   }
+  },
+  "G": {
+   "remates": {
+    "media": 0.0,
+    "disp": 0.0,
+    "k": 200.0,
+    "equipos": 20
+   },
+   "al_arco": {
+    "media": 0.0,
+    "disp": 0.0,
+    "k": 200.0,
+    "equipos": 20
+   },
+   "faltas": {
+    "media": 0.0,
+    "disp": 0.0,
+    "k": 200.0,
+    "equipos": 20
+   },
+   "amarillas": {
+    "media": 0.03,
+    "disp": 0.77,
+    "k": 200.0,
+    "equipos": 20
+   },
+   "goles": {
+    "media": 0.0,
+    "disp": 0.0,
+    "k": 200.0,
+    "equipos": 20
+   },
+   "asist": {
+    "media": 0.0,
+    "disp": 0.0,
+    "k": 200.0,
+    "equipos": 20
+   }
   }
  },
  "equipos": {

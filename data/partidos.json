@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-23T22:07",
- "requests": 508,
+ "actualizado": "2026-08-23T22:40",
+ "requests": 382,
  "partidos": [
   {
    "id": "espn401841521",
@@ -1121,14 +1121,14 @@
    "ciudad": "Córdoba",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.7,
-    "empate": 2.85,
-    "visitante": 2.95,
+    "local": 2.75,
+    "empate": 2.75,
+    "visitante": 3.0,
     "totalLinea": 1.5,
-    "totalOver": 1.5,
-    "totalUnder": 2.5,
+    "totalOver": 1.54,
+    "totalUnder": 2.4,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.55,
+    "hcapLocal": 2.6,
     "hcapVisitante": 1.44
    },
    "preload": {}
@@ -1145,7 +1145,7 @@
    "awayId": "5489",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/17086.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5489.png",
-   "lh": 1.801,
+   "lh": 1.787,
    "la": 0.535,
    "rho": 0.0,
    "conf": 65,
@@ -1531,7 +1531,7 @@
    "awayId": "5488",
    "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/16.png",
    "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/5488.png",
-   "lh": 0.712,
+   "lh": 0.708,
    "la": 0.657,
    "rho": 0.0,
    "conf": 55,

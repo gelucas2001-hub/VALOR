@@ -47,11 +47,19 @@ CACHE = {
     "e5": {"_arbitro": "Juez C", "9": {"tarjetas": 2}},   # falta un equipo
     "_meta": "no es un partido",
 }
+# `_jugadores` es un diccionario, igual que un equipo: filtrar por tipo
+# no alcanza, contaria como un tercer equipo y el partido se descartaria
+# entero. Paso exactamente eso en dispersion_total().
+CACHE["e6"] = {"_arbitro": "Juez D", "_jugadores": {"7": [1, 0]},
+               "9": {"tarjetas": 3}, "5": {"tarjetas": 2}}
+
 p = m.pares_arbitro(CACHE, "tarjetas")
+prueba("las claves de partido no cuentan como un equipo",
+       ("Juez D", 5.0) in p)
 prueba("suma los dos equipos", ("Juez A", 5.0) in p)
-prueba("toma todos los partidos con arbitro", len(p) == 2)
+prueba("toma todos los partidos con arbitro", len(p) == 3)
 prueba("descarta el partido sin arbitro informado", all(a for a, _ in p))
-prueba("descarta el registro viejo sin la clave", len(p) == 2)
+prueba("descarta el registro viejo sin la clave", len(p) == 3)
 prueba("descarta el partido con un solo equipo", all(v > 0 for _, v in p))
 prueba("ignora las claves de metadatos", "_meta" not in str(p))
 prueba("un cache vacio no rompe", m.pares_arbitro({}, "tarjetas") == [])

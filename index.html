@@ -579,7 +579,7 @@ a{color:inherit}
 /* Filas planas, como el resto de las listas largas de la app. El peso
    goleador va en tinta plena porque es el dato que cambia una lectura;
    los números de al lado, apagados. Nada de mostaza acá: no es valor. */
-.jrow{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
+.jrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
 .jrow .pos{font-family:var(--mono);font-size:9px;color:var(--gris2);flex:0 0 18px}
 .jrow .jn{flex:1;min-width:0;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .jrow .peso{font-family:var(--mono);font-size:9.5px;color:var(--tinta);white-space:nowrap}
@@ -621,6 +621,13 @@ a{color:inherit}
 .cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:9px;
           letter-spacing:.05em;text-transform:uppercase;color:var(--gris3)}
 
+/* La serie partido por partido va como sub-linea del nombre, igual que
+   el peso goleador: al lado no entra y competiria con la columna. */
+/* box-sizing es lo que evita que el 100% mas la sangria empujen la
+   pagina a scrollear en horizontal. */
+.serie{flex:0 0 100%;box-sizing:border-box;padding-left:26px;margin:-4px 0 0;
+       font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;
+       color:var(--gris3)}
 /* ── escalera de líneas ────────────────────────────────────────── */
 .escf{padding:9px 0;border-top:1px solid var(--linea)}
 .escq{font-family:var(--mono);font-size:10px;letter-spacing:.05em;
@@ -889,6 +896,7 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
 let PL_EQ="H";
 let ESTADISTICAS={};   /* promedios por partido de cada equipo, del cron */
 let PARAMETROS={};     /* por metrica: media de la liga, dispersion y k */
+let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
 let LIN_MET="corners";  /* la metrica cuyas lineas se estan mirando */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
@@ -2495,6 +2503,65 @@ const METRICAS = [
   {k:"amarillas", et:"Amarillas"},
 ];
 
+/* Las métricas de jugador que tienen mercado por línea. Atajadas queda
+   afuera porque el cron todavía no las baja por partido. */
+const LIN_JUG = ["remates", "al_arco", "faltas", "amarillas", "goles", "asist"];
+
+/* La línea que le queda más cerca a lo que se espera del jugador, y la
+   chance de pasarla.
+
+   La campana es la de su PUESTO, no la suya: con 3 a 8 partidos, un
+   desvío propio es ruido con forma de número. Lo del jugador entra por
+   la media — que ya viene encogida hacia su puesto según cuánto se le
+   pueda creer (k=3.6 en remates para un delantero: bastante). La serie
+   partido por partido se muestra al lado, sin promediarla, porque es
+   justo lo que un promedio no puede decir. */
+function lineaJugador(j, met){
+  if(LIN_JUG.indexOf(met) < 0) return null;
+  const s = j && j.serie;
+  if(!s || !s.esp || s.esp[met] == null) return null;
+  const par = PARAM_JUG[j.pos];
+  if(!par || !par[met]) return null;
+  const mu = s.esp[met];
+  const linea = Math.max(0.5, Math.round(mu) - 0.5);
+  const prob = probMayor(mu, par[met].disp, linea);
+  return prob == null ? null : {linea: linea, prob: prob};
+}
+
+function filaJugador(j, clave){
+  /* El peso goleador se muestra cuando se están mirando los goles. En
+     las otras métricas competiría con el número de la columna y le come
+     el nombre al jugador, que ya venía cortándose. */
+  const peso = (clave === "goles" || clave === "asist") && j.peso_goles >= 0.15
+    ? `<span class="peso">${Math.round(j.peso_goles*100)}% de los goles</span>` : "";
+  /* Un campo ausente no es un cero medido: mostrar "0" sería afirmar una
+     medición que no existe. */
+  const hay = j[clave] != null;
+  const tot = hay ? j[clave] : "—";
+  const media = hay && j.pj > 0 ? (j[clave] / j.pj).toFixed(1) : "—";
+  /* La serie de los últimos partidos, tal cual, sin promediar. Es el
+     pedido textual: "no es lo mismo un jugador que remató 5 veces en 5
+     partidos pero hizo 4 en 1". El promedio los da iguales. */
+  const s = j.serie && j.serie[clave];
+  const L = lineaJugador(j, clave);
+  const detalle = s && s.length
+    /* Se etiqueta porque la serie es de los partidos que tenemos en
+       cache y el "PJ" de al lado es de toda la temporada: sin decirlo,
+       "5 PJ" al lado de tres numeros se lee como un error. */
+    ? `<span class="serie">partido a partido: ${s.join(" · ")}${L
+        ? ` &nbsp;·&nbsp; +${L.linea.toFixed(1)} → ${Math.round(L.prob*100)}%` : ""}</span>`
+    : "";
+  return `<div class="jrow">
+      <span class="pos">${esc_(j.pos||"—")}</span>
+      <span class="jn">${esc_(j.nombre)}</span>
+      ${peso}
+      <span class="js">${j.pj} PJ</span>
+      <span class="js">${tot}</span>
+      <span class="js prom">${media}</span>
+      ${detalle}
+    </div>`;
+}
+
 function jugadores(nombre, id, met){
   const js = PLANTELES[String(id)] || [];
   if(!js.length){
@@ -2511,21 +2578,7 @@ function jugadores(nombre, id, met){
     /* El peso goleador se muestra cuando se están mirando los goles.
        En las otras métricas competiría con el número de la columna y le
        come el nombre al jugador, que ya venía cortándose. */
-    const peso = (clave === "goles" || clave === "asist") && j.peso_goles >= 0.15
-      ? `<span class="peso">${Math.round(j.peso_goles*100)}% de los goles</span>` : "";
-    /* Un campo ausente no es un cero medido: el cron todavía no baja
-       atajadas, y mostrar "0" sería afirmar una medición que no existe. */
-    const hay = j[clave] != null;
-    const tot = hay ? j[clave] : "—";
-    const media = hay && j.pj > 0 ? (j[clave] / j.pj).toFixed(1) : "—";
-    return `<div class="jrow">
-      <span class="pos">${esc_(j.pos||"—")}</span>
-      <span class="jn">${esc_(j.nombre)}</span>
-      ${peso}
-      <span class="js">${j.pj} PJ</span>
-      <span class="js">${tot}</span>
-      <span class="js prom">${media}</span>
-    </div>`;
+    return filaJugador(j, clave);
   }).join("");
   const botones = METRICAS.map(x=>
     `<button class="met${x.k === clave ? " on" : ""}" data-plmet="${x.k}">${x.et}</button>`
@@ -2972,6 +3025,7 @@ async function traer(url, def){
   PLANTELES = (pl && pl.equipos) || {};
   ESTADISTICAS = (es && es.equipos) || {};
   PARAMETROS = (es && es.parametros) || {};
+  PARAM_JUG = (es && es.jugadores) || {};
 
   desdeHash();
   render();

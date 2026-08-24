@@ -95,10 +95,32 @@ def cargar_planteles():
         return {}
 
 
+# Lo que se pasa de la serie reciente. `esp` queda afuera a proposito:
+# es la media encogida que usa el modelo de lineas, y el expediente
+# existe justamente para que el analisis no vea numeros del modelo.
+CAMPOS_SERIE = ("remates", "al_arco", "faltas", "amarillas", "goles",
+                "asist", "pj", "tit")
+
+
 def recortar_plantel(plantel):
-    """Los que más jugaron, con los campos que pesan una baja y nada más."""
+    """Los que más jugaron, con los campos que pesan una baja y nada más.
+
+    Además del acumulado va la serie de los últimos partidos, porque el
+    acumulado solo no distingue al que viene jugando del que se lesionó
+    hace dos meses: los dos siguen figurando con los mismos PJ y goles
+    de temporada. Pasó — el plantel decía pj=5 goles=3 de un jugador que
+    no había debutado en el torneo, y el análisis escribió que estaba
+    jugando y convirtiendo. Quien no jugó no tiene serie, y eso se ve.
+    """
     js = sorted(plantel or [], key=lambda j: -j.get("pj", 0))[:TOPE_PLANTEL]
-    return [{k: j.get(k) for k in CAMPOS_JUGADOR} for j in js]
+    out = []
+    for j in js:
+        fila = {k: j.get(k) for k in CAMPOS_JUGADOR}
+        s = j.get("serie")
+        if s:
+            fila["serie"] = {k: s[k] for k in CAMPOS_SERIE if k in s}
+        out.append(fila)
+    return out
 
 
 def expediente(p, planteles=None):

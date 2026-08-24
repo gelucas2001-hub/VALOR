@@ -134,6 +134,19 @@ Ojo con el atajo fácil: escribir un `veredicto` que menciona una baja pero cuya
 **M. `pj` y `goles` del plantel son acumulado de temporada, no forma reciente — y pueden ser de antes de una lesión.** Encontrado el 2026-08-23: el expediente de River-Vélez mostraba a Driussi con `pj:5, goles:3, peso_goles:0.333`, y con eso se escribió "está jugando y convirtiendo" para descartar una baja que el research había encontrado. Estaba al revés: Driussi se lesionó en abril, se resintió en julio, y no había debutado en el Clausura — esos 5 partidos y 3 goles eran de antes de la lesión, sumados sin que nada lo marcara. `/roster` no resetea entre torneos ni sabe cuándo empezó una lesión: es un total de la temporada completa.
 
 Consecuencia práctica: si tu research encuentra una lesión o ausencia **con fecha**, esa fecha manda sobre `pj`/`goles`, aunque el plantel muestre al jugador activo. El plantel sirve para **jerarquizar** una baja que ya confirmaste (principio J) — no para **descartarla**. Si el research y el plantel se contradicen sobre si alguien juega o no, cruzá de nuevo el research por fecha (principio C) antes de confiar en el número.
+Desde el 2026-08-23 el expediente trae, además del acumulado, la
+**serie de los últimos partidos** de cada jugador (`serie`): remates,
+al arco, faltas, amarillas, goles y asistencias partido por partido,
+más en cuántos jugó (`pj`) y en cuántos fue titular (`tit`). Eso
+resuelve la mitad del problema sin research: **quien no viene jugando
+no tiene serie, o la tiene corta**. Un jugador con `pj: 5` de temporada
+y sin `serie` no está jugando ahora, y decir que "está en gran momento"
+por el acumulado es exactamente el error que originó este principio.
+
+La serie también reemplaza al promedio para leer a un jugador: `[4, 0,
+0, 0, 1]` y `[1, 1, 1, 1, 1]` dan el mismo promedio y son lecturas
+opuestas. Si vas a decir que alguien "viene enchufado", que se vea en
+la serie y no en el total.
 
 **N. Jugar entre semana no es, por sí solo, un factor exclusivo.** Encontrado en la misma auditoría: se usó "River jugó Copa Sudamericana el miércoles" como base para inclinar, cuando jugar martes/miércoles y domingo después es el **ritmo normal** de cualquier equipo que compite en copa — no una desventaja puntual de ese partido. Tratarlo como hallazgo es inflar una rutina a "factor que el modelo no ve", cuando en realidad ni siquiera diferencia a este partido de cualquier otro con el mismo calendario.
 

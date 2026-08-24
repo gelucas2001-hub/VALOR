@@ -30,6 +30,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `historico.py` | Baja y normaliza el historial largo de football-data.co.uk (6310 partidos de arg, 5544 de bra, con cuota de cierre de Pinnacle). Es la base de las mediciones serias | A mano |
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
 | `medir_clv.py` | Si la línea se mueve hacia nosotros. Es lo único que dice si hay ventaja sin esperar cientos de apuestas. Necesita que el cron junte fotos primero | A mano, cada tanto |
+| `medir_lineas.py` | Si el mercado de estadísticas (córners, tarjetas, remates) dice la verdad. Mide calibración, no plata: no hay cuotas históricas de córners. Medido el 2026-08-24: córners bien, faltas con sesgo de 9 puntos | A mano, cada tanto |
 | `medir_arbitros.py` | Si el árbitro mueve las tarjetas. Prueba de permutación: puede decir que no, y hoy dice que no | A mano, cada tanto |
 | `medir_analisis.py` | Si la `inclinacion` del análisis acierta, y si la regla de alineación suma o resta. Correr después de cada fecha | A mano |
 | `calibrar_ligas.py` | Cuánto vale cada liga sudamericana | A mano, cada tanto |
@@ -72,6 +73,15 @@ esta.
 - **Sin claves de API.** Todo sale de endpoints públicos.
 - **No cambiar el contrato de `data/partidos.json`.** Agregar campos sí; renombrar o cambiar tipos rompe el frontend.
 - **No tocar constantes del modelo para que un número dé mejor.** Si una medición no mejora, el hallazgo es que no mejoró. Hay scripts para medir: usalos.
+- **Un barrido que mejora en el borde de la grilla no encontró nada.**
+  Pasó dos veces el 2026-08-24. Con `VIDA_MEDIA_DIAS` se frenó a tiempo
+  y se extendió la grilla; el valor bueno estaba adentro. Con `rho` la
+  primera grilla (-0.05 a 0.15) daba su mejor número en -0.05, o sea
+  chocando contra la pared. Elegir el extremo de una grilla es elegir
+  dónde uno dejó de mirar.
+- **Antes de calibrar algo, medir si ya sirve.** Se pasaron tres semanas
+  midiendo calibración del modelo de goles y ninguna midiendo si daba
+  plata. Cuando por fin se midió, daba -6.18% de ROI. Ver `TRASPASO.md`.
 
 ## El rediseño, ya cerrado
 

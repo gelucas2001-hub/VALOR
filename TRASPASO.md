@@ -37,6 +37,65 @@
 > `visitante`, nuevos en `analisis.json`) y bajas pesadas contra el
 > plantel en vez de enumeradas. Ver la sección 6septies.
 
+> **Actualización 2026-08-24 — la más importante, leer antes que todo
+> lo demás.** Se midió por primera vez si el producto sirve, y la
+> respuesta cambió la prioridad del proyecto.
+>
+> **1. Nunca se había medido la plata.** Durante tres semanas se midió
+> calibración, sesgo, árbitros y análisis. Nunca ROI. El motivo estaba
+> escrito en `backtest.py`: *"ESPN borra las cuotas cuando el partido
+> termina, así que no hay precios históricos con los que simular
+> apuestas"*. Era cierto cuando se escribió y dejó de serlo cuando
+> apareció `historico.py` (6310 partidos de arg.1 con cuota de cierre
+> real de Pinnacle). Nadie volvió a hacer la pregunta. **Si leés que
+> algo "no se puede medir", chequeá la fecha de esa afirmación.**
+>
+> **2. El modelo estaba en terreno negativo en Argentina.** Aplicando
+> la regla real de la app (EV ≥ 4%, cuota ≤ 4.5), sobre 977 apuestas
+> desde 2022: **−6.18% de ROI**. Y en tasa de acierto, 40.8% contra el
+> 43.2% de apostar siempre al local. El modelo restaba.
+>
+> **3. La causa: el ajuste arrancaba de cero cada enero.**
+> `resultados_temporada()` pide del 1/1 a hoy, así que
+> `fuerzas_equipos()` nunca veía más de un año calendario. Se agregó
+> `historia_reciente()` (5 temporadas, cacheadas en disco) y se subió
+> `VIDA_MEDIA_DIAS` de 45 a 300. **Los dos cambios solo sirven juntos**
+> — hay una tabla en el comentario de la constante que lo demuestra, y
+> el par lo eligieron arg y bra por separado con datos anteriores a
+> 2022. Resultado: el ROI pasó de **−6.18% a −0.94%**.
+>
+> **4. Lo que eso significa, sin adornos.** −0.94% con z = −0.2 es
+> *indistinguible de cero*. El modelo dejó de perder; no empezó a
+> ganar. Hasta que `medir_clv.py` junte datos, no hay ninguna evidencia
+> de ventaja sobre el precio.
+>
+> **5. Una pista que se persiguió y resultó falsa.** Usar la
+> probabilidad de cierre de Pinnacle y apostar a la mejor cuota del
+> mercado daba +16.6% en bra.1 con z = +3.9. Contra una casa concreta
+> (Bet365) la misma regla dispara **11 veces en catorce años**: toda la
+> ventaja vivía en que `MaxC` es el *máximo* de treinta y pico de casas,
+> y un máximo está inflado por serlo. **No es una estrategia.** Queda
+> escrito para que nadie vuelva a entusiasmarse con ese número.
+>
+> **6. El mercado de estadísticas ya se mide** (`medir_lineas.py`, y
+> tiene pestaña propia desde hoy — vivía enterrado en Plantel). Sobre
+> 179 partidos: córners calibra bien (3.5 puntos de desvío), **faltas
+> tiene sesgo sistemático de ~9 puntos siempre para el mismo lado** y
+> remates de ~7 para el otro. De cinco métricas que la app deja
+> apostar, una está bien.
+>
+> **7. Accesibilidad de la interfaz, corregida.** Había 151 nodos de
+> texto por debajo de 11px (el más chico, 7px), nueve casos de
+> contraste por debajo del mínimo (el peor, 1.77:1) y todos los botones
+> por debajo de 44px táctiles. Ver `DESIGN.md` para la rampa de grises
+> nueva y por qué no contradice el "apagado" de una apuesta perdida.
+>
+> **Lo que queda sin medir y es el candidato serio:** el torneo
+> argentino se juega por grupos, a una sola vuelta, con 28-30 equipos y
+> tabla de promedios. `fuerzas_equipos()` asume que todos juegan contra
+> todos, así que las fuerzas de equipos de zonas distintas no están en
+> la misma escala. Nunca se probó.
+
 Este documento existe porque Lucas decidió rehacer el proyecto desde
 cero, pero **el motor matemático y el pipeline de datos están validados
 y medidos, y tirarlos sería destruir la única parte que costó semanas

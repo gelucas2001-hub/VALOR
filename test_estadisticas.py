@@ -744,5 +744,41 @@ prueba("coincide con esperados(), que es lo que usan las líneas",
        abs(e["corners"] - (esp_alto["corners"] + esp_bajo["corners"])) < 1e-9)
 
 
+print("")
+print("la configuración de competiciones no puede desincronizarse")
+print("")
+
+# Son cuatro lugares distintos que tienen que hablar de las mismas ligas:
+# COMPETICIONES, CON_FUERZAS, LIGAS_DOMESTICAS y COMPS_ORDEN en el
+# index.html. Agregar una liga y olvidarse de uno no rompe nada visible
+# — simplemente esa liga anda mal y nadie se entera.
+
+CLAVES = {"nombre", "rho", "conf", "corners", "fouls", "cards"}
+prueba("toda competición declara sus seis campos",
+       all(CLAVES <= set(v) for v in actualizar.COMPETICIONES.values()))
+prueba("ninguna se quedó sin nombre",
+       all(v["nombre"].strip() for v in actualizar.COMPETICIONES.values()))
+
+# rho fuera de rango produce probabilidades NEGATIVAS con los topes de
+# lambda que la app usa: tau(0,1) = 1 + lh*rho, y lh llega a 3.20, así
+# que hace falta rho > -1/3.20 = -0.3125.
+prueba("ningún rho puede dar probabilidades negativas",
+       all(-0.31 < v["rho"] <= 0.25 for v in actualizar.COMPETICIONES.values()))
+
+prueba("las que ajustan fuerzas existen en COMPETICIONES",
+       actualizar.CON_FUERZAS <= set(actualizar.COMPETICIONES))
+prueba("las ligas domésticas también",
+       actualizar.LIGAS_DOMESTICAS <= set(actualizar.COMPETICIONES))
+# Una liga doméstica sin ajuste de fuerzas sería una liga entera cayendo
+# al promedio simple sin que nadie lo haya decidido.
+prueba("toda liga doméstica ajusta fuerzas",
+       actualizar.LIGAS_DOMESTICAS <= actualizar.CON_FUERZAS)
+
+_html = (actualizar.Path(__file__).resolve().parent / "index.html").read_text(
+    encoding="utf-8")
+prueba("el frontend conoce todas las competiciones",
+       all(v["nombre"] in _html for v in actualizar.COMPETICIONES.values()))
+
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

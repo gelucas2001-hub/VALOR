@@ -94,7 +94,7 @@ RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
 # sus rivales, en vez de solo promediar los partidos propios. Copa
 # Argentina es eliminación directa desde el arranque — no hay red de
 # cruces repetidos, sigue con el promedio simple.
-CON_FUERZAS = {"arg.1", "conmebol.libertadores", "conmebol.sudamericana"}
+CON_FUERZAS = {"arg.1", "bra.1", "conmebol.libertadores", "conmebol.sudamericana"}
 TEMPORADAS_HISTORIA = 5    # cuántos años calendario de resultados se le dan
                             # a fuerzas_equipos(). Hasta el 2026-08-24 era 1
                             # de hecho, porque resultados_temporada() pide del
@@ -156,9 +156,35 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
 # el neutro en vez del negativo original porque la única competición que
 # sí se pudo medir dice que ese negativo estaba mal. Recalibrar cuando
 # haya más temporada jugada.
+# `rho` es la correccion de Dixon-Coles para los marcadores bajos (0-0,
+# 1-0, 0-1, 1-1), que Poisson puro estima mal. Es propio de cada liga:
+# depende de como se juega.
+#
+# Barrido el 2026-08-24 con 5 temporadas y vida 300, walk-forward,
+# eligiendo con datos anteriores a 2022. Los dos minimos quedaron
+# ADENTRO de la grilla (-0.28 a 0.15), no en un borde:
+#
+#     rho     arg.1 DEV   bra.1 DEV
+#    -0.12     0.63518     0.61113
+#    -0.08     0.63481     0.61055
+#    -0.05     0.63473 <-  0.61029
+#     0.00     0.63495     0.61021 <-
+#     0.05     0.63564     0.61055
+#     0.10     0.63678     0.61132
+#
+# arg.1 estaba en 0.05, que es peor que el -0.05 medido. Las copas
+# quedan en 0.00 por falta de muestra propia, no por medicion.
 COMPETICIONES = {
-    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": 0.05, "conf": 75,
+    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 75,
               "corners": 9.4, "fouls": 25.5, "cards": 5.4},
+    # Brasil entra el 2026-08-24. Es la liga donde el motor demostrablemente
+    # funciona: captura el 61% de la ventaja del mercado sobre la tasa base
+    # contra el 13% de arg.1, y le gana a "siempre local" en tasa de acierto
+    # (47.4% vs 46.7%). Hasta hoy el modelo corria SOLO en la liga donde
+    # falla. Los promedios salen de medir 60 partidos de bra.1 2026 via
+    # /summary, no de copiar los de Argentina.
+    "bra.1": {"nombre": "Brasileirão Série A", "rho": 0.00, "conf": 75,
+              "corners": 10.0, "fouls": 25.1, "cards": 4.1},
     "conmebol.libertadores": {"nombre": "CONMEBOL Libertadores", "rho": 0.00, "conf": 65,
               "corners": 9.8, "fouls": 24.0, "cards": 5.0},
     "conmebol.sudamericana": {"nombre": "CONMEBOL Sudamericana", "rho": 0.00, "conf": 65,
@@ -319,7 +345,7 @@ def roster(slug, team_id):
 # resto de COMPETICIONES son copas. slugs_plantel() usa esto para saber
 # si un partido YA es de liga (y entonces no hace falta, ni corresponde,
 # sumar otra liga encima).
-LIGAS_DOMESTICAS = {"arg.1"}
+LIGAS_DOMESTICAS = {"arg.1", "bra.1"}
 
 
 def slugs_plantel(slug_consulta, slug_liga):

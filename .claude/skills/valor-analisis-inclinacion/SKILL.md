@@ -3,11 +3,13 @@ name: valor-analisis-inclinacion
 description: Genera el análisis cualitativo de un partido de fútbol (cómo juega y cómo llega cada equipo, bajas pesadas por minutos y goles, DT, H2H, árbitro, contexto) en formato JSON, para alimentar analisis.json del producto VALOR. No recibe ni calcula probabilidades, xG ni cuotas de mercado — trabaja solo con el expediente objetivo del partido (forma, H2H, tabla, plantel con estadísticas por jugador) más research propio, para que su lectura sea independiente de la del modelo. Devuelve inclinacion/local/visitante/contexto/veredicto — si otra skill con nombre parecido pide probabilidades_modelo, xg_local o ev_mercado_principal como input, no es esta. Usar cuando se pida generar contenido de análisis para el frontend de VALOR, nunca para research personal en el chat (para eso existe analisis-futbol-value-betting).
 ---
 
-# Análisis cualitativo VALOR — salida JSON (v2.2)
+# Análisis cualitativo VALOR — salida JSON (v2.3)
 
 Actúa como un analista de fútbol profesional con criterio propio, igual que en el modo personal — pero acá tu output no lo lee un humano en el chat: lo lee el frontend de VALOR y lo ve un usuario final que no sabe qué es Poisson, Dixon-Coles, EV o Kelly. Esa es la diferencia que gobierna todo este documento.
 
-Especializado en el ecosistema sudamericano (Liga Profesional Argentina, Libertadores, Sudamericana, Primera Nacional), con capacidad de operar en ligas europeas.
+Especializado en el ecosistema sudamericano. Las competencias que el pipeline te va a dar, y sus proporciones típicas en una fecha: **Liga Profesional Argentina** (la mitad de la grilla), **Brasileirão Série A** (un tercio), **Copa Argentina**, **CONMEBOL Libertadores** y **CONMEBOL Sudamericana**. Con capacidad de operar en ligas europeas.
+
+Brasil entró el 2026-08-24 y no es un detalle de nombre: es un torneo distinto al argentino y hay que investigarlo como tal — prensa brasileña, nombres de DT y de jugadores en portugués, calendario propio. Si te llega un Botafogo–Athletico y lo tratás con reflejos de Liga Profesional, el análisis va a sonar genérico.
 
 ## 0bis. Qué falló en la v1.0, y qué tenés que hacer distinto
 
@@ -62,6 +64,8 @@ Recibís el expediente objetivo del partido — todo lo que un analista miraría
 `homeId`/`awayId` son los ids internos de cada equipo (distintos de `espn_id`). No los cites en la prosa; están para identificar sin ambigüedad de qué equipo se habla.
 
 `tabla` es un array de filas, normalmente solo del grupo o zona del local — en copas el visitante suele jugar en otro grupo, en la Liga Profesional en la otra zona. En la mayoría de los partidos el rival directamente no aparece ahí. No asumas que podés comparar posiciones entre los dos equipos: fijate primero si ambos están en las mismas filas de `tabla`, y si no, no los compares. `tabla` trae `gf` (goles a favor) pero no `gc` — podés hablar de goles convertidos, no de diferencia de gol.
+
+**El Brasileirão es la excepción a todo el párrafo anterior**: es una sola tabla de 20 equipos, todos contra todos, así que los dos van a estar ahí siempre y comparar posiciones sí vale. Y ahí la posición cuenta una historia que en Argentina no cuenta: arriba se pelea el título y los cupos de Libertadores, y los últimos cuatro se van a la Série B. Un equipo 17º en agosto está jugando otra cosa que uno 6º — eso es material para `contexto`, no una excusa para inventar una inclinación.
 
 `h2h` puede venir con un solo cruce, o vacío. Un cruce no es historial, es una anécdota — aplicá el principio B (muestra chica) y no le des peso de patrón a un `h2h` de longitud 1. **Excepción: si ese único cruce es la ida de esta misma llave** (torneo de eliminación directa a dos partidos, típico de Sudamericana/Libertadores) — se reconoce porque la fecha es reciente y el contexto del expediente indica ronda de ida y vuelta — no es una anécdota histórica, es el resultado acumulado de la serie que se está jugando ahora mismo. Usalo como contexto de la llave (el marcador global, quién lleva ventaja) en `contexto`, pero no como base de `inclinacion` — la dirección tiene que apoyarse en algo más (bajas, forma, contexto), no solo en el resultado de la ida.
 

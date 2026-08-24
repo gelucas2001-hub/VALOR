@@ -27,12 +27,14 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `backtest.py` | Calibración contra resultados | A mano |
 | `medir_sesgo.py` | Cuánto nos apartamos de la línea del mercado | A mano, antes y después de tocar el modelo |
 | `medir_vs_mercado.py` | Brier contra la cuota de cierre real | A mano |
+| `medir_clv.py` | Si la línea se mueve hacia nosotros. Es lo único que dice si hay ventaja sin esperar cientos de apuestas. Necesita que el cron junte fotos primero | A mano, cada tanto |
 | `medir_arbitros.py` | Si el árbitro mueve las tarjetas. Prueba de permutación: puede decir que no, y hoy dice que no | A mano, cada tanto |
 | `medir_analisis.py` | Si la `inclinacion` del análisis acierta, y si la regla de alineación suma o resta. Correr después de cada fecha | A mano |
 | `calibrar_ligas.py` | Cuánto vale cada liga sudamericana | A mano, cada tanto |
 | `data/*.json` | Lo escribe el cron. **No editar a mano** | Nadie |
 | `data/planteles.json` | Jugadores con números (PJ, goles, peso goleador). Lo escribe el cron | Nadie |
 | `data/estadisticas.json` | Promedios por partido de cada equipo (remates, córners, posesión, tackles). Sale del mismo `/summary` que ya se pedía: cero pedidos extra | Nadie |
+| `data/cuotas.json` | Historia de la cuota de mercado, foto por corrida. Se acumula: ESPN la borra cuando el partido termina | Nadie |
 | `data/analisis.json` | Análisis cualitativo, carga manual. El cron **nunca** lo toca | A mano |
 
 ## El research de `analisis.json` — con qué skill, y con cuál no

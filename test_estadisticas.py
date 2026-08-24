@@ -627,5 +627,53 @@ prueba("una métrica sin serie cae al puesto",
        actualizar.esperado_jugador({"pj": 0}, par_F)["remates"]
        == par_F["remates"]["media"])
 
+
+print("")
+print("snapshot_cuotas() — la cuota de hoy, guardada para comparar con la de cierre")
+print("")
+
+# ESPN BORRA el bloque de cuotas cuando el partido termina. Se verifico:
+# de 11 partidos ya jugados de arg.1, CERO conservaban odds. O sea que el
+# CLV no se puede medir hacia atras — hay que ir guardando la foto cada
+# corrida, y la ultima antes del inicio es la de cierre.
+MERC = {"prov": "DraftKings", "local": 2.65, "empate": 2.90, "visitante": 2.95,
+        "totalLinea": 1.5, "totalOver": 1.54, "totalUnder": 2.40}
+P1 = [{"id": "e1", "mercado": MERC, "lh": 1.4, "la": 1.0, "rho": 0.05}]
+
+c = actualizar.snapshot_cuotas({}, P1, "2026-08-24T09:00")
+prueba("crea la entrada del partido", "e1" in c)
+prueba("guarda una foto", len(c["e1"]) == 1)
+f = c["e1"][0]
+prueba("con la hora", f["t"] == "2026-08-24T09:00")
+prueba("con las tres del 1X2", (f["local"], f["empate"], f["visitante"]) == (2.65, 2.90, 2.95))
+prueba("con la linea de goles", f["totalLinea"] == 1.5)
+prueba("y con lo que pensaba el modelo en ese momento",
+       f["lh"] == 1.4 and f["la"] == 1.0)
+
+# Si nada se movio, no se guarda otra foto: seria peso sin informacion.
+c2 = actualizar.snapshot_cuotas(c, P1, "2026-08-24T15:00")
+prueba("si no se movio nada, no duplica", len(c2["e1"]) == 1)
+
+# Si se movio la cuota, si.
+P2 = [dict(P1[0], mercado=dict(MERC, local=2.40))]
+c3 = actualizar.snapshot_cuotas(c2, P2, "2026-08-24T15:00")
+prueba("si la cuota se movio, agrega foto", len(c3["e1"]) == 2)
+prueba("y quedan en orden", c3["e1"][1]["local"] == 2.40)
+
+# Si cambio el modelo pero no la cuota, tambien: el movimiento relativo
+# entre los dos es justamente lo que se quiere medir.
+P3 = [dict(P1[0], lh=1.9)]
+c4 = actualizar.snapshot_cuotas(c3, P3, "2026-08-24T21:00")
+prueba("si cambio el modelo, agrega foto", len(c4["e1"]) == 3)
+
+# Nada se borra nunca: un partido que ya no esta en la grilla conserva
+# su historia, que es el unico lugar donde vive la cuota de cierre.
+c5 = actualizar.snapshot_cuotas(c4, [], "2026-08-25T09:00")
+prueba("un partido que salio de la grilla no se borra", len(c5["e1"]) == 3)
+
+prueba("un partido sin mercado no genera entrada",
+       actualizar.snapshot_cuotas({}, [{"id": "e9", "lh": 1, "la": 1}], "t") == {})
+prueba("sin partidos no rompe", actualizar.snapshot_cuotas({}, [], "t") == {})
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

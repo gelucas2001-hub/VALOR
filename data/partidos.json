@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-23T22:40",
+ "actualizado": "2026-08-23T23:30",
  "requests": 382,
  "partidos": [
   {
@@ -1125,8 +1125,8 @@
     "empate": 2.75,
     "visitante": 3.0,
     "totalLinea": 1.5,
-    "totalOver": 1.54,
-    "totalUnder": 2.4,
+    "totalOver": 1.53,
+    "totalUnder": 2.45,
     "hcapLinea": -0.5,
     "hcapLocal": 2.6,
     "hcapVisitante": 1.44
@@ -1738,7 +1738,7 @@
     "visitante": 7.0,
     "totalLinea": 2.5,
     "totalOver": 2.25,
-    "totalUnder": 1.57,
+    "totalUnder": 1.56,
     "hcapLinea": -1.5,
     "hcapLocal": 2.35,
     "hcapVisitante": 1.5

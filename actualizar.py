@@ -46,6 +46,7 @@ PLANTELES = Path("data/planteles.json")     # team_id -> plantel con números
 # Sale del mismo /summary que ya se pide para los córners del modelo: no
 # cuesta un pedido más, cuesta dejar de descartar 22 de las 25 métricas.
 ESTADISTICAS = Path("data/estadisticas.json")
+CUOTAS = Path("data/cuotas.json")   # historia de la cuota de mercado, se acumula
 ESTADISTICAS_N = 8                          # sobre cuántos partidos promedia
                             # (PJ, goles, asistencias, remates, tarjetas por
                             # jugador) sumando liga doméstica + competición.
@@ -682,6 +683,41 @@ def serie_jugadores(jugados, cache_resumen, tope=SERIE_N, minimo=1):
     # que es para lo unico que existe. Y son peso: planteles.json lo baja
     # el telefono entero en cada carga.
     return {pid: d for pid, d in out.items() if d["pj"] >= minimo}
+
+
+# Los campos de la foto que definen si algo se movio. La hora no entra:
+# si nada cambio, guardar otra foto es peso sin informacion.
+CAMPOS_FOTO = ("local", "empate", "visitante",
+               "totalLinea", "totalOver", "totalUnder", "lh", "la", "rho")
+
+
+def snapshot_cuotas(previas, partidos, ahora):
+    """Agrega una foto de la cuota de mercado de cada partido, junto con
+    lo que pensaba el modelo en ese mismo momento.
+
+    Existe porque ESPN BORRA el bloque de cuotas cuando el partido
+    termina — se verifico el 2026-08-23 sobre 11 partidos ya jugados de
+    arg.1: ninguno lo conservaba. O sea que el CLV (haber conseguido un
+    precio mejor que el de cierre) no se puede medir hacia atras. Hay
+    que ir guardando, y la ultima foto antes del inicio es la de cierre.
+
+    Se acumula y no se borra nunca, como los marcadores: un partido que
+    salio de la grilla conserva su historia, que es el unico lugar donde
+    va a vivir su cuota de cierre.
+    """
+    out = {k: list(v) for k, v in (previas or {}).items()}
+    for p in partidos or []:
+        merc = p.get("mercado")
+        if not merc:
+            continue
+        foto = {"t": ahora}
+        for k in CAMPOS_FOTO:
+            foto[k] = merc.get(k) if k in merc else p.get(k)
+        historia = out.setdefault(p["id"], [])
+        if historia and all(historia[-1].get(k) == foto[k] for k in CAMPOS_FOTO):
+            continue                      # no se movio nada
+        historia.append(foto)
+    return out
 
 
 def arbitro_de(crudo):
@@ -1743,6 +1779,24 @@ def main():
     }, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"· estadísticas: {len(estadisticas)} equipos "
           f"(promedio de hasta {ESTADISTICAS_N} partidos, sin pedidos extra)")
+
+    # ── historia de la cuota de mercado ──────────────────────────────
+    # Cero pedidos nuevos: la cuota ya viene en el scoreboard que se pidio
+    # para armar la grilla. Se acumula porque ESPN la borra cuando el
+    # partido termina, y sin la de cierre no hay CLV que medir.
+    cuotas_previas = {}
+    if CUOTAS.exists():
+        try:
+            cuotas_previas = json.loads(CUOTAS.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            cuotas_previas = {}
+    cuotas = snapshot_cuotas(cuotas_previas, partidos,
+                             datetime.datetime.now().isoformat(timespec="minutes"))
+    CUOTAS.write_text(json.dumps(cuotas, ensure_ascii=False, separators=(",", ":")),
+                      encoding="utf-8")
+    _fotos = sum(len(v) for v in cuotas.values())
+    print(f"· cuotas: {len(cuotas)} partidos, {_fotos} fotos "
+          f"(+{_fotos - sum(len(v) for v in cuotas_previas.values())} nuevas)")
 
     CACHE_DISCIPLINA.parent.mkdir(parents=True, exist_ok=True)
     CACHE_DISCIPLINA.write_text(json.dumps(cache_resumen, ensure_ascii=False), encoding="utf-8")

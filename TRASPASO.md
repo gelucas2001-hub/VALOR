@@ -1626,3 +1626,66 @@ faltaba. `esp` (la media encogida) queda afuera del expediente a
 propósito: es un número del modelo, y el expediente existe para que el
 análisis no lo vea.
 
+## 6sexdecies · CLV: el único instrumento que contesta rápido (2026-08-23)
+
+Sale de evaluar dos recomendaciones de ChatGPT que trajo Lucas. La
+mayoría de lo que proponía no es viable con nuestros datos (xG con
+cobertura del 42%, minutos esperados y toques en área que ESPN no da,
+splits defensivos por puesto que necesitan cientos de partidos, varias
+casas que requieren API paga). Pero el CLV sí, y es el mejor de la
+lista.
+
+### Por qué importa más que el resto
+
+Está medido que el modelo captura el **44%** de lo que sabe el mercado
+(289 partidos contra la cuota de cierre real) y que apenas le gana a la
+frecuencia base (4 de 8 mercados en Liga, 1 de 8 en Libertadores, sobre
+425 partidos). Con esa señal, esperar a que los resultados digan si hay
+ventaja tarda cientos de apuestas — y para entonces la plata ya se fue
+averiguándolo.
+
+El CLV contesta antes: si el modelo sabe algo que el precio todavía no
+tiene, la línea debería moverse **hacia nosotros** antes del inicio. Si
+eso pasa sostenidamente hay ventaja aunque la apuesta puntual se
+pierda; si no pasa, no la hay aunque se gane.
+
+### El hallazgo que definió el diseño
+
+**ESPN borra el bloque de cuotas cuando el partido termina.** Verificado
+sobre 11 partidos ya jugados de arg.1 en cuatro fechas distintas: los
+tres que quedaban en grilla tenían `odds`, los pasados **ninguno**.
+
+Consecuencia: el CLV **no se puede medir hacia atrás**. Hay que ir
+guardando. Por eso `snapshot_cuotas()` acumula una foto por corrida en
+`data/cuotas.json` — y nunca borra, igual que los marcadores, porque
+ese archivo va a ser el único lugar donde viva la cuota de cierre.
+
+Cuesta **cero pedidos nuevos**: la cuota ya venía en el scoreboard que
+se pide para armar la grilla, y `mercado_de()` ya la extraía. Lo único
+que faltaba era guardarla en el tiempo.
+
+### Qué mide `medir_clv.py`
+
+No compara promedios de cuota. Por cada partido con dos fotos:
+
+1. Le saca el margen a las dos (`devig`) — sin eso, cualquier cuota
+   parece generosa y la comparación está sesgada a nuestro favor.
+2. Toma la probabilidad del modelo en el momento de la primera foto.
+3. Pregunta si la línea se movió hacia donde apuntaba el modelo, más
+   seguido de lo que da una moneda (test binomial).
+4. Informa el CLV medio: cuota tomada × probabilidad de cierre − 1.
+
+Está escrito para **poder decir que no**: hay un test que le pasa ruido
+y verifica que no invente señal, y otro que le pasa una señal real y
+verifica que la detecte. Con menos de 30 casos se niega a concluir.
+
+### Estado al 2026-08-23
+
+8 partidos, 8 fotos, ninguno con dos todavía. El script lo dice y no
+inventa nada. Verificado igual de punta a punta simulando el movimiento
+de línea sobre las cuotas reales: 32 comparaciones, devig correcto, y
+el veredicto negándose a concluir con 22 casos útiles.
+
+Hacen falta varias corridas del cron sobre partidos que todavía no se
+jugaron. Es lo esperable, no un error.
+

@@ -38,7 +38,8 @@ jobs:
         run: |
           fallaron=""
           for t in test_estadisticas.py test_expediente.py test_forma.py \
-                   test_plantel.py test_calibracion.py test_medir_analisis.py; do
+                   test_plantel.py test_calibracion.py test_medir_analisis.py \r
+                   test_medir_arbitros.py; do
             echo "::group::$t"
             python "$t" || fallaron="$fallaron $t"
             echo "::endgroup::"

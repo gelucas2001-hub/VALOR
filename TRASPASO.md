@@ -1502,3 +1502,52 @@ nombre, y hereda la sobredispersión que ya se midió en el modelo.
 - **No aparece como mercado.** Lucas lo pidió explícito: ver las
   estadísticas alcanza, no quiere que compitan con los pronósticos.
 
+## 6quaterdecies · El árbitro: guardado, medido, y no mostrado (2026-08-23)
+
+Paso 2 de los tres que salieron de la pregunta de Lucas sobre apuestas
+de estadísticas. El razonamiento venía de una medición: las tarjetas no
+dependen de cómo va el partido (r = −0.05 con los goles, +0.01 con la
+diferencia). Si la varianza no viene del partido, el sospechoso es el
+árbitro — y ESPN lo devuelve en `gameInfo.officials`, dentro del mismo
+`/summary` que ya se pedía.
+
+### Lo que se hizo
+
+`arbitro_de()` saca al juez principal **por posición, no por orden**:
+`officials` trae también asistentes y cuarto árbitro, y el primero de la
+lista no siempre es el que muestra las tarjetas. Se guarda como
+`_arbitro` en el registro del partido (guion bajo para que todo lo que
+recorre equipos lo saltee) y `resumen_completo()` ahora exige esa clave,
+que es lo que dispara el rellenado de una sola vez — el mismo mecanismo
+que se usó para las 25 métricas.
+
+Al 2026-08-23: **57 de 179 partidos** con árbitro informado. El resto se
+rellena solo cuando esos equipos vuelvan a jugar; no se forzó un
+re-fetch masivo porque no hacía falta.
+
+### Lo que dio la medición
+
+`medir_arbitros.py` no compara promedios: hace una **prueba de
+permutación**. Siempre hay diferencia entre árbitros, aunque repartas
+los partidos tirando una moneda; la pregunta es si esa diferencia es más
+grande que la que da el azar. Se mezclan los totales entre árbitros 5000
+veces y se cuenta cuántas mezclas igualan o superan la separación real.
+
+Con 54 partidos y ~2 por árbitro:
+
+| métrica | separación observada | el azar la iguala | veredicto |
+|---|---|---|---|
+| tarjetas | 1.90 | 32.6% | indistinguible |
+| faltas | 16.26 | 17.7% | indistinguible |
+| córners | 4.42 | 66.9% | indistinguible |
+
+**No se muestra nada del árbitro en la app.** El chequeo ingenuo
+(varianza entre promedios contra ruido esperado) daba "hay señal" en
+tarjetas y faltas; la permutación lo desarma. Es exactamente el caso que
+la regla del repo cubre: si una medición no mejora, el hallazgo es que
+no mejoró.
+
+El dato se sigue guardando porque llega gratis, y el script se vuelve a
+correr cuando haya más fechas. Cuando el veredicto cambie, ahí se
+mostrará.
+

@@ -609,6 +609,22 @@ def estadisticas_equipo(crudo):
     return out
 
 
+def arbitro_de(crudo):
+    """El juez principal del partido, del mismo /summary que ya se pide.
+
+    Se busca por posición y no por orden: `officials` trae también a los
+    asistentes y al cuarto árbitro, y el primero de la lista no siempre
+    es el que muestra las tarjetas.
+
+    Devuelve "" y no None cuando no viene, para que la ausencia se pueda
+    distinguir de "todavía no se preguntó" — ver `resumen_completo()`.
+    """
+    for o in (crudo or {}).get("gameInfo", {}).get("officials", []) or []:
+        if (o.get("position") or {}).get("name") == "Referee":
+            return o.get("fullName") or ""
+    return ""
+
+
 def aplanar_resumen(crudo):
     """Lo mismo, más los tres nombres que el motor viene usando desde
     antes (`corners`/`fouls`/`cards`). Se mantienen porque
@@ -618,6 +634,9 @@ def aplanar_resumen(crudo):
     for tid, f in out.items():
         f["fouls"] = f["faltas"]
         f["cards"] = f["tarjetas"]
+    # El arbitro es del partido, no de un equipo: va con guion bajo para
+    # que todo lo que recorre los equipos del registro lo saltee.
+    out["_arbitro"] = arbitro_de(crudo)
     return out
 
 
@@ -864,7 +883,16 @@ def resumen_completo(datos):
     """
     if not datos:
         return False
-    return all("remates" in v for v in datos.values())
+    equipos = [v for k, v in datos.items() if not str(k).startswith("_")]
+    if not equipos:
+        return False
+    # `_arbitro` puede venir vacio (ESPN no siempre lo informa) pero la
+    # clave tiene que existir: es lo que distingue "no hay arbitro" de
+    # "todavia no se pregunto", y sin eso los 177 partidos ya cacheados
+    # nunca se volverian a pedir.
+    if "_arbitro" not in datos:
+        return False
+    return all("remates" in v for v in equipos)
 
 
 def resumen_partido(slug, event_id):

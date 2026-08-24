@@ -362,5 +362,78 @@ prueba("un caché vacío no rompe", actualizar.dispersion_total({}) == {})
 prueba("ignora las claves de metadatos",
        "_meta" not in actualizar.dispersion_total(dict(sumacero, _meta="x")))
 
+
+print("")
+print("arbitro_de() — quién dirigió, del mismo response que ya se pedía")
+print("")
+
+# Se midió que las tarjetas NO dependen del partido: correlación -0.05
+# con los goles y +0.01 con la diferencia. La varianza viene de otro
+# lado, y el sospechoso de siempre es el árbitro. ESPN lo devuelve en
+# gameInfo.officials, dentro del /summary que ya se pide: cero pedidos
+# extra, igual que pasó con las 25 métricas.
+CON_ARB = {"gameInfo": {"officials": [
+    {"fullName": "Pablo Dovalo", "position": {"name": "Referee"}},
+    {"fullName": "Otro Que No Dirige", "position": {"name": "Assistant Referee"}},
+]}}
+prueba("saca el nombre del árbitro", actualizar.arbitro_de(CON_ARB) == "Pablo Dovalo")
+
+# El primero de la lista no siempre es el juez principal: hay que ir por
+# la posición, no por el orden.
+AL_REVES = {"gameInfo": {"officials": [
+    {"fullName": "Un Asistente", "position": {"name": "Assistant Referee"}},
+    {"fullName": "La Jueza", "position": {"name": "Referee"}},
+]}}
+prueba("elige al juez principal, no al primero de la lista",
+       actualizar.arbitro_de(AL_REVES) == "La Jueza")
+
+prueba("sin árbitro devuelve vacío, no None",
+       actualizar.arbitro_de({"gameInfo": {"officials": []}}) == "")
+prueba("sin gameInfo no rompe", actualizar.arbitro_de({}) == "")
+prueba("una lista rara no rompe",
+       actualizar.arbitro_de({"gameInfo": {"officials": [{"x": 1}]}}) == "")
+
+print("")
+print("el árbitro viaja con el partido, no con un equipo")
+print("")
+
+pl = actualizar.aplanar_resumen(dict(CRUDO, **CON_ARB))
+prueba("queda guardado en el registro del partido", pl["_arbitro"] == "Pablo Dovalo")
+prueba("y no se mete adentro de un equipo", "_arbitro" not in pl["9739"])
+
+# Todo lo que ya leía el caché tiene que seguir andando con la clave
+# nueva al lado. Si alguna de estas se rompe, se rompen los lambda.
+prueba("el motor sigue leyendo lo suyo", pl["9739"]["corners"] == 3)
+prueba("muestras_por_equipo ignora la clave del árbitro",
+       "_arbitro" not in actualizar.muestras_por_equipo({"e1": pl}))
+prueba("dispersion_total no la confunde con un equipo",
+       actualizar.dispersion_total({f"e{i}": pl for i in range(30)}) != {})
+prueba("disciplina_equipo sigue calculando",
+       actualizar.disciplina_equipo("arg.1", "9739", [{"id": "e1"}], {"e1": pl}) is not None)
+
+print("")
+print("el caché se rellena una sola vez, no para siempre")
+print("")
+
+# Mismo problema que con las 25 métricas: los 177 partidos ya cacheados
+# no tienen árbitro y no se volverían a pedir nunca, porque el partido
+# ya está en el caché. Se los reconoce por la ausencia de la clave.
+# Un registro tal como quedo escrito ANTES de este cambio: tiene las 25
+# metricas y ninguna clave de partido. No se puede fabricar con
+# aplanar_resumen(), que ahora siempre agrega el arbitro.
+sin_arb = {k: v for k, v in actualizar.aplanar_resumen(CRUDO).items()
+           if not k.startswith("_")}
+prueba("un registro sin árbitro se reconoce como incompleto",
+       not actualizar.resumen_completo(sin_arb))
+prueba("uno con árbitro se reconoce como completo",
+       actualizar.resumen_completo(pl))
+# Un partido cuyo árbitro ESPN no informa NO se puede re-pedir siempre:
+# la clave está aunque venga vacía, y eso alcanza.
+vacio = actualizar.aplanar_resumen(dict(CRUDO, gameInfo={"officials": []}))
+prueba("un partido sin árbitro informado no se re-pide para siempre",
+       actualizar.resumen_completo(vacio))
+prueba("un registro que es solo el árbitro no cuenta como completo",
+       not actualizar.resumen_completo({"_arbitro": "X"}))
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

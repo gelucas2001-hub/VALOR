@@ -134,6 +134,15 @@ print("\ndisciplina_equipo() — el motor no se puede romper con esto\n")
 #     registros viejos con solo fouls/corners/cards.
 jugados = [{"id": "e1"}, {"id": "e2"}]
 
+# Estos registros son anteriores a las 25 metricas y al arbitro, asi que
+# disciplina_equipo() los da por incompletos y sale a re-pedirlos: es lo
+# que tiene que hacer en produccion. En un test eso seria un pedido real
+# a ESPN, lento y dependiente de la red. Se simula el pedido fallido,
+# que ademas es el camino que interesa probar — que un registro viejo
+# siga alimentando los lambda aunque el re-pedido no traiga nada.
+_real_resumen = actualizar.resumen_partido
+actualizar.resumen_partido = lambda slug, eid: None
+
 cache_con_none = {"e1": {"9739": {"corners": 4.0, "fouls": 12.0, "cards": None,
                                   "faltas": 12.0, "tarjetas": None, "remates": 8.0}}}
 r = actualizar.disciplina_equipo("arg.1", "9739", jugados[:1], cache_con_none)
@@ -146,6 +155,9 @@ cache_viejo = {"e1": {"9739": {"corners": 6.0, "fouls": 10.0, "cards": 2.0}}}
 r2 = actualizar.disciplina_equipo("arg.1", "9739", jugados[:1], cache_viejo)
 prueba("un registro viejo del caché sigue alimentando el modelo",
        r2 is not None and r2[0] == 6.0)
+
+# Se devuelve el pedido real: el stub era solo para esos dos casos.
+actualizar.resumen_partido = _real_resumen
 
 print("\npromedios_equipo() — también informa la constancia (desvío)\n")
 

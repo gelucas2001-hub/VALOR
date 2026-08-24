@@ -1689,3 +1689,80 @@ el veredicto negándose a concluir con 22 casos útiles.
 Hacen falta varias corridas del cron sobre partidos que todavía no se
 jugaron. Es lo esperable, no un error.
 
+## 6septdecies · El "44%" era contra una vara falsa (2026-08-24)
+
+Sale del issue #8: `medir_vs_mercado.py` evaluaba **289 partidos** — la
+temporada en curso — porque cruzaba nombres del CSV con equipos de ESPN,
+y ESPN solo devuelve la temporada actual. El CSV que ya bajábamos tiene
+**6310**, de 2012 a 2026, y es autosuficiente: trae `Home`, `Away`,
+`HG`, `AG` y `Date`, que es exactamente lo que `fuerzas_equipos()`
+necesita. El cruce con ESPN era lo único que ataba la medición.
+
+`historico.py` lo normaliza (arg 6310, bra 5544, con cierre de Pinnacle
+en el 94%) y `medir_historico.py` mide walk-forward estricto.
+
+### El hallazgo
+
+Sobre **6270 partidos de arg.1**:
+
+```
+Brier tasa base       0.65292
+Brier modelo          0.65071
+Brier mercado         0.62553
+Brier siempre 1/3     0.66667
+```
+
+Contando de las dos formas, la MISMA medición:
+
+| vara | capturamos |
+|---|---|
+| "siempre un tercio" | **38.8%** |
+| tasa base histórica | **8.1%** |
+
+**El salto de 44% a 8% no es por la muestra: es por dejar de contarnos
+la localía como mérito.** El local gana bastante más que un tercio; un
+modelo que solo aprendiera eso ya parecería listo contra la vara falsa.
+La tasa base — la frecuencia histórica de local/empate/visita hasta ese
+momento — es la vara honesta, y contra ella el modelo aporta 8%.
+
+### Argentina no es Brasil
+
+Misma medición sobre 5504 partidos de bra.1:
+
+```
+tasa base   0.63383
+modelo      0.61994
+mercado     0.59671
+capturamos  37%
+```
+
+Y la calibración de Brasil es buena (casi todas las franjas dentro de
+pocos puntos), mientras que la de Argentina se rompe arriba: cuando
+decimos 70-80%, pasa el 56.4% — **+17.4 puntos de exceso de
+confianza**.
+
+O sea que la debilidad del modelo está concentrada justo en la liga que
+más le importa a Lucas. Eso es una pista, no una condena: hay algo del
+fútbol argentino (o de cómo lo tratamos) que el modelo no está
+capturando, y ahora hay muestra para investigarlo.
+
+### El corte temporal, testeado aparte
+
+Todo esto es walk-forward: se ajusta con lo anterior y se predice lo
+siguiente. Una fuga de futuro **no se ve como un error, se ve como un
+modelo buenísimo**, así que `ventana_previa()` tiene tests propios —
+incluido el caso que rompe sin avisar: dos partidos del mismo día no se
+ven entre sí, porque cuando se predice una fecha esa fecha todavía no
+se jugó.
+
+Ventana de 365 días: medido, con `VIDA_MEDIA_DIAS = 45` un partido de
+hace un año pesa 0.0036 y uno de hace dos, 0.0000. Cortar ahí no cambia
+el ajuste y evita recorrer 14 años por partido.
+
+### Qué destraba
+
+Los issues #2 (rho), #3 (VIDA_MEDIA_DIAS / PRIOR_FUERZA), #5 (remates
+para fuerza) y #6 (calibrar antes de publicar) estaban todos parados
+por falta de muestra. Con 11.854 partidos y el arnés walk-forward ya
+armado, se pueden atacar de verdad.
+

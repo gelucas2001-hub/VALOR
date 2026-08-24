@@ -37,7 +37,7 @@ jobs:
       - name: Correr todas las suites
         run: |
           fallaron=""
-          for t in test_estadisticas.py test_expediente.py test_forma.py test_plantel.py test_calibracion.py test_medir_analisis.py test_medir_arbitros.py test_medir_clv.py; do
+          for t in test_estadisticas.py test_expediente.py test_forma.py test_plantel.py test_calibracion.py test_medir_analisis.py test_medir_arbitros.py test_medir_clv.py test_historico.py test_medir_historico.py; do
             echo "::group::$t"
             python "$t" || fallaron="$fallaron $t"
             echo "::endgroup::"

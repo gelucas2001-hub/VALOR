@@ -218,5 +218,149 @@ prueba("un partido sin estadisticas no se re-pide para siempre",
 prueba("un registro vacío no se da por completo",
        not actualizar.resumen_completo({}))
 
+
+print("")
+print("muestras_por_equipo() — juntar los valores por equipo del caché")
+print("")
+
+# Para saber si el promedio de un equipo dice algo o es ruido hay que
+# tener los valores sueltos, no el promedio ya hecho.
+cache_m = {
+    "e1": {"9": {"remates": 10, "corners": 3}, "5": {"remates": 14, "corners": 6}},
+    "e2": {"9": {"remates": 8,  "corners": 5}, "5": {"remates": 12, "corners": 2}},
+    "_meta": "esto no es un partido",
+}
+mu = actualizar.muestras_por_equipo(cache_m)
+prueba("agrupa por métrica y por equipo", sorted(mu["remates"]) == ["5", "9"])
+prueba("junta los valores de todos los partidos", sorted(mu["remates"]["9"]) == [8.0, 10.0])
+prueba("ignora las claves de metadatos", "_meta" not in str(mu))
+prueba("no arrastra los alias del motor", "fouls" not in mu)
+prueba("un caché vacío no rompe", actualizar.muestras_por_equipo({}) == {})
+
+print("")
+print("parametros_metricas() — cuánta de la diferencia entre equipos es real")
+print("")
+
+# El hallazgo que motiva esto: con 3-4 partidos por equipo, la diferencia
+# de remates entre dos equipos es del tamaño del ruido de muestreo.
+# Mostrar "12.5 vs 18.7" como diferencia real es mentir con decimales.
+#
+# k es cuánto hay que tirar el promedio del equipo hacia el de la liga.
+# k alto = todavía no se distingue. Se recalcula en cada corrida, así que
+# se relaja solo a medida que se juntan partidos.
+seniales = {t: [v] * 6 for t, v in
+            {"a": 2, "b": 6, "c": 10, "d": 14, "e": 18, "f": 22, "g": 26, "h": 30}.items()}
+p_sen = actualizar.parametros_metricas({"remates": seniales})["remates"]
+prueba("con señal clara, k es chico", p_sen["k"] < 1.0)
+prueba("informa la media de la liga", 15.5 < p_sen["media"] < 16.5)
+
+import random
+random.seed(7)
+ruido = {t: [random.choice([0, 10]) for _ in range(4)] for t in "abcdefgh"}
+p_rui = actualizar.parametros_metricas({"remates": ruido})["remates"]
+prueba("sin señal, k es grande", p_rui["k"] > 5)
+prueba("k tiene tope (no escribe un número absurdo en el JSON)",
+       p_rui["k"] <= actualizar.K_TOPE)
+
+prueba("informa la dispersión por partido", p_sen["disp"] >= 0)
+prueba("informa sobre cuántos equipos midió", p_sen["equipos"] == 8)
+prueba("con pocos equipos no inventa un parámetro",
+       actualizar.parametros_metricas({"remates": {"a": [1, 2]}}) == {})
+prueba("sin muestras no rompe", actualizar.parametros_metricas({}) == {})
+
+print("")
+print("media_encogida() — el promedio honesto de un equipo")
+print("")
+
+# Con k grande el promedio propio casi no pesa: el mejor pronóstico para
+# ese equipo es el de la liga. Con k chico manda lo suyo.
+prueba("sin partidos, es el de la liga",
+       actualizar.media_encogida([], 10.0, 3.0) == 10.0)
+prueba("con k grande tira al de la liga",
+       abs(actualizar.media_encogida([20.0] * 4, 10.0, 100.0) - 10.0) < 0.5)
+prueba("con k chico respeta lo del equipo",
+       abs(actualizar.media_encogida([20.0] * 4, 10.0, 0.1) - 20.0) < 0.5)
+prueba("queda entre el equipo y la liga, nunca fuera",
+       10.0 <= actualizar.media_encogida([20.0] * 4, 10.0, 4.0) <= 20.0)
+prueba("más partidos pesan más que menos partidos",
+       actualizar.media_encogida([20.0] * 8, 10.0, 4.0)
+       > actualizar.media_encogida([20.0] * 2, 10.0, 4.0))
+
+
+print("")
+print("esperados() — lo que se espera de este equipo, no lo que hizo")
+print("")
+
+PAR = {"remates": {"media": 13.0, "k": 200.0, "disp": 2.95, "equipos": 46},
+       "faltas":  {"media": 11.0, "k": 7.0,   "disp": 1.42, "equipos": 46}}
+
+# Un equipo con 3 partidos rematando 20: el promedio dice 20, pero con
+# k=200 (remates no se distingue entre equipos con esta muestra) lo
+# esperable sigue siendo lo de la liga.
+tres = [{"remates": 20, "faltas": 18}] * 3
+es = actualizar.esperados(tres, PAR)
+prueba("con k alto el esperado se pega a la liga", abs(es["remates"] - 13.0) < 0.5)
+prueba("con k bajo el esperado se mueve hacia el equipo", es["faltas"] > 12.5)
+prueba("y no se pasa del promedio del equipo", es["faltas"] <= 18.0)
+prueba("una métrica sin parámetro no se inventa", "corners" not in es)
+prueba("sin partidos devuelve el de la liga", actualizar.esperados([], PAR)["remates"] == 13.0)
+prueba("sin parámetros no rompe", actualizar.esperados(tres, {}) == {})
+
+# El caso que hace falta que no se rompa: la métrica existe en params
+# pero ningún partido la trajo.
+sin = [{"faltas": 10}, {"faltas": 12}]
+prueba("una métrica ausente en los partidos cae al de la liga",
+       actualizar.esperados(sin, PAR)["remates"] == 13.0)
+
+
+print("")
+print("dispersion_total() — el total del partido no es la suma de dos independientes")
+print("")
+
+# Medido el 2026-08-23: la dispersión de los córners de UN equipo es
+# 1.76, pero la del total del partido es 1.01. Si fueran independientes
+# tendría que dar 1.76 también. No lo son: los córners son medio suma
+# cero (si uno ataca, el otro no), así que el total varía MENOS de lo
+# que predice sumar dos modelos sueltos. Con tarjetas pasa al revés.
+#
+# Quien arma líneas de total sumando dos equipos independientes se
+# infla las colas y ve valor donde no hay.
+def part(a, b):
+    return {"9": {"corners": a}, "5": {"corners": b}}
+
+# Suma constante: los dos se reparten 10 córners. Varía cada equipo,
+# el total no varía nada.
+sumacero = {f"e{i}": part(x, 10 - x) for i, x in
+            enumerate([2, 3, 4, 5, 6, 7, 8, 5, 4, 6, 3, 7, 5, 4, 6, 5, 6, 4, 5, 5, 3, 7])}
+dt = actualizar.dispersion_total(sumacero)
+prueba("un total que no varía da dispersión cero", dt["corners"] < 0.01)
+# ...aunque cada equipo por separado varíe muchísimo. Es exactamente
+# el caso que rompe sumar dos modelos independientes.
+import statistics as _st
+_m = actualizar.muestras_por_equipo(sumacero)["corners"]
+prueba("y eso pasa aunque cada equipo suelto varíe mucho",
+       all(_st.variance(v) > 1.5 for v in _m.values()))
+
+# Totales que varían de verdad.
+import random
+random.seed(11)
+libre = {f"e{i}": part(random.randint(0, 12), random.randint(0, 12)) for i in range(40)}
+prueba("un total que varía da dispersión mayor que cero",
+       actualizar.dispersion_total(libre)["corners"] > 0.5)
+
+# Un partido con un solo equipo cargado no tiene total: no se puede
+# inventar la mitad que falta.
+medio = dict(sumacero)
+medio["roto"] = {"9": {"corners": 4}}
+prueba("un partido a medias no cuenta como total",
+       abs(actualizar.dispersion_total(medio)["corners"]
+           - actualizar.dispersion_total(sumacero)["corners"]) < 0.01)
+
+prueba("con pocos partidos no inventa un parámetro",
+       actualizar.dispersion_total({"e1": part(3, 4)}) == {})
+prueba("un caché vacío no rompe", actualizar.dispersion_total({}) == {})
+prueba("ignora las claves de metadatos",
+       "_meta" not in actualizar.dispersion_total(dict(sumacero, _meta="x")))
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

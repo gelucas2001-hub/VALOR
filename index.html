@@ -621,6 +621,19 @@ a{color:inherit}
 .cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:9px;
           letter-spacing:.05em;text-transform:uppercase;color:var(--gris3)}
 
+/* ── escalera de líneas ────────────────────────────────────────── */
+.escf{padding:9px 0;border-top:1px solid var(--linea)}
+.escq{font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+      text-transform:uppercase;color:var(--tinta)}
+.escf .desv{display:block;font-style:normal;font-size:8.5px;font-weight:400;
+            color:var(--gris3);letter-spacing:.02em;margin:2px 0 6px}
+.escl{display:flex;gap:6px}
+.escl b{flex:1;text-align:center;font-family:var(--mono);font-size:10px;
+        font-weight:600;color:var(--gris3);border:1px solid var(--linea);
+        border-radius:2px;padding:5px 2px}
+.escl em{display:block;font-style:normal;font-size:13px;color:var(--tinta);
+         margin-top:3px}
+
 /* ── herramientas ──────────────────────────────────────────────── */
 .expl{font-size:11.5px;line-height:1.55;color:#7E7360;margin:0 0 18px}
 .askbank{padding:22px 16px;text-align:center}
@@ -875,6 +888,8 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
    botones arriba; se conserva esa decisión. */
 let PL_EQ="H";
 let ESTADISTICAS={};   /* promedios por partido de cada equipo, del cron */
+let PARAMETROS={};     /* por metrica: media de la liga, dispersion y k */
+let LIN_MET="corners";  /* la metrica cuyas lineas se estan mirando */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
 let BOOT_ERROR=null, CARGANDO=true;
@@ -2101,6 +2116,10 @@ function tabPlantel(m){
      estimación. Juntas y sin distinguir se leían como el mismo número
      dicho dos veces. */
   h += comparativa(m);
+  /* Lo que hicieron, y recién despues la chance de pasar una linea.
+     El orden importa: la escalera es una lectura DE esos numeros, y
+     puesta antes se leeria como un dato medido mas. */
+  h += bloqueLineas(m);
   h += `<div class="lbl sep">Lo que esperamos acá</div>
     <div class="tstats">
       <div class="t"><span>Córners</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
@@ -2124,6 +2143,149 @@ function tabPlantel(m){
    100, así que "conceder posesión" es literalmente lo mismo que tenerla
    menos), y la precisión de pase y las atajadas describen al equipo que
    las hace, no algo que el rival permita. */
+/* ══════════════════════════════════════════════════════════════════
+   LA PROBABILIDAD DE UNA LÍNEA
+
+   El mercado no vende promedios, vende líneas: "más de 4.5 córners".
+   Un promedio de 4.7 no contesta esa pregunta, y esconde la que sí
+   importa — cuánto se mueve ese equipo alrededor de su promedio.
+
+   Dos equipos de 2.0 remates promedio, uno regular y otro errático:
+   el errático tiene MÁS chance de pasar 3.5 y MENOS de pasar 1.5. Mismo
+   número, apuestas opuestas. Por eso acá no se compara contra la media
+   sino que se integra la cola que queda arriba de la línea.
+
+   Qué campana se usa sale de lo que se midió, métrica por métrica, con
+   la varianza que tiene cada una alrededor de su media (`disp`, que el
+   cron recalcula solo):
+
+     disp > 1  más despatarrada que Poisson (remates: 2.95, córners
+               1.75) — binomial negativa, colas gordas
+     disp ~ 1  Poisson tal cual
+     disp < 1  MÁS regular que Poisson (tarjetas: 0.72) — binomial,
+               colas flacas
+
+   Usar Poisson para todo, que es lo que hace casi cualquier planilla,
+   subvalúa las colas de remates y sobrevalúa las de tarjetas.
+   ══════════════════════════════════════════════════════════════════ */
+function probMayor(mu, disp, linea){
+  if(mu == null || !isFinite(mu) || mu <= 0) return null;
+  if(linea == null || !isFinite(linea)) return null;
+  /* Línea 4.5 quiere decir "5 o más". Con líneas enteras el mercado
+     devuelve el dinero en el empate; acá se toma el lado estricto. */
+  const k0 = Math.floor(linea) + 1;
+  if(k0 <= 0) return 1;
+  const d = (disp != null && isFinite(disp) && disp > 0) ? disp : 1;
+  let acum = 0, t;                       // acum = P(X <= k0-1)
+  if(d > 1.05){
+    const r = mu / (d - 1), p = 1 / d, q = 1 - p;
+    t = Math.pow(p, r);
+    for(let k = 0; k < k0; k++){ acum += t; t = t * (k + r) / (k + 1) * q; }
+  } else if(d < 0.95){
+    /* Menos dispersa que Poisson: ninguna binomial negativa puede
+       hacer eso, pero la binomial común sí. Si el ajuste no da una
+       binomial válida (o su techo queda debajo de la línea, donde
+       daría un cero que no es cierto), se usa Poisson. */
+    const n = Math.round(mu / (1 - d));
+    const p = n > 0 ? mu / n : 1;
+    if(!(n >= k0 && p > 0 && p < 1)) return probMayor(mu, 1, linea);
+    t = Math.pow(1 - p, n);
+    for(let k = 0; k < k0; k++){ acum += t; t = t * (n - k) / (k + 1) * p / (1 - p); }
+  } else {
+    t = Math.exp(-mu);
+    for(let k = 0; k < k0; k++){ acum += t; t = t * mu / (k + 1); }
+  }
+  return Math.min(1, Math.max(0, 1 - acum));
+}
+
+/* Las métricas que se apuestan por línea. Posesión y pases quedan
+   afuera a propósito: no hay mercado de "más de 51.5% de posesión", y
+   un porcentaje no es un conteo — la campana de acá no lo describe. */
+const LINEAS = [
+  {k:"corners",  et:"Córners"},
+  {k:"tarjetas", et:"Tarjetas"},
+  {k:"remates",  et:"Remates"},
+  {k:"al_arco",  et:"Al arco"},
+  {k:"faltas",   et:"Faltas"},
+];
+
+/* Qué parte de un número es del equipo y qué parte es de la liga.
+
+   No es un adorno: con la muestra de hoy, en remates `k` da 200, o sea
+   que la diferencia entre dos equipos es del tamaño del ruido y lo
+   esperable para los dos es casi el promedio de la liga. Mostrar el
+   número sin decir eso sería aparentar una precisión que no hay. */
+function pesoEquipo(n, k){
+  if(!n) return 0;
+  if(k == null || !isFinite(k)) return 1;
+  return n / (n + k);
+}
+
+/* Cuatro líneas alrededor de lo esperado, siempre en .5 para que no
+   exista el empate (en una línea entera la casa devuelve el dinero y
+   la probabilidad de acá no describiría esa apuesta). */
+function lineasDe(mu){
+  const base = Math.round(mu);
+  return [base - 1.5, base - 0.5, base + 0.5, base + 1.5].filter(L => L > 0);
+}
+
+function bloqueLineas(m){
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  if(!L || !V) return "";
+  const hay = LINEAS.filter(x => PARAMETROS[x.k]
+    && L.esperado && L.esperado[x.k] != null
+    && V.esperado && V.esperado[x.k] != null);
+  if(!hay.length) return "";
+  const x = hay.find(y => y.k === LIN_MET) || hay[0];
+  const p = PARAMETROS[x.k];
+  const muL = L.esperado[x.k], muV = V.esperado[x.k];
+
+  const escalon = (titulo, mu, disp, nota) => {
+    const celdas = lineasDe(mu).map(Ln => {
+      const q = probMayor(mu, disp, Ln);
+      return q == null ? ""
+        : `<b>+${Ln.toFixed(1)}<em>${Math.round(q * 100)}%</em></b>`;
+    }).join("");
+    if(!celdas) return "";
+    return `<div class="escf"><span class="escq">${titulo}</span>
+      <i class="desv">${mu.toFixed(1)} esperados · ${nota}</i>
+      <div class="escl">${celdas}</div></div>`;
+  };
+
+  const propio = eq => {
+    const n = (eq.n && eq.n[x.k]) || 0;
+    const w = Math.round(pesoEquipo(n, p.k) * 100);
+    return `${w}% de su muestra, ${100 - w}% del promedio de la liga`;
+  };
+
+  /* El total NO se calcula sumando dos equipos independientes. Se midió
+     aparte y da distinto: en córners un equipo suelto tiene dispersión
+     1.75 y el total del partido 1.01, porque son medio suma cero — si
+     uno ataca, el otro no. Sumar dos modelos sueltos infla las colas y
+     hace ver valor donde no hay. */
+  const filas = [
+    escalon(esc_(m.home), muL, p.disp, propio(L)),
+    escalon(esc_(m.away), muV, p.disp, propio(V)),
+    escalon("Total del partido", muL + muV,
+            p.disp_total != null ? p.disp_total : p.disp,
+            p.disp_total != null ? "dispersión medida sobre el total"
+                                 : "sin medición propia del total"),
+  ].join("");
+
+  const botones = hay.map(y =>
+    `<button class="met${y.k === x.k ? " on" : ""}" data-linmet="${y.k}">${y.et}</button>`
+  ).join("");
+
+  return `<div class="lbl sep">Chance de pasar la línea</div>
+    <div class="mets">${botones}</div>
+    ${filas}
+    <p class="fuente">La chance de que el número termine arriba de cada línea, con la
+      campana que le corresponde a esta métrica — no todas se reparten igual, y usar
+      Poisson para todo subvalúa las colas de remates y sobrevalúa las de tarjetas.
+      Cuando un equipo tiene pocos partidos, su número se apoya en el promedio de la
+      liga: ahí abajo dice cuánto. No es una cuota ni descuenta el margen de la casa.</p>`;
+}
+
 const COMPARA = [
   {k:"remates",  et:"Remates"},
   {k:"al_arco",  et:"Al arco"},
@@ -2692,7 +2854,7 @@ function ir(v, extra){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-pleq],[data-plmet],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
+  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-pleq],[data-plmet],[data-linmet],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
   if(!t) return;
   const d = t.dataset;
 
@@ -2707,6 +2869,7 @@ document.addEventListener("click", e=>{
   else if(d.tab){ TAB = d.tab; render(); }
   else if(d.pleq){ PL_EQ = d.pleq; render(); }
   else if(d.plmet){ PL_MET = d.plmet; render(); }
+  else if(d.linmet){ LIN_MET = d.linmet; render(); }
   else if(d.volver){ ir("fecha"); }
   else if(d.filtro){ FILTRO = d.filtro; render(); }
   else if(d.estado){
@@ -2808,6 +2971,7 @@ async function traer(url, def){
   ANALISIS = an || {}; delete ANALISIS._schema;
   PLANTELES = (pl && pl.equipos) || {};
   ESTADISTICAS = (es && es.equipos) || {};
+  PARAMETROS = (es && es.parametros) || {};
 
   desdeHash();
   render();

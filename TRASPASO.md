@@ -1410,3 +1410,95 @@ fricción.
 - **No dar por terminado sin verificar en navegador.**
 - Lucas pregunta seguido "¿vamos bien?" y espera una respuesta honesta
   con lo bueno **y** lo que falta, no un informe de logros.
+
+## 6terdecies · Apuestas de estadísticas: la chance de pasar la línea (2026-08-23)
+
+Lucas apuesta cada vez más a estadísticas (córners, tarjetas, remates,
+remates al arco) y preguntó qué debería tener en cuenta alguien que
+apuesta a eso. La respuesta salió de medir sobre los 177 partidos que
+ya estaban en `cache_disciplina.json`, no de suponer. Varias hipótesis
+razonables se cayeron.
+
+### Lo que se midió
+
+**El promedio es la unidad equivocada.** El mercado vende líneas, no
+promedios. Y la irregularidad cambia de signo según de qué lado de la
+media caiga la línea: con media 2.0, el errático tiene MÁS chance de
+pasar 3.5 y MENOS de pasar 1.5. Mismo número, apuestas opuestas.
+
+**Cada métrica se dispersa distinto** (varianza / media, por equipo y
+por partido):
+
+| métrica | disp equipo | disp total | k |
+|---|---|---|---|
+| faltas | 1.39 | 1.39 | 6.6 |
+| tackles | 1.61 | 1.95 | 5.5 |
+| córners | 1.77 | **1.00** | 123 |
+| tarjetas | **0.73** | 0.87 | 183 |
+| remates | 3.01 | 1.59 | 200 |
+| al arco | 1.93 | 1.42 | 200 |
+
+Usar Poisson para todo — lo que hace casi cualquier planilla —
+subvalúa las colas de remates y sobrevalúa las de tarjetas. Por eso
+`probMayor()` elige la campana según `disp`: binomial negativa arriba
+de 1, Poisson cerca de 1, binomial (más regular que Poisson) abajo.
+
+**El total del partido no es la suma de dos equipos independientes.**
+En córners un equipo suelto mide 1.77 y el total 1.00. Si fueran
+independientes tendrían que coincidir. No lo son: los córners son medio
+suma cero. Sumar dos modelos sueltos infla las colas y hace ver valor
+donde no hay. Por eso `dispersion_total()` lo mide aparte. Con las
+tarjetas pasa al revés (0.73 → 0.87): un partido caliente le saca a los
+dos.
+
+**Con esta muestra, los equipos no se distinguen en remates.** `k` sale
+de partir la diferencia entre equipos en ruido de muestreo y señal real.
+Con 3-4 partidos por equipo, la diferencia observada en remates, al arco
+y córners NO es más grande que el ruido: k=200 quiere decir "usá el
+promedio de la liga". Lo que sí distingue a un equipo es el estilo —
+faltas (k=6.6), posesión (3.9), quites (5.5). La app venía mostrando
+"12.5 contra 18.7" como si fuera una diferencia real; era ruido con
+decimales. Ahora cada número dice qué parte es del equipo y qué parte
+de la liga.
+
+Nada de esto es una constante puesta a mano: `parametros_metricas()`
+recalcula media, dispersión y k en cada corrida sobre el caché entero,
+así que el encogimiento se afloja solo a medida que se juntan partidos.
+
+**Las tarjetas no dependen del partido.** Correlación con el marcador:
+−0.05 con los goles, +0.01 con la diferencia; partido cerrado 4.44
+tarjetas, goleada 4.53. La idea intuitiva de "partido cerrado, más
+tarjetas" es falsa acá. La varianza viene de otro lado — del árbitro, y
+ESPN lo devuelve en `gameInfo.officials[0].fullName`, dentro del mismo
+`/summary` que ya se pide. Sin medir todavía: haría falta un re-fetch
+de los 177 partidos, una vez.
+
+**Cuidado con la tautología:** remates al arco contra goles da r=0.56.
+Un gol *es* un remate al arco. Modelar eso es re-modelar goles con otro
+nombre, y hereda la sobredispersión que ya se midió en el modelo.
+
+### Qué se agregó
+
+- `actualizar.py`: `muestras_por_equipo()`, `parametros_metricas()`,
+  `media_encogida()`, `esperados()`, `dispersion_total()`. Se escriben
+  en `data/estadisticas.json` como `parametros` (nuevo, top-level) y
+  `esperado` por equipo. Contrato aditivo: nada se renombró.
+- `index.html`: `probMayor()`, `lineasDe()`, `pesoEquipo()`,
+  `bloqueLineas()` — la escalera de 4 líneas por equipo y del total,
+  con selector de métrica (`data-linmet`, agregado al `closest()`;
+  olvidarlo es el bug silencioso que ya pasó dos veces).
+- `test_probabilidad.js` (32) y 32 tests nuevos en
+  `test_estadisticas.py`. Los dos corren en CI.
+
+### Lo que NO se hizo, a propósito
+
+- **No se ajusta por el rival.** Sería ataque×defensa como en goles,
+  pero `concede` tiene el mismo problema de muestra que el resto: hoy
+  agregaría ruido, no información.
+- **El `esperado` se calcula sobre la muestra total, no sobre el split
+  de local/visita.** El ancla de la liga es la general; anclar un split
+  de 2 partidos a una media que no le corresponde metería un sesgo peor
+  que el que corrige.
+- **No aparece como mercado.** Lucas lo pidió explícito: ver las
+  estadísticas alcanza, no quiere que compitan con los pronósticos.
+

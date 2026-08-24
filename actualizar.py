@@ -658,6 +658,177 @@ def promedios_equipo(partidos):
     return out
 
 
+# Los dos nombres que `aplanar_resumen()` duplica para el motor. Son la
+# misma columna que `faltas`/`tarjetas`: contarlos otra vez inventaría
+# métricas repetidas.
+ALIAS_MOTOR = ("fouls", "cards")
+
+# Con cuántos equipos como mínimo tiene sentido estimar cuánta de la
+# diferencia observada es real. Con menos, la estimación del ruido es
+# más ruidosa que lo que quiere medir.
+MIN_EQUIPOS = 8
+
+# Tope de k. Cuando entre-equipos da cero, la fórmula tiende a infinito;
+# el tope evita escribir un número absurdo en el JSON. A k=200 con 9
+# partidos el encogimiento ya es del 99.96%: en la práctica es "usá el
+# promedio de la liga", que es justo lo que k infinito quiere decir.
+K_TOPE = 200.0
+
+
+def muestras_por_equipo(cache_resumen):
+    """{metrica: {team_id: [valor por partido]}} desde el caché de resúmenes.
+
+    Los promedios ya calculados no sirven para saber si una diferencia
+    entre dos equipos es real: para eso hacen falta los valores sueltos.
+    """
+    out = {}
+    for eid, partido in (cache_resumen or {}).items():
+        if str(eid).startswith("_") or not isinstance(partido, dict):
+            continue
+        for tid, fila in partido.items():
+            if not isinstance(fila, dict):
+                continue
+            for met, v in fila.items():
+                if met in ALIAS_MOTOR or not isinstance(v, (int, float)):
+                    continue
+                out.setdefault(met, {}).setdefault(str(tid), []).append(float(v))
+    return out
+
+
+def _media(v):
+    return sum(v) / len(v)
+
+
+def _var(v):
+    """Varianza muestral. Con menos de dos valores no existe."""
+    if len(v) < 2:
+        return 0.0
+    m = _media(v)
+    return sum((x - m) ** 2 for x in v) / (len(v) - 1)
+
+
+def parametros_metricas(muestras):
+    """Por métrica: media de la liga, dispersión por partido y `k`.
+
+    `k` es el corazón de esto. Mide cuánto hay que tirar el promedio de
+    un equipo hacia el de la liga antes de creerle.
+
+    Sale de partir la diferencia observada entre equipos en dos: la que
+    se explica sola por tener pocos partidos (ruido de muestreo) y la
+    que sobra (señal real). k = ruido / señal.
+
+    Importa porque acá se midió lo contrario de lo que uno supone: con
+    3 o 4 partidos por equipo, la diferencia de remates entre dos
+    equipos NO es más grande que el ruido. Mostrar "12.5 contra 18.7"
+    como si fuera una diferencia real es mentir con decimales. En
+    cambio faltas, posesión y tackles sí se distinguen — son estilo, y
+    el estilo es estable.
+
+    No hay constante elegida a mano: se recalcula en cada corrida sobre
+    todo el caché, así que el encogimiento se afloja solo a medida que
+    se juntan partidos.
+    """
+    out = {}
+    for met, por_eq in (muestras or {}).items():
+        con_dato = {t: v for t, v in por_eq.items() if len(v) >= 2}
+        if len(con_dato) < MIN_EQUIPOS:
+            continue
+        todos = [x for v in con_dato.values() for x in v]
+        media = _media(todos)
+        # Ruido: cuánto varía un mismo equipo de partido a partido.
+        dentro = _media([_var(v) for v in con_dato.values()])
+        medias = [_media(v) for v in con_dato.values()]
+        nbar = _media([len(v) for v in con_dato.values()])
+        # Señal: lo que sobra de la dispersión entre equipos después de
+        # descontar el ruido que ya se espera por promediar pocos partidos.
+        entre = _var(medias) - dentro / nbar
+        k = K_TOPE if entre <= 0 else min(dentro / entre, K_TOPE)
+        out[met] = {
+            "media": round(media, 2),
+            "disp": round(dentro / media, 2) if media > 0 else 0.0,
+            "k": round(k, 1),
+            "equipos": len(con_dato),
+        }
+    return out
+
+
+def media_encogida(vals, media_liga, k):
+    """El promedio de un equipo, corregido por cuánto se le puede creer.
+
+    Con pocos partidos o con `k` alto, el resultado se apoya en la liga;
+    con muchos partidos y `k` bajo, en lo del equipo. Nunca cae fuera de
+    esos dos valores.
+    """
+    if not vals:
+        return media_liga
+    return (sum(vals) + k * media_liga) / (len(vals) + k)
+
+
+# Cuántos partidos con los DOS equipos cargados hacen falta para estimar
+# la dispersión de un total. Menos que esto es una varianza de juguete.
+MIN_TOTALES = 20
+
+
+def dispersion_total(cache_resumen):
+    """Cuánto varía el TOTAL del partido, no cada equipo por separado.
+
+    Existe porque los dos no son lo mismo y la diferencia es grande. En
+    córners, un equipo suelto mide 1.76 de dispersión y el total del
+    partido 1.01. Si los dos equipos fueran independientes tendrían que
+    coincidir; no lo son. Los córners son medio suma cero — el que
+    ataca los genera y el otro no — así que el total se mueve MENOS de
+    lo que predice sumar dos modelos sueltos. Con las tarjetas pasa al
+    revés: un partido caliente le saca a los dos.
+
+    Armar una línea de total sumando dos equipos independientes infla
+    las colas y hace ver valor donde no hay. Por eso se mide aparte.
+    """
+    por_metrica = {}
+    for eid, partido in (cache_resumen or {}).items():
+        if str(eid).startswith("_") or not isinstance(partido, dict):
+            continue
+        filas = [f for f in partido.values() if isinstance(f, dict)]
+        if len(filas) != 2:
+            continue                    # sin los dos lados no hay total
+        for met in list(METRICAS_PARTIDO) + ["tarjetas"]:
+            vals = [f.get(met) for f in filas]
+            if any(not isinstance(v, (int, float)) for v in vals):
+                continue
+            por_metrica.setdefault(met, []).append(float(sum(vals)))
+    out = {}
+    for met, totales in por_metrica.items():
+        if len(totales) < MIN_TOTALES:
+            continue
+        media = _media(totales)
+        if media <= 0:
+            continue
+        out[met] = round(_var(totales) / media, 2)
+    return out
+
+
+def esperados(partidos, params):
+    """Lo que se espera de un equipo en cada métrica, no lo que hizo.
+
+    El promedio crudo de 3 partidos es casi todo ruido en las métricas
+    donde los equipos no se distinguen (ver `parametros_metricas`). Acá
+    cada métrica se encoge según su propio `k`: las de estilo (faltas,
+    posesión, quites) se quedan cerca de lo del equipo; remates y
+    córners se pegan al promedio de la liga hasta que haya muestra para
+    separarlos.
+
+    Se calcula sobre la muestra total y no sobre el split de local o de
+    visita a propósito: la media de la liga que sirve de ancla es la
+    general, y anclar un split de 2 partidos a una media que no le
+    corresponde metería un sesgo peor que el que corrige. Cuando el
+    caché tenga sedes con muestra propia, esto se puede separar.
+    """
+    out = {}
+    for met, p in (params or {}).items():
+        vals = [x[met] for x in partidos if x.get(met) is not None]
+        out[met] = round(media_encogida(vals, p["media"], p["k"]), 2)
+    return out
+
+
 def filas_partido(jug, cache_resumen, team_id):
     """Cruza el historial de un equipo (con `local`/`rival_id` por
     partido, de `historial()`) con el caché de resúmenes (con los
@@ -1313,15 +1484,26 @@ def main():
     # Esto solo lee lo que quedó guardado y lo promedia — total, y
     # separado por local/visitante y por lo que el equipo hizo vs lo
     # que le concedió el rival en esos mismos partidos.
+    # Los parametros salen del cache ENTERO, no de los 8 ultimos de cada
+    # equipo: para saber cuanta de la diferencia entre equipos es real
+    # hace falta mirar a todos juntos. Se recalculan en cada corrida, sin
+    # ninguna constante puesta a mano.
+    parametros = parametros_metricas(muestras_por_equipo(cache_resumen))
+    for met, dt in dispersion_total(cache_resumen).items():
+        if met in parametros:
+            parametros[met]["disp_total"] = dt
+
     estadisticas = {}
     for tid, jug in jugados_equipo.items():
         filas = filas_partido(jug[:ESTADISTICAS_N], cache_resumen, tid)
-        pr = promedios_equipo([f["propio"] for f in filas])
+        propios = [f["propio"] for f in filas]
+        pr = promedios_equipo(propios)
         if not pr:
             continue
         pr["local"] = promedios_equipo([f["propio"] for f in filas if f["local"]])
         pr["visita"] = promedios_equipo([f["propio"] for f in filas if not f["local"]])
         pr["concede"] = promedios_equipo([f["rival"] for f in filas if f["rival"]])
+        pr["esperado"] = esperados(propios, parametros)
         estadisticas[tid] = pr
 
     # ── memoria de marcadores ────────────────────────────────────────
@@ -1372,6 +1554,7 @@ def main():
     ESTADISTICAS.write_text(json.dumps({
         "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
         "sobre": ESTADISTICAS_N,
+        "parametros": parametros,
         "equipos": estadisticas,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"· estadísticas: {len(estadisticas)} equipos "

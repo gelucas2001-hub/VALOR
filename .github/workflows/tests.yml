@@ -43,7 +43,7 @@ jobs:
             python "$t" || fallaron="$fallaron $t"
             echo "::endgroup::"
           done
-          for t in test_registro.js test_alineacion.js; do
+          for t in test_registro.js test_alineacion.js test_probabilidad.js; do
             echo "::group::$t"
             node "$t" || fallaron="$fallaron $t"
             echo "::endgroup::"

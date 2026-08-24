@@ -32,6 +32,7 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
+              tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
               cargar: (ms, an, pl, es) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {}; }});
@@ -738,10 +739,10 @@ const EST_DEMO = {
          pj: 8, n: {remates: 8, al_arco: 8, corners: 8, faltas: 8}},
 };
 
-test("tabPlantel enfrenta las estadisticas de los dos equipos", ()=>{
+test("tabEstadisticas enfrenta las estadisticas de los dos equipos", ()=>{
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   cierto(html.includes("14.2") && html.includes("8.5"),
          "no muestra los remates de los dos equipos");
   cierto(html.includes("57.3") || html.includes("57"),
@@ -753,8 +754,13 @@ test("no muestra estadisticas si falta la de alguno de los dos", ()=>{
      Si de un equipo no hay dato, no hay comparación que mostrar. */
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"55" };
   L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   cierto(!html.includes("14.2"), "comparó contra un equipo sin datos");
+  /* Y que el bloque exista cuando SÍ están los dos: sin esto, el test
+     daría verde por mirar una pestaña que ya no muestra estadísticas.
+     Pasó de verdad el 2026-08-24, al mudarlas a su propia pestaña. */
+  const conLosDos = L.tabEstadisticas({ ...PARTIDOS[0], homeId:"99", awayId:"98" });
+  cierto(conLosDos.includes("14.2"), "el bloque no aparece ni con los dos equipos");
 });
 
 test("declara sobre cuantos partidos se promedio", ()=>{
@@ -763,7 +769,7 @@ test("declara sobre cuantos partidos se promedio", ()=>{
      exigimos al análisis. */
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
-  cierto(/8 partidos|últimos 8/i.test(L.tabPlantel(m)),
+  cierto(/8 partidos|últimos 8/i.test(L.tabEstadisticas(m)),
          "no dice sobre cuántos partidos está promediando");
 });
 
@@ -774,7 +780,7 @@ test("una metrica que ningun equipo tiene no se dibuja vacia", ()=>{
     "98": {remates: 12, pj: 5, n: {remates: 5}},
   };
   L.cargar(PARTIDOS, {}, PL_DEMO, sinPosesion);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   cierto(!/posesi[óo]n/i.test(html), "dibujó una fila sin ningún dato");
   cierto(html.includes("10") && html.includes("12"), "perdió la que sí tenía");
 });
@@ -800,7 +806,7 @@ const EST_SPLIT = {
 test("la comparativa usa el split de local para el local y de visita para el visitante", ()=>{
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, {}, EST_SPLIT);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   cierto(html.includes("14.0"), "no usó el promedio DE LOCAL del equipo 99");
   cierto(html.includes("7.0"), "no usó el promedio DE VISITA del equipo 98");
   cierto(!html.includes("10.0") && !html.includes("9.0"),
@@ -814,7 +820,7 @@ test("sin split disponible, cae al total en vez de romper", ()=>{
     "98": {remates: 9.0,  pj: 8, n: {remates: 8}},
   };
   L.cargar(PARTIDOS, {}, {}, sinSplit);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   cierto(html.includes("10.0") && html.includes("9.0"),
          "no cayó al total cuando no hay local/visita");
 });
@@ -834,7 +840,7 @@ test("un split con muestra insuficiente NO se usa, aunque exista", ()=>{
            visita: {remates: 7.0,  pj: 2, n: {remates: 2}}},
   };
   L.cargar(PARTIDOS, {}, {}, flaco);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   cierto(html.includes("10.0") && html.includes("9.0"),
          "usó un split de 2 partidos en vez de caer al total");
   cierto(!html.includes("14.0") && !html.includes("7.0"),
@@ -854,7 +860,7 @@ test("la comparativa muestra lo que el rival concede en esa metrica", ()=>{
            concede: {remates: 15.0, pj: 6, n: {remates: 6}}},
   };
   L.cargar(PARTIDOS, {}, {}, conConcede);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   /* Debajo del local va lo que concede SU RIVAL (el visitante), porque
      eso es contra lo que va a rematar. Y al revés. */
   cierto(html.includes("15.0"), "no muestra lo que concede el visitante bajo el local");
@@ -868,7 +874,7 @@ test("sin dato de concede, la fila sigue mostrando lo propio", ()=>{
     "98": {remates: 9.0,  pj: 6, n: {remates: 6}},
   };
   L.cargar(PARTIDOS, {}, {}, sinConcede);
-  const html = L.tabPlantel(m);
+  const html = L.tabEstadisticas(m);
   cierto(html.includes("10.0") && html.includes("9.0"),
          "perdió los números propios cuando falta concede");
   cierto(!/NaN|undefined/.test(html), "dibujó basura donde no hay concede");

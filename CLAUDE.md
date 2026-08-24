@@ -27,6 +27,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `backtest.py` | Calibración contra resultados | A mano |
 | `medir_sesgo.py` | Cuánto nos apartamos de la línea del mercado | A mano, antes y después de tocar el modelo |
 | `medir_vs_mercado.py` | Brier contra la cuota de cierre real | A mano |
+| `medir_calibracion.py` | Cuando la app dice 70%, ¿pasa el 70%? Mide la calibración de lo que la app ya publicó, partido por partido — a diferencia de `backtest.py`, que reconstruye lo que el modelo habría dicho. Faltaba en esta tabla hasta el 2026-08-24 | A mano, cada tanto |
 | `historico.py` | Baja y normaliza el historial largo de football-data.co.uk (6310 partidos de arg, 5544 de bra, con cuota de cierre de Pinnacle). Es la base de las mediciones serias | A mano |
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
 | `medir_clv.py` | Si la línea se mueve hacia nosotros. Es lo único que dice si hay ventaja sin esperar cientos de apuestas. Necesita que el cron junte fotos primero | A mano, cada tanto |

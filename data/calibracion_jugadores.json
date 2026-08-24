@@ -1,0 +1,65 @@
+{
+ "actualizado": "2026-08-24",
+ "metricas": {
+  "remates": {
+   "n": 618,
+   "desvio": 7.3,
+   "sesgo": -2.6,
+   "ruido": 3.5,
+   "nivel": "mal",
+   "razon": 2.09,
+   "texto": "No le creas el porcentaje: se desvía bastante más de lo que explica el azar.",
+   "serie": 2
+  },
+  "al_arco": {
+   "n": 616,
+   "desvio": 4.6,
+   "sesgo": -0.5,
+   "ruido": 2.9,
+   "nivel": "regular",
+   "razon": 1.59,
+   "texto": "Se le va la mano en algunos tramos. Sirve para comparar jugadores, no para creerle el número exacto.",
+   "serie": 2
+  },
+  "faltas": {
+   "n": 665,
+   "desvio": 3.6,
+   "sesgo": 2.8,
+   "ruido": 2.9,
+   "nivel": "bien",
+   "razon": 1.24,
+   "texto": "Le viene acertando: cuando dice un porcentaje, pasa más o menos eso.",
+   "serie": 2
+  },
+  "amarillas": {
+   "n": 665,
+   "desvio": 3.0,
+   "sesgo": 0.4,
+   "ruido": 1.9,
+   "nivel": "regular",
+   "razon": 1.58,
+   "texto": "Se le va la mano en algunos tramos. Sirve para comparar jugadores, no para creerle el número exacto.",
+   "serie": 2
+  },
+  "goles": {
+   "n": 611,
+   "desvio": 1.2,
+   "sesgo": 0.2,
+   "ruido": 1.3,
+   "nivel": "bien",
+   "razon": 0.92,
+   "texto": "Le viene acertando: cuando dice un porcentaje, pasa más o menos eso.",
+   "serie": 2
+  },
+  "asist": {
+   "n": 616,
+   "desvio": 0.1,
+   "sesgo": 0.1,
+   "ruido": 0.8,
+   "nivel": "bien",
+   "razon": 0.12,
+   "texto": "Le viene acertando: cuando dice un porcentaje, pasa más o menos eso.",
+   "serie": 2
+  }
+ }
+}

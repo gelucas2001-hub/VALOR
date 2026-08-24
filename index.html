@@ -1027,6 +1027,7 @@ let PARAMETROS={};     /* por metrica: media de la liga, dispersion y k */
    esa medicion es cara y se corre a mano. Si el archivo no esta, la app
    simplemente no dice nada sobre fiabilidad — no inventa. */
 let CALIBRACION={}, CALIBRADO="";
+let CAL_JUG={};        /* lo mismo para las líneas de jugador */
 let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
 let LIN_MET="corners";  /* la metrica cuyas lineas se estan mirando */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
@@ -2411,6 +2412,22 @@ function lineasDe(mu){
 
    Sin el archivo de calibración no se dice nada. Afirmar que una
    métrica es confiable sin haberla medido es peor que callarse. */
+/* Lo mismo para las líneas de jugador, con una diferencia que importa:
+   acá el veredicto NO se recalcula en el navegador, viene resuelto en
+   `data/calibracion_jugadores.json`.
+
+   Es a propósito. El corte no puede ser un desvío fijo, porque el mismo
+   desvío significa cosas distintas según cuántos casos haya: con 618
+   predicciones, un modelo PERFECTO ya desvía 3.5 puntos por puro azar.
+   Lo que decide es desvío/ruido, y el ruido se estima simulando —
+   cuenta que vive en medir_jugadores.py y no tiene por qué correr en
+   el teléfono de nadie. */
+function fiabilidadJugador(k){
+  const c = (CAL_JUG || {})[k];
+  if(!c || !c.n || !c.nivel || !c.texto) return null;
+  return {nivel: c.nivel, texto: c.texto, n: c.n, serie: c.serie || null};
+}
+
 function fiabilidad(k){
   const c = CALIBRACION[k];
   if(!c || !c.n) return null;
@@ -2834,8 +2851,24 @@ function jugadores(nombre, id, met){
      grande de la fila, que es el que se viene a buscar. Lo demás se
      explica en el renglón de contexto y en este pie. */
   const conLinea = /→/.test(filas);
+  /* La misma pieza que usa el bloque de equipo, a propósito: hay una
+     sola forma en la app de decir "de esto fiate y de esto no".
+
+     Existe porque hasta el 2026-08-24 esta lista mostraba un "+0.5 →
+     62%" sin que nadie hubiera comprobado que cuando dice 62% pasa el
+     62%. Lucas preguntó si la app servía para el mercado de remates de
+     jugador; se midió (medir_jugadores.py) y la respuesta es que
+     depende mucho de la métrica: remates le erra el doble de lo que
+     explica el azar, y asistencias casi no le erra. Eso tiene que
+     estar en la pantalla, no en un informe. */
+  const fj = conLinea ? fiabilidadJugador(clave) : null;
+  const juicio = !conLinea ? ""
+    : fj ? `<p class="fiab ${fj.nivel}">${esc_(fj.texto)} Medido sobre ${fj.n} predicciones${
+             fj.serie ? `, con series de ${fj.serie} partido${fj.serie===1?"":"s"}` : ""}.</p>`
+    : `<p class="fiab">Esta métrica todavía no se midió: no sabemos cuánto le erra el porcentaje.</p>`;
   return `<div class="lbl sep">${esc_(nombre)} — jugadores</div>
     <div class="mets">${botones}</div>
+    ${juicio}
     <div class="jhead"><span>Jugador</span><span>Prom. por partido</span></div>
     <div class="jlist">${filas}</div>
     <p class="jfuente">Ordenados por total en la temporada. Cada casilla es un partido de los
@@ -3289,11 +3322,12 @@ async function traer(url, def){
   ACTUALIZADO = p.actualizado || "";
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
-  const [an, rs, pl, es, cal] = await Promise.all([
+  const [an, rs, pl, es, cal, calj] = await Promise.all([
     traer("data/analisis.json", {}),
     traer("data/resultados.json", {}), traer("data/planteles.json", {}),
     traer("data/estadisticas.json", {}),
     traer("data/calibracion_lineas.json", {}),
+    traer("data/calibracion_jugadores.json", {}),
   ]);
   RESULTADOS = rs || {};
   /* la clave _schema es documentación del formato, no un partido */
@@ -3304,6 +3338,7 @@ async function traer(url, def){
   PARAM_JUG = (es && es.jugadores) || {};
   CALIBRACION = (cal && cal.metricas) || {};
   CALIBRADO = (cal && cal.actualizado) || "";
+  CAL_JUG = (calj && calj.metricas) || {};
 
   desdeHash();
   render();

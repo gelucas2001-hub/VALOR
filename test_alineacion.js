@@ -34,8 +34,10 @@ function cargarLogica(){
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
               tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
-              cargar: (ms, an, pl, es) => { MATCHES = ms; ANALISIS = an || {};
-                                            PLANTELES = pl || {}; ESTADISTICAS = es || {}; }});
+              fiabilidadJugador,
+              cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
+                                            PLANTELES = pl || {}; ESTADISTICAS = es || {};
+                                            CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
 }
@@ -936,6 +938,48 @@ test("al resolver el choque no se pierde la franja si hay alternativa", ()=>{
   });
   cierto(conOp / total >= 0.8,
          `solo ${conOp} de ${total} escalones quedaron con recomendación`);
+});
+
+/* ── 15. La lista de jugadores declara de qué fiarse ────────────────
+   Hasta el 2026-08-24 esta lista mostraba "+0.5 → 62%" sin que nadie
+   hubiera comprobado que cuando dice 62% pasa el 62%. Se midió
+   (medir_jugadores.py) y salió que depende mucho de la métrica: remates
+   le erra el doble de lo que explica el azar y asistencias casi no le
+   erra. El punto de estos tests es que ese hallazgo llegue a la
+   pantalla y no se quede en un informe. */
+
+const CALJ = {
+  remates:  {n: 618, desvio: 7.3, ruido: 3.5, nivel: "mal", serie: 2,
+             texto: "No le creas el porcentaje."},
+  asist:    {n: 616, desvio: 0.1, ruido: 0.8, nivel: "bien", serie: 2,
+             texto: "Le viene acertando."},
+};
+
+test("el veredicto sale del archivo, no se recalcula en el navegador", ()=>{
+  L.cargar(PARTIDOS, {}, {}, {}, CALJ);
+  const f = L.fiabilidadJugador("remates");
+  cierto(f && f.nivel === "mal", "no leyó el nivel medido");
+  cierto(f.n === 618, "no leyó sobre cuántas predicciones va");
+});
+
+test("una metrica sin medir no inventa un veredicto", ()=>{
+  L.cargar(PARTIDOS, {}, {}, {}, CALJ);
+  cierto(L.fiabilidadJugador("faltas") === null,
+         "devolvió un veredicto para una métrica que no está en el archivo");
+  cierto(L.fiabilidadJugador("inventada") === null,
+         "devolvió un veredicto para una métrica inexistente");
+});
+
+test("un archivo incompleto no se toma como veredicto", ()=>{
+  L.cargar(PARTIDOS, {}, {}, {}, {remates: {n: 618, desvio: 7.3}});
+  cierto(L.fiabilidadJugador("remates") === null,
+         "aceptó una entrada sin nivel ni texto");
+});
+
+test("sin archivo de calibracion la app se calla en vez de afirmar", ()=>{
+  L.cargar(PARTIDOS, {}, {}, {}, {});
+  cierto(L.fiabilidadJugador("remates") === null,
+         "afirmó algo sin haber medido");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

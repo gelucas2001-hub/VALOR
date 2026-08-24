@@ -32,6 +32,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
 | `medir_clv.py` | Si la línea se mueve hacia nosotros. Es lo único que dice si hay ventaja sin esperar cientos de apuestas. Necesita que el cron junte fotos primero | A mano, cada tanto |
 | `medir_lineas.py` | Si el mercado de estadísticas (córners, tarjetas, remates) dice la verdad. Mide calibración, no plata: no hay cuotas históricas de córners. Medido el 2026-08-24: córners bien, faltas con sesgo de 9 puntos | A mano, cada tanto |
+| `medir_jugadores.py` | Si las líneas de JUGADOR (remates, al arco) dicen la verdad. Compara el desvío contra el ruido, no contra cero: con 618 casos un modelo perfecto ya desvía 3.5 puntos. Medido el 2026-08-24: remates mal (2.09x el ruido), al arco regular, goles y asistencias bien | A mano, cada tanto |
 | `medir_arbitros.py` | Si el árbitro mueve las tarjetas. Prueba de permutación: puede decir que no, y hoy dice que no | A mano, cada tanto |
 | `medir_analisis.py` | Si la `inclinacion` del análisis acierta, y si la regla de alineación suma o resta. Correr después de cada fecha | A mano |
 | `calibrar_ligas.py` | Cuánto vale cada liga sudamericana | A mano, cada tanto |
@@ -39,6 +40,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `data/planteles.json` | Jugadores con números (PJ, goles, peso goleador). Lo escribe el cron | Nadie |
 | `data/estadisticas.json` | Promedios por partido de cada equipo (remates, córners, posesión, tackles). Sale del mismo `/summary` que ya se pedía: cero pedidos extra | Nadie |
 | `data/cuotas.json` | Historia de la cuota de mercado, foto por corrida. Se acumula: ESPN la borra cuando el partido termina | Nadie |
+| `data/calibracion_jugadores.json` | Cuánto le erra cada línea de jugador. Lo escribe `medir_jugadores.py`, y la app lo lee para decir en pantalla de qué fiarse | A mano, vía ese script |
 | `data/analisis.json` | Análisis cualitativo, carga manual. El cron **nunca** lo toca | A mano |
 
 ## El research de `analisis.json` — con qué skill, y con cuál no
@@ -80,6 +82,15 @@ esta.
   primera grilla (-0.05 a 0.15) daba su mejor número en -0.05, o sea
   chocando contra la pared. Elegir el extremo de una grilla es elegir
   dónde uno dejó de mirar.
+- **Comparar el error contra el ruido, no contra cero.** Con 618
+  predicciones, un modelo PERFECTAMENTE calibrado ya desvía 3.5 puntos
+  solo por azar — 600 monedas no salen exactamente mitad y mitad. El
+  2026-08-24, midiendo las líneas de jugador, se estuvo a punto de
+  reportar `al_arco` como mala con 4.6 de desvío: simulando un modelo
+  perfecto se vio que ese valor sale el 6% de las veces por casualidad.
+  `medir_jugadores.py` tiene la función (`ruido_esperado`); usála antes
+  de llamar rota a una métrica.
+
 - **Antes de calibrar algo, medir si ya sirve.** Se pasaron tres semanas
   midiendo calibración del modelo de goles y ninguna midiendo si daba
   plata. Cuando por fin se midió, daba -6.18% de ROI. Ver `TRASPASO.md`.

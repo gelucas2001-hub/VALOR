@@ -78,7 +78,7 @@ body{
 }
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}
+:focus-visible{outline:2px solid var(--tinta);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* El papel. El grano son tres tramas de medio píxel desfasadas entre
@@ -284,7 +284,10 @@ a{color:inherit}
 .o.alerta .fill::after{background:var(--terracota)}
 .o span{display:block;font-size:11px;letter-spacing:.09em;color:var(--gris2);text-transform:uppercase}
 .o b{display:block;font-family:var(--mono);font-size:15px;font-weight:600;margin-top:3px;color:var(--tinta)}
-.o em{display:block;font-family:var(--mono);font-size:11px;font-style:normal;color:var(--gris2);margin-top:2px;letter-spacing:.04em}
+/* Iba en gris-2 y el relleno de tinta le pasa por encima justo a la
+   altura de la línea de marca: el 21% de Visita no se leía. Tinta-2
+   aguanta las dos superficies y sigue por debajo de la cuota. */
+.o em{display:block;font-family:var(--mono);font-size:11px;font-style:normal;color:var(--tinta2);margin-top:2px;letter-spacing:.04em}
 .o.val em{color:var(--mostaza)}
 .o.alerta em{color:var(--terracota)}
 .o.val{background:var(--mostazaBg)}
@@ -332,7 +335,12 @@ a{color:inherit}
 .dodds .o.alerta{background:var(--terracotaBg)}
 
 /* ── pestañas silenciosas: línea, nunca botón con caja ─────────── */
-.tabs{display:flex;gap:13px;padding:var(--e5) 14px 0;border-bottom:1px solid var(--linea2);margin-bottom:var(--e5);overflow-x:auto;scrollbar-width:none}
+/* Siete pestañas no entran en 375px y la séptima quedaba cortada sin
+   ningún aviso: se leía como un error de maqueta, no como "hay más".
+   El degradado del borde derecho lo dice, y se apaga al llegar al final. */
+.tabs{display:flex;gap:13px;padding:var(--e5) 14px 0;border-bottom:1px solid var(--linea2);margin-bottom:var(--e5);overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth}
+.tabs.mas{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
+          mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%)}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--gris2);position:relative;white-space:nowrap;
@@ -340,7 +348,7 @@ a{color:inherit}
      activo, que sigue apoyado en el filete de abajo. */
   min-height:44px;padding:14px 0 10px;background:none;border:none}
 .tab.on{color:var(--tinta)}
-.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--mostaza)}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--tinta)}
 
 .sec{padding:0 16px}
 .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin-bottom:var(--e3)}
@@ -625,19 +633,34 @@ a{color:inherit}
 /* Comparativa entre los dos equipos: el número de cada uno a los
    costados y qué se mide en el medio. El más alto en tinta plena — no
    quiere decir "mejor" (más faltas no es mejor), solo cuál hace más. */
-.cmphead{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);
+/* Diez filas de números sin saber de quién es cada columna: el rótulo
+   se iba con el scroll y "Central Córdoba (Santiago del Es…" quedaba
+   cortado justo en lo que lo distingue. Ahora queda fijo y envuelve. */
+.cmphead{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
          font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris3);
-         padding-bottom:6px}
-.cmphead span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+         padding:6px 0;position:sticky;top:0;z-index:3;background:var(--fondo);
+         border-bottom:1px solid var(--linea2);line-height:1.35}
+.cmphead span{flex:1;min-width:0}
 .cmphead span:last-child{text-align:right}
 .cmp{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea)}
-.cmp b{font-family:var(--mono);font-size:13px;color:var(--gris2);flex:0 0 54px;font-weight:600}
+.cmp b{font-family:var(--mono);font-size:13px;color:var(--gris2);flex:0 0 108px;font-weight:600}
 .cmp b:last-child{text-align:right}
 .cmp b.alto{color:var(--tinta)}
 /* El desvío va como sub-línea chica, no al lado — al lado no entra en
    54px y competiría en peso visual con el número que sí importa. */
-.cmp .desv{display:block;font-style:normal;font-size:11px;font-weight:400;
-           color:var(--gris3);letter-spacing:.02em}
+/* Decía "rival concede 6.3" en una columna de 54px: tres renglones por
+   fila, diez filas, y el número propio perdido entre ellos. Ahora la
+   columna es de 108px y el texto va en la de cuerpo (más angosta que la
+   mono), así que entra en un renglón.
+
+   "rival" se queda. Sacarlo ahorraba 22px pero invertía el sentido: el
+   número es lo que le conceden A ese equipo, y "concede 6.3" debajo de
+   la columna de Tigre se lee como que lo concede Tigre. El pie del
+   bloque lo aclara, pero está abajo de diez filas — para cuando se lee
+   ya se entendió al revés diez veces. El ancho salió de otro lado: el
+   centro se quedaba con 163px para etiquetas de 58px. */
+.cmp .desv{display:block;font-family:var(--cuerpo);font-style:normal;font-size:11px;
+           font-weight:400;color:var(--gris3);letter-spacing:0;margin-top:2px}
 .cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:11px;
           letter-spacing:.05em;text-transform:uppercase;color:var(--gris3)}
 
@@ -2184,7 +2207,18 @@ function tabPlantel(m){
       ${fila("Puntos", tl.pts, tv.pts)}
       ${fila("Ganados", tl.g, tv.g)}
       ${fila("Goles", tl.gf!=null?tl.gf:0, tv.gf!=null?tv.gf:0)}
-    </div>`;
+    </div>
+    ${/* Los bloques de abajo se sacaron por repetir estos mismos numeros,
+          pero traian uno que aca no esta: los partidos jugados. Sin el,
+          "30 puntos" contra "41 puntos" se compara mal — en Argentina los
+          equipos llegan a la misma fecha con distinta cantidad de partidos.
+          Va de pie y no de barra porque quien jugo mas no gana nada. */
+      tl.pj || tv.pj
+        ? `<p class="fuente">${tl.pj === tv.pj
+             ? `Sobre ${tl.pj} partido${tl.pj === 1 ? "" : "s"} de cada uno.`
+             : `Sobre ${tl.pj} partido${tl.pj === 1 ? "" : "s"} de ${esc_(m.home)} y
+                ${tv.pj} de ${esc_(m.away)} — no llegan con los mismos jugados.`}</p>`
+        : ""}`;
   } else {
     /* Sin los dos en la misma tabla no hay comparación posible. Antes
        el bloque simplemente no aparecía y el usuario no sabía si era
@@ -2196,7 +2230,12 @@ function tabPlantel(m){
           " Sin los dos en la misma tabla no hay comparación que hacer."
         : "No tenemos a los dos equipos en una misma tabla, así que no hay comparación que hacer."}</p>`;
   }
-  h += bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
+  /* Los dos bloques de Puntos/Jugados/Ganados/Goles repetían, en un
+     tercer dibujo, los mismos cuatro números que ya están arriba en las
+     barras del cara a cara y enteros en la pestaña Posiciones. Se
+     muestran solo cuando NO hay cara a cara, que es cuando el dato no
+     aparece en ningún otro lado de esta pestaña. */
+  if(!(tl && tv)) h += bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
   h += cancha(m);
   return h + `</div>`;
 }
@@ -2658,7 +2697,11 @@ function filaJugador(j, clave){
      partidos pero hizo 4 en 1". El promedio los da iguales. */
   const s = j.serie && j.serie[clave];
   const L = lineaJugador(j, clave);
-  const detalle = s && s.length
+  /* Una serie de puros ceros ("0 · 0 · 0") ocupa el mismo renglón que
+     una que dice algo, y en un plantel son ocho de doce filas. El que no
+     hizo nada ya se lee en la columna de Total: la sub-línea se calla. */
+  const algo = s && s.length && s.some(v=> Number(v) > 0);
+  const detalle = algo
     /* Se etiqueta porque la serie es de los partidos que tenemos en
        cache y el "PJ" de al lado es de toda la temporada: sin decirlo,
        "5 PJ" al lado de tres numeros se lee como un error. */
@@ -3011,6 +3054,23 @@ function render(){
      hace cualquier selector de fecha con encastre. */
   const diaOn = document.querySelector(".day.on");
   if(diaOn) diaOn.scrollIntoView({inline:"center", block:"nearest", behavior:"smooth"});
+
+  /* Lo mismo con las pestañas del partido: son siete y no entran. La
+     activa se trae a la vista (si no, tocar Herramientas dejaba el
+     subrayado fuera de pantalla) y el degradado del borde derecho se
+     apaga cuando ya no hay nada más a la derecha. */
+  const tabs = document.querySelector(".tabs");
+  if(tabs){
+    const on = tabs.querySelector(".tab.on");
+    if(on){
+      const meta = on.offsetLeft - (tabs.clientWidth - on.offsetWidth) / 2;
+      tabs.scrollLeft = Math.max(0, meta);
+    }
+    const fin = ()=> tabs.classList.toggle("mas",
+      tabs.scrollWidth - tabs.clientWidth - tabs.scrollLeft > 8);
+    fin();
+    tabs.addEventListener("scroll", fin, {passive:true});
+  }
 }
 
 function ir(v, extra){

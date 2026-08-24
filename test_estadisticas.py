@@ -675,5 +675,74 @@ prueba("un partido sin mercado no genera entrada",
        actualizar.snapshot_cuotas({}, [{"id": "e9", "lh": 1, "la": 1}], "t") == {})
 prueba("sin partidos no rompe", actualizar.snapshot_cuotas({}, [], "t") == {})
 
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Un solo número por métrica, no dos
+#
+# La app mostraba DOS expectativas distintas para lo mismo en la misma
+# pestaña: "Lo que esperamos acá → CÓRNERS 9.0" (promedio crudo de los
+# últimos partidos, vía disciplina_equipo) y "Total del partido: 9.4
+# esperados" (el mismo dato encogido hacia el promedio de la liga).
+#
+# Y el crudo, que además es el que sale en la tarjeta del partido y en
+# Análisis, es el peor de los dos. Medido sobre 179 partidos,
+# walk-forward, error absoluto medio contra el total real:
+#
+#     córners    crudo 3.39   encogido 2.67   (err² 17.48 vs 11.08)
+#     faltas     crudo 4.90   encogido 4.65
+#     tarjetas   crudo 1.77   encogido 1.55
+#
+# Gana el encogido en las tres. Así que se unifica: un número, un método.
+# ══════════════════════════════════════════════════════════════════════
+
+print("")
+print("esperado_partido() — una sola expectativa por métrica")
+print("")
+
+PAR_DEMO = {
+    "corners": {"media": 5.0, "k": 20.0, "disp": 1.75},
+    "faltas":  {"media": 12.0, "k": 3.0, "disp": 1.1},
+    "tarjetas": {"media": 2.5, "k": 5.0, "disp": 0.72},
+}
+# Un equipo muy por encima de la media y otro muy por debajo: si el
+# encogimiento funciona, los dos terminan cerca de la media de la liga.
+ALTO = [{"corners": 9.0, "faltas": 20.0, "tarjetas": 5.0} for _ in range(3)]
+BAJO = [{"corners": 1.0, "faltas": 4.0, "tarjetas": 0.0} for _ in range(3)]
+
+e = actualizar.esperado_partido(ALTO, BAJO, PAR_DEMO)
+prueba("devuelve las tres métricas que la app muestra",
+       all(k in e for k in ("corners", "fouls", "cards")))
+prueba("el total es la suma de los dos equipos, no de uno",
+       e["corners"] > 5.0)
+
+# El punto del encogimiento: con 3 partidos, un equipo de 9 córners no
+# vale 9. La suma cruda daría 10; la encogida tiene que quedar más cerca
+# del doble de la media de la liga (10 también, pero por otro camino) y
+# sobre todo NO igualar el crudo cuando las muestras son desparejas.
+solo_alto = actualizar.esperado_partido(ALTO, ALTO, PAR_DEMO)
+prueba("dos equipos altos no llegan al crudo (18): se encogen",
+       solo_alto["corners"] < 18.0)
+prueba("y quedan por encima del promedio de la liga igual",
+       solo_alto["corners"] > 10.0)
+
+prueba("sin parámetros no inventa",
+       actualizar.esperado_partido(ALTO, BAJO, {}) is None)
+prueba("sin partidos de un equipo tampoco",
+       actualizar.esperado_partido(ALTO, [], PAR_DEMO) is None)
+
+# cornersH es la parte del local: se usa para el mercado de córners del
+# local y no puede ser mayor que el total.
+prueba("los córners del local son parte del total",
+       0 < e["cornersH"] <= e["corners"])
+
+# Es el MISMO cálculo que alimenta las líneas de la pestaña
+# Estadísticas. Si se separan, vuelve a haber dos números para lo mismo.
+esp_alto = actualizar.esperados(ALTO, PAR_DEMO)
+esp_bajo = actualizar.esperados(BAJO, PAR_DEMO)
+prueba("coincide con esperados(), que es lo que usan las líneas",
+       abs(e["corners"] - (esp_alto["corners"] + esp_bajo["corners"])) < 1e-9)
+
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

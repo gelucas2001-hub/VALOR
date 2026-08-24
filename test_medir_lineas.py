@@ -119,6 +119,29 @@ prueba("un partido del mismo día no cuenta",
        L.previos(hist, datetime.date(2026, 3, 1)) == [])
 
 
+print("\nresumen_metrica() — el desvío no alcanza, hace falta el sesgo\n")
+
+# Una métrica puede tener desvío chico y ser inútil igual si se equivoca
+# siempre para el mismo lado. Faltas da -9 puntos en las cuatro bandas.
+sesgada = ([{"p": 0.55, "paso": 1} for _ in range(65)]
+           + [{"p": 0.55, "paso": 0} for _ in range(35)])
+r = L.resumen_metrica(sesgada)
+prueba("un sesgo hacia abajo sale negativo", r["sesgo"] < -8)
+prueba("y el desvio lo acompania", r["desvio"] > 8)
+prueba("declara sobre cuantas predicciones va", r["n"] == 100)
+
+# Errar para los dos lados por igual deja desvio alto y sesgo casi cero:
+# es ruido, no sesgo, y son cosas distintas.
+ruidosa = ([{"p": 0.8, "paso": 0} for _ in range(20)] +
+           [{"p": 0.8, "paso": 1} for _ in range(30)] +
+           [{"p": 0.2, "paso": 1} for _ in range(20)] +
+           [{"p": 0.2, "paso": 0} for _ in range(30)])
+r2 = L.resumen_metrica(ruidosa)
+prueba("ruido sin direccion deja el sesgo cerca de cero", abs(r2["sesgo"]) < 3)
+prueba("pero el desvio lo delata igual", r2["desvio"] > 5)
+prueba("sin filas no rompe", L.resumen_metrica([]) is None)
+
+
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

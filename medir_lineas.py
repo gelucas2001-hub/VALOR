@@ -270,6 +270,54 @@ def evaluar(hist):
     return por_metrica
 
 
+def resumen_metrica(filas):
+    """Desvío y SESGO de una métrica. Los dos, porque no dicen lo mismo.
+
+    El desvío medio (absoluto) puede ser chico y la métrica ser inútil
+    igual si se equivoca siempre para el mismo lado. El sesgo — el
+    promedio con signo — es el que delata eso: faltas da -9 puntos en
+    las cuatro bandas, o sea que cuando decimos 55% pasa el 65%. Eso no
+    es ruido y no se compensa apostando más.
+    """
+    bandas = calibracion(filas)
+    n = len(filas)
+    if not n:
+        return None
+    return {
+        "n": n,
+        "desvio": round(sum(abs(b["dicho"] - b["paso"]) * b["n"]
+                            for b in bandas) / n * 100, 1),
+        "sesgo": round(sum((b["dicho"] - b["paso"]) * b["n"]
+                           for b in bandas) / n * 100, 1),
+    }
+
+
+def escribir(por_metrica):
+    """Deja la calibración donde el frontend la pueda leer.
+
+    Por qué es un archivo y no una constante en `index.html`: si el
+    número vive escrito a mano, se desactualiza y nadie se entera. Acá
+    queda con la fecha y la cantidad de partidos sobre la que se midió,
+    así la app puede decir "medido sobre 179 partidos el 24/08" en vez
+    de afirmar sin fecha.
+
+    El cron NO escribe este archivo: esta medición es cara y se corre a
+    mano, como el resto de los `medir_*`.
+    """
+    salida = {"actualizado": datetime.date.today().isoformat(), "metricas": {}}
+    for met, filas in (por_metrica or {}).items():
+        if len(filas) < MIN_PREDICCIONES:
+            continue
+        r = resumen_metrica(filas)
+        if r:
+            salida["metricas"][met] = r
+    destino = RAIZ / "data" / "calibracion_lineas.json"
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    destino.write_text(json.dumps(salida, ensure_ascii=False, indent=1),
+                       encoding="utf-8")
+    return destino
+
+
 def main():
     hist = historia()
     print("\n" + "=" * 68)
@@ -306,6 +354,10 @@ def main():
     if not hubo:
         print("\n  Todavía no hay predicciones suficientes por métrica.\n")
         return 0
+    destino = escribir(por_metrica)
+    print(f"\n  escrito en {destino.relative_to(RAIZ)}")
+    print("  (la app lo lee para decir de cuáles métricas fiarse)")
+
     print("\n  " + "-" * 64)
     print("  Esto mide calibración, no plata: no hay cuotas históricas de")
     print("  córners ni tarjetas con qué simular apuestas. Pero si cuando")

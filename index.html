@@ -655,6 +655,25 @@ a{color:inherit}
 .escf .desv{display:block;font-style:normal;font-size:11px;font-weight:400;
             color:var(--gris3);letter-spacing:.02em;margin:2px 0 6px}
 .escl{display:flex;gap:6px}
+
+/* El veredicto de la metrica y el aviso de "sin muestra propia".
+
+   NO llevan mostaza ni terracota, aunque la tentacion sea obvia. Esos
+   dos colores dicen "hay valor" y "cuidado con el precio", y esto no es
+   ninguna de las dos: es cuanto le erra el modelo a esta metrica, que
+   es una afirmacion sobre NOSOTROS, no sobre la apuesta. Pintarlo igual
+   le ensenaria al usuario que terracota significa "malo" en general y
+   arruinaria la unica senal que importa. Se dice con intensidad
+   tipografica, como el resultado de una apuesta en Historial. */
+.fiab{font-size:11.5px;line-height:1.5;color:var(--gris3);margin:0 0 10px;
+      padding-left:9px;border-left:1px solid var(--linea3)}
+.fiab.bien{color:var(--tinta3);border-left-color:var(--gris3)}
+.fiab.regular{color:var(--gris2)}
+/* Sesgo sistematico: se dice fuerte, en tinta plena, porque es lo mismo
+   que decir "no le creas a este numero". */
+.fiab.mal{color:var(--tinta);border-left:2px solid var(--tinta3);font-weight:500}
+.escf .sinmuestra{display:block;font-style:normal;font-size:11px;
+                  letter-spacing:.02em;color:var(--gris2);margin:0 0 6px}
 .escl b{flex:1;text-align:center;font-family:var(--mono);font-size:11px;
         font-weight:600;color:var(--gris3);border:1px solid var(--linea);
         border-radius:2px;padding:5px 2px}
@@ -918,6 +937,11 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
 let PL_EQ="H";
 let ESTADISTICAS={};   /* promedios por partido de cada equipo, del cron */
 let PARAMETROS={};     /* por metrica: media de la liga, dispersion y k */
+/* Cuanto le erra cada metrica del mercado de estadisticas, medido con
+   medir_lineas.py sobre los partidos ya jugados. No lo escribe el cron:
+   esa medicion es cara y se corre a mano. Si el archivo no esta, la app
+   simplemente no dice nada sobre fiabilidad — no inventa. */
+let CALIBRACION={}, CALIBRADO="";
 let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
 let LIN_MET="corners";  /* la metrica cuyas lineas se estan mirando */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
@@ -2273,6 +2297,38 @@ function lineasDe(mu){
   return [base - 1.5, base - 0.5, base + 0.5, base + 1.5].filter(L => L > 0);
 }
 
+/* Qué tan fiable es cada métrica, según lo medido — no según lo que
+   nos gustaría.
+
+   Los cinco botones se veían iguales, y no lo son. Medido el 2026-08-24
+   sobre 179 partidos: córners le erra 3.5 puntos sin dirección clara,
+   pero FALTAS le erra 9.0 y siempre para el mismo lado, y REMATES 6.6
+   también siempre para el mismo. Cuando el desvío es casi todo sesgo,
+   no es ruido que se compense apostando más: es un error que se paga
+   todas las veces.
+
+   Sin el archivo de calibración no se dice nada. Afirmar que una
+   métrica es confiable sin haberla medido es peor que callarse. */
+function fiabilidad(k){
+  const c = CALIBRACION[k];
+  if(!c || !c.n) return null;
+  const sesgo = c.sesgo, desvio = c.desvio;
+  /* Qué proporción del error tiene dirección. Arriba de 0.7 el error es
+     sistemático: le erramos siempre para el mismo lado. */
+  const dirigido = desvio > 0 ? Math.abs(sesgo)/desvio : 0;
+  const grave = desvio >= 6 && dirigido >= 0.7;
+  const flojo = desvio >= 6 || (desvio >= 4 && dirigido >= 0.7);
+  const lado = sesgo > 0 ? "de más" : "de menos";
+  return {
+    grave, flojo, n: c.n, desvio, sesgo, dirigido,
+    texto: grave
+      ? `Le erramos ${Math.abs(sesgo).toFixed(0)} puntos ${lado}, y casi siempre para el mismo lado. Medido sobre ${c.n} predicciones: esto no es ruido, se paga todas las veces.`
+      : flojo
+      ? `Le erramos ${desvio.toFixed(1)} puntos en promedio, con tendencia a decir ${lado}. Medido sobre ${c.n} predicciones.`
+      : `Le erramos ${desvio.toFixed(1)} puntos en promedio, sin dirección clara. Medido sobre ${c.n} predicciones.`,
+  };
+}
+
 function bloqueLineas(m){
   const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
   if(!L || !V) return "";
@@ -2284,15 +2340,24 @@ function bloqueLineas(m){
   const p = PARAMETROS[x.k];
   const muL = L.esperado[x.k], muV = V.esperado[x.k];
 
-  const escalon = (titulo, mu, disp, nota) => {
+  const escalon = (titulo, mu, disp, nota, sinMuestra) => {
     const celdas = lineasDe(mu).map(Ln => {
       const q = probMayor(mu, disp, Ln);
       return q == null ? ""
         : `<b>+${Ln.toFixed(1)}<em>${Math.round(q * 100)}%</em></b>`;
     }).join("");
     if(!celdas) return "";
+    /* Cuando el número del equipo es casi todo promedio de la liga, los
+       dos equipos muestran valores idénticos y parece un error. No lo
+       es: es el encogimiento diciendo que no hay muestra. Pero decirlo
+       en letra chica debajo de cuatro líneas de apuesta era engañoso en
+       la jerarquía aunque fuera honesto en el texto. */
+    const aviso = sinMuestra
+      ? `<i class="sinmuestra">Sin muestra propia todavía — esto es el promedio de la liga, no una lectura de este equipo</i>`
+      : "";
     return `<div class="escf"><span class="escq">${titulo}</span>
       <i class="desv">${mu.toFixed(1)} esperados · ${nota}</i>
+      ${aviso}
       <div class="escl">${celdas}</div></div>`;
   };
 
@@ -2307,21 +2372,33 @@ function bloqueLineas(m){
      1.75 y el total del partido 1.01, porque son medio suma cero — si
      uno ataca, el otro no. Sumar dos modelos sueltos infla las colas y
      hace ver valor donde no hay. */
+  /* Debajo de este peso, el número del equipo es casi todo liga. 0.25
+     no es a ojo: con menos de eso los dos equipos dan el MISMO valor y
+     la pantalla deja de hablar de este partido. */
+  const SIN_MUESTRA = 0.25;
+  const pesoDe = eq => pesoEquipo((eq.n && eq.n[x.k]) || 0, p.k);
   const filas = [
-    escalon(esc_(m.home), muL, p.disp, propio(L)),
-    escalon(esc_(m.away), muV, p.disp, propio(V)),
+    escalon(esc_(m.home), muL, p.disp, propio(L), pesoDe(L) < SIN_MUESTRA),
+    escalon(esc_(m.away), muV, p.disp, propio(V), pesoDe(V) < SIN_MUESTRA),
     escalon("Total del partido", muL + muV,
             p.disp_total != null ? p.disp_total : p.disp,
             p.disp_total != null ? "dispersión medida sobre el total"
-                                 : "sin medición propia del total"),
+                                 : "sin medición propia del total",
+            false),
   ].join("");
 
   const botones = hay.map(y =>
     `<button class="met${y.k === x.k ? " on" : ""}" data-linmet="${y.k}">${y.et}</button>`
   ).join("");
 
+  const fi = fiabilidad(x.k);
+  const juicio = fi
+    ? `<p class="fiab ${fi.grave ? "mal" : fi.flojo ? "regular" : "bien"}">${fi.texto}</p>`
+    : `<p class="fiab">Esta métrica todavía no se midió: no sabemos cuánto le erra.</p>`;
+
   return `<div class="lbl sep">Chance de pasar la línea</div>
     <div class="mets">${botones}</div>
+    ${juicio}
     ${filas}
     <p class="fuente">La chance de que el número termine arriba de cada línea, con la
       campana que le corresponde a esta métrica — no todas se reparten igual, y usar
@@ -3050,10 +3127,11 @@ async function traer(url, def){
   ACTUALIZADO = p.actualizado || "";
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
-  const [an, rs, pl, es] = await Promise.all([
+  const [an, rs, pl, es, cal] = await Promise.all([
     traer("data/analisis.json", {}),
     traer("data/resultados.json", {}), traer("data/planteles.json", {}),
     traer("data/estadisticas.json", {}),
+    traer("data/calibracion_lineas.json", {}),
   ]);
   RESULTADOS = rs || {};
   /* la clave _schema es documentación del formato, no un partido */
@@ -3062,6 +3140,8 @@ async function traer(url, def){
   ESTADISTICAS = (es && es.equipos) || {};
   PARAMETROS = (es && es.parametros) || {};
   PARAM_JUG = (es && es.jugadores) || {};
+  CALIBRACION = (cal && cal.metricas) || {};
+  CALIBRADO = (cal && cal.actualizado) || "";
 
   desdeHash();
   render();

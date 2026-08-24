@@ -1048,6 +1048,58 @@ def esperados(partidos, params):
     return out
 
 
+def esperado_partido(propios_local, propios_visita, params):
+    """Córners, faltas y tarjetas esperados en un partido. Un solo número.
+
+    Por qué existe:
+
+    La app mostraba DOS expectativas distintas para lo mismo, en la misma
+    pestaña y a doscientos píxeles de distancia:
+
+      "Lo que esperamos acá → CÓRNERS 9.0"   promedio crudo de los
+          últimos partidos de cada equipo, sumado (`disciplina_equipo`)
+      "Total del partido: 9.4 esperados"      el mismo dato encogido
+          hacia el promedio de la liga (`esperados`)
+
+    Y el crudo — que además es el que sale en la tarjeta del partido y
+    en Análisis, o sea el más visible — es el peor de los dos. Medido
+    walk-forward sobre 179 partidos, error absoluto medio contra el
+    total real:
+
+        córners    crudo 3.39   encogido 2.67   (err² 17.48 vs 11.08)
+        faltas     crudo 4.90   encogido 4.65
+        tarjetas   crudo 1.77   encogido 1.55
+
+    Gana el encogido en las tres, y en córners baja el error cuadrático
+    un 37%. Así que queda uno solo, y es éste: el mismo `esperados()`
+    que alimenta las líneas de la pestaña Estadísticas.
+
+    Devuelve None cuando falta con qué: sin parámetros de liga o sin
+    partidos de alguno de los dos, el llamador cae a la constante de la
+    competición, que es lo que ya hacía.
+    """
+    if not params or not propios_local or not propios_visita:
+        return None
+    loc = esperados(propios_local, params)
+    vis = esperados(propios_visita, params)
+    if not loc or not vis:
+        return None
+    def _sum(met):
+        a, b = loc.get(met), vis.get(met)
+        return None if a is None or b is None else a + b
+    corners, faltas, tarjetas = _sum("corners"), _sum("faltas"), _sum("tarjetas")
+    if corners is None or faltas is None or tarjetas is None:
+        return None
+    return {
+        "corners": round(corners, 1),
+        # La parte del local, para el mercado de córners del local. Sale
+        # del mismo cálculo, no de una proporción supuesta.
+        "cornersH": round(loc["corners"], 1),
+        "fouls": round(faltas, 1),
+        "cards": round(tarjetas, 1),
+    }
+
+
 def filas_partido(jug, cache_resumen, team_id):
     """Cruza el historial de un equipo (con `local`/`rival_id` por
     partido, de `historial()`) con el caché de resúmenes (con los
@@ -1830,6 +1882,7 @@ def main():
             parametros[met]["disp_total"] = dt
 
     estadisticas = {}
+    propios_por_equipo = {}
     for tid, jug in jugados_equipo.items():
         filas = filas_partido(jug[:ESTADISTICAS_N], cache_resumen, tid)
         propios = [f["propio"] for f in filas]
@@ -1841,6 +1894,22 @@ def main():
         pr["concede"] = promedios_equipo([f["rival"] for f in filas if f["rival"]])
         pr["esperado"] = esperados(propios, parametros)
         estadisticas[tid] = pr
+        propios_por_equipo[tid] = propios
+
+    # ── un solo número por métrica ───────────────────────────────────
+    # Hasta el 2026-08-24 la app mostraba DOS expectativas para lo mismo
+    # en la misma pestaña: el promedio crudo de arriba y el encogido de
+    # las líneas. Medido, el encogido acierta más en las tres métricas
+    # (ver `esperado_partido`), así que el crudo se reemplaza acá.
+    #
+    # Tiene que ser DESPUÉS del bucle de partidos: los parámetros de liga
+    # salen de `cache_resumen`, que se llena adentro de ese bucle.
+    for pr_ in partidos:
+        esp = esperado_partido(propios_por_equipo.get(str(pr_.get("homeId"))),
+                               propios_por_equipo.get(str(pr_.get("awayId"))),
+                               parametros)
+        if esp:
+            pr_.update(esp)
 
     # ── serie por jugador ────────────────────────────────────────────
     # El acumulado de temporada que trae el roster no distingue al que

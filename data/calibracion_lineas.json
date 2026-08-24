@@ -1,0 +1,30 @@
+{
+ "actualizado": "2026-08-24",
+ "metricas": {
+  "corners": {
+   "n": 948,
+   "desvio": 3.5,
+   "sesgo": 2.5
+  },
+  "tarjetas": {
+   "n": 600,
+   "desvio": 4.4,
+   "sesgo": -3.8
+  },
+  "remates": {
+   "n": 600,
+   "desvio": 6.6,
+   "sesgo": 6.6
+  },
+  "al_arco": {
+   "n": 600,
+   "desvio": 4.3,
+   "sesgo": 2.7
+  },
+  "faltas": {
+   "n": 600,
+   "desvio": 9.2,
+   "sesgo": -9.0
+  }
+ }
+}

@@ -1766,3 +1766,108 @@ para fuerza) y #6 (calibrar antes de publicar) estaban todos parados
 por falta de muestra. Con 11.854 partidos y el arnés walk-forward ya
 armado, se pueden atacar de verdad.
 
+## 6octodecies · Por qué Argentina anda mal: dos constantes sin validar (2026-08-24)
+
+Issue #9. Con el arnés de `medir_historico.py` se puede cortar la
+medición por torneo, por era y por profundidad de historia. Lo que
+salió, en orden:
+
+### 1. La Copa de la Liga empeora el modelo
+
+| corte | n | capturamos |
+|---|---|---|
+| arg · Copa De La Liga | 920 | **−17.5%** |
+| arg · Liga Profesional | 5350 | 11.1% |
+
+Peor que la tasa base. Mezclarla con la liga ensucia la medición y
+probablemente también el ajuste de fuerzas.
+
+### 2. El problema es RECIENTE, no estructural
+
+Solo Liga Profesional / Serie A:
+
+| era | arg | bra |
+|---|---|---|
+| 2012-2017 | 15.8% | 17.4% |
+| 2018-2021 | 26.7% | 51.2% |
+| 2022-2026 | **−23.0%** | 40.5% |
+
+Argentina andaba bien y se rompió. Brasil no.
+
+### 3. Y la causa está en la forma del torneo
+
+| | equipos | PJ/equipo | cruces por par |
+|---|---|---|---|
+| bra, todas las temporadas | 20 | 38 | **2.00** |
+| arg 2022-2024 | 28-29 | 27 | **1.00** |
+
+Brasil es un doble round-robin perfecto, 14 años seguidos: la red de
+cruces está completa y balanceada. Argentina pasó a 28-30 equipos con
+**una sola vuelta**. Eso es ~1.5x más parámetros (ataque y defensa por
+equipo) estimados con ~0.7x los partidos por equipo: la mitad de datos
+por parámetro.
+
+Y el modelo no sabe que tiene menos datos. Se ve en cuánto se anima a
+separarse de la tasa base:
+
+| | modelo | mercado |
+|---|---|---|
+| arg 2022-2026 | **7.70%** | 7.02% |
+| bra 2022-2026 | 8.11% | 8.13% |
+
+En Brasil opinamos tanto como el mercado. **En Argentina opinamos MÁS
+que el mercado** — y nos equivocamos. Ruido confundido con señal.
+
+### 4. `VIDA_MEDIA_DIAS = 45` está muy lejos del óptimo
+
+Barrido, 2018+ (in-sample):
+
+| vida media | arg | bra |
+|---|---|---|
+| 25 | −12.6% | 38.0% |
+| **45 (actual)** | **−1.3%** | **46.4%** |
+| 90 | 7.7% | 54.4% |
+| 180 | 19.2% | 61.7% |
+
+Monótono y en las dos ligas. Confirmado **fuera de muestra** (elegir
+con 2012-2021, medir en 2022-2026):
+
+| liga | vida | capt. 2022+ |
+|---|---|---|
+| arg | 45 | **−29.9%** |
+| arg | 180 | +3.4% |
+| arg | 270 | **+12.7%** |
+| bra | 45 | 40.5% |
+| bra | 180 | **+57.7%** |
+
+**No se cambió la constante todavía, y a propósito:** la mejora sigue
+subiendo a 270 y el barrido se cortó por tiempo de cómputo, no porque
+la curva se aplanara. Poner un número sacado de un barrido inconcluso
+es justo lo que la regla del repo prohíbe. Falta encontrar el óptimo.
+
+### 5. Encoger hacia la tasa base también mejora, fuera de muestra
+
+Ajustando `k` solo con 2012-2021 y aplicándolo a 2022-2026:
+
+| liga | vida | capt. sin k | k | capt. con k |
+|---|---|---|---|---|
+| arg | 45 | −29.9% | 0.40 | 25.0% |
+| arg | 180 | 3.4% | 0.30 | **34.6%** |
+| bra | 45 | 40.5% | 0.30 | 46.3% |
+| bra | 180 | 57.7% | 0.20 | **58.1%** |
+
+Dato que confirma el diagnóstico: **con la vida media más larga hace
+falta MENOS encogimiento** (0.40 → 0.30 en arg, 0.30 → 0.20 en bra).
+La ventana corta estaba fabricando ruido que después había que
+apagar.
+
+Esto es el issue #6 y no se aplicó: agrega un mecanismo nuevo a lo que
+se publica e interactúa con `VALOR_MIN`. Es decisión de producto.
+
+### Lo que NO se pudo medir
+
+El efecto sobre las marcas de valor. Se intentó una simulación rápida y
+daba que el 36% de todas las opciones quedaban marcadas, lo cual es
+implausible: la cuenta no replica la lógica real de `marcaDeValor()` ni
+de `escalera()`. Se descartó el número en vez de reportarlo.
+

@@ -129,7 +129,12 @@ def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
             continue
         filas.append({"fecha": p["fecha"], "modelo": pm, "mercado": pq,
                       "base": tasa_base(prev), "real": H.desenlace(p),
-                      "lh": lh, "la": la, "fuente": p.get("fuente")})
+                      "lh": lh, "la": la, "fuente": p.get("fuente"),
+                      # Para poder cortar despues por torneo, por equipo o
+                      # por cuanta historia tenia cada uno.
+                      "liga": p.get("liga"), "temporada": p.get("temporada"),
+                      "home": p["home"], "away": p["away"],
+                      "n_previos": len(prev)})
         if progreso and len(filas) % progreso == 0:
             print(f"    {len(filas)} evaluados...", flush=True)
     return filas

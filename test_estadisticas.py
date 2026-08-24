@@ -779,6 +779,43 @@ _html = (actualizar.Path(__file__).resolve().parent / "index.html").read_text(
 prueba("el frontend conoce todas las competiciones",
        all(v["nombre"] in _html for v in actualizar.COMPETICIONES.values()))
 
+# `prior` es opcional: las copas caen al PRIOR_FUERZA global a propósito,
+# porque ahí el prior empuja hacia el ancla doméstica y no hacia el
+# promedio, y nunca se midió. Pero si está, tiene que ser un entero
+# positivo — un prior de 0 saca la regularización entera sin avisar.
+prueba("los priors declarados son enteros positivos",
+       all(isinstance(v["prior"], int) and v["prior"] > 0
+           for v in actualizar.COMPETICIONES.values() if "prior" in v))
+prueba("las dos ligas domésticas tienen prior medido",
+       all("prior" in actualizar.COMPETICIONES[s]
+           for s in actualizar.LIGAS_DOMESTICAS))
+
+
+print("")
+print("el prior por competición tiene que hacer algo")
+print("")
+
+# Si `prior` no llegara a fuerzas_equipos(), el barrido de PRIOR_FUERZA
+# no habría medido nada y nadie se enteraría: el número quedaría escrito
+# en COMPETICIONES sin efecto. Estos tests existen para eso.
+import datetime as _dt
+
+_HOY = _dt.date(2026, 6, 1)
+# Un equipo que gana todo por goleada contra rivales que pierden todo.
+_RES = ([{"fecha": _dt.date(2026, 5, d), "home": "A", "away": str(d),
+          "gh": 5.0, "ga": 0.0} for d in range(1, 9)]
+        + [{"fecha": _dt.date(2026, 5, d), "home": str(d), "away": "B",
+            "gh": 1.0, "ga": 1.0} for d in range(10, 18)])
+
+_flojo, _, _, _ = actualizar.fuerzas_equipos(_RES, _HOY, prior=1)
+_fuerte, _, _, _ = actualizar.fuerzas_equipos(_RES, _HOY, prior=40)
+prueba("con prior alto el ataque se acerca más al promedio",
+       abs(_fuerte["A"][0] - 1.0) < abs(_flojo["A"][0] - 1.0))
+prueba("y sigue reconociendo que A ataca mejor que el promedio",
+       _fuerte["A"][0] > 1.0)
+prueba("sin prior explícito usa el global, no rompe",
+       actualizar.fuerzas_equipos(_RES, _HOY)[0]["A"][0] > 0)
+
 
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

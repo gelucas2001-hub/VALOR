@@ -130,6 +130,38 @@ MIN_PARTIDOS_FUERZA = 3    # un equipo con menos partidos que esto en toda
                             # la temporada no tiene fuerza confiable
 PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
                             # que se suman en fuerzas_equipos() para regularizar.
+                            #
+                            # OJO: esto es el RESPALDO. Cada liga tiene el suyo
+                            # en COMPETICIONES["prior"], porque el valor bueno
+                            # depende de cuantos partidos por equipo hay y eso
+                            # cambia por torneo. Las copas usan este 3, que no
+                            # se midio: ahi el prior empuja hacia el ancla
+                            # domestica y no hacia el promedio, asi que
+                            # extrapolar desde las ligas seria inventar.
+                            #
+                            # Barrido el 2026-08-24 (5 temporadas, vida 300,
+                            # rho por liga), % de la ventaja del mercado
+                            # capturada, eligiendo con datos < 2022:
+                            #
+                            #   prior   arg.1 DEV   arg.1 TEST   bra.1 DEV
+                            #       3      44.7%       24.8%       57.2%
+                            #       8      49.6%       37.7%       60.3% <-
+                            #      12      50.3% <-    42.2%       60.3%
+                            #      20      49.1%       45.6%       58.2%
+                            #
+                            # Argentina pide mas regularizacion que Brasil
+                            # porque tiene la MITAD de partidos por equipo:
+                            # 28-30 equipos a una vuelta contra 20 ida y
+                            # vuelta. Es la misma sobre-parametrizacion que
+                            # Elo evitaria usando un parametro por equipo en
+                            # vez de dos — pero regularizar la ataca sin tirar
+                            # la separacion ataque/defensa.
+                            #
+                            # En ROI no se detecto diferencia: todos los z
+                            # entre -0.8 y +0.7 sobre ~1200 apuestas. Eso NO
+                            # dice que no sirva, dice que esa prueba tiene un
+                            # error de +/-4% y no puede verlo. Se aplica por la
+                            # mejora de calibracion, que si esta medida.
                             # Sin esto, un equipo con 1-2 partidos jugados (común
                             # en Libertadores/Sudamericana, que mezclan fases
                             # con muy pocos cruces por equipo) puede terminar
@@ -176,6 +208,7 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
 # quedan en 0.00 por falta de muestra propia, no por medicion.
 COMPETICIONES = {
     "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 75,
+              "prior": 12,
               "corners": 9.4, "fouls": 25.5, "cards": 5.4},
     # Brasil entra el 2026-08-24. Es la liga donde el motor demostrablemente
     # funciona: captura el 61% de la ventaja del mercado sobre la tasa base
@@ -184,6 +217,7 @@ COMPETICIONES = {
     # falla. Los promedios salen de medir 60 partidos de bra.1 2026 via
     # /summary, no de copiar los de Argentina.
     "bra.1": {"nombre": "Brasileirão Série A", "rho": 0.00, "conf": 75,
+              "prior": 8,
               "corners": 10.0, "fouls": 25.1, "cards": 4.1},
     "conmebol.libertadores": {"nombre": "CONMEBOL Libertadores", "rho": 0.00, "conf": 65,
               "corners": 9.8, "fouls": 24.0, "cards": 5.0},
@@ -1371,7 +1405,7 @@ def historia_reciente(slug, season, hoy, temporadas=None):
     return out
 
 
-def fuerzas_equipos(resultados, hoy, anclas=None):
+def fuerzas_equipos(resultados, hoy, anclas=None, prior=None):
     """Ataque/defensa de cada equipo, calibrados juntos contra toda la red
     de cruces de la temporada (no cada uno contra su propia muestra
     suelta) — el ajuste que le faltaba al promedio simple. Pondera cada
@@ -1414,15 +1448,16 @@ def fuerzas_equipos(resultados, hoy, anclas=None):
         # vez de dejarlo irse a un extremo. num = PRIOR * ancla y den =
         # PRIOR, así que sin partidos reales la razón da exactamente el
         # ancla; sin ancla, ancla = 1.0 y queda el comportamiento de antes.
-        num_a = {t: PRIOR_FUERZA * anc.get(t, (1.0, 1.0))[0] for t in equipos}
-        den_a = {t: PRIOR_FUERZA for t in equipos}
+        pf = PRIOR_FUERZA if prior is None else prior
+        num_a = {t: pf * anc.get(t, (1.0, 1.0))[0] for t in equipos}
+        den_a = {t: pf for t in equipos}
         for p, w in zip(resultados, pesos):
             num_a[p["home"]] += w * p["gh"]; den_a[p["home"]] += w * mu_local  * defensa[p["away"]]
             num_a[p["away"]] += w * p["ga"]; den_a[p["away"]] += w * mu_visita * defensa[p["home"]]
         nueva_ataque = {t: (num_a[t]/den_a[t] if den_a[t] > 0 else 1.0) for t in equipos}
 
-        num_d = {t: PRIOR_FUERZA * anc.get(t, (1.0, 1.0))[1] for t in equipos}
-        den_d = {t: PRIOR_FUERZA for t in equipos}
+        num_d = {t: pf * anc.get(t, (1.0, 1.0))[1] for t in equipos}
+        den_d = {t: pf for t in equipos}
         for p, w in zip(resultados, pesos):
             num_d[p["home"]] += w * p["ga"]; den_d[p["home"]] += w * mu_visita * nueva_ataque[p["away"]]
             num_d[p["away"]] += w * p["gh"]; den_d[p["away"]] += w * mu_local  * nueva_ataque[p["home"]]
@@ -1493,7 +1528,12 @@ def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factor
         try:
             print(f"  · fuerza doméstica — {slug_liga}")
             resultados = historia_reciente(slug_liga, season, hoy)
-            cache_dom[slug_liga] = fuerzas_equipos(resultados, hoy)
+            # El prior es el de la liga que se esta ajustando, no el de
+            # la copa desde la que se pregunta: acá se está midiendo
+            # cuánto vale el equipo EN SU LIGA.
+            cache_dom[slug_liga] = fuerzas_equipos(
+                resultados, hoy,
+                prior=(COMPETICIONES.get(slug_liga) or {}).get("prior"))
             # Se guarda crudo además de reducido a fuerzas: jugados_de_resultados()
             # lo reusa para forma_general() de equipos sudamericanos sin pedir
             # nada nuevo -- este pedido ya se hace para anclar la fuerza.
@@ -1697,7 +1737,9 @@ def main():
                     anclas[tid] = a
             if anclas:
                 print(f"    ancladas {len(anclas)} de {len(equipos)} fuerzas a la liga local")
-            cache_fuerzas[slug] = fuerzas_equipos(resultados, hoy, anclas=anclas)
+            cache_fuerzas[slug] = fuerzas_equipos(
+                resultados, hoy, anclas=anclas,
+                prior=COMPETICIONES[slug].get("prior"))
         return cache_fuerzas[slug]
 
     # cache_resumen persiste ENTRE corridas (a diferencia de cache_hist/

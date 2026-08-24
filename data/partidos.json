@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-24T13:46",
- "requests": 886,
+ "actualizado": "2026-08-24T19:21",
+ "requests": 770,
  "partidos": [
   {
    "id": "espn401841521",
@@ -797,15 +797,15 @@
    "ciudad": "Rio de Janeiro",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.35,
-    "empate": 3.15,
-    "visitante": 3.15,
+    "local": 2.4,
+    "empate": 3.2,
+    "visitante": 3.0,
     "totalLinea": 2.5,
     "totalOver": 1.87,
     "totalUnder": 1.83,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.25,
-    "hcapVisitante": 1.57
+    "hcapLocal": 2.3,
+    "hcapVisitante": 1.56
    },
    "preload": {}
   },
@@ -4723,10 +4723,10 @@
     "empate": 3.35,
     "visitante": 6.0,
     "totalLinea": 1.5,
-    "totalOver": 1.56,
+    "totalOver": 1.59,
     "totalUnder": 2.2,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.56,
+    "hcapLocal": 1.57,
     "hcapVisitante": 2.15
    },
    "preload": {}
@@ -7523,15 +7523,15 @@
    "ciudad": "Sao Paulo",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.74,
-    "empate": 3.6,
+    "local": 1.8,
+    "empate": 3.45,
     "visitante": 4.3,
     "totalLinea": 2.5,
-    "totalOver": 2.0,
-    "totalUnder": 1.67,
+    "totalOver": 2.1,
+    "totalUnder": 1.61,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.69,
-    "hcapVisitante": 1.95
+    "hcapLocal": 1.74,
+    "hcapVisitante": 1.91
    },
    "preload": {}
   },
@@ -9159,14 +9159,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 3.45,
-    "empate": 3.2,
-    "visitante": 2.1,
+    "empate": 3.25,
+    "visitante": 2.05,
     "totalLinea": 2.5,
-    "totalOver": 1.91,
+    "totalOver": 1.95,
     "totalUnder": 1.74,
     "hcapLinea": 0.5,
-    "hcapLocal": 1.67,
-    "hcapVisitante": 2.0
+    "hcapLocal": 1.69,
+    "hcapVisitante": 1.95
    },
    "preload": {}
   },
@@ -10338,15 +10338,15 @@
    "ciudad": "Mendoza",
    "mercado": {
     "prov": "DraftKings",
-    "local": 2.1,
+    "local": 2.0,
     "empate": 3.05,
-    "visitante": 3.65,
+    "visitante": 3.85,
     "totalLinea": 2.5,
     "totalOver": 2.3,
     "totalUnder": 1.53,
     "hcapLinea": -0.5,
-    "hcapLocal": 2.0,
-    "hcapVisitante": 1.67
+    "hcapLocal": 1.91,
+    "hcapVisitante": 1.71
    },
    "preload": {}
   }

@@ -224,16 +224,27 @@ a{color:inherit}
 /* Los últimos cinco, del más viejo al más nuevo. Ganado en tinta
    plena, perdido casi apagado: la intensidad dice el resultado, no el
    color — mostaza y terracota tienen otro trabajo. */
-.forma{flex:0 0 auto;display:flex;gap:2px}
+.forma{flex:0 0 auto;display:flex;gap:3px}
 /* La variante grande va en la cabecera de un bloque de Historial, donde
    la tira es el dato principal y no un adorno al costado del nombre. */
 .forma.gr{margin-left:auto;gap:3px}
-.forma.gr i{width:15px;height:15px;font-size:11px}
-.forma i{width:12px;height:12px;display:grid;place-items:center;font-family:var(--mono);
-  font-size:11px;font-weight:700;font-style:normal}
+.forma.gr i{width:18px;height:18px}
+/* Las cinco casillas ahora son la misma pieza que la serie del jugador
+   en Plantel: filete, tinta a intensidades, place-items al centro. Una
+   sola forma de dibujar "los últimos partidos" en toda la app.
+
+   La perdida tenía de fondo linea-2, que contra el panel es
+   prácticamente el mismo tono: la caja desaparecía y quedaba una letra
+   suelta flotando entre dos cajas. La tira se leía a saltos. Ahora la
+   perdida es una casilla vacía con filete — sigue siendo la más
+   callada, pero ocupa su lugar y las cinco tienen el mismo peso de
+   objeto. Intensidad, no color: llena / media / vacía. */
+.forma i{width:14px;height:14px;box-sizing:border-box;display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;font-weight:700;font-style:normal;
+  border:1px solid transparent}
 .forma i.g{background:var(--tinta);color:var(--hueco)}
-.forma i.e{background:var(--neutro);color:var(--hueco)}
-.forma i.p{background:var(--linea2);color:var(--gris2)}
+.forma i.e{background:rgba(238,227,206,.26);color:var(--tinta)}
+.forma i.p{background:none;border-color:var(--linea3);color:var(--gris2)}
 
 /* El sello: el veredicto en dos palabras. Rotado y encajonado, como
    el sello de goma de una mesa de entradas. */
@@ -339,8 +350,12 @@ a{color:inherit}
    ningún aviso: se leía como un error de maqueta, no como "hay más".
    El degradado del borde derecho lo dice, y se apaga al llegar al final. */
 .tabs{display:flex;gap:13px;padding:var(--e5) 14px 0;border-bottom:1px solid var(--linea2);margin-bottom:var(--e5);overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth}
-.tabs.mas{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
-          mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%)}
+/* El degradado no es de las pestanas: es de cualquier tira que se corte
+   a la derecha. La fila de metricas de Plantel mide 460 en 343 y se
+   cortaba igual, en la misma pantalla, sin ningun aviso. Una sola forma
+   de decir "hay mas a la derecha". */
+.mas{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
+     mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%)}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--gris2);position:relative;white-space:nowrap;
@@ -603,11 +618,54 @@ a{color:inherit}
 /* Filas planas, como el resto de las listas largas de la app. El peso
    goleador va en tinta plena porque es el dato que cambia una lectura;
    los números de al lado, apagados. Nada de mostaza acá: no es valor. */
-.jrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
-.jrow .pos{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 18px}
-.jrow .jn{flex:1;min-width:0;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.jrow .peso{font-family:var(--mono);font-size:11px;color:var(--tinta);white-space:nowrap}
-.jrow .js{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 34px;text-align:right}
+/* Era una tabla de cuatro columnas sin rótulo: "5 PJ · 11 · 2.2" se leía
+   en la primera fila y se perdía en la sexta, porque la cabecera estaba
+   una sola vez arriba. Y la jerarquía iba al revés — el nombre del
+   jugador pesaba más que el promedio, que es el número por el que se
+   abre esta pestaña.
+
+   Ahora son dos renglones y dos columnas:
+     renglón 1  posición + nombre .......... PROMEDIO (grande, tinta)
+     renglón 2  total en PJ · peso · serie .. línea → probabilidad
+   El total y los partidos se dicen en una frase ("11 en 5 PJ") en vez de
+   dos columnas mudas, así la cabecera de columnas deja de ser necesaria.
+   La línea apostable sale de la nota al pie y gana columna propia. */
+.jrow{display:grid;grid-template-columns:18px minmax(0,1fr) auto;column-gap:12px;row-gap:3px;
+      align-items:baseline;padding:9px 0;border-top:1px solid var(--linea);font-size:12px}
+.jrow .pos{font-family:var(--mono);font-size:11px;color:var(--gris2)}
+.jrow .jn{min-width:0;color:var(--tinta2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Contexto del número: arranca alineado con el nombre, no con la posición. */
+.jrow .jctx{grid-column:2;font-family:var(--mono);font-size:11px;letter-spacing:.02em;
+            color:var(--gris3);min-width:0;line-height:1.9}
+.jrow .jctx b{color:var(--tinta3);font-weight:400}
+/* La serie era "3·1·4": una cadena de números que no se mira, se
+   descifra. Pasa a casillas de tinta — el mismo recurso del cupón de la
+   portada, llenadas según lo que hizo en ese partido. Un renglón de
+   ceros ahora son tres cajas vacías, que se entienden de un vistazo y
+   no cuestan nada de leer; por eso ya no hace falta esconderlas, que era
+   justo lo que hacía que en unas filas apareciera y en otras no.
+   Sin colores nuevos: es tinta a cuatro intensidades, como la forma de
+   los últimos cinco en Historial. */
+/* Renglón propio y no metidas en el texto: adentro del renglón de
+   contexto envolvían en unas filas y no en otras, y el "·" que las
+   separaba quedaba colgando al final de la línea de arriba. */
+.jrow .ser{grid-column:2;display:flex;gap:3px;margin-top:3px}
+.sq{width:18px;height:18px;box-sizing:border-box;display:grid;place-items:center;
+    font-family:var(--mono);font-size:11px;line-height:1;border:1px solid var(--linea3);
+    color:var(--tinta3)}
+.sq.f0{color:var(--gris2)}
+.sq.f1{background:rgba(238,227,206,.10)}
+.sq.f2{background:rgba(238,227,206,.20);color:var(--tinta2)}
+.sq.f3{background:rgba(238,227,206,.32);color:var(--tinta)}
+/* La línea que se puede apostar, debajo del promedio y en su misma
+   columna: son el par que se lee junto. */
+.jrow .jlin{grid-column:3;font-family:var(--mono);font-size:11px;color:var(--tinta3);
+            text-align:right;white-space:nowrap}
+.jrow .jprom{grid-column:3;font-family:var(--mono);font-size:17px;font-weight:600;
+             color:var(--tinta);text-align:right;line-height:1;white-space:nowrap}
+/* Muestra corta: el promedio se calla en vez de aparentar precisión.
+   Un jugador de 1 partido con 3.0 se leía igual que uno de 15 con 2.2. */
+.jrow.corta .jprom,.jrow.cero .jprom{color:var(--gris2)}
 /* El promedio por partido es el número que se mira para una línea de
    jugador — "26 remates" no dice nada sin saber en cuántos partidos.
    Va en tinta plena; el total al lado, apagado. Sin mostaza: es
@@ -625,23 +683,34 @@ a{color:inherit}
      min-height:44px;min-width:44px;padding:0 11px;
      background:transparent;color:var(--gris2);cursor:pointer}
 .met.on{border-color:var(--tinta);color:var(--tinta)}
-.jhead{display:flex;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
-       text-transform:uppercase;color:var(--gris3);padding-bottom:4px}
-.jhead span:first-child{flex:1}
-.jhead span:not(:first-child){flex:0 0 34px;text-align:right}
+.jhead{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:11px;
+       letter-spacing:.06em;text-transform:uppercase;color:var(--gris3);padding-bottom:5px}
+.jhead span{white-space:nowrap}
 .jhead span:last-child{flex:0 0 40px}
 /* Comparativa entre los dos equipos: el número de cada uno a los
    costados y qué se mide en el medio. El más alto en tinta plena — no
    quiere decir "mejor" (más faltas no es mejor), solo cuál hace más. */
 /* Diez filas de números sin saber de quién es cada columna: el rótulo
    se iba con el scroll y "Central Córdoba (Santiago del Es…" quedaba
-   cortado justo en lo que lo distingue. Ahora queda fijo y envuelve. */
+   cortado justo en lo que lo distingue.
+
+   Se parte en dos renglones, porque un solo rótulo no puede ser completo
+   y fijo a la vez: con el nombre entero y el rol, en 390px se va a tres
+   líneas, y una franja opaca de 57px pegada arriba te tapa dos filas de
+   la tabla mientras scrolleás.
+
+     .cmphead  el nombre entero y el rol, quieto, arriba de la tabla
+     .cmpfijo  el apellido del club solo, una línea, pegado al scroll */
 .cmphead{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
          font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris3);
-         padding:6px 0;position:sticky;top:0;z-index:3;background:var(--fondo);
-         border-bottom:1px solid var(--linea2);line-height:1.35}
+         padding-bottom:6px;line-height:1.35}
 .cmphead span{flex:1;min-width:0}
-.cmphead span:last-child{text-align:right}
+.cmpfijo{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
+         font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris2);
+         padding:5px 0;position:sticky;top:0;z-index:3;background:var(--fondo);
+         border-bottom:1px solid var(--linea2);line-height:1}
+.cmpfijo span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmphead span:last-child,.cmpfijo span:last-child{text-align:right}
 .cmp{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea)}
 .cmp b{font-family:var(--mono);font-size:13px;color:var(--gris2);flex:0 0 108px;font-weight:600}
 .cmp b:last-child{text-align:right}
@@ -668,9 +737,7 @@ a{color:inherit}
    el peso goleador: al lado no entra y competiria con la columna. */
 /* box-sizing es lo que evita que el 100% mas la sangria empujen la
    pagina a scrollear en horizontal. */
-.serie{flex:0 0 100%;box-sizing:border-box;padding-left:26px;margin:-4px 0 0;
-       font-family:var(--mono);font-size:11px;letter-spacing:.04em;
-       color:var(--gris3)}
+.jfuente{font-size:11px;line-height:1.55;color:var(--gris3);margin:10px 0 0}
 /* ── escalera de líneas ────────────────────────────────────────── */
 .escf{padding:9px 0;border-top:1px solid var(--linea)}
 .escq{font-family:var(--mono);font-size:11px;letter-spacing:.05em;
@@ -2523,8 +2590,20 @@ function comparativa(m){
      igual que uno de 10. */
   const n = Math.min(Lt.pj||0, Vt.pj||0);
   const hayConcede = !!(Lt.concede || Vt.concede);
+  /* Para el rótulo fijo, el club sin la aclaración de provincia: es lo
+     que lo distingue de la otra columna y entra en una línea. El nombre
+     completo queda en el renglón de arriba y en la cabecera del partido. */
+  const club = n => String(n||"").replace(/\s*\(.*$/, "");
+  /* Salvo que los dos recorten al mismo nombre. Gimnasia (La Plata) y
+     Gimnasia (Mendoza) se distinguen justo por el parentesis, y un
+     rotulo fijo que dice "Gimnasia" en las dos columnas no rotula nada.
+     Ahi el parentesis se queda y que se recorte con puntos suspensivos:
+     un nombre cortado sigue diciendo mas que dos nombres iguales. */
+  const corto = club(m.home) === club(m.away)
+    ? (n => String(n||"")) : club;
   return `<div class="lbl sep">Por partido</div>
     <div class="cmphead"><span>${esc_(m.home)} · de local</span><span>${esc_(m.away)} · de visita</span></div>
+    <div class="cmpfijo"><span>${esc_(corto(m.home))}</span><span>${esc_(corto(m.away))}</span></div>
     <div class="cmplist">${filas}</div>
     <p class="fuente">Lo que viene haciendo cada uno${hayConcede ? `, y debajo lo que su rival
       le suele conceder en eso mismo` : ""} — sobre ${n} partido${n===1?"":"s"} de cada uno,
@@ -2684,9 +2763,12 @@ function lineaJugador(j, met){
 function filaJugador(j, clave){
   /* El peso goleador se muestra cuando se están mirando los goles. En
      las otras métricas competiría con el número de la columna y le come
-     el nombre al jugador, que ya venía cortándose. */
+     el nombre al jugador, que ya venía cortándose.
+     Iba flotando en el medio de la fila, empujando las columnas de
+     números a posiciones distintas según el jugador; ahora entra en el
+     renglón de contexto, que es donde vive todo lo que matiza. */
   const peso = (clave === "goles" || clave === "asist") && j.peso_goles >= 0.15
-    ? `<span class="peso">${Math.round(j.peso_goles*100)}% de los goles</span>` : "";
+    ? `<b>${Math.round(j.peso_goles*100)}% de los goles</b>` : "";
   /* Un campo ausente no es un cero medido: mostrar "0" sería afirmar una
      medición que no existe. */
   const hay = j[clave] != null;
@@ -2697,25 +2779,38 @@ function filaJugador(j, clave){
      partidos pero hizo 4 en 1". El promedio los da iguales. */
   const s = j.serie && j.serie[clave];
   const L = lineaJugador(j, clave);
-  /* Una serie de puros ceros ("0 · 0 · 0") ocupa el mismo renglón que
-     una que dice algo, y en un plantel son ocho de doce filas. El que no
-     hizo nada ya se lee en la columna de Total: la sub-línea se calla. */
-  const algo = s && s.length && s.some(v=> Number(v) > 0);
-  const detalle = algo
-    /* Se etiqueta porque la serie es de los partidos que tenemos en
-       cache y el "PJ" de al lado es de toda la temporada: sin decirlo,
-       "5 PJ" al lado de tres numeros se lee como un error. */
-    ? `<span class="serie">partido a partido: ${s.join(" · ")}${L
-        ? ` &nbsp;·&nbsp; +${L.linea.toFixed(1)} → ${Math.round(L.prob*100)}%` : ""}</span>`
+  /* Cuatro intensidades y nada más: el ojo tiene que distinguir "no
+     hizo", "hizo algo" y "hizo bastante", no leer una escala de doce
+     pasos. El 4 y el 9 se pintan igual y está bien — el número está
+     escrito adentro de la caja. */
+  const tinta = v => { const n = Number(v)||0;
+    return n <= 0 ? "f0" : n === 1 ? "f1" : n <= 3 ? "f2" : "f3"; };
+  const serie = s && s.length
+    ? `<div class="ser">${s.map(v=> `<span class="sq ${tinta(v)}">${Number(v)||0}</span>`).join("")}</div>`
     : "";
-  return `<div class="jrow">
+
+  /* Renglón de contexto. "11 en 5 PJ" en vez de dos columnas mudas: se
+     explica solo, así la fila no depende de una cabecera que en la sexta
+     fila ya quedó fuera de pantalla. La serie va sin la etiqueta
+     "partido a partido" — el pie de la lista lo dice una vez para todas
+     en lugar de repetirlo doce veces. */
+  const corta = j.pj > 0 && j.pj <= 2;
+  const ctx = [
+    hay ? `${tot} en ${j.pj} PJ` : `${j.pj} PJ`,
+    peso,
+    corta ? "muestra corta" : "",
+  ].filter(Boolean).join(" · ");
+
+  /* Un promedio de 0.0 en tinta plena atrae el ojo hacia el único
+     número que no dice nada. Se apaga, igual que la muestra corta. */
+  const cero = !hay || !(j[clave] > 0);
+  return `<div class="jrow${corta ? " corta" : ""}${cero ? " cero" : ""}">
       <span class="pos">${esc_(j.pos||"—")}</span>
       <span class="jn">${esc_(j.nombre)}</span>
-      ${peso}
-      <span class="js">${j.pj} PJ</span>
-      <span class="js">${tot}</span>
-      <span class="js prom">${media}</span>
-      ${detalle}
+      <b class="jprom">${media}</b>
+      <span class="jctx">${ctx}</span>
+      <span class="jlin">${L ? `+${L.linea.toFixed(1)} → ${Math.round(L.prob*100)}%` : ""}</span>
+      ${serie}
     </div>`;
 }
 
@@ -2740,10 +2835,19 @@ function jugadores(nombre, id, met){
   const botones = METRICAS.map(x=>
     `<button class="met${x.k === clave ? " on" : ""}" data-plmet="${x.k}">${x.et}</button>`
   ).join("");
+  /* La cabecera ya no rotula cuatro columnas: rotula el único número
+     grande de la fila, que es el que se viene a buscar. Lo demás se
+     explica en el renglón de contexto y en este pie. */
+  const conLinea = /→/.test(filas);
   return `<div class="lbl sep">${esc_(nombre)} — jugadores</div>
     <div class="mets">${botones}</div>
-    <div class="jhead"><span>Jugador</span><span>PJ</span><span>Total</span><span>Prom.</span></div>
-    <div class="jlist">${filas}</div>`;
+    <div class="jhead"><span>Jugador</span><span>Prom. por partido</span></div>
+    <div class="jlist">${filas}</div>
+    <p class="jfuente">Ordenados por total en la temporada. Cada casilla es un partido de los
+      últimos que tenemos, y se llena de tinta según lo que hizo ahí — vacía es cero.${conLinea
+      ? ` A la derecha, la chance de pasar esa línea.` : ""}
+      Donde dice <i>muestra corta</i> hay dos partidos o menos: el promedio no dice mucho
+      todavía.</p>`;
 }
 
 /* ── 6. Herramientas ───────────────────────────────────────────── */
@@ -3059,18 +3163,20 @@ function render(){
      activa se trae a la vista (si no, tocar Herramientas dejaba el
      subrayado fuera de pantalla) y el degradado del borde derecho se
      apaga cuando ya no hay nada más a la derecha. */
-  const tabs = document.querySelector(".tabs");
-  if(tabs){
-    const on = tabs.querySelector(".tab.on");
+  /* Vale igual para la fila de metricas de Plantel, que se corta en
+     "FALT..." por el mismo motivo. `.on` cubre la pestana activa y la
+     metrica elegida: las dos usan esa clase. */
+  document.querySelectorAll(".tabs, .mets").forEach(tira => {
+    const on = tira.querySelector(".on");
     if(on){
-      const meta = on.offsetLeft - (tabs.clientWidth - on.offsetWidth) / 2;
-      tabs.scrollLeft = Math.max(0, meta);
+      const meta = on.offsetLeft - (tira.clientWidth - on.offsetWidth) / 2;
+      tira.scrollLeft = Math.max(0, meta);
     }
-    const fin = ()=> tabs.classList.toggle("mas",
-      tabs.scrollWidth - tabs.clientWidth - tabs.scrollLeft > 8);
+    const fin = ()=> tira.classList.toggle("mas",
+      tira.scrollWidth - tira.clientWidth - tira.scrollLeft > 8);
     fin();
-    tabs.addEventListener("scroll", fin, {passive:true});
-  }
+    tira.addEventListener("scroll", fin, {passive:true});
+  });
 }
 
 function ir(v, extra){

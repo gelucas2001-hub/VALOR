@@ -8,11 +8,18 @@ habría predicho usando SOLO los partidos anteriores a esa fecha (sin
 mirar el futuro), y compara esas probabilidades contra lo que realmente
 pasó.
 
-NO mide ROI ni CLV: ESPN borra las cuotas cuando el partido termina
-(devuelve odds:[None]), así que no hay precios históricos con los que
-simular apuestas. Lo que sí mide — si las probabilidades están bien
-calibradas — es la pregunta de fondo: sin eso, cualquier EV que calcule
-la app es una hipótesis.
+Este script no mide ROI: mide calibración, que es la pregunta de
+fondo — sin eso, cualquier EV que calcule la app es una hipótesis.
+
+OJO, acá decía que el ROI era IMPOSIBLE de medir porque ESPN borra las
+cuotas cuando el partido termina. Eso era cierto y dejó de serlo el
+2026-08-24, cuando `historico.py` trajo 6310 partidos de arg.1 con
+cuota de cierre real de Pinnacle. La frase quedó y nadie volvió a hacer
+la pregunta: se pasaron tres semanas midiendo calibración y ninguna
+midiendo plata. Cuando por fin se midió, el modelo daba -6.18% de ROI.
+
+Si volvés a leer acá que algo "no se puede medir", chequeá la fecha de
+la afirmación antes de creerle.
 
 Correr a mano:  python backtest.py
 No forma parte del pipeline diario (es lento y no cambia día a día).

@@ -675,5 +675,147 @@ prueba("un partido sin mercado no genera entrada",
        actualizar.snapshot_cuotas({}, [{"id": "e9", "lh": 1, "la": 1}], "t") == {})
 prueba("sin partidos no rompe", actualizar.snapshot_cuotas({}, [], "t") == {})
 
+
+
+# ══════════════════════════════════════════════════════════════════════
+# Un solo número por métrica, no dos
+#
+# La app mostraba DOS expectativas distintas para lo mismo en la misma
+# pestaña: "Lo que esperamos acá → CÓRNERS 9.0" (promedio crudo de los
+# últimos partidos, vía disciplina_equipo) y "Total del partido: 9.4
+# esperados" (el mismo dato encogido hacia el promedio de la liga).
+#
+# Y el crudo, que además es el que sale en la tarjeta del partido y en
+# Análisis, es el peor de los dos. Medido sobre 179 partidos,
+# walk-forward, error absoluto medio contra el total real:
+#
+#     córners    crudo 3.39   encogido 2.67   (err² 17.48 vs 11.08)
+#     faltas     crudo 4.90   encogido 4.65
+#     tarjetas   crudo 1.77   encogido 1.55
+#
+# Gana el encogido en las tres. Así que se unifica: un número, un método.
+# ══════════════════════════════════════════════════════════════════════
+
+print("")
+print("esperado_partido() — una sola expectativa por métrica")
+print("")
+
+PAR_DEMO = {
+    "corners": {"media": 5.0, "k": 20.0, "disp": 1.75},
+    "faltas":  {"media": 12.0, "k": 3.0, "disp": 1.1},
+    "tarjetas": {"media": 2.5, "k": 5.0, "disp": 0.72},
+}
+# Un equipo muy por encima de la media y otro muy por debajo: si el
+# encogimiento funciona, los dos terminan cerca de la media de la liga.
+ALTO = [{"corners": 9.0, "faltas": 20.0, "tarjetas": 5.0} for _ in range(3)]
+BAJO = [{"corners": 1.0, "faltas": 4.0, "tarjetas": 0.0} for _ in range(3)]
+
+e = actualizar.esperado_partido(ALTO, BAJO, PAR_DEMO)
+prueba("devuelve las tres métricas que la app muestra",
+       all(k in e for k in ("corners", "fouls", "cards")))
+prueba("el total es la suma de los dos equipos, no de uno",
+       e["corners"] > 5.0)
+
+# El punto del encogimiento: con 3 partidos, un equipo de 9 córners no
+# vale 9. La suma cruda daría 10; la encogida tiene que quedar más cerca
+# del doble de la media de la liga (10 también, pero por otro camino) y
+# sobre todo NO igualar el crudo cuando las muestras son desparejas.
+solo_alto = actualizar.esperado_partido(ALTO, ALTO, PAR_DEMO)
+prueba("dos equipos altos no llegan al crudo (18): se encogen",
+       solo_alto["corners"] < 18.0)
+prueba("y quedan por encima del promedio de la liga igual",
+       solo_alto["corners"] > 10.0)
+
+prueba("sin parámetros no inventa",
+       actualizar.esperado_partido(ALTO, BAJO, {}) is None)
+prueba("sin partidos de un equipo tampoco",
+       actualizar.esperado_partido(ALTO, [], PAR_DEMO) is None)
+
+# cornersH es la parte del local: se usa para el mercado de córners del
+# local y no puede ser mayor que el total.
+prueba("los córners del local son parte del total",
+       0 < e["cornersH"] <= e["corners"])
+
+# Es el MISMO cálculo que alimenta las líneas de la pestaña
+# Estadísticas. Si se separan, vuelve a haber dos números para lo mismo.
+esp_alto = actualizar.esperados(ALTO, PAR_DEMO)
+esp_bajo = actualizar.esperados(BAJO, PAR_DEMO)
+prueba("coincide con esperados(), que es lo que usan las líneas",
+       abs(e["corners"] - (esp_alto["corners"] + esp_bajo["corners"])) < 1e-9)
+
+
+print("")
+print("la configuración de competiciones no puede desincronizarse")
+print("")
+
+# Son cuatro lugares distintos que tienen que hablar de las mismas ligas:
+# COMPETICIONES, CON_FUERZAS, LIGAS_DOMESTICAS y COMPS_ORDEN en el
+# index.html. Agregar una liga y olvidarse de uno no rompe nada visible
+# — simplemente esa liga anda mal y nadie se entera.
+
+CLAVES = {"nombre", "rho", "conf", "corners", "fouls", "cards"}
+prueba("toda competición declara sus seis campos",
+       all(CLAVES <= set(v) for v in actualizar.COMPETICIONES.values()))
+prueba("ninguna se quedó sin nombre",
+       all(v["nombre"].strip() for v in actualizar.COMPETICIONES.values()))
+
+# rho fuera de rango produce probabilidades NEGATIVAS con los topes de
+# lambda que la app usa: tau(0,1) = 1 + lh*rho, y lh llega a 3.20, así
+# que hace falta rho > -1/3.20 = -0.3125.
+prueba("ningún rho puede dar probabilidades negativas",
+       all(-0.31 < v["rho"] <= 0.25 for v in actualizar.COMPETICIONES.values()))
+
+prueba("las que ajustan fuerzas existen en COMPETICIONES",
+       actualizar.CON_FUERZAS <= set(actualizar.COMPETICIONES))
+prueba("las ligas domésticas también",
+       actualizar.LIGAS_DOMESTICAS <= set(actualizar.COMPETICIONES))
+# Una liga doméstica sin ajuste de fuerzas sería una liga entera cayendo
+# al promedio simple sin que nadie lo haya decidido.
+prueba("toda liga doméstica ajusta fuerzas",
+       actualizar.LIGAS_DOMESTICAS <= actualizar.CON_FUERZAS)
+
+_html = (actualizar.Path(__file__).resolve().parent / "index.html").read_text(
+    encoding="utf-8")
+prueba("el frontend conoce todas las competiciones",
+       all(v["nombre"] in _html for v in actualizar.COMPETICIONES.values()))
+
+# `prior` es opcional: las copas caen al PRIOR_FUERZA global a propósito,
+# porque ahí el prior empuja hacia el ancla doméstica y no hacia el
+# promedio, y nunca se midió. Pero si está, tiene que ser un entero
+# positivo — un prior de 0 saca la regularización entera sin avisar.
+prueba("los priors declarados son enteros positivos",
+       all(isinstance(v["prior"], int) and v["prior"] > 0
+           for v in actualizar.COMPETICIONES.values() if "prior" in v))
+prueba("las dos ligas domésticas tienen prior medido",
+       all("prior" in actualizar.COMPETICIONES[s]
+           for s in actualizar.LIGAS_DOMESTICAS))
+
+
+print("")
+print("el prior por competición tiene que hacer algo")
+print("")
+
+# Si `prior` no llegara a fuerzas_equipos(), el barrido de PRIOR_FUERZA
+# no habría medido nada y nadie se enteraría: el número quedaría escrito
+# en COMPETICIONES sin efecto. Estos tests existen para eso.
+import datetime as _dt
+
+_HOY = _dt.date(2026, 6, 1)
+# Un equipo que gana todo por goleada contra rivales que pierden todo.
+_RES = ([{"fecha": _dt.date(2026, 5, d), "home": "A", "away": str(d),
+          "gh": 5.0, "ga": 0.0} for d in range(1, 9)]
+        + [{"fecha": _dt.date(2026, 5, d), "home": str(d), "away": "B",
+            "gh": 1.0, "ga": 1.0} for d in range(10, 18)])
+
+_flojo, _, _, _ = actualizar.fuerzas_equipos(_RES, _HOY, prior=1)
+_fuerte, _, _, _ = actualizar.fuerzas_equipos(_RES, _HOY, prior=40)
+prueba("con prior alto el ataque se acerca más al promedio",
+       abs(_fuerte["A"][0] - 1.0) < abs(_flojo["A"][0] - 1.0))
+prueba("y sigue reconociendo que A ataca mejor que el promedio",
+       _fuerte["A"][0] > 1.0)
+prueba("sin prior explícito usa el global, no rompe",
+       actualizar.fuerzas_equipos(_RES, _HOY)[0]["A"][0] > 0)
+
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

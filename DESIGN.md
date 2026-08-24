@@ -9,10 +9,13 @@ colors:
   tinta: "#EEE3CE"
   tinta-2: "#D8CDB4"
   tinta-3: "#B8AD95"
-  gris: "#8C7F68"
-  gris-2: "#6E6350"
-  gris-3: "#5C513F"
-  gris-prosa: "#7E7360"
+  gris: "#AAA190"
+  gris-2: "#9C9588"
+  gris-3: "#918A7E"
+  neutro: "#867F75"
+  gris-prosa: "#978F7F"
+  neutro-panel: "#8B857B"
+  neutro-papel: "#5B564F"
   linea: "#241D16"
   linea-2: "#2A2318"
   linea-3: "#3A3122"
@@ -21,10 +24,10 @@ colors:
   mostaza: "#D6963A"
   mostaza-fondo: "#2E2210"
   mostaza-borde: "#4A3C1E"
-  terracota: "#C06848"
+  terracota: "#C27152"
   terracota-fondo: "#2B1912"
   terracota-borde: "#4A2E20"
-  salvia: "#6B7A5E"
+  salvia: "#76846A"
   salvia-2: "#3A4A32"
 typography:
   display:
@@ -118,8 +121,49 @@ colores que comunican estado, y salvia no es uno.
 - **Nunca mostaza para selección de UI.** El día activo del slider es
   tinta sobre fondo claro, no mostaza. Confundir "seleccionado" con "hay
   valor" es el error que más caro paga el usuario.
-- La escala de grises tibios (`gris`, `gris-2`, `gris-3`) es jerarquía de
-  texto, no significado.
+- La escala de grises tibios (`gris`, `gris-2`, `gris-3`, `neutro`) es
+  jerarquía de texto, no significado.
+
+### Los grises se aclararon (2026-08-24)
+
+Medido contra el fondo `#1B1611`, la escala vieja no se leía:
+
+| token | antes | contraste | ahora | contraste |
+|---|---|---|---|---|
+| `gris` | `#8C7F68` | 4.58 | `#AAA190` | **7.02** |
+| `gris-2` | `#6E6350` | 3.05 | `#9C9588` | **6.04** |
+| `gris-3` | `#5C513F` | 2.31 | `#918A7E` | **5.25** |
+| `neutro` | `#4A4030` | **1.77** | `#867F75` | **4.54** |
+| `salvia` | `#6B7A5E` | 3.91 | `#76846A` | **4.51** |
+| `terracota` | `#C06848` | 4.54 | `#C06A4A` | **4.62** |
+
+El mínimo para texto es 4.5:1. `neutro` estaba en 1.77 y rotulaba
+talones y gráficos — era texto que prácticamente no existía.
+
+**El escalonado se conservó a propósito**: 7.02 / 6.04 / 5.25 / 4.54
+siguen siendo cuatro pasos distinguibles, así que la jerarquía no se
+perdió. Cada tono se aclaró sobre su propio matiz, no se reemplazó.
+
+**Y no contradice el "apagado" de una apuesta perdida.** Ese efecto lo
+da la distancia contra `tinta` (14.12), que sigue siendo enorme: 5.25
+contra 14.12 se lee callado igual. Lo que no se puede es que "callado"
+signifique ilegible.
+
+`gris-prosa` estaba escrito **a mano** (`color:#7E7360`) en tres reglas
+de prosa, no como variable — por eso no aparecía al revisar `:root` y
+casi se lo da por inexistente. Ahora es `--grisProsa` (`#978F7F`, 5.62) y
+está acá. Un color suelto en el CSS es un color que nadie audita.
+
+### El piso tipográfico es 11px (2026-08-24)
+
+Había 151 nodos de texto por debajo de 11px — 7px el más chico — en
+antetítulos, rótulos de dato y encabezados de tabla. Son texto
+funcional: rotulan números que el usuario compara. Las 71 declaraciones
+por debajo del piso subieron a 11px de una.
+
+La densidad de cupón se mantiene con lo que ya la sostenía: versalitas,
+`letter-spacing`, monoespaciada y la escala de grises. No con tamaños
+que no se leen en un teléfono.
 - En Historial el "color" viene de **intensidad tipográfica** — ganado en
   tinta plena, perdido casi apagado — nunca de mostaza ni terracota.
 

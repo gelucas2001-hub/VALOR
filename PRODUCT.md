@@ -29,7 +29,7 @@ Un **copiloto analítico de decisiones, no una calculadora árida ni un canal de
 
 - Pipeline diario (`actualizar.py`): extrae fixtures, resultados, tablas y estadísticas disciplinarias (córners, tarjetas, faltas) desde la API pública de ESPN y genera `data/partidos.json` y `data/tablas.json`.
 - Regla de Cuota Mínima Objetivo: el sistema calcula automáticamente la cuota umbral de entrada rentable ($\ge (1 + E_{min}) / p$) para cada mercado, permitiendo al usuario saber de inmediato a partir de qué número apostar en su bookie (Bet365, Betano, etc.) sin obligarlo a tipear cuotas a mano.
-- Frontend (`index.html`): Progressive Web App (PWA) de archivo único, instalable en móviles y con layout adaptativo multipanel para desktop (Obsidian Navy `#070B14`, Electric Cyan `#00D2FF` y Emerald Titanium `#10B981`), navegación táctil flotante y cumplimiento estricto de las directivas de diseño de **Impeccable**.
+- Frontend (`index.html`): Progressive Web App (PWA) de archivo único, instalable en móviles y con layout adaptativo multipanel para desktop. **La línea gráfica la define `DESIGN.md`, no este archivo**: prensa deportiva argentina vieja, fondo `#1B1611`, mostaza `#D6963A` para valor y terracota `#C06848` para alerta. La paleta anterior (negro frío, cian, verde semáforo) quedó descartada el 2026-08-18 y estuvo escrita acá hasta el 2026-08-24 — si volvés a ver azul y cian en un documento, es viejo.
 
 ## Capabilities and Constraints
 

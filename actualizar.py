@@ -63,6 +63,14 @@ CACHE_DISCIPLINA = Path("data/cache_disciplina.json")  # event_id -> {team_id:
                             # tirar minutos de corrida a la basura. Un evento
                             # ya jugado no cambia, así que cachearlo para
                             # siempre es seguro.
+CACHE_TEMPORADAS = Path("data/cache_temporadas")  # slug-season.json con los
+                            # resultados de una temporada YA TERMINADA. Persiste
+                            # ENTRE corridas: una temporada pasada no cambia
+                            # nunca, y sin esto el ajuste de fuerzas pediría
+                            # TEMPORADAS_HISTORIA temporadas por competición en
+                            # cada corrida — dos veces por día, para siempre, la
+                            # misma respuesta. La temporada en curso no se
+                            # cachea, justamente porque sí cambia.
 CACHE_LIGAS = Path("data/cache_ligas.json")  # team_id -> slug de su liga local
                             # ("bra.1"). Persiste ENTRE corridas, como
                             # cache_disciplina: un equipo no cambia de liga en
@@ -86,16 +94,74 @@ RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
 # sus rivales, en vez de solo promediar los partidos propios. Copa
 # Argentina es eliminación directa desde el arranque — no hay red de
 # cruces repetidos, sigue con el promedio simple.
-CON_FUERZAS = {"arg.1", "conmebol.libertadores", "conmebol.sudamericana"}
-VIDA_MEDIA_DIAS = 45       # en fuerzas_equipos(): un partido de hace 45
+CON_FUERZAS = {"arg.1", "bra.1", "conmebol.libertadores", "conmebol.sudamericana"}
+TEMPORADAS_HISTORIA = 5    # cuántos años calendario de resultados se le dan
+                            # a fuerzas_equipos(). Hasta el 2026-08-24 era 1
+                            # de hecho, porque resultados_temporada() pide del
+                            # 1/1 a hoy: el ajuste arrancaba de cero cada enero.
+                            # Va de la mano de VIDA_MEDIA_DIAS -- ver ahí por qué
+                            # ninguno de los dos sirve sin el otro.
+VIDA_MEDIA_DIAS = 300      # en fuerzas_equipos(): un partido de hace 300
                             # días pesa la mitad que uno de hoy; uno de
-                            # hace 90, un cuarto. Por calendario, no por
+                            # hace 600, un cuarto. Por calendario, no por
                             # ronda, porque acá se mezclan los partidos
                             # de todos los equipos a la vez.
+                            #
+                            # Era 45 hasta el 2026-08-24. El par (5 temporadas,
+                            # 300 días) lo eligieron arg y bra POR SEPARADO,
+                            # barriendo 1-5 temporadas x 45-400 días contra la
+                            # tasa base, walk-forward, eligiendo solo con datos
+                            # anteriores a 2022 y confirmando con 2022+.
+                            #
+                            # Los dos números van juntos o no van. Medido en
+                            # arg.1, % de la ventaja del mercado capturada
+                            # (negativo = peor que apostar siempre al local):
+                            #
+                            #                    vida 45   vida 300
+                            #   1 temporada       -26.8%     -44.7%
+                            #   5 temporadas      -32.7%     +13.0%
+                            #
+                            # Más historia con olvido rápido EMPEORA: un partido
+                            # de hace ocho meses pesaba 0.02 y la historia extra
+                            # se tiraba. Olvido lento sin historia extra también
+                            # empeora: diluye lo poco que hay. Si algún día se
+                            # baja TEMPORADAS_HISTORIA, hay que bajar esto.
 MIN_PARTIDOS_FUERZA = 3    # un equipo con menos partidos que esto en toda
                             # la temporada no tiene fuerza confiable
 PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
                             # que se suman en fuerzas_equipos() para regularizar.
+                            #
+                            # OJO: esto es el RESPALDO. Cada liga tiene el suyo
+                            # en COMPETICIONES["prior"], porque el valor bueno
+                            # depende de cuantos partidos por equipo hay y eso
+                            # cambia por torneo. Las copas usan este 3, que no
+                            # se midio: ahi el prior empuja hacia el ancla
+                            # domestica y no hacia el promedio, asi que
+                            # extrapolar desde las ligas seria inventar.
+                            #
+                            # Barrido el 2026-08-24 (5 temporadas, vida 300,
+                            # rho por liga), % de la ventaja del mercado
+                            # capturada, eligiendo con datos < 2022:
+                            #
+                            #   prior   arg.1 DEV   arg.1 TEST   bra.1 DEV
+                            #       3      44.7%       24.8%       57.2%
+                            #       8      49.6%       37.7%       60.3% <-
+                            #      12      50.3% <-    42.2%       60.3%
+                            #      20      49.1%       45.6%       58.2%
+                            #
+                            # Argentina pide mas regularizacion que Brasil
+                            # porque tiene la MITAD de partidos por equipo:
+                            # 28-30 equipos a una vuelta contra 20 ida y
+                            # vuelta. Es la misma sobre-parametrizacion que
+                            # Elo evitaria usando un parametro por equipo en
+                            # vez de dos — pero regularizar la ataca sin tirar
+                            # la separacion ataque/defensa.
+                            #
+                            # En ROI no se detecto diferencia: todos los z
+                            # entre -0.8 y +0.7 sobre ~1200 apuestas. Eso NO
+                            # dice que no sirva, dice que esa prueba tiene un
+                            # error de +/-4% y no puede verlo. Se aplica por la
+                            # mejora de calibracion, que si esta medida.
                             # Sin esto, un equipo con 1-2 partidos jugados (común
                             # en Libertadores/Sudamericana, que mezclan fases
                             # con muy pocos cruces por equipo) puede terminar
@@ -122,9 +188,37 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
 # el neutro en vez del negativo original porque la única competición que
 # sí se pudo medir dice que ese negativo estaba mal. Recalibrar cuando
 # haya más temporada jugada.
+# `rho` es la correccion de Dixon-Coles para los marcadores bajos (0-0,
+# 1-0, 0-1, 1-1), que Poisson puro estima mal. Es propio de cada liga:
+# depende de como se juega.
+#
+# Barrido el 2026-08-24 con 5 temporadas y vida 300, walk-forward,
+# eligiendo con datos anteriores a 2022. Los dos minimos quedaron
+# ADENTRO de la grilla (-0.28 a 0.15), no en un borde:
+#
+#     rho     arg.1 DEV   bra.1 DEV
+#    -0.12     0.63518     0.61113
+#    -0.08     0.63481     0.61055
+#    -0.05     0.63473 <-  0.61029
+#     0.00     0.63495     0.61021 <-
+#     0.05     0.63564     0.61055
+#     0.10     0.63678     0.61132
+#
+# arg.1 estaba en 0.05, que es peor que el -0.05 medido. Las copas
+# quedan en 0.00 por falta de muestra propia, no por medicion.
 COMPETICIONES = {
-    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": 0.05, "conf": 75,
+    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 75,
+              "prior": 12,
               "corners": 9.4, "fouls": 25.5, "cards": 5.4},
+    # Brasil entra el 2026-08-24. Es la liga donde el motor demostrablemente
+    # funciona: captura el 61% de la ventaja del mercado sobre la tasa base
+    # contra el 13% de arg.1, y le gana a "siempre local" en tasa de acierto
+    # (47.4% vs 46.7%). Hasta hoy el modelo corria SOLO en la liga donde
+    # falla. Los promedios salen de medir 60 partidos de bra.1 2026 via
+    # /summary, no de copiar los de Argentina.
+    "bra.1": {"nombre": "Brasileirão Série A", "rho": 0.00, "conf": 75,
+              "prior": 8,
+              "corners": 10.0, "fouls": 25.1, "cards": 4.1},
     "conmebol.libertadores": {"nombre": "CONMEBOL Libertadores", "rho": 0.00, "conf": 65,
               "corners": 9.8, "fouls": 24.0, "cards": 5.0},
     "conmebol.sudamericana": {"nombre": "CONMEBOL Sudamericana", "rho": 0.00, "conf": 65,
@@ -285,7 +379,7 @@ def roster(slug, team_id):
 # resto de COMPETICIONES son copas. slugs_plantel() usa esto para saber
 # si un partido YA es de liga (y entonces no hace falta, ni corresponde,
 # sumar otra liga encima).
-LIGAS_DOMESTICAS = {"arg.1"}
+LIGAS_DOMESTICAS = {"arg.1", "bra.1"}
 
 
 def slugs_plantel(slug_consulta, slug_liga):
@@ -1014,6 +1108,58 @@ def esperados(partidos, params):
     return out
 
 
+def esperado_partido(propios_local, propios_visita, params):
+    """Córners, faltas y tarjetas esperados en un partido. Un solo número.
+
+    Por qué existe:
+
+    La app mostraba DOS expectativas distintas para lo mismo, en la misma
+    pestaña y a doscientos píxeles de distancia:
+
+      "Lo que esperamos acá → CÓRNERS 9.0"   promedio crudo de los
+          últimos partidos de cada equipo, sumado (`disciplina_equipo`)
+      "Total del partido: 9.4 esperados"      el mismo dato encogido
+          hacia el promedio de la liga (`esperados`)
+
+    Y el crudo — que además es el que sale en la tarjeta del partido y
+    en Análisis, o sea el más visible — es el peor de los dos. Medido
+    walk-forward sobre 179 partidos, error absoluto medio contra el
+    total real:
+
+        córners    crudo 3.39   encogido 2.67   (err² 17.48 vs 11.08)
+        faltas     crudo 4.90   encogido 4.65
+        tarjetas   crudo 1.77   encogido 1.55
+
+    Gana el encogido en las tres, y en córners baja el error cuadrático
+    un 37%. Así que queda uno solo, y es éste: el mismo `esperados()`
+    que alimenta las líneas de la pestaña Estadísticas.
+
+    Devuelve None cuando falta con qué: sin parámetros de liga o sin
+    partidos de alguno de los dos, el llamador cae a la constante de la
+    competición, que es lo que ya hacía.
+    """
+    if not params or not propios_local or not propios_visita:
+        return None
+    loc = esperados(propios_local, params)
+    vis = esperados(propios_visita, params)
+    if not loc or not vis:
+        return None
+    def _sum(met):
+        a, b = loc.get(met), vis.get(met)
+        return None if a is None or b is None else a + b
+    corners, faltas, tarjetas = _sum("corners"), _sum("faltas"), _sum("tarjetas")
+    if corners is None or faltas is None or tarjetas is None:
+        return None
+    return {
+        "corners": round(corners, 1),
+        # La parte del local, para el mercado de córners del local. Sale
+        # del mismo cálculo, no de una proporción supuesta.
+        "cornersH": round(loc["corners"], 1),
+        "fouls": round(faltas, 1),
+        "cards": round(tarjetas, 1),
+    }
+
+
 def filas_partido(jug, cache_resumen, team_id):
     """Cruza el historial de un equipo (con `local`/`rival_id` por
     partido, de `historial()`) con el caché de resúmenes (con los
@@ -1170,7 +1316,96 @@ def resultados_temporada(slug, season, hoy):
     return partidos
 
 
-def fuerzas_equipos(resultados, hoy, anclas=None):
+def _cache_temporada(slug, season):
+    return CACHE_TEMPORADAS / f"{slug}-{season}.json"
+
+
+def _leer_cache_temporada(slug, season):
+    """Los resultados guardados de una temporada pasada, o None.
+
+    Un cache ilegible se trata como si no existiera: se vuelve a pedir. Es
+    preferible un pedido de más a ajustar las fuerzas con media temporada.
+    """
+    f = _cache_temporada(slug, season)
+    if not f.exists():
+        return None
+    try:
+        crudos = json.loads(f.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return None
+    out = []
+    for p in crudos if isinstance(crudos, list) else []:
+        try:
+            p = dict(p)
+            p["fecha"] = datetime.date.fromisoformat(p["fecha"])
+        except (KeyError, TypeError, ValueError):
+            return None          # formato viejo o roto: mejor pedirla de nuevo
+        out.append(p)
+    return out
+
+
+def _guardar_cache_temporada(slug, season, partidos):
+    """Guarda una temporada YA TERMINADA. Un fallo de disco no corta la corrida."""
+    try:
+        CACHE_TEMPORADAS.mkdir(parents=True, exist_ok=True)
+        serializable = [dict(p, fecha=p["fecha"].isoformat()) for p in partidos]
+        _cache_temporada(slug, season).write_text(
+            json.dumps(serializable, ensure_ascii=False), encoding="utf-8")
+    except OSError:
+        pass
+
+
+def historia_reciente(slug, season, hoy, temporadas=None):
+    """Los resultados de las últimas `temporadas` temporadas, para ajustar fuerzas.
+
+    Por qué no alcanza con `resultados_temporada()`:
+
+    Esa función pide del 1/1 de la temporada a hoy, así que el ajuste
+    arrancaba de cero cada enero y nunca veía más de un año calendario.
+    Medido walk-forward sobre el historial completo (2026-08-24), con una
+    sola temporada el modelo en arg.1 captura **-26.8%** de la ventaja
+    del mercado sobre la tasa base — o sea que predice peor que apostar
+    siempre al local. Con tres temporadas y VIDA_MEDIA_DIAS en 300,
+    **+6.9%**.
+
+    Los dos cambios solo sirven juntos, y eso también está medido: con
+    vida media 45, sumar temporadas EMPEORA (-26.8% a -32.7%), porque un
+    partido de hace ocho meses pesa 0.02 y la historia extra se ignora.
+    Y aflojar el olvido sin historia extra también empeora (-44.7%).
+
+    Las temporadas pasadas se cachean en disco: no cambian nunca, y sin
+    cache esto serían N pedidos por competición en cada corrida del cron.
+    La temporada en curso no se cachea, porque sí cambia.
+
+    Si una temporada falla se sigue con las demás: ajustar con menos
+    historia es peor que con toda, pero mucho mejor que no publicar.
+    """
+    n = TEMPORADAS_HISTORIA if temporadas is None else temporadas
+    vistos, out = set(), []
+    for s in range(season - n + 1, season + 1):
+        pasada = s < hoy.year
+        crudos = _leer_cache_temporada(slug, s) if pasada else None
+        if crudos is None:
+            try:
+                crudos = resultados_temporada(slug, s, hoy)
+            except Exception:                                    # noqa: BLE001
+                print(f"  ! no se pudo traer {slug} {s}", file=sys.stderr)
+                continue
+            if pasada and crudos:
+                _guardar_cache_temporada(slug, s, crudos)
+        for p in crudos:
+            # El mismo partido puede venir dos veces si dos temporadas se
+            # solapan. Contarlo dos veces le daría peso doble en el ajuste.
+            clave = p.get("id") or (p["fecha"], p["home"], p["away"])
+            if clave in vistos:
+                continue
+            vistos.add(clave)
+            out.append(p)
+    out.sort(key=lambda p: p["fecha"])
+    return out
+
+
+def fuerzas_equipos(resultados, hoy, anclas=None, prior=None):
     """Ataque/defensa de cada equipo, calibrados juntos contra toda la red
     de cruces de la temporada (no cada uno contra su propia muestra
     suelta) — el ajuste que le faltaba al promedio simple. Pondera cada
@@ -1213,15 +1448,16 @@ def fuerzas_equipos(resultados, hoy, anclas=None):
         # vez de dejarlo irse a un extremo. num = PRIOR * ancla y den =
         # PRIOR, así que sin partidos reales la razón da exactamente el
         # ancla; sin ancla, ancla = 1.0 y queda el comportamiento de antes.
-        num_a = {t: PRIOR_FUERZA * anc.get(t, (1.0, 1.0))[0] for t in equipos}
-        den_a = {t: PRIOR_FUERZA for t in equipos}
+        pf = PRIOR_FUERZA if prior is None else prior
+        num_a = {t: pf * anc.get(t, (1.0, 1.0))[0] for t in equipos}
+        den_a = {t: pf for t in equipos}
         for p, w in zip(resultados, pesos):
             num_a[p["home"]] += w * p["gh"]; den_a[p["home"]] += w * mu_local  * defensa[p["away"]]
             num_a[p["away"]] += w * p["ga"]; den_a[p["away"]] += w * mu_visita * defensa[p["home"]]
         nueva_ataque = {t: (num_a[t]/den_a[t] if den_a[t] > 0 else 1.0) for t in equipos}
 
-        num_d = {t: PRIOR_FUERZA * anc.get(t, (1.0, 1.0))[1] for t in equipos}
-        den_d = {t: PRIOR_FUERZA for t in equipos}
+        num_d = {t: pf * anc.get(t, (1.0, 1.0))[1] for t in equipos}
+        den_d = {t: pf for t in equipos}
         for p, w in zip(resultados, pesos):
             num_d[p["home"]] += w * p["ga"]; den_d[p["home"]] += w * mu_visita * nueva_ataque[p["away"]]
             num_d[p["away"]] += w * p["gh"]; den_d[p["away"]] += w * mu_local  * nueva_ataque[p["home"]]
@@ -1291,13 +1527,22 @@ def ancla_de(team_id, slug_consulta, season, hoy, cache_ligas, cache_dom, factor
     if slug_liga not in cache_dom:
         try:
             print(f"  · fuerza doméstica — {slug_liga}")
-            resultados = resultados_temporada(slug_liga, season, hoy)
-            cache_dom[slug_liga] = fuerzas_equipos(resultados, hoy)
+            resultados = historia_reciente(slug_liga, season, hoy)
+            # El prior es el de la liga que se esta ajustando, no el de
+            # la copa desde la que se pregunta: acá se está midiendo
+            # cuánto vale el equipo EN SU LIGA.
+            cache_dom[slug_liga] = fuerzas_equipos(
+                resultados, hoy,
+                prior=(COMPETICIONES.get(slug_liga) or {}).get("prior"))
             # Se guarda crudo además de reducido a fuerzas: jugados_de_resultados()
             # lo reusa para forma_general() de equipos sudamericanos sin pedir
             # nada nuevo -- este pedido ya se hace para anclar la fuerza.
             if cache_dom_resultados is not None:
-                cache_dom_resultados[slug_liga] = resultados
+                # Solo la temporada en curso: esto va a forma_general(), que
+                # es "cómo llega el equipo". El ajuste de fuerzas sí quiere
+                # los años anteriores; la forma reciente, no.
+                cache_dom_resultados[slug_liga] = [
+                    r for r in resultados if r["fecha"].year == season]
         except Exception:
             cache_dom[slug_liga] = ({}, 1.0, 1.0, {})   # liga que no responde
             if cache_dom_resultados is not None:
@@ -1461,14 +1706,29 @@ def main():
             cache_resultados[slug] = resultados_temporada(slug, season, hoy)
         return cache_resultados[slug]
 
+    # Historia larga, SOLO para ajustar fuerzas. Va aparte de get_resultados
+    # a propósito: data/resultados.json y el registro quieren la temporada en
+    # curso — meterles tres años cambiaría el archivo sin ninguna razón.
+    cache_historia = {}
+
+    def get_historia(slug):
+        if slug not in cache_historia:
+            cache_historia[slug] = historia_reciente(slug, season, hoy)
+        return cache_historia[slug]
+
     def get_fuerzas(slug):
         if slug not in cache_fuerzas:
             print(f"  · calibrando fuerzas de ataque/defensa — {slug}")
-            resultados = get_resultados(slug)
+            resultados = get_historia(slug)
             # Ancla: cada equipo se regulariza hacia lo que vale en su liga
             # local, no hacia el promedio de esta copa. En arg.1 no aplica
             # (la liga local ES esta competición) y ancla_de devuelve None.
-            equipos = {p["home"] for p in resultados} | {p["away"] for p in resultados}
+            # Los equipos salen de la TEMPORADA EN CURSO, no de la historia
+            # larga: anclar a un equipo que se fue hace dos años no sirve de
+            # nada y cuesta un pedido de liga local por cabeza.
+            actuales = get_resultados(slug)
+            equipos = ({p["home"] for p in actuales}
+                       | {p["away"] for p in actuales})
             anclas = {}
             for tid in equipos:
                 a = ancla_de(tid, slug, season, hoy, cache_ligas, cache_dom, factores,
@@ -1477,7 +1737,9 @@ def main():
                     anclas[tid] = a
             if anclas:
                 print(f"    ancladas {len(anclas)} de {len(equipos)} fuerzas a la liga local")
-            cache_fuerzas[slug] = fuerzas_equipos(resultados, hoy, anclas=anclas)
+            cache_fuerzas[slug] = fuerzas_equipos(
+                resultados, hoy, anclas=anclas,
+                prior=COMPETICIONES[slug].get("prior"))
         return cache_fuerzas[slug]
 
     # cache_resumen persiste ENTRE corridas (a diferencia de cache_hist/
@@ -1688,6 +1950,7 @@ def main():
             parametros[met]["disp_total"] = dt
 
     estadisticas = {}
+    propios_por_equipo = {}
     for tid, jug in jugados_equipo.items():
         filas = filas_partido(jug[:ESTADISTICAS_N], cache_resumen, tid)
         propios = [f["propio"] for f in filas]
@@ -1699,6 +1962,22 @@ def main():
         pr["concede"] = promedios_equipo([f["rival"] for f in filas if f["rival"]])
         pr["esperado"] = esperados(propios, parametros)
         estadisticas[tid] = pr
+        propios_por_equipo[tid] = propios
+
+    # ── un solo número por métrica ───────────────────────────────────
+    # Hasta el 2026-08-24 la app mostraba DOS expectativas para lo mismo
+    # en la misma pestaña: el promedio crudo de arriba y el encogido de
+    # las líneas. Medido, el encogido acierta más en las tres métricas
+    # (ver `esperado_partido`), así que el crudo se reemplaza acá.
+    #
+    # Tiene que ser DESPUÉS del bucle de partidos: los parámetros de liga
+    # salen de `cache_resumen`, que se llena adentro de ese bucle.
+    for pr_ in partidos:
+        esp = esperado_partido(propios_por_equipo.get(str(pr_.get("homeId"))),
+                               propios_por_equipo.get(str(pr_.get("awayId"))),
+                               parametros)
+        if esp:
+            pr_.update(esp)
 
     # ── serie por jugador ────────────────────────────────────────────
     # El acumulado de temporada que trae el roster no distingue al que

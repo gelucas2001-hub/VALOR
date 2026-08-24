@@ -27,19 +27,25 @@
   --tinta:#EEE3CE;      /* texto y SELECCIONADO */
   --tinta2:#D8CDB4;
   --tinta3:#B8AD95;
-  --gris:#8C7F68;
-  --gris2:#6E6350;
-  --gris3:#5C513F;
-  --neutro:#4A4030;     /* rótulos de talón y de gráfico: el gris más callado */
+  --gris:#AAA190;
+  --grisProsa:#978F7F;  /* prosa apagada: 'todavía no hay dato', explicaciones */
+  --gris2:#9C9588;
+  --gris3:#918A7E;
+  --neutro:#867F75;
+  --neutroPanel:#8B857B;  /* --neutro sobre --panel, que es más claro que
+                             el fondo base: ahí #867F75 se queda en 4.26. */
+  --neutroPapel:#5B564F;  /* el mismo rol que --neutro pero sobre la banda de
+                        papel (--tinta2). Aclarar --neutro para el fondo
+                        oscuro dejaba este caso en 2.51 de contraste. */     /* rótulos de talón y de gráfico: el gris más callado */
   --linea:#241D16;
   --linea2:#2A2318;
   --linea3:#3A3122;
   --mostaza:#D6963A;    /* VALOR. y nada más */
   --mostazaBg:#2E2210;
   --mostazaBorde:#4A3C1E;
-  --terracota:#C06848;  /* ALERTA. y nada más */
+  --terracota:#C27152;  /* ALERTA. y nada más */
   --terracotaBg:#2B1912;
-  --salvia:#6B7A5E;     /* voz secundaria: filete de cabecera, antetítulos, acciones al margen */
+  --salvia:#76846A;     /* voz secundaria: filete de cabecera, antetítulos, acciones al margen */
   --salvia2:#3A4A32;    /* el mismo olivo apagado, para filetear texto en salvia */
   --anton:'Anton',Impact,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
@@ -112,7 +118,7 @@ a{color:inherit}
 .nombre::before,.nombre::after{content:"";flex:1;height:1px;background:#3A3225}
 .nombre b{font-family:var(--anton);font-size:15px;line-height:1;letter-spacing:.3em;
   color:var(--tinta2);padding-left:.3em;font-weight:400}
-.bajada{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+.bajada{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--gris)}
 
 /* ── cabecera de sección: la palabra troquelada ────────────────────
@@ -127,7 +133,7 @@ a{color:inherit}
 
 .wordmark{font-family:var(--anton);font-size:44px;line-height:.88;letter-spacing:-.005em;
   display:flex;align-items:flex-end;gap:9px}
-.kicker{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);
   margin-top:var(--e3);display:flex;align-items:center;gap:8px}
 .kicker::after{content:"";flex:1;height:1px;background:var(--linea-punteada,#3A322580)}
 
@@ -146,7 +152,7 @@ a{color:inherit}
   scroll-snap-align:center;opacity:.62;transform:scale(.93);
   transition:opacity .25s ease,transform .25s ease}
 .day b{display:block;font-family:var(--mono);font-size:13px;font-weight:600;color:var(--tinta)}
-.day span{display:block;font-size:7.5px;letter-spacing:.08em;color:var(--gris);text-transform:uppercase;margin-top:1px}
+.day span{display:block;font-size:11px;letter-spacing:.08em;color:var(--gris);text-transform:uppercase;margin-top:1px}
 .day.on{background:var(--tinta);opacity:1;transform:scale(1)}
 .day.on b,.day.on span{color:var(--hueco)}
 .day.vacio b{color:var(--gris2)}
@@ -166,7 +172,7 @@ a{color:inherit}
 .compchip{flex:0 0 auto;display:flex;align-items:center;gap:6px;background:var(--panel);
   padding:6px 11px 6px 7px;border:none}
 .compchip img{width:16px;height:16px;object-fit:contain;flex:0 0 16px}
-.compchip span{font-family:var(--mono);font-size:10px;color:var(--tinta3);white-space:nowrap}
+.compchip span{font-family:var(--mono);font-size:11px;color:var(--tinta3);white-space:nowrap}
 .compchip.vacio{opacity:.4}
 .compchip:disabled{cursor:default}
 
@@ -178,8 +184,8 @@ a{color:inherit}
   display:flex;align-items:center;gap:8px}
 .lg b{font-family:var(--anton);font-size:15px;color:var(--hueco);letter-spacing:.03em;
   text-transform:uppercase;line-height:1;font-weight:400}
-.lg em{margin-left:auto;font-family:var(--mono);font-size:8px;font-weight:700;
-  letter-spacing:.1em;color:var(--neutro);font-style:normal}
+.lg em{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.1em;color:var(--neutroPapel);font-style:normal}
 
 /* ── tarjeta de partido ────────────────────────────────────────────
    Es un talón de programa de cancha: número de orden y hora en el
@@ -196,10 +202,10 @@ a{color:inherit}
 .card:active{background:#28211a}
 
 .talon{flex:0 0 52px;padding:13px 0 13px 11px}
-.talon .n{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--gris3)}
+.talon .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gris3)}
 .talon .hora{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--tinta);
   margin-top:7px;letter-spacing:-.01em}
-.talon .de{font-family:var(--mono);font-size:8px;color:var(--gris3);margin-top:2px;letter-spacing:.08em}
+.talon .de{font-family:var(--mono);font-size:11px;color:var(--gris3);margin-top:2px;letter-spacing:.08em}
 /* El perforado que separa el talón del cuerpo. */
 .perf{flex:0 0 1px;margin:11px 0;background:repeating-linear-gradient(180deg,#3A3122 0 3px,transparent 3px 8px)}
 .cuerpo{flex:1;min-width:0;padding:13px 12px}
@@ -213,7 +219,7 @@ a{color:inherit}
 
 /* Cabecera del partido abierto y meta del Registro: la portada ya no
    las usa (tiene talón), pero el detalle sí. */
-.meta{font-family:var(--mono);font-size:9.5px;color:var(--gris);letter-spacing:.03em}
+.meta{font-family:var(--mono);font-size:11px;color:var(--gris);letter-spacing:.03em}
 
 /* Los últimos cinco, del más viejo al más nuevo. Ganado en tinta
    plena, perdido casi apagado: la intensidad dice el resultado, no el
@@ -222,11 +228,11 @@ a{color:inherit}
 /* La variante grande va en la cabecera de un bloque de Historial, donde
    la tira es el dato principal y no un adorno al costado del nombre. */
 .forma.gr{margin-left:auto;gap:3px}
-.forma.gr i{width:15px;height:15px;font-size:8.5px}
+.forma.gr i{width:15px;height:15px;font-size:11px}
 .forma i{width:12px;height:12px;display:grid;place-items:center;font-family:var(--mono);
-  font-size:7.5px;font-weight:700;font-style:normal}
+  font-size:11px;font-weight:700;font-style:normal}
 .forma i.g{background:var(--tinta);color:var(--hueco)}
-.forma i.e{background:var(--neutro);color:var(--tinta3)}
+.forma i.e{background:var(--neutro);color:var(--hueco)}
 .forma i.p{background:var(--linea2);color:var(--gris2)}
 
 /* El sello: el veredicto en dos palabras. Rotado y encajonado, como
@@ -235,15 +241,15 @@ a{color:inherit}
   padding:4px 8px 5px;text-align:center}
 .sellov > div{border-top:1px solid rgba(238,227,206,.2);border-bottom:1px solid rgba(238,227,206,.2);
   padding:2px 0}
-.sellov .a{font-family:var(--anton);font-size:10.5px;letter-spacing:.05em;color:var(--tinta2);
+.sellov .a{font-family:var(--anton);font-size:11px;letter-spacing:.05em;color:var(--tinta2);
   line-height:1.1;font-weight:400}
-.sellov .b{font-family:var(--mono);font-size:8px;font-weight:700;color:var(--gris);
+.sellov .b{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gris);
   letter-spacing:.09em;margin-top:1px}
 
 /* Pie perforado: la tarjeta termina como termina un cupón. */
 .piecard{height:1px;margin-top:11px;background:repeating-linear-gradient(90deg,#3A3122 0 3px,transparent 3px 7px)}
-.firma{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7.5px;
-  letter-spacing:.12em;color:var(--neutro);margin-top:6px}
+.firma{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
+  letter-spacing:.12em;color:var(--neutroPanel);margin-top:6px}
 
 /* ═══ ELEMENTO FIRMA · el cupón ═══════════════════════════════════
    Las tres casillas del Prode, llenadas de tinta hasta la altura de
@@ -276,9 +282,9 @@ a{color:inherit}
 .o.val .fill::after{background:var(--mostaza)}
 .o.alerta .fill{background:rgba(192,104,72,.30)}
 .o.alerta .fill::after{background:var(--terracota)}
-.o span{display:block;font-size:7.5px;letter-spacing:.09em;color:var(--gris2);text-transform:uppercase}
+.o span{display:block;font-size:11px;letter-spacing:.09em;color:var(--gris2);text-transform:uppercase}
 .o b{display:block;font-family:var(--mono);font-size:15px;font-weight:600;margin-top:3px;color:var(--tinta)}
-.o em{display:block;font-family:var(--mono);font-size:8.5px;font-style:normal;color:var(--gris2);margin-top:2px;letter-spacing:.04em}
+.o em{display:block;font-family:var(--mono);font-size:11px;font-style:normal;color:var(--gris2);margin-top:2px;letter-spacing:.04em}
 .o.val em{color:var(--mostaza)}
 .o.alerta em{color:var(--terracota)}
 .o.val{background:var(--mostazaBg)}
@@ -298,8 +304,14 @@ a{color:inherit}
 
 /* ── detalle: cabecera ─────────────────────────────────────────── */
 .top{padding:calc(14px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px;background:var(--hueco)}
-.back{font-family:var(--mono);font-size:16px;color:var(--gris);padding:0 4px 0 0}
-.comp{font-family:var(--mono);font-size:10px;color:var(--gris);letter-spacing:.06em}
+.back{font-family:var(--mono);font-size:16px;color:var(--gris);
+  /* 44x44 es el mínimo táctil. Antes medía 13x24 — el control más chico
+     de la app, y el único camino de salida de la pantalla de partido.
+     El margen negativo mantiene la flecha donde estaba: crece el área
+     de toque, no el dibujo. */
+  min-width:44px;min-height:44px;display:flex;align-items:center;
+  margin:-10px 0 -10px -14px;padding:0 0 0 14px}
+.comp{font-family:var(--mono);font-size:11px;color:var(--gris);letter-spacing:.06em}
 /* Los dos equipos apilados y alineados a la izquierda, no centrados con
    un "vs" en el medio: así los nombres arrancan en la misma columna y
    se comparan de un vistazo, que es lo que uno hace al abrir un
@@ -310,7 +322,7 @@ a{color:inherit}
 .head .nom{flex:1;min-width:0;font-family:var(--anton);font-size:24px;line-height:1.1;
   color:var(--tinta);font-weight:400}
 .head .hora{flex:0 0 auto;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--tinta3)}
-.head .grupo{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+.head .grupo{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--gris3);margin-top:9px}
 .crest.gr{width:24px;height:24px;flex:0 0 24px}
 
@@ -322,19 +334,23 @@ a{color:inherit}
 /* ── pestañas silenciosas: línea, nunca botón con caja ─────────── */
 .tabs{display:flex;gap:13px;padding:var(--e5) 14px 0;border-bottom:1px solid var(--linea2);margin-bottom:var(--e5);overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);padding:0 0 10px;position:relative;white-space:nowrap;background:none;border:none}
+.tab{flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gris2);position:relative;white-space:nowrap;
+  /* Medían 25px de alto. El alto sube a 44 sin mover el subrayado del
+     activo, que sigue apoyado en el filete de abajo. */
+  min-height:44px;padding:14px 0 10px;background:none;border:none}
 .tab.on{color:var(--tinta)}
 .tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--mostaza)}
 
 .sec{padding:0 16px}
-.lbl{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin-bottom:var(--e3)}
+.lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin-bottom:var(--e3)}
 .lbl.sep{margin-top:var(--e6)}
 
 /* ── análisis: tipografía sola, sin caja. nota de revista ──────── */
 .an p{font-size:13.5px;line-height:1.7;color:var(--tinta2);margin:0 0 13px}
 .an .veredicto{color:var(--tinta);font-weight:600}
-.an .fuente{font-size:10px;color:var(--gris3);font-style:italic;margin-top:14px}
-.vacio{padding:22px 0 8px;font-size:12.5px;line-height:1.7;color:#7E7360}
+.an .fuente{font-size:11px;color:var(--gris3);font-style:italic;margin-top:14px}
+.vacio{padding:22px 0 8px;font-size:12.5px;line-height:1.7;color:var(--grisProsa)}
 
 /* ── hueco declarado ───────────────────────────────────────────────
    Cuando falta el análisis escrito a mano, la pantalla no disimula:
@@ -349,9 +365,9 @@ a{color:inherit}
 .cifras div{flex:1;padding:10px 4px;text-align:center;min-width:0}
 .cifras div + div{border-left:1px solid var(--linea2)}
 .cifras b{display:block;font-family:var(--mono);font-size:19px;font-weight:600;color:var(--tinta);line-height:1}
-.cifras small{display:block;font-family:var(--mono);font-size:7px;letter-spacing:.1em;color:var(--gris2);
+.cifras small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gris2);
   margin-top:4px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cifras-pie{font-size:10.5px;line-height:1.5;color:var(--gris3);margin-top:7px}
+.cifras-pie{font-size:11px;line-height:1.5;color:var(--gris3);margin-top:7px}
 
 /* Rótulo de sección con filete: separa sin abrir una caja nueva. */
 .rot{display:flex;align-items:center;gap:8px;margin-top:22px}
@@ -373,8 +389,8 @@ a{color:inherit}
 /* Banda de sección: mismo recurso que la de competición en portada. */
 /* Variante con dato al margen derecho, como la banda de la portada. */
 .banda2{display:flex;align-items:center;gap:8px}
-.banda2 em{margin-left:auto;font-family:var(--mono);font-size:8px;font-weight:700;
-  letter-spacing:.1em;color:var(--neutro);font-style:normal}
+.banda2 em{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.1em;color:var(--neutroPapel);font-style:normal}
 /* La tabla también se apoya en el papel, con la misma sombra dura. */
 .tablawrap{margin:0 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
   padding:12px 12px 6px}
@@ -387,7 +403,7 @@ a{color:inherit}
    línea sin extremos rotulados no dice de dónde sale ni a dónde llega. */
 .curva{margin:18px 16px 0}
 .curva .chart{margin:0;width:100%;height:56px;display:block;background:var(--hueco)}
-.curva .ejes{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;
+.curva .ejes{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--neutro)}
 .curva .ejes.arriba{margin-bottom:5px}
 .curva .ejes.abajo{margin-top:3px;letter-spacing:0}
@@ -410,10 +426,10 @@ a{color:inherit}
 .paso .talon{flex:0 0 40px;padding:12px 0 12px 11px}
 .paso .pn{font-family:var(--anton);font-size:21px;color:var(--gris3);line-height:.9;font-weight:400}
 .paso.val .pn{color:var(--mostaza)}
-.paso .de{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;color:var(--gris2);margin-top:3px}
+.paso .de{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gris2);margin-top:3px}
 .paso .cuerpo{flex:1;min-width:0;padding:12px 12px 12px 11px}
 .paso .ph{display:flex;align-items:baseline;gap:8px}
-.paso .franja{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--gris)}
+.paso .franja{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gris)}
 .paso .pp{margin-left:auto;font-family:var(--mono);font-size:20px;font-weight:600;color:var(--tinta);
   line-height:1;letter-spacing:-.02em}
 .paso .pp i{font-size:11px;color:var(--gris);font-style:normal}
@@ -427,14 +443,14 @@ a{color:inherit}
 .paso .barra i{position:absolute;left:0;top:0;bottom:0;background:var(--neutro)}
 .paso .barra u{position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--tinta)}
 .paso.val .barra u{background:var(--mostaza)}
-.paso .escala{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7.5px;
+.paso .escala{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
   color:var(--gris2);letter-spacing:.08em;margin-top:3px}
-.paso .umb{font-family:var(--mono);font-size:10.5px;color:var(--tinta2);margin-top:10px}
+.paso .umb{font-family:var(--mono);font-size:11px;color:var(--tinta2);margin-top:10px}
 .paso .umb b{font-size:13.5px;color:var(--tinta);font-weight:600}
 .paso.val .umb b{color:var(--mostaza)}
 .paso .cobra{font-size:11.5px;line-height:1.5;color:var(--tinta3);margin-top:7px}
 .paso .sinop{font-size:11.5px;line-height:1.5;color:var(--gris2);margin-top:8px}
-.paso .rsub{font-size:10.5px;color:var(--gris3);margin:6px 0 0}
+.paso .rsub{font-size:11px;color:var(--gris3);margin:6px 0 0}
 
 /* Aviso de "todavía no lo estudiamos": caja hundida, no tarjeta. */
 .nota{margin-top:16px;padding:11px 12px;background:#1F1913;font-size:11.5px;line-height:1.6;
@@ -446,13 +462,13 @@ a{color:inherit}
 .cmb .mkt{font-size:13px;color:var(--tinta2);min-width:0}
 .cmb .mkt i{color:var(--gris3);font-style:normal}
 .cmb .prob{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--tinta);flex:0 0 auto}
-.cmb .umb{font-family:var(--mono);font-size:10.5px;color:var(--gris);margin-top:7px}
+.cmb .umb{font-family:var(--mono);font-size:11px;color:var(--gris);margin-top:7px}
 .cmb .umb b{font-size:13px;color:var(--tinta2);font-weight:600}
-.cmb .cobra{font-size:10.5px;line-height:1.5;color:var(--gris2);margin-top:6px;text-wrap:pretty}
+.cmb .cobra{font-size:11px;line-height:1.5;color:var(--gris2);margin-top:6px;text-wrap:pretty}
 /* Dato al margen del rótulo con filete. El filete es un ::after, que
    se genera después del último hijo, así que el orden va explícito:
    rótulo, filete, dato. */
-.rot em{font-family:var(--mono);font-size:9px;color:var(--gris2);font-style:normal;
+.rot em{font-family:var(--mono);font-size:11px;color:var(--gris2);font-style:normal;
   flex:0 0 auto;order:2}
 .rot::after{order:1}
 .foot{margin-top:var(--e6);font-size:11px;line-height:1.6;color:var(--gris3);border-top:1px solid var(--linea);padding-top:var(--e4)}
@@ -474,24 +490,24 @@ a{color:inherit}
 .fhd{display:flex;align-items:center;gap:8px;padding:11px 12px 9px}
 .fhd b{flex:1;min-width:0;font-family:var(--anton);font-size:17px;line-height:1.1;
   color:var(--tinta);font-weight:400}
-.racha{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--gris);
+.racha{font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--gris);
   padding:0 12px 10px}
 .flist{padding:0 12px 11px}
 .frow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
 .frow .r{width:16px;height:16px;display:grid;place-items:center;font-family:var(--mono);
-  font-size:9px;font-weight:700;flex:0 0 16px}
+  font-size:11px;font-weight:700;flex:0 0 16px}
 .frow .r.W{background:var(--tinta);color:var(--hueco)}
-.frow .r.D{background:var(--neutro);color:var(--tinta3)}
+.frow .r.D{background:var(--neutro);color:var(--hueco)}
 .frow .r.L{background:var(--linea2);color:var(--gris2)}
 .frow .rival{flex:1;min-width:0;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.frow .loc{font-family:var(--mono);font-size:9.5px;color:var(--gris2);flex:0 0 34px}
+.frow .loc{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 34px}
 .frow .sc{font-family:var(--mono);color:var(--gris);flex:0 0 34px;text-align:right}
 
 /* Cruces directos: talón con la fecha, marcador grande en el medio. */
 .h2h{display:flex;background:var(--panel);box-shadow:4px 4px 0 #13100B;margin:0 20px 14px 16px}
 .h2h .talon{flex:0 0 52px;padding:13px 0 13px 11px}
 .h2h .pn2{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--tinta3);line-height:1}
-.h2h .de{font-family:var(--mono);font-size:8px;color:var(--gris3);margin-top:3px;letter-spacing:.08em}
+.h2h .de{font-family:var(--mono);font-size:11px;color:var(--gris3);margin-top:3px;letter-spacing:.08em}
 .h2h .cuerpo{flex:1;min-width:0;padding:13px 12px 13px 11px}
 .h2h .linea{display:flex;align-items:center;gap:8px}
 .h2h .lado{flex:1;min-width:0;display:flex;align-items:center;gap:6px}
@@ -503,7 +519,7 @@ a{color:inherit}
 
 /* ── posiciones ────────────────────────────────────────────────── */
 .stand{width:100%;border-collapse:collapse;font-size:11.5px}
-.stand th{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;color:var(--gris2);text-transform:uppercase;text-align:right;padding:0 0 8px;font-weight:400}
+.stand th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gris2);text-transform:uppercase;text-align:right;padding:0 0 8px;font-weight:400}
 .stand th.l{text-align:left}
 .stand td{padding:7px 0;border-top:1px solid var(--linea);text-align:right;font-family:var(--mono);color:var(--gris)}
 .stand td.l{text-align:left;font-family:var(--cuerpo)}
@@ -519,7 +535,7 @@ a{color:inherit}
 .stand tr.me td.l span{color:var(--tinta);font-weight:600}
 .stand tr.me td.rk{color:var(--tinta)}
 .stand tr.me td.pts{color:var(--tinta)}
-.grupo{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin:var(--e5) 0 var(--e2)}
+.grupo{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin:var(--e5) 0 var(--e2)}
 
 /* ── plantel ───────────────────────────────────────────────────── */
 .eqblock{margin-bottom:var(--e6)}
@@ -534,7 +550,7 @@ a{color:inherit}
 .vs .fila:first-child{border-top:none}
 .vs .n{font-family:var(--mono);font-size:12px;color:var(--tinta2);font-weight:500}
 .vs .n.d{text-align:right}
-.vs .q{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;
+.vs .q{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--gris2);text-align:center;white-space:nowrap}
 .vs .barra{height:7px;background:var(--hueco);position:relative}
 .vs .barra i{position:absolute;top:0;bottom:0;background:var(--tinta3);opacity:.55}
@@ -543,7 +559,7 @@ a{color:inherit}
 .vs .fila.gana-i .barra.izq i,.vs .fila.gana-d .barra.der i{opacity:1;background:var(--tinta)}
 .tstats{display:flex;gap:6px;margin-bottom:6px}
 .tstats .t{flex:1;background:var(--panel);padding:8px 2px;text-align:center;min-width:0}
-.tstats .t span{display:block;font-size:7px;letter-spacing:.07em;color:var(--gris2);text-transform:uppercase}
+.tstats .t span{display:block;font-size:11px;letter-spacing:.07em;color:var(--gris2);text-transform:uppercase}
 .tstats .t b{display:block;font-family:var(--mono);font-size:14px;font-weight:600;margin-top:3px}
 
 /* ── cancha del once probable ───────────────────────────────────────
@@ -552,7 +568,7 @@ a{color:inherit}
    color. La cancha es contexto, no una señal — si llevara mostaza
    competiría con la marca de valor, que es la única que debe destacar. */
 .plsel{display:flex;background:var(--hueco);padding:3px;gap:3px;margin-bottom:10px}
-.plsel .pleq{flex:1;border:0;cursor:pointer;padding:8px 4px;font-family:var(--anton);
+.plsel .pleq{flex:1;border:0;cursor:pointer;min-height:44px;padding:0 4px;font-family:var(--anton);
   font-size:13px;letter-spacing:.03em;line-height:1;background:transparent;color:var(--gris);
   transition:background .18s ease,color .18s ease;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .plsel .pleq.on{background:var(--tinta);color:var(--hueco)}
@@ -569,21 +585,21 @@ a{color:inherit}
 .pllinea{flex:1;display:flex;justify-content:space-around;align-items:center;position:relative}
 .plj{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;max-width:74px}
 .plj .dorsal{width:26px;height:26px;display:grid;place-items:center;background:var(--panel);
-  border:1px solid var(--linea2);color:var(--gris);font-family:var(--mono);font-size:9px;
+  border:1px solid var(--linea2);color:var(--gris);font-family:var(--mono);font-size:11px;
   font-weight:700;border-radius:50%}
-.plj .pln{font-family:var(--mono);font-size:8px;letter-spacing:.04em;line-height:1.15;
+.plj .pln{font-family:var(--mono);font-size:11px;letter-spacing:.04em;line-height:1.15;
   color:var(--tinta3);text-align:center;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.plpie{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;
+.plpie{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
   letter-spacing:.1em;color:var(--gris3);margin-top:6px}
 
 /* Filas planas, como el resto de las listas largas de la app. El peso
    goleador va en tinta plena porque es el dato que cambia una lectura;
    los números de al lado, apagados. Nada de mostaza acá: no es valor. */
 .jrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
-.jrow .pos{font-family:var(--mono);font-size:9px;color:var(--gris2);flex:0 0 18px}
+.jrow .pos{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 18px}
 .jrow .jn{flex:1;min-width:0;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.jrow .peso{font-family:var(--mono);font-size:9.5px;color:var(--tinta);white-space:nowrap}
-.jrow .js{font-family:var(--mono);font-size:10px;color:var(--gris2);flex:0 0 34px;text-align:right}
+.jrow .peso{font-family:var(--mono);font-size:11px;color:var(--tinta);white-space:nowrap}
+.jrow .js{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 34px;text-align:right}
 /* El promedio por partido es el número que se mira para una línea de
    jugador — "26 remates" no dice nada sin saber en cuántos partidos.
    Va en tinta plena; el total al lado, apagado. Sin mostaza: es
@@ -593,11 +609,15 @@ a{color:inherit}
    para no empujar el ancho de la página en 375px. */
 .mets{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .mets::-webkit-scrollbar{display:none}
-.met{flex:0 0 auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;
-     text-transform:uppercase;padding:5px 9px;border:1px solid var(--linea);
+.met{flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.05em;
+     text-transform:uppercase;border:1px solid var(--linea);
+     /* 44px de alto: son la única forma de cambiar de métrica, y en un
+        teléfono medían 25. El ancho mínimo deja pasar "Al arco" sin
+        estirar las etiquetas cortas. */
+     min-height:44px;min-width:44px;padding:0 11px;
      background:transparent;color:var(--gris2);cursor:pointer}
 .met.on{border-color:var(--tinta);color:var(--tinta)}
-.jhead{display:flex;gap:8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;
+.jhead{display:flex;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
        text-transform:uppercase;color:var(--gris3);padding-bottom:4px}
 .jhead span:first-child{flex:1}
 .jhead span:not(:first-child){flex:0 0 34px;text-align:right}
@@ -606,7 +626,7 @@ a{color:inherit}
    costados y qué se mide en el medio. El más alto en tinta plena — no
    quiere decir "mejor" (más faltas no es mejor), solo cuál hace más. */
 .cmphead{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);
-         font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris3);
+         font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris3);
          padding-bottom:6px}
 .cmphead span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cmphead span:last-child{text-align:right}
@@ -616,9 +636,9 @@ a{color:inherit}
 .cmp b.alto{color:var(--tinta)}
 /* El desvío va como sub-línea chica, no al lado — al lado no entra en
    54px y competiría en peso visual con el número que sí importa. */
-.cmp .desv{display:block;font-style:normal;font-size:8.5px;font-weight:400;
+.cmp .desv{display:block;font-style:normal;font-size:11px;font-weight:400;
            color:var(--gris3);letter-spacing:.02em}
-.cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:9px;
+.cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:11px;
           letter-spacing:.05em;text-transform:uppercase;color:var(--gris3)}
 
 /* La serie partido por partido va como sub-linea del nombre, igual que
@@ -626,34 +646,53 @@ a{color:inherit}
 /* box-sizing es lo que evita que el 100% mas la sangria empujen la
    pagina a scrollear en horizontal. */
 .serie{flex:0 0 100%;box-sizing:border-box;padding-left:26px;margin:-4px 0 0;
-       font-family:var(--mono);font-size:8.5px;letter-spacing:.04em;
+       font-family:var(--mono);font-size:11px;letter-spacing:.04em;
        color:var(--gris3)}
 /* ── escalera de líneas ────────────────────────────────────────── */
 .escf{padding:9px 0;border-top:1px solid var(--linea)}
-.escq{font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+.escq{font-family:var(--mono);font-size:11px;letter-spacing:.05em;
       text-transform:uppercase;color:var(--tinta)}
-.escf .desv{display:block;font-style:normal;font-size:8.5px;font-weight:400;
+.escf .desv{display:block;font-style:normal;font-size:11px;font-weight:400;
             color:var(--gris3);letter-spacing:.02em;margin:2px 0 6px}
 .escl{display:flex;gap:6px}
-.escl b{flex:1;text-align:center;font-family:var(--mono);font-size:10px;
+
+/* El veredicto de la metrica y el aviso de "sin muestra propia".
+
+   NO llevan mostaza ni terracota, aunque la tentacion sea obvia. Esos
+   dos colores dicen "hay valor" y "cuidado con el precio", y esto no es
+   ninguna de las dos: es cuanto le erra el modelo a esta metrica, que
+   es una afirmacion sobre NOSOTROS, no sobre la apuesta. Pintarlo igual
+   le ensenaria al usuario que terracota significa "malo" en general y
+   arruinaria la unica senal que importa. Se dice con intensidad
+   tipografica, como el resultado de una apuesta en Historial. */
+.fiab{font-size:11.5px;line-height:1.5;color:var(--gris3);margin:0 0 10px;
+      padding-left:9px;border-left:1px solid var(--linea3)}
+.fiab.bien{color:var(--tinta3);border-left-color:var(--gris3)}
+.fiab.regular{color:var(--gris2)}
+/* Sesgo sistematico: se dice fuerte, en tinta plena, porque es lo mismo
+   que decir "no le creas a este numero". */
+.fiab.mal{color:var(--tinta);border-left:2px solid var(--tinta3);font-weight:500}
+.escf .sinmuestra{display:block;font-style:normal;font-size:11px;
+                  letter-spacing:.02em;color:var(--gris2);margin:0 0 6px}
+.escl b{flex:1;text-align:center;font-family:var(--mono);font-size:11px;
         font-weight:600;color:var(--gris3);border:1px solid var(--linea);
         border-radius:2px;padding:5px 2px}
 .escl em{display:block;font-style:normal;font-size:13px;color:var(--tinta);
          margin-top:3px}
 
 /* ── herramientas ──────────────────────────────────────────────── */
-.expl{font-size:11.5px;line-height:1.55;color:#7E7360;margin:0 0 18px}
+.expl{font-size:11.5px;line-height:1.55;color:var(--grisProsa);margin:0 0 18px}
 .askbank{padding:22px 16px;text-align:center}
 .askbank b{display:block;font-size:15px;color:var(--tinta2);margin-bottom:7px;font-weight:600}
-.askbank p{font-size:11.5px;color:#7E7360;line-height:1.55;margin:0 0 16px}
+.askbank p{font-size:11.5px;color:var(--grisProsa);line-height:1.55;margin:0 0 16px}
 .campo{width:100%;background:var(--panel);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:18px;text-align:center;padding:12px 0;border-radius:2px}
-.askbank small{display:block;font-size:10px;color:var(--gris3);margin:6px 0 14px}
+.askbank small{display:block;font-size:11px;color:var(--gris3);margin:6px 0 14px}
 .btn{width:100%;background:var(--mostaza);color:var(--hueco);border:none;padding:12px 0;font-family:var(--anton);font-size:14px;letter-spacing:.02em}
-.bankline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:var(--hueco);margin:12px 0 0;font-size:10.5px;color:var(--gris2)}
+.bankline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:var(--hueco);margin:12px 0 0;font-size:11px;color:var(--gris2)}
 .bankline b{color:var(--tinta3);font-family:var(--mono);font-weight:500}
-.bankline button{color:var(--gris2);text-decoration:underline;font-size:10.5px;padding:0}
+.bankline button{color:var(--gris2);text-decoration:underline;font-size:11px;padding:0}
 .grp{margin-bottom:var(--e5)}
-.gh{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);margin:20px 16px 9px}
+.gh{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);margin:20px 16px 9px}
 /* Cada mercado es una tarjeta con sombra, no una fila con filete: acá
    el usuario carga un dato y espera una respuesta, así que cada uno es
    una unidad con la que interactúa, no un renglón de tabla. */
@@ -662,8 +701,8 @@ a{color:inherit}
 .mrow.mal{border-left:2px solid var(--terracota)}
 .mrow .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
 .mrow .mkt{font-size:13px;color:var(--tinta2)}
-.mrow .modelo{font-family:var(--mono);font-size:10px;color:var(--gris2);flex:0 0 auto}
-.mrow .umb{font-family:var(--mono);font-size:10px;color:var(--gris2);margin-top:0}
+.mrow .modelo{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 auto}
+.mrow .umb{font-family:var(--mono);font-size:11px;color:var(--gris2);margin-top:0}
 .inrow{display:flex;gap:10px;align-items:center}
 .inrow input{flex:1;min-width:0;background:var(--hueco);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:13px;text-align:center;padding:8px 0}
 .mrow.val .inrow input{border-color:var(--mostazaBorde)}
@@ -673,14 +712,14 @@ a{color:inherit}
 .out .ev.pos{color:var(--mostaza)}
 .out .ev.neg{color:var(--terracota)}
 .juega{text-align:right}
-.juega span{display:block;font-size:8.5px;color:var(--gris2);text-transform:uppercase;letter-spacing:.06em}
+.juega span{display:block;font-size:11px;color:var(--gris2);text-transform:uppercase;letter-spacing:.06em}
 .juega b{font-family:var(--mono);font-size:15px;color:var(--mostaza);font-weight:600}
 
 /* ── registro ──────────────────────────────────────────────────── */
 .ledger{display:flex;margin:14px 16px 0;background:var(--panel);box-shadow:4px 4px 0 #13100B}
 .ledger div{flex:1;text-align:center;padding:12px 4px;border-right:1px solid var(--linea2);min-width:0}
 .ledger div:last-child{border-right:none}
-.ledger small{display:block;font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);margin-bottom:4px}
+.ledger small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);margin-bottom:4px}
 .ledger b{font-family:var(--mono);font-size:15px;font-weight:600}
 /* Mismo criterio que los sellos: el resultado no se pinta. Ganar es
    tinta plena, perder es apagado. */
@@ -689,7 +728,7 @@ a{color:inherit}
 .chart{margin:14px 16px 4px;height:56px;width:calc(100% - 32px)}
 .filters{display:flex;gap:6px;padding:14px 16px 0;overflow-x:auto;scrollbar-width:none}
 .filters::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;font-family:var(--mono);font-size:10px;color:var(--gris2);background:var(--panel);padding:6px 11px;white-space:nowrap;border:none}
+.chip{flex:0 0 auto;font-family:var(--mono);font-size:11px;color:var(--gris2);background:var(--panel);padding:6px 11px;white-space:nowrap;border:none}
 .chip.on{background:var(--tinta);color:var(--hueco)}
 /* ── ficha del Registro ────────────────────────────────────────────
    Tarjeta con sombra, no fila con filete: cada carga es una unidad que
@@ -700,14 +739,14 @@ a{color:inherit}
 .lbet .part{font-size:12.5px;color:var(--tinta2);min-width:0}
 .lbet .stake{font-family:var(--mono);font-size:13px;color:var(--tinta3);flex:0 0 auto}
 .lbet .mkt{font-size:11.5px;color:var(--gris);margin-top:3px}
-.lbet .meta{font-family:var(--mono);font-size:9.5px;color:var(--gris2);margin-top:4px}
+.lbet .meta{font-family:var(--mono);font-size:11px;color:var(--gris2);margin-top:4px}
 .lbet .estado{display:flex;align-items:center;gap:8px;margin-top:10px}
 .lbet .marc{font-family:var(--mono);font-size:12px;color:var(--tinta3)}
 .lbet.perdida .marc{color:var(--gris2)}
 .lbet .dev{font-family:var(--mono);font-size:11.5px;margin-left:auto}
 .lbet .dev.pos{color:var(--tinta2)}
 .lbet .dev.neg{color:var(--gris2)}
-.lbet .proced{font-size:10.5px;line-height:1.55;color:var(--gris2);margin-top:6px}
+.lbet .proced{font-size:11px;line-height:1.55;color:var(--gris2);margin-top:6px}
 .lbet .acc{margin-top:8px}
 /* La ficha perdida entera baja de intensidad: mismo recurso que
    Historial, aplicado a la tarjeta completa. */
@@ -725,7 +764,7 @@ a{color:inherit}
 .sello.man{background:var(--linea2);color:var(--tinta3)}
 
 .res{display:flex;gap:6px;margin-top:9px}
-.res button{flex:1;padding:7px 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;
+.res button{flex:1;padding:7px 0;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
   text-transform:uppercase;background:var(--hueco);color:var(--gris2);border:1px solid var(--linea2)}
 .res button.on.w{background:var(--tinta);color:var(--hueco);border-color:var(--tinta)}
 .res button.on.l{background:var(--linea2);color:var(--gris);border-color:var(--linea3)}
@@ -734,13 +773,13 @@ a{color:inherit}
 /* De dónde salió cada estado. En salvia porque no es un estado — es
    procedencia, y no compite con mostaza ni terracota. */
 .proc{display:flex;align-items:center;gap:9px;margin:10px 16px 0;font-family:var(--mono);
-  font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--salvia)}
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--salvia)}
 .proc::after{content:"";flex:1;height:1px;background:var(--linea)}
 
 
 /* Enlace de corrección: mono en mayúscula con filete abajo, no
    subrayado de link. Es una acción de excepción, no la principal. */
-.lnk{background:none;border:none;padding:0;font-family:var(--mono);font-size:9.5px;
+.lnk{background:none;border:none;padding:0;font-family:var(--mono);font-size:11px;
   letter-spacing:.08em;text-transform:uppercase;color:var(--salvia);
   border-bottom:1px solid var(--salvia2)}
 
@@ -759,7 +798,9 @@ a{color:inherit}
 /* ── navegación ────────────────────────────────────────────────── */
 .nav{position:fixed;left:0;right:0;bottom:0;background:var(--hueco);border-top:1px solid var(--linea2);display:flex;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
 .nav .in{max-width:520px;margin:0 auto;display:flex;width:100%}
-.nav button{flex:1;padding:13px 0 12px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);position:relative}
+.nav button{flex:1;min-height:44px;padding:15px 0 14px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris2);
+  position:relative}
 .nav button.on{color:var(--tinta)}
 .nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--tinta)}
 
@@ -798,7 +839,7 @@ a{color:inherit}
   font-size:12.5px;line-height:1.6;color:var(--tinta3)}
 .aviso b{display:block;font-family:var(--anton);font-size:17px;color:var(--tinta);
   font-weight:400;margin-bottom:6px}
-.fin{padding:22px 16px 34px;text-align:center;font-size:9px;color:var(--gris3);font-family:var(--mono)}
+.fin{padding:22px 16px 34px;text-align:center;font-size:11px;color:var(--gris3);font-family:var(--mono)}
 </style>
 </head>
 <body>
@@ -896,6 +937,11 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
 let PL_EQ="H";
 let ESTADISTICAS={};   /* promedios por partido de cada equipo, del cron */
 let PARAMETROS={};     /* por metrica: media de la liga, dispersion y k */
+/* Cuanto le erra cada metrica del mercado de estadisticas, medido con
+   medir_lineas.py sobre los partidos ya jugados. No lo escribe el cron:
+   esa medicion es cara y se corre a mano. Si el archivo no esta, la app
+   simplemente no dice nada sobre fiabilidad — no inventa. */
+let CALIBRACION={}, CALIBRADO="";
 let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
 let LIN_MET="corners";  /* la metrica cuyas lineas se estan mirando */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
@@ -1430,9 +1476,10 @@ function diasDisponibles(){
    en los datos del día, que cambia. El logo sale de CUALQUIER partido
    de esa competición en toda la semana, no solo los de hoy: así la
    tira no desaparece un día que esa copa no juega. */
-const COMPS_ORDEN = ["Liga Profesional Argentina", "Copa Argentina",
-  "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
-const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Copa Argentina":"Copa Arg.",
+const COMPS_ORDEN = ["Liga Profesional Argentina", "Brasileirão Série A",
+  "Copa Argentina", "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
+const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Brasileirão Série A":"Brasil",
+  "Copa Argentina":"Copa Arg.",
   "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
 
 function tiraCompeticiones(delDia){
@@ -1687,8 +1734,9 @@ function marcaV(sfx, alto=58){
    PANTALLA: DETALLE DE PARTIDO
    ══════════════════════════════════════════════════════════════════ */
 const TABS = [
-  ["analisis","Análisis"], ["pronosticos","Pronósticos"], ["historial","Historial"],
-  ["posiciones","Posiciones"], ["plantel","Plantel"], ["herramientas","Herramientas"],
+  ["analisis","Análisis"], ["pronosticos","Pronósticos"], ["estadisticas","Estadísticas"],
+  ["historial","Historial"], ["posiciones","Posiciones"], ["plantel","Plantel"],
+  ["herramientas","Herramientas"],
 ];
 
 function viewPartido(){
@@ -1706,8 +1754,9 @@ function viewPartido(){
       <span>${etiqueta}</span><b>${cuota(c)}</b><em>${pc(lec.p[k])}</em></div>`;
 
   const cuerpo = {
-    analisis: tabAnalisis, pronosticos: tabPronosticos, historial: tabHistorial,
-    posiciones: tabPosiciones, plantel: tabPlantel, herramientas: tabHerramientas,
+    analisis: tabAnalisis, pronosticos: tabPronosticos, estadisticas: tabEstadisticas,
+    historial: tabHistorial, posiciones: tabPosiciones, plantel: tabPlantel,
+    herramientas: tabHerramientas,
   }[TAB](m);
 
   return `<div class="top"><button class="back" data-volver="1">←</button>
@@ -2070,6 +2119,36 @@ function quienFalta(m){
 }
 
 /* ── 5. Plantel ────────────────────────────────────────────────── */
+/* ── Estadísticas ──────────────────────────────────────────────────
+   Córners, tarjetas y remates: el mercado que se apuesta por línea.
+
+   Vivía adentro de Plantel, debajo de los jugadores. Nadie que quiera
+   apostar córners abre una pestaña que dice "Plantel": estaba
+   construido y no se encontraba. Tiene pestaña propia desde el
+   2026-08-24. */
+function tabEstadisticas(m){
+  let h = `<div class="banda banda2">Estadísticas<em>CÓRNERS · TARJETAS · REMATES</em></div><div class="sec">`;
+  /* Primero lo que hicieron, después lo que esperamos. Las dos cosas
+     hablan de córners y faltas, así que el orden y las etiquetas tienen
+     que dejar claro cuál es cuál: una es medición, la otra es
+     estimación. Juntas y sin distinguir se leían como el mismo número
+     dicho dos veces. */
+  h += comparativa(m);
+  /* Lo que hicieron, y recién despues la chance de pasar una linea.
+     El orden importa: la escalera es una lectura DE esos numeros, y
+     puesta antes se leeria como un dato medido mas. */
+  h += bloqueLineas(m);
+  h += `<div class="lbl sep">Lo que esperamos acá</div>
+    <div class="tstats">
+      <div class="t"><span>Córners</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
+      <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
+      <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
+    </div>
+    <p class="fuente">Estimación para este partido, sumando a los dos equipos. Los números
+      de arriba son lo que cada uno viene haciendo; estos son lo que esperamos hoy.</p>`;
+  return h + `</div>`;
+}
+
 function tabPlantel(m){
   const stat = (id, tabla)=> (tabla||[]).find(f=>String(f.id)===String(id));
   const bloque = (nombre, id, logo)=>{
@@ -2118,24 +2197,6 @@ function tabPlantel(m){
         : "No tenemos a los dos equipos en una misma tabla, así que no hay comparación que hacer."}</p>`;
   }
   h += bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
-  /* Primero lo que hicieron, después lo que esperamos. Las dos cosas
-     hablan de córners y faltas, así que el orden y las etiquetas tienen
-     que dejar claro cuál es cuál: una es medición, la otra es
-     estimación. Juntas y sin distinguir se leían como el mismo número
-     dicho dos veces. */
-  h += comparativa(m);
-  /* Lo que hicieron, y recién despues la chance de pasar una linea.
-     El orden importa: la escalera es una lectura DE esos numeros, y
-     puesta antes se leeria como un dato medido mas. */
-  h += bloqueLineas(m);
-  h += `<div class="lbl sep">Lo que esperamos acá</div>
-    <div class="tstats">
-      <div class="t"><span>Córners</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
-      <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
-      <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
-    </div>
-    <p class="fuente">Estimación para este partido, sumando a los dos equipos. Los números
-      de arriba son lo que cada uno viene haciendo; estos son lo que esperamos hoy.</p>`;
   h += cancha(m);
   return h + `</div>`;
 }
@@ -2237,6 +2298,38 @@ function lineasDe(mu){
   return [base - 1.5, base - 0.5, base + 0.5, base + 1.5].filter(L => L > 0);
 }
 
+/* Qué tan fiable es cada métrica, según lo medido — no según lo que
+   nos gustaría.
+
+   Los cinco botones se veían iguales, y no lo son. Medido el 2026-08-24
+   sobre 179 partidos: córners le erra 3.5 puntos sin dirección clara,
+   pero FALTAS le erra 9.0 y siempre para el mismo lado, y REMATES 6.6
+   también siempre para el mismo. Cuando el desvío es casi todo sesgo,
+   no es ruido que se compense apostando más: es un error que se paga
+   todas las veces.
+
+   Sin el archivo de calibración no se dice nada. Afirmar que una
+   métrica es confiable sin haberla medido es peor que callarse. */
+function fiabilidad(k){
+  const c = CALIBRACION[k];
+  if(!c || !c.n) return null;
+  const sesgo = c.sesgo, desvio = c.desvio;
+  /* Qué proporción del error tiene dirección. Arriba de 0.7 el error es
+     sistemático: le erramos siempre para el mismo lado. */
+  const dirigido = desvio > 0 ? Math.abs(sesgo)/desvio : 0;
+  const grave = desvio >= 6 && dirigido >= 0.7;
+  const flojo = desvio >= 6 || (desvio >= 4 && dirigido >= 0.7);
+  const lado = sesgo > 0 ? "de más" : "de menos";
+  return {
+    grave, flojo, n: c.n, desvio, sesgo, dirigido,
+    texto: grave
+      ? `Le erramos ${Math.abs(sesgo).toFixed(0)} puntos ${lado}, y casi siempre para el mismo lado. Medido sobre ${c.n} predicciones: esto no es ruido, se paga todas las veces.`
+      : flojo
+      ? `Le erramos ${desvio.toFixed(1)} puntos en promedio, con tendencia a decir ${lado}. Medido sobre ${c.n} predicciones.`
+      : `Le erramos ${desvio.toFixed(1)} puntos en promedio, sin dirección clara. Medido sobre ${c.n} predicciones.`,
+  };
+}
+
 function bloqueLineas(m){
   const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
   if(!L || !V) return "";
@@ -2248,15 +2341,24 @@ function bloqueLineas(m){
   const p = PARAMETROS[x.k];
   const muL = L.esperado[x.k], muV = V.esperado[x.k];
 
-  const escalon = (titulo, mu, disp, nota) => {
+  const escalon = (titulo, mu, disp, nota, sinMuestra) => {
     const celdas = lineasDe(mu).map(Ln => {
       const q = probMayor(mu, disp, Ln);
       return q == null ? ""
         : `<b>+${Ln.toFixed(1)}<em>${Math.round(q * 100)}%</em></b>`;
     }).join("");
     if(!celdas) return "";
+    /* Cuando el número del equipo es casi todo promedio de la liga, los
+       dos equipos muestran valores idénticos y parece un error. No lo
+       es: es el encogimiento diciendo que no hay muestra. Pero decirlo
+       en letra chica debajo de cuatro líneas de apuesta era engañoso en
+       la jerarquía aunque fuera honesto en el texto. */
+    const aviso = sinMuestra
+      ? `<i class="sinmuestra">Sin muestra propia todavía — esto es el promedio de la liga, no una lectura de este equipo</i>`
+      : "";
     return `<div class="escf"><span class="escq">${titulo}</span>
       <i class="desv">${mu.toFixed(1)} esperados · ${nota}</i>
+      ${aviso}
       <div class="escl">${celdas}</div></div>`;
   };
 
@@ -2271,21 +2373,33 @@ function bloqueLineas(m){
      1.75 y el total del partido 1.01, porque son medio suma cero — si
      uno ataca, el otro no. Sumar dos modelos sueltos infla las colas y
      hace ver valor donde no hay. */
+  /* Debajo de este peso, el número del equipo es casi todo liga. 0.25
+     no es a ojo: con menos de eso los dos equipos dan el MISMO valor y
+     la pantalla deja de hablar de este partido. */
+  const SIN_MUESTRA = 0.25;
+  const pesoDe = eq => pesoEquipo((eq.n && eq.n[x.k]) || 0, p.k);
   const filas = [
-    escalon(esc_(m.home), muL, p.disp, propio(L)),
-    escalon(esc_(m.away), muV, p.disp, propio(V)),
+    escalon(esc_(m.home), muL, p.disp, propio(L), pesoDe(L) < SIN_MUESTRA),
+    escalon(esc_(m.away), muV, p.disp, propio(V), pesoDe(V) < SIN_MUESTRA),
     escalon("Total del partido", muL + muV,
             p.disp_total != null ? p.disp_total : p.disp,
             p.disp_total != null ? "dispersión medida sobre el total"
-                                 : "sin medición propia del total"),
+                                 : "sin medición propia del total",
+            false),
   ].join("");
 
   const botones = hay.map(y =>
     `<button class="met${y.k === x.k ? " on" : ""}" data-linmet="${y.k}">${y.et}</button>`
   ).join("");
 
+  const fi = fiabilidad(x.k);
+  const juicio = fi
+    ? `<p class="fiab ${fi.grave ? "mal" : fi.flojo ? "regular" : "bien"}">${fi.texto}</p>`
+    : `<p class="fiab">Esta métrica todavía no se midió: no sabemos cuánto le erra.</p>`;
+
   return `<div class="lbl sep">Chance de pasar la línea</div>
     <div class="mets">${botones}</div>
+    ${juicio}
     ${filas}
     <p class="fuente">La chance de que el número termine arriba de cada línea, con la
       campana que le corresponde a esta métrica — no todas se reparten igual, y usar
@@ -3014,10 +3128,11 @@ async function traer(url, def){
   ACTUALIZADO = p.actualizado || "";
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
-  const [an, rs, pl, es] = await Promise.all([
+  const [an, rs, pl, es, cal] = await Promise.all([
     traer("data/analisis.json", {}),
     traer("data/resultados.json", {}), traer("data/planteles.json", {}),
     traer("data/estadisticas.json", {}),
+    traer("data/calibracion_lineas.json", {}),
   ]);
   RESULTADOS = rs || {};
   /* la clave _schema es documentación del formato, no un partido */
@@ -3026,6 +3141,8 @@ async function traer(url, def){
   ESTADISTICAS = (es && es.equipos) || {};
   PARAMETROS = (es && es.parametros) || {};
   PARAM_JUG = (es && es.jugadores) || {};
+  CALIBRACION = (cal && cal.metricas) || {};
+  CALIBRADO = (cal && cal.actualizado) || "";
 
   desdeHash();
   render();

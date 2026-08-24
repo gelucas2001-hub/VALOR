@@ -37,12 +37,16 @@ jobs:
       - name: Correr todas las suites
         run: |
           fallaron=""
-          for t in test_estadisticas.py test_expediente.py test_forma.py test_plantel.py test_calibracion.py test_medir_analisis.py test_medir_arbitros.py test_medir_clv.py test_historico.py test_medir_historico.py; do
+          # Por glob y no por lista: la lista estaba escrita a mano y una
+          # suite nueva quedaba fuera de CI sin que nadie lo notara. Pasó
+          # con test_historia.py y test_medir_lineas.py el 2026-08-24.
+          # Toda suite nueva tiene que correr sin red y sin instalar nada.
+          for t in test_*.py; do
             echo "::group::$t"
             python "$t" || fallaron="$fallaron $t"
             echo "::endgroup::"
           done
-          for t in test_registro.js test_alineacion.js test_probabilidad.js; do
+          for t in test_*.js; do
             echo "::group::$t"
             node "$t" || fallaron="$fallaron $t"
             echo "::endgroup::"

@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-08-25T15:38",
+ "actualizado": "2026-08-25T19:25",
  "requests": 1540,
  "partidos": [
   {
@@ -756,15 +756,15 @@
    "ciudad": "Lille",
    "mercado": {
     "prov": "DraftKings",
-    "local": 4.4,
-    "empate": 3.95,
+    "local": 4.5,
+    "empate": 4.0,
     "visitante": 1.74,
     "totalLinea": 2.5,
     "totalOver": 1.71,
-    "totalUnder": 2.05,
+    "totalUnder": 2.1,
     "hcapLinea": 0.5,
     "hcapLocal": 2.05,
-    "hcapVisitante": 1.67
+    "hcapVisitante": 1.69
    },
    "preload": {}
   },
@@ -1079,13 +1079,13 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 5.0,
-    "empate": 4.2,
-    "visitante": 1.61,
+    "empate": 4.3,
+    "visitante": 1.62,
     "totalLinea": 2.5,
-    "totalOver": 1.65,
+    "totalOver": 1.67,
     "totalUnder": 2.2,
     "hcapLinea": 0.5,
-    "hcapLocal": 2.2,
+    "hcapLocal": 2.25,
     "hcapVisitante": 1.57
    },
    "preload": {}
@@ -10618,14 +10618,14 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 2.55,
-    "empate": 3.65,
-    "visitante": 2.45,
+    "empate": 3.7,
+    "visitante": 2.5,
     "totalLinea": 2.5,
-    "totalOver": 1.54,
-    "totalUnder": 2.3,
-    "hcapLinea": -0.5,
-    "hcapLocal": 2.35,
-    "hcapVisitante": 1.48
+    "totalOver": 1.56,
+    "totalUnder": 2.35,
+    "hcapLinea": 0.5,
+    "hcapLocal": 1.49,
+    "hcapVisitante": 2.35
    },
    "preload": {}
   },
@@ -11865,8 +11865,8 @@
     "totalOver": 2.2,
     "totalUnder": 1.57,
     "hcapLinea": -1.5,
-    "hcapLocal": 2.3,
-    "hcapVisitante": 1.5
+    "hcapLocal": 2.25,
+    "hcapVisitante": 1.53
    },
    "preload": {}
   },

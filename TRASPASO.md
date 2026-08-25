@@ -2386,3 +2386,239 @@ El cron viene juntando desde mayo. Con una temporada completa el piso
 baja 7,6 veces, y las métricas que hoy dicen "no se ve" pueden estar
 diciendo "todavía no". Correr `medir_discriminacion.py` cada tanto es
 lo que avisa cuándo cambió.
+
+---
+
+## 6vicies ter · El mercado de estadísticas existe, y estaba a un link de distancia (2026-08-25)
+
+### Lo que se afirmó, y era falso
+
+El 2026-08-25, contestando si se podía atacar el mercado de córners y
+de jugadores, esta terminal afirmó que no existía fuente gratuita de
+cuotas de córners ni de tarjetas en ningún lado.
+
+**Es falso.** Están en el mismo ESPN que el cron ya llama dos veces por
+día, sin clave y sin costo.
+
+El error tiene una causa concreta y vale más que el hallazgo. Se miró
+el bloque `odds` del *scoreboard* — que efectivamente trae solo 1X2,
+hándicap y over/under de goles — y se dio el tema por cerrado. Nunca se
+siguió el link `propBets` que el propio objeto de odds de la API
+interna publica:
+
+    sports.core.api.espn.com/v2/sports/soccer/leagues/{liga}
+        /events/{id}/competitions/{id}/odds/100/propBets
+
+Son **150 a 840 líneas por partido**. La lección ya está escrita en
+CLAUDE.md: mirar un endpoint y concluir sobre *la fuente* es
+generalizar de una muestra de uno.
+
+### Qué hay, medido sobre partidos ya jugados
+
+El board queda congelado después del partido, así que se puede auditar
+hacia atrás. Sobre los 30 partidos de Liga Profesional de los últimos
+12 días:
+
+| Mercado | Cobertura en arg.1 |
+|---|---|
+| Córners (total, por equipo, hándicap, 1er/2do tiempo, primero/último, carrera a N) | **30 de 30** |
+| Goleador (primero, en cualquier momento, último, 2+) | **30 de 30** |
+| Remates, al arco, faltas, tackles, offsides, tarjetas | **0 de 30** |
+
+**Los córners están en todas las ligas medidas** (28 líneas por
+partido; la única excepción es China, con cero). Las estadísticas de
+JUGADOR están en muy pocas:
+
+    Inglaterra 41 jug/partido · Italia 38 · Championship 35 · Francia 27
+    España 19 · Escocia 10 · EEUU 4 · México 2 · Brasil 1
+    Argentina, Japón, Austria, Portugal, Noruega, Bélgica,
+    Dinamarca, P. Bajos, Turquía, Suecia: CERO
+
+No es cuestión de esperar a que se acerque el partido: se probaron los
+30 partidos argentinos con el board ya cerrado. Cero en los 30.
+
+### Los dos hallazgos que definen cómo se puede analizar
+
+**1. Los córners vienen en par, y por eso se les puede sacar el
+margen.** `Total Corners` 8.5 aparece dos veces (1.80 y 1.90): son el
+más y el menos, los dos bajo la clave `over` del JSON. Con el par se
+aplica `devigShin` como manda CLAUDE.md — en dos opciones Shin devuelve
+el proporcional, que es correcto — y la comparación es probabilidad
+contra probabilidad, igual que el 1X2.
+
+**2. Las líneas de jugador vienen de un solo lado, y no se les puede
+sacar el margen.** No existe el "menos de". Vienen en escalera
+acumulada (1+, 2+, 3+), y una escalera acumulada es autoconsistente por
+construcción: el margen no se puede despejar de ahí.
+
+La salida se encontró midiendo: **DraftKings arma toda la escalera
+desde un solo Poisson**, y el ajuste es casi perfecto.
+
+    Grealish  1+ 1.10 · 2+ 1.47 · 3+ 2.40  ->  Poisson(2.34)  error 0.0013
+    Kovacic   1+ 1.34 · 2+ 2.55            ->  Poisson(1.34)  error 0.0008
+
+O sea que se le puede leer **la cantidad esperada que el mercado tiene
+en la cabeza**, y comparar cantidad contra cantidad. Eso esquiva el
+problema del margen entero.
+
+Dos límites que hay que respetar y mostrar:
+
+- **Solo el 33% de las escaleras de remates tiene dos escalones o más**
+  (tackles 49%, faltas 45%; asistencias y offsides casi ninguna). Con un
+  escalón no hay dos ecuaciones y no se despeja nada. Para esos, la regla
+  conservadora: marcar valor solo si le ganamos al precio **con el margen
+  todavía adentro**. Menos marcas, ninguna inventada.
+- **Cuando le vemos MENOS que la casa a un jugador, no hay nada que
+  apostar**, porque no existe el under. La mitad de nuestras opiniones no
+  son accionables, y la pantalla tiene que decirlo en vez de esconderlo.
+
+### Por qué entraron Premier League y Ligue 1
+
+Se midieron **tres** cosas sobre las 26 ligas del barrido anterior, y
+hacían falta las tres a la vez:
+
+|  | atraso (de 26) | jugadores/partido | k de córners |
+|---|---|---|---|
+| **eng.1** | 0.0137 (6º) | 41 | 14.2 |
+| **fra.1** | 0.0147 (9º) | 27 | 23.0 |
+| ita.1 | 0.0167 (20º) | 38 | — |
+| esp.1 | 0.0164 (18º) | 19 | — |
+| arg.1 | 0.0147 (11º) | 0 | tope (200) |
+
+Italia y España tienen mercado profundo **y el modelo anda mal ahí**.
+Mercado grande donde peor jugamos no es una oportunidad. Japón y México
+son 1º y 2º en atraso y no tienen mercado de jugadores.
+
+**La tercera columna es la que decide.** `ARG.csv` y `BRA.csv` no traen
+ni una columna de estadísticas por partido; `E0` y `F1` las traen todas
+en 11 temporadas. Con 246 partidos por equipo, el `k` de córners baja
+de 200 —el tope, que es la forma honesta de decir "no distingo un
+equipo de otro"— a 14. Es exactamente el bloqueo descrito en §6vicies
+bis, y en Inglaterra no existe desde el día uno.
+
+Corrido sobre eng/fra/sco, las cinco métricas (córners, remates, al
+arco, faltas, tarjetas) superan el techo de falsa señal en las tres
+ligas. **15 de 15.**
+
+### Constantes, medidas y no copiadas
+
+Barridos walk-forward propios sobre 4180 y 3857 partidos con cuota de
+cierre de Pinnacle, eligiendo con datos < 2022 y evaluando en >= 2022:
+
+    eng.1   rho -0.02   prior 5   conf 80   corners 10.33  fouls 21.51  cards 3.91
+    fra.1   rho -0.05   prior 8   conf 80   corners  9.47  fouls 24.22  cards 3.98
+
+**Captura de la ventaja del mercado, fuera de muestra: 80.9% y 80.9%**,
+contra 45.4% de Brasil y 7.7% de Argentina. Atraso 0.01470 ± 0.00298 y
+0.01253 ± 0.00302.
+
+**Ojo con el prior de Inglaterra.** El primer barrido (3, 8, 12, 20,
+30) dio 3 — el borde de la grilla, o sea nada. Extendida a 0.5/1/2
+apareció el óptimo adentro. Es la **tercera** vez que pasa en este
+repo; la regla ya está en CLAUDE.md y hay que leerla antes de festejar
+un barrido.
+
+### Un bug caro que apareció de paso
+
+football-data usa año de cuatro dígitos en casi todos sus archivos y de
+**dos** en cuatro de ellos. El `except ValueError` de la fecha los
+descartaba en silencio: **1521 partidos**, una temporada entera de
+Inglaterra y tres de Francia. No rompía nada, no imprimía nada — solo
+medía menos de lo que decía medir. Se encontró porque los totales no
+cerraban contra un conteo hecho aparte. Arreglado, con test.
+
+### Lo que está hecho y lo que falta
+
+Hecho y verificado:
+
+- `historico.py` lee los dos formatos y arrastra las estadísticas por
+  partido. 56 tests.
+- `actualizar.py`: las dos ligas en `COMPETICIONES`, `CON_FUERZAS` y
+  `LIGAS_DOMESTICAS`; `index.html` sincronizado. 191 tests.
+- Endpoints verificados en vivo para las dos: scoreboard, summary,
+  roster, standings y cuota. El box score de jugadores llega igual.
+- **Los IDs de jugador del mercado y los del plantel son el mismo
+  namespace de ESPN: cruzan 30 de 31 (97%) sin tocar un nombre.**
+
+Falta, en este orden:
+
+1. **Backtest de córners contra plata.** 213 partidos en
+   `cache_disciplina.json` con los córners reales, y `propBets` responde
+   para 25 de 25 de esas claves. Es la primera vez que se puede medir un
+   mercado de estadísticas contra ROI y no contra calibración. **Hacerlo
+   antes de marcar valor en pantalla** — es la regla que ya costó tres
+   semanas una vez.
+2. Tabla de alias de equipos. Los nombres del CSV no cruzan del todo con
+   ESPN: 17/23 en Inglaterra, 14/21 en Francia (fallan "Tottenham" contra
+   "Tottenham Hotspur", "Paris SG" contra "Paris Saint-Germain", y los
+   descendidos). Unas diez entradas por liga, escritas y verificadas — no
+   adivinadas. Solo hace falta para la parte de estadísticas.
+3. La mitad de equipo en la app: precio y marca en `bloqueLineas`, que ya
+   calcula la probabilidad.
+4. La mitad de jugador, solo donde el mercado existe.
+
+### Addendum · Agregar ligas rompió los parámetros de estadísticas (2026-08-25)
+
+Agregar `eng.1` y `fra.1` destapó un bug que ya existía y que las dos
+ligas nuevas iban a agravar hasta hacerlo grave.
+
+`parametros_metricas()` se corría **una sola vez sobre todo el caché**,
+mezclando las competiciones. Con arg+bra era discutible; con cuatro
+ligas pasa a ser incorrecto, y de la peor forma: **se ve como una
+mejora**.
+
+`k` sale de partir la variación entre equipos en ruido y señal. Si el
+pozo tiene varias ligas adentro, la diferencia **entre ligas** entra
+como si fuera diferencia **entre equipos**. Inglaterra hace 21.5 faltas
+por partido y Argentina 25.5: esa brecha infla la señal, hace bajar `k`
+y la app parece haber aprendido a distinguir equipos cuando lo único
+que distingue es un país de otro. Para decidir si Chelsea hace más
+córners que Brighton, saber que Brasil hace más que Argentina no aporta
+nada.
+
+Medido sobre el caché real (213 partidos), separando por liga:
+
+| métrica | pozo mezclado | arg.1 | bra.1 |
+|---|---|---|---|
+| córners | 77.6 | **17.0** | **200.0** |
+| tarjetas | 14.8 | **200.0** | **5.3** |
+| al arco | 55.4 | **200.0** | **10.1** |
+| tackles | 4.9 | **45.5** | **4.2** |
+
+*(k alto = "no distingo un equipo de otro"; 200 es el tope.)*
+
+**El número mezclado no describía a ninguna de las dos, y en tarjetas y
+al arco daba la conclusión opuesta a la verdadera para cada liga.** La
+app le venía publicando a los equipos argentinos números propios de
+tarjetas y de remates al arco apoyada en un `k` que era señal de
+Brasil. O sea: inventaba diferencias por equipo que sus propios datos
+no sostienen.
+
+Sobre dos ligas sintéticas de equipos **idénticos entre sí** pero con
+medias distintas, el pozo mezclado da `k = 0.1` — "creele todo al
+promedio del equipo" — cuando la respuesta correcta es el tope.
+
+**El arreglo:** `parametros_por_liga(muestras, liga_de_equipo)` calcula
+los mismos parámetros dentro de cada liga, usando el mapa
+`data/cache_ligas.json` que el cron ya mantiene (cero pedidos nuevos).
+Una liga con menos de `MIN_EQUIPOS` queda **afuera** y quien la consuma
+cae al parámetro global — peor, pero honesto sobre su incertidumbre.
+
+Es aditivo: `estadisticas.json` sigue trayendo `parametros` y ahora
+suma `parametros_liga`; cada equipo trae además su `liga`. El frontend
+elige con `paramsDe()`, que cae al global cuando los dos equipos de un
+partido no comparten liga (copas).
+
+**La lección, que es la misma de §6vicies bis por tercera vez:** un
+número que mejora no es un número que mejoró. `k` bajando de 200 a 77
+parecía progreso y era contaminación. Antes de festejar que una métrica
+"ahora sí distingue", hay que preguntarse *entre qué* está
+distinguiendo.
+
+Y una de método: el test de esto **no** se escribió contra un umbral
+absoluto de `k`. Con 12 equipos de 6 partidos el estimador rebota entre
+3 y 200 según la semilla — la misma banda de ruido que documenta
+`test_medir_discriminacion.py`. Lo que se testea es la **relación**
+(separar por liga siempre da menos confianza que mezclar) y la mediana
+sobre 20 semillas. Un umbral mágico adentro de la banda de ruido no
+mide nada; ya se cometió ese error dos veces en este repo.

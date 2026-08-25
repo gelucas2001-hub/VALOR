@@ -28,7 +28,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `medir_sesgo.py` | Cuánto nos apartamos de la línea del mercado | A mano, antes y después de tocar el modelo |
 | `medir_vs_mercado.py` | Brier contra la cuota de cierre real | A mano |
 | `medir_calibracion.py` | Cuando la app dice 70%, ¿pasa el 70%? Mide la calibración de lo que la app ya publicó, partido por partido — a diferencia de `backtest.py`, que reconstruye lo que el modelo habría dicho. Faltaba en esta tabla hasta el 2026-08-24 | A mano, cada tanto |
-| `historico.py` | Baja y normaliza el historial largo de football-data.co.uk (6310 partidos de arg, 5544 de bra, con cuota de cierre de Pinnacle). Es la base de las mediciones serias | A mano |
+| `historico.py` | Baja y normaliza el historial largo de football-data.co.uk: 6310 partidos de arg, 5544 de bra, **4180 de eng y 3857 de fra** (agregadas el 2026-08-25), con cuota de cierre de Pinnacle. Es la base de las mediciones serias. Lee los **dos** formatos de la fuente — un archivo único para las ligas nuevas, uno por temporada para las clásicas de Europa. Solo el segundo trae estadísticas por partido, y esa es la razón por la que en Inglaterra se distinguen los equipos y en Argentina no | A mano |
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
 | `medir_devig.py` | Qué método de quitar el margen de la casa acierta. Medido el 2026-08-25 sobre 11.854 partidos con cuota de cierre real: gana Shin, y gana más cuanto más alto el margen — que es la condición de la app. Antes la app usaba el proporcional y las mediciones usaban Shin | A mano, cada tanto |
 | `medir_encogimiento.py` | Si conviene calmar al modelo mezclándolo con la tasa base, y cuánto. Medido el 2026-08-25 fuera de muestra: en arg sí (k=0.20, cuatro errores estándar); en bra no, y con la ventana correcta empeora. **Medido y NO se aplica**: mejora el Brier de verdad, pero cambia el 43% de las marcas sin que el set nuevo rinda mejor (−2.35% ±18.78, puro ruido). Ver TRASPASO.md. Mejorar el Brier no es ganar plata | A mano, cada tanto |
@@ -85,6 +85,28 @@ esta.
   primera grilla (-0.05 a 0.15) daba su mejor número en -0.05, o sea
   chocando contra la pared. Elegir el extremo de una grilla es elegir
   dónde uno dejó de mirar.
+- **Un parametro de liga se calcula DENTRO de la liga.** El 2026-08-25,
+  al entrar Premier y Ligue 1, se vio que `parametros_metricas()` corria
+  sobre todo el cache mezclando competiciones. `k` sale de partir la
+  variacion entre equipos en ruido y senal, asi que con varias ligas en
+  el pozo **la diferencia entre ligas se lee como diferencia entre
+  equipos**: `k` baja y parece que aprendimos a distinguir equipos
+  cuando distinguimos paises. El pozo daba k=77.6 en corners donde
+  Argentina tenia 17.0 y Brasil 200.0 — y en tarjetas daba la conclusion
+  opuesta a la verdadera para cada una. Si agregas una competicion,
+  fijate que ningun estadistico agregado la mezcle con las demas.
+
+- **La fuente cambia de formato sin avisar, y el parser lo tapa.**
+  football-data usa año de cuatro dígitos en casi todos sus archivos y
+  de dos en cuatro de ellos (`E0-1617`, `F1-1516`, `F1-1617`,
+  `F1-1718`). El `except ValueError` de la fecha los descartaba en
+  silencio: **1521 partidos**, una temporada entera de Inglaterra y tres
+  de Francia, perdidas sin un solo mensaje. Encontrado el 2026-08-25
+  porque los totales no cerraban contra un conteo hecho aparte. Si un
+  parser tuyo tiene un `except` que saltea filas, contá cuántas saltea y
+  comparalo contra el archivo: un descarte silencioso no se ve como un
+  error, se ve como menos datos.
+
 - **Comparar el error contra el ruido, no contra cero.** Con 618
   predicciones, un modelo PERFECTAMENTE calibrado ya desvía 3.5 puntos
   solo por azar — 600 monedas no salen exactamente mitad y mitad. El

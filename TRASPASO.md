@@ -2858,3 +2858,90 @@ tocar el camino caliente del cron:
 Lo que **no** conviene es que el cron baje los CSV: son 22 pedidos por
 corrida a una fuente que cambia una vez por semana, metida en el camino
 que corre dos veces por día.
+
+### Addendum · La historia enchufada, y un bug que salió al pasar (2026-08-25)
+
+`equipos.py` cruzaba y nadie lo consumía. Ahora sí.
+
+**`historia_equipos.py`** escribe `data/historia_equipos.json`: por
+equipo y por métrica, `n`, `suma` y `suma2`. De esos tres salen la media
+y la varianza exactas — que es todo lo que `parametros_metricas()` y
+`media_encogida()` necesitan — y el archivo pesa **18 KB** en vez de los
+80.000 números sueltos.
+
+Se corre **a mano**, y eso es una decisión, no una pendiente: serían 22
+descargas de football-data por corrida, dos veces por día, para un
+archivo que cambia una vez por semana.
+
+**`actualizar.py`** lo lee con `leer_historia()`. Si no está, devuelve
+`{}` y todo aguas abajo se comporta como antes de que existiera. Tres
+funciones nuevas, cada una con tests:
+
+- `params_con_historia()` — pisa **métrica por métrica**, no la tabla
+  entera. De football-data salen córners, remates, al arco, faltas y
+  tarjetas; posesión, tackles, offsides y pases solo existen en el caché
+  de ESPN, y pisar la tabla completa los borraría.
+- `prior_equipo()` — el ancla de un equipo: su historia encogida hacia
+  la liga con el mismo `k` que después encoge la temporada en curso
+  hacia el ancla. Sin historia devuelve `{}`.
+- `params_de_partido()` — ver más abajo.
+
+Y `esperados()` / `esperado_partido()` toman el ancla como argumento
+opcional. Sin ella, byte por byte lo de antes; hay tests de regresión
+que lo fijan.
+
+#### El número que cambia
+
+    Manchester City, córners
+      ancla vieja (promedio de la liga)      5.46
+      ancla nueva (418 partidos propios)     7.11
+
+    Ipswich Town                             3.82
+    PSG                                      6.07
+
+El orden que sale del cruce es el que cualquiera que mire fútbol
+esperaría —City arriba, los ascendidos abajo, PSG primero en Francia—
+y eso es en sí una verificación: un cruce roto habría dado un ranking
+sin sentido.
+
+#### El bug que salió al pasar
+
+`esperado_partido()` se llamaba con `parametros` **global**, no con los
+de la liga. O sea: el arreglo de §6vicies ter —el del pozo mezclado—
+había llegado a `pr["esperado"]`, que alimenta las líneas de la pestaña
+Estadísticas, y **no** a esta otra ruta, que es la que alimenta el total
+de córners de la tarjeta del partido.
+
+La misma métrica se calculaba con dos varas distintas según dónde se la
+mirara, y **la más visible usaba la mala**. Es exactamente la clase de
+contradicción que este repo ya arregló dos veces (§6vicies con el
+devig, §6vicies ter con el pozo) y que vuelve a aparecer cada vez que
+un arreglo se aplica en un lugar y no en todos.
+
+Arreglado con `params_de_partido()`, que replica la regla de `paramsDe()`
+del frontend: si los dos equipos comparten liga y esa liga tiene
+parámetros propios, gana la liga; si no —copas, que cruzan países— cae
+al global.
+
+**La lección de método:** cuando una corrección se aplica, hay que
+buscar todos los llamadores, no el que motivó el hallazgo. `grep` del
+nombre de la función habría encontrado este en diez segundos.
+
+#### Lo que NO cambia
+
+- arg.1 y bra.1 no tienen historia y no la van a tener: la fuente no
+  trae estadísticas de esas ligas. Ahí el ancla sigue siendo el promedio
+  de la liga, igual que hoy. El archivo lo dice en `sin_estadisticas`.
+- El frontend no se tocó. Lee `L.esperado` ya calculado, así que el
+  ancla le llega sola.
+- **Sigue sin haber marca de valor en córners.** Esto mejora el número;
+  no demuestra que le gane a una casa. Ver el punto 3 de la lista de
+  pendientes.
+
+#### Cuándo hay que volver a correrlo
+
+Cuando cambian los ascensos y descensos. El índice se arma contra el
+standings **actual**, así que un equipo que descendió deja de cruzar y
+uno que ascendió aparece sin historia hasta la próxima corrida. Hoy
+Coventry City y Le Mans están así: ascendieron y no pisaron primera en
+las once temporadas que tenemos.

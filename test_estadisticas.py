@@ -1034,5 +1034,206 @@ prueba("sin prior explícito usa el global, no rompe",
        actualizar.fuerzas_equipos(_RES, _HOY)[0]["A"][0] > 0)
 
 
+
+print("")
+print("historia larga — el ancla deja de ser la liga y pasa a ser el equipo")
+print("")
+
+# Lo que escribe `historia_equipos.py`, recortado. Man City tiene 418
+# partidos a 7.16 corners; la liga esta en 5.46.
+_HIST = {
+    "actualizado": "2026-08-25",
+    "ligas": {
+        "eng.1": {
+            "partidos": 4180,
+            "parametros": {
+                "corners": {"media": 5.46, "k": 11.6, "disp": 1.48,
+                            "equipos": 19},
+                "faltas": {"media": 10.67, "k": 33.3, "disp": 1.0,
+                           "equipos": 19},
+            },
+            "equipos": {
+                "382": {"corners": {"n": 418, "suma": 2992.0,
+                                    "suma2": 26270.0},
+                        "faltas": {"n": 418, "suma": 3806.0,
+                                   "suma2": 39712.0}},
+                "349": {"corners": {"n": 342, "suma": 1836.5,
+                                    "suma2": 12000.0}},
+            },
+            "sin_cruzar": ["Leicester"],
+        }
+    },
+    "sin_estadisticas": ["arg.1", "bra.1"],
+}
+
+# Lo que el cron calcula solo, con 5 partidos por equipo: k pegado al
+# tope, o sea "no distingo un equipo de otro".
+_PAR_CACHE = {"eng.1": {
+    "corners": {"media": 5.20, "k": 200.0, "disp": 1.5, "equipos": 20},
+    "posesion": {"media": 50.0, "k": 4.0, "disp": 0.2, "equipos": 20},
+}}
+
+prueba("sin archivo, leer_historia devuelve vacio",
+       actualizar.leer_historia("no_existe_este_archivo.json") == {})
+
+_pc = actualizar.params_con_historia(_PAR_CACHE, _HIST)
+prueba("la historia pisa el k del cache donde lo hay",
+       _pc["eng.1"]["corners"]["k"] == 11.6)
+prueba("y tambien la media de la liga",
+       _pc["eng.1"]["corners"]["media"] == 5.46)
+prueba("agrega las metricas que el cache no tenia",
+       "faltas" in _pc["eng.1"])
+
+# EL test que impide que agregar historia borre lo que ya funcionaba.
+# Posesion y tackles NO estan en football-data; si la historia pisara la
+# tabla entera en vez de metrica por metrica, se perderian.
+prueba("las metricas que la historia NO trae sobreviven",
+       _pc["eng.1"]["posesion"]["k"] == 4.0)
+prueba("una liga sin historia queda igual que estaba",
+       actualizar.params_con_historia(
+           {"arg.1": {"corners": {"media": 4.8, "k": 17.0}}},
+           _HIST)["arg.1"]["corners"]["k"] == 17.0)
+prueba("sin historia, params_con_historia no toca nada",
+       actualizar.params_con_historia(_PAR_CACHE, {}) == _PAR_CACHE)
+
+# El ancla por equipo.
+_pr = actualizar.prior_equipo(_HIST, "eng.1", "382", _pc["eng.1"])
+prueba("un equipo con historia tiene ancla propia", "corners" in _pr)
+prueba("y esta cerca de SU numero, no del de la liga",
+       6.9 < _pr["corners"] < 7.2)
+prueba("el ancla nunca cae fuera del equipo y la liga",
+       5.46 <= _pr["corners"] <= 7.16)
+
+prueba("un equipo sin historia no tiene ancla",
+       actualizar.prior_equipo(_HIST, "eng.1", "9999", _pc["eng.1"]) == {})
+prueba("una liga sin historia tampoco",
+       actualizar.prior_equipo(_HIST, "arg.1", "15", {}) == {})
+prueba("y sin historia en absoluto tampoco",
+       actualizar.prior_equipo({}, "eng.1", "382", _pc["eng.1"]) == {})
+
+# Una metrica que el equipo no tiene en la historia no se inventa.
+_pr2 = actualizar.prior_equipo(_HIST, "eng.1", "349", _pc["eng.1"])
+prueba("solo las metricas que ese equipo tiene", "faltas" not in _pr2)
+prueba("pero las que tiene, si", "corners" in _pr2)
+
+
+print("")
+print("esperados() con ancla — el numero del equipo deja de ser el de la liga")
+print("")
+
+_PARTIDOS_MC = [{"corners": 7.0}, {"corners": 8.0}, {"corners": 6.0}]
+_P = {"corners": {"media": 5.46, "k": 11.6}}
+
+_sin = actualizar.esperados(_PARTIDOS_MC, _P)
+_con = actualizar.esperados(_PARTIDOS_MC, _P, prior={"corners": 7.11})
+
+prueba("sin ancla, tres partidos casi no mueven el numero de la liga",
+       abs(_sin["corners"] - 5.46) < 0.5)
+prueba("con ancla, el numero se para donde el equipo vive",
+       abs(_con["corners"] - 7.11) < 0.5)
+prueba("y son numeros distintos, que es el punto",
+       abs(_con["corners"] - _sin["corners"]) > 1.0)
+
+# Regresion: sin el argumento nuevo, exactamente lo de antes.
+prueba("sin prior se comporta igual que siempre",
+       actualizar.esperados(_PARTIDOS_MC, _P)
+       == actualizar.esperados(_PARTIDOS_MC, _P, prior=None))
+prueba("un prior vacio tampoco cambia nada",
+       actualizar.esperados(_PARTIDOS_MC, _P, prior={})
+       == actualizar.esperados(_PARTIDOS_MC, _P))
+prueba("un prior de otra metrica no toca a esta",
+       actualizar.esperados(_PARTIDOS_MC, _P, prior={"faltas": 99.0})
+       == actualizar.esperados(_PARTIDOS_MC, _P))
+
+# Sin partidos del equipo, el ancla ES la respuesta.
+prueba("sin partidos en el cache, queda el ancla sola",
+       abs(actualizar.esperados([], _P, prior={"corners": 7.11})["corners"]
+           - 7.11) < 0.01)
+prueba("y sin ancla ni partidos, la liga",
+       abs(actualizar.esperados([], _P)["corners"] - 5.46) < 0.01)
+
+# Con MUCHOS partidos del cache, el equipo actual tiene que poder
+# alejarse de su propia historia: el ancla informa, no encadena.
+_muchos = [{"corners": 2.0}] * 200
+prueba("con muchos partidos el cache le gana al ancla",
+       actualizar.esperados(_muchos, _P, prior={"corners": 7.11})["corners"]
+       < 3.0)
+
+
+
+print("")
+print("esperado_partido() — el total del partido con el ancla de cada equipo")
+print("")
+
+_PP = {"corners": {"media": 5.46, "k": 11.6},
+       "faltas": {"media": 10.67, "k": 33.3},
+       "tarjetas": {"media": 1.75, "k": 48.6}}
+_L = [{"corners": 7.0, "faltas": 10.0, "tarjetas": 2.0}] * 3
+_V = [{"corners": 4.0, "faltas": 12.0, "tarjetas": 1.0}] * 3
+
+_e0 = actualizar.esperado_partido(_L, _V, _PP)
+prueba("sin anclas da un total cerca del doble de la liga",
+       10.0 < _e0["corners"] < 11.5)
+
+# Man City (7.11) contra un equipo de pocos corners (4.02).
+_e1 = actualizar.esperado_partido(_L, _V, _PP,
+                                  prior_local={"corners": 7.11},
+                                  prior_visita={"corners": 4.02})
+# Lo que el ancla cambia NO es el total: es el reparto. Acá el local
+# sube 1.3 y el visitante baja 1.1, asi que el total apenas se mueve —
+# y ese casi-empate es justo lo que hace ver que sin ancla los dos
+# equipos estaban pegados al mismo promedio de liga.
+prueba("la parte del local sube hacia SU numero",
+       _e1["cornersH"] > _e0["cornersH"] + 1.0)
+prueba("y el visitante baja hacia el suyo",
+       (_e1["corners"] - _e1["cornersH"])
+       < (_e0["corners"] - _e0["cornersH"]) - 1.0)
+prueba("o sea que los dos equipos se separan, que es el punto",
+       abs(2 * _e1["cornersH"] - _e1["corners"])
+       > abs(2 * _e0["cornersH"] - _e0["corners"]) + 2.0)
+prueba("cornersH sigue siendo parte del total",
+       _e1["cornersH"] < _e1["corners"])
+
+# Regresion: el argumento nuevo es opcional y no cambia lo de antes.
+prueba("sin anclas se comporta igual que siempre",
+       actualizar.esperado_partido(_L, _V, _PP)
+       == actualizar.esperado_partido(_L, _V, _PP, None, None))
+prueba("anclas vacias tampoco cambian nada",
+       actualizar.esperado_partido(_L, _V, _PP, {}, {})
+       == actualizar.esperado_partido(_L, _V, _PP))
+prueba("un ancla de un solo lado igual funciona",
+       actualizar.esperado_partido(_L, _V, _PP,
+                                   prior_local={"corners": 7.11}) is not None)
+
+prueba("sin parametros sigue devolviendo None",
+       actualizar.esperado_partido(_L, _V, None) is None)
+prueba("sin partidos de un lado tampoco inventa",
+       actualizar.esperado_partido(_L, [], _PP) is None)
+
+
+print("")
+print("params_de_partido() — dos equipos de ligas distintas caen al global")
+print("")
+
+_PL = {"eng.1": {"corners": {"media": 5.46, "k": 11.6}},
+       "arg.1": {"corners": {"media": 4.83, "k": 17.0}}}
+_GLOB = {"corners": {"media": 5.0, "k": 77.6}}
+
+prueba("dos equipos de la misma liga usan la de ellos",
+       actualizar.params_de_partido("eng.1", "eng.1", _PL, _GLOB)
+       == _PL["eng.1"])
+
+# EL test. En copa se cruzan ligas, y ahi el parametro de una de las dos
+# no describe al partido. Es la misma regla que `paramsDe()` en el
+# frontend: mezclar ligas lee la diferencia ENTRE paises como si fuera
+# diferencia entre equipos.
+prueba("de ligas distintas, cae al global",
+       actualizar.params_de_partido("eng.1", "arg.1", _PL, _GLOB) == _GLOB)
+prueba("si falta la liga de uno, tambien",
+       actualizar.params_de_partido("eng.1", None, _PL, _GLOB) == _GLOB)
+prueba("una liga sin parametros propios cae al global",
+       actualizar.params_de_partido("chi.1", "chi.1", _PL, _GLOB) == _GLOB)
+
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

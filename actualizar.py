@@ -76,6 +76,13 @@ CACHE_LIGAS = Path("data/cache_ligas.json")  # team_id -> slug de su liga local
                             # cache_disciplina: un equipo no cambia de liga en
                             # mitad de la temporada, así que preguntarlo una
                             # vez alcanza para siempre.
+RUTA_HISTORIA = Path("data/historia_equipos.json")
+                            # Historia larga por equipo, ya cruzada a ids de
+                            # ESPN. La escribe `historia_equipos.py` A MANO —
+                            # el cron NO la baja: son 22 pedidos a
+                            # football-data por corrida para un archivo que
+                            # cambia una vez por semana. Si no está, todo se
+                            # comporta como antes de que existiera.
 DISCIPLINA_N = 3           # últimos N partidos por equipo para córners/
                             # faltas/tarjetas — más chico que los 5 de forma()
                             # a propósito, por el costo de /summary.
@@ -1184,8 +1191,20 @@ def dispersion_total(cache_resumen):
     return out
 
 
-def esperados(partidos, params):
+def esperados(partidos, params, prior=None):
     """Lo que se espera de un equipo en cada métrica, no lo que hizo.
+
+    `prior` es el ancla por métrica de ESTE equipo, sacada de su
+    historia larga (ver `prior_equipo`). Cuando no está —que es el caso
+    de arg.1 y bra.1, donde la fuente no trae estadísticas— el ancla
+    vuelve a ser el promedio de la liga, o sea exactamente lo que esta
+    función hacía antes de que el argumento existiera.
+
+    Que el ancla sea el equipo y no la liga es lo que separa "publicamos
+    el promedio de todos" de "tenemos opinión propia". Medido
+    walk-forward el 2026-08-25 sobre eng.1 y fra.1: con el ancla de la
+    liga se captura el 16% de lo que se puede capturar; con el ancla del
+    equipo, el 71%. Ver TRASPASO.md §6vicies quinquies.
 
     El promedio crudo de 3 partidos es casi todo ruido en las métricas
     donde los equipos no se distinguen (ver `parametros_metricas`). Acá
@@ -1203,12 +1222,38 @@ def esperados(partidos, params):
     out = {}
     for met, p in (params or {}).items():
         vals = [x[met] for x in partidos if x.get(met) is not None]
-        out[met] = round(media_encogida(vals, p["media"], p["k"]), 2)
+        ancla = (prior or {}).get(met, p["media"])
+        out[met] = round(media_encogida(vals, ancla, p["k"]), 2)
     return out
 
 
-def esperado_partido(propios_local, propios_visita, params):
+def params_de_partido(liga_local, liga_visita, parametros_liga, global_):
+    """Los parámetros que describen a UN partido, o el global si no hay.
+
+    Existe porque un partido de copa cruza países, y ahí el parámetro de
+    una de las dos ligas no describe al partido. Es la misma regla que
+    `paramsDe()` en `index.html`, y la misma de §6vicies ter: mezclar
+    ligas hace leer la diferencia entre países como si fuera diferencia
+    entre equipos.
+
+    Cuando los dos equipos comparten liga y esa liga tiene parámetros
+    propios, gana la liga. En cualquier otro caso, el global — que es
+    peor, pero no inventa.
+    """
+    if liga_local and liga_local == liga_visita:
+        propios = (parametros_liga or {}).get(liga_local)
+        if propios:
+            return propios
+    return global_
+
+
+def esperado_partido(propios_local, propios_visita, params,
+                     prior_local=None, prior_visita=None):
     """Córners, faltas y tarjetas esperados en un partido. Un solo número.
+
+    `prior_local` y `prior_visita` son las anclas de historia larga de
+    cada equipo (ver `prior_equipo`). Sin ellas, cada equipo se ancla al
+    promedio de la liga, que es lo que esta función hacía antes.
 
     Por qué existe:
 
@@ -1239,8 +1284,8 @@ def esperado_partido(propios_local, propios_visita, params):
     """
     if not params or not propios_local or not propios_visita:
         return None
-    loc = esperados(propios_local, params)
-    vis = esperados(propios_visita, params)
+    loc = esperados(propios_local, params, prior_local)
+    vis = esperados(propios_visita, params, prior_visita)
     if not loc or not vis:
         return None
     def _sum(met):
@@ -1278,6 +1323,69 @@ def filas_partido(jug, cache_resumen, team_id):
         rival = datos.get(str(p.get("rival_id")))
         filas.append({"local": p.get("local"), "propio": propio, "rival": rival})
     return filas
+
+
+def leer_historia(ruta=None):
+    """`data/historia_equipos.json`, o {} si no está.
+
+    Que falte es un estado normal, no un error: el archivo lo escribe
+    `historia_equipos.py` a mano y hay ligas que nunca lo van a tener
+    (la fuente no trae estadísticas de Argentina ni de Brasil). Sin
+    archivo, todo aguas abajo se comporta como antes de que existiera.
+    """
+    p = Path(ruta) if ruta else RUTA_HISTORIA
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def params_con_historia(parametros_liga, historia):
+    """Los parámetros de cada liga, con los de la historia donde los haya.
+
+    La historia pisa **métrica por métrica**, no la tabla entera: de
+    football-data salen córners, remates, al arco, faltas y tarjetas,
+    pero posesión, tackles, offsides y pases solo existen en el caché de
+    ESPN. Pisar la tabla completa los borraría.
+
+    Donde pisa, pisa fuerte y a propósito: el `k` del caché sale de 5
+    partidos por equipo y el de la historia de 296. No son dos
+    estimaciones comparables de lo mismo — una está pegada al tope
+    porque no tiene con qué distinguir, la otra midió.
+    """
+    if not historia:
+        return parametros_liga
+    out = {liga: dict(mets) for liga, mets in (parametros_liga or {}).items()}
+    for liga, d in (historia.get("ligas") or {}).items():
+        destino = out.setdefault(liga, {})
+        for met, p in (d.get("parametros") or {}).items():
+            # Copia y no referencia: el llamador le escribe `disp_total`
+            # encima, y compartir el dict le estaría escribiendo adentro
+            # del documento de historia que otros también leen.
+            destino[met] = dict(p)
+    return out
+
+
+def prior_equipo(historia, liga, tid, params):
+    """{métrica: ancla} para un equipo, desde su historia larga.
+
+    El ancla es la historia del equipo encogida hacia la liga con el
+    mismo `k` que después encoge la temporada en curso hacia el ancla.
+    Un equipo sin historia devuelve {}, y entonces `esperados()` usa el
+    promedio de la liga como siempre.
+    """
+    d = (((historia or {}).get("ligas") or {}).get(liga) or {})
+    eq = (d.get("equipos") or {}).get(str(tid))
+    if not eq:
+        return {}
+    out = {}
+    for met, stats in eq.items():
+        p = (params or {}).get(met)
+        n = (stats or {}).get("n") or 0
+        if not p or not n:
+            continue
+        out[met] = (stats["suma"] + p["k"] * p["media"]) / (n + p["k"])
+    return out
 
 
 def parametros_por_liga(muestras, liga_de_equipo):
@@ -2147,6 +2255,15 @@ def main():
     # calculo global: separarla por liga pediria una muestra que ninguna
     # liga tiene todavia.
     parametros_liga = parametros_por_liga(_muestras, cache_ligas)
+    # La historia larga, si alguien corrio `historia_equipos.py`. Donde
+    # la hay, su `k` y su media de liga le ganan a los del cache: salen
+    # de 296 partidos por equipo contra 5. Donde no la hay —arg.1 y
+    # bra.1, que la fuente no cubre— no cambia nada.
+    historia = leer_historia()
+    parametros_liga = params_con_historia(parametros_liga, historia)
+    if historia:
+        print(f"· historia larga: {', '.join(historia.get('ligas') or {})}"
+              f" (de {historia.get('actualizado', '?')})")
     for _lg, _par in parametros_liga.items():
         for met, dt in dispersion_total(cache_resumen).items():
             if met in _par:
@@ -2167,9 +2284,14 @@ def main():
         # las seis competiciones juntas. Si su liga no junto muestra
         # suficiente cae al parametro global, que es peor pero no
         # inventa.
-        _par_eq = parametros_liga.get(cache_ligas.get(str(tid))) or parametros
-        pr["esperado"] = esperados(propios, _par_eq)
-        pr["liga"] = cache_ligas.get(str(tid))
+        _lg_eq = cache_ligas.get(str(tid))
+        _par_eq = parametros_liga.get(_lg_eq) or parametros
+        # El ancla de este equipo: su propia historia, si la tiene. Sin
+        # historia, `prior_equipo` devuelve {} y `esperados` vuelve a
+        # anclar en el promedio de la liga, que es lo de siempre.
+        pr["esperado"] = esperados(propios, _par_eq,
+                                   prior_equipo(historia, _lg_eq, tid, _par_eq))
+        pr["liga"] = _lg_eq
         estadisticas[tid] = pr
         propios_por_equipo[tid] = propios
 
@@ -2181,10 +2303,25 @@ def main():
     #
     # Tiene que ser DESPUÉS del bucle de partidos: los parámetros de liga
     # salen de `cache_resumen`, que se llena adentro de ese bucle.
+    #
+    # Y van los parámetros de la liga de los dos equipos, no los
+    # globales. Hasta el 2026-08-25 acá entraba `parametros` a secas:
+    # el arreglo de §6vicies ter habia llegado a `pr["esperado"]` (las
+    # lineas de la pestaña Estadisticas) y no a esta ruta, que es la que
+    # alimenta el total de córners que se ve en la tarjeta del partido.
+    # O sea que la misma métrica se calculaba con dos varas distintas
+    # segun donde se la mirara, y la mas visible usaba la mala.
     for pr_ in partidos:
-        esp = esperado_partido(propios_por_equipo.get(str(pr_.get("homeId"))),
-                               propios_por_equipo.get(str(pr_.get("awayId"))),
-                               parametros)
+        _hid, _aid = str(pr_.get("homeId")), str(pr_.get("awayId"))
+        _pp = params_de_partido(cache_ligas.get(_hid), cache_ligas.get(_aid),
+                                parametros_liga, parametros)
+        esp = esperado_partido(propios_por_equipo.get(_hid),
+                               propios_por_equipo.get(_aid),
+                               _pp,
+                               prior_equipo(historia, cache_ligas.get(_hid),
+                                            _hid, _pp),
+                               prior_equipo(historia, cache_ligas.get(_aid),
+                                            _aid, _pp))
         if esp:
             pr_.update(esp)
 

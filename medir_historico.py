@@ -49,10 +49,36 @@ RAIZ = Path(__file__).resolve().parent
 # Cuánta historia hace falta antes de empezar a evaluar.
 MIN_PREVIOS = 40
 
-# Ventana de historia para ajustar. Medido: con VIDA_MEDIA_DIAS = 45, un
-# partido de hace un año pesa 0.0036 y uno de hace dos, 0.0000. Cortar
-# en 365 días no cambia el ajuste y evita recorrer 14 años por partido.
-VENTANA = 365
+# Ventana de historia para ajustar. Tiene que ser la MISMA que usa la
+# app, no la que sea cómoda: `actualizar.get_historia()` le pasa a
+# `fuerzas_equipos()` las últimas TEMPORADAS_HISTORIA (=5) temporadas.
+# Cinco años calendario son 1825 días, y de ahí sale este número — no de
+# un barrido. Que la medición coincida con producción no es un óptimo
+# que se elige, es una condición para que lo medido sea el modelo que se
+# publica. Hay un test que lo ata a TEMPORADAS_HISTORIA.
+#
+# Hasta el 2026-08-25 esto valía 365, con un comentario que lo defendía
+# así: "con VIDA_MEDIA_DIAS = 45, un partido de hace un año pesa 0.0036
+# y uno de hace dos, 0.0000". Era cierto con vida 45. Con vida 300 ese
+# partido pesa 0.43 y el de hace dos años 0.185: el corte estaba tirando
+# a la basura peso real. El comentario sobrevivió a su propio dato,
+# igual que el de `rho` un día antes.
+#
+# Cuánto costaba el error, medido el 2026-08-25 sobre 2583 partidos de
+# arg fuera de muestra — atraso del modelo contra el cierre de Pinnacle:
+#
+#     ventana    365    730    900   1100   1460   1825
+#     arg      .0159  .0122  .0115  .0112  .0110  .0109
+#     bra      .0229  .0165  .0162  .0155  .0151  .0148
+#
+# O sea que un tercio del "atraso contra el mercado" que veníamos
+# reportando no era del modelo: era de la medición, que lo evaluaba con
+# un año de historia mientras el publicado tenía cinco. La curva además
+# está bien aplanada al final, así que 1825 no es un borde de grilla:
+# los partidos de hace cinco años pesan 0.015 y ya no mueven nada.
+#
+# Cuesta: la pasada completa pasa de ~1.5 min a ~8 min por liga.
+VENTANA = 1825
 
 
 def ventana_previa(partidos, i, dias=VENTANA):

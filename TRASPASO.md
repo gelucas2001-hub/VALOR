@@ -2114,3 +2114,96 @@ y el "capturamos el 33% de lo que sabe el mercado" quedó igual. Es lo
 esperable: ese script usa cuotas de Pinnacle, margen 3.13%, donde los
 dos métodos casi no se separan. La corrección pesa donde el margen es
 alto — o sea en la app, que usa DraftKings al 7.7%.
+
+
+## 6vicies semel · Medíamos el modelo con un ojo tapado (2026-08-25)
+
+Salió buscando otra cosa. La tarea era la #5 de la lista pendiente —
+volver a medir el encogimiento hacia la tasa base, porque los `k` de
+§5 se habían medido con `VIDA_MEDIA_DIAS` en 180 y la constante hoy
+está en 300. Se midió, y de paso apareció esto, que es más grande.
+
+### El error
+
+`medir_historico.VENTANA` estaba en **365 días**: cuánta historia se le
+deja ver al modelo para predecir cada partido del walk-forward. El
+comentario que lo defendía decía, textual:
+
+> "Medido: con `VIDA_MEDIA_DIAS = 45`, un partido de hace un año pesa
+> 0.0036 y uno de hace dos, 0.0000. Cortar en 365 días no cambia el
+> ajuste y evita recorrer 14 años por partido."
+
+Era cierto **cuando se escribió**. Con vida 300 ese partido pesa
+**0.43** y el de hace dos años 0.185. Es el tercer comentario de este
+repo que sobrevive a su propio dato, y el segundo en dos días — el de
+`rho` fue el 2026-08-24, el de `arg.copa` el mismo día.
+
+Pero el peso no era lo grave. Lo grave es que **la app no corta ahí**:
+`TEMPORADAS_HISTORIA = 5` y `get_historia()` (actualizar.py:1772) le
+pasa cinco temporadas a `fuerzas_equipos()`. O sea que veníamos
+evaluando un modelo con un año de historia mientras el publicado tenía
+cinco. **Todo lo medido en semanas salió peor de lo que el modelo
+publicado es.**
+
+Atraso contra el cierre de Pinnacle, fuera de muestra (2583 partidos de
+arg desde 2022, 1745 de bra):
+
+| ventana | 365 | 730 | 900 | 1100 | 1460 | 1825 |
+|---|---|---|---|---|---|---|
+| arg | .0159 | .0122 | .0115 | .0112 | .0110 | **.0109** |
+| bra | .0229 | .0165 | .0162 | .0155 | .0151 | **.0148** |
+
+**Un tercio del "atraso contra el mercado" era de la medición, no del
+modelo.** Y la curva está bien aplanada al final, así que 1825 no es un
+borde de grilla: a los cinco años un partido pesa 0.015 y ya no mueve
+nada.
+
+`VENTANA` pasa a **1825**, y hay un test que lo ata a
+`TEMPORADAS_HISTORIA`: si alguien sube las temporadas, falla hasta que
+la ventana lo siga. La regla que fija no es "365 está mal" sino que **la
+medición no puede ser más pobre que la producción**. Cuesta: la pasada
+completa va de ~1.5 min a ~8 min por liga.
+
+### Lo que hay que rehacer
+
+Todo número de atraso o de captura reportado antes del 2026-08-25 está
+medido con la ventana corta y **subestima al modelo**. En particular:
+
+- **el barrido de 26 ligas** que concluyó que la distancia al cierre es
+  parecida en todas (0.012–0.036) y que por lo tanto Argentina no es el
+  problema. La conclusión puede sobrevivir —el error afecta a todas las
+  ligas por igual— pero los números no, y si el efecto es desparejo la
+  conclusión tampoco;
+- §6septdecies y §6octodecies, que eligieron `VIDA_MEDIA_DIAS` y
+  discutieron `rho` con esta vara.
+
+### Y la tarea original: el encogimiento
+
+`medir_encogimiento.py` es nuevo, con 23 tests. Mide
+`p = (1-k)·modelo + k·tasa_base` fuera de muestra, con partición
+temporal, contra el ruido pareado y con atraso en vez de captura.
+
+| liga | ventana | atraso sin k | k | atraso con k | ¿se despega del ruido? |
+|---|---|---|---|---|---|
+| arg | 1825 | +0.01085 | 0.20 | **+0.00850** | sí, 4 errores estándar |
+| bra | 1825 | +0.01477 | 0.15 | +0.01507 | no, y encima empeora |
+
+**arg: sirve, y el `k` bajó a 0.20.** Aguanta moviendo el corte de 2019
+a 2023: sale entre 0.20 y 0.30 en las cinco particiones, siempre
+significativo.
+
+**bra: no.** No se despega del ruido con ninguna ventana, y con la
+correcta cambia de signo. Aplicarlo sería mover una constante para que
+un número dé mejor.
+
+El hallazgo de §5 —cuanta más historia, menos encogimiento hace falta—
+se confirma y se extiende: **0.40** (vida 45) → **0.30** (vida 180) →
+**0.20** (vida 300, ventana arreglada). El encogimiento estaba apagando
+ruido que el modelo fabricaba por falta de historia, no un exceso de
+confianza propio. Cuando se dijo el 2026-08-25 que "la tendencia no
+siguió", estaba medido con la ventana rota; con la buena, sigue.
+
+**Sigue sin aplicarse, y sigue siendo decisión de producto** — cambia
+qué partidos quedan marcados e interactúa con `VALOR_MIN`. Lo que falta
+antes de decidir es medir el efecto sobre las marcas, que es lo que §5
+tampoco pudo.

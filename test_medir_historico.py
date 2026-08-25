@@ -129,6 +129,36 @@ prueba("los partidos sin cuota no se evalúan",
 
 
 print("")
+print("VENTANA — la medición no puede darle menos historia que la app")
+print("")
+
+# Este test existe por un error real, encontrado el 2026-08-25.
+#
+# VENTANA estaba en 365 días, y el comentario que lo justificaba decía
+# textual que "con VIDA_MEDIA_DIAS = 45, un partido de hace un año pesa
+# 0.0036". Cierto entonces; con la vida media en 300 ese partido pesa
+# 0.43. El comentario sobrevivió a su propio dato, igual que el de `rho`.
+#
+# Pero lo grave no era el peso: era que la app NO corta ahí. Publica con
+# TEMPORADAS_HISTORIA = 5 temporadas (actualizar.py, get_historia()), así
+# que la medición venía evaluando un modelo con un año de historia
+# mientras el modelo real tenía cinco. Todo lo medido salía peor de lo
+# que el modelo publicado es — y no "un poco": en arg el atraso contra
+# el cierre bajó de 0.01594 a 0.01085 con solo darle la historia que le
+# corresponde.
+#
+# La regla que este test fija no es "365 está mal". Es que la medición
+# no puede ser más pobre que la producción: si alguien sube
+# TEMPORADAS_HISTORIA, esto tiene que fallar hasta que VENTANA lo siga.
+import actualizar as A
+
+prueba("VENTANA cubre las temporadas que la app le da al modelo",
+       M.VENTANA >= A.TEMPORADAS_HISTORIA * 365)
+prueba("y no es tan larga que mida algo que la app nunca ve",
+       M.VENTANA <= (A.TEMPORADAS_HISTORIA + 1) * 365)
+
+
+print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")
 sys.exit(1 if fallan else 0)

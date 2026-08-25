@@ -2622,3 +2622,84 @@ absoluto de `k`. Con 12 equipos de 6 partidos el estimador rebota entre
 (separar por liga siempre da menos confianza que mezclar) y la mediana
 sobre 20 semillas. Un umbral mágico adentro de la banda de ruido no
 mide nada; ya se cometió ese error dos veces en este repo.
+
+---
+
+## 6vicies quater · Córners contra plata: el total no se puede saber, el por equipo ya se sabe que no (2026-08-25)
+
+Primera vez que un mercado de estadísticas se mide contra **ROI** y no
+contra calibración. Es la regla que ya costó tres semanas con el modelo
+de goles, aplicada a tiempo esta vez.
+
+Walk-forward estricto, línea de cierre real de DraftKings (endpoint
+`propBets`), margen quitado, resultado real del caché.
+
+### Total del partido: empate en cero
+
+81 líneas de arg.1 y bra.1.
+
+| | Brier | sobre la moneda |
+|---|---|---|
+| Moneda (siempre 50%) | 0.2500 | — |
+| **Mercado** | 0.2492 | **+0.0008** |
+| **Modelo** | 0.2518 | **−0.0018** |
+
+atraso contra el cierre: **+0.0026 ± 0.0097** — indistinguible.
+
+**La casa pone la línea justo en el punto de la moneda.** El mercado
+casi no tiene información y cobra **8.4% de margen**. Decir "estamos a
+la par del mercado" acá suena a logro y es un empate en cero.
+
+El ROI daba +11.2% con umbral 6%, sobre **41** apuestas, con ±13.9% de
+azar. Es ruido: harían falta ~300 apuestas. Ese número está en un test
+de `test_medir_corners.py` que exige que NO salga marcado como
+significativo.
+
+### Por equipo: acá sí se sabe, y es que no
+
+187 líneas, 120 partidos. Casi el triple de muestra.
+
+| | Brier | sobre la moneda |
+|---|---|---|
+| Moneda | 0.2500 | — |
+| **Mercado** | 0.2432 | **+0.0068** |
+| **Modelo** | 0.2638 | **−0.0138** |
+
+atraso contra el cierre: **+0.0205 ± 0.0093** — **2.2 errores estándar
+detrás**. Eso ya no es empate: es estar medidamente peor.
+
+Y el ROI es negativo en **los seis** umbrales, con notable estabilidad:
+
+    umbral   2%     4%     6%     8%    10%    15%
+    n       160    142    119    106     90     47
+    ROI   -9.5%  -9.7% -10.9% -10.2% -10.9% -11.6%
+
+Ninguno es significativo por separado (±7.4% a ±13.8%), pero seis
+umbrales apuntando al mismo lado con muestras que van de 47 a 160 no se
+lee como azar.
+
+### Por qué el por equipo es PEOR que el total
+
+Es §6vicies bis cobrado en plata. Nuestro número por equipo está
+encogido casi todo hacia el promedio de la liga (`k` de córners: 17 en
+Argentina, 200 en Brasil), o sea que **le apostamos el promedio de la
+liga a una casa que sí distingue equipo por equipo**.
+
+Y se ve en los Brier: en el total del partido el mercado apenas le gana
+a la moneda (+0.0008), porque ahí no hay mucho que saber. En el por
+equipo el mercado le gana ocho veces más (+0.0068) — hay información
+real que capturar, y nosotros no la tenemos.
+
+**Conclusión: no corresponde marca de valor en córners, ni de total ni
+de equipo.** El total no se puede saber todavía; el por equipo ya se
+sabe, y la respuesta es no.
+
+### Qué haría falta para que cambie
+
+Para el por equipo, lo mismo que §6vicies bis: muestra suficiente para
+que `k` baje y el número deje de ser el promedio de la liga. En
+Argentina son ~20 partidos por equipo y hoy hay 7. En Inglaterra el
+problema no existe (246 por equipo en los CSV), pero esos datos todavía
+no alimentan el modelo — hace falta la tabla de alias de equipos.
+
+Para el total, ~300 apuestas marcadas. Hoy hay 41.

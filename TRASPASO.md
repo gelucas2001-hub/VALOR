@@ -2270,3 +2270,119 @@ proponer sin este número enfrente.
 Pinnacle, el precio más difícil que existe. Sirve para comparar las dos
 versiones entre sí —el mismo precio en los dos casos— no para estimar
 lo que da la app, que apuesta antes y a otra casa.
+
+
+## 6vicies bis · Calibrar no es saber: publicábamos el promedio de la liga (2026-08-25)
+
+Lucas pidió avanzar sobre el mercado de estadísticas — córners,
+tarjetas, faltas, remates, y sobre todo líneas de jugador. Su reclamo,
+textual: *"no tenemos un analisis para eso, simplemente las
+estadisticas volcadas, ni sugerencias ni consejos"*.
+
+Antes de escribir consejos había que ver si los números sabían algo. No
+saben.
+
+### El camino, porque el primer diagnóstico fue mío y estaba mal
+
+`calibracion_lineas.json` reportaba faltas con **−9,0 puntos** de sesgo
+y remates con **+6,6**. Se dijo en el chat que eran "sesgo casi puro, o
+sea corregible restando". **Falso**, y se vio apenas se midió el sesgo
+en el número crudo en vez de en la probabilidad:
+
+    faltas    decimos 11,33   hubo 12,11   (segunda mitad: 11,86 vs 12,10)
+    remates   decimos 14,06   hubo 13,81
+    córners   decimos  4,84   hubo  4,78
+
+El valor esperado no está corrido. Así que el sesgo de probabilidad
+venía de otro lado.
+
+### Lo que había en cambio
+
+La recta de lo real contra lo predicho da **pendiente ≈ 0** en córners,
+remates, al arco y tarjetas. No hay nada que correlacionar, y el motivo
+se ve mirando qué publica la app para los 68 equipos del caché:
+
+    córners    de 4,70 a 4,96      (un cuarto de córner entre todos)
+    remates    de 13,75 a 13,99
+    al arco    de 4,19 a 4,30
+
+**Le publicamos el promedio de la liga a todos los equipos.**
+
+No es un bug. `parametros_metricas()` devuelve `k = K_TOPE` cuando la
+separación entre equipos no supera el ruido de promediar pocos
+partidos, y su comentario ya lo decía: *"Mostrar 12.5 contra 18.7 como
+si fuera una diferencia real es mentir con decimales."* El código es
+honesto. Lo que faltaba era que alguien lo mirara — y la calibración no
+lo delataba, **al contrario: lo premiaba.** Publicar el promedio de la
+liga calibra perfecto por definición.
+
+De ahí `medir_discriminacion.py` (30 tests), que mide lo que
+`medir_lineas.py` no podía ver.
+
+### La medición, con el techo de ruido al lado
+
+189 partidos, ~4 por equipo:
+
+| métrica | separan | k | spread | vs ruido | |
+|---|---|---|---|---|---|
+| posesión | 32,03 | 3,5 | 16,20 | **1,12** | **señal real** |
+| tackles | 6,72 | 4,5 | 8,08 | **0,87** | **señal real** |
+| faltas | 1,24 | 13,3 | 2,21 | 0,29 | dentro del ruido |
+| offsides | 0,16 | 13,3 | 0,96 | 0,29 | dentro del ruido |
+| tarjetas | 0,07 | 21,2 | 0,41 | 0,19 | dentro del ruido |
+| córners | 0,03 | 200 | 0,14 | 0,02 | no se ve |
+| remates | −1,56 | 200 | 0,23 | 0,18 | no se ve |
+| al arco | −0,02 | 200 | 0,11 | 0,01 | no se ve |
+| atajadas | −0,26 | 200 | 0,10 | 0,26 | no se ve |
+
+**Techo de falsa señal: 0,47.** Sale de simular ligas de equipos
+IDÉNTICOS con esta misma muestra y ver hasta dónde llega el estimador
+por puro azar. Es la regla del repo aplicada acá — comparar contra el
+ruido, no contra cero.
+
+Y el techo hacía muchísima falta, porque el estimador es malísimo con
+poca muestra. Sobre 40 ligas de equipos idénticos:
+
+    partidos por equipo   :   4     10     20     40
+    reportó "se distingue": 14/40  3/40   0/40   0/40
+
+**Con 4 partidos por equipo inventa una diferencia el 35% de las
+veces.** Por eso `faltas` y `tarjetas`, que el `k` da por buenas, no
+cuentan: no superan lo que producen equipos iguales por casualidad.
+
+### Qué significa
+
+**Hoy no hay ninguna métrica con mercado que tenga señal demostrable.**
+Las dos que la tienen —posesión y tackles— no se apuestan en ningún
+lado.
+
+Y hay un patrón que ordena todo: **se distingue el estilo, no el
+resultado.** Cuántas faltas hace un equipo o cuánto presiona es una
+decisión suya que repite cada semana. Cuántos remates termina tirando
+depende del rival, del marcador y de si va ganando y se echa atrás.
+
+### Qué NO se hizo, a propósito
+
+- **No se tocó el `k` de `actualizar.py`.** El estimador acepta ruido
+  como señal el 35% de las veces con esta muestra, y eso es un hallazgo
+  real sobre el código de producción. Pero corregirlo hoy sería
+  sobreactuar: faltas y tarjetas son estables en la literatura, y
+  encogerlas al tope también sería equivocarse. Queda anotado.
+- **No se escribieron consejos.** Era el pedido, y es lo que no
+  corresponde todavía: aconsejar sobre córners cuando le publicamos el
+  mismo número a los 68 equipos sería inventar autoridad.
+
+### Lo que destraba esto es tiempo, no código
+
+El piso de detección baja con los partidos acumulados:
+
+| | hoy (pj≈4) | pj=10 | pj=20 | temporada (pj=38) |
+|---|---|---|---|---|
+| córners | 1,64 | 0,82 | 0,41 | **0,22** |
+| faltas | 3,28 | 1,64 | 0,82 | **0,43** |
+| remates | 6,74 | 3,37 | 1,69 | **0,89** |
+
+El cron viene juntando desde mayo. Con una temporada completa el piso
+baja 7,6 veces, y las métricas que hoy dicen "no se ve" pueden estar
+diciendo "todavía no". Correr `medir_discriminacion.py` cada tanto es
+lo que avisa cuándo cambió.

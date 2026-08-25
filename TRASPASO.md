@@ -2094,3 +2094,23 @@ probabilidad real**, y que las de los demás reflejan marketing.
 Nosotros detectamos valor contra DraftKings porque es lo que da ESPN.
 Para medición histórica estamos bien (usamos Pinnacle). Para las marcas
 en vivo, no — y eso no se arregla con código, hace falta otra fuente.
+
+### Addendum · los dos scripts que quedaban con la vara vieja (2026-08-25)
+
+Al arreglar `index.html` aparecieron dos mediciones más con el devig
+proporcional: `medir_vs_mercado.py` y `medir_sesgo.py`. Dejarlas así
+era peor que no haber empezado — alguien compara el número de
+`medir_vs_mercado.py` contra el de `medir_historico.py` sin saber que
+están medidos con varas distintas. Las dos pasan ahora por
+`medir_clv.devig_shin`.
+
+`medir_sesgo.py` era el más importante de los dos: mide **cuánto nos
+apartamos del mercado**, así que un sesgo en el devig se confunde con
+sesgo nuestro.
+
+**El veredicto no se movió, y eso también es el hallazgo.** En
+`medir_vs_mercado.py` el Brier del mercado mejoró de 0.62452 a 0.62436
+y el "capturamos el 33% de lo que sabe el mercado" quedó igual. Es lo
+esperable: ese script usa cuotas de Pinnacle, margen 3.13%, donde los
+dos métodos casi no se separan. La corrección pesa donde el margen es
+alto — o sea en la app, que usa DraftKings al 7.7%.

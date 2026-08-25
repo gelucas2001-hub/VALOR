@@ -29,6 +29,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from backtest import matriz, suma_si
+import medir_clv
 
 PARTIDOS = Path("data/partidos.json")
 
@@ -42,10 +43,16 @@ def probs_modelo(m):
 
 
 def probs_mercado(mk):
-    """Igual, según la cuota de referencia, con el margen ya descontado."""
-    crudas = [1 / mk["local"], 1 / mk["empate"], 1 / mk["visitante"]]
-    total = sum(crudas)
-    return tuple(x / total for x in crudas)
+    """Igual, según la cuota de referencia, con el margen ya descontado.
+
+    Por Shin y no repartiendo el margen parejo: las casas le cargan más
+    a la cuota alta, así que dividir por el total infla la probabilidad
+    implícita del batacazo y desinfla la del favorito. Como este script
+    mide justamente cuánto nos apartamos del mercado, un sesgo acá se
+    confunde con sesgo nuestro. Medido en `medir_devig.py`.
+    """
+    p = medir_clv.devig_shin([mk["local"], mk["empate"], mk["visitante"]])
+    return tuple(p) if p else None
 
 
 def sesgo_por_competicion(partidos):
@@ -56,6 +63,8 @@ def sesgo_por_competicion(partidos):
             continue
         pm = probs_modelo(m)
         pq = probs_mercado(mk)
+        if not pq:
+            continue
         d = por_comp.setdefault(m["comp"], {"n": 0, "local": 0.0, "empate": 0.0,
                                             "visita": 0.0, "magnitud": 0.0})
         d["n"] += 1

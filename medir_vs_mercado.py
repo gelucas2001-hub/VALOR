@@ -28,6 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from backtest import matriz, suma_si
 import actualizar as A
+import medir_clv
 
 CSV_URL = "https://www.football-data.co.uk/new/ARG.csv"
 TEMPORADA = "2026"
@@ -151,9 +152,14 @@ def evaluar():
         pm = [suma_si(M, lambda i, j: i > j),
               suma_si(M, lambda i, j: i == j),
               suma_si(M, lambda i, j: i < j)]
-        crudas = [1 / c for c in cuotas]
-        tot = sum(crudas)
-        pq = [x / tot for x in crudas]
+        # Shin y no reparto parejo: las casas le cargan mas margen a la
+        # cuota alta, y repartirlo en partes iguales infla la
+        # probabilidad implicita del batacazo. Medido sobre 11.854
+        # partidos en medir_devig.py. Es el mismo metodo que usan
+        # medir_clv.py, medir_historico.py y la app.
+        pq = medir_clv.devig_shin(cuotas)
+        if not pq:
+            continue
 
         real = [int(gh > ga), int(gh == ga), int(gh < ga)]
         idx = real.index(1)

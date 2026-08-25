@@ -29,6 +29,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `medir_vs_mercado.py` | Brier contra la cuota de cierre real | A mano |
 | `medir_calibracion.py` | Cuando la app dice 70%, ¿pasa el 70%? Mide la calibración de lo que la app ya publicó, partido por partido — a diferencia de `backtest.py`, que reconstruye lo que el modelo habría dicho. Faltaba en esta tabla hasta el 2026-08-24 | A mano, cada tanto |
 | `historico.py` | Baja y normaliza el historial largo de football-data.co.uk: 6310 partidos de arg, 5544 de bra, **4180 de eng y 3857 de fra** (agregadas el 2026-08-25), con cuota de cierre de Pinnacle. Es la base de las mediciones serias. Lee los **dos** formatos de la fuente — un archivo único para las ligas nuevas, uno por temporada para las clásicas de Europa. Solo el segundo trae estadísticas por partido, y esa es la razón por la que en Inglaterra se distinguen los equipos y en Argentina no | A mano |
+| `equipos.py` | Cruza los nombres de equipo del CSV de football-data con los de ESPN, que es lo unico que ataba las dos fuentes. **Solo por igualdad exacta despues de normalizar** — nada de parecido ni prefijos: en Ligue 1 juegan Paris Saint-Germain y Paris FC a la vez, y el CSV tiene a los dos (395 partidos contra 34). Un cruce difuso les funde la historia y eso no se ve como un error, se ve como datos. De los 15 nombres que no coincidian, 12 los resuelve el `shortDisplayName` que ESPN ya publica y uno el apostrofo: la tabla a mano es de **tres** entradas. Cruza 19 de 20 en Inglaterra y 17 de 18 en Francia; los dos que faltan son ascendidos sin historia en primera | A mano, cuando cambia una liga |
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
 | `medir_devig.py` | Qué método de quitar el margen de la casa acierta. Medido el 2026-08-25 sobre 11.854 partidos con cuota de cierre real: gana Shin, y gana más cuanto más alto el margen — que es la condición de la app. Antes la app usaba el proporcional y las mediciones usaban Shin | A mano, cada tanto |
 | `medir_encogimiento.py` | Si conviene calmar al modelo mezclándolo con la tasa base, y cuánto. Medido el 2026-08-25 fuera de muestra: en arg sí (k=0.20, cuatro errores estándar); en bra no, y con la ventana correcta empeora. **Medido y NO se aplica**: mejora el Brier de verdad, pero cambia el 43% de las marcas sin que el set nuevo rinda mejor (−2.35% ±18.78, puro ruido). Ver TRASPASO.md. Mejorar el Brier no es ganar plata | A mano, cada tanto |
@@ -107,6 +108,25 @@ esta.
   parser tuyo tiene un `except` que saltea filas, contá cuántas saltea y
   comparalo contra el archivo: un descarte silencioso no se ve como un
   error, se ve como menos datos.
+
+- **Cruzar nombres solo por igualdad exacta, nunca por parecido.** El
+  2026-08-25, al unir el CSV de football-data con ESPN, el atajo obvio
+  era casar por prefijo o por distancia de edición. En Ligue 1 juegan
+  **Paris Saint-Germain y Paris FC la misma temporada**, y el CSV trae a
+  los dos: 395 partidos contra 34. Cualquier cruce difuso les pega la
+  historia de uno al otro, y el resultado no se ve como un error — se ve
+  como datos. Un nombre sin cruzar se nota; uno mal cruzado, no. Por lo
+  mismo, `equipos.py` no cruza por abreviatura aunque ESPN la traiga:
+  Brentford y Brest son los dos "BRE". Y si dos equipos reclaman el
+  mismo nombre, ese nombre queda **afuera** del índice en vez de irse
+  con el último que pasó.
+
+- **Mirá la fuente antes de transcribir a mano.** De los 15 equipos de
+  eng/fra cuyo nombre no coincidía, el impulso era escribir las 15
+  entradas. ESPN ya publica `shortDisplayName` y eso resuelve 12; sacar
+  el apóstrofo resuelve otra. La tabla escrita a mano quedó en **tres**
+  entradas, y cada entrada a mano es una que hay que mantener el día que
+  la fuente cambie.
 
 - **Comparar el error contra el ruido, no contra cero.** Con 618
   predicciones, un modelo PERFECTAMENTE calibrado ya desvía 3.5 puntos

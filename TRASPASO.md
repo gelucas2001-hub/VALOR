@@ -2547,19 +2547,23 @@ Falta, en este orden:
    puesto en el punto de la moneda (empate en cero, 41 apuestas de las
    ~300 que harían falta) y el por equipo ya se sabe que no (2,2 errores
    estándar detrás del cierre, ROI negativo en los seis umbrales).
-2. Tabla de alias de equipos. Los nombres del CSV no cruzan del todo con
-   ESPN: 17/23 en Inglaterra, 14/21 en Francia (fallan "Tottenham" contra
-   "Tottenham Hotspur", "Paris SG" contra "Paris Saint-Germain", y los
-   descendidos). Unas diez entradas por liga, escritas y verificadas — no
-   adivinadas. Solo hace falta para la parte de estadísticas. **Es lo
-   único que destraba algo hoy**: convierte 246 partidos por equipo de
-   historia inglesa en señal utilizable, y es la única vía para que `k`
-   baje sin esperar meses de cron.
-3. ~~La mitad de equipo en la app: precio y marca en `bloqueLineas`.~~
-   **Cancelado por la medición del punto 1.** `bloqueLineas` sigue
-   mostrando el número esperado, que es informativo y honesto; lo que no
-   corresponde es ponerle precio ni marca de valor. Reabrir solo si el
-   punto 2 hace bajar `k` de verdad, y midiendo de nuevo.
+2. ~~Tabla de alias de equipos.~~ **Hecha el 2026-08-25 — ver
+   §6vicies quinquies.** `equipos.py` cruza 19 de 20 en Inglaterra
+   y 17 de 18 en Francia; los dos que faltan son ascendidos sin
+   historia en primera. Con la historia enganchada, los equipos
+   ingleses SI se distinguen en corners (k=11.6 contra el tope de
+   200 del cache). Falta que alguien la consuma: ver el final de
+   esa seccion.
+3. La mitad de equipo en la app: precio y marca en `bloqueLineas`.
+   **Sigue sin corresponder, pero por otro motivo que antes.** El punto 1
+   la habia cancelado; el punto 2 bajo `k` de verdad (200 -> 11.6 en
+   Inglaterra), que era la condicion para reabrirla. Lo que falta ahora
+   es la medicion: **las ligas con linea de mercado juntada (arg, bra) no
+   tienen estadisticas en el CSV, y las que tienen estadisticas (eng,
+   fra) todavia no tienen lineas juntadas.** Hasta que el cron acumule
+   `propBets` de eng/fra y se rehaga el backtest de §6vicies quater con
+   el numero bueno, no se marca valor. `bloqueLineas` sigue mostrando el
+   numero esperado, que es informativo y honesto.
 4. La mitad de jugador, solo donde el mercado existe. **Bloqueada por
    tiempo, no por código**: Premier y Ligue 1 arrancaron temporada, hay 1
    partido por equipo en caché y 0 jugadores con 2 o más presencias, así
@@ -2713,3 +2717,144 @@ problema no existe (246 por equipo en los CSV), pero esos datos todavía
 no alimentan el modelo — hace falta la tabla de alias de equipos.
 
 Para el total, ~300 apuestas marcadas. Hoy hay 41.
+
+---
+
+## 6vicies quinquies · Los equipos ingleses SÍ se distinguen, y lo único que faltaba era el nombre (2026-08-25)
+
+Punto 2 de la lista de pendientes, hecho. Es el que destrabó algo.
+
+### El problema, en una línea
+
+`historico.py` tenía 4180 partidos de Inglaterra y 3857 de Francia **con
+estadísticas por partido** — ~296 por equipo. El caché de ESPN que
+alimenta al modelo tiene 5 u 8. Lo único que ataba las dos fuentes era
+el nombre del equipo, y no coinciden: el CSV dice "Man City", ESPN dice
+"Manchester City".
+
+### Lo que NO se hizo, y es la mitad del trabajo
+
+El atajo obvio era cruzar por parecido: prefijo, distancia de edición,
+subcadena. No se hizo, y no por prolijidad.
+
+**En Ligue 1 juegan Paris Saint-Germain y Paris FC la misma temporada, y
+el CSV trae a los dos: 395 partidos contra 34.** Cualquier cruce difuso
+le pega la historia de uno al otro. Y ese error no se ve: no tira
+excepción, no baja un contador, no deja un hueco. Se ve como datos. Un
+nombre sin cruzar se nota; uno mal cruzado, no.
+
+Entonces `equipos.py` cruza **solo por igualdad exacta** después de
+normalizar (minúsculas, sin acentos, sin puntuación), contra los tres
+nombres que ESPN publica: `displayName`, `shortDisplayName` y `name`.
+Dos decisiones más, cada una con su test:
+
+- **No se cruza por abreviatura**, aunque ESPN la traiga. Brentford
+  (eng) y Brest (fra) son los dos "BRE".
+- **Si dos equipos reclaman el mismo nombre, ese nombre queda afuera**
+  del índice. La alternativa —quedarse con el último que pasó— es
+  exactamente la que convierte un choque en una historia mezclada sin un
+  solo aviso.
+
+### La tabla a mano es de tres entradas, no de quince
+
+El impulso era transcribir los 15 nombres que no coincidían. Mirando la
+fuente primero: **ESPN ya publica `shortDisplayName`, y eso resuelve
+12** — "Wolves", "Man City", "Man United", "Leeds", "Brighton",
+"Bournemouth", "Newcastle", "West Ham", "Monaco", "Rennes", "Auxerre",
+"Nottm Forest". Uno más ("Nott'm Forest") sale solo con borrar el
+apóstrofo en vez de convertirlo en espacio — es una contracción de
+"Nottingham", y separarlo daba "nott m forest", que no cruza con nada.
+
+Quedaron **tres** entradas escritas a mano, y cada una lleva el motivo
+al lado:
+
+    "tottenham" -> "Tottenham Hotspur"      ESPN lo acorta a "Spurs"
+    "paris sg"  -> "Paris Saint-Germain"    ESPN lo acorta a "PSG"
+    "le havre"  -> "Le Havre AC"            ESPN le deja el "AC"
+
+Cada entrada a mano es una que hay que mantener el día que la fuente
+cambie. Doce menos es doce menos.
+
+### El cruce, medido
+
+    eng.1   19 de 20 equipos          fra.1   17 de 18 equipos
+
+Los dos que faltan son **Coventry City** y **Le Mans**: ascendidos que
+no pisaron primera en las once temporadas que tenemos. No es un alias
+que falta, es historia que no existe.
+
+(Los números viejos del traspaso —17/23 y 14/21— salían de otra
+comparación y no eran estos.)
+
+### El hallazgo: los equipos ingleses se distinguen
+
+Con la historia enganchada, `parametros_metricas()` corrido **dentro de
+cada liga** (la regla de §6vicies ter):
+
+| métrica | eng, 11 temp. | eng, 3 temp. | fra, 11 temp. | fra, 3 temp. |
+|---|---|---|---|---|
+| córners | **11.6** | **10.1** | 21.6 | 16.3 |
+| remates | **6.8** | **7.3** | 10.5 | **6.8** |
+| al arco | **8.4** | 10.3 | 9.7 | **7.3** |
+| faltas | 33.3 | 13.7 | 18.1 | 10.7 |
+| tarjetas | 48.6 | 32.3 | 80.5 | 33.7 |
+
+*(k bajo = "sí distingo un equipo de otro". El tope es 200.)*
+
+Contra el caché de ESPN, donde córners daba **17.0 en Argentina y el
+tope de 200 en Brasil**.
+
+Y lo que cambia no es `k` a secas, es el peso: `n/(n+k)`. Con 5 partidos
+y k=200, el número del equipo pesa **2%** — publicamos el promedio de la
+liga. Con 296 partidos y k=11.6, pesa **96%**.
+
+### El techo de ruido, porque acá siempre hay que mirarlo
+
+`k` bajando podría ser un artefacto de tener más muestra. Se simularon
+**19 equipos idénticos entre sí**, con la misma dispersión por partido y
+los mismos 296 partidos, sobre 40 semillas:
+
+    equipos identicos:  k mediano 200.0, minimo 200.0   (40 de 40)
+    REAL (eng córners): k = 11.6
+
+El estimador no puede fabricar señal con esta muestra: devuelve el tope
+siempre. El 11.6 es real.
+
+Y la diferencia entre equipos es concreta, no estadística: de **3.82 a
+7.16 córners por partido** entre el que menos y el que más. Casi el
+doble. Eso es exactamente lo que una casa de apuestas cobra por saber.
+
+### Lo que esto NO prueba
+
+**No prueba que ahora se le gane al mercado de córners.** §6vicies
+quater midió que apostar córners por equipo perdía ~10%, y diagnosticó
+la causa: le apostábamos el promedio de la liga a una casa que
+distingue equipos. Esto **remueve la causa conocida**; no demuestra que
+no haya otras.
+
+Y hay un problema de calendario que hay que decir en voz alta: **las
+ligas donde tenemos línea de mercado (arg, bra) no tienen estadísticas
+en el CSV, y las ligas donde tenemos estadísticas (eng, fra) todavía no
+tienen líneas juntadas.** ARG.csv y BRA.csv no traen ni una columna de
+estadísticas en 11.855 partidos. Así que el backtest de córners con el
+número bueno **no se puede correr hoy** — hace falta que el cron junte
+`propBets` de eng/fra durante unas semanas.
+
+Es la misma disciplina de siempre: esto es un resultado intermedio
+prometedor, no plata.
+
+### Lo que falta para que lo use la app
+
+`equipos.py` cruza; nadie lo consume todavía. El camino corto y sin
+tocar el camino caliente del cron:
+
+1. Un script a mano que escriba `data/historia_equipos.json` con las
+   muestras por equipo ya cruzadas a id de ESPN — el mismo patrón que
+   `data/calibracion_jugadores.json`.
+2. `actualizar.py` lo lee si está y lo suma a las muestras del caché
+   antes de `parametros_por_liga()`. Aditivo: si el archivo no está, se
+   comporta como hoy.
+
+Lo que **no** conviene es que el cron baje los CSV: son 22 pedidos por
+corrida a una fuente que cambia una vez por semana, metida en el camino
+que corre dos veces por día.

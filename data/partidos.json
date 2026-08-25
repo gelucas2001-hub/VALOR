@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-25T14:20",
- "requests": 1688,
+ "actualizado": "2026-08-25T15:38",
+ "requests": 1540,
  "partidos": [
   {
    "id": "espn401874147",
@@ -230,15 +230,15 @@
    "ciudad": "Quito",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.56,
-    "empate": 4.0,
+    "local": 1.57,
+    "empate": 3.95,
     "visitante": 6.0,
     "totalLinea": 2.5,
     "totalOver": 2.1,
     "totalUnder": 1.69,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.51,
-    "hcapVisitante": 2.4
+    "hcapLocal": 1.53,
+    "hcapVisitante": 2.35
    },
    "preload": {}
   },
@@ -484,10 +484,10 @@
    "la": 1.508,
    "rho": -0.05,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 23.4,
-   "cards": 4.5,
+   "corners": 11.1,
+   "cornersH": 4.9,
+   "fouls": 23.1,
+   "cards": 3.6,
    "note": "λ calculados ajustando ataque/defensa de Lille y Paris Saint-Germain contra toda la red de cruces de Ligue 1 esta temporada (160 y 160 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -784,10 +784,10 @@
    "la": 1.732,
    "rho": -0.02,
    "conf": 80,
-   "corners": 9.5,
-   "cornersH": 4.7,
-   "fouls": 24.0,
-   "cards": 4.4,
+   "corners": 11.7,
+   "cornersH": 4.5,
+   "fouls": 20.6,
+   "cards": 3.2,
    "note": "λ calculados ajustando ataque/defensa de Crystal Palace y Manchester City contra toda la red de cruces de Premier League esta temporada (172 y 171 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -1106,10 +1106,10 @@
    "la": 0.95,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.5,
-   "cornersH": 4.8,
-   "fouls": 25.0,
-   "cards": 4.3,
+   "corners": 9.3,
+   "cornersH": 4.6,
+   "fouls": 24.9,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Unión (Santa Fe) y Sarmiento (Junín) contra toda la red de cruces de Liga Profesional Argentina esta temporada (138 y 135 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -1473,10 +1473,10 @@
    "la": 0.774,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.6,
+   "corners": 9.7,
    "cornersH": 4.8,
-   "fouls": 23.2,
-   "cards": 4.3,
+   "fouls": 23.3,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Boca Juniors y Lanús contra toda la red de cruces de Liga Profesional Argentina esta temporada (141 y 138 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -1846,10 +1846,10 @@
    "la": 1.111,
    "rho": -0.02,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 24.4,
-   "cards": 4.6,
+   "corners": 10.8,
+   "cornersH": 6.6,
+   "fouls": 21.4,
+   "cards": 3.4,
    "note": "λ calculados ajustando ataque/defensa de Liverpool y Nottingham Forest contra toda la red de cruces de Premier League esta temporada (172 y 153 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -2168,10 +2168,10 @@
    "la": 1.053,
    "rho": -0.02,
    "conf": 80,
-   "corners": 9.5,
-   "cornersH": 4.8,
-   "fouls": 23.1,
-   "cards": 4.4,
+   "corners": 9.9,
+   "cornersH": 5.2,
+   "fouls": 21.4,
+   "cards": 3.5,
    "note": "λ calculados ajustando ataque/defensa de AFC Bournemouth y Everton contra toda la red de cruces de Premier League esta temporada (153 y 174 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -2490,10 +2490,10 @@
    "la": 1.1,
    "rho": -0.02,
    "conf": 45,
-   "corners": 9.5,
-   "cornersH": 4.7,
-   "fouls": 23.8,
-   "cards": 4.4,
+   "corners": 9.8,
+   "cornersH": 5.2,
+   "fouls": 21.4,
+   "cards": 3.5,
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 3 partidos jugados esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
     {
@@ -2787,10 +2787,10 @@
    "la": 1.609,
    "rho": -0.05,
    "conf": 80,
-   "corners": 9.5,
-   "cornersH": 4.8,
-   "fouls": 23.3,
-   "cards": 4.5,
+   "corners": 9.7,
+   "cornersH": 4.3,
+   "fouls": 25.6,
+   "cards": 3.9,
    "note": "λ calculados ajustando ataque/defensa de Strasbourg y Lens contra toda la red de cruces de Ligue 1 esta temporada (161 y 160 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -3087,10 +3087,10 @@
    "la": 1.633,
    "rho": -0.02,
    "conf": 80,
-   "corners": 9.5,
-   "cornersH": 4.8,
-   "fouls": 24.4,
-   "cards": 4.6,
+   "corners": 10.3,
+   "cornersH": 5.6,
+   "fouls": 21.8,
+   "cards": 3.6,
    "note": "λ calculados ajustando ataque/defensa de Tottenham Hotspur y Newcastle United contra toda la red de cruces de Premier League esta temporada (174 y 172 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -3409,10 +3409,10 @@
    "la": 0.781,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.5,
-   "cornersH": 4.7,
-   "fouls": 25.6,
-   "cards": 4.7,
+   "corners": 9.1,
+   "cornersH": 4.4,
+   "fouls": 25.5,
+   "cards": 4.8,
    "note": "λ calculados ajustando ataque/defensa de Deportivo Riestra y Vélez Sarsfield contra toda la red de cruces de Liga Profesional Argentina esta temporada (83 y 137 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -3788,10 +3788,10 @@
    "la": 0.853,
    "rho": -0.05,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 24.5,
-   "cards": 4.5,
+   "corners": 8.9,
+   "cornersH": 4.3,
+   "fouls": 25.1,
+   "cards": 3.5,
    "note": "λ calculados ajustando ataque/defensa de AJ Auxerre y Angers contra toda la red de cruces de Ligue 1 esta temporada (107 y 126 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -4088,10 +4088,10 @@
    "la": 1.348,
    "rho": -0.05,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 24.1,
-   "cards": 4.4,
+   "corners": 9.3,
+   "cornersH": 4.7,
+   "fouls": 26.4,
+   "cards": 3.8,
    "note": "λ calculados ajustando ataque/defensa de Brest y Toulouse contra toda la red de cruces de Ligue 1 esta temporada (160 y 140 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -4388,10 +4388,10 @@
    "la": 1.069,
    "rho": -0.05,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 23.1,
-   "cards": 4.4,
+   "corners": 8.8,
+   "cornersH": 4.2,
+   "fouls": 23.0,
+   "cards": 3.5,
    "note": "λ calculados ajustando ataque/defensa de Lorient y Troyes contra toda la red de cruces de Ligue 1 esta temporada (126 y 58 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -4664,9 +4664,9 @@
    "rho": -0.05,
    "conf": 80,
    "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 24.2,
-   "cards": 4.6,
+   "cornersH": 5.3,
+   "fouls": 25.1,
+   "cards": 3.6,
    "note": "λ calculados ajustando ataque/defensa de Lyon y Le Havre AC contra toda la red de cruces de Ligue 1 esta temporada (161 y 103 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -4963,9 +4963,9 @@
    "la": 0.763,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.6,
-   "cornersH": 4.9,
-   "fouls": 22.6,
+   "corners": 9.5,
+   "cornersH": 5.0,
+   "fouls": 22.7,
    "cards": 4.8,
    "note": "λ calculados ajustando ataque/defensa de Rosario Central y Gimnasia La Plata contra toda la red de cruces de Liga Profesional Argentina esta temporada (141 y 140 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
@@ -5342,9 +5342,9 @@
    "la": 0.779,
    "rho": 0.0,
    "conf": 75,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 24.6,
+   "corners": 10.6,
+   "cornersH": 5.3,
+   "fouls": 24.5,
    "cards": 4.6,
    "note": "λ calculados ajustando ataque/defensa de Atlético-MG y Vitória contra toda la red de cruces de Brasileirão Série A esta temporada (175 y 100 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
@@ -6132,10 +6132,10 @@
    "la": 0.958,
    "rho": 0.0,
    "conf": 75,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 23.7,
-   "cards": 4.3,
+   "corners": 10.6,
+   "cornersH": 5.3,
+   "fouls": 23.8,
+   "cards": 4.1,
    "note": "λ calculados ajustando ataque/defensa de São Paulo y Red Bull Bragantino contra toda la red de cruces de Brasileirão Série A esta temporada (175 y 175 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -6561,10 +6561,10 @@
    "la": 1.353,
    "rho": 0.0,
    "conf": 75,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 25.0,
-   "cards": 4.8,
+   "corners": 10.6,
+   "cornersH": 5.3,
+   "fouls": 24.8,
+   "cards": 5.1,
    "note": "λ calculados ajustando ataque/defensa de Vasco da Gama y Cruzeiro contra toda la red de cruces de Brasileirão Série A esta temporada (137 y 138 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -7001,10 +7001,10 @@
    "la": 0.967,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.7,
-   "cornersH": 5.0,
-   "fouls": 23.5,
-   "cards": 4.5,
+   "corners": 9.9,
+   "cornersH": 5.4,
+   "fouls": 23.6,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Atlético Tucumán y Belgrano (Córdoba) contra toda la red de cruces de Liga Profesional Argentina esta temporada (135 y 112 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -7368,9 +7368,9 @@
    "la": 0.833,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.4,
-   "cornersH": 4.7,
-   "fouls": 23.4,
+   "corners": 9.0,
+   "cornersH": 4.4,
+   "fouls": 23.5,
    "cards": 4.8,
    "note": "λ calculados ajustando ataque/defensa de Talleres (Córdoba) y Central Córdoba (Santiago del Estero) contra toda la red de cruces de Liga Profesional Argentina esta temporada (137 y 137 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
@@ -7735,10 +7735,10 @@
    "la": 1.318,
    "rho": -0.02,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 23.4,
-   "cards": 4.6,
+   "corners": 10.9,
+   "cornersH": 5.8,
+   "fouls": 21.6,
+   "cards": 3.6,
    "note": "λ calculados ajustando ataque/defensa de Chelsea y Brighton & Hove Albion contra toda la red de cruces de Premier League esta temporada (171 y 173 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -8058,9 +8058,9 @@
    "rho": -0.02,
    "conf": 80,
    "corners": 9.6,
-   "cornersH": 4.7,
-   "fouls": 24.4,
-   "cards": 4.4,
+   "cornersH": 4.8,
+   "fouls": 21.4,
+   "cards": 3.7,
    "note": "λ calculados ajustando ataque/defensa de Leeds United y Brentford contra toda la red de cruces de Premier League esta temporada (97 y 173 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -8367,10 +8367,10 @@
    "la": 1.107,
    "rho": -0.02,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 24.0,
-   "cards": 4.6,
+   "corners": 9.2,
+   "cornersH": 4.2,
+   "fouls": 22.1,
+   "cards": 3.8,
    "note": "λ calculados ajustando ataque/defensa de Sunderland y Fulham contra toda la red de cruces de Premier League esta temporada (39 y 153 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -8677,10 +8677,10 @@
    "la": 1.112,
    "rho": -0.05,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.7,
-   "fouls": 24.3,
-   "cards": 4.4,
+   "corners": 9.4,
+   "cornersH": 4.5,
+   "fouls": 23.1,
+   "cards": 3.7,
    "note": "λ calculados ajustando ataque/defensa de Paris FC y Nice contra toda la red de cruces de Ligue 1 esta temporada (35 y 160 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -9393,10 +9393,10 @@
    "la": 1.1,
    "rho": -0.05,
    "conf": 45,
-   "corners": 9.4,
-   "cornersH": 4.7,
-   "fouls": 23.6,
-   "cards": 4.4,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 24.7,
+   "cards": 3.6,
    "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 3 partidos jugados esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
    "formH": [
     {
@@ -9669,9 +9669,9 @@
    "rho": -0.02,
    "conf": 80,
    "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 23.6,
-   "cards": 4.3,
+   "cornersH": 5.5,
+   "fouls": 22.2,
+   "cards": 3.8,
    "note": "λ calculados ajustando ataque/defensa de Manchester United y Ipswich Town contra toda la red de cruces de Premier League esta temporada (173 y 39 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -9978,10 +9978,10 @@
    "la": 1.272,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.5,
-   "cornersH": 4.7,
-   "fouls": 25.2,
-   "cards": 4.5,
+   "corners": 9.3,
+   "cornersH": 4.4,
+   "fouls": 25.0,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Banfield y River Plate contra toda la red de cruces de Liga Profesional Argentina esta temporada (135 y 142 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -10345,10 +10345,10 @@
    "la": 1.681,
    "rho": -0.05,
    "conf": 80,
-   "corners": 9.5,
-   "cornersH": 4.8,
-   "fouls": 23.3,
-   "cards": 4.4,
+   "corners": 10.6,
+   "cornersH": 5.2,
+   "fouls": 25.3,
+   "cards": 4.0,
    "note": "λ calculados ajustando ataque/defensa de AS Monaco y Marseille contra toda la red de cruces de Ligue 1 esta temporada (160 y 161 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -10645,10 +10645,10 @@
    "la": 0.966,
    "rho": 0.0,
    "conf": 75,
-   "corners": 9.7,
-   "cornersH": 4.8,
+   "corners": 10.6,
+   "cornersH": 5.3,
    "fouls": 24.1,
-   "cards": 4.3,
+   "cards": 4.0,
    "note": "λ calculados ajustando ataque/defensa de Corinthians y Santos contra toda la red de cruces de Brasileirão Série A esta temporada (176 y 137 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -11073,8 +11073,8 @@
    "la": 0.96,
    "rho": 0.0,
    "conf": 75,
-   "corners": 9.6,
-   "cornersH": 4.8,
+   "corners": 10.6,
+   "cornersH": 5.3,
    "fouls": 24.1,
    "cards": 4.5,
    "note": "λ calculados ajustando ataque/defensa de Flamengo y Botafogo contra toda la red de cruces de Brasileirão Série A esta temporada (175 y 175 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
@@ -11513,10 +11513,10 @@
    "la": 0.58,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 23.1,
-   "cards": 4.5,
+   "corners": 9.5,
+   "cornersH": 4.7,
+   "fouls": 23.2,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Argentinos Juniors y Aldosivi contra toda la red de cruces de Liga Profesional Argentina esta temporada (142 y 81 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -12302,10 +12302,10 @@
    "la": 1.466,
    "rho": 0.0,
    "conf": 75,
-   "corners": 9.5,
-   "cornersH": 4.7,
+   "corners": 10.5,
+   "cornersH": 5.2,
    "fouls": 24.4,
-   "cards": 4.5,
+   "cards": 4.6,
    "note": "λ calculados ajustando ataque/defensa de Mirassol y Palmeiras contra toda la red de cruces de Brasileirão Série A esta temporada (61 y 176 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -13091,10 +13091,10 @@
    "la": 0.957,
    "rho": 0.0,
    "conf": 75,
-   "corners": 9.6,
-   "cornersH": 4.8,
-   "fouls": 24.4,
-   "cards": 4.6,
+   "corners": 10.6,
+   "cornersH": 5.3,
+   "fouls": 24.3,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Bahia y Internacional contra toda la red de cruces de Brasileirão Série A esta temporada (138 y 176 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -13531,10 +13531,10 @@
    "la": 0.999,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.5,
-   "cornersH": 4.7,
-   "fouls": 23.2,
-   "cards": 4.7,
+   "corners": 9.3,
+   "cornersH": 4.6,
+   "fouls": 23.3,
+   "cards": 4.8,
    "note": "λ calculados ajustando ataque/defensa de Independiente Rivadavia y Racing Club contra toda la red de cruces de Liga Profesional Argentina esta temporada (83 y 142 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -13910,10 +13910,10 @@
    "la": 1.63,
    "rho": -0.02,
    "conf": 80,
-   "corners": 9.6,
-   "cornersH": 4.7,
-   "fouls": 23.4,
-   "cards": 4.6,
+   "corners": 11.1,
+   "cornersH": 5.0,
+   "fouls": 21.0,
+   "cards": 3.5,
    "note": "λ calculados ajustando ataque/defensa de Aston Villa y Arsenal contra toda la red de cruces de Premier League esta temporada (173 y 172 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -14232,10 +14232,10 @@
    "la": 0.911,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.4,
-   "cornersH": 4.8,
-   "fouls": 24.8,
-   "cards": 4.4,
+   "corners": 9.0,
+   "cornersH": 4.6,
+   "fouls": 24.7,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Defensa y Justicia y Platense contra toda la red de cruces de Liga Profesional Argentina esta temporada (135 y 139 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -14611,10 +14611,10 @@
    "la": 0.778,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.4,
-   "cornersH": 4.7,
+   "corners": 9.1,
+   "cornersH": 4.4,
    "fouls": 23.8,
-   "cards": 4.5,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Estudiantes de La Plata y Newell's Old Boys contra toda la red de cruces de Liga Profesional Argentina esta temporada (141 y 135 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -15406,10 +15406,10 @@
    "la": 0.743,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.5,
-   "cornersH": 4.8,
-   "fouls": 22.6,
-   "cards": 4.6,
+   "corners": 9.2,
+   "cornersH": 4.9,
+   "fouls": 22.8,
+   "cards": 4.8,
    "note": "λ calculados ajustando ataque/defensa de Instituto (Córdoba) y San Lorenzo contra toda la red de cruces de Liga Profesional Argentina esta temporada (109 y 140 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {
@@ -15785,10 +15785,10 @@
    "la": 0.708,
    "rho": -0.05,
    "conf": 70,
-   "corners": 9.4,
-   "cornersH": 4.7,
+   "corners": 8.9,
+   "cornersH": 4.5,
    "fouls": 23.8,
-   "cards": 4.5,
+   "cards": 4.7,
    "note": "λ calculados ajustando ataque/defensa de Tigre y Barracas Central contra toda la red de cruces de Liga Profesional Argentina esta temporada (138 y 138 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
    "formH": [
     {

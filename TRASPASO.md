@@ -2207,3 +2207,66 @@ siguió", estaba medido con la ventana rota; con la buena, sigue.
 qué partidos quedan marcados e interactúa con `VALOR_MIN`. Lo que falta
 antes de decidir es medir el efecto sobre las marcas, que es lo que §5
 tampoco pudo.
+
+### Addendum · el encogimiento no se aplica, y ahora con la medición que faltaba (2026-08-25)
+
+§5 dejó pendiente lo único que decidía: **cuántas marcas de valor
+cambian**. Aquella vez se intentó y se descartó el número por
+implausible ("36% de todas las opciones marcadas") porque la cuenta no
+replicaba `marcaDeValor()` ni `escalera()`. Ahora está medido en serio.
+
+**Cómo, para no repetir el error.** No se reimplementó nada: un script
+en Node carga el `index.html` publicado igual que `test_alineacion.js` e
+inyecta el encogimiento en **una sola línea** de `lectura()` — la que
+arma las tres probabilidades del 1X2. `escalera()`, `FRANJAS`,
+`contradice()`, `incompatibles()`, `marcaDeValor()`, `alerta()` y
+`devigShin()` corren tal cual están publicados.
+
+**Sobre la grilla del día** (29 partidos): cero cambios en 1X2, cero en
+la escalera, una alerta terracota más. Pero no hay ninguna marca 1X2
+encendida para empezar —exige `inclinacion` cargada a mano y hay 18
+análisis— así que la muestra no aguanta ninguna conclusión.
+
+**Sobre 2583 partidos de arg desde 2022**, contando las opciones que
+caen en la ventana `[VALOR_MIN, VALOR_MAX]` = [0.06, 0.12]:
+
+| | sin encoger | con k=0.20 |
+|---|---|---|
+| opciones marcadas | 836 | 883 |
+| acierto | 28.3% | 24.6% |
+| ROI al cierre de Pinnacle | −3.27% ±6.19 | −3.43% ±6.41 |
+
+**Cambia el 43% de las marcas** (213 se apagan, 260 se encienden, 623
+sobreviven). O sea que no es cosmético: es casi la mitad de las
+apuestas señaladas.
+
+Y la comparación que decide — lo que entra contra lo que sale:
+
+| grupo | n | acierto | ROI al cierre |
+|---|---|---|---|
+| se apagan | 213 | 38.0% | +6.77% ±12.80 |
+| sobreviven | 623 | 25.0% | −6.70% ±7.06 |
+| se encienden | 260 | 23.5% | +4.42% ±13.73 |
+
+**Lo que entra menos lo que sale: −2.35% ±18.78.** No se despega del
+ruido ni de lejos. Con esta muestra, cambiar el 43% de las marcas **no
+se distingue de barajar y dar de nuevo**.
+
+### Decisión: NO se aplica
+
+Encoger mejora el Brier de forma real y significativa (§6vicies semel),
+y aun así **no hay evidencia de que mejore lo que la app recomienda**.
+Es exactamente la trampa que este repo ya documentó una vez: se pasaron
+tres semanas midiendo calibración y ninguna midiendo si daba plata.
+Mejorar el Brier y ganar plata no son la misma cosa, y acá se ve por
+qué — el encogimiento mueve las probabilidades una mediana de 0.0086,
+que contra una ventana de valor de 0.06 de ancho alcanza para cruzar el
+borde en muchos casos, pero cruzar el borde no es acertar.
+
+Queda medido, con su script y sus tests, para que nadie lo vuelva a
+proponer sin este número enfrente.
+
+**Salvedad del ROI:** está calculado a la cuota de **cierre** de
+Pinnacle, el precio más difícil que existe. Sirve para comparar las dos
+versiones entre sí —el mismo precio en los dos casos— no para estimar
+lo que da la app, que apuesta antes y a otra casa.

@@ -93,8 +93,8 @@ prueba("el prior sale de la competición, no de un valor único",
 prueba("y son distintos entre ligas, que es la razón de guardarlo",
        A.COMPETICIONES["arg.1"]["prior"] != A.COMPETICIONES["bra.1"]["prior"])
 
-# Copa Argentina, Libertadores y Sudamericana no tienen prior propio.
-h3 = correr([partido("espn3", "Copa Argentina")])
+# Las copas CONMEBOL no tienen prior propio.
+h3 = correr([partido("espn3", "CONMEBOL Libertadores")])
 prueba("una competición sin prior propio no rompe",
        "modelo" in h3["espn3"])
 prueba("y lo declara vacío en vez de inventar un número",

@@ -84,7 +84,8 @@ DIAS_ADELANTE = 7          # próximos N días (incluye hoy) — coincide con
                             # los 7 días que muestra la tira en el frontend
 TEMPORADAS_H2H = 3         # temporadas hacia atrás para el historial directo
 RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
-                            # (Copa Argentina, que no tiene fuerzas.py).
+                            # (competiciones sin red de cruces suficiente
+                            # para calibrar fuerzas).
                             # 0.90: el partido 13 atrás pesa ~25% del más
                             # reciente. Gentil a propósito — es un ajuste
                             # fino, no un reemplazo del promedio.
@@ -218,8 +219,15 @@ COMPETICIONES = {
               "corners": 9.8, "fouls": 24.0, "cards": 5.0},
     "conmebol.sudamericana": {"nombre": "CONMEBOL Sudamericana", "rho": 0.00, "conf": 65,
               "corners": 9.6, "fouls": 24.5, "cards": 5.2},
-    "arg.copa": {"nombre": "Copa Argentina", "rho": 0.00, "conf": 60,
-              "corners": 9.0, "fouls": 26.0, "cards": 5.6},
+    # Copa Argentina salio el 2026-08-25, por decision de producto. Es
+    # eliminacion directa: sin red de cruces no hay fuerzas que calibrar,
+    # asi que sus lambdas salian de `promedio_condicion()` (promedio
+    # propio ponderado por recencia) y no del motor. Era la unica
+    # competicion que se publicaba sin pasar por Dixon-Coles.
+    #
+    # Su historia NO se borro: los pronosticos ya registrados y los
+    # resultados guardados siguen en data/. Reescribir el pasado es lo
+    # que el sello de `modelo` existe para evitar.
 }
 
 _req_count = 0
@@ -1678,8 +1686,8 @@ def main():
         # participa devuelven lista vacía y forma_general las ignora sola.
         fuentes = [get_hist(s, tid) for s in COMPETICIONES]
         # Solo vale la pena preguntar en Libertadores/Sudamericana: ahí es
-        # donde puede haber un rival de otro país. En Copa Argentina y en
-        # la Liga los dos equipos ya son de arg.1, que ya está en
+        # donde puede haber un rival de otro país. En las ligas
+        # domésticas los dos equipos ya son de la misma, que ya está en
         # COMPETICIONES -- preguntar igual sería un pedido nuevo (resolver
         # la liga del equipo vía /teams/{id}) que no suma nada.
         if slug_consulta in ("conmebol.libertadores", "conmebol.sudamericana"):
@@ -1825,8 +1833,10 @@ def main():
                             f"{MIN_PARTIDOS_FUERZA} partidos jugados esta temporada). Los "
                             "valores son genéricos: ajustalos a mano en Modelo.")
             else:
-                # Copa Argentina: eliminación directa, sin red de cruces —
+                # Respaldo para una competición sin red de cruces suficiente:
                 # promedio simple ponderado por recencia de la muestra propia.
+                # Lo usaba Copa Argentina, que salió el 2026-08-25; queda
+                # porque cualquier copa nueva vuelve a caer acá.
                 cond_loc = promedio_condicion(jug_loc, local=True)
                 cond_vis = promedio_condicion(jug_vis, local=False)
                 if cond_loc and cond_vis and cond_loc[2] >= 2 and cond_vis[2] >= 2:
@@ -2029,9 +2039,9 @@ def main():
     antes_res = len(resultados_previos)
 
     for slug in COMPETICIONES:
-        # arg.copa no calibra fuerzas, así que para esa competición este es
-        # el único pedido de resultados de la corrida. Para las otras tres
-        # ya está en cache y no cuesta nada.
+        # Una competición que no calibra fuerzas tiene acá su único pedido
+        # de resultados de la corrida. Para las demás ya está en cache y
+        # no cuesta nada.
         for p in get_resultados(slug):
             eid = p.get("id")
             if not eid:

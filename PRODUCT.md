@@ -12,7 +12,7 @@ Lucas, uso personal exclusivo hoy, con arquitectura modular pensada para poder e
 
 ## Product Purpose
 
-VALOR es un **Asesor Deportivo Inteligente y Copiloto Cuantitativo de Apuestas** enfocado en el fútbol argentino y copas internacionales CONMEBOL (Liga Profesional de Fútbol, Copa Libertadores, Copa Sudamericana, Copa Argentina). Su propósito es traducir modelos estadísticos avanzados en **veredictos de valor claros, recomendaciones guiadas y tableros deportivos interactivos** para la toma de decisiones informada.
+VALOR es un **Asesor Deportivo Inteligente y Copiloto Cuantitativo de Apuestas** enfocado en el fútbol sudamericano (Liga Profesional Argentina, Brasileirão Série A, Copa Libertadores y Copa Sudamericana). Su propósito es traducir modelos estadísticos avanzados en **veredictos de valor claros, recomendaciones guiadas y tableros deportivos interactivos** para la toma de decisiones informada.
 
 Combina un modelo bivariado de goles esperados (Poisson / Dixon-Coles con calibración de $\rho$) y cálculo de valor esperado (EV, cuota justa desviggeada, stake fraccional de Criterio de Kelly) con el contexto cualitativo del partido (posiciones, zonas, promedios de descenso, historial H2H con escudos oficiales y métricas de disciplina).
 

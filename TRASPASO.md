@@ -2542,20 +2542,30 @@ Hecho y verificado:
 
 Falta, en este orden:
 
-1. **Backtest de córners contra plata.** 213 partidos en
-   `cache_disciplina.json` con los córners reales, y `propBets` responde
-   para 25 de 25 de esas claves. Es la primera vez que se puede medir un
-   mercado de estadísticas contra ROI y no contra calibración. **Hacerlo
-   antes de marcar valor en pantalla** — es la regla que ya costó tres
-   semanas una vez.
+1. ~~**Backtest de córners contra plata.**~~ **Hecho el 2026-08-25 — ver
+   §6vicies quater.** La respuesta es que no: el total del partido está
+   puesto en el punto de la moneda (empate en cero, 41 apuestas de las
+   ~300 que harían falta) y el por equipo ya se sabe que no (2,2 errores
+   estándar detrás del cierre, ROI negativo en los seis umbrales).
 2. Tabla de alias de equipos. Los nombres del CSV no cruzan del todo con
    ESPN: 17/23 en Inglaterra, 14/21 en Francia (fallan "Tottenham" contra
    "Tottenham Hotspur", "Paris SG" contra "Paris Saint-Germain", y los
    descendidos). Unas diez entradas por liga, escritas y verificadas — no
-   adivinadas. Solo hace falta para la parte de estadísticas.
-3. La mitad de equipo en la app: precio y marca en `bloqueLineas`, que ya
-   calcula la probabilidad.
-4. La mitad de jugador, solo donde el mercado existe.
+   adivinadas. Solo hace falta para la parte de estadísticas. **Es lo
+   único que destraba algo hoy**: convierte 246 partidos por equipo de
+   historia inglesa en señal utilizable, y es la única vía para que `k`
+   baje sin esperar meses de cron.
+3. ~~La mitad de equipo en la app: precio y marca en `bloqueLineas`.~~
+   **Cancelado por la medición del punto 1.** `bloqueLineas` sigue
+   mostrando el número esperado, que es informativo y honesto; lo que no
+   corresponde es ponerle precio ni marca de valor. Reabrir solo si el
+   punto 2 hace bajar `k` de verdad, y midiendo de nuevo.
+4. La mitad de jugador, solo donde el mercado existe. **Bloqueada por
+   tiempo, no por código**: Premier y Ligue 1 arrancaron temporada, hay 1
+   partido por equipo en caché y 0 jugadores con 2 o más presencias, así
+   que todavía no hay serie propia contra la cual medir. Es el mercado
+   que más interesa y el único donde el modelo ya mostró discriminación
+   real (pendiente 1,11 en remates) — pero medirlo hoy sería medir ruido.
 
 ### Addendum · Agregar ligas rompió los parámetros de estadísticas (2026-08-25)
 

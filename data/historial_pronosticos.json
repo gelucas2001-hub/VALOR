@@ -1476,5 +1476,461 @@
    "vida_media": 300,
    "prior": 12
   }
+ },
+ "espn401876476": {
+  "fecha": "2026-08-28",
+  "comp": "Ligue 1",
+  "home": "Lille",
+  "away": "Paris Saint-Germain",
+  "lh": 1.202,
+  "la": 1.508,
+  "rho": -0.05,
+  "mercado": [
+   0.2106,
+   0.2361,
+   0.5533
+  ],
+  "cuotas": [
+   4.4,
+   3.95,
+   1.74
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401879294": {
+  "fecha": "2026-08-28",
+  "comp": "Premier League",
+  "home": "Crystal Palace",
+  "away": "Manchester City",
+  "lh": 0.934,
+  "la": 1.732,
+  "rho": -0.02,
+  "mercado": [
+   0.1825,
+   0.22,
+   0.5975
+  ],
+  "cuotas": [
+   5.0,
+   4.2,
+   1.61
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401879314": {
+  "fecha": "2026-08-29",
+  "comp": "Premier League",
+  "home": "Liverpool",
+  "away": "Nottingham Forest",
+  "lh": 1.911,
+  "la": 1.111,
+  "rho": -0.02,
+  "mercado": [
+   0.6455,
+   0.1986,
+   0.1559
+  ],
+  "cuotas": [
+   1.49,
+   4.6,
+   5.75
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401879296": {
+  "fecha": "2026-08-29",
+  "comp": "Premier League",
+  "home": "AFC Bournemouth",
+  "away": "Everton",
+  "lh": 1.441,
+  "la": 1.053,
+  "rho": -0.02,
+  "mercado": [
+   0.4646,
+   0.2657,
+   0.2697
+  ],
+  "cuotas": [
+   2.05,
+   3.5,
+   3.45
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401879316": {
+  "fecha": "2026-08-29",
+  "comp": "Premier League",
+  "home": "Coventry City",
+  "away": "Hull City",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": -0.02,
+  "mercado": [
+   0.5223,
+   0.2696,
+   0.2081
+  ],
+  "cuotas": [
+   1.83,
+   3.45,
+   4.4
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401876477": {
+  "fecha": "2026-08-29",
+  "comp": "Ligue 1",
+  "home": "Strasbourg",
+  "away": "Lens",
+  "lh": 1.414,
+  "la": 1.609,
+  "rho": -0.05,
+  "mercado": [
+   0.2684,
+   0.2684,
+   0.4631
+  ],
+  "cuotas": [
+   3.45,
+   3.45,
+   2.05
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401879312": {
+  "fecha": "2026-08-29",
+  "comp": "Premier League",
+  "home": "Tottenham Hotspur",
+  "away": "Newcastle United",
+  "lh": 1.522,
+  "la": 1.633,
+  "rho": -0.02,
+  "mercado": [
+   0.4324,
+   0.2546,
+   0.313
+  ],
+  "cuotas": [
+   2.2,
+   3.65,
+   3.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401876484": {
+  "fecha": "2026-08-29",
+  "comp": "Ligue 1",
+  "home": "AJ Auxerre",
+  "away": "Angers",
+  "lh": 1.424,
+  "la": 0.853,
+  "rho": -0.05,
+  "mercado": [
+   0.492,
+   0.2721,
+   0.2359
+  ],
+  "cuotas": [
+   1.95,
+   3.45,
+   3.95
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401876483": {
+  "fecha": "2026-08-29",
+  "comp": "Ligue 1",
+  "home": "Brest",
+  "away": "Toulouse",
+  "lh": 1.483,
+  "la": 1.348,
+  "rho": -0.05,
+  "mercado": [
+   0.3568,
+   0.2792,
+   0.364
+  ],
+  "cuotas": [
+   2.65,
+   3.35,
+   2.6
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401876482": {
+  "fecha": "2026-08-29",
+  "comp": "Ligue 1",
+  "home": "Lorient",
+  "away": "Troyes",
+  "lh": 1.533,
+  "la": 1.069,
+  "rho": -0.05,
+  "mercado": [
+   0.5141,
+   0.2644,
+   0.2214
+  ],
+  "cuotas": [
+   1.87,
+   3.55,
+   4.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401876481": {
+  "fecha": "2026-08-29",
+  "comp": "Ligue 1",
+  "home": "Lyon",
+  "away": "Le Havre AC",
+  "lh": 1.863,
+  "la": 0.887,
+  "rho": -0.05,
+  "mercado": [
+   0.6496,
+   0.2114,
+   0.139
+  ],
+  "cuotas": [
+   1.49,
+   4.4,
+   6.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401879317": {
+  "fecha": "2026-08-30",
+  "comp": "Premier League",
+  "home": "Chelsea",
+  "away": "Brighton & Hove Albion",
+  "lh": 1.598,
+  "la": 1.318,
+  "rho": -0.02,
+  "mercado": [
+   0.4932,
+   0.2338,
+   0.2731
+  ],
+  "cuotas": [
+   1.95,
+   4.0,
+   3.45
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401879315": {
+  "fecha": "2026-08-30",
+  "comp": "Premier League",
+  "home": "Leeds United",
+  "away": "Brentford",
+  "lh": 1.39,
+  "la": 1.36,
+  "rho": -0.02,
+  "mercado": [
+   0.3801,
+   0.2757,
+   0.3442
+  ],
+  "cuotas": [
+   2.5,
+   3.4,
+   2.75
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401879313": {
+  "fecha": "2026-08-30",
+  "comp": "Premier League",
+  "home": "Sunderland",
+  "away": "Fulham",
+  "lh": 1.241,
+  "la": 1.107,
+  "rho": -0.02,
+  "mercado": [
+   0.3871,
+   0.2882,
+   0.3247
+  ],
+  "cuotas": [
+   2.45,
+   3.25,
+   2.9
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401876479": {
+  "fecha": "2026-08-30",
+  "comp": "Ligue 1",
+  "home": "Paris FC",
+  "away": "Nice",
+  "lh": 1.503,
+  "la": 1.112,
+  "rho": -0.05,
+  "mercado": [
+   0.4644,
+   0.278,
+   0.2576
+  ],
+  "cuotas": [
+   2.05,
+   3.35,
+   3.6
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401876478": {
+  "fecha": "2026-08-30",
+  "comp": "Ligue 1",
+  "home": "Stade Rennais",
+  "away": "Le Mans",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": -0.05,
+  "mercado": [
+   0.6737,
+   0.1899,
+   0.1364
+  ],
+  "cuotas": [
+   1.43,
+   4.8,
+   6.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401879293": {
+  "fecha": "2026-08-30",
+  "comp": "Premier League",
+  "home": "Manchester United",
+  "away": "Ipswich Town",
+  "lh": 2.374,
+  "la": 0.948,
+  "rho": -0.02,
+  "mercado": [
+   0.6737,
+   0.1899,
+   0.1364
+  ],
+  "cuotas": [
+   1.43,
+   4.8,
+   6.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401876480": {
+  "fecha": "2026-08-30",
+  "comp": "Ligue 1",
+  "home": "AS Monaco",
+  "away": "Marseille",
+  "lh": 1.828,
+  "la": 1.681,
+  "rho": -0.05,
+  "mercado": [
+   0.3668,
+   0.2508,
+   0.3825
+  ],
+  "cuotas": [
+   2.55,
+   3.65,
+   2.45
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401879295": {
+  "fecha": "2026-08-31",
+  "comp": "Premier League",
+  "home": "Aston Villa",
+  "away": "Arsenal",
+  "lh": 0.978,
+  "la": 1.63,
+  "rho": -0.02,
+  "mercado": [
+   0.1515,
+   0.2164,
+   0.6321
+  ],
+  "cuotas": [
+   6.0,
+   4.3,
+   1.53
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
  }
 }

@@ -1,6 +1,6 @@
 {
- "actualizado": "2026-08-25T14:29",
- "requests": 714,
+ "actualizado": "2026-08-25T14:20",
+ "requests": 1688,
  "partidos": [
   {
    "id": "espn401874147",
@@ -230,15 +230,15 @@
    "ciudad": "Quito",
    "mercado": {
     "prov": "DraftKings",
-    "local": 1.57,
-    "empate": 3.9,
+    "local": 1.56,
+    "empate": 4.0,
     "visitante": 6.0,
     "totalLinea": 2.5,
-    "totalOver": 2.15,
-    "totalUnder": 1.67,
+    "totalOver": 2.1,
+    "totalUnder": 1.69,
     "hcapLinea": -0.5,
-    "hcapLocal": 1.53,
-    "hcapVisitante": 2.35
+    "hcapLocal": 1.51,
+    "hcapVisitante": 2.4
    },
    "preload": {}
   },
@@ -465,6 +465,628 @@
     "hcapLinea": -1.5,
     "hcapLocal": 2.3,
     "hcapVisitante": 1.51
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401876476",
+   "date": "2026-08-28",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "15:45",
+   "home": "Lille",
+   "away": "Paris Saint-Germain",
+   "homeId": "166",
+   "awayId": "160",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+   "lh": 1.202,
+   "la": 1.508,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 23.4,
+   "cards": 4.5,
+   "note": "λ calculados ajustando ataque/defensa de Lille y Paris Saint-Germain contra toda la red de cruces de Ligue 1 esta temporada (160 y 160 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "Angers",
+     "local": false,
+     "marcador": "2-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Stade Rennais",
+     "local": false,
+     "marcador": "2-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "Angers",
+     "local": false,
+     "marcador": "2-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Stade Rennais",
+     "local": false,
+     "marcador": "2-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "16/01/26",
+     "h": "Paris Saint-Germain",
+     "a": "Lille",
+     "s": "3-0"
+    },
+    {
+     "d": "05/10/25",
+     "h": "Lille",
+     "a": "Paris Saint-Germain",
+     "s": "1-1"
+    },
+    {
+     "d": "01/03/25",
+     "h": "Paris Saint-Germain",
+     "a": "Lille",
+     "s": "4-1"
+    },
+    {
+     "d": "01/09/24",
+     "h": "Lille",
+     "a": "Paris Saint-Germain",
+     "s": "1-3"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Decathlon Arena - Stade Pierre-Mauroy",
+   "ciudad": "Lille",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 4.4,
+    "empate": 3.95,
+    "visitante": 1.74,
+    "totalLinea": 2.5,
+    "totalOver": 1.71,
+    "totalUnder": 2.05,
+    "hcapLinea": 0.5,
+    "hcapLocal": 2.05,
+    "hcapVisitante": 1.67
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879294",
+   "date": "2026-08-28",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "16:00",
+   "home": "Crystal Palace",
+   "away": "Manchester City",
+   "homeId": "384",
+   "awayId": "382",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+   "lh": 0.934,
+   "la": 1.732,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.5,
+   "cornersH": 4.7,
+   "fouls": 24.0,
+   "cards": 4.4,
+   "note": "λ calculados ajustando ataque/defensa de Crystal Palace y Manchester City contra toda la red de cruces de Premier League esta temporada (172 y 171 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Everton",
+     "local": false,
+     "marcador": "0-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "AFC Bournemouth",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Everton",
+     "local": false,
+     "marcador": "0-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "AFC Bournemouth",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "13/05/26",
+     "h": "Manchester City",
+     "a": "Crystal Palace",
+     "s": "3-0"
+    },
+    {
+     "d": "14/12/25",
+     "h": "Crystal Palace",
+     "a": "Manchester City",
+     "s": "0-3"
+    },
+    {
+     "d": "12/04/25",
+     "h": "Manchester City",
+     "a": "Crystal Palace",
+     "s": "5-2"
+    },
+    {
+     "d": "07/12/24",
+     "h": "Crystal Palace",
+     "a": "Manchester City",
+     "s": "2-2"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Selhurst Park",
+   "ciudad": "London",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 5.0,
+    "empate": 4.2,
+    "visitante": 1.61,
+    "totalLinea": 2.5,
+    "totalOver": 1.65,
+    "totalUnder": 2.2,
+    "hcapLinea": 0.5,
+    "hcapLocal": 2.2,
+    "hcapVisitante": 1.57
    },
    "preload": {}
   },
@@ -1197,7 +1819,7 @@
    "mercado": {
     "prov": "DraftKings",
     "local": 1.71,
-    "empate": 3.3,
+    "empate": 3.25,
     "visitante": 5.25,
     "totalLinea": 1.5,
     "totalOver": 1.48,
@@ -1205,6 +1827,1569 @@
     "hcapLinea": -0.5,
     "hcapLocal": 1.67,
     "hcapVisitante": 2.0
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879314",
+   "date": "2026-08-29",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "08:30",
+   "home": "Liverpool",
+   "away": "Nottingham Forest",
+   "homeId": "364",
+   "awayId": "393",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+   "lh": 1.911,
+   "la": 1.111,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 24.4,
+   "cards": 4.6,
+   "note": "λ calculados ajustando ataque/defensa de Liverpool y Nottingham Forest contra toda la red de cruces de Premier League esta temporada (172 y 153 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Newcastle United",
+     "local": false,
+     "marcador": "2-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Leeds United",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Newcastle United",
+     "local": false,
+     "marcador": "2-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Leeds United",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "22/02/26",
+     "h": "Nottingham Forest",
+     "a": "Liverpool",
+     "s": "0-1"
+    },
+    {
+     "d": "22/11/25",
+     "h": "Liverpool",
+     "a": "Nottingham Forest",
+     "s": "0-3"
+    },
+    {
+     "d": "14/01/25",
+     "h": "Nottingham Forest",
+     "a": "Liverpool",
+     "s": "1-1"
+    },
+    {
+     "d": "14/09/24",
+     "h": "Liverpool",
+     "a": "Nottingham Forest",
+     "s": "0-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Anfield",
+   "ciudad": "Liverpool",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.49,
+    "empate": 4.6,
+    "visitante": 5.75,
+    "totalLinea": 2.5,
+    "totalOver": 1.57,
+    "totalUnder": 2.35,
+    "hcapLinea": -1.5,
+    "hcapLocal": 2.15,
+    "hcapVisitante": 1.59
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879296",
+   "date": "2026-08-29",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "11:00",
+   "home": "AFC Bournemouth",
+   "away": "Everton",
+   "homeId": "349",
+   "awayId": "368",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+   "lh": 1.441,
+   "la": 1.053,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.5,
+   "cornersH": 4.8,
+   "fouls": 23.1,
+   "cards": 4.4,
+   "note": "λ calculados ajustando ataque/defensa de AFC Bournemouth y Everton contra toda la red de cruces de Premier League esta temporada (153 y 174 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "Manchester City",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Crystal Palace",
+     "local": true,
+     "marcador": "2-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "Manchester City",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Crystal Palace",
+     "local": true,
+     "marcador": "2-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "10/02/26",
+     "h": "Everton",
+     "a": "AFC Bournemouth",
+     "s": "1-2"
+    },
+    {
+     "d": "02/12/25",
+     "h": "AFC Bournemouth",
+     "a": "Everton",
+     "s": "0-1"
+    },
+    {
+     "d": "04/01/25",
+     "h": "AFC Bournemouth",
+     "a": "Everton",
+     "s": "1-0"
+    },
+    {
+     "d": "31/08/24",
+     "h": "Everton",
+     "a": "AFC Bournemouth",
+     "s": "2-3"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Vitality Stadium",
+   "ciudad": "Bournemouth",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.05,
+    "empate": 3.5,
+    "visitante": 3.45,
+    "totalLinea": 2.5,
+    "totalOver": 1.83,
+    "totalUnder": 1.91,
+    "hcapLinea": -0.5,
+    "hcapLocal": 1.95,
+    "hcapVisitante": 1.71
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879316",
+   "date": "2026-08-29",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "11:00",
+   "home": "Coventry City",
+   "away": "Hull City",
+   "homeId": "388",
+   "awayId": "306",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": -0.02,
+   "conf": 45,
+   "corners": 9.5,
+   "cornersH": 4.7,
+   "fouls": 23.8,
+   "cards": 4.4,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 3 partidos jugados esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    {
+     "d": "21/08/26",
+     "r": "L",
+     "rival": "Arsenal",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Manchester United",
+     "local": true,
+     "marcador": "2-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "21/08/26",
+     "r": "L",
+     "rival": "Arsenal",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Manchester United",
+     "local": true,
+     "marcador": "2-0"
+    }
+   ],
+   "h2h": [],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Coventry Building Society Arena",
+   "ciudad": "Coventry",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.83,
+    "empate": 3.45,
+    "visitante": 4.4,
+    "totalLinea": 2.5,
+    "totalOver": 1.8,
+    "totalUnder": 1.95,
+    "hcapLinea": -0.5,
+    "hcapLocal": 1.77,
+    "hcapVisitante": 1.91
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401876477",
+   "date": "2026-08-29",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "12:15",
+   "home": "Strasbourg",
+   "away": "Lens",
+   "homeId": "180",
+   "awayId": "175",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+   "lh": 1.414,
+   "la": 1.609,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.5,
+   "cornersH": 4.8,
+   "fouls": 23.3,
+   "cards": 4.5,
+   "note": "λ calculados ajustando ataque/defensa de Strasbourg y Lens contra toda la red de cruces de Ligue 1 esta temporada (161 y 160 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "21/08/26",
+     "r": "L",
+     "rival": "Marseille",
+     "local": false,
+     "marcador": "0-4"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "AJ Auxerre",
+     "local": true,
+     "marcador": "5-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "21/08/26",
+     "r": "L",
+     "rival": "Marseille",
+     "local": false,
+     "marcador": "0-4"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "AJ Auxerre",
+     "local": true,
+     "marcador": "5-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "27/02/26",
+     "h": "Strasbourg",
+     "a": "Lens",
+     "s": "1-1"
+    },
+    {
+     "d": "22/11/25",
+     "h": "Lens",
+     "a": "Strasbourg",
+     "s": "1-0"
+    },
+    {
+     "d": "16/02/25",
+     "h": "Lens",
+     "a": "Strasbourg",
+     "s": "0-2"
+    },
+    {
+     "d": "06/10/24",
+     "h": "Strasbourg",
+     "a": "Lens",
+     "s": "2-2"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Stade de la Meinau",
+   "ciudad": "Strasbourg",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 3.45,
+    "empate": 3.45,
+    "visitante": 2.05,
+    "totalLinea": 2.5,
+    "totalOver": 1.65,
+    "totalUnder": 2.2,
+    "hcapLinea": 0.5,
+    "hcapLocal": 1.71,
+    "hcapVisitante": 1.95
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879312",
+   "date": "2026-08-29",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "13:30",
+   "home": "Tottenham Hotspur",
+   "away": "Newcastle United",
+   "homeId": "367",
+   "awayId": "361",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+   "lh": 1.522,
+   "la": 1.633,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.5,
+   "cornersH": 4.8,
+   "fouls": 24.4,
+   "cards": 4.6,
+   "note": "λ calculados ajustando ataque/defensa de Tottenham Hotspur y Newcastle United contra toda la red de cruces de Premier League esta temporada (174 y 172 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Brentford",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "formA": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Liverpool",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Brentford",
+     "local": false,
+     "marcador": "0-3"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Liverpool",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "10/02/26",
+     "h": "Tottenham Hotspur",
+     "a": "Newcastle United",
+     "s": "1-2"
+    },
+    {
+     "d": "02/12/25",
+     "h": "Newcastle United",
+     "a": "Tottenham Hotspur",
+     "s": "2-2"
+    },
+    {
+     "d": "04/01/25",
+     "h": "Tottenham Hotspur",
+     "a": "Newcastle United",
+     "s": "1-2"
+    },
+    {
+     "d": "01/09/24",
+     "h": "Newcastle United",
+     "a": "Tottenham Hotspur",
+     "s": "2-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Tottenham Hotspur Stadium",
+   "ciudad": "London",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.2,
+    "empate": 3.65,
+    "visitante": 3.0,
+    "totalLinea": 2.5,
+    "totalOver": 1.65,
+    "totalUnder": 2.2,
+    "hcapLinea": -0.5,
+    "hcapLocal": 2.1,
+    "hcapVisitante": 1.62
    },
    "preload": {}
   },
@@ -1588,6 +3773,1181 @@
    "preload": {}
   },
   {
+   "id": "espn401876484",
+   "date": "2026-08-29",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "15:45",
+   "home": "AJ Auxerre",
+   "away": "Angers",
+   "homeId": "172",
+   "awayId": "7868",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+   "lh": 1.424,
+   "la": 0.853,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 24.5,
+   "cards": 4.5,
+   "note": "λ calculados ajustando ataque/defensa de AJ Auxerre y Angers contra toda la red de cruces de Ligue 1 esta temporada (107 y 126 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Lens",
+     "local": false,
+     "marcador": "2-5"
+    }
+   ],
+   "formA": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "Lille",
+     "local": true,
+     "marcador": "0-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Lens",
+     "local": false,
+     "marcador": "2-5"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "Lille",
+     "local": true,
+     "marcador": "0-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "03/05/26",
+     "h": "AJ Auxerre",
+     "a": "Angers",
+     "s": "3-1"
+    },
+    {
+     "d": "09/11/25",
+     "h": "Angers",
+     "a": "AJ Auxerre",
+     "s": "2-0"
+    },
+    {
+     "d": "19/01/25",
+     "h": "Angers",
+     "a": "AJ Auxerre",
+     "s": "2-0"
+    },
+    {
+     "d": "24/11/24",
+     "h": "AJ Auxerre",
+     "a": "Angers",
+     "s": "1-0"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Stade de l'Abbé-Deschamps",
+   "ciudad": "Auxerre",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.95,
+    "empate": 3.45,
+    "visitante": 3.95,
+    "totalLinea": 2.5,
+    "totalOver": 2.0,
+    "totalUnder": 1.74,
+    "hcapLinea": -0.5,
+    "hcapLocal": 1.87,
+    "hcapVisitante": 1.8
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401876483",
+   "date": "2026-08-29",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "15:45",
+   "home": "Brest",
+   "away": "Toulouse",
+   "homeId": "6997",
+   "awayId": "179",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+   "lh": 1.483,
+   "la": 1.348,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 24.1,
+   "cards": 4.4,
+   "note": "λ calculados ajustando ataque/defensa de Brest y Toulouse contra toda la red de cruces de Ligue 1 esta temporada (160 y 140 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Le Mans",
+     "local": false,
+     "marcador": "2-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Lyon",
+     "local": true,
+     "marcador": "0-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Le Mans",
+     "local": false,
+     "marcador": "2-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Lyon",
+     "local": true,
+     "marcador": "0-2"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "25/01/26",
+     "h": "Brest",
+     "a": "Toulouse",
+     "s": "0-2"
+    },
+    {
+     "d": "24/08/25",
+     "h": "Toulouse",
+     "a": "Brest",
+     "s": "2-0"
+    },
+    {
+     "d": "30/03/25",
+     "h": "Toulouse",
+     "a": "Brest",
+     "s": "2-4"
+    },
+    {
+     "d": "22/09/24",
+     "h": "Brest",
+     "a": "Toulouse",
+     "s": "2-0"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Stade Francis-Le Blé",
+   "ciudad": "Brest",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.65,
+    "empate": 3.35,
+    "visitante": 2.6,
+    "totalLinea": 2.5,
+    "totalOver": 1.95,
+    "totalUnder": 1.8,
+    "hcapLinea": 0.5,
+    "hcapLocal": 1.48,
+    "hcapVisitante": 1.45
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401876482",
+   "date": "2026-08-29",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "15:45",
+   "home": "Lorient",
+   "away": "Troyes",
+   "homeId": "273",
+   "awayId": "170",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+   "lh": 1.533,
+   "la": 1.069,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 23.1,
+   "cards": 4.4,
+   "note": "λ calculados ajustando ataque/defensa de Lorient y Troyes contra toda la red de cruces de Ligue 1 esta temporada (126 y 58 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Nice",
+     "local": false,
+     "marcador": "0-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Paris FC",
+     "local": true,
+     "marcador": "0-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Nice",
+     "local": false,
+     "marcador": "0-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Paris FC",
+     "local": true,
+     "marcador": "0-0"
+    }
+   ],
+   "h2h": [],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Stade du Moustoir - Yves Allainmat",
+   "ciudad": "Lorient",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.87,
+    "empate": 3.55,
+    "visitante": 4.2,
+    "totalLinea": 2.5,
+    "totalOver": 2.0,
+    "totalUnder": 1.77,
+    "hcapLinea": -0.5,
+    "hcapLocal": 1.77,
+    "hcapVisitante": 1.87
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401876481",
+   "date": "2026-08-29",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "15:45",
+   "home": "Lyon",
+   "away": "Le Havre AC",
+   "homeId": "167",
+   "awayId": "3236",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+   "lh": 1.863,
+   "la": 0.887,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 24.2,
+   "cards": 4.6,
+   "note": "λ calculados ajustando ataque/defensa de Lyon y Le Havre AC contra toda la red de cruces de Ligue 1 esta temporada (161 y 103 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Toulouse",
+     "local": false,
+     "marcador": "2-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "AS Monaco",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Toulouse",
+     "local": false,
+     "marcador": "2-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "AS Monaco",
+     "local": true,
+     "marcador": "0-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "15/03/26",
+     "h": "Le Havre AC",
+     "a": "Lyon",
+     "s": "0-0"
+    },
+    {
+     "d": "14/12/25",
+     "h": "Lyon",
+     "a": "Le Havre AC",
+     "s": "1-0"
+    },
+    {
+     "d": "16/03/25",
+     "h": "Lyon",
+     "a": "Le Havre AC",
+     "s": "4-2"
+    },
+    {
+     "d": "20/10/24",
+     "h": "Le Havre AC",
+     "a": "Lyon",
+     "s": "0-4"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Groupama Stadium",
+   "ciudad": "Lyon",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.49,
+    "empate": 4.4,
+    "visitante": 6.5,
+    "totalLinea": 2.5,
+    "totalOver": 1.74,
+    "totalUnder": 2.05,
+    "hcapLinea": -1.5,
+    "hcapLocal": 2.2,
+    "hcapVisitante": 1.57
+   },
+   "preload": {}
+  },
+  {
    "id": "espn401841535",
    "date": "2026-08-29",
    "comp": "Liga Profesional Argentina",
@@ -1956,7 +5316,7 @@
     "prov": "DraftKings",
     "local": 1.83,
     "empate": 3.25,
-    "visitante": 4.4,
+    "visitante": 4.5,
     "totalLinea": 2.5,
     "totalOver": 2.25,
     "totalUnder": 1.54,
@@ -4360,6 +7720,1236 @@
    "preload": {}
   },
   {
+   "id": "espn401879317",
+   "date": "2026-08-30",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "10:00",
+   "home": "Chelsea",
+   "away": "Brighton & Hove Albion",
+   "homeId": "363",
+   "awayId": "331",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+   "lh": 1.598,
+   "la": 1.318,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 23.4,
+   "cards": 4.6,
+   "note": "λ calculados ajustando ataque/defensa de Chelsea y Brighton & Hove Albion contra toda la red de cruces de Premier League esta temporada (171 y 173 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "24/08/26",
+     "r": "W",
+     "rival": "Fulham",
+     "local": false,
+     "marcador": "3-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "Aston Villa",
+     "local": true,
+     "marcador": "4-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "24/08/26",
+     "r": "W",
+     "rival": "Fulham",
+     "local": false,
+     "marcador": "3-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "Aston Villa",
+     "local": true,
+     "marcador": "4-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "21/04/26",
+     "h": "Brighton & Hove Albion",
+     "a": "Chelsea",
+     "s": "3-0"
+    },
+    {
+     "d": "27/09/25",
+     "h": "Chelsea",
+     "a": "Brighton & Hove Albion",
+     "s": "1-3"
+    },
+    {
+     "d": "14/02/25",
+     "h": "Brighton & Hove Albion",
+     "a": "Chelsea",
+     "s": "3-0"
+    },
+    {
+     "d": "28/09/24",
+     "h": "Chelsea",
+     "a": "Brighton & Hove Albion",
+     "s": "4-2"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Stamford Bridge",
+   "ciudad": "London",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.95,
+    "empate": 4.0,
+    "visitante": 3.45,
+    "totalLinea": 2.5,
+    "totalOver": 1.69,
+    "totalUnder": 2.15,
+    "hcapLinea": -0.5,
+    "hcapLocal": 1.83,
+    "hcapVisitante": 1.8
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879315",
+   "date": "2026-08-30",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "10:00",
+   "home": "Leeds United",
+   "away": "Brentford",
+   "homeId": "357",
+   "awayId": "337",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+   "lh": 1.39,
+   "la": 1.36,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.7,
+   "fouls": 24.4,
+   "cards": 4.4,
+   "note": "λ calculados ajustando ataque/defensa de Leeds United y Brentford contra toda la red de cruces de Premier League esta temporada (97 y 173 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Nottingham Forest",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Tottenham Hotspur",
+     "local": true,
+     "marcador": "3-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Nottingham Forest",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Tottenham Hotspur",
+     "local": true,
+     "marcador": "3-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "21/03/26",
+     "h": "Leeds United",
+     "a": "Brentford",
+     "s": "0-0"
+    },
+    {
+     "d": "14/12/25",
+     "h": "Brentford",
+     "a": "Leeds United",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Elland Road",
+   "ciudad": "Leeds",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.5,
+    "empate": 3.4,
+    "visitante": 2.75,
+    "totalLinea": 2.5,
+    "totalOver": 1.87,
+    "totalUnder": 1.87,
+    "hcapLinea": -0.5,
+    "hcapLocal": 2.35,
+    "hcapVisitante": 1.5
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879313",
+   "date": "2026-08-30",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "10:00",
+   "home": "Sunderland",
+   "away": "Fulham",
+   "homeId": "366",
+   "awayId": "370",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+   "lh": 1.241,
+   "la": 1.107,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 24.0,
+   "cards": 4.6,
+   "note": "λ calculados ajustando ataque/defensa de Sunderland y Fulham contra toda la red de cruces de Premier League esta temporada (39 y 153 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Ipswich Town",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "24/08/26",
+     "r": "L",
+     "rival": "Chelsea",
+     "local": true,
+     "marcador": "2-3"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Ipswich Town",
+     "local": false,
+     "marcador": "1-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "24/08/26",
+     "r": "L",
+     "rival": "Chelsea",
+     "local": true,
+     "marcador": "2-3"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "22/02/26",
+     "h": "Sunderland",
+     "a": "Fulham",
+     "s": "1-3"
+    },
+    {
+     "d": "22/11/25",
+     "h": "Fulham",
+     "a": "Sunderland",
+     "s": "1-0"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Stadium of Light",
+   "ciudad": "Sunderland",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.45,
+    "empate": 3.25,
+    "visitante": 2.9,
+    "totalLinea": 2.5,
+    "totalOver": 2.0,
+    "totalUnder": 1.77,
+    "hcapLinea": -0.5,
+    "hcapLocal": 2.25,
+    "hcapVisitante": 1.54
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401876479",
+   "date": "2026-08-30",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "10:00",
+   "home": "Paris FC",
+   "away": "Nice",
+   "homeId": "6851",
+   "awayId": "2502",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+   "lh": 1.503,
+   "la": 1.112,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.7,
+   "fouls": 24.3,
+   "cards": 4.4,
+   "note": "λ calculados ajustando ataque/defensa de Paris FC y Nice contra toda la red de cruces de Ligue 1 esta temporada (35 y 160 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Troyes",
+     "local": false,
+     "marcador": "0-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Lorient",
+     "local": true,
+     "marcador": "0-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Troyes",
+     "local": false,
+     "marcador": "0-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Lorient",
+     "local": true,
+     "marcador": "0-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "01/03/26",
+     "h": "Paris FC",
+     "a": "Nice",
+     "s": "1-0"
+    },
+    {
+     "d": "28/09/25",
+     "h": "Nice",
+     "a": "Paris FC",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Stade Jean Bouin",
+   "ciudad": "Paris",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.05,
+    "empate": 3.35,
+    "visitante": 3.6,
+    "totalLinea": 2.5,
+    "totalOver": 2.05,
+    "totalUnder": 1.71,
+    "hcapLinea": -0.5,
+    "hcapLocal": 1.95,
+    "hcapVisitante": 1.71
+   },
+   "preload": {}
+  },
+  {
    "id": "espn401841208",
    "date": "2026-08-30",
    "comp": "Brasileirão Série A",
@@ -4788,6 +9378,591 @@
    "preload": {}
   },
   {
+   "id": "espn401876478",
+   "date": "2026-08-30",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "12:15",
+   "home": "Stade Rennais",
+   "away": "Le Mans",
+   "homeId": "169",
+   "awayId": "2697",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+   "lh": 1.35,
+   "la": 1.1,
+   "rho": -0.05,
+   "conf": 45,
+   "corners": 9.4,
+   "cornersH": 4.7,
+   "fouls": 23.6,
+   "cards": 4.4,
+   "note": "Sin muestra suficiente en ESPN para calcular λ (menos de 3 partidos jugados esta temporada). Los valores son genéricos: ajustalos a mano en Modelo.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Paris Saint-Germain",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Brest",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "D",
+     "rival": "Paris Saint-Germain",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "D",
+     "rival": "Brest",
+     "local": true,
+     "marcador": "2-2"
+    }
+   ],
+   "h2h": [],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Roazhon Park",
+   "ciudad": "Rennes",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.43,
+    "empate": 4.8,
+    "visitante": 6.5,
+    "totalLinea": 3.5,
+    "totalOver": 2.35,
+    "totalUnder": 1.56,
+    "hcapLinea": -1.5,
+    "hcapLocal": 2.05,
+    "hcapVisitante": 1.65
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879293",
+   "date": "2026-08-30",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "12:30",
+   "home": "Manchester United",
+   "away": "Ipswich Town",
+   "homeId": "360",
+   "awayId": "373",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+   "lh": 2.374,
+   "la": 0.948,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.8,
+   "fouls": 23.6,
+   "cards": 4.3,
+   "note": "λ calculados ajustando ataque/defensa de Manchester United y Ipswich Town contra toda la red de cruces de Premier League esta temporada (173 y 39 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Hull City",
+     "local": false,
+     "marcador": "0-2"
+    }
+   ],
+   "formA": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Sunderland",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "22/08/26",
+     "r": "L",
+     "rival": "Hull City",
+     "local": false,
+     "marcador": "0-2"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "22/08/26",
+     "r": "W",
+     "rival": "Sunderland",
+     "local": true,
+     "marcador": "2-1"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "26/02/25",
+     "h": "Manchester United",
+     "a": "Ipswich Town",
+     "s": "3-2"
+    },
+    {
+     "d": "24/11/24",
+     "h": "Ipswich Town",
+     "a": "Manchester United",
+     "s": "1-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Old Trafford",
+   "ciudad": "Manchester",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 1.43,
+    "empate": 4.8,
+    "visitante": 6.5,
+    "totalLinea": 2.5,
+    "totalOver": 1.61,
+    "totalUnder": 2.25,
+    "hcapLinea": -1.5,
+    "hcapLocal": 2.05,
+    "hcapVisitante": 1.65
+   },
+   "preload": {}
+  },
+  {
    "id": "espn401841526",
    "date": "2026-08-30",
    "comp": "Liga Profesional Argentina",
@@ -5151,6 +10326,306 @@
     "hcapLinea": 0.5,
     "hcapLocal": 1.87,
     "hcapVisitante": 1.74
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401876480",
+   "date": "2026-08-30",
+   "comp": "Ligue 1",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/9.png",
+   "hora": "15:45",
+   "home": "AS Monaco",
+   "away": "Marseille",
+   "homeId": "174",
+   "awayId": "176",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+   "lh": 1.828,
+   "la": 1.681,
+   "rho": -0.05,
+   "conf": 80,
+   "corners": 9.5,
+   "cornersH": 4.8,
+   "fouls": 23.3,
+   "cards": 4.4,
+   "note": "λ calculados ajustando ataque/defensa de AS Monaco y Marseille contra toda la red de cruces de Ligue 1 esta temporada (160 y 161 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "Le Havre AC",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "formA": [
+    {
+     "d": "21/08/26",
+     "r": "W",
+     "rival": "Strasbourg",
+     "local": true,
+     "marcador": "4-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "W",
+     "rival": "Le Havre AC",
+     "local": false,
+     "marcador": "1-0"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "21/08/26",
+     "r": "W",
+     "rival": "Strasbourg",
+     "local": true,
+     "marcador": "4-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "05/04/26",
+     "h": "AS Monaco",
+     "a": "Marseille",
+     "s": "2-1"
+    },
+    {
+     "d": "14/12/25",
+     "h": "Marseille",
+     "a": "AS Monaco",
+     "s": "1-0"
+    },
+    {
+     "d": "12/04/25",
+     "h": "AS Monaco",
+     "a": "Marseille",
+     "s": "3-0"
+    },
+    {
+     "d": "01/12/24",
+     "h": "Marseille",
+     "a": "AS Monaco",
+     "s": "2-1"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Lens",
+     "id": "175",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/175.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 5
+    },
+    {
+     "t": "Marseille",
+     "id": "176",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/176.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Lille",
+     "id": "166",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/166.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lyon",
+     "id": "167",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/167.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "AS Monaco",
+     "id": "174",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/174.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Brest",
+     "id": "6997",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6997.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Le Mans",
+     "id": "2697",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2697.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Paris Saint-Germain",
+     "id": "160",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/160.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Stade Rennais",
+     "id": "169",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/169.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Lorient",
+     "id": "273",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/273.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Nice",
+     "id": "2502",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2502.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Paris FC",
+     "id": "6851",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/6851.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "Troyes",
+     "id": "170",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/170.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 0
+    },
+    {
+     "t": "AJ Auxerre",
+     "id": "172",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/172.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "Le Havre AC",
+     "id": "3236",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/3236.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Toulouse",
+     "id": "179",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/179.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Angers",
+     "id": "7868",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/7868.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Strasbourg",
+     "id": "180",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/180.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "French Ligue 1 2026-27",
+   "estadio": "Stade Louis II",
+   "ciudad": "Monaco",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 2.55,
+    "empate": 3.65,
+    "visitante": 2.45,
+    "totalLinea": 2.5,
+    "totalOver": 1.54,
+    "totalUnder": 2.3,
+    "hcapLinea": -0.5,
+    "hcapLocal": 2.35,
+    "hcapVisitante": 1.48
    },
    "preload": {}
   },
@@ -6014,8 +11489,8 @@
     "empate": 4.8,
     "visitante": 6.5,
     "totalLinea": 2.5,
-    "totalOver": 1.57,
-    "totalUnder": 2.2,
+    "totalOver": 1.59,
+    "totalUnder": 2.15,
     "hcapLinea": -1.5,
     "hcapLocal": 2.05,
     "hcapVisitante": 1.62
@@ -8416,6 +13891,328 @@
     "hcapLinea": -0.5,
     "hcapLocal": 1.91,
     "hcapVisitante": 1.71
+   },
+   "preload": {}
+  },
+  {
+   "id": "espn401879295",
+   "date": "2026-08-31",
+   "comp": "Premier League",
+   "compLogo": "https://a.espncdn.com/i/leaguelogos/soccer/500/23.png",
+   "hora": "16:00",
+   "home": "Aston Villa",
+   "away": "Arsenal",
+   "homeId": "362",
+   "awayId": "359",
+   "homeLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+   "awayLogo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+   "lh": 0.978,
+   "la": 1.63,
+   "rho": -0.02,
+   "conf": 80,
+   "corners": 9.6,
+   "cornersH": 4.7,
+   "fouls": 23.4,
+   "cards": 4.6,
+   "note": "λ calculados ajustando ataque/defensa de Aston Villa y Arsenal contra toda la red de cruces de Premier League esta temporada (173 y 172 partidos jugados), pesado por antigüedad. Confirmá alineaciones antes de jugar.",
+   "formH": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "Brighton & Hove Albion",
+     "local": false,
+     "marcador": "0-4"
+    }
+   ],
+   "formA": [
+    {
+     "d": "21/08/26",
+     "r": "W",
+     "rival": "Coventry City",
+     "local": true,
+     "marcador": "3-0"
+    }
+   ],
+   "formH_general": [
+    {
+     "d": "23/08/26",
+     "r": "L",
+     "rival": "Brighton & Hove Albion",
+     "local": false,
+     "marcador": "0-4"
+    }
+   ],
+   "formA_general": [
+    {
+     "d": "21/08/26",
+     "r": "W",
+     "rival": "Coventry City",
+     "local": true,
+     "marcador": "3-0"
+    }
+   ],
+   "h2h": [
+    {
+     "d": "30/12/25",
+     "h": "Arsenal",
+     "a": "Aston Villa",
+     "s": "4-1"
+    },
+    {
+     "d": "06/12/25",
+     "h": "Aston Villa",
+     "a": "Arsenal",
+     "s": "2-1"
+    },
+    {
+     "d": "18/01/25",
+     "h": "Arsenal",
+     "a": "Aston Villa",
+     "s": "2-2"
+    },
+    {
+     "d": "24/08/24",
+     "h": "Aston Villa",
+     "a": "Arsenal",
+     "s": "0-2"
+    }
+   ],
+   "tabla": [
+    {
+     "t": "Brighton & Hove Albion",
+     "id": "331",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 4
+    },
+    {
+     "t": "Arsenal",
+     "id": "359",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Brentford",
+     "id": "337",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Chelsea",
+     "id": "363",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 3
+    },
+    {
+     "t": "Everton",
+     "id": "368",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Hull City",
+     "id": "306",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Ipswich Town",
+     "id": "373",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Manchester City",
+     "id": "382",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Leeds United",
+     "id": "357",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+     "pts": 3,
+     "pj": 1,
+     "g": 1,
+     "e": 0,
+     "p": 0,
+     "gf": 1
+    },
+    {
+     "t": "Liverpool",
+     "id": "364",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/364.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Newcastle United",
+     "id": "361",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/361.png",
+     "pts": 1,
+     "pj": 1,
+     "g": 0,
+     "e": 1,
+     "p": 0,
+     "gf": 2
+    },
+    {
+     "t": "Fulham",
+     "id": "370",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 2
+    },
+    {
+     "t": "AFC Bournemouth",
+     "id": "349",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Sunderland",
+     "id": "366",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/366.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 1
+    },
+    {
+     "t": "Nottingham Forest",
+     "id": "393",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/393.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Crystal Palace",
+     "id": "384",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/384.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Manchester United",
+     "id": "360",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Coventry City",
+     "id": "388",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/388.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Tottenham Hotspur",
+     "id": "367",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/367.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    },
+    {
+     "t": "Aston Villa",
+     "id": "362",
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/362.png",
+     "pts": 0,
+     "pj": 1,
+     "g": 0,
+     "e": 0,
+     "p": 1,
+     "gf": 0
+    }
+   ],
+   "grupo": "2026-27 English Premier League",
+   "estadio": "Villa Park",
+   "ciudad": "Birmingham",
+   "mercado": {
+    "prov": "DraftKings",
+    "local": 6.0,
+    "empate": 4.3,
+    "visitante": 1.53,
+    "totalLinea": 2.5,
+    "totalOver": 1.77,
+    "totalUnder": 2.0,
+    "hcapLinea": 1.5,
+    "hcapLocal": 1.5,
+    "hcapVisitante": 2.35
    },
    "preload": {}
   },

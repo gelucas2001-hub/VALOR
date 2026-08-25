@@ -194,15 +194,54 @@ def veredicto(filas):
 
 
 def clv_medio(filas):
-    """Cuota tomada por probabilidad de cierre, menos 1.
+    """¿La línea se movió hacia nosotros? Precio JUSTO de apertura por
+    probabilidad JUSTA de cierre, menos 1.
 
-    Positivo quiere decir que conseguiste un precio mejor que el que el
-    mercado terminó considerando justo. Es el número que, sostenido en
-    el tiempo, separa tener ventaja de tener suerte.
+    Positivo quiere decir que el mercado terminó dándonos la razón: la
+    probabilidad de cierre quedó por encima de la de apertura en el lado
+    que nosotros señalábamos. Es el número que, sostenido en el tiempo,
+    separa tener ventaja de tener suerte.
+
+    **El margen sale de los DOS lados, y no es un detalle.** Hasta el
+    2026-08-25 esta función multiplicaba `cuota_open` —con el margen de
+    la casa adentro— por `p_close`, que viene sin margen vía Shin. Eso
+    da siempre aproximadamente menos el margen, pase lo que pase con la
+    línea. Sobre las 32 comparaciones reales daba -7.22% con un margen
+    medio de libro de 7.58%: leíamos la comisión de DraftKings y la
+    interpretábamos como que el modelo destruía valor. Bien medido, esas
+    mismas 32 comparaciones dan -0.04%.
+
+    Los tests viejos no lo agarraron porque pasaban cuotas ya justas
+    (2.00 contra 0.50), donde el margen es cero y el error es invisible.
+    Hay un test nuevo con un libro con margen y la línea quieta: tiene
+    que dar cero.
+
+    Para la otra pregunta —si convendría apostar la apertura de esta
+    casa concreta— está `clv_bruto`.
     """
     if not filas:
         return None
-    return sum(f["cuota_open"] * f["p_close"] - 1 for f in filas) / len(filas)
+    return sum((1.0 / f["p_open"]) * f["p_close"] - 1 for f in filas) / len(filas)
+
+
+def clv_bruto(filas):
+    """¿Convendría apostar la apertura de ESTA casa? Cuota real de
+    apertura por probabilidad justa de cierre, menos 1.
+
+    Distinto de `clv_medio`: acá el margen se paga, porque es lo que
+    pagarías de verdad. Con un libro al 7.6% este número arranca en
+    -7.6% aunque la línea no se mueva, y eso está bien — es lo que
+    cuesta la comisión.
+
+    Sirve para recordar que una señal correcta no alcanza si el precio
+    que conseguís ya viene con la ventaja de la casa adentro. Ojo con
+    leerlo como nuestro rendimiento: la app usa DraftKings como
+    referencia y Lucas no apuesta ahí.
+    """
+    if not filas:
+        return None
+    return sum(f["cuota_open"] * f["p_close"] - 1
+               for f in filas if f.get("cuota_open")) / len(filas)
 
 
 def main():
@@ -235,9 +274,14 @@ def main():
         print(f"  acertamos la dirección en {v['aciertos']} de {v['utiles']} "
               f"({pct:.0f}%)")
         print(f"  el azar da eso o mejor el {v['p'] * 100:.1f}% de las veces")
+    bruto = clv_bruto(filas)
     if clv is not None:
         print(f"\n  CLV medio: {clv * 100:+.2f}%")
-        print("  (cuota de apertura por probabilidad de cierre, menos 1)")
+        if bruto is not None:
+            print(f"  (apostando la apertura de esta casa: {bruto * 100:+.2f}%,"
+                  f" que es el CLV menos su margen)")
+        print("  (precio justo de apertura por probabilidad justa"
+              " de cierre: el margen sale de los dos lados)")
 
     print("\n  " + "-" * 62)
     if v["hay_senal"]:

@@ -100,18 +100,52 @@ prueba("si la linea se mueve hacia nosotros, lo detecta", m.veredicto(senal)["ha
 prueba("con muy pocos casos no concluye", m.veredicto(ruido[:5])["hay_senal"] is False)
 prueba("sin casos no rompe", m.veredicto([])["n"] == 0)
 
-# El numero que le importa al bolsillo: cuota tomada por probabilidad de
-# cierre, menos 1. Positivo = conseguiste mejor precio que el cierre.
+# El numero que contesta la pregunta del titulo: la linea se movio hacia
+# nosotros? Para eso el margen tiene que salir de LOS DOS lados.
+#
+# Hasta el 2026-08-25 no salia: clv_medio() multiplicaba `cuota_open`
+# (CON el margen de la casa adentro) por `p_close` (sin margen, via
+# Shin). Eso da siempre aproximadamente menos el margen. Sobre las 32
+# comparaciones reales daba -7.22% con un margen medio de libro de
+# 7.58%: el numero que leiamos como "perdemos valor" era la comision de
+# DraftKings, no nuestra senal.
+#
+# Los tests viejos no lo agarraron porque pasaban cuotas ya justas
+# (2.00 contra 0.50), donde el margen es cero y el bug es invisible.
 print("")
-print("clv_medio() — el numero que va al bolsillo")
+print("clv_medio() — la linea se mueve hacia nosotros?")
 print("")
-prueba("cuota mejor que el cierre da CLV positivo",
-       m.clv_medio([{"cuota_open": 2.50, "p_close": 0.50}]) > 0)
-prueba("cuota peor que el cierre da CLV negativo",
-       m.clv_medio([{"cuota_open": 1.80, "p_close": 0.50}]) < 0)
-prueba("cuota igual al cierre da cero",
-       abs(m.clv_medio([{"cuota_open": 2.00, "p_close": 0.50}])) < 1e-9)
+prueba("linea que se mueve a favor da CLV positivo",
+       m.clv_medio([{"p_open": 0.40, "p_close": 0.50}]) > 0)
+prueba("linea que se mueve en contra da CLV negativo",
+       m.clv_medio([{"p_open": 0.50, "p_close": 0.40}]) < 0)
+prueba("linea quieta da cero",
+       abs(m.clv_medio([{"p_open": 0.50, "p_close": 0.50}])) < 1e-9)
 prueba("sin casos devuelve None", m.clv_medio([]) is None)
+
+# EL TEST QUE FALTABA: con el margen adentro, una linea quieta tiene que
+# seguir dando cero. Si da -margen, volvimos a medir la comision.
+_cu = [2.10, 3.40, 3.90]                      # libro con ~7% de margen
+_p = m.devig_shin(_cu)
+_quieta = [{"p_open": _p[i], "p_close": _p[i], "cuota_open": _cu[i]}
+           for i in range(3)]
+prueba("una linea que NO se movio da cero aunque el libro tenga margen",
+       abs(m.clv_medio(_quieta)) < 1e-9)
+
+# El otro numero, que tambien sirve pero contesta otra cosa.
+print("")
+print("clv_bruto() — convendria apostar la apertura de esta casa?")
+print("")
+# El invariante, no un numero magico: con la linea quieta, lo que perdes
+# es exactamente la comision del libro, sea cual sea.
+_margen = sum(1 / c for c in _cu) - 1
+prueba("con la linea quieta perdes exactamente el margen del libro",
+       abs(m.clv_bruto(_quieta) - (-_margen / (1 + _margen))) < 0.005)
+prueba("una cuota justa mejor que el cierre da positivo",
+       m.clv_bruto([{"cuota_open": 2.50, "p_close": 0.50}]) > 0)
+prueba("los dos numeros se separan por el margen",
+       abs(m.clv_medio(_quieta) - m.clv_bruto(_quieta)) > _margen * 0.9)
+prueba("sin casos devuelve None", m.clv_bruto([]) is None)
 
 
 print("")

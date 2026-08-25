@@ -95,7 +95,8 @@ RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
 # sus rivales, en vez de solo promediar los partidos propios. Copa
 # Argentina es eliminación directa desde el arranque — no hay red de
 # cruces repetidos, sigue con el promedio simple.
-CON_FUERZAS = {"arg.1", "bra.1", "conmebol.libertadores", "conmebol.sudamericana"}
+CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1",
+               "conmebol.libertadores", "conmebol.sudamericana"}
 TEMPORADAS_HISTORIA = 5    # cuántos años calendario de resultados se le dan
                             # a fuerzas_equipos(). Hasta el 2026-08-24 era 1
                             # de hecho, porque resultados_temporada() pide del
@@ -237,6 +238,49 @@ COMPETICIONES = {
               "corners": 9.8, "fouls": 24.0, "cards": 5.0},
     "conmebol.sudamericana": {"nombre": "CONMEBOL Sudamericana", "rho": 0.00, "conf": 65,
               "corners": 9.6, "fouls": 24.5, "cards": 5.2},
+    # ── Europa, agregada el 2026-08-25 ──────────────────────────────
+    #
+    # Por que estas dos y no otras. Se midieron TRES cosas sobre las 26
+    # ligas del barrido, y hacian falta las tres juntas:
+    #
+    #                atraso (de 26)   jugadores/partido   k de corners
+    #   eng.1          0.0137  (6o)         41               14.2
+    #   fra.1          0.0147  (9o)         27               23.0
+    #   ita.1          0.0167 (20o)         38               —
+    #   arg.1          0.0147 (11o)          0            tope (200)
+    #
+    # Italia y Espana tienen mercado profundo y el modelo anda mal ahi
+    # (20o y 18o): mercado grande donde peor jugamos no es una
+    # oportunidad. Japon y Mexico son 1o y 2o y no tienen mercado de
+    # jugadores. Estas dos ganan en las tres columnas.
+    #
+    # La tercera columna es la que decide, y es la que Argentina no
+    # puede tener: ARG.csv y BRA.csv no traen NI UNA columna de
+    # estadisticas por partido, y E0/F1 las traen todas en 11
+    # temporadas. Con 246 partidos por equipo el `k` de corners baja de
+    # 200 (el tope, o sea "no distingo un equipo de otro") a 14. Es la
+    # diferencia entre publicar el promedio de la liga y tener opinion.
+    #
+    # rho y prior salen de barridos walk-forward propios sobre 4180 y
+    # 3857 partidos con cuota de cierre de Pinnacle, eligiendo con datos
+    # < 2022 y evaluando en >= 2022. NO se copiaron de Argentina.
+    #
+    # OJO con el prior de Inglaterra: el primer barrido (3,8,12,20,30)
+    # dio 3, que era el borde de la grilla — o sea nada. Extendida a
+    # 0.5/1/2 aparecio el optimo real adentro. Es la tercera vez que
+    # pasa en este repo; ver la regla en CLAUDE.md.
+    #
+    #   conf 80: las dos capturan ~81% de la ventaja del mercado sobre
+    #   la tasa base fuera de muestra, contra 45.4% de Brasil (conf 75)
+    #   y 7.7% de Argentina (conf 70). Es el escalon de cuarto de Kelly,
+    #   igual que Brasil — el numero mas alto reconoce la medicion sin
+    #   inventar un escalon nuevo.
+    "eng.1": {"nombre": "Premier League", "rho": -0.02, "conf": 80,
+              "prior": 5,
+              "corners": 10.33, "fouls": 21.51, "cards": 3.91},
+    "fra.1": {"nombre": "Ligue 1", "rho": -0.05, "conf": 80,
+              "prior": 8,
+              "corners": 9.47, "fouls": 24.22, "cards": 3.98},
     # Copa Argentina salio el 2026-08-25, por decision de producto. Es
     # eliminacion directa: sin red de cruces no hay fuerzas que calibrar,
     # asi que sus lambdas salian de `promedio_condicion()` (promedio
@@ -400,7 +444,7 @@ def roster(slug, team_id):
 # resto de COMPETICIONES son copas. slugs_plantel() usa esto para saber
 # si un partido YA es de liga (y entonces no hace falta, ni corresponde,
 # sumar otra liga encima).
-LIGAS_DOMESTICAS = {"arg.1", "bra.1"}
+LIGAS_DOMESTICAS = {"arg.1", "bra.1", "eng.1", "fra.1"}
 
 
 def slugs_plantel(slug_consulta, slug_liga):
@@ -1019,6 +1063,40 @@ MIN_TOTALES = 20
 METRICAS_JUGADOR = ("remates", "al_arco", "faltas", "amarillas", "goles", "asist")
 
 
+def parametros_jugadores_por_liga(planteles, liga_de_equipo):
+    """Los parametros por puesto, calculados DENTRO de cada liga.
+
+    Mismo defecto que arreglaba `parametros_por_liga()`, del lado del
+    jugador. Agrupar por puesto esta bien y es deliberado (ver
+    `parametros_jugadores`), pero agrupar por puesto CRUZANDO LIGAS hace
+    que un 9 ingles y un 9 argentino definan juntos "lo normal para un
+    9", y las ligas no rematan igual: 13.65 remates por equipo y partido
+    en Argentina contra 15.56 en Brasil, medido sobre el cache.
+
+    Pesa mas que a nivel equipo por una razon de producto: el mercado de
+    estadisticas de JUGADOR solo existe en Premier y Ligue 1. Encoger a
+    un delantero ingles hacia un promedio que incluye Argentina
+    deteriora justo el numero contra el que se compara la cuota.
+
+    Una liga sin puestos suficientes queda afuera y su consumidor cae al
+    pozo global — peor, pero honesto sobre su incertidumbre.
+    """
+    if not planteles or not liga_de_equipo:
+        return {}
+    por_liga = {}
+    for tid, equipo in (planteles or {}).items():
+        lg = liga_de_equipo.get(str(tid))
+        if not lg:
+            continue
+        por_liga.setdefault(lg, {})[tid] = equipo
+    out = {}
+    for lg, sub in por_liga.items():
+        par = parametros_jugadores(sub)
+        if par:
+            out[lg] = par
+    return out
+
+
 def parametros_jugadores(planteles):
     """Media, dispersion y k por PUESTO, no por jugador suelto ni por
     todos juntos.
@@ -1200,6 +1278,55 @@ def filas_partido(jug, cache_resumen, team_id):
         rival = datos.get(str(p.get("rival_id")))
         filas.append({"local": p.get("local"), "propio": propio, "rival": rival})
     return filas
+
+
+def parametros_por_liga(muestras, liga_de_equipo):
+    """Los mismos parametros que `parametros_metricas()`, pero calculados
+    DENTRO de cada liga en vez de sobre todos los equipos juntos.
+
+    Por que hace falta. Hasta el 2026-08-25 esto se corria una sola vez
+    sobre todo el cache, mezclando competiciones. Con arg+bra ya era
+    discutible; al entrar eng.1 y fra.1 pasa a ser incorrecto, y de una
+    forma que se ve como una mejora.
+
+    `k` sale de partir la variacion entre equipos en dos: el ruido de
+    tener pocos partidos, y la senal que sobra. Si el pozo tiene cuatro
+    ligas adentro, **la diferencia entre ligas entra como si fuera
+    diferencia entre equipos**. Inglaterra hace 21.5 faltas por partido
+    y Argentina 25.5: esa brecha infla la senal y hace bajar `k`, o sea
+    que la app *parece* haber aprendido a distinguir equipos cuando lo
+    unico que distingue es un pais de otro. Para decidir si Chelsea hace
+    mas corners que Brighton, saber que Brasil hace mas que Argentina no
+    aporta nada.
+
+    Medido el mismo dia sobre el cache real, el `k` de corners daba 77.6
+    mezclado, 200.0 en Brasil y 23.1 en Argentina. El numero del pozo no
+    describia a ninguna de las dos.
+
+    `liga_de_equipo` es {team_id: slug}, tal cual lo escribe
+    `data/cache_ligas.json` — el cron ya lo mantiene, no hay que pedir
+    nada nuevo.
+
+    Una liga con menos de MIN_EQUIPOS queda AFUERA del resultado en vez
+    de publicar una estimacion que su muestra no sostiene. Quien la
+    consuma cae al parametro global, que es peor pero honesto sobre su
+    propia incertidumbre.
+    """
+    if not muestras or not liga_de_equipo:
+        return {}
+    ligas = {}
+    for met, por_eq in muestras.items():
+        for tid, v in (por_eq or {}).items():
+            lg = liga_de_equipo.get(tid)
+            if not lg:
+                continue
+            ligas.setdefault(lg, {}).setdefault(met, {})[tid] = v
+    out = {}
+    for lg, sub in ligas.items():
+        par = parametros_metricas(sub)
+        if par:
+            out[lg] = par
+    return out
 
 
 def resumen_completo(datos):
@@ -2002,10 +2129,28 @@ def main():
     # equipo: para saber cuanta de la diferencia entre equipos es real
     # hace falta mirar a todos juntos. Se recalculan en cada corrida, sin
     # ninguna constante puesta a mano.
-    parametros = parametros_metricas(muestras_por_equipo(cache_resumen))
+    _muestras = muestras_por_equipo(cache_resumen)
+    parametros = parametros_metricas(_muestras)
     for met, dt in dispersion_total(cache_resumen).items():
         if met in parametros:
             parametros[met]["disp_total"] = dt
+
+    # Los mismos parametros, pero calculados DENTRO de cada liga. Ver
+    # `parametros_por_liga()` para el por que: el pozo mezclado lee la
+    # diferencia entre ligas como si fuera diferencia entre equipos, y
+    # eso baja `k` por el motivo equivocado. Medido el 2026-08-25 sobre
+    # dos ligas sinteticas de equipos identicos entre si, el pozo daba
+    # k=0.1 —"creele todo al promedio del equipo"— cuando la respuesta
+    # correcta era el tope.
+    #
+    # `disp_total` es del partido, no del equipo, asi que se hereda del
+    # calculo global: separarla por liga pediria una muestra que ninguna
+    # liga tiene todavia.
+    parametros_liga = parametros_por_liga(_muestras, cache_ligas)
+    for _lg, _par in parametros_liga.items():
+        for met, dt in dispersion_total(cache_resumen).items():
+            if met in _par:
+                _par[met]["disp_total"] = dt
 
     estadisticas = {}
     propios_por_equipo = {}
@@ -2018,7 +2163,13 @@ def main():
         pr["local"] = promedios_equipo([f["propio"] for f in filas if f["local"]])
         pr["visita"] = promedios_equipo([f["propio"] for f in filas if not f["local"]])
         pr["concede"] = promedios_equipo([f["rival"] for f in filas if f["rival"]])
-        pr["esperado"] = esperados(propios, parametros)
+        # Cada equipo se encoge hacia SU liga, no hacia el promedio de
+        # las seis competiciones juntas. Si su liga no junto muestra
+        # suficiente cae al parametro global, que es peor pero no
+        # inventa.
+        _par_eq = parametros_liga.get(cache_ligas.get(str(tid))) or parametros
+        pr["esperado"] = esperados(propios, _par_eq)
+        pr["liga"] = cache_ligas.get(str(tid))
         estadisticas[tid] = pr
         propios_por_equipo[tid] = propios
 
@@ -2053,10 +2204,15 @@ def main():
     # no a los de un equipo. Recien despues se le pone a cada jugador lo
     # que se espera de el, encogido hacia su puesto.
     par_jug = parametros_jugadores(planteles)
-    for equipo in planteles.values():
+    # Y los mismos, por liga. Un 9 ingles no se encoge hacia el promedio
+    # de los 9 argentinos: las ligas no rematan igual, y el mercado de
+    # jugador solo existe en las europeas.
+    par_jug_liga = parametros_jugadores_por_liga(planteles, cache_ligas)
+    for tid, equipo in planteles.items():
+        _pj = par_jug_liga.get(cache_ligas.get(str(tid))) or par_jug
         for j in equipo:
-            if j.get("serie") and j.get("pos") in par_jug:
-                j["serie"]["esp"] = esperado_jugador(j["serie"], par_jug[j["pos"]])
+            if j.get("serie") and j.get("pos") in _pj:
+                j["serie"]["esp"] = esperado_jugador(j["serie"], _pj[j["pos"]])
 
     # ── memoria de marcadores ────────────────────────────────────────
     # Se acumula: lo que ya está no se toca ni se borra. Un marcador de
@@ -2111,7 +2267,9 @@ def main():
         "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
         "sobre": ESTADISTICAS_N,
         "parametros": parametros,
+        "parametros_liga": parametros_liga,
         "jugadores": par_jug,
+        "jugadores_liga": par_jug_liga,
         "equipos": estadisticas,
     }, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"· estadísticas: {len(estadisticas)} equipos "

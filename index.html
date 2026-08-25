@@ -1022,6 +1022,12 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
 let PL_EQ="H";
 let ESTADISTICAS={};   /* promedios por partido de cada equipo, del cron */
 let PARAMETROS={};     /* por metrica: media de la liga, dispersion y k */
+let PARAM_LIGA={};     /* lo mismo, pero calculado DENTRO de cada liga.
+                          Existe desde el 2026-08-25: con seis competiciones
+                          en la grilla, un solo pozo lee la diferencia entre
+                          ligas como si fuera diferencia entre equipos, y `k`
+                          baja por el motivo equivocado. Ver
+                          parametros_por_liga() en actualizar.py. */
 /* Cuanto le erra cada metrica del mercado de estadisticas, medido con
    medir_lineas.py sobre los partidos ya jugados. No lo escribe el cron:
    esa medicion es cara y se corre a mano. Si el archivo no esta, la app
@@ -1029,6 +1035,8 @@ let PARAMETROS={};     /* por metrica: media de la liga, dispersion y k */
 let CALIBRACION={}, CALIBRADO="";
 let CAL_JUG={};        /* lo mismo para las líneas de jugador */
 let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
+let PARAMJUG_LIGA={};  /* y por puesto DENTRO de cada liga: un 9 inglés no se
+                          encoge hacia el promedio de los 9 argentinos. */
 let LIN_MET="corners";  /* la metrica cuyas lineas se estan mirando */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
@@ -1603,9 +1611,15 @@ function diasDisponibles(){
    en los datos del día, que cambia. El logo sale de CUALQUIER partido
    de esa competición en toda la semana, no solo los de hoy: así la
    tira no desaparece un día que esa copa no juega. */
+/* El orden es de casa hacia afuera: primero lo local, después Europa,
+   después las copas. Premier y Ligue 1 entraron el 2026-08-25 — son las
+   dos únicas ligas donde el mercado de estadísticas de JUGADOR existe y
+   además el modelo anda mejor que en Argentina. */
 const COMPS_ORDEN = ["Liga Profesional Argentina", "Brasileirão Série A",
+  "Premier League", "Ligue 1",
   "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
 const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Brasileirão Série A":"Brasil",
+  "Premier League":"Premier", "Ligue 1":"Ligue 1",
   "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
 
 function tiraCompeticiones(delDia){
@@ -2488,9 +2502,21 @@ function fiabilidad(k){
   };
 }
 
+/* Los parametros de la liga del partido, con el pozo global de respaldo.
+
+   Los dos equipos de un partido de liga comparten liga, asi que alcanza
+   con mirar uno; en una copa pueden no compartirla, y ahi cae al global
+   — que es peor pero no le aplica a un equipo la vara de otro pais. */
+function paramsDe(L, V){
+  const lg = (L && L.liga) || (V && V.liga);
+  if(lg && V && V.liga && L && L.liga && L.liga !== V.liga) return PARAMETROS;
+  return (lg && PARAM_LIGA[lg]) || PARAMETROS;
+}
+
 function bloqueLineas(m){
   const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
   if(!L || !V) return "";
+  const PARAMETROS = paramsDe(L, V);
   const hay = LINEAS.filter(x => PARAMETROS[x.k]
     && L.esperado && L.esperado[x.k] != null
     && V.esperado && V.esperado[x.k] != null);
@@ -2800,11 +2826,14 @@ const LIN_JUG = ["remates", "al_arco", "faltas", "amarillas", "goles", "asist"];
    pueda creer (k=3.6 en remates para un delantero: bastante). La serie
    partido por partido se muestra al lado, sin promediarla, porque es
    justo lo que un promedio no puede decir. */
-function lineaJugador(j, met){
+function lineaJugador(j, met, liga){
   if(LIN_JUG.indexOf(met) < 0) return null;
   const s = j && j.serie;
   if(!s || !s.esp || s.esp[met] == null) return null;
-  const par = PARAM_JUG[j.pos];
+  /* La media ya viene encogida hacia el puesto DE SU LIGA desde el cron;
+     la dispersión hay que tomarla del mismo lado o se mezclan dos varas. */
+  const tabla = (liga && PARAMJUG_LIGA[liga]) || PARAM_JUG;
+  const par = tabla[j.pos];
   if(!par || !par[met]) return null;
   const mu = s.esp[met];
   const linea = Math.max(0.5, Math.round(mu) - 0.5);
@@ -2812,7 +2841,7 @@ function lineaJugador(j, met){
   return prob == null ? null : {linea: linea, prob: prob};
 }
 
-function filaJugador(j, clave){
+function filaJugador(j, clave, liga){
   /* El peso goleador se muestra cuando se están mirando los goles. En
      las otras métricas competiría con el número de la columna y le come
      el nombre al jugador, que ya venía cortándose.
@@ -2830,7 +2859,7 @@ function filaJugador(j, clave){
      pedido textual: "no es lo mismo un jugador que remató 5 veces en 5
      partidos pero hizo 4 en 1". El promedio los da iguales. */
   const s = j.serie && j.serie[clave];
-  const L = lineaJugador(j, clave);
+  const L = lineaJugador(j, clave, liga);
   /* Cuatro intensidades y nada más: el ojo tiene que distinguir "no
      hizo", "hizo algo" y "hizo bastante", no leer una escala de doce
      pasos. El 4 y el 9 se pintan igual y está bien — el número está
@@ -2868,6 +2897,7 @@ function filaJugador(j, clave){
 
 function jugadores(nombre, id, met){
   const js = PLANTELES[String(id)] || [];
+  const liga = (ESTADISTICAS[String(id)] || {}).liga;
   if(!js.length){
     return `<div class="lbl sep">${esc_(nombre)} — jugadores</div>
       <p class="blurb" style="color:var(--gris3)">Todavía no tenemos el plantel de este equipo.</p>`;
@@ -2882,7 +2912,7 @@ function jugadores(nombre, id, met){
     /* El peso goleador se muestra cuando se están mirando los goles.
        En las otras métricas competiría con el número de la columna y le
        come el nombre al jugador, que ya venía cortándose. */
-    return filaJugador(j, clave);
+    return filaJugador(j, clave, liga);
   }).join("");
   const botones = METRICAS.map(x=>
     `<button class="met${x.k === clave ? " on" : ""}" data-plmet="${x.k}">${x.et}</button>`
@@ -3375,7 +3405,9 @@ async function traer(url, def){
   PLANTELES = (pl && pl.equipos) || {};
   ESTADISTICAS = (es && es.equipos) || {};
   PARAMETROS = (es && es.parametros) || {};
+  PARAM_LIGA = (es && es.parametros_liga) || {};
   PARAM_JUG = (es && es.jugadores) || {};
+  PARAMJUG_LIGA = (es && es.jugadores_liga) || {};
   CALIBRACION = (cal && cal.metricas) || {};
   CALIBRADO = (cal && cal.actualizado) || "";
   CAL_JUG = (calj && calj.metricas) || {};

@@ -792,6 +792,223 @@ prueba("las dos ligas domésticas tienen prior medido",
 
 
 print("")
+print("parametros_por_liga() — cada liga con su propia vara")
+print("")
+
+# Por que existe. Hasta el 2026-08-25 `parametros_metricas()` se corria
+# UNA vez sobre todos los equipos del cache, mezclando competiciones.
+# Con arg+bra ya era discutible; al entrar eng+fra pasa a ser incorrecto.
+#
+# Medido ese dia sobre el cache real, el `k` de corners daba:
+#
+#     pozo mezclado 77.6  |  Brasil 200.0  |  Argentina 23.1
+#
+# El numero mezclado no describe a NINGUNA de las dos: en Brasil no se
+# distingue nada y en Argentina bastante.
+#
+# Y el modo de falla que viene despues es peor. `k` sale de partir la
+# variacion entre equipos en ruido y senal. Con cuatro ligas en el pozo,
+# la diferencia ENTRE LIGAS entra como si fuera diferencia entre
+# equipos: Inglaterra hace 21.5 faltas por partido y Argentina 25.5. Eso
+# baja `k` y parece una mejora, cuando lo unico que se distingue es
+# Argentina de Inglaterra — inutil para comparar dos equipos ingleses.
+#
+# Es la trampa de §6vicies bis entrando por otra puerta: un numero que
+# mejora por el motivo equivocado.
+
+def _liga_sintetica(n_equipos, media, sd_partido, arranque, pj=6):
+    """Equipos IGUALES entre si dentro de la liga."""
+    import random
+    r = random.Random(11)
+    return {str(arranque + t): [media + r.gauss(0, sd_partido) for _ in range(pj)]
+            for t in range(n_equipos)}
+
+# Dos ligas de equipos internamente identicos, pero con medias MUY
+# distintas entre si. Por liga no hay nada que distinguir (k en el tope);
+# mezcladas, la diferencia de medias se lee como senal.
+_A = _liga_sintetica(12, media=5.0, sd_partido=1.0, arranque=0)
+_B = _liga_sintetica(12, media=12.0, sd_partido=1.0, arranque=100)
+_MEZCLA = {"corners": {**_A, **_B}}
+_DE = {t: "arg.1" for t in _A} | {t: "bra.1" for t in _B}
+
+_glob = actualizar.parametros_metricas(_MEZCLA)
+_porliga = actualizar.parametros_por_liga(_MEZCLA, _DE)
+
+prueba("devuelve un juego de parametros por liga",
+       set(_porliga) == {"arg.1", "bra.1"})
+prueba("cada liga recupera SU media, no el promedio de las dos",
+       abs(_porliga["arg.1"]["corners"]["media"] - 5.0) < 0.6
+       and abs(_porliga["bra.1"]["corners"]["media"] - 12.0) < 0.6)
+prueba("el pozo mezclado inventa una media que no es de nadie",
+       6.0 < _glob["corners"]["media"] < 11.0)
+
+# EL test. Equipos identicos dentro de cada liga: la respuesta correcta
+# es "no distingo nada", o sea k alto. El pozo mezclado dice lo
+# contrario porque confunde liga con equipo.
+#
+# NO se testea contra un umbral absoluto de k. Con 12 equipos de 6
+# partidos, el estimador de equipos identicos rebota entre 3 y 200 segun
+# la semilla — es la misma banda de ruido que documenta
+# test_medir_discriminacion.py, y un umbral magico adentro de esa banda
+# no mide nada. Lo que si es estable, y es lo que el bug rompe, es la
+# RELACION: separar por liga siempre tiene que dar menos confianza que
+# mezclarlas, porque mezclarlas regala una senal que no existe.
+prueba("separar por liga da menos confianza que mezclar",
+       min(_porliga["arg.1"]["corners"]["k"],
+           _porliga["bra.1"]["corners"]["k"]) > _glob["corners"]["k"] * 10)
+prueba("y el pozo mezclado se cree casi seguro, que es el bug",
+       _glob["corners"]["k"] < 1.0)
+
+# Y sobre muchas semillas, la mediana por liga tiene que estar en el
+# tope: la respuesta correcta para equipos identicos.
+def _ks(n=20):
+    import random as _rd
+    out = []
+    for sem in range(11, 11 + n):
+        _r2 = _rd.Random(sem)
+        a = {str(t): [5.0 + _r2.gauss(0, 1.0) for _ in range(6)] for t in range(12)}
+        b = {str(100 + t): [12.0 + _r2.gauss(0, 1.0) for _ in range(6)] for t in range(12)}
+        pr = actualizar.parametros_por_liga(
+            {"corners": {**a, **b}},
+            {t: "arg.1" for t in a} | {t: "bra.1" for t in b})
+        out += [pr[lg]["corners"]["k"] for lg in pr]
+    return sorted(out)
+
+_K = _ks()
+prueba("con equipos identicos, la mediana por liga queda en el tope",
+       _K[len(_K) // 2] >= actualizar.K_TOPE * 0.9)
+
+# Una liga con menos equipos que MIN_EQUIPOS no puede estimar nada, y
+# tiene que quedar afuera en vez de publicar un numero inventado.
+_chica = {"corners": {**_A, "999": [5.0, 5.1, 4.9]}}
+_de2 = {t: "arg.1" for t in _A} | {"999": "conmebol.libertadores"}
+_r = actualizar.parametros_por_liga(_chica, _de2)
+prueba("una liga sin equipos suficientes no aparece",
+       "conmebol.libertadores" not in _r)
+prueba("pero no arrastra a la que si los tiene", "arg.1" in _r)
+
+prueba("sin mapa de ligas no rompe, devuelve vacio",
+       actualizar.parametros_por_liga(_MEZCLA, {}) == {})
+prueba("sin muestras tampoco",
+       actualizar.parametros_por_liga({}, _DE) == {})
+
+
+print("")
+print("parametros_jugadores_por_liga() — el mismo pozo, del lado jugador")
+print("")
+
+# `parametros_jugadores()` agrupa por PUESTO sobre todos los planteles
+# juntos, y eso tiene una razon buena: para saber que es mucho para un
+# delantero hay que mirar delanteros, no el plantel de un equipo.
+#
+# Pero al entrar eng.1 y fra.1 arrastra el mismo defecto que el pozo de
+# equipos: un 9 ingles y un 9 argentino terminan definiendo juntos "lo
+# normal para un 9". Y las ligas NO rematan igual — medido sobre el
+# cache: 13.65 remates por equipo y partido en Argentina, 15.56 en
+# Brasil. El ancla de cada jugador queda tirada hacia el promedio de
+# otro pais.
+#
+# Importa mas aca que a nivel equipo, porque el mercado de estadisticas
+# de JUGADOR solo existe en Premier y Ligue 1: encoger a un delantero
+# ingles hacia el promedio argentino deteriora exactamente el numero
+# contra el que se va a comparar la cuota.
+
+def _plantel(n, pos, media, arranque, sem):
+    import random
+    r = random.Random(sem)
+    return [{"id": str(arranque + i), "pos": pos, "pj": 8,
+             "serie": {"remates": [max(0, round(media + r.gauss(0, 1))) for _ in range(8)]}}
+            for i in range(n)]
+
+_PL = {"1": _plantel(10, "F", 3.0, 0, 5),      # liga que remata mucho
+       "2": _plantel(10, "F", 3.0, 100, 6),
+       "3": _plantel(10, "F", 0.6, 200, 7),    # liga que remata poco
+       "4": _plantel(10, "F", 0.6, 300, 8)}
+_LG = {"1": "eng.1", "2": "eng.1", "3": "arg.1", "4": "arg.1"}
+
+_pj_glob = actualizar.parametros_jugadores(_PL)
+_pj_liga = actualizar.parametros_jugadores_por_liga(_PL, _LG)
+
+prueba("devuelve un juego por liga",
+       set(_pj_liga) == {"eng.1", "arg.1"})
+prueba("cada liga recupera SU media de puesto, no la de las dos",
+       _pj_liga["eng.1"]["F"]["remates"]["media"]
+       > _pj_liga["arg.1"]["F"]["remates"]["media"] * 2)
+prueba("el pozo mezclado se queda en el medio, que no es de nadie",
+       _pj_liga["arg.1"]["F"]["remates"]["media"]
+       < _pj_glob["F"]["remates"]["media"]
+       < _pj_liga["eng.1"]["F"]["remates"]["media"])
+prueba("sin mapa de ligas no rompe",
+       actualizar.parametros_jugadores_por_liga(_PL, {}) == {})
+prueba("sin planteles tampoco",
+       actualizar.parametros_jugadores_por_liga({}, _LG) == {})
+
+
+print("")
+print("Premier League y Ligue 1 — agregadas el 2026-08-25")
+print("")
+
+# Por que estan estas dos y no otras. Se midieron TRES cosas a la vez,
+# sobre las 26 ligas del barrido, y las dos ganan en las tres:
+#
+#   1. Atraso del modelo contra el cierre — eng 6o de 26, fra 9o. Los
+#      dos por delante de Argentina.
+#   2. Profundidad del mercado de props en ESPN/DraftKings — 41 y 27
+#      jugadores por partido. Argentina tiene CERO en 30 de 30 partidos.
+#   3. Si se distinguen los equipos con la historia que hay en disco —
+#      k de corners 14.2 y 23.0, contra el tope (200) en Argentina.
+#
+# El tercero es el que decide: ARG.csv y BRA.csv no traen ni una columna
+# de estadisticas, y E0/F1 las traen todas en 11 temporadas.
+_NUEVAS = {"eng.1", "fra.1"}
+prueba("las dos estan en COMPETICIONES",
+       _NUEVAS <= set(actualizar.COMPETICIONES))
+prueba("las dos ajustan fuerzas", _NUEVAS <= actualizar.CON_FUERZAS)
+prueba("y son ligas domesticas, no copas",
+       _NUEVAS <= actualizar.LIGAS_DOMESTICAS)
+
+# rho y prior salen de barridos walk-forward propios, no de copiar los
+# de Argentina. Los dos quedaron ADENTRO de la grilla: el primer barrido
+# de prior de Inglaterra dio 3 con la grilla arrancando en 3 — borde, o
+# sea nada — y hubo que extenderla a 0.5 para ver que el optimo existia.
+prueba("Inglaterra tiene su rho medido",
+       actualizar.COMPETICIONES["eng.1"]["rho"] == -0.02)
+prueba("Francia tiene el suyo, y es distinto",
+       actualizar.COMPETICIONES["fra.1"]["rho"] == -0.05)
+prueba("Inglaterra tiene prior medido",
+       actualizar.COMPETICIONES["eng.1"]["prior"] == 5)
+prueba("Francia tambien", actualizar.COMPETICIONES["fra.1"]["prior"] == 8)
+
+# `conf` decide el tamano de la apuesta. Las dos capturan ~81% de la
+# ventaja del mercado fuera de muestra, contra 45% de Brasil (conf 75) y
+# 7.7% de Argentina (conf 70). Ponerlas por debajo de Brasil seria
+# contradecir la medicion.
+prueba("las dos van por encima de Brasil en confianza",
+       all(actualizar.COMPETICIONES[x]["conf"]
+           > actualizar.COMPETICIONES["bra.1"]["conf"] for x in _NUEVAS))
+
+# Los promedios de corners/faltas/tarjetas se midieron sobre las ultimas
+# 5 temporadas de cada CSV — las mismas que la app le da al modelo. No
+# se copiaron de Argentina, que es lo que haria parecer que la liga esta
+# configurada cuando no lo esta.
+prueba("Inglaterra no comparte los promedios de Argentina",
+       actualizar.COMPETICIONES["eng.1"]["corners"]
+       != actualizar.COMPETICIONES["arg.1"]["corners"])
+prueba("y tiene menos faltas que Argentina, como se midio",
+       actualizar.COMPETICIONES["eng.1"]["fouls"]
+       < actualizar.COMPETICIONES["arg.1"]["fouls"])
+prueba("las dos tienen menos tarjetas que Argentina",
+       all(actualizar.COMPETICIONES[x]["cards"]
+           < actualizar.COMPETICIONES["arg.1"]["cards"] for x in _NUEVAS))
+
+# Y las dos tienen que poder medirse contra el mercado hacia atras, o
+# quedarian sin forma de recalibrarse.
+import historico as _H
+prueba("Inglaterra tiene historial descargable", "eng" in _H.LIGAS)
+prueba("Francia tambien", "fra" in _H.LIGAS)
+
+
+print("")
 print("el prior por competición tiene que hacer algo")
 print("")
 

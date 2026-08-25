@@ -83,6 +83,20 @@ prueba("declara el prior de la competición del partido",
        (reg.get("modelo") or {}).get("prior")
        == A.COMPETICIONES["arg.1"]["prior"])
 prueba("sigue guardando rho, que ya se guardaba", reg["rho"] == -0.05)
+
+# El campo `mercado` es la probabilidad implicita SIN margen. Hasta el
+# 2026-08-25 se calculaba repartiendo el margen parejo entre las tres
+# opciones, que es el metodo que el repo retiro ese mismo dia: infla la
+# probabilidad del batacazo y desinfla la del favorito. Nadie lo lee
+# hoy, pero un campo calculado con una vara retirada es un pie de
+# banana para el que venga.
+import medir_clv as _C
+_esperado = _C.devig_shin([2.10, 3.20, 3.60])
+prueba("el mercado guardado sale de Shin, como todo el resto del repo",
+       all(abs(a - round(b, 4)) < 1e-4
+           for a, b in zip(reg["mercado"], _esperado)))
+prueba("y NO del reparto parejo, que da otro numero",
+       reg["mercado"] != [round(x, 4) for x in _C.devig([2.10, 3.20, 3.60])])
 prueba("y sigue guardando los λ", (reg["lh"], reg["la"]) == (1.4, 1.1))
 
 # El prior es por competición, no global: si se sellara uno solo para

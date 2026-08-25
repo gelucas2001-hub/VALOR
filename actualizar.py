@@ -203,7 +203,25 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
 # que sí se pudieron medir dicen que ese negativo estaba mal. Recalibrar
 # cuando haya más temporada jugada.
 COMPETICIONES = {
-    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 75,
+    # `conf` decide el tamano de la apuesta: en index.html, >=72 da cuarto
+    # de Kelly, >=60 da octavo. arg.1 estuvo en 75 —el mismo escalon que
+    # Brasil— hasta el 2026-08-25, y la medicion no lo sostiene.
+    #
+    # Walk-forward sobre 2583 partidos de la era 2022+, con vida media 300
+    # y devig Shin: Argentina captura el 7.7% de la ventaja del mercado
+    # sobre la tasa base y Brasil el 45.4%. En ventaja absoluta son 0.0013
+    # contra 0.0190 — una quinceava parte.
+    #
+    # La causa no es que el modelo falle mas ahi: es que en el futbol
+    # argentino hay menos para saber. El propio Pinnacle le gana a
+    # "siempre local" por 0.9 puntos de acierto (43.7% contra 42.8%),
+    # cuando en Brasil le saca 3.6. Nuestra distancia contra el cierre es
+    # de las mas chicas de las 26 ligas medidas; lo que falta es senal.
+    #
+    # 70 y no 55: es el ajuste conservador. Reconoce la diferencia medida
+    # sin recortar a un cuarto la mitad de la grilla. Queda en el mismo
+    # escalon que las copas CONMEBOL, que tampoco calibran bien.
+    "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 70,
               "prior": 12,
               "corners": 9.4, "fouls": 25.5, "cards": 5.4},
     # Brasil entra el 2026-08-24. Es la liga donde el motor demostrablemente
@@ -1593,6 +1611,13 @@ def registrar_pronosticos(partidos, season, hoy, traer_resultados=None):
     parecer comparables con los nuevos, que es justo lo que el sello
     existe para evitar.
     """
+    # Import perezoso a proposito: medir_clv importa backtest, que importa
+    # este modulo. Arriba seria circular y rompe el arranque del cron; aca
+    # se resuelve en tiempo de llamada, con `actualizar` ya cargado.
+    # `devig_shin` no se copia: una tercera copia del mismo devig es
+    # exactamente lo que el repo acaba de terminar de unificar.
+    import medir_clv
+
     hist = {}
     if HISTORIAL_PRON.exists():
         try:
@@ -1609,13 +1634,21 @@ def registrar_pronosticos(partidos, season, hoy, traer_resultados=None):
         mk = m.get("mercado")
         if m["id"] in hist or not mk or not mk.get("local"):
             continue
-        crudas = [1 / mk["local"], 1 / mk["empate"], 1 / mk["visitante"]]
-        tot = sum(crudas)
+        # Shin y no reparto parejo: las casas le cargan mas margen a la
+        # cuota alta. Medido sobre 11.854 partidos (medir_devig.py), el
+        # proporcional le erra casi el doble cuando el margen es alto,
+        # que es el caso de DraftKings. Los registros anteriores al
+        # 2026-08-25 quedaron con el metodo viejo y NO se recalculan:
+        # misma razon que el sello de `modelo`.
+        pq = medir_clv.devig_shin(
+            [mk["local"], mk["empate"], mk["visitante"]])
+        if not pq:
+            continue
         hist[m["id"]] = {
             "fecha": m["date"], "comp": m["comp"],
             "home": m["home"], "away": m["away"],
             "lh": m["lh"], "la": m["la"], "rho": m["rho"],
-            "mercado": [round(x / tot, 4) for x in crudas],   # ya sin margen
+            "mercado": [round(x, 4) for x in pq],            # ya sin margen (Shin)
             "cuotas": [mk["local"], mk["empate"], mk["visitante"]],
             "resultado": None,
             "modelo": {

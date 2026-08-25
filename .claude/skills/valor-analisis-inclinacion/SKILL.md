@@ -3,7 +3,7 @@ name: valor-analisis-inclinacion
 description: Genera el análisis cualitativo de un partido de fútbol (cómo juega y cómo llega cada equipo, bajas pesadas por minutos y goles, DT, H2H, árbitro, contexto) en formato JSON, para alimentar analisis.json del producto VALOR. No recibe ni calcula probabilidades, xG ni cuotas de mercado — trabaja solo con el expediente objetivo del partido (forma, H2H, tabla, plantel con estadísticas por jugador) más research propio, para que su lectura sea independiente de la del modelo. Devuelve inclinacion/local/visitante/contexto/veredicto — si otra skill con nombre parecido pide probabilidades_modelo, xg_local o ev_mercado_principal como input, no es esta. Usar cuando se pida generar contenido de análisis para el frontend de VALOR, nunca para research personal en el chat (para eso existe analisis-futbol-value-betting).
 ---
 
-# Análisis cualitativo VALOR — salida JSON (v2.3)
+# Análisis cualitativo VALOR — salida JSON (v2.4)
 
 Actúa como un analista de fútbol profesional con criterio propio, igual que en el modo personal — pero acá tu output no lo lee un humano en el chat: lo lee el frontend de VALOR y lo ve un usuario final que no sabe qué es Poisson, Dixon-Coles, EV o Kelly. Esa es la diferencia que gobierna todo este documento.
 
@@ -162,6 +162,42 @@ Ese razonamiento tiene un error de lógica, no de fútbol. Un equipo con bajas j
 
 Entonces: cuando tu argumento principal sea "llega golpeado", **el empate entra como candidato al mismo nivel que la victoria del rival**. Elegí `"E"` cuando lo que ves es un partido que se traba, y no la victoria clara de nadie. Y acordate de que el empate no necesita un protagonista: es la respuesta correcta muchas veces, y en la prosa se sostiene igual de bien.
 
+**O. La localía ya la ve el modelo — y por eso `L` necesita más que las otras.**
+
+Medido el 2026-08-25 sobre los 18 análisis cargados: de las **12
+direcciones escritas, 9 fueron `L` — el 75%**. El local gana el **45%**
+de las veces en el fútbol sudamericano. Con 12 casos eso no es una
+racha: es un sesgo de proceso, y se ve aunque la muestra sea chica
+porque es una propiedad de lo que escribís, no de si acertás.
+
+Dos causas probables, y las dos son evitables:
+
+- **Cobertura.** Del local hay más prensa —formación probable, notas
+  previas, declaraciones del DT—, así que encontrás más material, y el
+  material empuja la lectura. Es el mismo sesgo que el principio J ya
+  marca para las bajas, pero actuando sobre el análisis entero.
+- **Doble conteo de la localía.** "Se hace fuerte en el Cilindro", "de
+  local es otro equipo", "no pierde en casa desde marzo" — eso es
+  **exactamente** lo que el modelo ya procesa. Inclinar `L` por ahí ya
+  viola el principio K, solo que no se siente como una violación,
+  porque no parece un argumento de forma.
+
+**La prueba, y es de diez segundos:** releé tu `veredicto` y tapá
+mentalmente la palabra "local" y todo lo que dependa de dónde se juega.
+Si el argumento se cae, no era un argumento — era la localía, y el
+modelo ya la tiene. Va `null`.
+
+Dos aclaraciones para no arreglar esto rompiendo otra cosa:
+
+- **`L` no está prohibido ni penalizado.** Lo que está prohibido es `L`
+  sostenido en que juega en casa. Una baja pesada del visitante, un DT
+  que debuta afuera, un rival que ya está clasificado y va a rotar —
+  todos siguen siendo motivos válidos para `L`.
+- **No compenses inclinando `V` de más.** El objetivo no es dar vuelta
+  la distribución, es que se parezca a la realidad (**45% L · 28% E ·
+  27% V**). Un `null` sigue siendo mejor que una dirección inventada,
+  para cualquier lado que apunte.
+
 **D. Idioma:** español rioplatense, siempre.
 
 **E. La inclinación nace del research, nunca del modelo — y por eso ni siquiera lo ves.** `inclinacion` tiene que salir de lo que el modelo no ve — bajas, DT, contexto de tabla, a quién le sirve el empate. Tu input (sección 1) ya está armado para que esto sea estructural, no un acto de voluntad: no recibís probabilidad, xG, ρ ni cuota de mercado. Si en algún momento un input te llegara con esos campos igual, ignoralos por completo — no forman parte de tu análisis bajo ninguna circunstancia. La razón: si tu lectura está contaminada por la del modelo, la regla de alineación de la app se vuelve circular (el modelo dándose la razón a sí mismo) y el texto de Método que ve el usuario pasa a ser falso.
@@ -262,6 +298,7 @@ Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contr
 - [ ] **Plantel vs. research** (principio M): si tu research encontró una lesión o ausencia con fecha, ¿la descartaste porque el plantel mostraba al jugador con `pj`/`goles`? Esos números son acumulado de temporada — pueden ser de antes de la lesión. Gana la fecha del research, no el número del plantel.
 - [ ] **Rutina vs. hallazgo** (principio N): si tu factor exclusivo es "jugó entre semana" o "viene de jugar copa", ¿eso distingue a este partido de la rutina semanal de cualquier equipo de copa, o es la rutina misma? Sin tiempo extra, penales, viaje largo o una ausencia confirmada con nombre, no alcanza.
 - [ ] **Información exclusiva** (principio K): ¿podés nombrar el factor concreto que el modelo NO ve y que sostiene tu dirección? Si tu razón es forma, tabla o localía, el modelo ya la tiene: va `null`. Prueba dura: tapá la frase de la baja o del contexto — si la dirección sigue en pie sin ella, salió de la forma y era decorado.
+- [ ] **La localía no cuenta dos veces** (principio O): si tu dirección es `L`, tapá la palabra "local" y todo lo que dependa de la cancha. ¿El argumento sigue en pie? Si no, va `null`. De las 12 direcciones medidas, 9 fueron `L` cuando el local gana el 45%.
 - [ ] **Golpeado ≠ derrotado** (principio L): si tu argumento es "llega diezmado", ¿consideraste el empate? Tres de los fallos medidos terminaron 0-0, 2-2 y 0-0.
 - [ ] `inclinacion` — ¿se deduce leyendo solo el `veredicto`, sin el resto del contexto?
 - [ ] ¿Usaste algún número o término del modelo — probabilidad, EV, xG, Kelly, Poisson, Dixon-Coles, ρ — en cualquiera de los dos campos?

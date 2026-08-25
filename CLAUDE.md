@@ -30,6 +30,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `medir_calibracion.py` | Cuando la app dice 70%, ¿pasa el 70%? Mide la calibración de lo que la app ya publicó, partido por partido — a diferencia de `backtest.py`, que reconstruye lo que el modelo habría dicho. Faltaba en esta tabla hasta el 2026-08-24 | A mano, cada tanto |
 | `historico.py` | Baja y normaliza el historial largo de football-data.co.uk (6310 partidos de arg, 5544 de bra, con cuota de cierre de Pinnacle). Es la base de las mediciones serias | A mano |
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
+| `medir_devig.py` | Qué método de quitar el margen de la casa acierta. Medido el 2026-08-25 sobre 11.854 partidos con cuota de cierre real: gana Shin, y gana más cuanto más alto el margen — que es la condición de la app. Antes la app usaba el proporcional y las mediciones usaban Shin | A mano, cada tanto |
 | `medir_clv.py` | Si la línea se mueve hacia nosotros. Es lo único que dice si hay ventaja sin esperar cientos de apuestas. Necesita que el cron junte fotos primero | A mano, cada tanto |
 | `medir_lineas.py` | Si el mercado de estadísticas (córners, tarjetas, remates) dice la verdad. Mide calibración, no plata: no hay cuotas históricas de córners. Medido el 2026-08-24: córners bien, faltas con sesgo de 9 puntos | A mano, cada tanto |
 | `medir_jugadores.py` | Si las líneas de JUGADOR (remates, al arco) dicen la verdad. Compara el desvío contra el ruido, no contra cero: con 618 casos un modelo perfecto ya desvía 3.5 puntos. Medido el 2026-08-24: remates mal (2.09x el ruido), al arco regular, goles y asistencias bien | A mano, cada tanto |
@@ -90,6 +91,17 @@ esta.
   perfecto se vio que ese valor sale el 6% de las veces por casualidad.
   `medir_jugadores.py` tiene la función (`ruido_esperado`); usála antes
   de llamar rota a una métrica.
+
+- **Una sola forma de sacarle el margen a una cuota, y es Shin.**
+  Hasta el 2026-08-25 `index.html` repartía el margen parejo entre las
+  tres opciones mientras `medir_clv.py` y `medir_historico.py` usaban
+  Shin (1993): se medía el modelo con una vara y se marcaba valor con
+  otra. Está medido sobre 11.854 partidos (`medir_devig.py`) que el
+  proporcional le erra casi el doble cuando el margen es alto, que es
+  justo el caso de la app (DraftKings, 7.7%). Si agregás un mercado
+  nuevo, sacale el margen con `devigShin` — no con una normalización a
+  mano. En mercados de dos opciones Shin no corrige nada y devuelve el
+  proporcional: eso es correcto, no un atajo.
 
 - **Antes de calibrar algo, medir si ya sirve.** Se pasaron tres semanas
   midiendo calibración del modelo de goles y ninguna midiendo si daba

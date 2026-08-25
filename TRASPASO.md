@@ -2005,3 +2005,92 @@ al menos una vez?" cuando la casa pregunta "¿remata más de 2.5?".
 menciona el número que más duele es demasiado amable para servir. Lo
 útil de esta fueron tres arreglos chicos de higiene; la dirección del
 producto no salió de acá.
+
+## 6vicies · La app marcaba valor con una vara distinta de la que usaban las mediciones (2026-08-25)
+
+Sale de un informe de Gemini que trajo Lucas, con literatura de apuestas.
+El informe en sí no aportó nada nuevo — su arquitectura de tres pasos
+(xG → Dixon-Coles → EV + Kelly fraccionado) es literalmente la de VALOR,
+y su recomendación central de construir sobre xG es la que está cerrada
+desde el 2026-08-16 porque ESPN solo da `expectedGoals` por jugador
+destacado.
+
+Pero listaba un recurso de acceso abierto que valía la pena perseguir:
+"Using the Wisdom of the Crowd to Find Value in a Football Match Betting
+Market", de Joseph Buchdahl, alojado gratis y legal en
+football-data.co.uk — el mismo sitio del que `historico.py` ya baja
+nuestros 11.854 partidos.
+
+### El hallazgo
+
+Buchdahl dedica varias páginas a cómo se le saca el margen a una cuota,
+y su punto es que repartirlo parejo entre las tres opciones está mal:
+las casas le cargan más margen a las cuotas altas. Fui a ver qué
+hacíamos nosotros y aparecieron **dos métodos conviviendo**:
+
+| | Método | Corrige favorito-longshot |
+|---|---|---|
+| `medir_clv.py`, `medir_historico.py` | Shin (1993) | sí |
+| `index.html` — lo que ve el usuario | proporcional | **no** |
+
+O sea: medíamos el modelo con una vara y marcábamos valor con otra. Shin
+ya estaba implementado y documentado en el repo desde antes; la app
+nunca lo usó.
+
+### La medición (`medir_devig.py`, nuevo)
+
+Las cuotas de cierre son la mejor estimación disponible de la
+probabilidad real. Se les saca el margen de las dos maneras y se compara
+cuál queda más cerca de lo que efectivamente pasó. No hay ajuste: la `z`
+de Shin sale de las cuotas del propio partido, nunca del resultado. El
+error se mide **contra el ruido binomial**, no contra cero.
+
+Sobre 11.854 partidos de Argentina y Brasil, 2012–2026:
+
+```
+                        margen    error prop   error shin
+Pinnacle                 3.13%        7.84         6.28
+Promedio del mercado     6.94%       11.21         6.18
+```
+
+**El patrón es lo que decide, no el número suelto:** cuando el margen
+sube de 3% a 7%, el error del proporcional casi se duplica y el de Shin
+no se mueve. Shin es robusto al margen; el proporcional se degrada.
+
+Y la app trabaja con cuotas de DraftKings, margen **7.7%** — la
+condición donde el proporcional es peor. Con margen alto Shin gana en
+todos los tramos, sin excepción.
+
+(Con Pinnacle, los dos tramos de cuota más alta favorecen al
+proporcional: Shin sobrecorrige ahí. Son 1187 y 56 casos, y el total
+igual da Shin. Queda anotado porque es la única grieta del resultado.)
+
+### Lo que se cambió
+
+`index.html` ahora usa `devigShin`, traducción literal de `devig_shin`
+de `medir_clv.py` — misma bisección, mismas constantes. Seis tests
+nuevos en `test_alineacion.js` fijan los valores contra los que Python
+devuelve, a 1e-9: si las dos implementaciones se separan, salta.
+Verificado además en el navegador, con los mismos dígitos.
+
+### Cuánto mueve la aguja, con honestidad
+
+Sobre la grilla real de hoy (29 partidos): diferencia media de 0.58 pp,
+máxima 1.76 pp. Contra el umbral de 6 pp de la marca dorada, eso puede
+dar vuelta un caso de borde, y hoy hay tres opciones entre 5.2 y 5.7 pp
+que están a menos de un punto de encenderse.
+
+**Pero el efecto práctico hoy es chico, y por una razón que conviene
+saber:** la mayoría de las marcas actuales son de over/under, que van
+por la vía de dos opciones donde Shin no corrige nada (igual que en
+Python). El cambio afecta 1X2 y doble oportunidad. No es un arreglo que
+se note en pantalla mañana; es que las dos mitades del sistema por fin
+miden con la misma vara.
+
+### Lo que sigue abierto
+
+Buchdahl concluye que **Pinnacle es el único libro cuyas cuotas reflejan
+probabilidad real**, y que las de los demás reflejan marketing.
+Nosotros detectamos valor contra DraftKings porque es lo que da ESPN.
+Para medición histórica estamos bien (usamos Pinnacle). Para las marcas
+en vivo, no — y eso no se arregla con código, hace falta otra fuente.

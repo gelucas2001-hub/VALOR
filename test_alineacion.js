@@ -34,7 +34,7 @@ function cargarLogica(){
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
               tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
-              fiabilidadJugador,
+              fiabilidadJugador, devigShin,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
                                             CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; }});
@@ -980,6 +980,81 @@ test("sin archivo de calibracion la app se calla en vez de afirmar", ()=>{
   L.cargar(PARTIDOS, {}, {}, {}, {});
   cierto(L.fiabilidadJugador("remates") === null,
          "afirmó algo sin haber medido");
+});
+
+/* ── 16. Quitar el margen: la app usa el mismo método que las mediciones ──
+
+   La `ventaja` que enciende la marca dorada es una resta contra la
+   probabilidad de mercado. Cómo se le saca el margen a la cuota decide
+   ese número, así que no es un detalle interno.
+
+   Hasta el 2026-08-25 la app repartía el margen parejo entre las tres
+   opciones mientras medir_clv.py y medir_historico.py usaban Shin: se
+   medía el modelo con una vara y se marcaba valor con otra. Medido
+   sobre 11.854 partidos con cuota de cierre real (medir_devig.py),
+   Shin le erra la mitad con márgenes como el de DraftKings.
+
+   Los valores esperados de acá salen de correr `devig_shin` en Python.
+   Si las dos implementaciones se separan, estos tests son lo que avisa. */
+
+const SHIN_PYTHON = [
+  {cuotas: [2.10, 3.20, 3.60], esperado: [0.4520784799, 0.2910292376, 0.2568922824]},
+  {cuotas: [1.30, 5.50, 9.00], esperado: [0.7422563048, 0.1634983007, 0.0942453945]},
+  {cuotas: [4.50, 3.60, 1.85], esperado: [0.2099630220, 0.2649391954, 0.5250977827]},
+  {cuotas: [1.10, 12.0, 26.0], esperado: [0.8944980885, 0.0747893786, 0.0307125328]},
+  {cuotas: [2.50, 3.10, 3.05], esperado: [0.3825647289, 0.3061067470, 0.3113285242]},
+];
+
+test("el devig de la app da lo mismo que el de Python", ()=>{
+  SHIN_PYTHON.forEach(({cuotas, esperado})=>{
+    const p = L.devigShin(cuotas);
+    cierto(p != null, `devolvió null para ${cuotas.join("/")}`);
+    esperado.forEach((e, i)=>{
+      cierto(Math.abs(p[i] - e) < 1e-9,
+             `${cuotas.join("/")} pos ${i}: JS ${p[i]} vs Python ${e}`);
+    });
+  });
+});
+
+test("las probabilidades sin margen suman uno", ()=>{
+  SHIN_PYTHON.forEach(({cuotas})=>{
+    const s = L.devigShin(cuotas).reduce((a,b)=>a+b, 0);
+    cierto(Math.abs(s - 1) < 1e-9, `${cuotas.join("/")} sumó ${s}`);
+  });
+});
+
+test("le saca más margen a la cuota alta que a la baja", ()=>{
+  // Es la propiedad que define a Shin y la razón de haberlo portado.
+  const cuotas = [1.30, 5.50, 9.00];
+  const shin = L.devigShin(cuotas);
+  const crudo = cuotas.map(c=> 1/c), t = crudo.reduce((a,b)=>a+b, 0);
+  const prop = crudo.map(x=> x/t);
+  cierto(shin[0] > prop[0], "no le dio más probabilidad al favorito");
+  cierto(shin[2] < prop[2], "no le sacó más a la cuota alta");
+});
+
+test("sin margen coincide con el reparto parejo", ()=>{
+  const justas = [1/0.5, 1/0.3, 1/0.2];
+  const shin = L.devigShin(justas);
+  [0.5, 0.3, 0.2].forEach((e, i)=>{
+    cierto(Math.abs(shin[i] - e) < 1e-6,
+           `sin margen movió la probabilidad: ${shin[i]} vs ${e}`);
+  });
+});
+
+test("una cuota rota no devuelve números inventados", ()=>{
+  cierto(L.devigShin(null) === null, "aceptó null");
+  cierto(L.devigShin([2.1, 0, 3.6]) === null, "aceptó una cuota en cero");
+  cierto(L.devigShin([2.1, -1, 3.6]) === null, "aceptó una cuota negativa");
+});
+
+test("devig() sigue devolviendo las tres direcciones con nombre", ()=>{
+  const d = L.devig({local: 2.10, empate: 3.20, visitante: 3.60});
+  cierto(d && "L" in d && "E" in d && "V" in d, "cambió la forma del retorno");
+  cierto(Math.abs(d.L - 0.4520784799) < 1e-9, "L no coincide con Python");
+  cierto(Math.abs(d.L + d.E + d.V - 1) < 1e-9, "las tres no suman uno");
+  cierto(L.devig(null) === null, "no se protegió de un mercado ausente");
+  cierto(L.devig({}) === null, "no se protegió de un mercado vacío");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

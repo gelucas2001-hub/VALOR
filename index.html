@@ -1234,11 +1234,52 @@ function cuandoCobra(op, m){
    La cuota cruda implica probabilidades que suman ~1.077 (margen 7.7%
    medido sobre DraftKings). Compararse contra eso haría ver ventaja
    donde solo hay comisión.
+
+   El margen NO se reparte parejo entre las tres opciones: las casas le
+   cargan más a la cuota alta. Sacarlo en partes iguales infla la
+   probabilidad implícita del batacazo y desinfla la del favorito, y
+   como la ventaja de la app es una resta contra este número, el sesgo
+   se traslada entero a la marca dorada.
+
+   Medido el 2026-08-25 sobre 11.854 partidos con cuota de cierre real
+   (ver medir_devig.py). Con margen parecido al de DraftKings, el
+   proporcional le erra 11.21 unidades de ruido y Shin 6.18: la mitad.
+   Y el patrón es el que decide — cuando el margen sube de 3% a 7%, el
+   error del proporcional casi se duplica y el de Shin no se mueve.
+
+   Hasta esa fecha la app usaba el proporcional mientras medir_clv.py y
+   medir_historico.py ya usaban Shin: se medía el modelo con una vara y
+   se marcaba valor con otra.
+
+   Traducción literal de `devig_shin` de medir_clv.py — misma bisección,
+   mismas constantes. Si las dos se separan, la app deja de decir lo que
+   las mediciones dicen.
    ══════════════════════════════════════════════════════════════════ */
+function devigShin(cuotas){
+  if(!cuotas || cuotas.some(c=> !c || c<=0)) return null;
+  const raw = cuotas.map(c=> 1/c);
+  const libro = raw.reduce((a,b)=>a+b, 0);
+  // Sin margen, o mercado de dos vías, Shin no tiene nada que corregir.
+  if(cuotas.length < 3 || libro <= 1) return raw.map(x=> x/libro);
+
+  const probs = z => z >= 1 ? raw
+    : raw.map(r=> (Math.sqrt(z*z + 4*(1-z)*r*r/libro) - z) / (2*(1-z)));
+
+  // f(0) = sqrt(libro) - 1 > 0 y decrece con z: la raíz está en el medio.
+  let lo = 0, hi = 0.99;
+  for(let i=0; i<200; i++){
+    const med = (lo+hi)/2;
+    if(probs(med).reduce((a,b)=>a+b, 0) - 1 > 0) lo = med; else hi = med;
+    if(hi - lo < 1e-12) break;
+  }
+  const p = probs((lo+hi)/2);
+  const tot = p.reduce((a,b)=>a+b, 0);
+  return tot > 0 ? p.map(x=> x/tot) : null;
+}
 function devig(mk){
   if(!mk || !mk.local) return null;
-  const c=[1/mk.local, 1/mk.empate, 1/mk.visitante], t=c[0]+c[1]+c[2];
-  return {L:c[0]/t, E:c[1]/t, V:c[2]/t};
+  const p = devigShin([mk.local, mk.empate, mk.visitante]);
+  return p ? {L:p[0], E:p[1], V:p[2]} : null;
 }
 function pMercado(op, pq, mk){
   if(op.req){

@@ -174,26 +174,12 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
 # ── competiciones ────────────────────────────────────────────────
 # slug de ESPN → metadata.
 #
-# rho (corrección Dixon-Coles): arg.1 = +0.05 MEDIDO, no inventado.
-# Los valores viejos (-0.10 / -0.14) venían del diseño original sin
-# ningún respaldo en datos, y backtest.py mostró que tenían el signo
-# equivocado: con -0.10 el modelo predecía 32.4% de empates cuando la
-# realidad de la temporada fue 26.7%. Validado fuera de muestra —
-# eligiendo rho con los primeros 162 partidos y evaluando en 108 que el
-# ajuste nunca vio, +0.05 da Brier 0.22344 contra 0.22581 de -0.10, y
-# la mejora es monótona en ambos conjuntos.
-#
-# Las copas quedan en 0.00 (Poisson sin corrección): NO están validadas
-# — con 52-56 partidos evaluables no alcanza para ajustar nada. Se pone
-# el neutro en vez del negativo original porque la única competición que
-# sí se pudo medir dice que ese negativo estaba mal. Recalibrar cuando
-# haya más temporada jugada.
-# `rho` es la correccion de Dixon-Coles para los marcadores bajos (0-0,
+# `rho` es la corrección de Dixon-Coles para los marcadores bajos (0-0,
 # 1-0, 0-1, 1-1), que Poisson puro estima mal. Es propio de cada liga:
-# depende de como se juega.
+# depende de cómo se juega.
 #
 # Barrido el 2026-08-24 con 5 temporadas y vida 300, walk-forward,
-# eligiendo con datos anteriores a 2022. Los dos minimos quedaron
+# eligiendo con datos anteriores a 2022. Los dos mínimos quedaron
 # ADENTRO de la grilla (-0.28 a 0.15), no en un borde:
 #
 #     rho     arg.1 DEV   bra.1 DEV
@@ -204,8 +190,17 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
 #     0.05     0.63564     0.61055
 #     0.10     0.63678     0.61132
 #
-# arg.1 estaba en 0.05, que es peor que el -0.05 medido. Las copas
-# quedan en 0.00 por falta de muestra propia, no por medicion.
+# arg.1 estaba en 0.05, que es peor que el -0.05 medido. Ese 0.05 tuvo
+# su propia medición antes (162 partidos para elegir, 108 para evaluar),
+# y el barrido de 5 temporadas la dio vuelta: si volvés a leer que
+# "+0.05 está MEDIDO", es un comentario viejo que sobrevivió a su dato.
+#
+# Las copas quedan en 0.00 (Poisson sin corrección) por falta de muestra
+# propia, no por medición: con 52-56 partidos evaluables no alcanza para
+# ajustar nada. Se pone el neutro y no el negativo del diseño original
+# (-0.10 / -0.14, que nunca tuvo respaldo en datos) porque las dos ligas
+# que sí se pudieron medir dicen que ese negativo estaba mal. Recalibrar
+# cuando haya más temporada jugada.
 COMPETICIONES = {
     "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 75,
               "prior": 12,
@@ -1576,6 +1571,19 @@ def registrar_pronosticos(partidos, season, hoy, traer_resultados=None):
     Guarda λ y rho en vez de la probabilidad ya calculada: así, si mañana
     cambia la fórmula, se puede recalcular qué habríamos dicho con el
     modelo de hoy sobre partidos viejos.
+
+    Y sella cada registro nuevo con las constantes que lo produjeron
+    (`modelo`). El 2026-08-24 `rho` de arg.1 pasó de +0.05 a -0.05 por
+    un barrido sobre 5 temporadas: los registros de antes y los de
+    después conviven en este archivo y no son comparables entre sí. Sin
+    el sello, cualquier medición que agregue el historial mezcla eras
+    del modelo sin enterarse.
+
+    Solo se sella lo que se calcula ahora. A los registros viejos no se
+    les estampa nada: no sabemos con qué constantes se hicieron, y
+    ponerles las de hoy sería peor que dejarlos sin dato — los haría
+    parecer comparables con los nuevos, que es justo lo que el sello
+    existe para evitar.
     """
     hist = {}
     if HISTORIAL_PRON.exists():
@@ -1583,6 +1591,10 @@ def registrar_pronosticos(partidos, season, hoy, traer_resultados=None):
             hist = json.loads(HISTORIAL_PRON.read_text(encoding="utf-8"))
         except Exception:
             hist = {}
+
+    # nombre de competición → slug. Ya se usaba para resolver pendientes;
+    # ahora también para saber qué `prior` rigió en cada pronóstico.
+    slug_de = {meta["nombre"]: slug for slug, meta in COMPETICIONES.items()}
 
     nuevos = 0
     for m in partidos:
@@ -1598,6 +1610,10 @@ def registrar_pronosticos(partidos, season, hoy, traer_resultados=None):
             "mercado": [round(x / tot, 4) for x in crudas],   # ya sin margen
             "cuotas": [mk["local"], mk["empate"], mk["visitante"]],
             "resultado": None,
+            "modelo": {
+                "vida_media": VIDA_MEDIA_DIAS,
+                "prior": (COMPETICIONES.get(slug_de.get(m["comp"])) or {}).get("prior"),
+            },
         }
         nuevos += 1
 
@@ -1605,7 +1621,6 @@ def registrar_pronosticos(partidos, season, hoy, traer_resultados=None):
     pendientes = [k for k, v in hist.items() if v["resultado"] is None]
     resueltos_ahora = 0
     if pendientes:
-        slug_de = {meta["nombre"]: slug for slug, meta in COMPETICIONES.items()}
         por_comp = {}
         for k in pendientes:
             por_comp.setdefault(hist[k]["comp"], []).append(k)

@@ -20,7 +20,7 @@ Combina un modelo bivariado de goles esperados (Poisson / Dixon-Coles con calibr
 
 Un **copiloto analítico de decisiones, no una calculadora árida ni un canal de tipster tradicional**:
 1. **Asesoría basada en Veredictos Honestos:** Diagnósticos claros por mercado (*Oportunidad Detectada*, *Mercado Neutral / Sin Ventaja*, *Riesgo no compensado*), respaldados por matemáticas rigurosas.
-2. **Matriz de Marcadores Dixon-Coles calibrada por competición:** Cálculo de xG (lambda) por equipo con ajuste de fuerza de ataque/defensa y calibración de correlación ($\rho$) para marcadores bajos.
+2. **Matriz de Marcadores Dixon-Coles calibrada por competición:** Cálculo de goles esperados (lambda) por equipo a partir de los goles observados, con ajuste de fuerza de ataque/defensa y calibración de correlación ($\rho$) para marcadores bajos. No es xG: xG mide la calidad de las ocasiones, y ESPN solo lo devuelve por jugador destacado, nunca por equipo.
 3. **Tableros Deportivos Interactivos:** Mercados organizados en cuadrículas limpias de 3 columnas (1X2, Doble Oportunidad) y pares de 2 columnas (Total de Goles, Ambos Marcan, Primer Tiempo) con reactividad en vivo al tipear cuotas.
 4. **Contexto Completo de Torneos:** Tablas de Posiciones por Zonas (Zona A, Zona B), Tabla Anual acumulada para copas y Tabla de Promedios para el descenso.
 5. **Boleta de Combinadas Limpia:** Cálculo de probabilidad conjunta exacta sobre la matriz multivariada con sumatoria directa para apuestas del mismo partido.

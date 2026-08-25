@@ -1930,3 +1930,78 @@ daba que el 36% de todas las opciones quedaban marcadas, lo cual es
 implausible: la cuenta no replica la lógica real de `marcaDeValor()` ni
 de `escalera()`. Se descartó el número en vez de reportarlo.
 
+
+## 6novodecies · Segunda auditoría de ChatGPT: tres arreglos, y la lección de que ya la habíamos contestado (2026-08-24)
+
+Lucas trajo una auditoría externa larga del repo entero. Es la **segunda**
+— la primera fue el 2026-08-23 y está en §6sexdecies. Lo importante no
+es lo que propuso, sino que **propuso de nuevo cosas que §6sexdecies ya
+había descartado con medición**, un día después y teniendo el archivo a
+la vista.
+
+Si llega una tercera, empezá por acá y por §6sexdecies antes de evaluar
+nada.
+
+### Lo que se aplicó (los tres eran reales)
+
+**1. `actualizar.py` se contradecía a sí mismo sobre `rho`.** Un
+comentario decía `arg.1 = +0.05 MEDIDO`; treinta líneas más abajo, el
+barrido del 2026-08-24 decía que 0.05 es peor que el -0.05 que está en
+la config. La config estaba bien: lo podrido era el comentario viejo,
+que sobrevivió a su propio dato. Reescrito en un bloque solo, que
+además deja dicho explícitamente que si alguien vuelve a leer "+0.05
+está MEDIDO" es texto vencido.
+
+**2. `PRODUCT.md` era el único archivo del repo que llamaba xG a λ.**
+`TRASPASO.md` y el spec de diseño ya documentaban bien que ESPN solo da
+`expectedGoals` por jugador destacado y nunca por equipo. Corregido, con
+la aclaración de por qué no es xG.
+
+**3. El historial no decía con qué constantes se hizo cada pronóstico.**
+Este era el hallazgo bueno. `rho` ya se guardaba por registro, pero
+`VIDA_MEDIA_DIAS` y el `prior` de la liga no — y las dos se tocaron este
+mes. Sin eso, agregar `historial_pronosticos.json` para medir
+calibración mezcla eras del modelo sin avisar.
+
+Ahora cada registro nuevo lleva un bloque `modelo`. **Y a los viejos no
+se les estampa nada**, que es la parte que importa: no sabemos con qué
+constantes se hicieron, y ponerles las de hoy los haría parecer
+comparables con los nuevos — exactamente lo contrario de para lo que
+existe el sello. `test_pronosticos.py` (15 casos) protege eso.
+
+### Lo que se descartó, y por qué — para no volver a evaluarlo
+
+- **"Prioridad 1: value betting real para córners, tarjetas, remates y
+  jugador."** No hay cuotas de esos mercados en ningún lado del
+  pipeline: `mercado` de `partidos.json` trae 1X2, totales y hándicap y
+  nada más. Sin cuota no hay EV. Es un problema de fuente de datos, no
+  de código.
+- **Y peor: proponía construirlo justo sobre remates de jugador**, que
+  el mismo día se midió como la métrica **peor calibrada de la app**
+  (2.09 veces el piso de ruido, ver `medir_jugadores.py`). Ponerle
+  Kelly a una probabilidad que sabemos rota no da value betting: da
+  apuestas malas con cara de confiables. El orden va al revés.
+- **"Prioridad 2: Market Scanner con Bet365/Betano/Betsson."** Ya
+  descartado en §6sexdecies el día anterior: requiere API paga.
+- **"Siete modelos, uno por mercado."** Es agregar parámetros cuando el
+  diagnóstico ya es que falta señal. Choca de frente con la regla de
+  medir antes de calibrar.
+- **"TRAIN/VALIDATION/TEST."** `medir_historico.py` ya hace
+  walk-forward, que para series temporales es mejor que un corte fijo.
+  La auditoría no lo registró.
+- **"VALOR SCORE 84/100."** Un número compuesto que esconde cuál de sus
+  seis componentes lo mueve. La app hoy declara fiabilidad métrica por
+  métrica, que es lo contrario y es de lo mejor que tiene.
+
+### Lo que la auditoría no vio, y es lo que más importa
+
+Le puso **8/10 general y 7/10 a "value betting" a una app cuyo ROI
+medido es −6.18%**. Leyó `backtest.py`, citó números de Brier, y nunca
+escribió que esto hoy pierde plata. Tampoco vio que las líneas de
+jugador caen casi siempre en 0.5 — o sea que la app contesta "¿remata
+al menos una vez?" cuando la casa pregunta "¿remata más de 2.5?".
+
+**La moraleja para la próxima auditoría externa:** una revisión que no
+menciona el número que más duele es demasiado amable para servir. Lo
+útil de esta fueron tres arreglos chicos de higiene; la dirección del
+producto no salió de acá.

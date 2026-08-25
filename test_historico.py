@@ -111,6 +111,23 @@ prueba("una fecha con otro formato se descarta",
        H.normalizar([fila(fecha="2024-03-15")]) == [])
 prueba("una fila sin equipos se descarta",
        H.normalizar([fila(home="", away="")]) == [])
+
+# football-data cambia el formato de fecha SIN avisar, y no por archivo
+# sino por temporada: E0-1617, F1-1516, F1-1617 y F1-1718 usan ano de
+# dos digitos y el resto de cuatro. Encontrado el 2026-08-25 porque los
+# totales no cerraban — se perdian 380 partidos de Inglaterra y 1141 de
+# Francia, una temporada entera y tres, descartados en silencio por el
+# `except ValueError` de la fecha.
+#
+# Es el modo de falla mas caro que tiene este archivo: no rompe nada, no
+# imprime nada, solo mide menos de lo que dice medir.
+dos = H.normalizar([fila(fecha="13/08/16")])
+prueba("acepta el ano de dos digitos", len(dos) == 1)
+prueba("y lo resuelve al siglo correcto",
+       dos and dos[0]["fecha"].year == 2016)
+cuatro = H.normalizar([fila(fecha="13/08/2016")])
+prueba("y sigue aceptando el de cuatro",
+       cuatro and cuatro[0]["fecha"].year == 2016)
 prueba("una lista vacía no rompe", H.normalizar([]) == [])
 
 # Un partido SIN cuota igual sirve: alimenta el ajuste de fuerzas
@@ -142,6 +159,92 @@ prueba("gana el local", H.desenlace({"gh": 2, "ga": 1}) == [1, 0, 0])
 prueba("empatan", H.desenlace({"gh": 1, "ga": 1}) == [0, 1, 0])
 prueba("gana el visitante", H.desenlace({"gh": 0, "ga": 3}) == [0, 0, 1])
 
+print("")
+print("el otro formato de football-data: las ligas clasicas")
+print("")
+
+# Por que existe esta seccion. El `/new/` de football-data cubre las
+# ligas "nuevas" (ARG, BRA, MEX...) en UN archivo con columnas
+# Home/Away/HG/AG. Las clasicas de Europa viven en otra carpeta
+# (`mmz4281/{temporada}/{codigo}.csv`), un archivo POR TEMPORADA y con
+# otros nombres de columna: HomeTeam/AwayTeam/FTHG/FTAG.
+#
+# Y traen algo que las nuevas no: las estadisticas de cada partido
+# (remates, al arco, corners, faltas, tarjetas). Medido el 2026-08-25:
+# ARG.csv y BRA.csv no tienen ninguna de esas columnas; E0 y F1 las
+# tienen todas, en 11 temporadas. Esa diferencia es la razon por la que
+# en Inglaterra podemos distinguir equipos y en Argentina no.
+
+f_clasica = {"Date": "16/08/2024", "HomeTeam": "Man United",
+             "AwayTeam": "Fulham", "FTHG": "1", "FTAG": "0",
+             "PSCH": "1.85", "PSCD": "3.60", "PSCA": "4.40",
+             "HS": "12", "AS": "9", "HST": "5", "AST": "3",
+             "HC": "6", "AC": "4", "HF": "11", "AF": "13",
+             "HY": "2", "AY": "3"}
+
+c = H.normalizar([f_clasica])
+prueba("lee el formato clasico (HomeTeam/FTHG)", len(c) == 1)
+prueba("y saca bien los equipos",
+       c and c[0]["home"] == "Man United" and c[0]["away"] == "Fulham")
+prueba("y los goles", c and (c[0]["gh"], c[0]["ga"]) == (1, 0))
+prueba("y la cuota de cierre de Pinnacle",
+       c and c[0]["cuotas"] == [1.85, 3.60, 4.40])
+
+# Las estadisticas por partido. Son el insumo del mercado de
+# estadisticas, asi que tienen que llegar hasta el otro lado.
+prueba("trae las estadisticas del partido", c and c[0].get("est"))
+e = (c[0].get("est") or {}) if c else {}
+prueba("remates de los dos lados",
+       e.get("remates") == {"h": 12.0, "a": 9.0})
+prueba("al arco", e.get("al_arco") == {"h": 5.0, "a": 3.0})
+prueba("corners", e.get("corners") == {"h": 6.0, "a": 4.0})
+prueba("faltas", e.get("faltas") == {"h": 11.0, "a": 13.0})
+prueba("tarjetas", e.get("tarjetas") == {"h": 2.0, "a": 3.0})
+
+# Y el formato viejo NO tiene que romperse ni inventar estadisticas.
+v = H.normalizar([fila()])
+prueba("el formato /new/ sigue funcionando", len(v) == 1)
+prueba("y no inventa estadisticas donde no las hay", not v[0].get("est"))
+
+# Una fila clasica sin estadisticas (pasa en temporadas viejas) tiene
+# que dar el partido igual: se pierde la estadistica, no el partido.
+sin_est = H.normalizar([{"Date": "01/01/2016", "HomeTeam": "A",
+                         "AwayTeam": "B", "FTHG": "0", "FTAG": "0"}])
+prueba("una fila clasica sin estadisticas conserva el partido",
+       len(sin_est) == 1)
+prueba("y declara que no las tiene", not sin_est[0].get("est"))
+
+
+print("")
+print("LIGAS — las dos que se agregaron el 2026-08-25")
+print("")
+
+prueba("esta Inglaterra", "eng" in H.LIGAS)
+prueba("esta Francia", "fra" in H.LIGAS)
+prueba("y siguen las de antes", "arg" in H.LIGAS and "bra" in H.LIGAS)
+prueba("las clasicas declaran su formato",
+       H.LIGAS.get("eng", {}).get("formato") == "temporadas")
+prueba("las nuevas siguen sin declararlo, o lo declaran unico",
+       H.LIGAS.get("arg", {}).get("formato", "unico") == "unico")
+prueba("Inglaterra apunta al codigo correcto",
+       H.LIGAS.get("eng", {}).get("archivo") == "E0")
+prueba("Francia tambien", H.LIGAS.get("fra", {}).get("archivo") == "F1")
+
+
+print("")
+print("temporadas_de() — que temporadas pedir de una liga clasica")
+print("")
+
+t = H.temporadas_de(3, hasta=2026)
+prueba("devuelve tantas como se piden", len(t) == 3)
+prueba("con el formato de football-data (aaaa)", all(len(x) == 4 for x in t))
+prueba("la mas nueva primero o ultima, pero ordenadas",
+       list(t) == sorted(t))
+prueba("2526 esta entre ellas", "2526" in t)
+prueba("y no pide temporadas del futuro", "2627" not in t)
+
+
+print("")
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

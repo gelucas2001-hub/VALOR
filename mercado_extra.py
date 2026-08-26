@@ -141,6 +141,29 @@ def _linea(hdp):
     return str(int(f)) if f == int(f) else str(f)
 
 
+def binaria(hdp):
+    """True si la línea es X.5 — no puede empatar ni partirse en dos.
+
+    Bet365 cotiza líneas de tres formas: X.5 (gana o pierde), enteras
+    (2, 3, 4... — si el marcador cae justo ahí, empata y devuelve la
+    apuesta, "push") y de cuarto (X.25, X.75 — reparte la apuesta en
+    dos mitades y liquida cada una con la línea vecina).
+
+    Todo nuestro motor es binario: `TESTS` en `index.html`, el Brier de
+    `medir_corners.py`, el registro de pronósticos. Ninguno sabe qué
+    hacer con un push o una apuesta partida en dos. Compararlos igual
+    no tiraría un error — daría un EV mal calculado sin que nada avise,
+    que es peor que no tener la línea.
+    """
+    try:
+        f = float(hdp)
+    except (TypeError, ValueError):
+        return False
+    doble = f * 2
+    entero = round(doble)
+    return abs(doble - entero) < 1e-6 and entero % 2 == 1
+
+
 def dos_lados(odds):
     """{línea: [over, under]} de un bloque de dos lados.
 
@@ -221,7 +244,8 @@ def extraer(bloques):
     goles = {}
     for n in GOLES:
         for ln, v in dos_lados(por_nombre.get(n)).items():
-            goles.setdefault(ln, v)
+            if binaria(ln):
+                goles.setdefault(ln, v)
     if goles:
         out["goles"] = goles
 
@@ -230,7 +254,8 @@ def extraer(bloques):
         d = {}
         for n in nombres:
             for ln, v in dos_lados(por_nombre.get(n)).items():
-                d.setdefault(ln, v)
+                if binaria(ln):
+                    d.setdefault(ln, v)
         if d:
             corners[donde] = d
     if corners:

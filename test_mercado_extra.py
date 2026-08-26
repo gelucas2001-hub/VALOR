@@ -56,11 +56,18 @@ BLOQUES = [
     {"name": "Alternative Total Goals",
      "odds": [{"hdp": 0.5, "over": "1.071", "under": "9.000"},
               {"hdp": 1.5, "over": "1.300", "under": "3.400"},
-              {"hdp": 3.5, "over": "3.500", "under": "1.285"}]},
+              {"hdp": 3.5, "over": "3.500", "under": "1.285"},
+              # De cuarto: parte la apuesta en dos mitades. No binaria.
+              {"hdp": 2.25, "over": "1.850", "under": "1.950"},
+              # Entera: puede empatar y devolver ("push"). No binaria.
+              {"hdp": 2, "over": "1.500", "under": "2.500"}]},
     {"name": "Corners Totals",
      "odds": [{"hdp": 9.5, "over": "1.800", "under": "2.000"}]},
     {"name": "Corners",
      "odds": [{"hdp": 10, "over": "2.250", "under": "1.909"}]},
+    {"name": "Alternative Corners",       # todas enteras: push, no entran
+     "odds": [{"hdp": 6, "over": "1.125", "under": "10.000"},
+              {"hdp": 7, "over": "1.250", "under": "6.000"}]},
     {"name": "Team Corners Home",
      "odds": [{"hdp": 6.5, "over": "2.000", "under": "1.727"}]},
     {"name": "Corners Totals Home",       # duplicado exacto del anterior
@@ -119,6 +126,21 @@ prueba("y None tampoco explota", ME.dos_lados(None) == {})
 
 
 print("")
+print("binaria() — solo X.5 pasa: nada que empate ni se parta")
+print("")
+
+prueba("0.5 es binaria", ME.binaria("0.5"))
+prueba("2.5 tambien", ME.binaria(2.5))
+prueba("una linea entera NO es binaria (puede empatar y devolver)",
+       not ME.binaria("2"))
+prueba("ni una de cuarto (parte la apuesta en dos)",
+       not ME.binaria("2.25"))
+prueba("ni una de tres cuartos", not ME.binaria("2.75"))
+prueba("basura no es binaria", not ME.binaria("x"))
+prueba("None tampoco", not ME.binaria(None))
+
+
+print("")
 print("extraer() — los mercados que nos importan, y solo esos")
 print("")
 
@@ -138,8 +160,21 @@ prueba("y 1.5 tiene precio real, que es lo que faltaba",
        cerca(x["goles"]["1.5"][0], 1.3))
 prueba("3.5 tambien", cerca(x["goles"]["3.5"][1], 1.285))
 
-prueba("los corners del partido entran",
-       {"9.5", "10"} <= set(x["corners"]["total"]))
+# EL test de la parte binaria. Bet365 cotiza lineas de cuarto y enteras
+# ademas de las X.5, pero nuestro motor (TESTS, el Brier, el registro)
+# es binario: gana o pierde. Una de cuarto parte la apuesta en dos
+# mitades y una entera puede empatar y devolver ("push") — comparar el
+# modelo contra esas seria un error que no tira ninguna excepcion.
+prueba("la linea de cuarto (2.25) NO entra", "2.25" not in x["goles"])
+prueba("la linea entera (2) NO entra", "2" not in x["goles"])
+prueba("solo quedaron binarias",
+       all(ME.binaria(ln) for ln in x["goles"]))
+
+prueba("los corners del partido entran", "9.5" in x["corners"]["total"])
+# El bloque "Corners" del fixture trae hdp=10, entera: la saca el mismo
+# filtro que las de Alternative Corners.
+prueba("pero las lineas enteras (10, 6, 7) no, son push",
+       not any(v in x["corners"]["total"] for v in ("10", "6", "7")))
 prueba("los del local", cerca(x["corners"]["local"]["6.5"][0], 2.0))
 prueba("los del visitante", cerca(x["corners"]["visita"]["3.5"][0], 2.1))
 

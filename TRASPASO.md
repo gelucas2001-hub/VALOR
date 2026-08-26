@@ -2945,3 +2945,37 @@ standings **actual**, así que un equipo que descendió deja de cruzar y
 uno que ascendió aparece sin historia hasta la próxima corrida. Hoy
 Coventry City y Le Mans están así: ascendieron y no pisaron primera en
 las once temporadas que tenemos.
+
+### Addendum · Solo líneas binarias, y DraftKings sigue siendo la referencia (2026-08-26)
+
+Dos correcciones antes de cablear `mercado_extra.py` a la app.
+
+**Bet365 cotiza líneas que no son binarias.** De 16 líneas de gol,
+solo 7 son X.5 (gana/pierde limpio). Las de cuarto (2.25, 2.75...)
+reparten la apuesta en dos mitades; las enteras (2, 3, 4...) pueden
+empatar y devolver ("push"). Todo el motor de la app —`TESTS` en
+`index.html`, el Brier de `medir_corners.py`, el registro de
+pronósticos— asume binario. Compararlo contra una de esas no tira
+error: da un EV mal calculado sin avisar, que es peor que no tener la
+línea. `binaria()` las saca antes de que lleguen a nada. Verificado
+contra la API real: de las 16 de Unión–Sarmiento quedan 7 (0.5 a 6.5).
+
+**DraftKings sigue siendo la referencia del 1X2.** Medido sobre 43
+partidos cruzados por fixture entre las dos casas:
+
+    margen medio DraftKings   7.15%
+    margen medio Bet365       7.89%
+    diferencia: +0.74pp ± 0.26pp (significativo, no ruido)
+
+    diferencia de probabilidad devigada (Shin) entre las dos casas:
+    media 1.55pp, maxima 3.68pp — nunca cerca del umbral de 6pp
+
+DraftKings es más ajustado, y cambiar de referencia no hubiera movido
+ninguna marca en estos 43 partidos. Se decidió NO tocar la referencia
+del 1X2: sigue siendo DraftKings, como siempre. Bet365 entra solo
+donde DraftKings no tiene nada (el resto de las líneas de gol,
+córners, jugadores, ambos marcan, doble oportunidad cotizada) — así
+ningún mercado queda con dos varas compitiendo, porque no se
+superponen en ninguno.
+
+Falta: cablear `mercado_extra.py` a `actualizar.py` y a la interfaz.

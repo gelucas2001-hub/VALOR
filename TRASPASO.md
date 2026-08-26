@@ -3050,3 +3050,34 @@ Pendiente, ya con visibilidad: si conviene *escribir* la cuota real en
 sugerencia de render, nunca se persiste sola. Se decidió así para no
 mezclar "lo que el usuario cargó" con "lo que le sugerimos" en el mismo
 storage sin que él lo pida.
+
+### Addendum · Por qué no hay backtest de jugador todavía (2026-08-26)
+
+El plan era medir remates/al arco contra plata real, como se hizo con
+córners. Se cayó al primer chequeo, y vale la pena dejar escrito por
+qué: `v3/events` de odds-api.io para ligas domésticas (probado sobre
+arg.1) devuelve **150 eventos, los 150 pendientes** — el primero recién
+el 28/8. `status=settled` da cero, y no existe un endpoint de eventos
+históricos (`historical/events` da 400). Para Libertadores/Sudamericana
+sí funciona — son llaves de pocos partidos, la fuente los deja
+visibles después de jugados — pero para las ligas de todos-contra-
+todos, el `id` del evento deja de estar disponible en cuanto el
+partido se juega. Sin `id` no hay `historical/odds` posible, aunque
+el endpoint funcione (se probó y anda, con el partido de Independiente
+del Valle).
+
+Conclusión: no hay historial de Bet365 esperando a que lo bajemos para
+arg.1/bra.1. Hay que juntarlo desde ahora y medir dentro de unas
+semanas. Se agregó `snapshot_props()` en `actualizar.py` (TDD, 5 tests
+en `test_actualizar.py`, 13 en total), que guarda una foto de las
+líneas de `mercadoExtra.remates`/`.al_arco` en `data/props_jugadores.json`
+cada corrida — **cero pedidos nuevos**, el dato ya lo trae
+`mercado_extra_de()`. Se acumula igual que `cuotas.json`, y solo agrega
+una foto cuando la línea se movió.
+
+Falta, para cuando haya semanas de fotos acumuladas: cruzar cada foto
+contra el resultado real del jugador (`cache_disciplina.json._jugadores`,
+que ya lo tiene) y medir ROI walk-forward, con el mismo criterio que
+`medir_corners.py`. Hasta entonces, cero recomendaciones de jugador en
+la interfaz — sería calibrar sin haber medido si sirve, justo lo que
+este archivo prohíbe.

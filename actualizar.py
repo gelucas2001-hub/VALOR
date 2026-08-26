@@ -49,6 +49,7 @@ PLANTELES = Path("data/planteles.json")     # team_id -> plantel con números
 # cuesta un pedido más, cuesta dejar de descartar 22 de las 25 métricas.
 ESTADISTICAS = Path("data/estadisticas.json")
 CUOTAS = Path("data/cuotas.json")   # historia de la cuota de mercado, se acumula
+PROPS_JUGADOR = Path("data/props_jugadores.json")  # historia de líneas de jugador (Bet365)
 ESTADISTICAS_N = 8                          # sobre cuántos partidos promedia
                             # (PJ, goles, asistencias, remates, tarjetas por
                             # jugador) sumando liga doméstica + competición.
@@ -919,6 +920,42 @@ def snapshot_cuotas(previas, partidos, ahora):
         if historia and all(historia[-1].get(k) == foto[k] for k in CAMPOS_FOTO):
             continue                      # no se movio nada
         historia.append(foto)
+    return out
+
+
+CAMPOS_PROPS = ("remates", "al_arco")
+
+
+def snapshot_props(previas, partidos, ahora):
+    """Agrega una foto de las líneas de jugador de Bet365 (remates, al
+    arco) por partido — igual idea que snapshot_cuotas(), y por el mismo
+    motivo: la fuente no guarda el precio una vez jugado el partido.
+
+    Acá es más grave que con la cuota de 1X2: `v3/events` de odds-api.io
+    para ligas domésticas solo lista partidos PENDIENTES (150 de 150,
+    verificado el 2026-08-26 sobre arg.1) y `status=settled` da cero. O
+    sea que no hay ningún historial que pedir hacia atrás — si no se
+    guarda antes de que se juegue, se pierde para siempre.
+
+    Sin resultado todavía: esto solo junta precio. Cruzarlo contra lo que
+    pasó de verdad (cache_disciplina.json._jugadores) es un paso aparte,
+    para cuando haya partidos ya jugados con foto guardada."""
+    out = {k: list(v) for k, v in (previas or {}).items()}
+    for p in partidos or []:
+        mx = p.get("mercadoExtra") or {}
+        for met in CAMPOS_PROPS:
+            for jugador, datos in (mx.get(met) or {}).items():
+                lineas = (datos or {}).get("lineas") or {}
+                if not lineas:
+                    continue
+                clave = f"{p.get('id')}__{met}__{jugador}"
+                foto = {"t": ahora, "fecha": p.get("date"), "comp": p.get("comp"),
+                        "home": p.get("home"), "away": p.get("away"),
+                        "lado": datos.get("lado"), "lineas": dict(lineas)}
+                historia = out.setdefault(clave, [])
+                if historia and historia[-1].get("lineas") == foto["lineas"]:
+                    continue
+                historia.append(foto)
     return out
 
 
@@ -2480,6 +2517,24 @@ def main():
     _fotos = sum(len(v) for v in cuotas.values())
     print(f"· cuotas: {len(cuotas)} partidos, {_fotos} fotos "
           f"(+{_fotos - sum(len(v) for v in cuotas_previas.values())} nuevas)")
+
+    # ── historia de las líneas de jugador (Bet365) ────────────────────
+    # Cero pedidos nuevos: mercado_extra_de() ya las trajo más arriba.
+    # Se acumula porque para ligas domésticas no hay forma de pedirlas
+    # hacia atrás una vez jugado el partido — ver snapshot_props().
+    props_previas = {}
+    if PROPS_JUGADOR.exists():
+        try:
+            props_previas = json.loads(PROPS_JUGADOR.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            props_previas = {}
+    props = snapshot_props(props_previas, partidos,
+                            datetime.datetime.now().isoformat(timespec="minutes"))
+    PROPS_JUGADOR.write_text(json.dumps(props, ensure_ascii=False, separators=(",", ":")),
+                             encoding="utf-8")
+    _fotos_p = sum(len(v) for v in props.values())
+    print(f"· props de jugador: {len(props)} líneas, {_fotos_p} fotos "
+          f"(+{_fotos_p - sum(len(v) for v in props_previas.values())} nuevas)")
 
     CACHE_DISCIPLINA.parent.mkdir(parents=True, exist_ok=True)
     CACHE_DISCIPLINA.write_text(json.dumps(cache_resumen, ensure_ascii=False), encoding="utf-8")

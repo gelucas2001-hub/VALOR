@@ -101,5 +101,35 @@ finally:
     ME.eventos_de = _orig_eventos_de
 
 
+# ── snapshot_props() ────────────────────────────────────────────────
+
+PARTIDO_CON_PROPS = {
+    "id": "espn1", "date": "2026-08-26", "comp": "Liga Profesional Argentina",
+    "home": "River", "away": "Boca",
+    "mercadoExtra": {
+        "remates": {"Junior Sornoza": {"lado": "L", "lineas": {"1.5": 1.9, "2.5": 3.2}}},
+    },
+}
+
+prueba("primera foto: crea la entrada",
+       len(A.snapshot_props({}, [PARTIDO_CON_PROPS], "t1")) == 1)
+
+_una = A.snapshot_props({}, [PARTIDO_CON_PROPS], "t1")
+prueba("guarda liga, línea y cuota",
+       list(_una.values())[0][0]["lineas"] == {"1.5": 1.9, "2.5": 3.2})
+
+_dos = A.snapshot_props(_una, [PARTIDO_CON_PROPS], "t2")
+prueba("sin cambios, no agrega una foto nueva",
+       len(list(_dos.values())[0]) == 1)
+
+_movido = {**PARTIDO_CON_PROPS, "mercadoExtra": {
+    "remates": {"Junior Sornoza": {"lado": "L", "lineas": {"1.5": 1.85, "2.5": 3.2}}}}}
+_tres = A.snapshot_props(_una, [_movido], "t2")
+prueba("la línea se movió: agrega una foto nueva",
+       len(list(_tres.values())[0]) == 2)
+
+prueba("sin mercadoExtra, no rompe y no agrega nada",
+       A.snapshot_props({}, [{"id": "espn2"}], "t1") == {})
+
 print(f"\n{ok} ok, {fallan} fallan")
 sys.exit(1 if fallan else 0)

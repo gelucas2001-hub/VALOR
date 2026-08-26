@@ -1000,6 +1000,22 @@ const VENTAJA_MIN = 0.02;
 const VALOR_MIN = 0.06;
 const VALOR_MAX = 0.12;
 
+/* Piso de cuota para la marca dorada — para individual, no para lo
+   que entra en una combinada (eso lo sigue eligiendo la escalera por
+   franja, sin mirar este piso).
+
+   MAX_ODDS ya frenaba el techo (cuota demasiado alta = sospechar del
+   modelo). Nunca hubo un piso, y con solo el 1X2 casi no se notaba —
+   pocas veces baja de 1.50. Con más mercados reales (goles extra,
+   ambos marcan) empezó a pasar seguido: medido el 2026-08-26, de 14
+   franjas marcadas en la grilla del día, la mitad pagaba menos de
+   1.50 — la mayoría en "Lo más probable", que por diseño es la que
+   menos paga (ver FRANJAS). Con este piso, "Lo más probable" casi
+   nunca se marca en dorado — y está bien: nunca prometió ser la
+   mejor apuesta, solo la más segura. Se eligió 1.50 después de ver
+   que 1.75 apagaba el 79% de las marcas del día. */
+const CUOTA_MIN_VAL = 1.50;
+
 /* Terracota: el mercado le da 10pp más que nosotros a nuestra propia
    lectura. Se enciende en el 8% de los partidos con cuota. */
 const ALERTA_MIN = 0.10;
@@ -1332,6 +1348,38 @@ function pMercado(op, pq, mk, mx){
   return null;
 }
 
+/* La cuota cruda que pMercado() efectivamente usó para esta opción —
+   misma fuente, mismo orden. Existe para el piso de cuota
+   (CUOTA_MIN_VAL): frenar por cuota baja mirando un precio distinto
+   del que se comparó no tendría sentido.
+
+   Doble oportunidad no tiene una cuota propia — pMercado() la deriva
+   sumando probabilidades devigadas de 1X2, no de un mercado de dos
+   vías. Se aproxima con 1/pm (la implícita de esa combinación, sin
+   margen propio): no es exacta, pero esos mercados casi nunca llegan
+   a marcarse, así que la aproximación no pesa. */
+function cuotaUsada(op, pq, mk, mx){
+  if(op.req){
+    if(op.req.length===1){
+      const k = op.req[0];
+      const c = k==="L" ? mk.local : k==="E" ? mk.empate : mk.visitante;
+      return c>1 ? c : null;
+    }
+    const pm = pMercado(op, pq, mk, mx);
+    return pm>0 ? 1/pm : null;
+  }
+  if(op.linea!=null){
+    const gx = mx && mx.goles && mx.goles[String(op.linea)];
+    if(gx && gx.length===2) return op.lado==="over" ? gx[0] : gx[1];
+    if(mk && mk.totalLinea===op.linea && mk.totalOver && mk.totalUnder)
+      return op.lado==="over" ? mk.totalOver : mk.totalUnder;
+    return null;
+  }
+  if(op.id==="btts_si") return mx && mx.btts && mx.btts.si>1 ? mx.btts.si : null;
+  if(op.id==="btts_no") return mx && mx.btts && mx.btts.no>1 ? mx.btts.no : null;
+  return null;
+}
+
 /* ══════════════════════════════════════════════════════════════════
    NUESTRA LECTURA — una sola por partido
 
@@ -1447,10 +1495,12 @@ function escalera(m){
     } else {
       const centro = (f.lo+f.hi)/2;
       elegido = cand.reduce((a,b)=> Math.abs(a.p-centro)<=Math.abs(b.p-centro)?a:b);
-      const pm = pMercado(elegido, pq, mk);
+      const pm = pMercado(elegido, pq, mk, mx);
       ventaja = pm==null ? null : elegido.p - pm;
     }
-    const valor = ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX;
+    const cuota = cuotaUsada(elegido, pq, mk, mx);
+    const valor = ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
+                  && cuota!=null && cuota>=CUOTA_MIN_VAL;
     yaElegidos.push(elegido.id);
     return {franja:f, op:elegido, ventaja, valor};
   });
@@ -1511,8 +1561,16 @@ function otrosMercados(m){
   return ops.map(o=>{
     const pm = pMercado(o, pq, mk, mx);
     const ventaja = pm==null ? null : o.p - pm;
+    /* VALOR_MIN, no VENTAJA_MIN: acá se decide si SE MARCA en dorado,
+       no si un candidato es aceptable para competir dentro de su
+       franja — es la misma vara que usa escalera() para su propio
+       `valor`. Y el mismo piso de cuota: sin eso, cualquier fila con
+       una probabilidad cercana a 100% (típico en líneas de gol lejos
+       del promedio) se marca aunque pague centavos. */
+    const cuota = cuotaUsada(o, pq, mk, mx);
     const esVal = !!dir && !contradice(o, dir)
-                  && ventaja!=null && ventaja>=VENTAJA_MIN && ventaja<=VALOR_MAX;
+                  && ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
+                  && cuota!=null && cuota>=CUOTA_MIN_VAL;
     return {op:o, ventaja, esVal};
   });
 }

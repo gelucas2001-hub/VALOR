@@ -34,7 +34,7 @@ function cargarLogica(){
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
               tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
-              fiabilidadJugador, devigShin, pMercado, cuotaReal,
+              fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
                                             CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; }});
@@ -350,20 +350,56 @@ test("otrosMercados marca AL MENOS el mercado que ganó la escalera", ()=>{
   cierto(revisados > 0, "ningún partido tuvo marca de valor para revisar");
 });
 
+// Vélez vs Defensa: btts_no da 56.97% en el modelo — con -8pp de
+// ventaja (adentro de [VALOR_MIN, VALOR_MAX] = [0.06, 0.12]) y libro
+// sin margen, la cuota implícita da ~2.04, bien arriba del piso.
+const BASE_BTTS = PARTIDOS.find(m=> m.home === "Vélez Sarsfield" && m.away === "Defensa y Justicia");
+
 test("otrosMercados marca cualquier fila con ventaja real dentro de la banda, no solo la de la escalera", ()=>{
-  const base = PARTIDOS.find(m=> m.lh != null && m.la != null);
-  const lean = L.lectura(base).lean;
-  const pNo = L.mercados(L.lectura(base).M, base).find(o=> o.id==="btts_no").p;
-  // Libro sin margen (Shin no corrige un mercado de dos vías sin margen):
-  // la cuota implica exactamente pNo - 0.05, una ventaja adentro de
-  // [VENTAJA_MIN, VALOR_MAX] = [0.02, 0.12].
-  const target = pNo - 0.05;
-  const m = {...base, mercadoExtra: {btts: {si: 1/(1-target), no: 1/target}}};
+  const lean = L.lectura(BASE_BTTS).lean;
+  const pNo = L.mercados(L.lectura(BASE_BTTS).M, BASE_BTTS).find(o=> o.id==="btts_no").p;
+  const target = pNo - 0.08;
+  const m = {...BASE_BTTS, mercadoExtra: {btts: {si: 1/(1-target), no: 1/target}}};
   L.cargar([m], {[m.id]: {contexto:"x", inclinacion:lean}});
   const btts = L.otrosMercados(m).find(x=> x.op.id === "btts_no");
-  cierto(btts && Math.abs(btts.ventaja - 0.05) < 1e-6, `ventaja mal calculada: ${btts && btts.ventaja}`);
+  cierto(btts && Math.abs(btts.ventaja - 0.08) < 1e-6, `ventaja mal calculada: ${btts && btts.ventaja}`);
   cierto(!L.contradice(btts.op, lean), "el fixture eligió mal: btts sí contradice el lean");
+  cierto(1/target >= L.CUOTA_MIN_VAL, "el fixture eligió mal: la cuota construida ya está bajo el piso");
   cierto(btts.esVal, "no marcó valor en una fila con ventaja real fuera de la escalera");
+});
+
+// Corinthians vs Rosario Central: btts_no da 83.80% en el modelo —
+// una probabilidad alta a propósito, para poder lograr una ventaja
+// real DENTRO de la banda con una cuota que paga bajo el piso (algo
+// que con probabilidades del medio no se puede construir: para que
+// la ventaja sea positiva, el mercado tiene que estar todavía más
+// convencido que nosotros, y con p~0.55 eso nunca cruza 1.50).
+const BASE_ALTA = PARTIDOS.find(m=> m.home === "Corinthians" && m.away === "Rosario Central");
+
+test("el piso de cuota apaga la marca aunque la ventaja sea real y esté en la banda", ()=>{
+  const lean = L.lectura(BASE_ALTA).lean;
+  const pNo = L.mercados(L.lectura(BASE_ALTA).M, BASE_ALTA).find(o=> o.id==="btts_no").p;
+  const target = pNo - 0.08;
+  const cuotaEsperada = 1/target;
+  cierto(cuotaEsperada < L.CUOTA_MIN_VAL,
+         `el fixture no sirve para este caso: la cuota construida (${cuotaEsperada.toFixed(2)}) ya está arriba del piso`);
+  const m = {...BASE_ALTA, mercadoExtra: {btts: {si: 1/(1-target), no: cuotaEsperada}}};
+  L.cargar([m], {[m.id]: {contexto:"x", inclinacion:lean}});
+  const btts = L.otrosMercados(m).find(x=> x.op.id === "btts_no");
+  cierto(Math.abs(btts.ventaja - 0.08) < 1e-6, `ventaja mal calculada: ${btts.ventaja}`);
+  cierto(!btts.esVal,
+         `marcó valor con una ventaja real (${(btts.ventaja*100).toFixed(1)}pp) pero cuota ${cuotaEsperada.toFixed(2)}, bajo el piso de ${L.CUOTA_MIN_VAL}`);
+});
+
+test("cuotaUsada() trae la cuota cruda de cada fuente, en el mismo orden que pMercado()", ()=>{
+  const mk = {local: 1.8, empate: 3.2, visitante: 4.5, totalLinea: 2.5, totalOver: 1.9, totalUnder: 1.9};
+  const mx = {goles: {"1.5": [1.3, 3.2]}, btts: {si: 1.85, no: 1.95}};
+  igual(L.cuotaUsada({req:["L"]}, null, mk, mx), 1.8, "1X2 local");
+  igual(L.cuotaUsada({req:["E"]}, null, mk, mx), 3.2, "1X2 empate");
+  igual(L.cuotaUsada({linea:1.5, lado:"over"}, null, mk, mx), 1.3, "Bet365 antes que DraftKings");
+  igual(L.cuotaUsada({linea:2.5, lado:"over"}, null, mk, mx), 1.9, "cae a DraftKings sin Bet365");
+  igual(L.cuotaUsada({linea:9.5, lado:"over"}, null, mk, mx), null, "inventó una línea sin cruce");
+  igual(L.cuotaUsada({id:"btts_si"}, null, mk, mx), 1.85, "ambos marcan, sí");
 });
 
 test("sin análisis, aunque haya ventaja real en mercadoExtra, no marca nada", ()=>{

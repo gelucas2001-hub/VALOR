@@ -3106,3 +3106,46 @@ el pick de la escalera. El render muestra la cuota de Bet365 cuando
 existe. Verificado en el navegador: 2 marcas nuevas en el partido de
 hoy, ninguna contradice la inclinación (`E`). 2 tests actualizados y 2
 nuevos en `test_alineacion.js` (80 en total).
+
+### Addendum · Piso de cuota: "conviene si te pagan más de 1.05" no es una recomendación (2026-08-26)
+
+El addendum anterior arregló QUE se marcara cada fila por su cuenta.
+Este arregla CUÁL fila puede marcarse. Lucas lo encontró mirando el
+partido de hoy: "Menos de 4.5 goles" quedó en dorado con Bet365
+pagando **1.06**. Los números, exactos:
+
+    modelo: 99.06%   Bet365: 1.062   ventaja: 8.66pp   EV: 5.2%
+
+Matemáticamente pasaba el filtro — la ventana de ventaja [6,12]pp se
+midió sobre 1X2, donde una cuota así de baja casi no existe. Estirada
+a mercados que sí llegan a cuota 1.05-1.10 (líneas de gol lejos del
+promedio), la misma ventana deja pasar apuestas donde hay mucho más
+para perder que para ganar. Se verificó además una inconsistencia
+aparte: `otrosMercados()` usaba `VENTAJA_MIN` (2pp, el piso para
+CANDIDATEAR dentro de una franja) en vez de `VALOR_MIN` (6pp, el piso
+real para MARCAR) — dos varas distintas para la misma pregunta.
+
+Medido antes de decidir el número (no elegido a ojo): sobre la grilla
+del día, un piso de 1.75 apagaba el 79% de las marcas activas (11 de
+14, casi todas en la franja "Lo más probable" — que por diseño es la
+que menos paga, así que perderlas no pierde información). Con 1.50,
+apaga el 43% (6 de 14) — Lucas lo eligió después de ver los dos
+números.
+
+Se agregó `CUOTA_MIN_VAL = 1.50` y `cuotaUsada(op, pq, mk, mx)` —la
+cuota cruda que `pMercado()` efectivamente comparó, no una aproximación
+distinta— aplicado en `escalera()` (su propio `valor`) y en
+`otrosMercados()` (ya usando `VALOR_MIN`, corregido). El piso frena la
+marca INDIVIDUAL únicamente: la escalera y las combinadas siguen
+eligiendo su pata por franja sin mirarlo, así que una cuota de 1.20
+sigue disponible para armar una combinada — la discusión que lo generó
+fue justamente esa distinción ("en combinadas 1.20 sirve, en
+individual no llama la atención").
+
+De paso se corrigió un bug chico: la rama de `escalera()` que se usa
+cuando ninguna opción es "creíble" llamaba a `pMercado()` sin pasarle
+`mx` — la ventaja de esa rama nunca veía precio de Bet365.
+
+6 tests nuevos/corregidos en `test_alineacion.js` (82 en total).
+Verificado en el navegador: las dos marcas de 1.06 y 1.01 del partido
+de hoy desaparecieron y ninguna otra las reemplazó.

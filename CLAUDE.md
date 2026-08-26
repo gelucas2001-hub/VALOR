@@ -30,6 +30,7 @@ archivo se contradicen en algo, gana `TRASPASO.md`: es el más nuevo.
 | `medir_calibracion.py` | Cuando la app dice 70%, ¿pasa el 70%? Mide la calibración de lo que la app ya publicó, partido por partido — a diferencia de `backtest.py`, que reconstruye lo que el modelo habría dicho. Faltaba en esta tabla hasta el 2026-08-24 | A mano, cada tanto |
 | `historico.py` | Baja y normaliza el historial largo de football-data.co.uk: 6310 partidos de arg, 5544 de bra, **4180 de eng y 3857 de fra** (agregadas el 2026-08-25), con cuota de cierre de Pinnacle. Es la base de las mediciones serias. Lee los **dos** formatos de la fuente — un archivo único para las ligas nuevas, uno por temporada para las clásicas de Europa. Solo el segundo trae estadísticas por partido, y esa es la razón por la que en Inglaterra se distinguen los equipos y en Argentina no | A mano |
 | `equipos.py` | Cruza los nombres de equipo del CSV de football-data con los de ESPN, que es lo unico que ataba las dos fuentes. **Solo por igualdad exacta despues de normalizar** — nada de parecido ni prefijos: en Ligue 1 juegan Paris Saint-Germain y Paris FC a la vez, y el CSV tiene a los dos (395 partidos contra 34). Un cruce difuso les funde la historia y eso no se ve como un error, se ve como datos. De los 15 nombres que no coincidian, 12 los resuelve el `shortDisplayName` que ESPN ya publica y uno el apostrofo: la tabla a mano es de **tres** entradas. Cruza 19 de 20 en Inglaterra y 17 de 18 en Francia; los dos que faltan son ascendidos sin historia en primera | A mano, cuando cambia una liga |
+| `mercado_extra.py` | La cuota que ESPN NO publica, de Bet365 vía odds-api.io: 17 a 19 lineas de gol, ambos marcan, doble oportunidad cotizada, corners del partido **y por equipo con los dos lados**, y la escalera de remates de ~50 jugadores por partido. ESPN daba UNA casa y tres cosas (1X2, goles 2.5, handicap); todo el resto de 'Otros mercados' salia del modelo sin nada real contra que compararse. Cruza los partidos por **fixture** (liga + fecha + los dos equipos), nunca por nombre: ellos escriben 'CA River Plate (ARG)' y tienen ademas 'Racing Club De Lens'. 46 de 46 cruzan unico. **Sin `ODDS_API_KEY` no hace nada y la app queda igual** | A mano / lo llama el cron |
 | `historia_equipos.py` | Escribe `data/historia_equipos.json`: la historia larga de cada equipo (296 partidos contra los 5 del cache), cruzada a ids de ESPN con `equipos.py`. Guarda `n`, `suma` y `suma2` por equipo y metrica — de ahi salen media y varianza exactas, y pesa 18 KB en vez de 80.000 numeros sueltos. **Se corre A MANO**: el cron NO lo baja, serian 22 pedidos a football-data dos veces por dia para un archivo que cambia una vez por semana. Volver a correrlo cuando cambian los ascensos y descensos | A mano, cada tanto |
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
 | `medir_devig.py` | Qué método de quitar el margen de la casa acierta. Medido el 2026-08-25 sobre 11.854 partidos con cuota de cierre real: gana Shin, y gana más cuanto más alto el margen — que es la condición de la app. Antes la app usaba el proporcional y las mediciones usaban Shin | A mano, cada tanto |
@@ -80,7 +81,13 @@ esta.
 ## Restricciones duras
 
 - **`actualizar.py`: solo biblioteca estándar.** Corre en GitHub Actions sin `pip install`. Nada de dependencias.
-- **Sin claves de API.** Todo sale de endpoints públicos.
+- **Una clave de API se lee del entorno, nunca del repo.** Hasta el
+  2026-08-26 la regla era "sin claves", y se eliminó a propósito: la
+  cuota de córners, de jugador y de las líneas de gol que ESPN no
+  publica sale de odds-api.io, que pide clave. Lo que queda en pie es
+  cómo se maneja: `os.environ`, secret de GitHub Actions, y **sin la
+  clave todo tiene que seguir andando igual que antes** — la fuente
+  nueva agrega mercados, no reemplaza los que ya funcionan.
 - **No cambiar el contrato de `data/partidos.json`.** Agregar campos sí; renombrar o cambiar tipos rompe el frontend.
 - **No tocar constantes del modelo para que un número dé mejor.** Si una medición no mejora, el hallazgo es que no mejoró. Hay scripts para medir: usalos.
 - **Un barrido que mejora en el borde de la grilla no encontró nada.**

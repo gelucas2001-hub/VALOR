@@ -34,7 +34,7 @@ function cargarLogica(){
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
               tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
-              fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL,
+              fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL, combinada,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
                                             CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; }});
@@ -1211,6 +1211,109 @@ test("cuotaReal() da null sin cruce — Herramientas sigue pidiendo la carga a m
   igual(L.cuotaReal({}, {linea:2.5, lado:"over"}), null);
   igual(L.cuotaReal(M_CON_EXTRA, {linea:4.5, lado:"over"}), null,
         "inventó una línea que Bet365 no cotiza en este partido");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   BALANCE DE FAMILIAS EN LA ESCALERA
+
+   mercados() creció de 3 líneas de gol a 7 para darle precio real a
+   más filas de "Otros mercados". Eso multiplicó los candidatos de
+   Goles a 14 contra 8 de Resultado+Ambos juntos — y cuando ninguno es
+   "creíble", la escalera elige el más cercano al centro de la franja
+   ENTRE TODOS mezclados, así que Goles gana casi siempre por pura
+   cantidad, no porque sea mejor. Medido el 2026-08-26 sobre la grilla
+   real: 115 de 135 franjas eran Goles (85%), y como consecuencia
+   combinada() — que necesita una pata de "Resultado" — dejó de
+   generar en 42 de 45 partidos (93%).
+
+   La escalera tiene que elegir su franja del conjunto CHICO de
+   siempre (Resultado, Ambos, y las tres líneas clásicas de gol). Las
+   líneas extra siguen enteras en mercados() para Otros Mercados y
+   Herramientas — no se pierde cobertura ahí, solo se saca de la
+   competencia por el titular de cada franja.
+   ══════════════════════════════════════════════════════════════════ */
+
+// Le agrega las 7 líneas de gol como haría un cruce real con Bet365 —
+// las cuotas no importan para este test (la densidad rompe el balance
+// aunque no haya ventaja en ninguna), solo que existan.
+function conGolesCompleto(m){
+  const goles = {};
+  for(let n=0.5; n<=6.5; n++) goles[String(n)] = [1.9, 1.9];
+  return {...m, mercadoExtra: {...(m.mercadoExtra||{}), goles}};
+}
+const USABLES = PARTIDOS.filter(m=> m.lh != null && m.la != null);
+
+test("escalera() no deja que las líneas extra de gol aplasten a Resultado y Ambos por cantidad", ()=>{
+  const con = USABLES.map(conGolesCompleto);
+  L.cargar(con, {});
+  const conteo = {Resultado:0, Goles:0, Ambos:0};
+  let total = 0;
+  con.forEach(m=>{
+    L.escalera(m).forEach(f=>{
+      if(!f.op) return;
+      total++; conteo[f.op.fam]++;
+    });
+  });
+  cierto(total > 0, "no hay franjas para revisar");
+  const fraccionGoles = conteo.Goles / total;
+  cierto(fraccionGoles < 0.6,
+         `Goles sigue aplastando: ${conteo.Goles}/${total} (${(fraccionGoles*100).toFixed(0)}%) — Resultado ${conteo.Resultado}, Ambos ${conteo.Ambos}`);
+});
+
+test("mercados() sigue trayendo las 7 líneas — Otros mercados y Herramientas no pierden cobertura", ()=>{
+  const m = conGolesCompleto(USABLES[0]);
+  const lineas = new Set(
+    L.mercados(L.lectura(m).M, m).filter(o=>o.fam==="Goles").map(o=>o.linea)
+  );
+  [0.5,1.5,2.5,3.5,4.5,5.5,6.5].forEach(n=> cierto(lineas.has(n), `mercados() perdió la línea ${n}`));
+});
+
+test("combinada() vuelve a encontrar una pata de Resultado en la mayoría de los partidos", ()=>{
+  const con = USABLES.map(conGolesCompleto);
+  L.cargar(con, {});
+  const conCombinada = con.filter(m=> L.combinada(m)).length;
+  cierto(conCombinada / con.length > 0.3,
+         `combinada() sigue casi sin generar: ${conCombinada}/${con.length}`);
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   DIVERSIDAD DE FAMILIA EN LA ESCALERA
+
+   Cuando ninguna opción de una franja es "creíble" (sin ventaja real
+   medida), se elige la más cercana al centro de la banda — y ESO
+   favorece sistemáticamente a Goles sobre Resultado, con o sin
+   Bet365: los totales de gol se reparten suave por toda la
+   probabilidad; Local/Empate/Visita se agrupan en pocos valores
+   correlacionados. Medido: 98 de 135 franjas se resuelven así (73%),
+   y por eso combinada() — que necesita una pata de Resultado con
+   p≥50% — pasó de generar en 22/45 (sin mercadoExtra) a 9/45.
+
+   No se saca el pick sin evidencia (dejaría la mayoría de los
+   partidos con la escalera vacía, que es peor que mostrar la lectura
+   del modelo sin marca). En cambio, al elegir por cercanía al centro,
+   se prioriza una familia que TODAVÍA no haya ganado una franja
+   anterior de este mismo partido, si hay una opción razonable — así
+   no repite lo mismo tres veces solo porque una familia tiene más
+   candidatos. ══════════════════════════════════════════════════════════════════ */
+
+test("la escalera no repite la misma familia en las tres franjas si hay alternativa", ()=>{
+  // Con mercadoExtra real, Goles(1.5/2.5/3.5) tiene precio real en las
+  // tres líneas (antes solo 2.5 vía DraftKings) y gana el "más cerca
+  // del centro" más seguido — el mismo escenario que hoy en la app.
+  const con = USABLES.map(conGolesCompleto);
+  L.cargar(con, {});
+  let mismaFamilia = 0, revisados = 0;
+  con.forEach(m=>{
+    const esc = L.escalera(m).filter(x=> x.op);
+    if(esc.length < 2) return;
+    revisados++;
+    const familias = new Set(esc.map(x=> x.op.fam));
+    if(familias.size === 1) mismaFamilia++;
+  });
+  cierto(revisados > 0, "no hay partidos con dos o más franjas para revisar");
+  const fraccion = mismaFamilia / revisados;
+  cierto(fraccion < 0.5,
+         `sigue repitiendo la misma familia en las tres franjas: ${mismaFamilia}/${revisados} (${(fraccion*100).toFixed(0)}%)`);
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

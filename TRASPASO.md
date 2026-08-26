@@ -3184,3 +3184,49 @@ salvo que se verifique que aporta algo que Bet365 no tiene.
    gana, informativo si pierde, igual que córners hoy.
 
 No hay atajo legítimo antes del paso 2 — es tiempo, no código.
+
+### Addendum · La escalera repetía "Menos de X goles" en casi todo (2026-08-26)
+
+Lucas lo notó mirando tres partidos seguidos: las tres franjas de la
+escalera eran siempre líneas de gol, casi con los mismos números. Medido:
+**115 de 135 franjas (85%) eran Goles**, y como consecuencia
+`combinada()` — que necesita una pata de Resultado con p≥50% — dejó de
+generar en 42 de 45 partidos (93%, contra 14/45 sin `mercadoExtra`).
+
+**Causa, en dos capas:**
+
+1. Hoy se extendieron las líneas de gol de 3 a 7 para darles precio real
+   de Bet365 (ver addendum de "Otros mercados"). Eso multiplicó los
+   candidatos de Goles en la escalera a 14 contra 8 de Resultado+Ambos.
+   **Arreglo:** `LINEAS_ESCALERA` — la escalera vuelve a elegir su franja
+   solo entre 1.5/2.5/3.5 (las líneas de siempre); las 7 completas
+   siguen en `mercados()` para Otros Mercados y Herramientas.
+
+2. Más de fondo, y preexistente (no es un bug de hoy): cuando ninguna
+   opción de una franja es "creíble", se elige la más cercana al centro
+   de la banda — y eso favorece a Goles siempre, con o sin Bet365,
+   porque los totales de gol se reparten suave por toda la probabilidad
+   mientras Resultado se agrupa en pocos valores correlacionados.
+   Medido: **98 de 135 franjas (73%) se resolvían así**, no por ventaja
+   real. **Arreglo:** `familiasUsadas` — al elegir por cercanía al
+   centro, se prefiere una familia que todavía no ganó una franja
+   anterior de este mismo partido, si hay opción ahí. Cuando SÍ hay
+   ventaja creíble, no se toca: preferir variedad ahí sería elegir a
+   propósito el pick peor.
+
+**Con los dos arreglos:** Goles bajó de 115→95 franjas, Resultado subió
+de 6→19, Ambos de 14→20. Repetir la misma familia en las tres franjas
+bajó de (implícitamente) casi siempre a 19/45 partidos.
+
+**Lo que NO se cerró, y quedó anotado como pregunta abierta, no como
+bug:** `combinada()` sigue en 3/45. Con Bet365 real en las tres líneas
+de gol, Goles encuentra ventaja *genuina* en la franja "Lo más
+probable" más seguido que Resultado — y ahí la diversidad no debe
+intervenir (sería preferir el pick sin ventaja al que sí la tiene). No
+está medido si el 17/45 de antes era un número sano que se rompió, o
+si ya era mayormente "cercanía al centro" disfrazada con menos
+competencia porque casi nada tenía precio real todavía. Antes de tocar
+esto de nuevo, hay que medirlo — no adivinarlo.
+
+3 tests nuevos en `test_alineacion.js` (86 en total). Verificado en el
+navegador: 0 errores sobre los 45 partidos reales de hoy.

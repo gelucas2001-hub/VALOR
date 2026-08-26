@@ -22,6 +22,8 @@ jobs:
           python-version: "3.12"
 
       - name: Traer datos y calcular lambdas
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
         run: python actualizar.py
 
       - name: Guardar cambios

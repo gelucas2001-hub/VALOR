@@ -1090,7 +1090,10 @@ const TESTS = {
   "dc_lx":(i,j)=>i>=j, "dc_x2":(i,j)=>i<=j, "dc_12":(i,j)=>i!==j,
   "btts_si":(i,j)=>i>0&&j>0, "btts_no":(i,j)=>i===0||j===0,
 };
-[1.5,2.5,3.5].forEach(n=>{
+/* 0.5 a 6.5: el rango real que cotiza Bet365 (odds-api.io), verificado
+   el 2026-08-26 — de sus 16 líneas de gol solo estas 7 son binarias
+   (X.5). Las tres de siempre (1.5/2.5/3.5) están adentro. */
+[0.5,1.5,2.5,3.5,4.5,5.5,6.5].forEach(n=>{
   TESTS["ov"+n]=(i,j)=>i+j>n; TESTS["un"+n]=(i,j)=>i+j<n;
 });
 
@@ -1198,7 +1201,17 @@ function mercados(M, m){
   add("Resultado","dc_lx",`${L} gana o empata`, sumIf(M,(i,j)=>i>=j), ["L","E"]);
   add("Resultado","dc_x2",`${V} gana o empata`, sumIf(M,(i,j)=>i<=j), ["V","E"]);
   add("Resultado","dc_12","Gana alguno (sin empate)", sumIf(M,(i,j)=>i!==j), ["L","V"]);
-  [1.5,2.5,3.5].forEach(n=>{
+  /* Las tres de siempre, más las que Bet365 (odds-api.io) cotiza de
+     verdad para este partido puntual — así un partido sin cruce o sin
+     clave se ve exactamente igual que antes, y uno con cruce muestra
+     más franjas, todas con precio real detrás. */
+  const lineasGoles = new Set([1.5,2.5,3.5]);
+  const golesReales = (m.mercadoExtra && m.mercadoExtra.goles) || {};
+  Object.keys(golesReales).forEach(k=>{
+    const f = parseFloat(k);
+    if(isFinite(f)) lineasGoles.add(f);
+  });
+  [...lineasGoles].sort((a,b)=>a-b).forEach(n=>{
     add("Goles","ov"+n,`Más de ${n} goles`,  sumIf(M,(i,j)=>i+j>n), null, {linea:n,lado:"over"});
     add("Goles","un"+n,`Menos de ${n} goles`,sumIf(M,(i,j)=>i+j<n), null, {linea:n,lado:"under"});
   });
@@ -1289,14 +1302,32 @@ function devig(mk){
   const p = devigShin([mk.local, mk.empate, mk.visitante]);
   return p ? {L:p[0], E:p[1], V:p[2]} : null;
 }
-function pMercado(op, pq, mk){
+function pMercado(op, pq, mk, mx){
   if(op.req){
     if(!pq) return null;
     return op.req.reduce((s,k)=>s+pq[k], 0);
   }
-  if(op.linea!=null && mk && mk.totalLinea===op.linea && mk.totalOver && mk.totalUnder){
-    const co=1/mk.totalOver, cu=1/mk.totalUnder;
-    return (op.lado==="over"?co:cu)/(co+cu);
+  if(op.linea!=null){
+    /* Bet365 primero: cubre 0.5 a 6.5, DraftKings solo trae 2.5. Las
+       dos son dos lados reales — se les quita el margen con Shin,
+       igual que a cualquier mercado de dos vías. */
+    const gx = mx && mx.goles && mx.goles[String(op.linea)];
+    if(gx && gx.length===2){
+      const p = devigShin(gx);
+      if(p) return op.lado==="over" ? p[0] : p[1];
+    }
+    if(mk && mk.totalLinea===op.linea && mk.totalOver && mk.totalUnder){
+      const co=1/mk.totalOver, cu=1/mk.totalUnder;
+      return (op.lado==="over"?co:cu)/(co+cu);
+    }
+    return null;
+  }
+  if(op.id==="btts_si" || op.id==="btts_no"){
+    const b = mx && mx.btts;
+    if(b && b.si && b.no){
+      const p = devigShin([b.si, b.no]);
+      if(p) return op.id==="btts_si" ? p[0] : p[1];
+    }
   }
   return null;
 }
@@ -1383,6 +1414,7 @@ function escalera(m){
   const lec = lectura(m);
   const ops = mercados(lec.M, m);
   const mk  = m.mercado || {};
+  const mx  = m.mercadoExtra || {};
   const pq  = devig(mk);
 
   /* La dirección contra la que se alinea sale del análisis humano. Si
@@ -1404,7 +1436,7 @@ function escalera(m){
     if(!cand.length) return {franja:f, op:null};
 
     const conV = cand.map(o=>{
-      const pm = pMercado(o, pq, mk);
+      const pm = pMercado(o, pq, mk, mx);
       return {o, v: pm==null ? null : o.p - pm};
     });
     const creibles = conV.filter(x=> x.v!=null && x.v>=VENTAJA_MIN && x.v<=VALOR_MAX)
@@ -1462,11 +1494,12 @@ function otrosMercados(m){
   const lec = lectura(m);
   const ops = mercados(lec.M, m);
   const mk  = m.mercado || {};
+  const mx  = m.mercadoExtra || {};
   const pq  = devig(mk);
   const marcado = analizado(m.id) ? escalera(m).find(x=> x.valor) : null;
   const marcadoId = marcado ? marcado.op.id : null;
   return ops.map(o=>{
-    const pm = pMercado(o, pq, mk);
+    const pm = pMercado(o, pq, mk, mx);
     const ventaja = pm==null ? null : o.p - pm;
     return {op:o, ventaja, esVal: o.id===marcadoId};
   });
@@ -2278,6 +2311,7 @@ function tabEstadisticas(m){
      El orden importa: la escalera es una lectura DE esos numeros, y
      puesta antes se leeria como un dato medido mas. */
   h += bloqueLineas(m);
+  h += bloqueCornersReales(m);
   h += `<div class="lbl sep">Lo que esperamos acá</div>
     <div class="tstats">
       <div class="t"><span>Córners</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
@@ -2590,6 +2624,46 @@ function bloqueLineas(m){
       Poisson para todo subvalúa las colas de remates y sobrevalúa las de tarjetas.
       Cuando un equipo tiene pocos partidos, su número se apoya en el promedio de la
       liga: ahí abajo dice cuánto. No es una cuota ni descuenta el margen de la casa.</p>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   LO QUE COTIZA BET365 EN CÓRNERS — informativo, sin marca de valor
+
+   A diferencia de "Chance de pasar la línea" (arriba), esto NO es una
+   estimación nuestra: es el precio real de Bet365 (odds-api.io), con
+   los dos lados y ya sin el margen de la casa (Shin, igual que a
+   cualquier mercado de dos vías).
+
+   No se marca como valor a propósito. medir_corners.py midió, el
+   2026-08-25, que el córner por equipo le pierde plata al mercado
+   (atraso de 0.0205 ±0.0093, ROI negativo en los seis umbrales) — la
+   casa ya sabe distinguir equipos y nosotros ahí no le ganamos. Mostrar
+   esto en dorado sería prometer una ventaja que se midió que no existe.
+   ══════════════════════════════════════════════════════════════════ */
+function filaCornerReal(etiqueta, lineas){
+  if(!lineas) return "";
+  const claves = Object.keys(lineas).sort((a,b)=>parseFloat(a)-parseFloat(b));
+  const celdas = claves.map(k=>{
+    const p = devigShin(lineas[k]);
+    return p ? `<b>+${parseFloat(k).toFixed(1)}<em>${Math.round(p[0]*100)}%</em></b>` : "";
+  }).join("");
+  return celdas ? `<div class="escf"><span class="escq">${esc_(etiqueta)}</span>
+    <div class="escl">${celdas}</div></div>` : "";
+}
+function bloqueCornersReales(m){
+  const c = m.mercadoExtra && m.mercadoExtra.corners;
+  if(!c) return "";
+  const filas = [
+    filaCornerReal("Total del partido", c.total),
+    filaCornerReal(m.home, c.local),
+    filaCornerReal(m.away, c.visita),
+  ].join("");
+  if(!filas) return "";
+  return `<div class="lbl sep">Lo que cotiza Bet365</div>
+    ${filas}
+    <p class="fuente">Precio real de la casa, ya sin margen — no nuestra estimación.
+      No lo marcamos como valor: medido, el córner por equipo le pierde plata al mercado
+      (ver TRASPASO.md).</p>`;
 }
 
 const COMPARA = [

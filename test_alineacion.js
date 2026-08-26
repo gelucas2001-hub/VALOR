@@ -34,7 +34,7 @@ function cargarLogica(){
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
               tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
-              fiabilidadJugador, devigShin,
+              fiabilidadJugador, devigShin, pMercado,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
                                             CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; }});
@@ -1055,6 +1055,53 @@ test("devig() sigue devolviendo las tres direcciones con nombre", ()=>{
   cierto(Math.abs(d.L + d.E + d.V - 1) < 1e-9, "las tres no suman uno");
   cierto(L.devig(null) === null, "no se protegió de un mercado ausente");
   cierto(L.devig({}) === null, "no se protegió de un mercado vacío");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   MERCADOEXTRA (Bet365 vía odds-api.io) — respaldo real de goles y
+   ambos marcan. mercados() suma las líneas que Bet365 cotiza de verdad
+   a las tres de siempre; pMercado() les saca el margen con Shin, igual
+   que a cualquier mercado de dos vías.
+   ══════════════════════════════════════════════════════════════════ */
+
+test("mercados() agrega las líneas reales de mercadoExtra.goles", ()=>{
+  const M = L.lectura({lh:1.4, la:1.1, rho:0}).M;
+  const sinExtra = L.mercados(M, {home:"A", away:"B"});
+  const conExtra = L.mercados(M, {home:"A", away:"B",
+    mercadoExtra: {goles: {"0.5": [1.1, 8.0], "4.5": [1.05, 12.0]}}});
+  cierto(!sinExtra.some(o=>o.id==="ov0.5"), "sin mercadoExtra ya tenía 0.5 de línea");
+  cierto(conExtra.some(o=>o.id==="ov0.5") && conExtra.some(o=>o.id==="un0.5"),
+         "no agregó la línea 0.5 de Bet365");
+  cierto(conExtra.some(o=>o.id==="ov4.5") && conExtra.some(o=>o.id==="un4.5"),
+         "no agregó la línea 4.5 de Bet365");
+  cierto(conExtra.some(o=>o.id==="ov2.5"), "se comió la línea de siempre");
+});
+
+test("pMercado() usa Bet365 cuando hay línea real, y no inventa si no la hay", ()=>{
+  const op = {linea: 4.5, lado: "over"};
+  const mx = {goles: {"4.5": [1.90, 1.90]}};
+  const p = L.pMercado(op, null, {}, mx);
+  cierto(Math.abs(p - 0.5) < 1e-9, `esperaba ~0.5 sin margen, dio ${p}`);
+  cierto(L.pMercado(op, null, {}, {}) === null, "inventó un precio sin mercadoExtra");
+  cierto(L.pMercado(op, null, {}, null) === null, "no tolera mercadoExtra ausente");
+});
+
+test("pMercado() sigue cayendo a DraftKings cuando Bet365 no tiene esa línea", ()=>{
+  const op = {linea: 2.5, lado: "under"};
+  const mk = {totalLinea: 2.5, totalOver: 1.83, totalUnder: 2.00};
+  const p = L.pMercado(op, null, mk, {goles: {"4.5": [1.9, 1.9]}});
+  const co = 1/1.83, cu = 1/2.00;
+  cierto(Math.abs(p - cu/(co+cu)) < 1e-9, "no cayó al precio de DraftKings");
+});
+
+test("pMercado() devigea 'ambos marcan' con el precio real de Bet365", ()=>{
+  const mx = {btts: {si: 1.90, no: 1.90}};
+  const psi = L.pMercado({id:"btts_si"}, null, {}, mx);
+  const pno = L.pMercado({id:"btts_no"}, null, {}, mx);
+  cierto(Math.abs(psi - 0.5) < 1e-9, `esperaba ~0.5, dio ${psi}`);
+  cierto(Math.abs(psi + pno - 1) < 1e-9, "las dos puntas no suman uno");
+  cierto(L.pMercado({id:"btts_si"}, null, {}, {}) === null,
+         "inventó ambos marcan sin mercadoExtra");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

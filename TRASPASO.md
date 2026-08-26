@@ -3000,3 +3000,30 @@ loop entero se salta: cero pedidos nuevos, cero campos nuevos con
 contenido, la app queda bit a bit igual que antes de este trabajo.
 
 Falta: mostrarlo en la interfaz.
+
+### Addendum · `mercadoExtra` en la interfaz (2026-08-26)
+
+Dos cambios en `index.html`, verificados en el navegador con un
+partido de prueba (datos sintéticos, restaurados después — nunca
+tocaron `data/partidos.json` en el repo):
+
+- **Goles y ambos marcan, con precio real.** `TESTS` pasó de tres
+  líneas fijas (1.5/2.5/3.5) a las siete que Bet365 cotiza en binario
+  (0.5 a 6.5). `mercados()` agrega las que además tengan cruce real
+  para ESE partido; sin clave o sin cruce, un partido se ve exactamente
+  igual que antes (verificado: 0 líneas de más sin `mercadoExtra`).
+  `pMercado()` ahora prueba Bet365 primero (Shin, dos vías) y solo cae
+  a DraftKings si Bet365 no tiene esa línea puntual. "Ambos marcan"
+  tenía cero respaldo real desde siempre — ahora lo tiene.
+- **Córners de Bet365, informativo, sin marca de valor — a propósito.**
+  Nueva sección en la pestaña Estadísticas, al lado de "Chance de pasar
+  la línea" (que es estimación nuestra). Muestra el precio real del
+  partido y por equipo, ya sin margen, con una nota explícita: no se
+  marca como valor porque `medir_corners.py` ya midió que el córner por
+  equipo le pierde plata al mercado. Enseñar el número sin la
+  advertencia hubiera prometido una ventaja que se midió que no existe.
+
+4 tests nuevos en `test_alineacion.js` (73 en total), `test_registro.js`
+sin tocar (22, sigue en 0 fallando). La escalera de remates de jugador
+(~50 por partido) queda afuera de este paso — es una pantalla aparte,
+no una fila más.

@@ -2144,11 +2144,14 @@ function tabPronosticos(m){
       return;
     }
     const pct = Math.round(op.p*100);
+    const real = cuotaReal(m, op);
     h += `<div class="oplabel">${esc_(op.label)}</div>
       <div class="barra"><i style="width:${pct}%"></i><u style="margin-left:${pct}%"></u></div>
       <div class="escala"><span>0</span><span>50</span><span>100</span></div>
       ${marcar?`<div class="sig">Acá el precio está a favor</div>`:""}
-      <div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>
+      ${real
+        ? `<div class="umb">Bet365 paga <b>${real.toFixed(2)}</b> — conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`
+        : `<div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`}
       <div class="cobra">${esc_(cuandoCobra(op,m))}</div>
     </div></div>`;
   });

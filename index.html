@@ -3022,6 +3022,44 @@ function jugadores(nombre, id, met){
       todavía.</p>`;
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   LA CUOTA QUE YA TENEMOS — para no volver a tipearla
+
+   Herramientas le pedía al usuario cargar a mano la cuota de SU casa
+   para cada mercado, siempre — 1X2 incluido, aunque tuviéramos la
+   referencia de DraftKings, porque esa referencia no es apostable acá
+   (DraftKings no opera en Argentina). Bet365 es distinto: es la casa
+   que el usuario realmente usa, así que su cuota real SÍ es la que él
+   necesita cargar. Si ya la tenemos, no hace falta que la tipee.
+
+   Devuelve null cuando no hay cruce o el mercado no tiene esa opción —
+   ahí Herramientas sigue pidiendo la carga manual, exactamente como
+   antes de que esto existiera. */
+function cuotaReal(m, op){
+  const mx = m.mercadoExtra || {};
+  if(op.linea!=null){
+    const gx = mx.goles && mx.goles[String(op.linea)];
+    if(gx && gx.length===2){
+      const c = op.lado==="over" ? gx[0] : gx[1];
+      return c>1 ? c : null;
+    }
+    return null;
+  }
+  const uno = mx["1x2"], dc = mx.dc, bt = mx.btts;
+  const de = (obj, k) => (obj && obj[k]>1) ? obj[k] : null;
+  switch(op.id){
+    case "1x2_l": return de(uno, "local");
+    case "1x2_e": return de(uno, "empate");
+    case "1x2_v": return de(uno, "visitante");
+    case "dc_lx": return de(dc, "1X");
+    case "dc_x2": return de(dc, "X2");
+    case "dc_12": return de(dc, "12");
+    case "btts_si": return de(bt, "si");
+    case "btts_no": return de(bt, "no");
+  }
+  return null;
+}
+
 /* ── 6. Herramientas ───────────────────────────────────────────── */
 function tabHerramientas(m){
   if(!BANCA){
@@ -3040,8 +3078,10 @@ function tabHerramientas(m){
   const tope = BANCA * 0.04;
 
   let h = `<div class="banda banda2">Herramientas<em>PARA VOS</em></div><div class="sec">
-    <p class="expl">Esta pestaña es para vos, no para la gente. Cargá la cuota que
-    te da <em>tu</em> casa y te devuelve la ventaja real y cuánto jugar contra ese precio.</p>
+    <p class="expl">Esta pestaña es para vos, no para la gente. Cuando tenemos la cuota real
+    de Bet365 te la dejamos cargada — la podés cambiar si te pagan distinto en el momento.
+    Donde no la tenemos, cargá la que te da <em>tu</em> casa y te devuelve la ventaja real
+    y cuánto jugar contra ese precio.</p>
     <div class="bankline">Jugás con <b>${plata(BANCA)}</b> separados
       <button data-resetbanca="1">cambiar</button></div>`;
 
@@ -3050,7 +3090,9 @@ function tabHerramientas(m){
     h += `<div class="grp"><div class="gh">${fam}</div>`;
     ops.filter(o=>o.fam===fam).forEach(o=>{
       const key = m.id+"__"+o.id;
-      const c = CUOTAS[key];
+      const manual = CUOTAS[key]>1;
+      const sugerida = !manual ? cuotaReal(m, o) : null;
+      const c = manual ? CUOTAS[key] : sugerida;
       const val = c && c>1;
       const e = val ? ev(o.p, c) : null;
       const k = val ? kelly(o.p, c) : 0;
@@ -3068,6 +3110,7 @@ function tabHerramientas(m){
         <div class="top2"><span class="mkt">${esc_(o.label)}</span><span class="modelo">modelo ${pc(o.p)}</span></div>
         <div class="inrow">
           <input inputmode="decimal" placeholder="—" value="${val?c:""}" data-cuota="${esc_(key)}">
+          ${sugerida ? `<span class="sug" style="font-size:10px;color:var(--gris2);margin-left:6px;white-space:nowrap">Bet365</span>` : ""}
           <div class="out">${out}</div>
         </div>
         ${jugable ? `<div style="margin-top:8px"><button class="chip" data-anotar="${esc_(key)}">Anotar en Registro</button></div>` : ""}
@@ -3419,7 +3462,8 @@ function anotar(key){
   const m = MATCHES.find(x=>x.id===mid); if(!m) return;
   const lec = lectura(m);
   const op = mercados(lec.M, m).find(x=>x.id===oid); if(!op) return;
-  const c = CUOTAS[key]; if(!(c>1)) return;
+  const c = CUOTAS[key]>1 ? CUOTAS[key] : cuotaReal(m, op);
+  if(!(c>1)) return;
   if(LOG.some(x=>x.key===key)) return;
 
   const kf = (m.conf>=72)?0.25:(m.conf>=60)?0.125:(m.conf>=50)?0.0625:0.005;

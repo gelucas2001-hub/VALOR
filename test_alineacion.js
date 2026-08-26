@@ -34,7 +34,7 @@ function cargarLogica(){
               mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
               tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
-              fiabilidadJugador, devigShin, pMercado,
+              fiabilidadJugador, devigShin, pMercado, cuotaReal,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
                                             CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; }});
@@ -1102,6 +1102,50 @@ test("pMercado() devigea 'ambos marcan' con el precio real de Bet365", ()=>{
   cierto(Math.abs(psi + pno - 1) < 1e-9, "las dos puntas no suman uno");
   cierto(L.pMercado({id:"btts_si"}, null, {}, {}) === null,
          "inventó ambos marcan sin mercadoExtra");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   cuotaReal() — la cuota de Bet365 lista para Herramientas, sin que
+   el usuario la tipee. Cero si no hay cruce: ahí sigue pidiendo la
+   carga manual, igual que siempre.
+   ══════════════════════════════════════════════════════════════════ */
+
+const M_CON_EXTRA = {
+  mercadoExtra: {
+    "1x2": {local: 2.0, empate: 3.3, visitante: 3.6},
+    dc: {"1X": 1.25, "12": 1.35, "X2": 1.7},
+    btts: {si: 1.85, no: 1.9},
+    goles: {"2.5": [1.9, 1.95]},
+  },
+};
+
+test("cuotaReal() trae el 1X2 real de Bet365", ()=>{
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"1x2_l"}), 2.0);
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"1x2_e"}), 3.3);
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"1x2_v"}), 3.6);
+});
+
+test("cuotaReal() trae la doble oportunidad real", ()=>{
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"dc_lx"}), 1.25);
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"dc_x2"}), 1.7);
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"dc_12"}), 1.35);
+});
+
+test("cuotaReal() trae ambos marcan real", ()=>{
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"btts_si"}), 1.85);
+  igual(L.cuotaReal(M_CON_EXTRA, {id:"btts_no"}), 1.9);
+});
+
+test("cuotaReal() trae una línea de gol real, por lado", ()=>{
+  igual(L.cuotaReal(M_CON_EXTRA, {linea:2.5, lado:"over"}), 1.9);
+  igual(L.cuotaReal(M_CON_EXTRA, {linea:2.5, lado:"under"}), 1.95);
+});
+
+test("cuotaReal() da null sin cruce — Herramientas sigue pidiendo la carga a mano", ()=>{
+  igual(L.cuotaReal({}, {id:"1x2_l"}), null);
+  igual(L.cuotaReal({}, {linea:2.5, lado:"over"}), null);
+  igual(L.cuotaReal(M_CON_EXTRA, {linea:4.5, lado:"over"}), null,
+        "inventó una línea que Bet365 no cotiza en este partido");
 });
 
 console.log(`\n${ok} ok, ${mal} fallando\n`);

@@ -3027,3 +3027,26 @@ tocaron `data/partidos.json` en el repo):
 sin tocar (22, sigue en 0 fallando). La escalera de remates de jugador
 (~50 por partido) queda afuera de este paso — es una pantalla aparte,
 no una fila más.
+
+### Addendum · Herramientas ya no pide tipear lo que ya tenemos (2026-08-26)
+
+Lucas usa Bet365. Herramientas (la pestaña de staking/Kelly) le pedía
+cargar la cuota a mano para TODO, 1X2 incluido, aunque ya bajáramos la
+referencia de DraftKings — a propósito, porque esa referencia no es
+apostable en Argentina. Bet365 sí es la casa real del usuario, así que
+`cuotaReal(m, op)` la deja precargada (1X2, doble oportunidad, goles,
+ambos marcan) cuando hay cruce, editable si le pagan distinto en el
+momento — y `anotar()` usa esa misma cuota si el campo quedó sin tocar,
+así que "Anotar en Registro" funciona sin que el usuario haya escrito
+un solo número. Sin cruce, sigue pidiendo la carga manual, igual que
+siempre.
+
+Verificado en el navegador: anotó una apuesta a "Gana Independiente del
+Valle" con cuota 2.0 sin tipear nada, y quedó guardada así en el
+registro. 5 tests nuevos en `test_alineacion.js` (78 en total).
+
+Pendiente, ya con visibilidad: si conviene *escribir* la cuota real en
+`CUOTAS` (localStorage) en vez de solo mostrarla — hoy es puramente una
+sugerencia de render, nunca se persiste sola. Se decidió así para no
+mezclar "lo que el usuario cargó" con "lo que le sugerimos" en el mismo
+storage sin que él lo pida.

@@ -2979,3 +2979,24 @@ ningún mercado queda con dos varas compitiendo, porque no se
 superponen en ninguno.
 
 Falta: cablear `mercado_extra.py` a `actualizar.py` y a la interfaz.
+
+### Addendum · `mercado_extra.py` cableado al cron (2026-08-26)
+
+`actualizar.py` ahora llama a `mercado_extra.py` por cada partido, con
+dos funciones puras y testeadas en `test_actualizar.py` (8 tests):
+
+- `eventos_extra(slug, key, cache)` — un pedido por liga, cacheado por
+  corrida; si la red falla, devuelve `[]` y esa liga simplemente no
+  cruza nada.
+- `mercado_extra_de(partido, eventos, key)` — cruza por fixture y pide
+  los mercados de ese evento; si falta la clave, no hay eventos, el
+  fixture no cruza, o el pedido falla, devuelve `None` sin tirar.
+
+El resultado se escribe como campo nuevo y aditivo,
+`partido["mercadoExtra"]` (`{}` si no hay nada) — `mercado` (la
+referencia de DraftKings) no se toca, así que ningún contrato
+existente cambia. Sin `ODDS_API_KEY`, `ME.clave()` devuelve `None` y el
+loop entero se salta: cero pedidos nuevos, cero campos nuevos con
+contenido, la app queda bit a bit igual que antes de este trabajo.
+
+Falta: mostrarlo en la interfaz.

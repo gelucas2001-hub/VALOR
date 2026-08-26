@@ -16,6 +16,8 @@ from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
+import mercado_extra as ME
+
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
@@ -371,6 +373,40 @@ def mercado_referencia(comp):
         "hcapLocal": cierre(ps.get("home")), "hcapVisitante": cierre(ps.get("away")),
     }
     return ref if any(v is not None for k, v in ref.items() if k != "prov") else None
+
+
+def eventos_extra(slug, key, cache):
+    """Los eventos de odds-api.io para esta liga, cacheados por corrida.
+
+    Un pedido por liga, no por partido. Si falla la red, no tira: la
+    liga queda sin eventos esta corrida y ningún partido suyo cruza,
+    que es el mismo resultado que si no hubiera clave."""
+    if slug not in cache:
+        try:
+            cache[slug] = ME.eventos_de(slug, key)
+        except Exception as e:
+            print(f"  ! odds-api (eventos {slug}): {e}", file=sys.stderr)
+            cache[slug] = []
+    return cache[slug]
+
+
+def mercado_extra_de(partido, eventos, key):
+    """Los mercados de Bet365 (odds-api.io) para este partido, o None.
+
+    None si falta la clave, no hay eventos, el fixture no cruza, o el
+    pedido de odds falla — en los cuatro casos el partido queda igual
+    que antes de que esta fuente existiera. Ver mercado_extra.py."""
+    if not key or not eventos:
+        return None
+    eid = ME.cruzar_fixture(partido, eventos)
+    if not eid:
+        return None
+    try:
+        datos, _ = ME.odds_de(eid, key)
+    except Exception as e:
+        print(f"  ! odds-api (odds {eid}): {e}", file=sys.stderr)
+        return None
+    return datos or None
 
 
 def escudo(team):
@@ -2044,6 +2080,15 @@ def main():
             cache_resumen = {}
     resumenes_antes = len(cache_resumen)
 
+    # Bet365 vía odds-api.io: agrega mercados que DraftKings no tiene
+    # (córners, jugadores, más líneas de gol). Sin ODDS_API_KEY en el
+    # entorno, odds_key queda None y mercado_extra_de() no hace nada —
+    # la app anda igual que antes de que esta fuente existiera.
+    odds_key = ME.clave()
+    cache_eventos_odds = {}
+    if odds_key:
+        print("· odds-api.io: clave detectada, se agregan mercados de Bet365")
+
     for slug, meta in COMPETICIONES.items():
         print(f"· {meta['nombre']} — scoreboard")
         d = api(f"{SITE_V2}/{slug}/scoreboard?dates={desde}-{hasta}")
@@ -2066,6 +2111,11 @@ def main():
             loc_id, vis_id = loc["team"]["id"], vis["team"]["id"]
             loc_nombre, vis_nombre = loc["team"]["displayName"], vis["team"]["displayName"]
             mercado = mercado_referencia(comp)
+            eventos_odds = (eventos_extra(slug, odds_key, cache_eventos_odds)
+                             if odds_key else [])
+            mercado_extra = mercado_extra_de(
+                {"date": fecha, "home": loc_nombre, "away": vis_nombre},
+                eventos_odds, odds_key)
 
             # Estadio y ciudad: vienen en el propio scoreboard, sin pedido
             # extra. Verificado el 2026-08-18 contra arg.1: 15 de 15 eventos
@@ -2188,6 +2238,7 @@ def main():
                 "h2h": h2h, "tabla": tabla, "grupo": grupo,
                 "estadio": estadio, "ciudad": ciudad,
                 "mercado": mercado,
+                "mercadoExtra": mercado_extra or {},
                 "preload": {},
             })
 

@@ -1490,18 +1490,30 @@ function divergen(m){
   return dirHumana === dirModelo ? null : {dirHumana, dirModelo};
 }
 
+/* Antes esta función solo repetía el pick de escalera() con otro
+   nombre: marcaba UNA fila, la que ya había ganado su franja, y nada
+   más — aunque otra fila tuviera ventaja real (goles extra, ambos
+   marcan) por su cuenta. Eso tenía sentido cuando casi ningún mercado
+   fuera de 1X2 tenía precio real: `ventaja` daba `null` en casi todos
+   lados y la restricción no se notaba. Con mercadoExtra ya no es así,
+   y el pie de esta pantalla venía prometiendo "marcamos en dorado
+   cuando el precio está a favor" para cada fila — una promesa que el
+   código no cumplía. Ahora cada fila se evalúa con el mismo criterio
+   que usa escalera() (ventana [VENTAJA_MIN, VALOR_MAX], regla de
+   alineación, análisis cargado), no solo la que ganó su franja. */
 function otrosMercados(m){
   const lec = lectura(m);
   const ops = mercados(lec.M, m);
   const mk  = m.mercado || {};
   const mx  = m.mercadoExtra || {};
   const pq  = devig(mk);
-  const marcado = analizado(m.id) ? escalera(m).find(x=> x.valor) : null;
-  const marcadoId = marcado ? marcado.op.id : null;
+  const dir = inclinacionDe(m.id);
   return ops.map(o=>{
     const pm = pMercado(o, pq, mk, mx);
     const ventaja = pm==null ? null : o.p - pm;
-    return {op:o, ventaja, esVal: o.id===marcadoId};
+    const esVal = !!dir && !contradice(o, dir)
+                  && ventaja!=null && ventaja>=VENTAJA_MIN && ventaja<=VALOR_MAX;
+    return {op:o, ventaja, esVal};
   });
 }
 
@@ -2105,17 +2117,20 @@ function tabPronosticos(m){
      familia. Si jugás siempre 1X2, o siempre doble oportunidad, tu
      mercado puede no salir nunca ahí aunque el número exista. Acá está
      nuestra lectura de TODOS los mercados elegibles, no solo el que
-     ganó arriba — pero solo ese sigue en mostaza: una marca por
-     partido, la misma de siempre, no una nueva por mercado. */
+     ganó arriba, y cada uno se marca en dorado por su cuenta si tiene
+     ventaja real — no solo el que ganó su franja en la escalera. */
   const otros = otrosMercados(m);
   const fams = ["Resultado","Goles","Ambos"];
   h += `<div class="banda banda2">Otros mercados<em>NUESTRA LECTURA DE CADA UNO</em></div>`;
   fams.forEach(fam=>{
     h += `<div class="grp"><div class="gh">${esc_(fam)}</div>`;
     otros.filter(x=> x.op.fam===fam).forEach(({op, esVal})=>{
+      const real = cuotaReal(m, op);
       h += `<div class="mrow ${esVal?"val":""}">
         <div class="top2"><span class="mkt">${esc_(op.label)}</span><span class="modelo">${pc(op.p)}</span></div>
-        <div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>
+        ${real
+          ? `<div class="umb">Bet365 paga <b>${real.toFixed(2)}</b> — conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`
+          : `<div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`}
       </div>`;
     });
     h += `</div>`;
@@ -2123,6 +2138,7 @@ function tabPronosticos(m){
 
   h += `<div class="foot">Las tres salen de la misma lectura — elegís vos cuánto arriesgar.
     El umbral ya incluye un margen de seguridad: a la cuota justa pelada la ventaja es cero.
+    Donde hay cuota real de Bet365 la mostramos al lado; donde no, solo el umbral teórico.
     Y solo marcamos en dorado cuando además el precio está a favor.</div>`;
   return h + `</div>`;
 }

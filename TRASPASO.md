@@ -3081,3 +3081,28 @@ que ya lo tiene) y medir ROI walk-forward, con el mismo criterio que
 `medir_corners.py`. Hasta entonces, cero recomendaciones de jugador en
 la interfaz — sería calibrar sin haber medido si sirve, justo lo que
 este archivo prohíbe.
+
+### Addendum · "Otros mercados" no mostraba la cuota real ni marcaba lo que ya podía marcar (2026-08-26)
+
+Lucas lo encontró mirando la pantalla: cada fila de "Otros mercados"
+seguía mostrando solo "conviene si te pagan más de X" — el umbral
+teórico de nuestro propio modelo — sin la cuota real de Bet365 al
+lado, aunque `otrosMercados()` ya la tuviera calculada (`ventaja`).
+
+Y había un segundo problema, más de fondo: el dorado solo se encendía
+en la ÚNICA fila que `escalera()` había elegido para su franja —
+`esVal: o.id===marcadoId`. Con casi todo el mercado sin precio real,
+eso nunca se notaba. Con `mercadoExtra` ya anda distinto: en el
+partido de hoy (River–Santa Fe), además del pick de la escalera había
+ventaja real en "Menos de 4.5 goles" y "Menos de 5.5 goles", y
+`otrosMercados()` los devolvía con `ventaja` calculada pero `esVal:
+false` — el pie de la pantalla prometía "marcamos en dorado cuando el
+precio está a favor" y no lo cumplía.
+
+Arreglado: `otrosMercados()` ahora evalúa cada fila con el mismo
+criterio que `escalera()` (ventana `[VENTAJA_MIN, VALOR_MAX]`, regla de
+alineación vía `contradice()`, análisis cargado) en vez de solo repetir
+el pick de la escalera. El render muestra la cuota de Bet365 cuando
+existe. Verificado en el navegador: 2 marcas nuevas en el partido de
+hoy, ninguna contradice la inclinación (`E`). 2 tests actualizados y 2
+nuevos en `test_alineacion.js` (80 en total).

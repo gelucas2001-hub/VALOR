@@ -330,7 +330,12 @@ test("otrosMercados devuelve TODOS los mercados elegibles, no solo los de la esc
   });
 });
 
-test("otrosMercados marca el mismo mercado que ganó la escalera, y ninguno más", ()=>{
+test("otrosMercados marca AL MENOS el mercado que ganó la escalera", ()=>{
+  /* Antes esto era "y ninguno más": con mercadoExtra, un partido puede
+     tener ventaja real en más de un mercado (goles extra, ambos
+     marcan) sin que sea de la familia que la escalera eligió para su
+     única franja. El pick de la escalera sigue teniendo que aparecer
+     acá — eso no cambió. */
   let revisados = 0;
   PARTIDOS.forEach(m=>{
     const lean = L.lectura(m).lean;
@@ -339,10 +344,34 @@ test("otrosMercados marca el mismo mercado que ganó la escalera, y ninguno más
     if(!marcado) return;
     revisados++;
     const marcados = L.otrosMercados(m).filter(x=> x.esVal);
-    igual(marcados.length, 1, `${m.home} vs ${m.away}:`);
-    igual(marcados[0].op.id, marcado.op.id, `${m.home} vs ${m.away}:`);
+    cierto(marcados.some(x=> x.op.id === marcado.op.id),
+           `${m.home} vs ${m.away}: no incluyó el pick de la escalera`);
   });
   cierto(revisados > 0, "ningún partido tuvo marca de valor para revisar");
+});
+
+test("otrosMercados marca cualquier fila con ventaja real dentro de la banda, no solo la de la escalera", ()=>{
+  const base = PARTIDOS.find(m=> m.lh != null && m.la != null);
+  const lean = L.lectura(base).lean;
+  const pNo = L.mercados(L.lectura(base).M, base).find(o=> o.id==="btts_no").p;
+  // Libro sin margen (Shin no corrige un mercado de dos vías sin margen):
+  // la cuota implica exactamente pNo - 0.05, una ventaja adentro de
+  // [VENTAJA_MIN, VALOR_MAX] = [0.02, 0.12].
+  const target = pNo - 0.05;
+  const m = {...base, mercadoExtra: {btts: {si: 1/(1-target), no: 1/target}}};
+  L.cargar([m], {[m.id]: {contexto:"x", inclinacion:lean}});
+  const btts = L.otrosMercados(m).find(x=> x.op.id === "btts_no");
+  cierto(btts && Math.abs(btts.ventaja - 0.05) < 1e-6, `ventaja mal calculada: ${btts && btts.ventaja}`);
+  cierto(!L.contradice(btts.op, lean), "el fixture eligió mal: btts sí contradice el lean");
+  cierto(btts.esVal, "no marcó valor en una fila con ventaja real fuera de la escalera");
+});
+
+test("sin análisis, aunque haya ventaja real en mercadoExtra, no marca nada", ()=>{
+  const base = PARTIDOS.find(m=> m.lh != null && m.la != null);
+  const m = {...base, mercadoExtra: {btts: {si: 1.01, no: 50}}};
+  L.cargar([m], {});
+  cierto(!L.otrosMercados(m).some(x=> x.esVal),
+         "marcó valor con mercadoExtra pero sin análisis cargado");
 });
 
 test("sin análisis cargado, otrosMercados no marca nada — la escalera sola no alcanza", ()=>{

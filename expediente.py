@@ -69,9 +69,11 @@ EXCLUIDOS = {
     "la": "λ del visitante — salida del modelo",
     "rho": "corrección Dixon-Coles — salida del modelo",
     "conf": "confianza del modelo en sus propios λ",
-    "mercado": "cuotas. No son nuestras, pero la marca de valor es "
-               "'nuestra lectura contra el mercado': si el análisis ya vio "
-               "la cuota, la comparación no mide nada",
+    "mercado": "cuotas de DraftKings. No son nuestras, pero la marca de "
+               "valor es 'nuestra lectura contra el mercado': si el "
+               "análisis ya vio la cuota, la comparación no mide nada",
+    "mercadoExtra": "cuotas de Bet365 (goles extra, ambos marcan, "
+                     "córners, jugador) — mismo motivo que 'mercado'",
     "note": "explica cómo se calcularon los λ — nombra el modelo",
     "compLogo": "decoración",
     "homeLogo": "decoración",

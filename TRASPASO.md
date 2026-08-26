@@ -3149,3 +3149,38 @@ cuando ninguna opción es "creíble" llamaba a `pMercado()` sin pasarle
 6 tests nuevos/corregidos en `test_alineacion.js` (82 en total).
 Verificado en el navegador: las dos marcas de 1.06 y 1.01 del partido
 de hoy desaparecieron y ninguna otra las reemplazó.
+
+### Addendum · Pendiente real: pantalla de mercado de JUGADOR (2026-08-26)
+
+Lucas quiere incursionar en el mercado de estadísticas, sobre todo del
+lado **jugador** (remates, al arco, faltas, tarjetas) — le interesa
+mucho más que a la app hoy le dedica (nada: hoy solo hay estadística
+volcada, sin análisis ni sugerencia). No quiere cargar cuotas a mano,
+solo mover con precio real (ya tenemos Bet365 vía `mercado_extra.py`).
+
+**Se diseñó una sesión antes (2026-08-25), y no quedó ni una línea de
+código.** El plan de esa sesión: leerle a DraftKings el Poisson que
+tiene en la cabeza ajustando su escalera acumulada de remates (verificado
+con error de ajuste ~0.001), separando equipo (córners, dos lados,
+Shin) de jugador (un solo lado, sin margen despejable). Ese método
+usaba ESPN/`propBets` — **sin verificar en el repo si `propBets` tiene
+mercado de jugador**, sospecho que no (el único uso comiteado es de
+córners de equipo).
+
+Hoy ya existe una vía alternativa que esa sesión no tenía: `mercado_extra.py`
+trae remates/al_arco de Bet365 con escalera propia, y `snapshot_props()`
+ya está acumulando fotos para el futuro backtest (ver addendum de arriba,
+"Por qué no hay backtest de jugador todavía"). Cuando haya crédito para
+retomar esto, el camino más corto es construir la pantalla de jugador
+sobre esos datos de Bet365 — no reconstruir el método DraftKings/propBets,
+salvo que se verifique que aporta algo que Bet365 no tiene.
+
+**Falta, en orden:**
+1. Confirmar si `propBets` de ESPN tiene mercado de jugador (barato: un
+   pedido de prueba). Si no, se descarta esa vía y se sigue solo con Bet365.
+2. Esperar que `data/props_jugadores.json` acumule semanas de fotos.
+3. Backtest de ROI walk-forward (mismo criterio que `medir_corners.py`).
+4. Recién con eso medido, diseñar la pantalla — con marca de valor si
+   gana, informativo si pierde, igual que córners hoy.
+
+No hay atajo legítimo antes del paso 2 — es tiempo, no código.

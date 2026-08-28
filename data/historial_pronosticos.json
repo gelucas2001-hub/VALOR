@@ -1501,7 +1501,10 @@
    3.95,
    1.74
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -1525,7 +1528,10 @@
    4.2,
    1.61
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   4
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5

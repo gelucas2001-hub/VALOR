@@ -1,82 +1,82 @@
 {
- "actualizado": "2026-08-28T01:45",
+ "actualizado": "2026-08-28T21:54",
  "sobre": 8,
  "parametros": {
   "remates": {
    "media": 13.95,
-   "disp": 2.36,
+   "disp": 2.29,
    "k": 200.0,
-   "equipos": 61,
-   "disp_total": 1.52
+   "equipos": 63,
+   "disp_total": 1.51
   },
   "al_arco": {
-   "media": 4.31,
-   "disp": 1.43,
-   "k": 55.4,
-   "equipos": 61,
-   "disp_total": 1.25
+   "media": 4.32,
+   "disp": 1.41,
+   "k": 60.7,
+   "equipos": 63,
+   "disp_total": 1.24
   },
   "corners": {
    "media": 4.78,
    "disp": 1.71,
-   "k": 77.6,
-   "equipos": 74,
+   "k": 29.9,
+   "equipos": 76,
    "disp_total": 0.97
   },
   "faltas": {
-   "media": 11.91,
-   "disp": 1.31,
-   "k": 10.6,
-   "equipos": 61,
+   "media": 11.87,
+   "disp": 1.28,
+   "k": 8.3,
+   "equipos": 63,
    "disp_total": 1.31
   },
   "posesion": {
-   "media": 50.31,
-   "disp": 2.29,
-   "k": 3.8,
-   "equipos": 61,
+   "media": 50.36,
+   "disp": 2.26,
+   "k": 2.9,
+   "equipos": 63,
    "disp_total": 0.0
   },
   "offsides": {
-   "media": 1.7,
-   "disp": 1.32,
-   "k": 19.3,
-   "equipos": 61,
-   "disp_total": 1.22
+   "media": 1.73,
+   "disp": 1.52,
+   "k": 28.4,
+   "equipos": 63,
+   "disp_total": 1.21
   },
   "atajadas": {
-   "media": 2.99,
-   "disp": 1.37,
+   "media": 2.97,
+   "disp": 1.34,
    "k": 200.0,
-   "equipos": 61,
+   "equipos": 63,
    "disp_total": 1.18
   },
   "tackles": {
-   "media": 18.05,
-   "disp": 1.66,
-   "k": 4.9,
-   "equipos": 61,
+   "media": 18.0,
+   "disp": 1.61,
+   "k": 4.8,
+   "equipos": 63,
    "disp_total": 2.0
   },
   "pases": {
-   "media": 331.49,
-   "disp": 26.43,
-   "k": 1.7,
-   "equipos": 61,
-   "disp_total": 21.44
+   "media": 333.97,
+   "disp": 25.63,
+   "k": 1.2,
+   "equipos": 63,
+   "disp_total": 22.18
   },
   "pases_tot": {
-   "media": 411.82,
-   "disp": 21.61,
-   "k": 2.0,
-   "equipos": 61,
-   "disp_total": 14.65
+   "media": 414.06,
+   "disp": 21.07,
+   "k": 1.3,
+   "equipos": 63,
+   "disp_total": 15.13
   },
   "tarjetas": {
-   "media": 2.26,
-   "disp": 0.67,
+   "media": 2.25,
+   "disp": 0.65,
    "k": 14.8,
-   "equipos": 61,
+   "equipos": 63,
    "disp_total": 0.89
   }
  },
@@ -87,14 +87,14 @@
     "disp": 1.85,
     "k": 200.0,
     "equipos": 28,
-    "disp_total": 1.52
+    "disp_total": 1.51
    },
    "al_arco": {
     "media": 4.33,
     "disp": 1.06,
     "k": 200.0,
     "equipos": 28,
-    "disp_total": 1.25
+    "disp_total": 1.24
    },
    "corners": {
     "media": 4.71,
@@ -122,7 +122,7 @@
     "disp": 1.37,
     "k": 14.4,
     "equipos": 28,
-    "disp_total": 1.22
+    "disp_total": 1.21
    },
    "atajadas": {
     "media": 3.14,
@@ -143,14 +143,14 @@
     "disp": 26.44,
     "k": 1.5,
     "equipos": 28,
-    "disp_total": 21.44
+    "disp_total": 22.18
    },
    "pases_tot": {
     "media": 405.13,
     "disp": 21.93,
     "k": 1.8,
     "equipos": 28,
-    "disp_total": 14.65
+    "disp_total": 15.13
    },
    "tarjetas": {
     "media": 2.37,
@@ -166,14 +166,14 @@
     "disp": 2.43,
     "k": 200.0,
     "equipos": 16,
-    "disp_total": 1.52
+    "disp_total": 1.51
    },
    "al_arco": {
     "media": 4.6,
     "disp": 1.3,
     "k": 10.1,
     "equipos": 16,
-    "disp_total": 1.25
+    "disp_total": 1.24
    },
    "corners": {
     "media": 5.29,
@@ -201,7 +201,7 @@
     "disp": 1.52,
     "k": 200.0,
     "equipos": 16,
-    "disp_total": 1.22
+    "disp_total": 1.21
    },
    "atajadas": {
     "media": 2.63,
@@ -222,14 +222,14 @@
     "disp": 26.36,
     "k": 2.4,
     "equipos": 16,
-    "disp_total": 21.44
+    "disp_total": 22.18
    },
    "pases_tot": {
     "media": 450.5,
     "disp": 21.39,
     "k": 2.5,
     "equipos": 16,
-    "disp_total": 14.65
+    "disp_total": 15.13
    },
    "tarjetas": {
     "media": 2.25,
@@ -245,14 +245,14 @@
     "disp": 1.95,
     "k": 6.8,
     "equipos": 19,
-    "disp_total": 1.52
+    "disp_total": 1.51
    },
    "al_arco": {
     "media": 4.72,
     "disp": 1.18,
     "k": 8.4,
     "equipos": 19,
-    "disp_total": 1.25
+    "disp_total": 1.24
    },
    "corners": {
     "media": 5.46,
@@ -282,14 +282,14 @@
     "disp": 1.72,
     "k": 10.5,
     "equipos": 17,
-    "disp_total": 1.52
+    "disp_total": 1.51
    },
    "al_arco": {
     "media": 4.6,
     "disp": 1.19,
     "k": 9.7,
     "equipos": 17,
-    "disp_total": 1.25
+    "disp_total": 1.24
    },
    "corners": {
     "media": 4.93,
@@ -317,154 +317,154 @@
  "jugadores": {
   "G": {
    "remates": {
-    "media": 0.0,
-    "disp": 0.0,
-    "k": 200.0,
-    "equipos": 51
+    "media": 0.02,
+    "disp": 0.94,
+    "k": 3.5,
+    "equipos": 53
    },
    "al_arco": {
-    "media": 0.0,
-    "disp": 0.0,
+    "media": 0.01,
+    "disp": 1.54,
     "k": 200.0,
-    "equipos": 51
+    "equipos": 53
    },
    "faltas": {
-    "media": 0.01,
-    "disp": 1.28,
-    "k": 10.0,
-    "equipos": 51
+    "media": 0.03,
+    "disp": 1.08,
+    "k": 5.4,
+    "equipos": 53
    },
    "amarillas": {
-    "media": 0.05,
-    "disp": 0.94,
+    "media": 0.06,
+    "disp": 0.92,
     "k": 200.0,
-    "equipos": 51
+    "equipos": 53
    },
    "goles": {
     "media": 0.0,
     "disp": 0.0,
     "k": 200.0,
-    "equipos": 51
+    "equipos": 53
    },
    "asist": {
     "media": 0.0,
     "disp": 0.0,
     "k": 200.0,
-    "equipos": 51
+    "equipos": 53
    }
   },
   "D": {
    "remates": {
-    "media": 0.59,
-    "disp": 1.01,
-    "k": 6.7,
-    "equipos": 259
+    "media": 0.58,
+    "disp": 1.05,
+    "k": 7.5,
+    "equipos": 265
    },
    "al_arco": {
     "media": 0.17,
-    "disp": 0.93,
-    "k": 66.0,
-    "equipos": 259
+    "disp": 0.95,
+    "k": 48.6,
+    "equipos": 265
    },
    "faltas": {
-    "media": 0.86,
-    "disp": 0.89,
-    "k": 8.6,
-    "equipos": 259
+    "media": 0.87,
+    "disp": 0.87,
+    "k": 7.5,
+    "equipos": 265
    },
    "amarillas": {
     "media": 0.2,
-    "disp": 0.82,
-    "k": 29.9,
-    "equipos": 259
+    "disp": 0.8,
+    "k": 20.0,
+    "equipos": 265
    },
    "goles": {
     "media": 0.04,
-    "disp": 0.94,
+    "disp": 0.95,
     "k": 200.0,
-    "equipos": 259
+    "equipos": 265
    },
    "asist": {
     "media": 0.04,
-    "disp": 0.98,
-    "k": 59.8,
-    "equipos": 259
+    "disp": 0.97,
+    "k": 69.2,
+    "equipos": 265
    }
   },
   "M": {
    "remates": {
     "media": 1.01,
-    "disp": 1.16,
-    "k": 3.1,
-    "equipos": 283
+    "disp": 1.14,
+    "k": 3.0,
+    "equipos": 286
    },
    "al_arco": {
     "media": 0.28,
     "disp": 0.99,
-    "k": 7.3,
-    "equipos": 283
+    "k": 6.0,
+    "equipos": 286
    },
    "faltas": {
     "media": 0.9,
-    "disp": 1.06,
-    "k": 6.2,
-    "equipos": 283
+    "disp": 1.07,
+    "k": 6.6,
+    "equipos": 286
    },
    "amarillas": {
     "media": 0.16,
     "disp": 0.82,
-    "k": 12.1,
-    "equipos": 283
+    "k": 12.5,
+    "equipos": 286
    },
    "goles": {
     "media": 0.07,
-    "disp": 0.87,
-    "k": 14.0,
-    "equipos": 283
+    "disp": 0.88,
+    "k": 14.3,
+    "equipos": 286
    },
    "asist": {
     "media": 0.05,
     "disp": 0.95,
-    "k": 9.1,
-    "equipos": 283
+    "k": 9.3,
+    "equipos": 286
    }
   },
   "F": {
    "remates": {
-    "media": 1.5,
-    "disp": 1.16,
-    "k": 4.7,
-    "equipos": 224
+    "media": 1.49,
+    "disp": 1.14,
+    "k": 4.4,
+    "equipos": 226
    },
    "al_arco": {
     "media": 0.49,
-    "disp": 0.99,
-    "k": 9.2,
-    "equipos": 224
+    "disp": 0.98,
+    "k": 8.9,
+    "equipos": 226
    },
    "faltas": {
-    "media": 0.83,
+    "media": 0.82,
     "disp": 1.06,
-    "k": 6.5,
-    "equipos": 224
+    "k": 6.3,
+    "equipos": 226
    },
    "amarillas": {
     "media": 0.1,
-    "disp": 0.88,
-    "k": 13.6,
-    "equipos": 224
+    "disp": 0.87,
+    "k": 13.0,
+    "equipos": 226
    },
    "goles": {
     "media": 0.15,
     "disp": 1.03,
-    "k": 12.2,
-    "equipos": 224
+    "k": 12.6,
+    "equipos": 226
    },
    "asist": {
-    "media": 0.07,
-    "disp": 0.91,
-    "k": 200.0,
-    "equipos": 224
+    "media": 0.08,
+    "disp": 0.99,
+    "k": 157.0,
+    "equipos": 226
    }
   }
  },
@@ -472,116 +472,116 @@
   "arg.1": {
    "G": {
     "remates": {
-     "media": 0.0,
-     "disp": 0.0,
-     "k": 200.0,
-     "equipos": 29
+     "media": 0.03,
+     "disp": 0.97,
+     "k": 3.4,
+     "equipos": 30
     },
     "al_arco": {
-     "media": 0.0,
-     "disp": 0.0,
+     "media": 0.02,
+     "disp": 1.58,
      "k": 200.0,
-     "equipos": 29
+     "equipos": 30
     },
     "faltas": {
-     "media": 0.01,
-     "disp": 1.57,
-     "k": 5.5,
-     "equipos": 29
+     "media": 0.04,
+     "disp": 1.12,
+     "k": 4.2,
+     "equipos": 30
     },
     "amarillas": {
-     "media": 0.04,
-     "disp": 0.88,
+     "media": 0.05,
+     "disp": 0.87,
      "k": 200.0,
-     "equipos": 29
+     "equipos": 30
     },
     "goles": {
      "media": 0.0,
      "disp": 0.0,
      "k": 200.0,
-     "equipos": 29
+     "equipos": 30
     },
     "asist": {
      "media": 0.0,
      "disp": 0.0,
      "k": 200.0,
-     "equipos": 29
+     "equipos": 30
     }
    },
    "D": {
     "remates": {
-     "media": 0.51,
-     "disp": 0.98,
-     "k": 6.9,
-     "equipos": 152
+     "media": 0.52,
+     "disp": 0.96,
+     "k": 6.1,
+     "equipos": 153
     },
     "al_arco": {
-     "media": 0.17,
-     "disp": 0.92,
-     "k": 16.6,
-     "equipos": 152
+     "media": 0.16,
+     "disp": 0.91,
+     "k": 14.5,
+     "equipos": 153
     },
     "faltas": {
      "media": 0.83,
      "disp": 0.85,
      "k": 6.9,
-     "equipos": 152
+     "equipos": 153
     },
     "amarillas": {
      "media": 0.2,
      "disp": 0.76,
-     "k": 12.0,
-     "equipos": 152
+     "k": 11.9,
+     "equipos": 153
     },
     "goles": {
      "media": 0.03,
      "disp": 0.98,
      "k": 200.0,
-     "equipos": 152
+     "equipos": 153
     },
     "asist": {
      "media": 0.04,
      "disp": 0.85,
-     "k": 111.5,
-     "equipos": 152
+     "k": 117.4,
+     "equipos": 153
     }
    },
    "M": {
     "remates": {
-     "media": 1.08,
-     "disp": 1.14,
+     "media": 1.09,
+     "disp": 1.15,
      "k": 2.6,
-     "equipos": 153
+     "equipos": 152
     },
     "al_arco": {
      "media": 0.31,
      "disp": 1.06,
      "k": 5.1,
-     "equipos": 153
+     "equipos": 152
     },
     "faltas": {
      "media": 0.86,
      "disp": 1.03,
-     "k": 8.1,
-     "equipos": 153
+     "k": 7.9,
+     "equipos": 152
     },
     "amarillas": {
      "media": 0.16,
      "disp": 0.81,
-     "k": 9.3,
-     "equipos": 153
+     "k": 8.8,
+     "equipos": 152
     },
     "goles": {
      "media": 0.07,
      "disp": 0.83,
      "k": 6.8,
-     "equipos": 153
+     "equipos": 152
     },
     "asist": {
      "media": 0.04,
      "disp": 0.95,
      "k": 200.0,
-     "equipos": 153
+     "equipos": 152
     }
    },
    "F": {
@@ -589,37 +589,37 @@
      "media": 1.44,
      "disp": 1.11,
      "k": 3.9,
-     "equipos": 126
+     "equipos": 125
     },
     "al_arco": {
      "media": 0.49,
      "disp": 0.97,
-     "k": 9.5,
-     "equipos": 126
+     "k": 9.3,
+     "equipos": 125
     },
     "faltas": {
-     "media": 0.81,
+     "media": 0.82,
      "disp": 1.09,
-     "k": 7.3,
-     "equipos": 126
+     "k": 7.4,
+     "equipos": 125
     },
     "amarillas": {
      "media": 0.1,
      "disp": 0.94,
      "k": 200.0,
-     "equipos": 126
+     "equipos": 125
     },
     "goles": {
      "media": 0.13,
      "disp": 1.04,
      "k": 200.0,
-     "equipos": 126
+     "equipos": 125
     },
     "asist": {
      "media": 0.07,
      "disp": 0.86,
-     "k": 13.8,
-     "equipos": 126
+     "k": 13.9,
+     "equipos": 125
     }
    }
   },
@@ -742,116 +742,116 @@
    },
    "D": {
     "remates": {
-     "media": 0.83,
-     "disp": 0.95,
-     "k": 6.9,
-     "equipos": 77
+     "media": 0.84,
+     "disp": 1.04,
+     "k": 9.9,
+     "equipos": 79
     },
     "al_arco": {
      "media": 0.21,
-     "disp": 0.93,
+     "disp": 0.92,
      "k": 200.0,
-     "equipos": 77
+     "equipos": 79
     },
     "faltas": {
-     "media": 0.95,
-     "disp": 0.93,
-     "k": 13.3,
-     "equipos": 77
+     "media": 0.97,
+     "disp": 0.9,
+     "k": 9.5,
+     "equipos": 79
     },
     "amarillas": {
      "media": 0.2,
-     "disp": 0.85,
+     "disp": 0.86,
      "k": 200.0,
-     "equipos": 77
+     "equipos": 79
     },
     "goles": {
      "media": 0.07,
-     "disp": 0.95,
+     "disp": 0.94,
      "k": 200.0,
-     "equipos": 77
+     "equipos": 79
     },
     "asist": {
      "media": 0.06,
      "disp": 1.04,
      "k": 200.0,
-     "equipos": 77
+     "equipos": 79
     }
    },
    "M": {
     "remates": {
      "media": 0.98,
      "disp": 1.25,
-     "k": 5.7,
-     "equipos": 95
+     "k": 5.6,
+     "equipos": 94
     },
     "al_arco": {
      "media": 0.24,
      "disp": 0.96,
      "k": 200.0,
-     "equipos": 95
+     "equipos": 94
     },
     "faltas": {
-     "media": 0.97,
-     "disp": 1.05,
-     "k": 7.2,
-     "equipos": 95
+     "media": 0.96,
+     "disp": 1.06,
+     "k": 8.5,
+     "equipos": 94
     },
     "amarillas": {
      "media": 0.15,
-     "disp": 0.78,
-     "k": 9.3,
-     "equipos": 95
+     "disp": 0.79,
+     "k": 9.4,
+     "equipos": 94
     },
     "goles": {
      "media": 0.07,
      "disp": 0.96,
      "k": 200.0,
-     "equipos": 95
+     "equipos": 94
     },
     "asist": {
      "media": 0.05,
      "disp": 0.96,
      "k": 5.5,
-     "equipos": 95
+     "equipos": 94
     }
    },
    "F": {
     "remates": {
-     "media": 1.64,
-     "disp": 1.18,
-     "k": 5.7,
-     "equipos": 77
+     "media": 1.63,
+     "disp": 1.13,
+     "k": 4.8,
+     "equipos": 76
     },
     "al_arco": {
      "media": 0.51,
      "disp": 0.96,
-     "k": 9.5,
-     "equipos": 77
+     "k": 10.0,
+     "equipos": 76
     },
     "faltas": {
-     "media": 0.78,
-     "disp": 1.02,
-     "k": 22.8,
-     "equipos": 77
+     "media": 0.77,
+     "disp": 1.03,
+     "k": 24.9,
+     "equipos": 76
     },
     "amarillas": {
      "media": 0.09,
-     "disp": 0.78,
-     "k": 3.1,
-     "equipos": 77
+     "disp": 0.75,
+     "k": 2.8,
+     "equipos": 76
     },
     "goles": {
-     "media": 0.13,
+     "media": 0.14,
      "disp": 1.05,
-     "k": 16.9,
-     "equipos": 77
+     "k": 17.1,
+     "equipos": 76
     },
     "asist": {
-     "media": 0.07,
+     "media": 0.08,
      "disp": 0.96,
      "k": 200.0,
-     "equipos": 77
+     "equipos": 76
     }
    }
   },
@@ -2670,16 +2670,16 @@
    },
    "esperado": {
     "remates": 13.84,
-    "al_arco": 4.12,
-    "corners": 4.71,
-    "faltas": 12.76,
-    "posesion": 48.25,
-    "offsides": 1.58,
-    "atajadas": 2.98,
-    "tackles": 22.3,
-    "pases": 270.27,
-    "pases_tot": 365.94,
-    "tarjetas": 2.26
+    "al_arco": 4.15,
+    "corners": 4.61,
+    "faltas": 12.89,
+    "posesion": 48.01,
+    "offsides": 1.64,
+    "atajadas": 2.96,
+    "tackles": 22.32,
+    "pases": 264.95,
+    "pases_tot": 360.43,
+    "tarjetas": 2.25
    },
    "liga": "arg.2"
   },
@@ -4370,15 +4370,15 @@
    },
    "esperado": {
     "remates": 13.93,
-    "al_arco": 4.37,
-    "corners": 4.79,
-    "faltas": 13.03,
-    "posesion": 49.37,
-    "offsides": 1.62,
-    "atajadas": 3.01,
-    "tackles": 19.04,
-    "pases": 310.97,
-    "pases_tot": 397.61,
+    "al_arco": 4.38,
+    "corners": 4.81,
+    "faltas": 13.21,
+    "posesion": 49.27,
+    "offsides": 1.67,
+    "atajadas": 3.0,
+    "tackles": 19.02,
+    "pases": 309.57,
+    "pases_tot": 396.28,
     "tarjetas": 2.52
    },
    "liga": "arg.2"
@@ -7194,16 +7194,16 @@
    },
    "esperado": {
     "remates": 13.87,
-    "al_arco": 4.32,
-    "corners": 4.72,
-    "faltas": 11.59,
-    "posesion": 47.7,
-    "offsides": 1.75,
-    "atajadas": 3.01,
-    "tackles": 16.34,
-    "pases": 336.76,
-    "pases_tot": 408.27,
-    "tarjetas": 2.1
+    "al_arco": 4.33,
+    "corners": 4.63,
+    "faltas": 11.51,
+    "posesion": 47.38,
+    "offsides": 1.76,
+    "atajadas": 2.99,
+    "tackles": 16.3,
+    "pases": 337.84,
+    "pases_tot": 408.35,
+    "tarjetas": 2.09
    },
    "liga": "bra.2"
   },
@@ -8352,16 +8352,16 @@
    },
    "esperado": {
     "remates": 13.93,
-    "al_arco": 4.26,
-    "corners": 4.8,
-    "faltas": 12.52,
-    "posesion": 46.01,
-    "offsides": 1.61,
-    "atajadas": 3.0,
-    "tackles": 16.77,
-    "pases": 295.65,
-    "pases_tot": 369.53,
-    "tarjetas": 2.16
+    "al_arco": 4.27,
+    "corners": 4.83,
+    "faltas": 12.61,
+    "posesion": 45.38,
+    "offsides": 1.66,
+    "atajadas": 2.98,
+    "tackles": 16.72,
+    "pases": 292.09,
+    "pases_tot": 363.32,
+    "tarjetas": 2.15
    },
    "liga": "bra.2"
   },
@@ -9162,16 +9162,16 @@
    },
    "esperado": {
     "remates": 13.9,
-    "al_arco": 4.23,
-    "corners": 4.75,
-    "faltas": 11.86,
-    "posesion": 47.11,
-    "offsides": 1.7,
-    "atajadas": 2.99,
-    "tackles": 15.37,
-    "pases": 329.48,
-    "pases_tot": 400.33,
-    "tarjetas": 2.27
+    "al_arco": 4.24,
+    "corners": 4.71,
+    "faltas": 11.82,
+    "posesion": 46.65,
+    "offsides": 1.72,
+    "atajadas": 2.97,
+    "tackles": 15.31,
+    "pases": 329.94,
+    "pases_tot": 399.13,
+    "tarjetas": 2.26
    },
    "liga": "bra.2"
   },
@@ -9324,204 +9324,18 @@
    },
    "esperado": {
     "remates": 13.92,
-    "al_arco": 4.23,
-    "corners": 4.75,
-    "faltas": 11.64,
-    "posesion": 43.6,
-    "offsides": 1.83,
-    "atajadas": 2.99,
-    "tackles": 17.4,
-    "pases": 268.62,
-    "pases_tot": 345.33,
+    "al_arco": 4.24,
+    "corners": 4.71,
+    "faltas": 11.55,
+    "posesion": 42.6,
+    "offsides": 1.82,
+    "atajadas": 2.97,
+    "tackles": 17.36,
+    "pases": 261.85,
+    "pases_tot": 335.18,
     "tarjetas": 2.1
    },
    "liga": "bra.2"
-  },
-  "384": {
-   "remates": 11.0,
-   "al_arco": 4.0,
-   "corners": 0.0,
-   "faltas": 15.0,
-   "posesion": 57.9,
-   "offsides": 0.0,
-   "atajadas": 3.0,
-   "tackles": 25.0,
-   "pases": 494.0,
-   "pases_tot": 570.0,
-   "tarjetas": 1.0,
-   "pj": 1,
-   "n": {
-    "remates": 1,
-    "al_arco": 1,
-    "corners": 1,
-    "faltas": 1,
-    "posesion": 1,
-    "offsides": 1,
-    "atajadas": 1,
-    "tackles": 1,
-    "pases": 1,
-    "pases_tot": 1,
-    "tarjetas": 1
-   },
-   "desvio": {},
-   "local": {},
-   "visita": {
-    "remates": 11.0,
-    "al_arco": 4.0,
-    "corners": 0.0,
-    "faltas": 15.0,
-    "posesion": 57.9,
-    "offsides": 0.0,
-    "atajadas": 3.0,
-    "tackles": 25.0,
-    "pases": 494.0,
-    "pases_tot": 570.0,
-    "tarjetas": 1.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "concede": {
-    "remates": 16.0,
-    "al_arco": 5.0,
-    "corners": 4.0,
-    "faltas": 5.0,
-    "posesion": 42.1,
-    "offsides": 2.0,
-    "atajadas": 4.0,
-    "tackles": 17.0,
-    "pases": 338.0,
-    "pases_tot": 413.0,
-    "tarjetas": 0.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "esperado": {
-    "remates": 11.54,
-    "al_arco": 3.9,
-    "corners": 4.5,
-    "faltas": 11.34,
-    "tarjetas": 1.76
-   },
-   "liga": "eng.1"
-  },
-  "382": {
-   "remates": 13.0,
-   "al_arco": 6.0,
-   "corners": 8.0,
-   "faltas": 11.0,
-   "posesion": 66.1,
-   "offsides": 2.0,
-   "atajadas": 3.0,
-   "tackles": 15.0,
-   "pases": 569.0,
-   "pases_tot": 641.0,
-   "tarjetas": 1.0,
-   "pj": 1,
-   "n": {
-    "remates": 1,
-    "al_arco": 1,
-    "corners": 1,
-    "faltas": 1,
-    "posesion": 1,
-    "offsides": 1,
-    "atajadas": 1,
-    "tackles": 1,
-    "pases": 1,
-    "pases_tot": 1,
-    "tarjetas": 1
-   },
-   "desvio": {},
-   "local": {
-    "remates": 13.0,
-    "al_arco": 6.0,
-    "corners": 8.0,
-    "faltas": 11.0,
-    "posesion": 66.1,
-    "offsides": 2.0,
-    "atajadas": 3.0,
-    "tackles": 15.0,
-    "pases": 569.0,
-    "pases_tot": 641.0,
-    "tarjetas": 1.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "visita": {},
-   "concede": {
-    "remates": 5.0,
-    "al_arco": 4.0,
-    "corners": 3.0,
-    "faltas": 11.0,
-    "posesion": 33.9,
-    "offsides": 1.0,
-    "atajadas": 4.0,
-    "tackles": 16.0,
-    "pases": 263.0,
-    "pases_tot": 333.0,
-    "tarjetas": 2.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "esperado": {
-    "remates": 16.53,
-    "al_arco": 6.18,
-    "corners": 7.18,
-    "faltas": 9.27,
-    "tarjetas": 1.46
-   },
-   "liga": "eng.1"
   },
   "364": {
    "remates": 27.0,
@@ -11197,192 +11011,6 @@
    },
    "liga": "eng.1"
   },
-  "166": {
-   "remates": 11.0,
-   "al_arco": 8.0,
-   "corners": 3.0,
-   "faltas": 13.0,
-   "posesion": 43.3,
-   "offsides": 2.0,
-   "atajadas": 2.0,
-   "tackles": 16.0,
-   "pases": 317.0,
-   "pases_tot": 385.0,
-   "tarjetas": 2.0,
-   "pj": 1,
-   "n": {
-    "remates": 1,
-    "al_arco": 1,
-    "corners": 1,
-    "faltas": 1,
-    "posesion": 1,
-    "offsides": 1,
-    "atajadas": 1,
-    "tackles": 1,
-    "pases": 1,
-    "pases_tot": 1,
-    "tarjetas": 1
-   },
-   "desvio": {},
-   "local": {},
-   "visita": {
-    "remates": 11.0,
-    "al_arco": 8.0,
-    "corners": 3.0,
-    "faltas": 13.0,
-    "posesion": 43.3,
-    "offsides": 2.0,
-    "atajadas": 2.0,
-    "tackles": 16.0,
-    "pases": 317.0,
-    "pases_tot": 385.0,
-    "tarjetas": 2.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "concede": {
-    "remates": 20.0,
-    "al_arco": 2.0,
-    "corners": 8.0,
-    "faltas": 11.0,
-    "posesion": 56.7,
-    "offsides": 2.0,
-    "atajadas": 6.0,
-    "tackles": 14.0,
-    "pases": 400.0,
-    "pases_tot": 473.0,
-    "tarjetas": 2.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "esperado": {
-    "remates": 12.67,
-    "al_arco": 4.92,
-    "corners": 4.94,
-    "faltas": 12.71,
-    "tarjetas": 1.97
-   },
-   "liga": "fra.1"
-  },
-  "160": {
-   "remates": 19.0,
-   "al_arco": 5.0,
-   "corners": 10.0,
-   "faltas": 6.0,
-   "posesion": 69.5,
-   "offsides": 7.0,
-   "atajadas": 0.0,
-   "tackles": 16.0,
-   "pases": 665.0,
-   "pases_tot": 735.0,
-   "tarjetas": 2.0,
-   "pj": 1,
-   "n": {
-    "remates": 1,
-    "al_arco": 1,
-    "corners": 1,
-    "faltas": 1,
-    "posesion": 1,
-    "offsides": 1,
-    "atajadas": 1,
-    "tackles": 1,
-    "pases": 1,
-    "pases_tot": 1,
-    "tarjetas": 1
-   },
-   "desvio": {},
-   "local": {},
-   "visita": {
-    "remates": 19.0,
-    "al_arco": 5.0,
-    "corners": 10.0,
-    "faltas": 6.0,
-    "posesion": 69.5,
-    "offsides": 7.0,
-    "atajadas": 0.0,
-    "tackles": 16.0,
-    "pases": 665.0,
-    "pases_tot": 735.0,
-    "tarjetas": 2.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "concede": {
-    "remates": 9.0,
-    "al_arco": 3.0,
-    "corners": 0.0,
-    "faltas": 7.0,
-    "posesion": 30.5,
-    "offsides": 0.0,
-    "atajadas": 3.0,
-    "tackles": 26.0,
-    "pases": 250.0,
-    "pases_tot": 322.0,
-    "tarjetas": 2.0,
-    "pj": 1,
-    "n": {
-     "remates": 1,
-     "al_arco": 1,
-     "corners": 1,
-     "faltas": 1,
-     "posesion": 1,
-     "offsides": 1,
-     "atajadas": 1,
-     "tackles": 1,
-     "pases": 1,
-     "pases_tot": 1,
-     "tarjetas": 1
-    },
-    "desvio": {}
-   },
-   "esperado": {
-    "remates": 15.97,
-    "al_arco": 6.27,
-    "corners": 6.19,
-    "faltas": 10.42,
-    "tarjetas": 1.62
-   },
-   "liga": "fra.1"
-  },
   "180": {
    "remates": 5.0,
    "al_arco": 2.0,
@@ -12867,6 +12495,150 @@
     "al_arco": 5.12,
     "corners": 5.35,
     "faltas": 12.18,
+    "tarjetas": 1.97
+   },
+   "liga": "fra.1"
+  },
+  "166": {
+   "remates": 10.0,
+   "al_arco": 6.0,
+   "corners": 1.5,
+   "faltas": 12.0,
+   "posesion": 35.25,
+   "offsides": 3.5,
+   "atajadas": 2.0,
+   "tackles": 15.0,
+   "pases": 283.0,
+   "pases_tot": 341.0,
+   "tarjetas": 2.0,
+   "pj": 2,
+   "n": {
+    "remates": 2,
+    "al_arco": 2,
+    "corners": 2,
+    "faltas": 2,
+    "posesion": 2,
+    "offsides": 2,
+    "atajadas": 2,
+    "tackles": 2,
+    "pases": 2,
+    "pases_tot": 2,
+    "tarjetas": 2
+   },
+   "desvio": {
+    "remates": 1.41,
+    "al_arco": 2.83,
+    "corners": 2.12,
+    "faltas": 1.41,
+    "posesion": 11.38,
+    "offsides": 2.12,
+    "atajadas": 0.0,
+    "tackles": 1.41,
+    "pases": 48.08,
+    "pases_tot": 62.23,
+    "tarjetas": 0.0
+   },
+   "local": {
+    "remates": 9.0,
+    "al_arco": 4.0,
+    "corners": 0.0,
+    "faltas": 11.0,
+    "posesion": 27.2,
+    "offsides": 5.0,
+    "atajadas": 2.0,
+    "tackles": 14.0,
+    "pases": 249.0,
+    "pases_tot": 297.0,
+    "tarjetas": 2.0,
+    "pj": 1,
+    "n": {
+     "remates": 1,
+     "al_arco": 1,
+     "corners": 1,
+     "faltas": 1,
+     "posesion": 1,
+     "offsides": 1,
+     "atajadas": 1,
+     "tackles": 1,
+     "pases": 1,
+     "pases_tot": 1,
+     "tarjetas": 1
+    },
+    "desvio": {}
+   },
+   "visita": {
+    "remates": 11.0,
+    "al_arco": 8.0,
+    "corners": 3.0,
+    "faltas": 13.0,
+    "posesion": 43.3,
+    "offsides": 2.0,
+    "atajadas": 2.0,
+    "tackles": 16.0,
+    "pases": 317.0,
+    "pases_tot": 385.0,
+    "tarjetas": 2.0,
+    "pj": 1,
+    "n": {
+     "remates": 1,
+     "al_arco": 1,
+     "corners": 1,
+     "faltas": 1,
+     "posesion": 1,
+     "offsides": 1,
+     "atajadas": 1,
+     "tackles": 1,
+     "pases": 1,
+     "pases_tot": 1,
+     "tarjetas": 1
+    },
+    "desvio": {}
+   },
+   "concede": {
+    "remates": 19.0,
+    "al_arco": 3.0,
+    "corners": 6.5,
+    "faltas": 9.0,
+    "posesion": 64.75,
+    "offsides": 1.0,
+    "atajadas": 4.0,
+    "tackles": 13.5,
+    "pases": 567.5,
+    "pases_tot": 641.5,
+    "tarjetas": 1.5,
+    "pj": 2,
+    "n": {
+     "remates": 2,
+     "al_arco": 2,
+     "corners": 2,
+     "faltas": 2,
+     "posesion": 2,
+     "offsides": 2,
+     "atajadas": 2,
+     "tackles": 2,
+     "pases": 2,
+     "pases_tot": 2,
+     "tarjetas": 2
+    },
+    "desvio": {
+     "remates": 1.41,
+     "al_arco": 1.41,
+     "corners": 2.12,
+     "faltas": 2.83,
+     "posesion": 11.38,
+     "offsides": 1.41,
+     "atajadas": 2.83,
+     "tackles": 0.71,
+     "pases": 236.88,
+     "pases_tot": 238.29,
+     "tarjetas": 0.71
+    }
+   },
+   "esperado": {
+    "remates": 12.38,
+    "al_arco": 4.84,
+    "corners": 4.73,
+    "faltas": 12.63,
     "tarjetas": 1.97
    },
    "liga": "fra.1"

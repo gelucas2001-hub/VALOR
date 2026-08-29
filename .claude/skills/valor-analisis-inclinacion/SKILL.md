@@ -288,7 +288,15 @@ Devolvé únicamente un JSON con esta forma, sin texto antes ni después. Una co
     "local": "Cómo juega y cómo llega el local, con sus ausencias pesadas.",
     "visitante": "Lo mismo del visitante, incluido cómo le va lejos de casa.",
     "contexto": "Lo que cruza a los dos: la llave, la tabla, el árbitro, qué se juega cada uno.",
-    "veredicto": "Lectura final: hacia dónde inclina esto el análisis."
+    "veredicto": "Lectura final: hacia dónde inclina esto el análisis.",
+    "desarrollo": {
+      "texto": "Se espera un partido trabado de pocas llegadas; el local va a esperar tener la pelota y el visitante a salir de contra.",
+      "senal": {
+        "ritmo_goleador": "bajo",
+        "estructura": "trabado",
+        "ambos_marcan": "incierto"
+      }
+    }
   }
 }
 ```
@@ -314,6 +322,22 @@ Si de un equipo sabés poco, escribí lo que tenés (forma, sede, plantel) y no 
 - No es una probabilidad, no es un nivel de confianza, no es una recomendación de apuesta. Es una dirección o nada.
 
 `veredicto`: la lectura final, en una frase — hacia dónde inclina esto el análisis, y de ahí se deduce `inclinacion`. Si no hay señal relevante tras la investigación, `veredicto` describe el partido en términos neutros de forma y contexto (nunca vacío, nunca "no hay nada que destacar" tal cual) e `inclinacion` va en `null`.
+
+**`desarrollo` — el desarrollo esperado.** Único por partido: describe cómo se va a jugar la interacción de los dos equipos, no dos descripciones separadas. `texto` va en 2-4 frases, tono de analista deportivo, sin jerga cuantitativa. `desarrollo` describe el **partido**, nunca el mercado: no se usan términos de mercado (`over`/`under`) — eso contaminaría la independencia de la lectura.
+
+Para armarlo, pensá en guiones internos (estructura interna de pensamiento, no visible en el output), cuatro dimensiones: (1) control territorial/posesión; (2) transiciones y espacios; (3) ritmo probable; (4) factores capaces de alterar el guion.
+
+**Sin guion cerrado:** si la evidencia es insuficiente o contradictoria, expresá la incertidumbre explícitamente ("sin base para afirmar el desarrollo", "no se puede sostener un ritmo abierto") en vez de rellenar con narrativa genérica.
+
+`senal` es un objeto con léxico cerrado, y sale de la misma lectura que el `texto` (forma, sede, plantel, h2h) — **nunca** de cuotas ni de λ: violar eso rompe la independencia de la marca dorada.
+
+| campo | valores | para qué sirve |
+|---|---|---|
+| `ritmo_goleador` | alto / bajo / incierto | señal de cuántos goles esperar |
+| `estructura` | abierto / trabado / neutral / incierto | carácter del partido |
+| `ambos_marcan` | probable / poco_probable / incierto | si van a convertir los dos |
+
+`incierto` es la salida por omisión y es correcta: sin base, no se fuerza. `bajo` y `trabado` tienen hoy el mismo efecto (solo tensión con mercados de goles altos); no extrapolés `trabado` a remates, córners o llegadas — esa relación no es equivalencia, se validaría empíricamente en el futuro.
 
 Todos los campos de texto van en tono de analista deportivo, sin jerga cuantitativa — ver sección 5.
 
@@ -369,5 +393,7 @@ Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contr
 - [ ] ¿Hay alguna fecha relativa ("el sábado", "hace poco") en vez de una fecha absoluta?
 - [ ] ¿Inventaste algo — un nombre, un patrón, una cifra — que no esté literalmente en el input o en una fuente de research con fecha propia?
 - [ ] `contexto` y `veredicto`: ¿uno explica y el otro concluye, o están diciendo lo mismo dos veces?
+- [ ] `desarrollo`· ¿es una dirección camuflada? Si nombrás a un ganador, va en `veredicto`/`inclinacion`, no en `desarrollo`.
+- [ ] `desarrollo`· ¿estás vendiendo un guion cerrado inventado? Si no hay base para afirmar el desarrollo, decilo con incertidumbre — `incierto`/explicitarlo es correcto, la narrativa convincente no.
 
 Si alguna casilla falla, corregí antes de devolver — no lo dejes para que lo encuentre otra pasada.

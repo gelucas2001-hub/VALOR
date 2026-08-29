@@ -284,6 +284,13 @@ def expediente(p, planteles=None):
         "acumulado de TODA la temporada, así que un jugador lesionado hace meses "
         "puede seguir mostrando partidos y goles de ANTES de lesionarse. Si el "
         "research trae una fecha de baja, esa fecha manda sobre el plantel."
+        " El expediente también sirve para el campo 'desarrollo': describí cómo "
+        "se VA a jugar el partido (quién va a tener la pelota, abierto o trabado, "
+        "ritmo, qué puede alterar el guion) — SIEMPRE desde el expediente (forma, "
+        "sede, plantel, h2h), nunca desde el mercado. Y 'desarrollo.senal' usa el "
+        "léxico cerrado: ritmo_goleador alto|bajo|incierto, estructura "
+        "abierto|trabado|neutral|incierto, ambos_marcan probable|poco_probable|"
+        "incierto; cuando no haya base, 'incierto'."
     )
     return e
 

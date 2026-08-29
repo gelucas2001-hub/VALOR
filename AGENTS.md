@@ -26,7 +26,7 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 | `doble_via.py` | Compara el motor de Python contra el de JavaScript | Correr después de tocar el motor |
 | `data/resultados.json` | Marcadores finales que escribe el cron. Hace exacto el cruce del Registro | Nadie |
 | `TRASPASO.md` | Informe de traspaso — léelo primero | A mano, mantenerlo al día |
-| `docs/design-handoff/` | Entrega de diseño de Claude Design, verificada | No editar; es referencia |
+| `docs/design-handoff/` | Entrega de diseño de Codex Design, verificada | No editar; es referencia |
 | `backtest.py` | Calibración contra resultados | A mano |
 | `medir_sesgo.py` | Cuánto nos apartamos de la línea del mercado | A mano, antes y después de tocar el modelo |
 | `medir_vs_mercado.py` | Brier contra la cuota de cierre real | A mano |
@@ -59,7 +59,7 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 
 Desde el 2026-08-19, esta terminal SÍ puede correr la investigación:
 `python expediente.py <id>` arma el expediente objetivo, y la skill
-versionada en `.claude/skills/valor-analisis-inclinacion/SKILL.md`
+versionada en `.Codex/skills/valor-analisis-inclinacion/SKILL.md`
 hace el research y escribe `inclinacion`/`local`/`visitante`/
 `contexto`/`veredicto`. Desde el 2026-08-20 el expediente incluye el
 plantel de los dos equipos con partidos jugados y peso goleador: la
@@ -67,7 +67,7 @@ skill **pesa** las bajas contra esos números en vez de enumerarlas, y
 escribe una lectura por equipo (antes el rival quedaba sin describir).
 Esa
 skill es la fuente de verdad — se edita ahí, en el repo, no en
-Claude.ai (evita el problema de dos copias divergiendo sin que nadie
+Codex.ai (evita el problema de dos copias divergiendo sin que nadie
 lo note).
 
 **Ojo con el nombre parecido.** Hay (o puede volver a haber) una skill

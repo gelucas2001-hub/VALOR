@@ -478,6 +478,14 @@ test("senalDividida() con ambos poco probable detecta btts_si", ()=>{
   cierto(sd.opciones.includes("btts_si"), "la opcion en conflicto es ambos marcan");
 });
 
+test("senalDividida() con ambas señales acumula las opciones en conflicto", ()=>{
+  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
+    desarrollo:{texto:"x", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"poco_probable"}}}});
+  const sd = L.senalDividida(claro);
+  cierto(sd && sd.opciones.includes("ov2.5"), "no incluye la opcion de goles altos en conflicto");
+  cierto(sd && sd.opciones.includes("btts_si"), "no incluye ambos marcan en conflicto");
+});
+
 test("senalDividida() nunca toca marcaDeValor (sigue dependiendo solo de inclinacion)", ()=>{
   L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
     desarrollo:{texto:"x", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"poco_probable"}}}});

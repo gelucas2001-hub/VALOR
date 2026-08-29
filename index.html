@@ -1584,17 +1584,18 @@ function senalDividida(m){
   const a = ANALISIS[m.id];
   const s = a && a.desarrollo && a.desarrollo.senal;
   if(!s) return null;
+  let fenom = null, opciones = [];
   if(s.ritmo_goleador === "bajo" || s.estructura === "trabado"){
     const ops = escalera(m).map(f=> f.op).filter(Boolean)
       .filter(o=> o.fam==="Goles" && o.lado==="over" && o.linea>=2.5);
-    if(ops.length) return {fenom:"goles", dir:"pocos", opciones: ops.map(o=>o.id)};
+    if(ops.length){ if(!fenom) fenom = "goles"; opciones.push(...ops.map(o=>o.id)); }
   }
   if(s.ambos_marcan === "poco_probable"){
     const ops = escalera(m).map(f=> f.op).filter(Boolean)
       .filter(o=> o.id==="btts_si");
-    if(ops.length) return {fenom:"ambos", dir:"no", opciones: ops.map(o=>o.id)};
+    if(ops.length){ if(!fenom) fenom = "ambos"; opciones.push(...ops.map(o=>o.id)); }
   }
-  return null;
+  return fenom ? {fenom, dir: fenom==="goles" ? "pocos" : "no", opciones} : null;
 }
 
 /* Antes esta función solo repetía el pick de escalera() con otro
@@ -2159,6 +2160,7 @@ function tabPronosticos(m){
   const lec = lectura(m);
   const hay = analizado(m.id);
   const esc = escalera(m);
+  const senal = senalDividida(m);
 
   let h = `<div class="banda banda2">Pronósticos<em>ESCALERA DE RIESGO</em></div>
     <div class="sec"><div class="read">
@@ -2180,13 +2182,12 @@ function tabPronosticos(m){
         lecturas distintas a propósito — no vas a encontrar nada marcado como oportunidad en
         contra de la del análisis, aunque el modelo diga otra cosa.</div>`;
     }
-    const sd = senalDividida(m);
-    if(sd){
-      const que = sd.fenom==="goles"
+    if(senal){
+      const que = senal.fenom==="goles"
         ? "nuestra lectura del desarrollo dice que va a ser un partido de pocos goles"
         : "nuestra lectura del desarrollo dice que es poco probable que marquen los dos";
       h += `<div class="nota">El modelo ve ventaja en opciones de
-        ${sd.fenom==="goles" ? "goles altos" : "ambos marcan"}, pero ${que}.
+        ${senal.fenom==="goles" ? "goles altos" : "ambos marcan"}, pero ${que}.
         Por eso no te las marcamos en dorado: la lectura del desarrollo no
         acompaña, y no recomendamos sobre algo que contradice nuestra propia
         lectura. Quedan acá visibles por si querés decidir con los números y la
@@ -2201,12 +2202,11 @@ function tabPronosticos(m){
      compara con nada — al lado de la escala se ve de un saque si el
      escalón está por encima o por debajo de jugarse una moneda. */
   const total = String(esc.length).padStart(2,"0");
-  const sdEsc = senalDividida(m);
   h += `<div class="banda banda2">Escalera de riesgo<em>${esc.length} FORMAS</em></div>
     <div class="pasos">`;
 
   esc.forEach(({franja, op, valor}, i)=>{
-    const marcar = op && valor && hay && !(sdEsc && sdEsc.opciones.includes(op.id));
+    const marcar = op && valor && hay && !(senal && senal.opciones.includes(op.id));
     const n = String(i+1).padStart(2,"0");
     h += `<div class="paso ${marcar?"val":""}">
       <div class="talon">
@@ -2265,8 +2265,9 @@ function tabPronosticos(m){
   fams.forEach(fam=>{
     h += `<div class="grp"><div class="gh">${esc_(fam)}</div>`;
     otros.filter(x=> x.op.fam===fam).forEach(({op, esVal})=>{
+      const v = esVal && !(senal && senal.opciones.includes(op.id));
       const real = cuotaReal(m, op);
-      h += `<div class="mrow ${esVal?"val":""}">
+      h += `<div class="mrow ${v?"val":""}">
         <div class="top2"><span class="mkt">${esc_(op.label)}</span><span class="modelo">${pc(op.p)}</span></div>
         ${real
           ? `<div class="umb">Bet365 paga <b>${real.toFixed(2)}</b> — conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`

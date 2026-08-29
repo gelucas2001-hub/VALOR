@@ -10,7 +10,8 @@
    "contexto": "Solo lo que cruza a los dos: la llave, la tabla, el árbitro, qué se juega cada uno",
    "veredicto": "Lectura final: hacia dónde inclina esto el análisis"
   },
-  "_local_visitante": "Una lectura por equipo, agregadas el 2026-08-20. Existen porque con un solo campo de prosa nada obligaba a hablar del rival y el hueco no se veía en pantalla: los análisis terminaban siendo una lista de bajas del equipo grande. La app las muestra bajo el nombre de cada equipo. Son opcionales para atrás — los análisis viejos solo tienen contexto/veredicto y siguen andando — pero la skill los exige para todo análisis nuevo."
+  "_local_visitante": "Una lectura por equipo, agregadas el 2026-08-20. Existen porque con un solo campo de prosa nada obligaba a hablar del rival y el hueco no se veía en pantalla: los análisis terminaban siendo una lista de bajas del equipo grande. La app las muestra bajo el nombre de cada equipo. Son opcionales para atrás — los análisis viejos solo tienen contexto/veredicto y siguen andando — pero la skill los exige para todo análisis nuevo.",
+   "_desarrollo": "Campo nuevo (2026-08-29). Objeto {texto, senal}. texto: cómo se VA a jugar el partido (quién tendrá la pelota, abierto o trabado, ritmo, qué puede alterar el guion), único por partido, sin números del modelo ni del mercado, incertidumbre explícita cuando no hay base. senal: {ritmo_goleador: alto|bajo|incierto, estructura: abierto|trabado|neutral|incierto, ambos_marcan: probable|poco_probable|incierto}. Incierto = sin base, correcto. No toca inclinacion ni marcaDeValor."
  },
  "espn401874155": {
   "actualizado": "2026-08-19",

@@ -1572,6 +1572,31 @@ function divergen(m){
   return dirHumana === dirModelo ? null : {dirHumana, dirModelo};
 }
 
+/* Cuándo la lectura del DESARROLLO (cómo se va a jugar el partido)
+   contradice a los mercados de goles/ambos que la escalera considera.
+   A diferencia de divergen(), esto no es dirección: es la señal
+   estructural del desarrollo (senal) contra las LÍNEAS de goles y de
+   ambos marcan. Devuelve null cuando no hay tensión (sin desarrollo,
+   senal incierto/ausente, o senales coherentes). La contradicción NO
+   se oculta: el frontend la muestra etiquetada y solo deja de marcar en
+   dorado la opción en conflicto. */
+function senalDividida(m){
+  const a = ANALISIS[m.id];
+  const s = a && a.desarrollo && a.desarrollo.senal;
+  if(!s) return null;
+  if(s.ritmo_goleador === "bajo" || s.estructura === "trabado"){
+    const ops = escalera(m).map(f=> f.op).filter(Boolean)
+      .filter(o=> o.fam==="Goles" && o.lado==="over" && o.linea>=2.5);
+    if(ops.length) return {fenom:"goles", dir:"pocos", opciones: ops.map(o=>o.id)};
+  }
+  if(s.ambos_marcan === "poco_probable"){
+    const ops = escalera(m).map(f=> f.op).filter(Boolean)
+      .filter(o=> o.id==="btts_si");
+    if(ops.length) return {fenom:"ambos", dir:"no", opciones: ops.map(o=>o.id)};
+  }
+  return null;
+}
+
 /* Antes esta función solo repetía el pick de escalera() con otro
    nombre: marcaba UNA fila, la que ya había ganado su franja, y nada
    más — aunque otra fila tuviera ventaja real (goles extra, ambos
@@ -2155,6 +2180,18 @@ function tabPronosticos(m){
         lecturas distintas a propósito — no vas a encontrar nada marcado como oportunidad en
         contra de la del análisis, aunque el modelo diga otra cosa.</div>`;
     }
+    const sd = senalDividida(m);
+    if(sd){
+      const que = sd.fenom==="goles"
+        ? "nuestra lectura del desarrollo dice que va a ser un partido de pocos goles"
+        : "nuestra lectura del desarrollo dice que es poco probable que marquen los dos";
+      h += `<div class="nota">El modelo ve ventaja en opciones de
+        ${sd.fenom==="goles" ? "goles altos" : "ambos marcan"}, pero ${que}.
+        Por eso no te las marcamos en dorado: la lectura del desarrollo no
+        acompaña, y no recomendamos sobre algo que contradice nuestra propia
+        lectura. Quedan acá visibles por si querés decidir con los números y la
+        lectura a la vista.</div>`;
+    }
   }
   h += `</div>`;   // cierra el .sec de la lectura
 
@@ -2164,11 +2201,12 @@ function tabPronosticos(m){
      compara con nada — al lado de la escala se ve de un saque si el
      escalón está por encima o por debajo de jugarse una moneda. */
   const total = String(esc.length).padStart(2,"0");
+  const sdEsc = senalDividida(m);
   h += `<div class="banda banda2">Escalera de riesgo<em>${esc.length} FORMAS</em></div>
     <div class="pasos">`;
 
   esc.forEach(({franja, op, valor}, i)=>{
-    const marcar = op && valor && hay;
+    const marcar = op && valor && hay && !(sdEsc && sdEsc.opciones.includes(op.id));
     const n = String(i+1).padStart(2,"0");
     h += `<div class="paso ${marcar?"val":""}">
       <div class="talon">

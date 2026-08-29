@@ -31,7 +31,7 @@ function cargarLogica(){
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
-              mercados, otrosMercados, divergen, tabHistorial, tarjeta, tabPlantel,
+              mercados, otrosMercados, divergen, senalDividida, tabHistorial, tarjeta, tabPlantel,
               tabEstadisticas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
               fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL, combinada,
@@ -453,6 +453,36 @@ test("divergen() no marca nada cuando el análisis coincide con el modelo, o no 
   PARTIDOS.forEach(m=>{
     igual(L.divergen(m), null, `${m.home} vs ${m.away} sin análisis y igual divergió:`);
   });
+});
+
+test("senalDividida() sin senal (o sin analisis) devuelve null", ()=>{
+  L.cargar(PARTIDOS, {});
+  cierto(!L.senalDividida(claro), "sin analisis:");
+  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L", desarrollo:{texto:"t.", senal:{ritmo_goleador:"incierto", estructura:"neutral", ambos_marcan:"incierto"}}}});
+  igual(L.senalDividida(claro), null, "senal incierto:");
+});
+
+test("senalDividida() con ritmo bajo detecta opciones de goles altos", ()=>{
+  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
+    desarrollo:{texto:"trabado", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"incierto"}}}});
+  const sd = L.senalDividida(claro);
+  cierto(sd && sd.fenom==="goles", "deberia marcar senal de goles");
+  cierto(sd.opciones.length >= 1, "deberia haber al menos una opcion de goles altos en conflicto");
+});
+
+test("senalDividida() con ambos poco probable detecta btts_si", ()=>{
+  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
+    desarrollo:{texto:"cerrado", senal:{ritmo_goleador:"incierto", estructura:"neutral", ambos_marcan:"poco_probable"}}}});
+  const sd = L.senalDividida(claro);
+  cierto(sd && sd.fenom==="ambos", "deberia marcar senal de ambos");
+  cierto(sd.opciones.includes("btts_si"), "la opcion en conflicto es ambos marcan");
+});
+
+test("senalDividida() nunca toca marcaDeValor (sigue dependiendo solo de inclinacion)", ()=>{
+  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
+    desarrollo:{texto:"x", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"poco_probable"}}}});
+  const m = L.marcaDeValor(claro);
+  cierto(m==="L" || m===null, "marca no se rompe (sigue siendo direccion pura)");
 });
 
 /* ══════════════════════════════════════════════════════════════════

@@ -997,7 +997,10 @@
    3.45,
    4.3
   ],
-  "resultado": null
+  "resultado": [
+   4,
+   1
+  ]
  },
  "espn401841529": {
   "fecha": "2026-08-29",
@@ -1237,7 +1240,10 @@
    3.3,
    5.25
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -1938,6 +1944,30 @@
    6.0,
    4.3,
    1.53
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401879288": {
+  "fecha": "2026-09-04",
+  "comp": "Premier League",
+  "home": "Ipswich Town",
+  "away": "Liverpool",
+  "lh": 1.124,
+  "la": 2.306,
+  "rho": -0.02,
+  "mercado": [
+   0.1877,
+   0.2055,
+   0.6068
+  ],
+  "cuotas": [
+   4.9,
+   4.5,
+   1.59
   ],
   "resultado": null,
   "modelo": {

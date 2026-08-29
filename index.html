@@ -1675,7 +1675,8 @@ const aQuien = (dir, m) =>
   dir === "E" ? "al <b>empate</b>"
   : `a <b>${esc_({L:m.home, V:m.away}[dir] || "")}</b>`;
 const hayProsa = id => { const a=ANALISIS[id];
-  return !!(a && (a.contexto || a.veredicto || a.local || a.visitante)); };
+  return !!(a && (a.contexto || a.veredicto || a.local || a.visitante ||
+                  (a.desarrollo && a.desarrollo.texto))); };
 
 /* La marca de valor de la portada y de la cabecera del partido: la más
    estricta de la app. Solo la línea 1X2, solo sobre la dirección que
@@ -2104,6 +2105,14 @@ function tabAnalisis(m){
     h += `<div class="rot"><span>El partido</span></div>`;
   if(a.contexto)  h += `<p>${esc_(a.contexto)}</p>`;
   if(a.veredicto) h += `<p class="veredicto">${esc_(a.veredicto)}</p>`;
+
+  /* El desarrollo es el cuerpo de la nota: cómo se va a jugar el partido.
+     Es único por partido (no una lectura por equipo) y el campo `senal`
+     lo usa la Task 4 — acá solo se muestra el texto. */
+  const des = a.desarrollo;
+  if(des && des.texto){
+    h += `<div class="rot"><span>El desarrollo</span></div><p class="prosa">${esc_(des.texto)}</p>`;
+  }
 
   /* La dirección declarada se muestra, no se esconde: es lo que
      habilita la marca de valor, y el usuario tiene derecho a ver contra

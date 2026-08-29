@@ -676,6 +676,23 @@ test("un analisis con solo lectura por equipo cuenta como cargado", ()=>{
          "mostró el cartel de sin cargar teniendo prosa");
 });
 
+test("el analisis muestra el bloque de desarrollo cuando existe", ()=>{
+  L.cargar(PARTIDOS, {[claro.id]: {
+    actualizado: "2026-08-29", inclinacion: "L",
+    desarrollo: {texto: "Partido trabado de pocas llegadas.", senal: {ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"incierto"}},
+  }});
+  const h = L.tabAnalisis(claro);
+  cierto(h.includes("Partido trabado de pocas llegadas."), "el texto de desarrollo no se muestra");
+});
+
+test("los analisis sin desarrollo no muestran el bloque ni rompen", ()=>{
+  L.cargar(PARTIDOS, {[claro.id]: {
+    actualizado: "2026-08-18", inclinacion: "V", contexto: "Solo contexto.",
+  }});
+  const h = L.tabAnalisis(claro);
+  cierto(!h.includes("SIN CARGAR"), "trató un análisis viejo como no cargado");
+});
+
 test("la frase de la inclinacion esta bien escrita para las tres direcciones", ()=>{
   /* Visto en pantalla con el análisis real de Aldosivi-Unión: decía
      "inclina a el empate". La preposición estaba fija afuera del mapa. */

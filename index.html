@@ -3264,6 +3264,14 @@ function tabHerramientas(m){
   const ops = mercados(lec.M, m);
   const kf = (m.conf>=72) ? 0.25 : (m.conf>=60) ? 0.125 : (m.conf>=50) ? 0.0625 : 0.005;
   const tope = BANCA * 0.04;
+  /* La regla de alineación también rige acá — Método la promete sin
+     calificar por pantalla ("nuestra regla es que nada contradiga
+     nuestra propia lectura del partido"), y antes esta pestaña la
+     ignoraba: calculaba EV/Kelly solo con la cuota cargada, sin mirar
+     si el mercado contradice la inclinación humana. Sin análisis
+     cargado (`dir` null) sigue funcionando igual que siempre — no hay
+     contra qué alinear, y es la mayoría de los partidos de la grilla. */
+  const dir = inclinacionDe(m.id);
 
   let h = `<div class="banda banda2">Herramientas<em>PARA VOS</em></div><div class="sec">
     <p class="expl">Esta pestaña es para vos, no para la gente. Cuando tenemos la cuota real
@@ -3285,12 +3293,14 @@ function tabHerramientas(m){
       const e = val ? ev(o.p, c) : null;
       const k = val ? kelly(o.p, c) : 0;
       const sano = val && e<EV_ABSURDO;
-      const jugable = val && e>=MIN_EV && c<=MAX_ODDS && sano;
+      const alineado = !dir || !contradice(o, dir);
+      const jugable = val && e>=MIN_EV && c<=MAX_ODDS && sano && alineado;
       const stake = jugable ? Math.min(Math.round(BANCA*k*kf), tope) : 0;
       let out;
       if(!val) out = `<span class="ev">Cargá la cuota</span>`;
       else if(c>MAX_ODDS) out = `<span class="ev neg">Cuota muy alta — no la jugamos</span>`;
       else if(!sano) out = `<span class="ev neg">EV +${(e*100).toFixed(0)}% — revisá la cuota</span>`;
+      else if(!alineado) out = `<span class="ev neg">Contradice nuestra lectura (inclinamos ${aQuien(dir, m)}) — no lo marcamos</span>`;
       else if(e<MIN_EV) out = `<span class="ev neg">EV ${(e*100).toFixed(1)}%</span>`;
       else out = `<span class="ev pos">EV +${(e*100).toFixed(1)}%</span>
         <div class="juega"><span>Jugale</span><b>${plata(stake)}</b></div>`;

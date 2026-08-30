@@ -22,7 +22,7 @@ function cargarLogica(){
   const script = html.slice(html.indexOf("<script>") + 8, html.lastIndexOf("</script>"));
   const corte = script.indexOf("RENDER Y RUTEO");
   const src = script.slice(0, script.lastIndexOf("/*", corte));
-  const almacen = {};
+  const almacen = { valor_banca: "50000" };   // BANCA se lee al evaluar el script
   const localStorage = {
     getItem: k => (k in almacen ? almacen[k] : null),
     setItem: (k, v) => { almacen[k] = String(v); },
@@ -32,12 +32,13 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, senalDividida, tabHistorial, tarjeta, tabPlantel,
-              tabEstadisticas,
+              tabEstadisticas, tabHerramientas,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
               fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL, combinada,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
-                                            CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; }});
+                                            CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; },
+              setCuota: (k, v) => { CUOTAS[k] = v; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
 }
@@ -423,7 +424,68 @@ test("sin análisis cargado, otrosMercados no marca nada — la escalera sola no
 });
 
 /* ══════════════════════════════════════════════════════════════════
-   6bis. Líneas de gol donde un lado paga casi 1 — no son un mercado
+   6bis. Herramientas también tiene que respetar la regla de
+   alineación — no solo la escalera y Otros Mercados.
+
+   Método le promete al usuario, sin calificar por pantalla: "nuestra
+   regla es que nada contradiga nuestra propia lectura del partido".
+   tabHerramientas() calculaba EV/Kelly/"Jugale $X" mirando solo la
+   cuota cargada y la probabilidad del modelo — nunca `inclinacionDe()`
+   ni `contradice()`. Un usuario podía cargar la cuota real de su casa
+   en un mercado que el propio análisis marca como equivocado, y la
+   pestaña de plata se lo iba a recomendar igual.
+
+   Decisión de producto (consultada): sin análisis cargado, Herramientas
+   sigue funcionando exactamente igual que antes — no hay contra qué
+   alinear, y la mayoría de los partidos de la grilla no tienen análisis
+   todavía. Solo se bloquea cuando SÍ hay inclinación declarada y el
+   mercado la contradice.
+   ══════════════════════════════════════════════════════════════════ */
+test("Herramientas no dice 'Jugale' en un mercado que contradice la inclinación cargada", ()=>{
+  const p = L.lectura(claro).p.L;
+  const cGeneroso = Number((1.10 / p).toFixed(2));   // EV ~10%, cuota razonable
+  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"V"}});   // el análisis inclina al OTRO lado
+  const key = claro.id + "__1x2_l";
+  L.setCuota(key, cGeneroso);
+  const html = L.tabHerramientas(claro);
+  const filas = html.split('<div class="mrow');
+  const fila = filas.find(f => f.includes(`data-cuota="${key}"`));
+  cierto(fila, "no encontró la fila de 'Gana " + claro.home + "' en Herramientas");
+  cierto(!/Jugale/.test(fila),
+    `sugiere jugar un mercado que contradice la inclinación cargada — fila: ${fila.slice(0,180)}`);
+});
+
+test("Herramientas SÍ dice 'Jugale' con la misma cuota cuando el análisis coincide", ()=>{
+  // Control: la cuota generosa sigue siendo jugable — lo único que
+  // cambia es la dirección del análisis. Si esto fallara, el test de
+  // arriba podría estar "pasando" solo porque nada se marca nunca.
+  const p = L.lectura(claro).p.L;
+  const cGeneroso = Number((1.10 / p).toFixed(2));
+  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L"}});   // coincide con el mercado
+  const key = claro.id + "__1x2_l";
+  L.setCuota(key, cGeneroso);
+  const html = L.tabHerramientas(claro);
+  const filas = html.split('<div class="mrow');
+  const fila = filas.find(f => f.includes(`data-cuota="${key}"`));
+  cierto(fila && /Jugale/.test(fila),
+    "no sugiere jugar un mercado con EV real y alineado con el análisis");
+});
+
+test("Herramientas sigue sugiriendo 'Jugale' sin análisis cargado — no se apaga la pestaña entera", ()=>{
+  const p = L.lectura(claro).p.L;
+  const cGeneroso = Number((1.10 / p).toFixed(2));
+  L.cargar(PARTIDOS, {});   // sin análisis
+  const key = claro.id + "__1x2_l";
+  L.setCuota(key, cGeneroso);
+  const html = L.tabHerramientas(claro);
+  const filas = html.split('<div class="mrow');
+  const fila = filas.find(f => f.includes(`data-cuota="${key}"`));
+  cierto(fila && /Jugale/.test(fila),
+    "sin análisis cargado, Herramientas dejó de sugerir jugadas con EV real");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   6ter. Líneas de gol donde un lado paga casi 1 — no son un mercado
 
    Lucas las vio en pantalla: "Menos de 7.5 goles" al 99% pagando 1.00,
    "Menos de 6.5" al 97% pagando 1.02. Es la misma frase que ya usa el

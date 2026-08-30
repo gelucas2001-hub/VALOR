@@ -12,18 +12,25 @@ Lucas, uso personal exclusivo hoy, con arquitectura modular pensada para poder e
 
 ## Product Purpose
 
-VALOR es un **Asesor Deportivo Inteligente y Copiloto Cuantitativo de Apuestas** enfocado en el fútbol sudamericano (Liga Profesional Argentina, Brasileirão Série A, Copa Libertadores y Copa Sudamericana). Su propósito es traducir modelos estadísticos avanzados en **veredictos de valor claros, recomendaciones guiadas y tableros deportivos interactivos** para la toma de decisiones informada.
+VALOR es un **asesor personal de fútbol**, no un tipster ni una calculadora fría de estadísticas y cuotas: investiga → analiza → interpreta → contrasta → discierne → explica → sugiere, por el usuario, para que sienta que "alguien ya hizo el trabajo pesado". Enfocado en fútbol sudamericano (Liga Profesional Argentina, Brasileirão Série A, Copa Libertadores, Copa Sudamericana). Simple de entender por delante aunque complejo por detrás — nadie debería necesitar saber qué es Poisson, Dixon-Coles o Kelly para entender qué dice VALOR. Ver `data/presentacion-claude.md` para la visión completa.
 
-Combina un modelo bivariado de goles esperados (Poisson / Dixon-Coles con calibración de $\rho$) y cálculo de valor esperado (EV, cuota justa desviggeada, stake fraccional de Criterio de Kelly) con el contexto cualitativo del partido (posiciones, zonas, promedios de descenso, historial H2H con escudos oficiales y métricas de disciplina).
+Combina un modelo bivariado de goles esperados (Poisson / Dixon-Coles con calibración de $\rho$) y cálculo de valor esperado (EV, cuota justa desviggeada, stake fraccional de Criterio de Kelly) con el contexto cualitativo del partido (posiciones, zonas, promedios de descenso, historial H2H, plantel con peso goleador y métricas de disciplina) producido por una skill de análisis independiente del modelo. **Los dos deben trabajar juntos, no en silos:** cuando coinciden es relevante, cuando discrepan también — la contradicción se muestra con confianza rebajada, no se oculta.
 
 ## Positioning
 
-Un **copiloto analítico de decisiones, no una calculadora árida ni un canal de tipster tradicional**:
+Un **asesor de decisiones, no una calculadora árida ni un canal de tipster tradicional**. La probabilidad NO es la recomendación: cuota, contexto y calidad de la estimación entran todos en el criterio final, y una recomendación existe solo cuando tiene razón de ser — VALOR puede decir 0, 1, 2 o excepcionalmente 3 sugerencias por partido, nunca por llenar tarjetas, y nunca tres mercados que repiten la misma tesis (ver estado real más abajo: esto último **hoy no se cumple**).
+
 1. **Asesoría basada en Veredictos Honestos:** Diagnósticos claros por mercado (*Oportunidad Detectada*, *Mercado Neutral / Sin Ventaja*, *Riesgo no compensado*), respaldados por matemáticas rigurosas.
 2. **Matriz de Marcadores Dixon-Coles calibrada por competición:** Cálculo de goles esperados (lambda) por equipo a partir de los goles observados, con ajuste de fuerza de ataque/defensa y calibración de correlación ($\rho$) para marcadores bajos. No es xG: xG mide la calidad de las ocasiones, y ESPN solo lo devuelve por jugador destacado, nunca por equipo.
 3. **Tableros Deportivos Interactivos:** Mercados organizados en cuadrículas limpias de 3 columnas (1X2, Doble Oportunidad) y pares de 2 columnas (Total de Goles, Ambos Marcan, Primer Tiempo) con reactividad en vivo al tipear cuotas.
 4. **Contexto Completo de Torneos:** Tablas de Posiciones por Zonas (Zona A, Zona B), Tabla Anual acumulada para copas y Tabla de Promedios para el descenso.
 5. **Boleta de Combinadas Limpia:** Cálculo de probabilidad conjunta exacta sobre la matriz multivariada con sumatoria directa para apuestas del mismo partido.
+
+## Estado real vs. visión (2026-08-30, ver `data/PROBLEMAS.md`)
+
+- **Rentabilidad no demostrada:** ROI walk-forward contra cuota de cierre real de Pinnacle, **−3.27% ± 6.19** — el intervalo incluye cero. Ninguna medición hasta hoy demuestra ventaja real del motor sobre el mercado.
+- **La escalera de recomendaciones contradice la Positioning de arriba:** ordena por probabilidad de mercado (no por valor), muestra siempre 3 tarjetas (nunca 0), y no está atada a la lectura 1X2 propia — caso medido: Lyon con local 59.8% (pick más confiado de la fecha) mostró tres unders de goles sin una sola apuesta a que gana el local. Es lógica de selección/presentación en `index.html`, no del motor — corregible sin tocar λ.
+- **No usar lenguaje de "valor" (mostaza) donde no hay ventaja medida.** La interfaz no debe prometer más de lo que el motor puede sostener hoy.
 
 ## Operating Context
 
@@ -47,6 +54,9 @@ Un **copiloto analítico de decisiones, no una calculadora árida ni un canal de
 ## Product Principles
 
 - **Priorizar el Valor (+EV) sobre el favoritismo ciego:** Una apuesta con alta probabilidad no es rentable si la cuota no compensa el riesgo.
+- **No forzar recomendaciones:** una sugerencia existe porque tiene razón de ser, no porque la interfaz necesite llenar tarjetas. 0, 1, 2 o excepcionalmente 3 — nunca siempre 3, y nunca varios mercados que repiten la misma tesis.
+- **La contradicción se muestra, no se oculta:** cuando el motor y la skill de análisis discrepan, la app lo dice explícito y baja la confianza — no filtra en silencio dándose la razón a sí misma.
 - **Probabilidad Conjunta Real:** En combinadas del mismo partido, la probabilidad se calcula sobre la matriz de eventos correlacionados, nunca como un producto ingenuo.
 - **Cero Fricción y Claridad Visual:** Presentación limpia, sin redundancias ni formularios pesados, con retroalimentación inmediata.
 - **Disciplina de Banca:** Asignación proporcional conservadora (1% a 4% del saldo) para proteger el capital en cualquier racha.
+- **No sobreingeniería:** producto sofisticado detrás, sencillo delante. Cada complejidad nueva debe justificar qué problema real resuelve — ¿esto hace a VALOR mejor pronosticador, o solo más complicado?

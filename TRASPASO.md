@@ -96,6 +96,24 @@
 > todos, así que las fuerzas de equipos de zonas distintas no están en
 > la misma escala. Nunca se probó.
 
+> **Actualización 2026-08-30 — redirección de producto, leer antes que
+> el resto del documento.** `data/presentacion-claude.md` (visión de
+> producto) y `data/PROBLEMAS.md` (estado medido, con números) se
+> escribieron para contrastar la app de hoy contra hacia dónde debería
+> ir. Redefinen la prioridad de todo lo que sigue en este documento —
+> ver la sección 13, nueva, al final.
+>
+> **En una frase:** la escalera de recomendaciones hoy ordena por
+> probabilidad de mercado, no por valor — muestra siempre 3 tarjetas
+> (a veces triple under, la misma idea tres veces) y no está atada a la
+> lectura 1X2 propia (caso Lyon: local 59.8%, el pick más confiado de
+> la fecha, y la escalera puso tres unders sin una sola apuesta a que
+> gana el local). Nada de esto es del motor: es lógica de selección y
+> presentación en `index.html`, y es lo primero a corregir. El motor no
+> tiene ventaja demostrada (ROI walk-forward −3.27%±6.19, el intervalo
+> incluye cero) — eso sigue abierto y ningún rediseño de presentación
+> lo resuelve.
+
 Este documento existe porque Lucas decidió rehacer el proyecto desde
 cero, pero **el motor matemático y el pipeline de datos están validados
 y medidos, y tirarlos sería destruir la única parte que costó semanas
@@ -472,6 +490,17 @@ modelo no llega — el análisis cualitativo.** Si la lectura la produjera
 el propio modelo, filtrar por alineación sería el modelo dándose la
 razón a sí mismo. De ahí se sigue: **solo se marca valor en partidos con
 análisis cargado.**
+
+**Revisado 2026-08-30 — "no se muestra" pasa a "se muestra, con
+confianza rebajada".** `data/presentacion-claude.md` §7 pide lo
+contrario de lo que dice el párrafo de arriba: que una contradicción
+motor↔skill **no se oculte**, se explicite ("hay señales contradictorias
+y nuestra confianza disminuye"). Un filtro invisible es menos honesto
+que una discrepancia declarada — y calza mejor con "asesor que explica"
+que con "calculadora que descarta en silencio". La regla de fondo
+**no cambia** (seguir sin marcar valor contra la lectura propia): lo
+que cambia es que ahora hay que decir *por qué* no se marca, en vez de
+callarlo. Pendiente de implementar en `index.html`; ver sección 13.
 
 ### Regla 4 — Umbral de cuota, no cuota de referencia
 
@@ -3298,3 +3327,66 @@ reutilizable: `python barrido_lambda.py arg [--fast]`) y
 antes de pensar en tocar λ: el resultado probable es el mismo, y si
 algún día cambia (esperanza: una fuente nueva o un formato de torneo
 nuevo), se verá acá antes que en la queja de un partido.
+
+---
+
+## 13. Redirección de producto (2026-08-30) — qué cambia y en qué orden
+
+Dos documentos nuevos en `data/` motivaron esto: `presentacion-claude.md`
+(la visión — VALOR como asesor personal, no calculadora de EV) y
+`PROBLEMAS.md` (el estado medido de hoy, con números y una fecha real de
+15 partidos como ilustración). Se le pidió a Claude que evaluara la
+visión contra el estado real, sin complacencia. Esto resume el
+veredicto y qué se decidió hacer con él. **Es redirección de producto,
+no un cambio de código todavía** — cualquier implementación de lo que
+sigue entra por TDD y se verifica en navegador, como cualquier cambio de
+lógica de este repo.
+
+### El diagnóstico, sin adornos
+
+1. **La escalera de recomendaciones hoy contradice la visión.** Ordena
+   por probabilidad de mercado (no por valor), muestra siempre 3
+   tarjetas (nunca 0, aunque no haya nada que convenza), y no está atada
+   a la lectura 1X2 propia — ver `PROBLEMAS.md` para los casos concretos
+   (Lyon, la fecha del 29/08 completa). Es lógica de selección y
+   presentación en `index.html`, no del motor.
+2. **Regla 3 (arriba, sección 5) cambia de "ocultar contradicción" a
+   "mostrarla con confianza rebajada"** — ver la nota ahí. Pendiente de
+   implementar.
+3. **El motor sigue sin ventaja demostrada.** ROI walk-forward
+   −3.27%±6.19 contra cierre de Pinnacle: el intervalo incluye cero.
+   Ninguna capa de presentación cambia esto. No es motivo para parar —
+   es motivo para no vender "valor" en la interfaz donde no hay nada
+   medido que lo sostenga, y para seguir corriendo `medir_clv.py` hasta
+   tener volumen.
+
+### Orden de trabajo decidido
+
+1. **Escalera:** dejar de rankear por probabilidad de mercado. Filtrar/
+   ordenar por el criterio conjunto de `presentacion-claude.md` §6
+   (probabilidad + cuota + contexto), no por una sola variable. Prohibir
+   la redundancia mecánica (triple under de la misma familia = una idea,
+   no tres).
+2. **Permitir 0 recomendaciones de verdad**, con mensaje explícito
+   ("no encontramos una opción que nos convenza lo suficiente"), en vez
+   de forzar 3 tarjetas siempre.
+3. **Exponer la contradicción motor↔skill** en vez de suprimirla en
+   silencio (Regla 3 actualizada arriba).
+4. **Lenguaje de la UI:** nada de mostaza/"valor" donde no hay ventaja
+   medida — la interfaz no debe prometer más de lo que el motor puede
+   sostener hoy.
+
+**Deliberadamente fuera de este orden:** tocar λ, `rho`,
+`VIDA_MEDIA_DIAS`, `PRIOR_FUERZA` o cualquier constante del modelo. Ya
+está barrido (sección "Addendum" arriba, 2026-08-29) y ninguna variante
+mejora robustamente fuera de muestra. Tocarlo sin medición nueva es
+justo la regla que este repo prohíbe.
+
+### Qué falta para que la app se sienta como el asesor descrito
+
+No está en el orden de arriba porque es capa de contenido, no de lógica
+de selección — pero está en `presentacion-claude.md` §2 y §6: cada pick
+necesita 1-2 frases de "por qué" que tejan dato + contexto (`inclinacion`
+de la skill), no solo un número con una etiqueta. Depende de que la
+escalera ya elija bien (punto 1 arriba) antes de tener sentido escribirle
+texto a lo que elige.

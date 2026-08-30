@@ -1016,6 +1016,17 @@ const VALOR_MAX = 0.12;
    que 1.75 apagaba el 79% de las marcas del día. */
 const CUOTA_MIN_VAL = 1.50;
 
+/* Piso para MOSTRAR una línea de gol en Otros mercados — no para
+   marcarla en dorado (eso ya lo frena CUOTA_MIN_VAL, más arriba y más
+   alto). mercadoExtra.goles puede traer líneas que Bet365 cotiza de
+   verdad pero que nadie apostaría en serio: "menos de 7.5 goles" al
+   99%, pagando 1.00. Es la misma frase que ya usa el repo para las
+   líneas de 0.5 en la escalera ("pagan 1.05-1.12, son ruido disfrazado
+   de apuesta") — acá aparece en el otro extremo. El piso 1.15 queda
+   apenas arriba de ese rango documentado, con margen: la línea de 4.5
+   real (pagando 1.20 del lado corto) sigue mostrándose. */
+const CUOTA_MIN_MOSTRAR = 1.15;
+
 /* Terracota: el mercado le da 10pp más que nosotros a nuestra propia
    lectura. Se enciende en el 8% de los partidos con cuota. */
 const ALERTA_MIN = 0.10;
@@ -1621,11 +1632,21 @@ function senalDividida(m){
    alineación, análisis cargado), no solo la que ganó su franja. */
 function otrosMercados(m){
   const lec = lectura(m);
-  const ops = mercados(lec.M, m);
+  const todos = mercados(lec.M, m);
   const mk  = m.mercado || {};
   const mx  = m.mercadoExtra || {};
   const pq  = devig(mk);
   const dir = inclinacionDe(m.id);
+  /* Una línea de gol donde un lado paga casi 1 no es un mercado — ver
+     CUOTA_MIN_MOSTRAR. Se descarta la línea ENTERA (los dos lados), no
+     solo el lado carísimo: mostrar "más de 7.5 paga 34.00" sin su
+     contraparte sería mostrar la mitad de algo que ya se sabe inútil. */
+  const lineasRuido = new Set(
+    todos.filter(o=> o.fam==="Goles")
+         .filter(o=> { const c = cuotaUsada(o, pq, mk, mx); return c!=null && c < CUOTA_MIN_MOSTRAR; })
+         .map(o=> o.linea)
+  );
+  const ops = todos.filter(o=> o.fam!=="Goles" || !lineasRuido.has(o.linea));
   return ops.map(o=>{
     const pm = pMercado(o, pq, mk, mx);
     const ventaja = pm==null ? null : o.p - pm;

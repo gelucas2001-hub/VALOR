@@ -423,6 +423,38 @@ test("sin análisis cargado, otrosMercados no marca nada — la escalera sola no
 });
 
 /* ══════════════════════════════════════════════════════════════════
+   6bis. Líneas de gol donde un lado paga casi 1 — no son un mercado
+
+   Lucas las vio en pantalla: "Menos de 7.5 goles" al 99% pagando 1.00,
+   "Menos de 6.5" al 97% pagando 1.02. Es la misma frase que ya usa el
+   repo para las líneas de 0.5 en la escalera ("pagan 1.05-1.12, son
+   ruido disfrazado de apuesta") — acá aparece en el otro extremo
+   porque mercadoExtra.goles puede traer líneas que Bet365 sí cotiza
+   pero que ninguna persona apostaría en serio.
+   ══════════════════════════════════════════════════════════════════ */
+function conLineasExtremas(m){
+  return {...m, mercadoExtra:{...(m.mercadoExtra||{}), goles:{
+    ...((m.mercadoExtra && m.mercadoExtra.goles) || {}),
+    "4.5":[4.50, 1.20],   // razonable, tiene que sobrevivir
+    "5.5":[9.00, 1.07],
+    "6.5":[19.00, 1.02],
+    "7.5":[34.00, 1.00],
+  }}};
+}
+
+test("otrosMercados no muestra líneas de gol donde un lado paga casi 1 — ruido, no mercado", ()=>{
+  const m = conLineasExtremas(claro);
+  L.cargar([m], {});
+  const otros = L.otrosMercados(m);
+  [5.5, 6.5, 7.5].forEach(linea=>{
+    cierto(!otros.some(x=> x.op.linea===linea),
+      `sigue mostrando la línea ${linea}, que paga casi 1 de un lado`);
+  });
+  cierto(otros.some(x=> x.op.linea===4.5),
+    "la línea 4.5 (pago razonable) no debería desaparecer con el resto");
+});
+
+/* ══════════════════════════════════════════════════════════════════
    7. Divergencia modelo/análisis — cuando "Nuestra lectura" de
    Pronósticos nombra a un equipo y "Hacia dónde inclina" de Análisis
    nombra al otro, el usuario tiene que enterarse de que son dos

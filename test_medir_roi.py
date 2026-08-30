@@ -124,6 +124,63 @@ def t_sin_apuestas_no_inventa_numero():
     assert r["roi"] is None, "inventó un ROI sin una sola apuesta"
 
 
+# ── El mercado de GOLES, que nunca se había medido contra plata ───────
+
+def fila_ou(modelo_ou, cuotas_ou, real_ou, liga="eng"):
+    return {"fecha": date(2024, 1, 1), "modelo_ou": modelo_ou,
+            "cuotas_ou": cuotas_ou, "real_ou": real_ou, "liga": liga,
+            "home": "A", "away": "B"}
+
+
+# El par 1.95/1.90 devigado con Shin da [0.4935, 0.5065] — de ahí
+# salen los números de abajo. Ponerlos a ojo hacía que los fixtures
+# cayeran fuera de la ventana [0.06, 0.12] y el test "pasara" por el
+# motivo equivocado.
+def t_ou_apuesta_al_over_con_ventaja():
+    # 0.58 − 0.4935 = 8.65pp, dentro de la ventana
+    f = fila_ou([0.58, 0.42], [1.95, 1.90], [1, 0])
+    aps = R.apuestas_ou([f])
+    assert len(aps) == 1, f"esperaba 1 apuesta, dio {len(aps)}"
+    assert aps[0]["gano"] is True, "el over entró y figura perdido"
+    assert abs(aps[0]["cuota"] - 1.95) < 1e-9, "no usó la cuota del over"
+
+
+def t_ou_apuesta_al_under_cuando_la_ventaja_esta_del_otro_lado():
+    # 0.60 − 0.5065 = 9.35pp
+    f = fila_ou([0.40, 0.60], [1.95, 1.90], [0, 1])
+    aps = R.apuestas_ou([f])
+    assert len(aps) == 1 and abs(aps[0]["cuota"] - 1.90) < 1e-9, \
+        "no apostó al under con la ventaja de ese lado"
+
+
+def t_ou_no_apuesta_sin_ventaja():
+    # modelo casi igual al mercado
+    f = fila_ou([0.50, 0.50], [1.95, 1.90], [1, 0])
+    assert R.apuestas_ou([f]) == [], "apostó sin ventaja real"
+
+
+def t_ou_ignora_filas_sin_mercado_de_goles():
+    """arg y bra no tienen over/under en la fuente. No se inventa."""
+    f = {"fecha": date(2024, 1, 1), "modelo_ou": None, "cuotas_ou": None,
+         "real_ou": None, "liga": "arg"}
+    assert R.apuestas_ou([f]) == [], "inventó una apuesta sin cuotas de goles"
+
+
+def t_ou_devigea_antes_de_comparar():
+    """Sin quitar el margen, cualquier cuota parece generosa.
+
+    El fixture está elegido para que la respuesta DEPENDA del devig:
+    con margen quitado (over = 0.4935) la ventaja es 6.65pp y entra en
+    la ventana; sin quitarlo (0.5128) sería 4.72pp y quedaría afuera.
+    Si alguien saca el devig, este test falla — que es el punto.
+    """
+    f = fila_ou([0.56, 0.44], [1.95, 1.90], [1, 0])
+    aps = R.apuestas_ou([f])
+    assert aps, "no apostó: sugiere que comparó contra la cuota con margen"
+    assert 0.06 <= aps[0]["ventaja"] <= 0.07, \
+        f"la ventaja sugiere que no se quitó el margen: {aps[0]['ventaja']:.4f}"
+
+
 for nombre, fn in list(globals().items()):
     if nombre.startswith("t_"):
         test(nombre[2:].replace("_", " "), fn)

@@ -158,6 +158,39 @@ def desenlace(p):
     return [int(gh > ga), int(gh == ga), int(gh < ga)]
 
 
+# El mercado de goles, línea 2.5. Mismo orden de preferencia de fuente
+# que el 1X2 (Pinnacle primero, es la que menos margen tiene), y los
+# mismos prefijos del CSV con la "C" de closing.
+#
+# Solo lo trae el formato clásico (E0 de Inglaterra, F1 de Francia).
+# ARG.csv y BRA.csv, del formato "new", no publican ninguna línea de
+# goles — no es que el parser la pierda, la fuente no la tiene.
+FUENTES_OU = [("pinnacle", "PC"), ("promedio", "AvgC"), ("bet365", "B365C")]
+
+
+def cuotas_ou(f, linea="2.5"):
+    """([over, under], fuente) del cierre para la línea de goles, o (None, None).
+
+    Existe porque el ROI del proyecto se midió siempre sobre 1X2, y hay
+    dos razones para sospechar que el mercado de goles es el bueno:
+    `barrido_lambda.py` midió que over 2.5 está bien calibrado (0.357
+    real contra 0.375 predicho sobre 2559 partidos) mientras el 1X2
+    arrastra favoritos sobreconfiados. Medir plata en el mercado peor
+    calibrado y no en el mejor era un agujero, no una decisión.
+    """
+    for nombre, pref in FUENTES_OU:
+        c = [_num(f.get(f"{pref}>{linea}")), _num(f.get(f"{pref}<{linea}"))]
+        if all(x is not None for x in c):
+            return c, nombre
+    return None, None
+
+
+def desenlace_ou(p, linea=2.5):
+    """[over, under] — mismo orden que `cuotas_ou`."""
+    total = p["gh"] + p["ga"]
+    return [int(total > linea), int(total < linea)]
+
+
 def _fecha(txt):
     """La fecha del CSV, o None si no se entiende.
 
@@ -216,6 +249,12 @@ def normalizar(filas):
              "gh": gh, "ga": ga, "cuotas": c, "fuente": fuente,
              "liga": (f.get("League") or f.get("Div") or "").strip(),
              "temporada": (f.get("Season") or "").strip()}
+        # Aditivo: solo aparece donde la fuente la publica (formato
+        # clásico). Nada de lo que ya leía estos partidos se entera.
+        c_ou, fuente_ou = cuotas_ou(f)
+        if c_ou:
+            p["cuotas_ou"] = c_ou
+            p["fuente_ou"] = fuente_ou
         est = estadisticas_fila(f)
         if est:
             p["est"] = est

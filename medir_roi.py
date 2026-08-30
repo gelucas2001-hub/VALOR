@@ -101,6 +101,46 @@ def apuestas(filas, valor_min=VALOR_MIN, valor_max=VALOR_MAX,
     return out
 
 
+def apuestas_ou(filas, valor_min=VALOR_MIN, valor_max=VALOR_MAX,
+                max_odds=MAX_ODDS):
+    """Lo mismo, pero sobre el mercado de GOLES (over/under 2.5).
+
+    Existe porque el ROI se midió siempre sobre 1X2, y hay dos razones
+    medidas para sospechar que el de goles es el bueno:
+
+    - `barrido_lambda.py` (2026-08-29): over 2.5 está bien calibrado
+      —0.357 real contra 0.375 predicho sobre 2559 partidos— mientras
+      el 1X2 arrastra favoritos sobreconfiados.
+    - El único sesgo grande que encontramos hoy es direccional del 1X2
+      (visitante inflado hasta +10pp). El mercado de goles no tiene
+      dirección: no hay local ni visitante que inflar.
+
+    El margen se quita con Shin, igual que en el resto del proyecto. En
+    un mercado de dos opciones Shin devuelve el proporcional — eso es
+    correcto, no un atajo (CLAUDE.md lo deja escrito).
+    """
+    import medir_clv
+    out = []
+    for f in filas or []:
+        cu, pmod, real = (f.get("cuotas_ou"), f.get("modelo_ou"),
+                          f.get("real_ou"))
+        if not cu or not pmod or not real:
+            continue
+        pq = medir_clv.devig_shin(cu)
+        if pq is None:
+            continue
+        for i in (0, 1):          # 0 = over, 1 = under
+            ventaja = pmod[i] - pq[i]
+            if not (valor_min <= ventaja <= valor_max):
+                continue
+            if not cu[i] or cu[i] > max_odds:
+                continue
+            out.append({"cuota": cu[i], "gano": real[i] == 1,
+                        "ventaja": ventaja, "lado": "over" if i == 0 else "under",
+                        "liga": f.get("liga"), "fecha": f.get("fecha")})
+    return out
+
+
 def roi(aps):
     """ROI con su incertidumbre. Sin el error estándar, el número miente.
 
@@ -169,7 +209,14 @@ def main(argv):
             print(f"  {l}: sin partidos")
             continue
         resultados[l] = r
-        print(_linea(l, r), flush=True)
+        print(_linea(l + " 1X2", r), flush=True)
+        # El mercado de goles, donde la fuente lo publica. Solo el
+        # formato clásico (eng, fra) trae over/under; arg y bra no.
+        r_ou = roi(apuestas_ou(filas))
+        if r_ou["n"]:
+            print(_linea(l + " O/U", r_ou), flush=True)
+        else:
+            print(f"  {l+' O/U':10} la fuente no publica línea de goles para esta liga")
 
     if len(resultados) > 1:
         print("\n  " + "-" * 70)

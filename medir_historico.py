@@ -128,7 +128,7 @@ def _probs_modelo(previos, hoy, home, away, rho):
     m = backtest.matriz(lh, la, rho)
     return [backtest.suma_si(m, lambda i, j: i > j),
             backtest.suma_si(m, lambda i, j: i == j),
-            backtest.suma_si(m, lambda i, j: i < j)], lh, la
+            backtest.suma_si(m, lambda i, j: i < j)], lh, la, m
 
 
 def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
@@ -149,7 +149,8 @@ def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
         clave = p["fecha"]
         if clave not in cache:
             cache[clave] = prev
-        pm, lh, la = _probs_modelo(prev, p["fecha"], p["home"], p["away"], rho)
+        pm, lh, la, matriz = _probs_modelo(prev, p["fecha"], p["home"],
+                                           p["away"], rho)
         pq = medir_clv.devig_shin(p["cuotas"])
         if pq is None:
             continue
@@ -161,6 +162,16 @@ def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
                       # contra la que se compara. Aditivo — nada de lo
                       # que ya leía estas filas se entera.
                       "cuotas": p["cuotas"],
+                      # El mercado de GOLES, donde la fuente lo publica
+                      # (formato clásico: eng, fra). El 1X2 arrastra
+                      # favoritos sobreconfiados y el over 2.5 está bien
+                      # calibrado, así que medir plata solo en el primero
+                      # era medir el peor de los dos.
+                      "cuotas_ou": p.get("cuotas_ou"),
+                      "modelo_ou": ([backtest.suma_si(matriz, lambda i, j: i + j > 2.5),
+                                     backtest.suma_si(matriz, lambda i, j: i + j < 2.5)]
+                                    if p.get("cuotas_ou") else None),
+                      "real_ou": H.desenlace_ou(p) if p.get("cuotas_ou") else None,
                       "lh": lh, "la": la, "fuente": p.get("fuente"),
                       # Para poder cortar despues por torneo, por equipo o
                       # por cuanta historia tenia cada uno.

@@ -245,6 +245,39 @@ prueba("y no pide temporadas del futuro", "2627" not in t)
 
 
 print("")
+print("cuotas_ou() — el mercado de goles, que estaba sin parsear")
+print("")
+
+# El formato clásico (E0, F1) trae over/under 2.5 con cierre de
+# Pinnacle; el formato "new" (ARG, BRA) no trae ninguno. Eso no es un
+# error del parser: la fuente no los publica para esas ligas.
+_FILA_ENG = {"PC>2.5": "1.95", "PC<2.5": "1.90",
+             "AvgC>2.5": "1.90", "AvgC<2.5": "1.88",
+             "B365C>2.5": "1.91", "B365C<2.5": "1.89"}
+
+c, fte = H.cuotas_ou(_FILA_ENG)
+prueba("saca el par over/under del cierre", c == [1.95, 1.90])
+prueba("y prefiere Pinnacle, igual que en el 1X2", fte == "pinnacle")
+
+c2, fte2 = H.cuotas_ou({"AvgC>2.5": "1.90", "AvgC<2.5": "1.88"})
+prueba("si no hay Pinnacle cae al promedio del mercado", c2 == [1.90, 1.88])
+prueba("y lo declara", fte2 == "promedio")
+
+prueba("sin ninguna fuente devuelve None, no inventa",
+       H.cuotas_ou({"Home": "x"}) == (None, None))
+prueba("una cuota rota (<= 1.00) descarta la fuente, no el partido",
+       H.cuotas_ou({"PC>2.5": "1.00", "PC<2.5": "1.90",
+                    "AvgC>2.5": "1.90", "AvgC<2.5": "1.88"})[0] == [1.90, 1.88])
+
+# El desenlace del mercado de goles, en el mismo orden que las cuotas.
+prueba("desenlace_ou: 4-1 son 5 goles, gana el over",
+       H.desenlace_ou({"gh": 4, "ga": 1}) == [1, 0])
+prueba("0-0 gana el under", H.desenlace_ou({"gh": 0, "ga": 0}) == [0, 1])
+prueba("2-1 son exactamente 3, gana el over (la línea es 2.5)",
+       H.desenlace_ou({"gh": 2, "ga": 1}) == [1, 0])
+prueba("1-1 son 2, gana el under", H.desenlace_ou({"gh": 1, "ga": 1}) == [0, 1])
+
+print("")
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

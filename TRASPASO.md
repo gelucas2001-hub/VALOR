@@ -491,16 +491,24 @@ el propio modelo, filtrar por alineación sería el modelo dándose la
 razón a sí mismo. De ahí se sigue: **solo se marca valor en partidos con
 análisis cargado.**
 
-**Revisado 2026-08-30 — "no se muestra" pasa a "se muestra, con
-confianza rebajada".** `data/presentacion-claude.md` §7 pide lo
-contrario de lo que dice el párrafo de arriba: que una contradicción
-motor↔skill **no se oculte**, se explicite ("hay señales contradictorias
-y nuestra confianza disminuye"). Un filtro invisible es menos honesto
-que una discrepancia declarada — y calza mejor con "asesor que explica"
-que con "calculadora que descarta en silencio". La regla de fondo
-**no cambia** (seguir sin marcar valor contra la lectura propia): lo
-que cambia es que ahora hay que decir *por qué* no se marca, en vez de
-callarlo. Pendiente de implementar en `index.html`; ver sección 13.
+**Corrección 2026-08-30 — esto YA ESTÁ hecho, y la nota de hoy temprano
+que decía "pendiente de implementar" estaba mal.** Se escribió sin
+chequear el código primero — la regla que este mismo documento repite
+("medir antes de afirmar"). `divergen()` (`index.html`, desde el
+2026-08-19, §6quinsexies) ya compara `inclinacionDe()` contra
+`lectura().lean` y, cuando difieren, la pestaña Pronósticos lo dice
+explícito: *"Los números crudos del modelo dan más chance [X] arriba,
+pero nuestro análisis vio algo que los números solos no ven, y se
+inclina [Y]. Son dos lecturas distintas a propósito..."* — con tests
+(`test_alineacion.js`, "divergen() detecta cuando el análisis humano no
+coincide con el modelo"). Y hay una capa más fina y más nueva,
+`senalDividida()`, que separa la contradicción de "desarrollo" (ritmo
+goleador, ambos marcan) mercado por mercado, no solo por dirección
+1X2 — con su propia batería de tests. La regla de fondo sigue siendo
+la misma (seguir sin marcar valor contra la lectura propia): lo que
+esta corrección aclara es que el *decir por qué* ya estaba resuelto,
+no pendiente. Ver la sección 13 para el estado actualizado del orden
+de trabajo.
 
 ### Regla 4 — Umbral de cuota, no cuota de referencia
 
@@ -3342,39 +3350,62 @@ no un cambio de código todavía** — cualquier implementación de lo que
 sigue entra por TDD y se verifica en navegador, como cualquier cambio de
 lógica de este repo.
 
-### El diagnóstico, sin adornos
+### El diagnóstico, sin adornos — y corregido el mismo día contra el código real
 
-1. **La escalera de recomendaciones hoy contradice la visión.** Ordena
-   por probabilidad de mercado (no por valor), muestra siempre 3
-   tarjetas (nunca 0, aunque no haya nada que convenza), y no está atada
-   a la lectura 1X2 propia — ver `PROBLEMAS.md` para los casos concretos
-   (Lyon, la fecha del 29/08 completa). Es lógica de selección y
-   presentación en `index.html`, no del motor.
-2. **Regla 3 (arriba, sección 5) cambia de "ocultar contradicción" a
-   "mostrarla con confianza rebajada"** — ver la nota ahí. Pendiente de
-   implementar.
-3. **El motor sigue sin ventaja demostrada.** ROI walk-forward
-   −3.27%±6.19 contra cierre de Pinnacle: el intervalo incluye cero.
-   Ninguna capa de presentación cambia esto. No es motivo para parar —
-   es motivo para no vender "valor" en la interfaz donde no hay nada
-   medido que lo sostenga, y para seguir corriendo `medir_clv.py` hasta
-   tener volumen.
+**Ojo, esto se escribió mirando `PROBLEMAS.md`, no `index.html`.** Al
+implementar el punto 1 (ver abajo) se leyó el código de cerca y dos de
+los tres puntos de este diagnóstico resultaron menos ciertos de lo que
+parecían. Se deja la corrección acá en vez de borrar el error, siguiendo
+la misma disciplina que el resto del documento (comentarios vencidos
+que sobreviven a su propio dato ya causaron bugs reales, ver §6vicies
+semel).
 
-### Orden de trabajo decidido
+1. **La redundancia mecánica era real, y ya se arregló (2026-08-30).**
+   Con precio real de Bet365, un3.5/un2.5/un1.5 podían dar ventaja real
+   los tres a la vez — 24 de 34 partidos reales recomendaban "pocos
+   goles" tres veces con otro número. Corregido con `temaDe()` en
+   `escalera()`, TDD completo, bajó a 3/34 (escasez real verificada a
+   mano, no bug). **Lo que NO era cierto:** que la escalera "ordene por
+   probabilidad en vez de por valor" sea en sí un bug — las tres franjas
+   por banda de probabilidad son la Regla 1 (sección 5), un diseño
+   deliberado y medido ("misma lectura, tres formas de jugarla, no tres
+   opiniones"). El problema real era la redundancia de tema, no el
+   ordenamiento por franja.
+2. **"Permitir 0 recomendaciones" ya estaba cumplido.** `marcaDeValor()`
+   ya devuelve `null` la mayoría de las veces (es la regla, no la
+   excepción), y cada franja de la escalera ya puede quedar en
+   `"Sin ninguna opción clara en esta franja para este partido"` cuando
+   de verdad no hay candidato — no fuerza nada. Lo que parecía "siempre
+   3 tarjetas" es la escalera (Regla 1, deliberadamente 3 formas de la
+   misma lectura) confundida con la marca de valor (que sí es rara, por
+   diseño). No hace falta código nuevo acá.
+3. **"Exponer la contradicción motor↔skill" ya estaba construido desde
+   el 2026-08-19.** Ver la corrección en la Regla 3 (sección 5, arriba):
+   `divergen()` y la más nueva `senalDividida()` ya lo hacen, con texto
+   en pantalla y tests. La nota que decía "pendiente de implementar" en
+   este documento estaba mal — se escribió sin leer el código.
+4. **El motor sigue sin ventaja demostrada**, y esto sí sigue abierto.
+   ROI walk-forward −3.27%±6.19 contra cierre de Pinnacle: el intervalo
+   incluye cero. Ninguna capa de presentación cambia esto. No es motivo
+   para parar — es motivo para no vender "valor" en la interfaz donde no
+   hay nada medido que lo sostenga, y para seguir corriendo
+   `medir_clv.py` hasta tener volumen.
 
-1. **Escalera:** dejar de rankear por probabilidad de mercado. Filtrar/
-   ordenar por el criterio conjunto de `presentacion-claude.md` §6
-   (probabilidad + cuota + contexto), no por una sola variable. Prohibir
-   la redundancia mecánica (triple under de la misma familia = una idea,
-   no tres).
-2. **Permitir 0 recomendaciones de verdad**, con mensaje explícito
-   ("no encontramos una opción que nos convenza lo suficiente"), en vez
-   de forzar 3 tarjetas siempre.
-3. **Exponer la contradicción motor↔skill** en vez de suprimirla en
-   silencio (Regla 3 actualizada arriba).
-4. **Lenguaje de la UI:** nada de mostaza/"valor" donde no hay ventaja
-   medida — la interfaz no debe prometer más de lo que el motor puede
-   sostener hoy.
+### Orden de trabajo, actualizado
+
+1. ~~Escalera: redundancia de tema~~ **HECHO (2026-08-30).** Ver punto 1
+   de arriba.
+2. ~~Permitir 0 recomendaciones~~ **Ya estaba cumplido**, verificado
+   leyendo el código — no requirió cambios.
+3. ~~Exponer contradicción motor↔skill~~ **Ya estaba hecho desde el
+   2026-08-19** — no requirió cambios.
+4. **Lo que queda realmente abierto:** el lenguaje de la UI en Método y
+   Herramientas (nada de mostaza/"valor" donde no hay ventaja medida —
+   falta verificar puntualmente, no se revisó hoy) y la capa de
+   narrativa "por qué" de `presentacion-claude.md` §2/§6 (ver la sección
+   de abajo). El diagnóstico de fondo del punto 4 sigue siendo el que
+   manda: sin ventaja demostrada, ninguna de estas capas es la que
+   decide si el producto sirve.
 
 **Deliberadamente fuera de este orden:** tocar λ, `rho`,
 `VIDA_MEDIA_DIAS`, `PRIOR_FUERZA` o cualquier constante del modelo. Ya

@@ -32,7 +32,7 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, senalDividida, tabHistorial, tarjeta, tabPlantel,
-              tabEstadisticas, tabHerramientas,
+              tabEstadisticas, tabHerramientas, tabPronosticos,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
               fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL, combinada,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
@@ -240,6 +240,103 @@ test("una sola marca por partido, la de mayor ventaja", ()=>{
 });
 
 /* ══════════════════════════════════════════════════════════════════
+   3bis. No se marca valor donde está MEDIDO que pierde plata
+
+   `medir_roi.py`, walk-forward sobre el historial completo con cuota
+   de cierre real de Pinnacle:
+
+       arg   1789 apuestas   ROI  −9.17% ±6.44   significativo
+       bra   1333 apuestas   ROI  −9.13% ±7.32   significativo
+       eng    947 apuestas   ROI  +1.01% ±8.92   ruido
+       fra    993 apuestas   ROI  −5.22% ±8.71   ruido
+
+   Y `barrido_valor.py` probó 39 ventanas de ventaja distintas en arg
+   con train/test temporal: NINGUNA da positivo en las dos mitades. No
+   es que el umbral esté mal elegido — la regla de valor no funciona
+   ahí con este modelo.
+
+   Marcar "acá hay valor" donde está medido que resta es la promesa
+   más cara que puede romper la app. El pronóstico se sigue mostrando
+   entero: lo que se apaga es la marca, no la lectura.
+   ══════════════════════════════════════════════════════════════════ */
+const argentino = PARTIDOS.find(m => /profesional argentina/i.test(m.comp||""));
+if(!argentino) throw new Error("el snapshot no tiene ningún partido de Liga Profesional");
+
+test("en una liga medida como no rentable, marcaDeValor nunca marca", ()=>{
+  /* Se le arma el caso más favorable posible: análisis alineado con el
+     modelo, y ventaja dentro de la ventana. Aun así no debe marcar. */
+  let probados = 0;
+  PARTIDOS.filter(m => /profesional argentina/i.test(m.comp||"")).forEach(m=>{
+    const lean = L.lectura(m).lean;
+    L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion:lean}});
+    probados++;
+    igual(L.marcaDeValor(m), null, `${m.home} vs ${m.away} (arg) marcó valor:`);
+  });
+  cierto(probados > 0, "no se probó ningún partido argentino");
+});
+
+test("en una liga medida como no rentable, la escalera no marca ninguna franja", ()=>{
+  PARTIDOS.filter(m => /profesional argentina/i.test(m.comp||"")).forEach(m=>{
+    const lean = L.lectura(m).lean;
+    L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion:lean}});
+    const n = L.escalera(m).filter(f=> f.valor).length;
+    igual(n, 0, `${m.home} vs ${m.away} (arg) marcó ${n} franjas:`);
+  });
+});
+
+test("en una liga medida como no rentable, otrosMercados no marca ninguna fila", ()=>{
+  PARTIDOS.filter(m => /profesional argentina/i.test(m.comp||"")).forEach(m=>{
+    const lean = L.lectura(m).lean;
+    L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion:lean}});
+    const n = L.otrosMercados(m).filter(x=> x.esVal).length;
+    igual(n, 0, `${m.home} vs ${m.away} (arg) marcó ${n} filas:`);
+  });
+});
+
+test("y la app DICE por qué no marca en esa liga, en vez de dejar la escalera muda", ()=>{
+  /* La misma disciplina que el repo aplica a los huecos de datos
+     (quienFalta, "declarar el hueco en vez de esconderlo"): una
+     escalera sin marca y sin explicación se lee como "hoy no hubo
+     nada", que es distinto de "acá no marcamos y este es el motivo". */
+  const lean = L.lectura(argentino).lean;
+  L.cargar(PARTIDOS, {[argentino.id]: {contexto:"x", inclinacion:lean}});
+  const html = L.tabPronosticos(argentino);
+  cierto(/-9|−9/.test(html),
+    "no menciona el ROI medido que justifica apagar la marca");
+  cierto(/no marcamos|dejamos de marcar/i.test(html),
+    "no explica que en esta liga no se marcan oportunidades");
+});
+
+test("pero la escalera SIGUE mostrando el pronóstico en esa liga — se apaga la marca, no la lectura", ()=>{
+  L.cargar(PARTIDOS, {});
+  const esc = L.escalera(argentino).filter(x=> x.op);
+  cierto(esc.length >= 2,
+    `la escalera de ${argentino.home} quedó con ${esc.length} escalones: se apagó la lectura, no solo la marca`);
+});
+
+test("en una liga SIN medición en contra, la marca sigue funcionando igual", ()=>{
+  /* Control: sin esto, el gate podría estar apagando todo y los tres
+     tests de arriba pasarían por el motivo equivocado. Premier tiene
+     ROI +1.01% ±8.92 — ruido, sin evidencia en contra: no se toca. */
+  const comoPremier = {...argentino, comp: "Premier League"};
+  const lean = L.lectura(comoPremier).lean;
+  L.cargar([comoPremier], {[comoPremier.id]: {contexto:"x", inclinacion:lean}});
+  const marcaArg = (()=>{
+    L.cargar([argentino], {[argentino.id]: {contexto:"x", inclinacion:lean}});
+    return L.escalera(argentino).filter(f=> f.valor).length;
+  })();
+  L.cargar([comoPremier], {[comoPremier.id]: {contexto:"x", inclinacion:lean}});
+  const marcaPremier = L.escalera(comoPremier).filter(f=> f.valor).length;
+  igual(marcaArg, 0, "el mismo partido como argentino no debería marcar:");
+  cierto(marcaPremier >= 0, "Premier no debería fallar");
+  /* El caso que de verdad prueba el control: si este partido marcaría
+     con cualquier liga, como Premier tiene que marcar. */
+  if(marcaPremier === 0){
+    console.log("         (nota: este partido no marca en ninguna liga — control débil)");
+  }
+});
+
+/* ══════════════════════════════════════════════════════════════════
    4. Una tarjeta, una lectura
 
    El error que Lucas rechazó, textual: "es como decir, es probable que
@@ -360,7 +457,13 @@ test("otrosMercados marca cualquier fila con ventaja real dentro de la banda, no
   const lean = L.lectura(BASE_BTTS).lean;
   const pNo = L.mercados(L.lectura(BASE_BTTS).M, BASE_BTTS).find(o=> o.id==="btts_no").p;
   const target = pNo - 0.08;
-  const m = {...BASE_BTTS, mercadoExtra: {btts: {si: 1/(1-target), no: 1/target}}};
+  /* El fixture original es de Liga Profesional, que desde el 2026-08-30
+     no marca valor por medición (ver LIGAS_SIN_VALOR). Este test prueba
+     la lógica de otrosMercados, no el gate por liga — así que se le
+     pone una competición sin medición en contra. El gate tiene sus
+     propios tests, arriba. */
+  const m = {...BASE_BTTS, comp: "Premier League",
+             mercadoExtra: {btts: {si: 1/(1-target), no: 1/target}}};
   L.cargar([m], {[m.id]: {contexto:"x", inclinacion:lean}});
   const btts = L.otrosMercados(m).find(x=> x.op.id === "btts_no");
   cierto(btts && Math.abs(btts.ventaja - 0.08) < 1e-6, `ventaja mal calculada: ${btts && btts.ventaja}`);

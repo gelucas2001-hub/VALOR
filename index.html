@@ -1031,6 +1031,41 @@ const CUOTA_MIN_MOSTRAR = 1.15;
    lectura. Se enciende en el 8% de los partidos con cuota. */
 const ALERTA_MIN = 0.10;
 
+/* ══════════════════════════════════════════════════════════════════
+   DÓNDE NO SE MARCA VALOR — medido, no supuesto
+
+   `medir_roi.py` (2026-08-30) midió por primera vez la regla de valor
+   contra PLATA, liga por liga, walk-forward sobre el historial
+   completo con la cuota de cierre real de Pinnacle:
+
+       arg   1789 apuestas   ROI  −9.17% ±6.44   significativo
+       bra   1333 apuestas   ROI  −9.13% ±7.32   significativo
+       eng    947 apuestas   ROI  +1.01% ±8.92   ruido
+       fra    993 apuestas   ROI  −5.22% ±8.71   ruido
+
+   Los dos primeros no son "indistinguible de cero": el intervalo no
+   incluye el cero. Está medido que ahí la marca resta.
+
+   Y no es que el umbral esté mal elegido. `barrido_valor.py` probó
+   **39 ventanas de ventaja distintas** en arg con train/test temporal
+   (train <2022 elige, test ≥2022 confirma): ninguna da positivo en
+   las dos mitades. Producción (0.06–0.12) da −7.53% en train y
+   −11.52% en test. La regla no se arregla moviendo constantes.
+
+   Lo que se apaga es la MARCA, no la lectura: el pronóstico, la
+   escalera y "Otros mercados" se siguen mostrando enteros. La app
+   sigue diciendo qué puede pasar; deja de decir "acá hay valor"
+   donde midió que no lo hay.
+
+   Las copas sudamericanas NO están en esta lista y hay que decir por
+   qué: no hay cuotas históricas de copas en football-data, así que no
+   se pudieron medir. No es evidencia a favor — es ausencia de
+   evidencia, y agregarlas acá sería extrapolar, que es justo lo que
+   este repo prohíbe. Si algún día hay datos, se miden.
+   ══════════════════════════════════════════════════════════════════ */
+const LIGAS_SIN_VALOR = [/profesional\s+argentina/i, /brasileir/i];
+const ligaSinValor = m => LIGAS_SIN_VALOR.some(re => re.test(m.comp || ""));
+
 /* Umbral de cuota, no cuota de referencia. Mostrar "@2.20 en DraftKings"
    es una trampa: el usuario va a Betsson, encuentra 2.05 y no sabe si
    sigue conviniendo. Y la justa pelada tampoco sirve: a la justa exacta
@@ -1552,7 +1587,8 @@ function escalera(m){
     }
     temasUsados.add(temaDe(elegido));
     const cuota = cuotaUsada(elegido, pq, mk, mx);
-    const valor = ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
+    const valor = !ligaSinValor(m)
+                  && ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
                   && cuota!=null && cuota>=CUOTA_MIN_VAL;
     yaElegidos.push(elegido.id);
     return {franja:f, op:elegido, ventaja, valor};
@@ -1657,7 +1693,7 @@ function otrosMercados(m){
        una probabilidad cercana a 100% (típico en líneas de gol lejos
        del promedio) se marca aunque pague centavos. */
     const cuota = cuotaUsada(o, pq, mk, mx);
-    const esVal = !!dir && !contradice(o, dir)
+    const esVal = !ligaSinValor(m) && !!dir && !contradice(o, dir)
                   && ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
                   && cuota!=null && cuota>=CUOTA_MIN_VAL;
     return {op:o, ventaja, esVal};
@@ -1745,6 +1781,7 @@ const hayProsa = id => { const a=ANALISIS[id];
    marcara valor a favor de su propia opinión — justo lo que Método dice
    que no hace. Una sola función, y sobre la lectura humana. */
 function marcaDeValor(m){
+  if(ligaSinValor(m)) return null;   // medido que ahí resta — ver LIGAS_SIN_VALOR
   const dir = inclinacionDe(m.id);
   if(!dir) return null;
   const pq = devig(m.mercado || {});
@@ -2200,7 +2237,19 @@ function tabPronosticos(m){
     <p>${esc_(lec.cuerpo)}</p>
   </div>`;
 
-  if(!hay){
+  /* La razón dominante va primero: si en esta liga no marcamos por
+     medición, da igual si hay análisis cargado o no. Y se dice con el
+     número, no con una vaguedad — es la misma disciplina que usa
+     quienFalta() para los huecos de datos: declarar el hueco en vez de
+     esconderlo. Una escalera sin marca y sin explicación se lee como
+     "hoy no hubo nada", que es una cosa distinta. */
+  if(ligaSinValor(m)){
+    h += `<div class="nota">En ${esc_(m.comp)} <b>no marcamos oportunidades</b>, y el
+      motivo está medido: sobre 1.789 apuestas históricas contra la cuota de cierre real,
+      nuestra regla de valor dio <b>−9,2%</b> de rentabilidad. Probamos 39 formas distintas
+      de ajustar el umbral y ninguna dio positivo fuera de muestra. El pronóstico sigue acá
+      entero — lo que dejamos de hacer es decirte que hay valor donde medimos que no lo hay.</div>`;
+  } else if(!hay){
     h += `<div class="nota">Abajo está la escalera con lo que dice el modelo, para que la veas.
       No vas a encontrar nada marcado como oportunidad: solo señalamos precio a favor en
       partidos que miramos en serio, y este todavía no.</div>`;

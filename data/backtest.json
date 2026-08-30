@@ -1,254 +1,272 @@
 {
- "generado": "2026-08-23T23:09",
+ "generado": "2026-08-29T06:16",
  "nota": "Solo calibración de probabilidades. No hay ROI ni CLV: ESPN no conserva las cuotas de partidos ya jugados.",
  "competiciones": [
   {
-   "competicion": "CONMEBOL Libertadores",
-   "n": 67,
+   "competicion": "CONMEBOL Sudamericana",
+   "n": 63,
    "control": {
-    "fecha": "2026-03-11",
-    "lh": 0.858,
-    "la": 0.792,
+    "fecha": "2026-04-29",
+    "lh": 1.107,
+    "la": 0.839,
     "rho": 0.0,
-    "prob_local": 0.3454,
-    "prob_over25": 0.2296
+    "prob_local": 0.4159,
+    "prob_over25": 0.3087
    },
    "mercados": {
     "1X2 local": {
-     "n": 67,
-     "brier_modelo": 0.2553,
-     "brier_base": 0.25097,
-     "logloss_modelo": 0.70833,
-     "logloss_base": 0.69536,
-     "frecuencia_real": 0.4478,
-     "prob_media_modelo": 0.4728,
+     "n": 63,
+     "brier_modelo": 0.21747,
+     "brier_base": 0.2398,
+     "logloss_modelo": 0.62727,
+     "logloss_base": 0.67279,
+     "frecuencia_real": 0.3651,
+     "prob_media_modelo": 0.4387,
      "calibracion": [
       {
+       "franja": "0-20%",
+       "n": 1,
+       "predicho": 0.1555,
+       "real": 0.0
+      },
+      {
        "franja": "20-40%",
-       "n": 22,
-       "predicho": 0.3081,
-       "real": 0.5909
+       "n": 21,
+       "predicho": 0.3143,
+       "real": 0.2857
       },
       {
        "franja": "40-60%",
        "n": 33,
-       "predicho": 0.5015,
-       "real": 0.2121
+       "predicho": 0.4709,
+       "real": 0.3333
       },
       {
        "franja": "60-80%",
-       "n": 11,
-       "predicho": 0.681,
-       "real": 0.8182
-      },
-      {
-       "franja": "80-100%",
-       "n": 1,
-       "predicho": 0.855,
-       "real": 1.0
+       "n": 8,
+       "predicho": 0.6676,
+       "real": 0.75
       }
      ]
     },
     "1X2 empate": {
-     "n": 67,
-     "brier_modelo": 0.20959,
-     "brier_base": 0.21624,
-     "logloss_modelo": 0.60849,
-     "logloss_base": 0.62812,
-     "frecuencia_real": 0.2985,
-     "prob_media_modelo": 0.2745,
+     "n": 63,
+     "brier_modelo": 0.22673,
+     "brier_base": 0.2291,
+     "logloss_modelo": 0.64428,
+     "logloss_base": 0.65099,
+     "frecuencia_real": 0.3492,
+     "prob_media_modelo": 0.2906,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 5,
-       "predicho": 0.1601,
-       "real": 0.2
+       "n": 3,
+       "predicho": 0.162,
+       "real": 0.0
       },
       {
        "franja": "20-40%",
-       "n": 62,
-       "predicho": 0.2838,
-       "real": 0.3065
+       "n": 56,
+       "predicho": 0.2887,
+       "real": 0.3929
+      },
+      {
+       "franja": "40-60%",
+       "n": 4,
+       "predicho": 0.4133,
+       "real": 0.0
       }
      ]
     },
     "1X2 visitante": {
-     "n": 67,
-     "brier_modelo": 0.19794,
-     "brier_base": 0.19331,
-     "logloss_modelo": 0.58,
-     "logloss_base": 0.57599,
-     "frecuencia_real": 0.2537,
-     "prob_media_modelo": 0.2527,
+     "n": 63,
+     "brier_modelo": 0.19162,
+     "brier_base": 0.21111,
+     "logloss_modelo": 0.56189,
+     "logloss_base": 0.61797,
+     "frecuencia_real": 0.2857,
+     "prob_media_modelo": 0.2708,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 21,
-       "predicho": 0.1327,
-       "real": 0.1429
+       "n": 14,
+       "predicho": 0.136,
+       "real": 0.0714
       },
       {
        "franja": "20-40%",
-       "n": 39,
-       "predicho": 0.2805,
-       "real": 0.3333
+       "n": 40,
+       "predicho": 0.2735,
+       "real": 0.35
       },
       {
        "franja": "40-60%",
-       "n": 7,
-       "predicho": 0.458,
-       "real": 0.1429
+       "n": 8,
+       "predicho": 0.4472,
+       "real": 0.25
+      },
+      {
+       "franja": "60-80%",
+       "n": 1,
+       "predicho": 0.6374,
+       "real": 1.0
       }
      ]
     },
     "Más de 0.5": {
-     "n": 67,
-     "brier_modelo": 0.10072,
-     "brier_base": 0.0948,
-     "logloss_modelo": 0.36835,
-     "logloss_base": 0.34278,
-     "frecuencia_real": 0.8955,
-     "prob_media_modelo": 0.8802,
+     "n": 63,
+     "brier_modelo": 0.10459,
+     "brier_base": 0.10035,
+     "logloss_modelo": 0.36382,
+     "logloss_base": 0.35622,
+     "frecuencia_real": 0.8889,
+     "prob_media_modelo": 0.8652,
      "calibracion": [
       {
        "franja": "60-80%",
-       "n": 3,
-       "predicho": 0.7556,
-       "real": 1.0
+       "n": 10,
+       "predicho": 0.7374,
+       "real": 0.9
       },
       {
        "franja": "80-100%",
-       "n": 64,
-       "predicho": 0.886,
-       "real": 0.8906
+       "n": 53,
+       "predicho": 0.8893,
+       "real": 0.8868
       }
      ]
     },
     "Más de 1.5": {
-     "n": 67,
-     "brier_modelo": 0.24419,
-     "brier_base": 0.23409,
-     "logloss_modelo": 0.6874,
-     "logloss_base": 0.66127,
-     "frecuencia_real": 0.6567,
-     "prob_media_modelo": 0.6361,
+     "n": 63,
+     "brier_modelo": 0.23063,
+     "brier_base": 0.17925,
+     "logloss_modelo": 0.6552,
+     "logloss_base": 0.54685,
+     "frecuencia_real": 0.7937,
+     "prob_media_modelo": 0.6128,
      "calibracion": [
       {
        "franja": "20-40%",
-       "n": 1,
-       "predicho": 0.3792,
-       "real": 0.0
+       "n": 6,
+       "predicho": 0.3539,
+       "real": 1.0
       },
       {
        "franja": "40-60%",
-       "n": 27,
-       "predicho": 0.5462,
-       "real": 0.7037
+       "n": 22,
+       "predicho": 0.5236,
+       "real": 0.7727
       },
       {
        "franja": "60-80%",
-       "n": 35,
-       "predicho": 0.6897,
-       "real": 0.6571
+       "n": 30,
+       "predicho": 0.6923,
+       "real": 0.7667
       },
       {
        "franja": "80-100%",
-       "n": 4,
-       "predicho": 0.839,
-       "real": 0.5
+       "n": 5,
+       "predicho": 0.8391,
+       "real": 0.8
       }
      ]
     },
     "Más de 2.5": {
-     "n": 67,
-     "brier_modelo": 0.23535,
-     "brier_base": 0.22922,
-     "logloss_modelo": 0.66489,
-     "logloss_base": 0.65183,
-     "frecuencia_real": 0.3433,
-     "prob_media_modelo": 0.3783,
+     "n": 63,
+     "brier_modelo": 0.30153,
+     "brier_base": 0.28424,
+     "logloss_modelo": 0.82521,
+     "logloss_base": 0.76755,
+     "frecuencia_real": 0.5079,
+     "prob_media_modelo": 0.3603,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 3,
-       "predicho": 0.1695,
-       "real": 0.3333
+       "n": 9,
+       "predicho": 0.1478,
+       "real": 0.6667
       },
       {
        "franja": "20-40%",
-       "n": 38,
-       "predicho": 0.3132,
-       "real": 0.3158
+       "n": 29,
+       "predicho": 0.3062,
+       "real": 0.4828
       },
       {
        "franja": "40-60%",
        "n": 22,
-       "predicho": 0.4723,
-       "real": 0.4091
+       "predicho": 0.4754,
+       "real": 0.5
       },
       {
        "franja": "60-80%",
-       "n": 4,
-       "predicho": 0.6366,
-       "real": 0.25
+       "n": 3,
+       "predicho": 0.6772,
+       "real": 0.3333
       }
      ]
     },
     "Más de 3.5": {
-     "n": 67,
-     "brier_modelo": 0.14343,
-     "brier_base": 0.13953,
-     "logloss_modelo": 0.46382,
-     "logloss_base": 0.4557,
-     "frecuencia_real": 0.1642,
-     "prob_media_modelo": 0.1898,
+     "n": 63,
+     "brier_modelo": 0.24571,
+     "brier_base": 0.23731,
+     "logloss_modelo": 0.74125,
+     "logloss_base": 0.70766,
+     "frecuencia_real": 0.3016,
+     "prob_media_modelo": 0.181,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 41,
-       "predicho": 0.1316,
-       "real": 0.1463
+       "n": 38,
+       "predicho": 0.1127,
+       "real": 0.3421
       },
       {
        "franja": "20-40%",
        "n": 22,
-       "predicho": 0.2573,
-       "real": 0.2273
+       "predicho": 0.2607,
+       "real": 0.2727
       },
       {
        "franja": "40-60%",
-       "n": 4,
-       "predicho": 0.4153,
+       "n": 3,
+       "predicho": 0.4616,
        "real": 0.0
       }
      ]
     },
     "Ambos marcan": {
-     "n": 67,
-     "brier_modelo": 0.25073,
-     "brier_base": 0.2468,
-     "logloss_modelo": 0.69363,
-     "logloss_base": 0.68685,
-     "frecuencia_real": 0.4179,
-     "prob_media_modelo": 0.4011,
+     "n": 63,
+     "brier_modelo": 0.2848,
+     "brier_base": 0.26198,
+     "logloss_modelo": 0.77216,
+     "logloss_base": 0.71756,
+     "frecuencia_real": 0.5079,
+     "prob_media_modelo": 0.3967,
      "calibracion": [
       {
+       "franja": "0-20%",
+       "n": 3,
+       "predicho": 0.1858,
+       "real": 0.3333
+      },
+      {
        "franja": "20-40%",
-       "n": 37,
-       "predicho": 0.3419,
-       "real": 0.3784
+       "n": 28,
+       "predicho": 0.315,
+       "real": 0.5357
       },
       {
        "franja": "40-60%",
-       "n": 27,
-       "predicho": 0.4568,
-       "real": 0.5185
+       "n": 30,
+       "predicho": 0.4776,
+       "real": 0.5
       },
       {
        "franja": "60-80%",
-       "n": 3,
-       "predicho": 0.6293,
-       "real": 0.0
+       "n": 2,
+       "predicho": 0.6452,
+       "real": 0.5
       }
      ]
     }
@@ -256,545 +274,1397 @@
   },
   {
    "competicion": "Liga Profesional Argentina",
-   "n": 296,
+   "n": 302,
    "control": {
     "fecha": "2026-02-07",
-    "lh": 0.498,
-    "la": 0.865,
-    "rho": 0.05,
-    "prob_local": 0.2056,
-    "prob_over25": 0.1576
+    "lh": 0.442,
+    "la": 0.859,
+    "rho": -0.05,
+    "prob_local": 0.1744,
+    "prob_over25": 0.1431
    },
    "mercados": {
     "1X2 local": {
-     "n": 296,
-     "brier_modelo": 0.24802,
-     "brier_base": 0.24767,
-     "logloss_modelo": 0.69046,
-     "logloss_base": 0.68851,
-     "frecuencia_real": 0.4358,
-     "prob_media_modelo": 0.427,
+     "n": 302,
+     "brier_modelo": 0.24832,
+     "brier_base": 0.24781,
+     "logloss_modelo": 0.69321,
+     "logloss_base": 0.6888,
+     "frecuencia_real": 0.4371,
+     "prob_media_modelo": 0.4174,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 10,
-       "predicho": 0.1675,
-       "real": 0.2
+       "n": 26,
+       "predicho": 0.1642,
+       "real": 0.3077
       },
       {
        "franja": "20-40%",
-       "n": 112,
-       "predicho": 0.3194,
-       "real": 0.3929
+       "n": 101,
+       "predicho": 0.3115,
+       "real": 0.4158
       },
       {
        "franja": "40-60%",
-       "n": 148,
-       "predicho": 0.4855,
-       "real": 0.4527
+       "n": 144,
+       "predicho": 0.483,
+       "real": 0.4444
       },
       {
        "franja": "60-80%",
-       "n": 26,
-       "predicho": 0.6578,
-       "real": 0.6154
+       "n": 31,
+       "predicho": 0.6702,
+       "real": 0.5806
       }
      ]
     },
     "1X2 empate": {
-     "n": 296,
-     "brier_modelo": 0.19663,
-     "brier_base": 0.19955,
-     "logloss_modelo": 0.58206,
-     "logloss_base": 0.58893,
-     "frecuencia_real": 0.2703,
-     "prob_media_modelo": 0.2882,
+     "n": 302,
+     "brier_modelo": 0.20099,
+     "brier_base": 0.20151,
+     "logloss_modelo": 0.59141,
+     "logloss_base": 0.59312,
+     "frecuencia_real": 0.2748,
+     "prob_media_modelo": 0.3115,
      "calibracion": [
       {
        "franja": "0-20%",
        "n": 9,
-       "predicho": 0.1793,
+       "predicho": 0.1772,
        "real": 0.2222
       },
       {
        "franja": "20-40%",
-       "n": 278,
-       "predicho": 0.2871,
-       "real": 0.2698
+       "n": 271,
+       "predicho": 0.3053,
+       "real": 0.2768
       },
       {
        "franja": "40-60%",
-       "n": 9,
-       "predicho": 0.4322,
-       "real": 0.3333
+       "n": 22,
+       "predicho": 0.4422,
+       "real": 0.2727
       }
      ]
     },
     "1X2 visitante": {
-     "n": 296,
-     "brier_modelo": 0.21479,
-     "brier_base": 0.20933,
-     "logloss_modelo": 0.62288,
-     "logloss_base": 0.61044,
-     "frecuencia_real": 0.2939,
-     "prob_media_modelo": 0.2847,
+     "n": 302,
+     "brier_modelo": 0.21255,
+     "brier_base": 0.20675,
+     "logloss_modelo": 0.61813,
+     "logloss_base": 0.60491,
+     "frecuencia_real": 0.2881,
+     "prob_media_modelo": 0.2711,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 69,
-       "predicho": 0.1567,
-       "real": 0.2174
+       "n": 91,
+       "predicho": 0.1451,
+       "real": 0.2308
       },
       {
        "franja": "20-40%",
-       "n": 177,
-       "predicho": 0.2852,
-       "real": 0.322
+       "n": 160,
+       "predicho": 0.28,
+       "real": 0.3187
       },
       {
        "franja": "40-60%",
-       "n": 48,
-       "predicho": 0.4521,
-       "real": 0.2917
+       "n": 50,
+       "predicho": 0.4647,
+       "real": 0.3
       },
       {
        "franja": "60-80%",
-       "n": 2,
-       "predicho": 0.6436,
-       "real": 0.5
+       "n": 1,
+       "predicho": 0.6451,
+       "real": 0.0
       }
      ]
     },
     "Más de 0.5": {
-     "n": 296,
-     "brier_modelo": 0.10873,
-     "brier_base": 0.11046,
-     "logloss_modelo": 0.37311,
-     "logloss_base": 0.38114,
-     "frecuencia_real": 0.875,
-     "prob_media_modelo": 0.8604,
+     "n": 302,
+     "brier_modelo": 0.10933,
+     "brier_base": 0.1086,
+     "logloss_modelo": 0.376,
+     "logloss_base": 0.37636,
+     "frecuencia_real": 0.8775,
+     "prob_media_modelo": 0.8445,
      "calibracion": [
       {
        "franja": "40-60%",
        "n": 2,
-       "predicho": 0.5767,
+       "predicho": 0.5501,
        "real": 0.5
       },
       {
        "franja": "60-80%",
-       "n": 47,
-       "predicho": 0.755,
-       "real": 0.8298
+       "n": 65,
+       "predicho": 0.7409,
+       "real": 0.8308
       },
       {
        "franja": "80-100%",
-       "n": 247,
-       "predicho": 0.8827,
-       "real": 0.8866
+       "n": 235,
+       "predicho": 0.8757,
+       "real": 0.8936
       }
      ]
     },
     "Más de 1.5": {
-     "n": 296,
-     "brier_modelo": 0.24248,
-     "brier_base": 0.23573,
-     "logloss_modelo": 0.67809,
-     "logloss_base": 0.66441,
-     "frecuencia_real": 0.625,
-     "prob_media_modelo": 0.5815,
+     "n": 302,
+     "brier_modelo": 0.24561,
+     "brier_base": 0.23467,
+     "logloss_modelo": 0.68568,
+     "logloss_base": 0.66225,
+     "frecuencia_real": 0.6291,
+     "prob_media_modelo": 0.5886,
      "calibracion": [
       {
        "franja": "0-20%",
        "n": 1,
-       "predicho": 0.1946,
+       "predicho": 0.1755,
        "real": 0.0
       },
       {
        "franja": "20-40%",
-       "n": 23,
-       "predicho": 0.3488,
-       "real": 0.5652
+       "n": 26,
+       "predicho": 0.3314,
+       "real": 0.6538
       },
       {
        "franja": "40-60%",
-       "n": 134,
-       "predicho": 0.5223,
-       "real": 0.6269
+       "n": 127,
+       "predicho": 0.5244,
+       "real": 0.622
       },
       {
        "franja": "60-80%",
-       "n": 131,
-       "predicho": 0.6724,
-       "real": 0.626
+       "n": 137,
+       "predicho": 0.6799,
+       "real": 0.635
       },
       {
        "franja": "80-100%",
-       "n": 7,
-       "predicho": 0.8337,
-       "real": 0.8571
+       "n": 11,
+       "predicho": 0.8394,
+       "real": 0.6364
       }
      ]
     },
     "Más de 2.5": {
-     "n": 296,
-     "brier_modelo": 0.22741,
-     "brier_base": 0.22835,
-     "logloss_modelo": 0.64681,
-     "logloss_base": 0.64942,
-     "frecuencia_real": 0.348,
-     "prob_media_modelo": 0.3298,
+     "n": 302,
+     "brier_modelo": 0.23043,
+     "brier_base": 0.22919,
+     "logloss_modelo": 0.65543,
+     "logloss_base": 0.65116,
+     "frecuencia_real": 0.351,
+     "prob_media_modelo": 0.3275,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 41,
-       "predicho": 0.1527,
-       "real": 0.1951
+       "n": 51,
+       "predicho": 0.1457,
+       "real": 0.1961
       },
       {
        "franja": "20-40%",
-       "n": 174,
-       "predicho": 0.3042,
-       "real": 0.3793
+       "n": 173,
+       "predicho": 0.3081,
+       "real": 0.3699
       },
       {
        "franja": "40-60%",
-       "n": 75,
-       "predicho": 0.4607,
-       "real": 0.3467
+       "n": 71,
+       "predicho": 0.4725,
+       "real": 0.3944
       },
       {
        "franja": "60-80%",
-       "n": 6,
-       "predicho": 0.6451,
-       "real": 0.5
+       "n": 7,
+       "predicho": 0.6622,
+       "real": 0.5714
       }
      ]
     },
     "Más de 3.5": {
-     "n": 296,
-     "brier_modelo": 0.13275,
-     "brier_base": 0.12733,
-     "logloss_modelo": 0.44611,
-     "logloss_base": 0.42394,
-     "frecuencia_real": 0.1486,
-     "prob_media_modelo": 0.1557,
+     "n": 302,
+     "brier_modelo": 0.13523,
+     "brier_base": 0.12993,
+     "logloss_modelo": 0.45559,
+     "logloss_base": 0.43042,
+     "frecuencia_real": 0.1523,
+     "prob_media_modelo": 0.1558,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 216,
-       "predicho": 0.1165,
-       "real": 0.1435
+       "n": 226,
+       "predicho": 0.1151,
+       "real": 0.146
       },
       {
        "franja": "20-40%",
-       "n": 76,
-       "predicho": 0.2519,
-       "real": 0.1579
+       "n": 70,
+       "predicho": 0.2613,
+       "real": 0.1571
       },
       {
        "franja": "40-60%",
-       "n": 4,
-       "predicho": 0.4464,
-       "real": 0.25
+       "n": 6,
+       "predicho": 0.4565,
+       "real": 0.3333
       }
      ]
     },
     "Ambos marcan": {
-     "n": 296,
-     "brier_modelo": 0.24538,
-     "brier_base": 0.24624,
-     "logloss_modelo": 0.68476,
-     "logloss_base": 0.68562,
-     "frecuencia_real": 0.4155,
-     "prob_media_modelo": 0.3692,
+     "n": 302,
+     "brier_modelo": 0.24692,
+     "brier_base": 0.24729,
+     "logloss_modelo": 0.68803,
+     "logloss_base": 0.68775,
+     "frecuencia_real": 0.4238,
+     "prob_media_modelo": 0.3724,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 14,
-       "predicho": 0.1758,
-       "real": 0.1429
+       "n": 19,
+       "predicho": 0.1679,
+       "real": 0.2632
       },
       {
        "franja": "20-40%",
-       "n": 171,
-       "predicho": 0.3206,
-       "real": 0.4035
+       "n": 156,
+       "predicho": 0.3156,
+       "real": 0.4103
       },
       {
        "franja": "40-60%",
-       "n": 106,
-       "predicho": 0.4612,
-       "real": 0.4623
+       "n": 121,
+       "predicho": 0.4648,
+       "real": 0.4545
       },
       {
        "franja": "60-80%",
-       "n": 5,
-       "predicho": 0.6222,
-       "real": 0.6
+       "n": 6,
+       "predicho": 0.6329,
+       "real": 0.6667
       }
      ]
     }
    }
   },
   {
-   "competicion": "CONMEBOL Sudamericana",
-   "n": 62,
+   "competicion": "Brasileirão Série A",
+   "n": 205,
    "control": {
-    "fecha": "2026-04-29",
-    "lh": 1.169,
-    "la": 0.777,
+    "fecha": "2026-02-25",
+    "lh": 0.869,
+    "la": 0.607,
     "rho": 0.0,
-    "prob_local": 0.4504,
-    "prob_over25": 0.3087
+    "prob_local": 0.394,
+    "prob_over25": 0.1852
    },
    "mercados": {
     "1X2 local": {
-     "n": 62,
-     "brier_modelo": 0.21913,
-     "brier_base": 0.24064,
-     "logloss_modelo": 0.63221,
-     "logloss_base": 0.67447,
-     "frecuencia_real": 0.371,
-     "prob_media_modelo": 0.4384,
+     "n": 205,
+     "brier_modelo": 0.24941,
+     "brier_base": 0.2517,
+     "logloss_modelo": 0.69423,
+     "logloss_base": 0.69663,
+     "frecuencia_real": 0.4634,
+     "prob_media_modelo": 0.47,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 1,
-       "predicho": 0.1835,
-       "real": 0.0
-      },
-      {
-       "franja": "20-40%",
-       "n": 22,
-       "predicho": 0.3284,
-       "real": 0.2727
-      },
-      {
-       "franja": "40-60%",
-       "n": 33,
-       "predicho": 0.4764,
-       "real": 0.3939
-      },
-      {
-       "franja": "60-80%",
        "n": 6,
-       "predicho": 0.6752,
-       "real": 0.6667
-      }
-     ]
-    },
-    "1X2 empate": {
-     "n": 62,
-     "brier_modelo": 0.22329,
-     "brier_base": 0.22537,
-     "logloss_modelo": 0.63749,
-     "logloss_base": 0.6432,
-     "frecuencia_real": 0.3387,
-     "prob_media_modelo": 0.2839,
-     "calibracion": [
-      {
-       "franja": "0-20%",
-       "n": 3,
-       "predicho": 0.1631,
-       "real": 0.0
+       "predicho": 0.1744,
+       "real": 0.5
       },
       {
        "franja": "20-40%",
        "n": 59,
-       "predicho": 0.29,
-       "real": 0.3559
+       "predicho": 0.3172,
+       "real": 0.4237
+      },
+      {
+       "franja": "40-60%",
+       "n": 103,
+       "predicho": 0.4948,
+       "real": 0.4272
+      },
+      {
+       "franja": "60-80%",
+       "n": 35,
+       "predicho": 0.6841,
+       "real": 0.6
+      },
+      {
+       "franja": "80-100%",
+       "n": 2,
+       "predicho": 0.8426,
+       "real": 1.0
+      }
+     ]
+    },
+    "1X2 empate": {
+     "n": 205,
+     "brier_modelo": 0.21243,
+     "brier_base": 0.20965,
+     "logloss_modelo": 0.61971,
+     "logloss_base": 0.6108,
+     "frecuencia_real": 0.2927,
+     "prob_media_modelo": 0.2473,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 31,
+       "predicho": 0.1703,
+       "real": 0.2581
+      },
+      {
+       "franja": "20-40%",
+       "n": 174,
+       "predicho": 0.2611,
+       "real": 0.2989
       }
      ]
     },
     "1X2 visitante": {
-     "n": 62,
-     "brier_modelo": 0.19687,
-     "brier_base": 0.21355,
-     "logloss_modelo": 0.5741,
-     "logloss_base": 0.62341,
-     "frecuencia_real": 0.2903,
-     "prob_media_modelo": 0.2777,
+     "n": 205,
+     "brier_modelo": 0.1787,
+     "brier_base": 0.18567,
+     "logloss_modelo": 0.53617,
+     "logloss_base": 0.559,
+     "frecuencia_real": 0.2439,
+     "prob_media_modelo": 0.2826,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 13,
-       "predicho": 0.1465,
-       "real": 0.0769
+       "n": 51,
+       "predicho": 0.1442,
+       "real": 0.1176
       },
       {
        "franja": "20-40%",
-       "n": 41,
-       "predicho": 0.2766,
-       "real": 0.3415
+       "n": 121,
+       "predicho": 0.2866,
+       "real": 0.2397
       },
       {
        "franja": "40-60%",
-       "n": 7,
-       "predicho": 0.4813,
-       "real": 0.2857
+       "n": 31,
+       "predicho": 0.4721,
+       "real": 0.4516
       },
       {
        "franja": "60-80%",
-       "n": 1,
-       "predicho": 0.6013,
-       "real": 1.0
+       "n": 2,
+       "predicho": 0.6364,
+       "real": 0.5
       }
      ]
     },
     "Más de 0.5": {
-     "n": 62,
-     "brier_modelo": 0.10381,
-     "brier_base": 0.10174,
-     "logloss_modelo": 0.36403,
-     "logloss_base": 0.35992,
-     "frecuencia_real": 0.8871,
-     "prob_media_modelo": 0.8763,
+     "n": 205,
+     "brier_modelo": 0.06519,
+     "brier_base": 0.06473,
+     "logloss_modelo": 0.25941,
+     "logloss_base": 0.40803,
+     "frecuencia_real": 0.9317,
+     "prob_media_modelo": 0.9198,
      "calibracion": [
       {
        "franja": "60-80%",
-       "n": 8,
-       "predicho": 0.7528,
-       "real": 0.875
+       "n": 5,
+       "predicho": 0.7743,
+       "real": 1.0
       },
       {
        "franja": "80-100%",
-       "n": 54,
-       "predicho": 0.8946,
-       "real": 0.8889
+       "n": 200,
+       "predicho": 0.9234,
+       "real": 0.93
       }
      ]
     },
     "Más de 1.5": {
-     "n": 62,
-     "brier_modelo": 0.21828,
-     "brier_base": 0.18068,
-     "logloss_modelo": 0.63442,
-     "logloss_base": 0.5499,
-     "frecuencia_real": 0.7903,
-     "prob_media_modelo": 0.6329,
+     "n": 205,
+     "brier_modelo": 0.18672,
+     "brier_base": 0.17855,
+     "logloss_modelo": 0.56361,
+     "logloss_base": 0.54398,
+     "frecuencia_real": 0.7707,
+     "prob_media_modelo": 0.7283,
      "calibracion": [
       {
        "franja": "20-40%",
-       "n": 3,
-       "predicho": 0.3822,
+       "n": 1,
+       "predicho": 0.3869,
        "real": 1.0
       },
       {
        "franja": "40-60%",
-       "n": 20,
-       "predicho": 0.515,
-       "real": 0.75
+       "n": 21,
+       "predicho": 0.5363,
+       "real": 0.6667
       },
       {
        "franja": "60-80%",
-       "n": 34,
-       "predicho": 0.6941,
-       "real": 0.7941
+       "n": 139,
+       "predicho": 0.7178,
+       "real": 0.7698
       },
       {
        "franja": "80-100%",
-       "n": 5,
-       "predicho": 0.8389,
-       "real": 0.8
+       "n": 44,
+       "predicho": 0.8608,
+       "real": 0.8182
       }
      ]
     },
     "Más de 2.5": {
-     "n": 62,
-     "brier_modelo": 0.29855,
-     "brier_base": 0.28626,
-     "logloss_modelo": 0.81325,
-     "logloss_base": 0.77173,
-     "frecuencia_real": 0.5161,
-     "prob_media_modelo": 0.3796,
+     "n": 205,
+     "brier_modelo": 0.26234,
+     "brier_base": 0.25373,
+     "logloss_modelo": 0.72182,
+     "logloss_base": 0.70064,
+     "frecuencia_real": 0.478,
+     "prob_media_modelo": 0.4897,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 7,
-       "predicho": 0.1604,
-       "real": 0.8571
+       "n": 3,
+       "predicho": 0.178,
+       "real": 0.6667
       },
       {
        "franja": "20-40%",
-       "n": 27,
-       "predicho": 0.3134,
-       "real": 0.4815
+       "n": 46,
+       "predicho": 0.3341,
+       "real": 0.4565
       },
       {
        "franja": "40-60%",
-       "n": 26,
-       "predicho": 0.481,
-       "real": 0.5
+       "n": 117,
+       "predicho": 0.4924,
+       "real": 0.4701
       },
       {
        "franja": "60-80%",
-       "n": 2,
-       "predicho": 0.7217,
-       "real": 0.0
+       "n": 35,
+       "predicho": 0.6743,
+       "real": 0.5143
+      },
+      {
+       "franja": "80-100%",
+       "n": 4,
+       "predicho": 0.8185,
+       "real": 0.5
       }
      ]
     },
     "Más de 3.5": {
-     "n": 62,
-     "brier_modelo": 0.24696,
-     "brier_base": 0.24043,
-     "logloss_modelo": 0.73631,
-     "logloss_base": 0.71528,
-     "frecuencia_real": 0.3065,
-     "prob_media_modelo": 0.1941,
+     "n": 205,
+     "brier_modelo": 0.20087,
+     "brier_base": 0.17722,
+     "logloss_modelo": 0.59708,
+     "logloss_base": 0.5408,
+     "frecuencia_real": 0.2244,
+     "prob_media_modelo": 0.2833,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 35,
-       "predicho": 0.1225,
-       "real": 0.3429
+       "n": 51,
+       "predicho": 0.1483,
+       "real": 0.2549
       },
       {
        "franja": "20-40%",
-       "n": 25,
-       "predicho": 0.2684,
-       "real": 0.28
+       "n": 122,
+       "predicho": 0.2831,
+       "real": 0.2295
       },
       {
        "franja": "40-60%",
-       "n": 2,
-       "predicho": 0.518,
+       "n": 27,
+       "predicho": 0.4734,
+       "real": 0.1852
+      },
+      {
+       "franja": "60-80%",
+       "n": 5,
+       "predicho": 0.6378,
        "real": 0.0
       }
      ]
     },
     "Ambos marcan": {
-     "n": 62,
-     "brier_modelo": 0.27695,
-     "brier_base": 0.26103,
-     "logloss_modelo": 0.75283,
-     "logloss_base": 0.71565,
-     "frecuencia_real": 0.5,
-     "prob_media_modelo": 0.4159,
+     "n": 205,
+     "brier_modelo": 0.25506,
+     "brier_base": 0.24921,
+     "logloss_modelo": 0.70452,
+     "logloss_base": 0.69201,
+     "frecuencia_real": 0.5659,
+     "prob_media_modelo": 0.499,
+     "calibracion": [
+      {
+       "franja": "20-40%",
+       "n": 26,
+       "predicho": 0.3398,
+       "real": 0.5385
+      },
+      {
+       "franja": "40-60%",
+       "n": 154,
+       "predicho": 0.4967,
+       "real": 0.5519
+      },
+      {
+       "franja": "60-80%",
+       "n": 25,
+       "predicho": 0.6788,
+       "real": 0.68
+      }
+     ]
+    }
+   }
+  },
+  {
+   "competicion": "Ligue 1",
+   "n": 142,
+   "control": {
+    "fecha": "2026-01-30",
+    "lh": 0.988,
+    "la": 1.183,
+    "rho": -0.05,
+    "prob_local": 0.2982,
+    "prob_over25": 0.3695
+   },
+   "mercados": {
+    "1X2 local": {
+     "n": 142,
+     "brier_modelo": 0.24055,
+     "brier_base": 0.24821,
+     "logloss_modelo": 0.68179,
+     "logloss_base": 0.68982,
+     "frecuencia_real": 0.4225,
+     "prob_media_modelo": 0.3992,
      "calibracion": [
       {
        "franja": "0-20%",
-       "n": 1,
-       "predicho": 0.1948,
-       "real": 0.0
+       "n": 20,
+       "predicho": 0.1538,
+       "real": 0.15
       },
       {
        "franja": "20-40%",
-       "n": 28,
-       "predicho": 0.3278,
-       "real": 0.4643
+       "n": 54,
+       "predicho": 0.2818,
+       "real": 0.4074
+      },
+      {
+       "franja": "40-60%",
+       "n": 44,
+       "predicho": 0.4941,
+       "real": 0.4091
+      },
+      {
+       "franja": "60-80%",
+       "n": 21,
+       "predicho": 0.6761,
+       "real": 0.6667
+      },
+      {
+       "franja": "80-100%",
+       "n": 3,
+       "predicho": 0.8186,
+       "real": 1.0
+      }
+     ]
+    },
+    "1X2 empate": {
+     "n": 142,
+     "brier_modelo": 0.20624,
+     "brier_base": 0.20935,
+     "logloss_modelo": 0.6025,
+     "logloss_base": 0.61194,
+     "frecuencia_real": 0.2887,
+     "prob_media_modelo": 0.2511,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 21,
+       "predicho": 0.1681,
+       "real": 0.1429
+      },
+      {
+       "franja": "20-40%",
+       "n": 120,
+       "predicho": 0.2641,
+       "real": 0.3167
+      },
+      {
+       "franja": "40-60%",
+       "n": 1,
+       "predicho": 0.4251,
+       "real": 0.0
+      }
+     ]
+    },
+    "1X2 visitante": {
+     "n": 142,
+     "brier_modelo": 0.21687,
+     "brier_base": 0.21384,
+     "logloss_modelo": 0.61789,
+     "logloss_base": 0.61956,
+     "frecuencia_real": 0.2887,
+     "prob_media_modelo": 0.3498,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 37,
+       "predicho": 0.1403,
+       "real": 0.1351
+      },
+      {
+       "franja": "20-40%",
+       "n": 44,
+       "predicho": 0.2864,
+       "real": 0.3864
+      },
+      {
+       "franja": "40-60%",
+       "n": 49,
+       "predicho": 0.4874,
+       "real": 0.2857
+      },
+      {
+       "franja": "60-80%",
+       "n": 11,
+       "predicho": 0.6496,
+       "real": 0.4545
+      },
+      {
+       "franja": "80-100%",
+       "n": 1,
+       "predicho": 0.843,
+       "real": 0.0
+      }
+     ]
+    },
+    "Más de 0.5": {
+     "n": 142,
+     "brier_modelo": 0.09014,
+     "brier_base": 0.09045,
+     "logloss_modelo": 0.33007,
+     "logloss_base": 0.33099,
+     "frecuencia_real": 0.9014,
+     "prob_media_modelo": 0.9161,
+     "calibracion": [
+      {
+       "franja": "60-80%",
+       "n": 6,
+       "predicho": 0.7498,
+       "real": 0.8333
+      },
+      {
+       "franja": "80-100%",
+       "n": 136,
+       "predicho": 0.9235,
+       "real": 0.9044
+      }
+     ]
+    },
+    "Más de 1.5": {
+     "n": 142,
+     "brier_modelo": 0.19969,
+     "brier_base": 0.19134,
+     "logloss_modelo": 0.59498,
+     "logloss_base": 0.57482,
+     "frecuencia_real": 0.7535,
+     "prob_media_modelo": 0.7424,
+     "calibracion": [
+      {
+       "franja": "20-40%",
+       "n": 1,
+       "predicho": 0.3519,
+       "real": 1.0
+      },
+      {
+       "franja": "40-60%",
+       "n": 17,
+       "predicho": 0.5182,
+       "real": 0.7647
+      },
+      {
+       "franja": "60-80%",
+       "n": 72,
+       "predicho": 0.7175,
+       "real": 0.7222
+      },
+      {
+       "franja": "80-100%",
+       "n": 52,
+       "predicho": 0.8578,
+       "real": 0.7885
+      }
+     ]
+    },
+    "Más de 2.5": {
+     "n": 142,
+     "brier_modelo": 0.25671,
+     "brier_base": 0.25183,
+     "logloss_modelo": 0.71276,
+     "logloss_base": 0.69682,
+     "frecuencia_real": 0.5352,
+     "prob_media_modelo": 0.5064,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 5,
+       "predicho": 0.1605,
+       "real": 0.6
+      },
+      {
+       "franja": "20-40%",
+       "n": 30,
+       "predicho": 0.3259,
+       "real": 0.5
+      },
+      {
+       "franja": "40-60%",
+       "n": 66,
+       "predicho": 0.5039,
+       "real": 0.4848
+      },
+      {
+       "franja": "60-80%",
+       "n": 40,
+       "predicho": 0.6807,
+       "real": 0.625
+      },
+      {
+       "franja": "80-100%",
+       "n": 1,
+       "predicho": 0.8389,
+       "real": 1.0
+      }
+     ]
+    },
+    "Más de 3.5": {
+     "n": 142,
+     "brier_modelo": 0.23327,
+     "brier_base": 0.22634,
+     "logloss_modelo": 0.67907,
+     "logloss_base": 0.6457,
+     "frecuencia_real": 0.338,
+     "prob_media_modelo": 0.3018,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 35,
+       "predicho": 0.1327,
+       "real": 0.3714
+      },
+      {
+       "franja": "20-40%",
+       "n": 71,
+       "predicho": 0.2928,
+       "real": 0.2817
+      },
+      {
+       "franja": "40-60%",
+       "n": 35,
+       "predicho": 0.4784,
+       "real": 0.4
+      },
+      {
+       "franja": "60-80%",
+       "n": 1,
+       "predicho": 0.6766,
+       "real": 1.0
+      }
+     ]
+    },
+    "Ambos marcan": {
+     "n": 142,
+     "brier_modelo": 0.267,
+     "brier_base": 0.25385,
+     "logloss_modelo": 0.73017,
+     "logloss_base": 0.70089,
+     "frecuencia_real": 0.507,
+     "prob_media_modelo": 0.5075,
+     "calibracion": [
+      {
+       "franja": "20-40%",
+       "n": 26,
+       "predicho": 0.3331,
+       "real": 0.5769
+      },
+      {
+       "franja": "40-60%",
+       "n": 81,
+       "predicho": 0.4981,
+       "real": 0.4815
+      },
+      {
+       "franja": "60-80%",
+       "n": 34,
+       "predicho": 0.6541,
+       "real": 0.5
+      },
+      {
+       "franja": "80-100%",
+       "n": 1,
+       "predicho": 0.8132,
+       "real": 1.0
+      }
+     ]
+    }
+   }
+  },
+  {
+   "competicion": "CONMEBOL Libertadores",
+   "n": 68,
+   "control": {
+    "fecha": "2026-03-11",
+    "lh": 0.869,
+    "la": 0.783,
+    "rho": 0.0,
+    "prob_local": 0.3513,
+    "prob_over25": 0.2302
+   },
+   "mercados": {
+    "1X2 local": {
+     "n": 68,
+     "brier_modelo": 0.25458,
+     "brier_base": 0.25166,
+     "logloss_modelo": 0.70935,
+     "logloss_base": 0.69675,
+     "frecuencia_real": 0.4559,
+     "prob_media_modelo": 0.4515,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 3,
+       "predicho": 0.1818,
+       "real": 0.3333
+      },
+      {
+       "franja": "20-40%",
+       "n": 24,
+       "predicho": 0.3064,
+       "real": 0.5
       },
       {
        "franja": "40-60%",
        "n": 31,
-       "predicho": 0.4862,
-       "real": 0.5484
+       "predicho": 0.5072,
+       "real": 0.3548
+      },
+      {
+       "franja": "60-80%",
+       "n": 9,
+       "predicho": 0.6904,
+       "real": 0.6667
+      },
+      {
+       "franja": "80-100%",
+       "n": 1,
+       "predicho": 0.8675,
+       "real": 1.0
+      }
+     ]
+    },
+    "1X2 empate": {
+     "n": 68,
+     "brier_modelo": 0.20866,
+     "brier_base": 0.21407,
+     "logloss_modelo": 0.60693,
+     "logloss_base": 0.62336,
+     "frecuencia_real": 0.2941,
+     "prob_media_modelo": 0.2814,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 6,
+       "predicho": 0.1696,
+       "real": 0.1667
+      },
+      {
+       "franja": "20-40%",
+       "n": 61,
+       "predicho": 0.2899,
+       "real": 0.3115
+      },
+      {
+       "franja": "40-60%",
+       "n": 1,
+       "predicho": 0.4294,
+       "real": 0.0
+      }
+     ]
+    },
+    "1X2 visitante": {
+     "n": 68,
+     "brier_modelo": 0.19703,
+     "brier_base": 0.19166,
+     "logloss_modelo": 0.5772,
+     "logloss_base": 0.57243,
+     "frecuencia_real": 0.25,
+     "prob_media_modelo": 0.2671,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 22,
+       "predicho": 0.1317,
+       "real": 0.1364
+      },
+      {
+       "franja": "20-40%",
+       "n": 35,
+       "predicho": 0.2888,
+       "real": 0.3429
+      },
+      {
+       "franja": "40-60%",
+       "n": 11,
+       "predicho": 0.4691,
+       "real": 0.1818
+      }
+     ]
+    },
+    "Más de 0.5": {
+     "n": 68,
+     "brier_modelo": 0.10046,
+     "brier_base": 0.09353,
+     "logloss_modelo": 0.36992,
+     "logloss_base": 0.33916,
+     "frecuencia_real": 0.8971,
+     "prob_media_modelo": 0.8701,
+     "calibracion": [
+      {
+       "franja": "60-80%",
+       "n": 7,
+       "predicho": 0.7615,
+       "real": 0.8571
+      },
+      {
+       "franja": "80-100%",
+       "n": 61,
+       "predicho": 0.8825,
+       "real": 0.9016
+      }
+     ]
+    },
+    "Más de 1.5": {
+     "n": 68,
+     "brier_modelo": 0.24599,
+     "brier_base": 0.23265,
+     "logloss_modelo": 0.69348,
+     "logloss_base": 0.65831,
+     "frecuencia_real": 0.6618,
+     "prob_media_modelo": 0.6183,
+     "calibracion": [
+      {
+       "franja": "20-40%",
+       "n": 2,
+       "predicho": 0.3526,
+       "real": 0.5
+      },
+      {
+       "franja": "40-60%",
+       "n": 31,
+       "predicho": 0.5261,
+       "real": 0.6774
+      },
+      {
+       "franja": "60-80%",
+       "n": 30,
+       "predicho": 0.6943,
+       "real": 0.7
+      },
+      {
+       "franja": "80-100%",
+       "n": 5,
+       "predicho": 0.8394,
+       "real": 0.4
+      }
+     ]
+    },
+    "Más de 2.5": {
+     "n": 68,
+     "brier_modelo": 0.24224,
+     "brier_base": 0.23225,
+     "logloss_modelo": 0.67896,
+     "logloss_base": 0.65809,
+     "frecuencia_real": 0.3529,
+     "prob_media_modelo": 0.3623,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 4,
+       "predicho": 0.1587,
+       "real": 0.25
+      },
+      {
+       "franja": "20-40%",
+       "n": 37,
+       "predicho": 0.2875,
+       "real": 0.3784
+      },
+      {
+       "franja": "40-60%",
+       "n": 23,
+       "predicho": 0.4676,
+       "real": 0.3478
+      },
+      {
+       "franja": "60-80%",
+       "n": 4,
+       "predicho": 0.6524,
+       "real": 0.25
+      }
+     ]
+    },
+    "Más de 3.5": {
+     "n": 68,
+     "brier_modelo": 0.15565,
+     "brier_base": 0.14831,
+     "logloss_modelo": 0.49618,
+     "logloss_base": 0.47772,
+     "frecuencia_real": 0.1765,
+     "prob_media_modelo": 0.1803,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 41,
+       "predicho": 0.1146,
+       "real": 0.1707
+      },
+      {
+       "franja": "20-40%",
+       "n": 23,
+       "predicho": 0.2533,
+       "real": 0.2174
+      },
+      {
+       "franja": "40-60%",
+       "n": 4,
+       "predicho": 0.4331,
+       "real": 0.0
+      }
+     ]
+    },
+    "Ambos marcan": {
+     "n": 68,
+     "brier_modelo": 0.25584,
+     "brier_base": 0.24802,
+     "logloss_modelo": 0.7033,
+     "logloss_base": 0.68931,
+     "frecuencia_real": 0.4265,
+     "prob_media_modelo": 0.3869,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 1,
+       "predicho": 0.1916,
+       "real": 0.0
+      },
+      {
+       "franja": "20-40%",
+       "n": 42,
+       "predicho": 0.327,
+       "real": 0.4524
+      },
+      {
+       "franja": "40-60%",
+       "n": 21,
+       "predicho": 0.4684,
+       "real": 0.4762
+      },
+      {
+       "franja": "60-80%",
+       "n": 4,
+       "predicho": 0.6369,
+       "real": 0.0
+      }
+     ]
+    }
+   }
+  },
+  {
+   "competicion": "Premier League",
+   "n": 170,
+   "control": {
+    "fecha": "2026-01-17",
+    "lh": 1.959,
+    "la": 1.371,
+    "rho": -0.02,
+    "prob_local": 0.5102,
+    "prob_over25": 0.6465
+   },
+   "mercados": {
+    "1X2 local": {
+     "n": 170,
+     "brier_modelo": 0.23103,
+     "brier_base": 0.24564,
+     "logloss_modelo": 0.65231,
+     "logloss_base": 0.68507,
+     "frecuencia_real": 0.4059,
+     "prob_media_modelo": 0.4187,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 10,
+       "predicho": 0.1688,
+       "real": 0.1
+      },
+      {
+       "franja": "20-40%",
+       "n": 69,
+       "predicho": 0.3128,
+       "real": 0.3333
+      },
+      {
+       "franja": "40-60%",
+       "n": 71,
+       "predicho": 0.4885,
+       "real": 0.493
+      },
+      {
+       "franja": "60-80%",
+       "n": 19,
+       "predicho": 0.6518,
+       "real": 0.4737
+      },
+      {
+       "franja": "80-100%",
+       "n": 1,
+       "predicho": 0.8332,
+       "real": 1.0
+      }
+     ]
+    },
+    "1X2 empate": {
+     "n": 170,
+     "brier_modelo": 0.20055,
+     "brier_base": 0.21119,
+     "logloss_modelo": 0.59236,
+     "logloss_base": 0.61377,
+     "frecuencia_real": 0.2706,
+     "prob_media_modelo": 0.2576,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 12,
+       "predicho": 0.1749,
+       "real": 0.4167
+      },
+      {
+       "franja": "20-40%",
+       "n": 158,
+       "predicho": 0.2639,
+       "real": 0.2595
+      }
+     ]
+    },
+    "1X2 visitante": {
+     "n": 170,
+     "brier_modelo": 0.21092,
+     "brier_base": 0.22722,
+     "logloss_modelo": 0.61241,
+     "logloss_base": 0.65337,
+     "frecuencia_real": 0.3235,
+     "prob_media_modelo": 0.3237,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 32,
+       "predicho": 0.1592,
+       "real": 0.25
+      },
+      {
+       "franja": "20-40%",
+       "n": 90,
+       "predicho": 0.2954,
+       "real": 0.2556
+      },
+      {
+       "franja": "40-60%",
+       "n": 42,
+       "predicho": 0.4667,
+       "real": 0.5
+      },
+      {
+       "franja": "60-80%",
+       "n": 6,
+       "predicho": 0.6243,
+       "real": 0.5
+      }
+     ]
+    },
+    "Más de 0.5": {
+     "n": 170,
+     "brier_modelo": 0.05988,
+     "brier_base": 0.06028,
+     "logloss_modelo": 0.24946,
+     "logloss_base": 0.24825,
+     "frecuencia_real": 0.9412,
+     "prob_media_modelo": 0.916,
+     "calibracion": [
+      {
+       "franja": "60-80%",
+       "n": 4,
+       "predicho": 0.749,
+       "real": 1.0
+      },
+      {
+       "franja": "80-100%",
+       "n": 166,
+       "predicho": 0.92,
+       "real": 0.9398
+      }
+     ]
+    },
+    "Más de 1.5": {
+     "n": 170,
+     "brier_modelo": 0.18519,
+     "brier_base": 0.16968,
+     "logloss_modelo": 0.56658,
+     "logloss_base": 0.52462,
+     "frecuencia_real": 0.7882,
+     "prob_media_modelo": 0.7263,
+     "calibracion": [
+      {
+       "franja": "20-40%",
+       "n": 2,
+       "predicho": 0.38,
+       "real": 1.0
+      },
+      {
+       "franja": "40-60%",
+       "n": 17,
+       "predicho": 0.5542,
+       "real": 0.7059
+      },
+      {
+       "franja": "60-80%",
+       "n": 108,
+       "predicho": 0.7121,
+       "real": 0.8333
+      },
+      {
+       "franja": "80-100%",
+       "n": 43,
+       "predicho": 0.846,
+       "real": 0.6977
+      }
+     ]
+    },
+    "Más de 2.5": {
+     "n": 170,
+     "brier_modelo": 0.28099,
+     "brier_base": 0.25306,
+     "logloss_modelo": 0.76023,
+     "logloss_base": 0.69937,
+     "frecuencia_real": 0.5765,
+     "prob_media_modelo": 0.4831,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 4,
+       "predicho": 0.1657,
+       "real": 0.25
+      },
+      {
+       "franja": "20-40%",
+       "n": 34,
+       "predicho": 0.333,
+       "real": 0.6471
+      },
+      {
+       "franja": "40-60%",
+       "n": 102,
+       "predicho": 0.489,
+       "real": 0.6176
+      },
+      {
+       "franja": "60-80%",
+       "n": 29,
+       "predicho": 0.6709,
+       "real": 0.4138
+      },
+      {
+       "franja": "80-100%",
+       "n": 1,
+       "predicho": 0.8126,
+       "real": 0.0
+      }
+     ]
+    },
+    "Más de 3.5": {
+     "n": 170,
+     "brier_modelo": 0.23922,
+     "brier_base": 0.21716,
+     "logloss_modelo": 0.68236,
+     "logloss_base": 0.62802,
+     "frecuencia_real": 0.3059,
+     "prob_media_modelo": 0.2762,
+     "calibracion": [
+      {
+       "franja": "0-20%",
+       "n": 38,
+       "predicho": 0.1401,
+       "real": 0.3947
+      },
+      {
+       "franja": "20-40%",
+       "n": 104,
+       "predicho": 0.2747,
+       "real": 0.3077
+      },
+      {
+       "franja": "40-60%",
+       "n": 26,
+       "predicho": 0.4545,
+       "real": 0.1923
       },
       {
        "franja": "60-80%",
        "n": 2,
-       "predicho": 0.67,
-       "real": 0.5
+       "predicho": 0.6196,
+       "real": 0.0
+      }
+     ]
+    },
+    "Ambos marcan": {
+     "n": 170,
+     "brier_modelo": 0.25584,
+     "brier_base": 0.24668,
+     "logloss_modelo": 0.70597,
+     "logloss_base": 0.68663,
+     "frecuencia_real": 0.5765,
+     "prob_media_modelo": 0.5045,
+     "calibracion": [
+      {
+       "franja": "20-40%",
+       "n": 23,
+       "predicho": 0.3441,
+       "real": 0.6087
+      },
+      {
+       "franja": "40-60%",
+       "n": 120,
+       "predicho": 0.5023,
+       "real": 0.575
+      },
+      {
+       "franja": "60-80%",
+       "n": 27,
+       "predicho": 0.651,
+       "real": 0.5556
       }
      ]
     }

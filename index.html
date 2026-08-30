@@ -1473,6 +1473,15 @@ function incompatibles(idA, idB){
    dos cosas de una vez, sin sacarle cobertura a las otras pantallas. */
 const LINEAS_ESCALERA = new Set([1.5, 2.5, 3.5]);
 
+/* La idea que expresa un mercado, para no recomendar la misma dos
+   veces con otro número. Un3.5/un2.5/un1.5 son "pocos goles" dicho
+   tres formas; ov1.5/ov2.5/ov3.5 son "muchos goles" tres veces. Para
+   Resultado, el conjunto de resultados que paga (L, E, V o una
+   combinación) es la idea — 1x2_l y dc_lx pagan casi lo mismo. */
+const temaDe = o => o.req ? o.fam+":"+[...o.req].sort().join("")
+              : o.lado  ? o.fam+":"+o.lado
+              : o.fam+":"+o.id;
+
 function escalera(m){
   const lec = lectura(m);
   const ops = mercados(lec.M, m)
@@ -1493,20 +1502,26 @@ function escalera(m){
      más segura: si ya se recomendó "Más de 1.5", el escalón de abajo no
      puede ofrecer "Menos de 1.5". */
   const yaElegidos = [];
-  /* Qué familia ya ganó una franja anterior de ESTE partido. Sin esto,
-     cuando ninguna opción es "creíble" y se elige por cercanía al
-     centro de la banda, Goles gana casi siempre: los totales de gol
-     se reparten suave por toda la probabilidad, Resultado se agrupa
-     en pocos valores correlacionados — así que "el más cerca del
-     centro" es casi siempre un gol, en cualquier partido, aunque no
-     haya nada real detrás. Medido el 2026-08-26: 98 de 135 franjas se
-     resolvían así, y la escalera terminaba mostrando lo mismo en
-     partido tras partido. */
-  const familiasUsadas = new Set();
+  /* Qué tema (familia+lado) ya ganó una franja anterior de ESTE
+     partido. Sin esto, tres líneas de gol del mismo lado (un3.5, un2.5,
+     un1.5) pueden dar ventaja real las tres a la vez — cada una cae en
+     su propia franja de probabilidad por construcción — y la escalera
+     termina recomendando "pocos goles" tres veces con otro número,
+     nunca la lectura de Resultado ni Ambos Marcan. Medido: con las tres
+     líneas dando ventaja real, pasaba en 24 de 34 partidos. Aplica
+     ANTES de separar el camino con ventaja real del de cercanía al
+     centro — antes solo protegía al segundo, y el primero es donde
+     pasaba el caso real (Sarmiento-Unión: tres "menos de X goles"
+     recomendados a la vez). Preferí un tema sin usar si hay una opción
+     ahí; recién si no hay, volvé al pool entero — una franja sin
+     candidato es peor que repetir tema. */
+  const temasUsados = new Set();
 
   const filas = FRANJAS.map(f=>{
-    const cand = ops.filter(o=> o.p>=f.lo && o.p<f.hi && !contradice(o, dir)
+    const candTodos = ops.filter(o=> o.p>=f.lo && o.p<f.hi && !contradice(o, dir)
                                 && !yaElegidos.some(id=> incompatibles(id, o.id)));
+    const sinRepetir = candTodos.filter(o=> !temasUsados.has(temaDe(o)));
+    const cand = sinRepetir.length ? sinRepetir : candTodos;
     if(!cand.length) return {franja:f, op:null};
 
     const conV = cand.map(o=>{
@@ -1520,16 +1535,11 @@ function escalera(m){
       elegido = creibles[0].o; ventaja = creibles[0].v;
     } else {
       const centro = (f.lo+f.hi)/2;
-      // Preferí una familia que todavía no ganó ninguna franja de
-      // este partido, si hay una opción ahí — recién si no hay,
-      // volvé al pool entero.
-      const sinRepetir = cand.filter(o=> !familiasUsadas.has(o.fam));
-      const pool = sinRepetir.length ? sinRepetir : cand;
-      elegido = pool.reduce((a,b)=> Math.abs(a.p-centro)<=Math.abs(b.p-centro)?a:b);
+      elegido = cand.reduce((a,b)=> Math.abs(a.p-centro)<=Math.abs(b.p-centro)?a:b);
       const pm = pMercado(elegido, pq, mk, mx);
       ventaja = pm==null ? null : elegido.p - pm;
     }
-    familiasUsadas.add(elegido.fam);
+    temasUsados.add(temaDe(elegido));
     const cuota = cuotaUsada(elegido, pq, mk, mx);
     const valor = ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
                   && cuota!=null && cuota>=CUOTA_MIN_VAL;

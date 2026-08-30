@@ -1371,5 +1371,72 @@ test("la escalera no repite la misma familia en las tres franjas si hay alternat
          `sigue repitiendo la misma familia en las tres franjas: ${mismaFamilia}/${revisados} (${(fraccion*100).toFixed(0)}%)`);
 });
 
+/* ══════════════════════════════════════════════════════════════════
+   EL MISMO TEMA REPETIDO CUANDO SÍ HAY VENTAJA REAL
+
+   El test de arriba prueba el camino SIN ventaja (fallback por
+   cercanía al centro), con cuotas planas 1.9/1.9 que casi nunca dan
+   valor real. Pero en producción (mercado_extra.py) las líneas de gol
+   sí traen precio real por línea, y si el mercado subvalúa "pocos
+   goles" de forma pareja, un2.5, un1.5 Y un3.5 pueden dar ventaja real
+   los tres a la vez — cada uno cae en su propia franja de probabilidad
+   por construcción (P(under 1.5) <= P(under 2.5) <= P(under 3.5)
+   siempre). Ahí el camino "creíble" de escalera() elige el de mayor
+   ventaja en CADA franja por separado, sin mirar qué familia+lado ya
+   usó una franja anterior — a diferencia del camino sin ventaja, que
+   sí lo hace (bloque de arriba). Es el caso real que reportó Lucas:
+   Sarmiento–Unión con tres "menos de X goles" recomendados a la vez.
+   ══════════════════════════════════════════════════════════════════ */
+function conVentajaBajoTriple(m){
+  const lec = L.lectura(m);
+  const ops = L.mercados(lec.M, m);
+  const p = id => { const o = ops.find(x=>x.id===id); return o ? o.p : null; };
+  const goles = {};
+  [1.5,2.5,3.5].forEach(linea=>{
+    const pUnder = p("un"+linea);
+    if(pUnder==null) return;
+    // El mercado nos "regala" 5pp parejo en las tres líneas — la
+    // misma clase de desajuste sistemático que dispara la ventaja
+    // real, no una cuota inventada al azar.
+    const pUnderMercado = Math.min(0.97, Math.max(0.03, pUnder - 0.05));
+    const pOverMercado = 1 - pUnderMercado;
+    goles[String(linea)] = [1/pOverMercado, 1/pUnderMercado];
+  });
+  return {...m, mercadoExtra:{...(m.mercadoExtra||{}), goles}};
+}
+
+test("la escalera no repite el mismo tema (familia+lado) cuando las tres líneas de gol dan ventaja real a la vez", ()=>{
+  const con = USABLES.map(conVentajaBajoTriple);
+  L.cargar(con, {});
+  let repiteTema = 0, revisados = 0, detalle = "";
+  con.forEach(m=>{
+    const esc = L.escalera(m).filter(x=> x.op);
+    if(esc.length < 2) return;
+    revisados++;
+    const temas = esc.map(x=> x.op.fam+":"+(x.op.lado||x.op.id));
+    const usados = new Set();
+    let repite = false;
+    temas.forEach(t=>{ if(usados.has(t)) repite = true; usados.add(t); });
+    if(repite){
+      repiteTema++;
+      if(!detalle) detalle = `${m.home} vs ${m.away}: ${esc.map(x=>x.op.id).join(", ")}`;
+    }
+  });
+  cierto(revisados > 0, "no hay partidos con dos o más franjas para revisar");
+  /* No es cero, y está bien que no lo sea. Medido a mano (Banfield-
+     Midland, Atlético Tucumán-Instituto): en los casos que quedan, el
+     tema se repite porque no queda NINGUNA alternativa — elegir "menos
+     de 3.5" en la franja de arriba vuelve a "más de 3.5" lógicamente
+     incompatible con esa franja para siempre (no puede haber menos Y
+     más goles que 3.5 a la vez), y la alineación con la lectura (dir)
+     ya descartó 1X2/doble oportunidad de los otros resultados. Ahí la
+     franja se queda sin nada más que ofrecer, y repetir tema es mejor
+     que dejarla vacía — la misma regla que ya regía para familia.
+     Bajó de 24/34 (71%, antes de este fix) a esto. */
+  const fraccion = repiteTema / revisados;
+  cierto(fraccion < 0.15,
+         `sigue repitiendo tema más de lo esperable: ${repiteTema}/${revisados} (${(fraccion*100).toFixed(0)}%) — ej: ${detalle}`);
+});
+
 console.log(`\n${ok} ok, ${mal} fallando\n`);
 process.exit(mal ? 1 : 0);

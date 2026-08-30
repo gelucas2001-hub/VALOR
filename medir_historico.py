@@ -155,6 +155,12 @@ def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
             continue
         filas.append({"fecha": p["fecha"], "modelo": pm, "mercado": pq,
                       "base": tasa_base(prev), "real": H.desenlace(p),
+                      # Las cuotas CRUDAS, además de la probabilidad ya
+                      # devigada: `medir_roi.py` necesita el precio al
+                      # que se cobraría, no solo la probabilidad limpia
+                      # contra la que se compara. Aditivo — nada de lo
+                      # que ya leía estas filas se entera.
+                      "cuotas": p["cuotas"],
                       "lh": lh, "la": la, "fuente": p.get("fuente"),
                       # Para poder cortar despues por torneo, por equipo o
                       # por cuanta historia tenia cada uno.

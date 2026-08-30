@@ -3508,13 +3508,22 @@ function viewMetodo(){
 
     <h3>Cómo nos medimos</h3>
     <p>Contra la cuota de cierre real, que es el mejor predictor público que existe.
-      Sobre la Liga Profesional, con <b>289 partidos</b> que el modelo nunca vio:</p>
-    <p class="dato">no saber nada &nbsp;0,667<br>nosotros &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,648<br>cuota de cierre &nbsp;0,625</p>
-    <p>Traducido: el mercado sabe bastante más que no saber nada, y nosotros capturamos
-      el <b>44%</b> de eso. Le seguimos perdiendo al cierre. Es la verdad y no
-      la escondemos.</p>
-    <p>Estos tres números se vuelven a medir con <span class="dato">medir_vs_mercado.py</span>
-      y se actualizan acá cuando cambian. Si algún día ves un número redondo y viejo en esta
+      Walk-forward sobre <b>6.270 partidos</b> de Liga Profesional desde 2012 — el
+      modelo nunca ve el resultado que está por predecir.</p>
+    <p class="dato">tasa base &nbsp;&nbsp;&nbsp;&nbsp;0,652<br>nosotros &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,642<br>cuota de cierre &nbsp;0,626</p>
+    <p>La vara es la tasa base — cuánto gana el local en la historia, no "un tercio
+      para cada uno" — porque contra esa vara falsa cualquier modelo que solo aprenda
+      la localía ya parece listo. Contra la vara honesta, capturamos el <b>39%</b> de
+      lo que sabe el mercado. Le seguimos perdiendo al cierre. Es la verdad y no la
+      escondemos.</p>
+    <p>Y el número que más importa, que esto todavía no contesta: si da plata.
+      Apostando con nuestra propia regla (EV ≥ 4%, cuota ≤ 4.5) contra el cierre real,
+      el resultado es <b>−3,27% de ROI, con un margen de ±6,19</b> — el rango incluye
+      el cero. No está demostrado que tengamos ventaja real sobre el precio. Tampoco
+      que no la tengamos: hace falta más muestra. Hasta que eso se sepa, esto es una
+      lectura con números atrás, no una promesa de ganar.</p>
+    <p>Estos números se vuelven a medir con <span class="dato">medir_historico.py</span>
+      y se actualizan acá cuando cambian. Si algún día ves un número viejo en esta
       pantalla, es que dejamos de medir — y eso sería peor que perder contra el cierre.</p>
 
     <h3>Lo que esto no es</h3>

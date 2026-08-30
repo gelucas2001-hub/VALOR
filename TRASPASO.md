@@ -404,8 +404,12 @@ pantalla de Método en vez de esconderlo.
 ### Pendientes reales del modelo
 
 1. **Calibrar `rho` para copas** (hoy 0.00 sin validar).
-2. **Validar `VIDA_MEDIA_DIAS` y `PRIOR_FUERZA`** con train/test split.
-   Nunca se hizo; son valores razonables pero no medidos.
+2. **Validar `VIDA_MEDIA_DIAS` y `PRIOR_FUERZA`** con train/test split —
+   **HECHO el 2026-08-29** con `barrido_lambda.py` (walk-forward
+   temporal, train <2022 / test ≥2022, sobre el historial largo con
+   cuota Pinnacle): producción está en el óptimo, ninguna variante
+   mejora robustamente OOS ni en goles ni en 1X2. **No tocar λ salvo
+   fuente nueva.** Ver el Addendum con esa fecha.
 3. **Descontar partidos afectados por expulsión** — idea del propio
    Lucas, tras notar que Palmeiras empató 1-1 con un jugador menos desde
    el minuto 70.
@@ -417,6 +421,11 @@ pantalla de Método en vez de esconderlo.
    `data/backtest.json` tienen entre 1 y 27 partidos. Corregir con un bin
    de 1 partido agrega ruido y disfraza de precisión algo que no la
    tiene. **Condición para activarlo: al menos 30 partidos por franja.**
+   El barrido del 2026-08-29 aporta evidencia en contra de "el modelo
+   erra grueso": sobre 2559 partidos de arg en test el over 2.5 está
+   bien calibrado (0.357 real vs 0.375 predicho). El único sesgo visible
+   es el 1X2 de favoritos sobreconfiados, y `medir_encogimiento.py` ya
+   mostró que encoger hacia la tasa base NO rinde OOS en arg.
 
 ---
 
@@ -1447,7 +1456,9 @@ fase está terminado.
 
 **Fase 5 — Modelo (opcional, con tiempo)**
 15. Calibrar `rho` para copas.
-16. Validar `VIDA_MEDIA_DIAS` y `PRIOR_FUERZA` con train/test.
+16. ~~Validar `VIDA_MEDIA_DIAS` y `PRIOR_FUERZA` con train/test~~ **HECHO
+    (2026-08-29):** `barrido_lambda.py`. Resultado: producción en el
+    óptimo, NO tocar λ salvo fuente nueva. Ver el Addendum con esa fecha.
 
 ---
 
@@ -3230,3 +3241,60 @@ esto de nuevo, hay que medirlo — no adivinarlo.
 
 3 tests nuevos en `test_alineacion.js` (86 en total). Verificado en el
 navegador: 0 errores sobre los 45 partidos reales de hoy.
+
+
+### Addendum · ¿Están mal los pronósticos? Barrido OOS de los parámetros de λ (2026-08-29)
+
+Lucas vio que los pronósticos numéricos "estuvieron extremadamente
+errados" (caso señalado: Unión venció 4-1 a Sarmiento cuando la app
+marcaba escalera de pocos goles / `un1.5`). Pregunta de fondo: ¿el motor
+de goles (λ / Dixon-Coles) está mal calibrado, y se puede arreglar?
+
+**Diagnóstico previo (`backtest.py`, temporada en curso de ESPN):**
+parecía que el modelo subestimaba los goles — en la franja donde decía
+30% de over 2.5, pasaban 37-65%. Y el 1X2 capturaba ~39% de lo que
+mejora el mercado sobre la tasa base.
+
+**Qué se hizo — un barrido out-of-sample, walk-forward temporal estricto**:
+se escribió `barrido_lambda.py` (nuevo, de SOLO LECTURA, no toca el
+motor). Usa el historial largo de `historico.py` (6310 partidos arg,
+5544 bra) con la vara más dura — cuota de cierre real de Pinnacle —,
+partición **train (fecha < 2022) para elegir / test (≥ 2022) para
+confirmar**, y mide over 1.5/2.5/3.5, ambos marcan, la distribución
+completa de goles (log-loss de la celda del marcador) y el 1X2 como
+control de efectos colaterales. Se barreron, uno por vez y centrados en
+producción, los parámetros que tocan λ: `escala_goles` (factor sobre μ,
+apunta directo al sesgo sospechado), `VIDA_MEDIA_DIAS`, `rho` y `prior`.
+
+**Resultado — NO hay nada que implementar.** Producción (escala 1.0,
+vida 300, rho/prior por liga) está en el óptimo o indistinguible de él
+dentro del ruido, en arg y en bra. La escala 0.95 "gana" en test por
+0.0004 de Brier (ruido puro: error estándar ~0.003 con n=2559) y **pierde
+en train** — la dirección del "ganador" se invierte entre train y test,
+que es exactamente la señal de que no es un hallazgo. Todas las demás
+variaciones de vida/rho/prior están dentro del ruido y rebalancean solo
+marginalmente entre 1X2 y distribución (nunca mejoran ambos).
+
+**La lectura correcta del presunto "sesgo":** sobre 2559 partidos de arg
+en test, la frecuencia real de over 2.5 es 0.357 y el modelo predice
+0.375 — desvío de ~1.8 pp, bien calibrado. El "subestimar goles" que se
+veía en `backtest` era un artefacto de la muestra chica de la temporada
+en curso y de franjas específicas (20-40%), no un defecto estructural de
+λ que un parámetro arregle. El 4-1 de Unión fue varianza de un solo
+partido (el 4-1 vive en la cola de una Poisson con λ≈1.47/0.95), no
+evidencia de mala calibración cuando 2559 partidos dicen lo contrario.
+
+**Regla respetada:** AGENTS.md exige que una constante entre solo si una
+medición walk-forward fuera de muestra mejora la métrica con su
+incertidumbre. Acá la medición NO lo sostiene — tocar cualquier constante
+ahora sería tunear, y empeoraría 1X2 o la distribución para ganar un
+Brier invisible.
+
+**Qué NO fue, y dónde queda:** no se tocó `actualizar.py` ni `index.html`
+(git lo confirma). Quedan `barrido_lambda.py` (script de medición
+reutilizable: `python barrido_lambda.py arg [--fast]`) y
+`data/barrido_lambda.json` (salida). Si vuelve a aparecer un pedido de
+"arreglar los pronósticos", correr este script con la liga en cuestión
+antes de pensar en tocar λ: el resultado probable es el mismo, y si
+algún día cambia (esperanza: una fuente nueva o un formato de torneo
+nuevo), se verá acá antes que en la queja de un partido.

@@ -1,0 +1,1277 @@
+{
+ "liga": "bra.1",
+ "produccion": {
+  "vida": 300,
+  "prior": 8,
+  "rho": 0.0,
+  "escala_goles": 1.0
+ },
+ "dimensiones": {
+  "escala_goles": [
+   {
+    "parametro": "escala_goles",
+    "valor": 0.9,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21681,
+      "logloss": 0.62445,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6271
+     },
+     "Más de 2.5": {
+      "brier": 0.2542,
+      "logloss": 0.70351,
+      "frec_real": 0.48,
+      "frec_modelo": 0.3628
+     },
+     "Más de 3.5": {
+      "brier": 0.20003,
+      "logloss": 0.59662,
+      "frec_real": 0.268,
+      "frec_modelo": 0.174
+     },
+     "Ambos marcan": {
+      "brier": 0.26543,
+      "logloss": 0.72525,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4027
+     },
+     "1X2": {
+      "brier": 0.60032,
+      "logloss": 1.00803,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.80558
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21686,
+      "logloss": 0.62613,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.6409
+     },
+     "Más de 2.5": {
+      "brier": 0.25369,
+      "logloss": 0.70274,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.3757
+     },
+     "Más de 3.5": {
+      "brier": 0.16967,
+      "logloss": 0.52818,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.1819
+     },
+     "Ambos marcan": {
+      "brier": 0.25442,
+      "logloss": 0.70227,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4197
+     },
+     "1X2": {
+      "brier": 0.63605,
+      "logloss": 1.05709,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.83744
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "escala_goles",
+    "valor": 0.95,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21393,
+      "logloss": 0.61823,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6555
+     },
+     "Más de 2.5": {
+      "brier": 0.24775,
+      "logloss": 0.68955,
+      "frec_real": 0.48,
+      "frec_modelo": 0.394
+     },
+     "Más de 3.5": {
+      "brier": 0.19605,
+      "logloss": 0.58354,
+      "frec_real": 0.268,
+      "frec_modelo": 0.1973
+     },
+     "Ambos marcan": {
+      "brier": 0.25979,
+      "logloss": 0.71335,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4274
+     },
+     "1X2": {
+      "brier": 0.5993,
+      "logloss": 1.00666,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.78788
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21476,
+      "logloss": 0.62197,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.6694
+     },
+     "Más de 2.5": {
+      "brier": 0.25307,
+      "logloss": 0.70043,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4077
+     },
+     "Más de 3.5": {
+      "brier": 0.16948,
+      "logloss": 0.52568,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2062
+     },
+     "Ambos marcan": {
+      "brier": 0.25339,
+      "logloss": 0.7,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.445
+     },
+     "1X2": {
+      "brier": 0.63628,
+      "logloss": 1.05765,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82911
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "escala_goles",
+    "valor": 1.0,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21267,
+      "logloss": 0.61561,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6822
+     },
+     "Más de 2.5": {
+      "brier": 0.24334,
+      "logloss": 0.68024,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4248
+     },
+     "Más de 3.5": {
+      "brier": 0.19314,
+      "logloss": 0.57472,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.25547,
+      "logloss": 0.70437,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4513
+     },
+     "1X2": {
+      "brier": 0.59868,
+      "logloss": 1.00586,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77721
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21424,
+      "logloss": 0.62138,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.696
+     },
+     "Más de 2.5": {
+      "brier": 0.25438,
+      "logloss": 0.70247,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4393
+     },
+     "Más de 3.5": {
+      "brier": 0.17053,
+      "logloss": 0.52705,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2314
+     },
+     "Ambos marcan": {
+      "brier": 0.2536,
+      "logloss": 0.70036,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4696
+     },
+     "1X2": {
+      "brier": 0.6368,
+      "logloss": 1.05865,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82746
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "escala_goles",
+    "valor": 1.05,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21276,
+      "logloss": 0.61616,
+      "frec_real": 0.692,
+      "frec_modelo": 0.707
+     },
+     "Más de 2.5": {
+      "brier": 0.24089,
+      "logloss": 0.67511,
+      "frec_real": 0.48,
+      "frec_modelo": 0.455
+     },
+     "Más de 3.5": {
+      "brier": 0.19143,
+      "logloss": 0.56983,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2463
+     },
+     "Ambos marcan": {
+      "brier": 0.25237,
+      "logloss": 0.698,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4745
+     },
+     "1X2": {
+      "brier": 0.59838,
+      "logloss": 1.00553,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77289
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21501,
+      "logloss": 0.62396,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.7208
+     },
+     "Más de 2.5": {
+      "brier": 0.2575,
+      "logloss": 0.70844,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4701
+     },
+     "Más de 3.5": {
+      "brier": 0.1729,
+      "logloss": 0.53202,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2572
+     },
+     "Ambos marcan": {
+      "brier": 0.25493,
+      "logloss": 0.70306,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4933
+     },
+     "1X2": {
+      "brier": 0.63754,
+      "logloss": 1.06,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.83185
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "escala_goles",
+    "valor": 1.1,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21394,
+      "logloss": 0.61956,
+      "frec_real": 0.692,
+      "frec_modelo": 0.7302
+     },
+     "Más de 2.5": {
+      "brier": 0.24028,
+      "logloss": 0.67379,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4844
+     },
+     "Más de 3.5": {
+      "brier": 0.191,
+      "logloss": 0.5686,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2717
+     },
+     "Ambos marcan": {
+      "brier": 0.25038,
+      "logloss": 0.69397,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4969
+     },
+     "1X2": {
+      "brier": 0.59835,
+      "logloss": 1.00559,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77432
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21681,
+      "logloss": 0.62937,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.7438
+     },
+     "Más de 2.5": {
+      "brier": 0.26227,
+      "logloss": 0.71799,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.5
+     },
+     "Más de 3.5": {
+      "brier": 0.17668,
+      "logloss": 0.54034,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2835
+     },
+     "Ambos marcan": {
+      "brier": 0.25726,
+      "logloss": 0.70786,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.5163
+     },
+     "1X2": {
+      "brier": 0.63844,
+      "logloss": 1.06164,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.84171
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "escala_goles",
+    "valor": 1.15,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21599,
+      "logloss": 0.6255,
+      "frec_real": 0.692,
+      "frec_modelo": 0.7518
+     },
+     "Más de 2.5": {
+      "brier": 0.24136,
+      "logloss": 0.67594,
+      "frec_real": 0.48,
+      "frec_modelo": 0.5129
+     },
+     "Más de 3.5": {
+      "brier": 0.19191,
+      "logloss": 0.57075,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2974
+     },
+     "Ambos marcan": {
+      "brier": 0.2494,
+      "logloss": 0.69204,
+      "frec_real": 0.532,
+      "frec_modelo": 0.5186
+     },
+     "1X2": {
+      "brier": 0.59852,
+      "logloss": 1.00597,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.781
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21941,
+      "logloss": 0.63731,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.7651
+     },
+     "Más de 2.5": {
+      "brier": 0.26852,
+      "logloss": 0.73082,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.5291
+     },
+     "Más de 3.5": {
+      "brier": 0.1819,
+      "logloss": 0.55179,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.3102
+     },
+     "Ambos marcan": {
+      "brier": 0.26048,
+      "logloss": 0.71456,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.5384
+     },
+     "1X2": {
+      "brier": 0.63949,
+      "logloss": 1.06351,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.85655
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "escala_goles",
+    "valor": 1.2,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21872,
+      "logloss": 0.63371,
+      "frec_real": 0.692,
+      "frec_modelo": 0.7718
+     },
+     "Más de 2.5": {
+      "brier": 0.24396,
+      "logloss": 0.68125,
+      "frec_real": 0.48,
+      "frec_modelo": 0.5406
+     },
+     "Más de 3.5": {
+      "brier": 0.1942,
+      "logloss": 0.57606,
+      "frec_real": 0.268,
+      "frec_modelo": 0.3233
+     },
+     "Ambos marcan": {
+      "brier": 0.24933,
+      "logloss": 0.692,
+      "frec_real": 0.532,
+      "frec_modelo": 0.5394
+     },
+     "1X2": {
+      "brier": 0.59887,
+      "logloss": 1.00663,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.79247
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.22262,
+      "logloss": 0.64751,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.7849
+     },
+     "Más de 2.5": {
+      "brier": 0.27607,
+      "logloss": 0.74666,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.5571
+     },
+     "Más de 3.5": {
+      "brier": 0.18855,
+      "logloss": 0.56619,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.337
+     },
+     "Ambos marcan": {
+      "brier": 0.26448,
+      "logloss": 0.72296,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.5596
+     },
+     "1X2": {
+      "brier": 0.64063,
+      "logloss": 1.06557,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.87595
+     },
+     "n": 129
+    }
+   }
+  ],
+  "vida": [
+   {
+    "parametro": "vida",
+    "valor": 150,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21376,
+      "logloss": 0.61865,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6813
+     },
+     "Más de 2.5": {
+      "brier": 0.24381,
+      "logloss": 0.68089,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4242
+     },
+     "Más de 3.5": {
+      "brier": 0.19439,
+      "logloss": 0.57705,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2213
+     },
+     "Ambos marcan": {
+      "brier": 0.25575,
+      "logloss": 0.70491,
+      "frec_real": 0.532,
+      "frec_modelo": 0.451
+     },
+     "1X2": {
+      "brier": 0.6018,
+      "logloss": 1.0109,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.7843
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21322,
+      "logloss": 0.61872,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.6987
+     },
+     "Más de 2.5": {
+      "brier": 0.25266,
+      "logloss": 0.69891,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4428
+     },
+     "Más de 3.5": {
+      "brier": 0.17018,
+      "logloss": 0.5267,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2345
+     },
+     "Ambos marcan": {
+      "brier": 0.25085,
+      "logloss": 0.69479,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4715
+     },
+     "1X2": {
+      "brier": 0.64246,
+      "logloss": 1.06633,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82885
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "vida",
+    "valor": 300,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21267,
+      "logloss": 0.61561,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6822
+     },
+     "Más de 2.5": {
+      "brier": 0.24334,
+      "logloss": 0.68024,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4248
+     },
+     "Más de 3.5": {
+      "brier": 0.19314,
+      "logloss": 0.57472,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.25547,
+      "logloss": 0.70437,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4513
+     },
+     "1X2": {
+      "brier": 0.59868,
+      "logloss": 1.00586,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77721
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21424,
+      "logloss": 0.62138,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.696
+     },
+     "Más de 2.5": {
+      "brier": 0.25438,
+      "logloss": 0.70247,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4393
+     },
+     "Más de 3.5": {
+      "brier": 0.17053,
+      "logloss": 0.52705,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2314
+     },
+     "Ambos marcan": {
+      "brier": 0.2536,
+      "logloss": 0.70036,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4696
+     },
+     "1X2": {
+      "brier": 0.6368,
+      "logloss": 1.05865,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82746
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "vida",
+    "valor": 450,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21236,
+      "logloss": 0.6147,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6827
+     },
+     "Más de 2.5": {
+      "brier": 0.24367,
+      "logloss": 0.681,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4251
+     },
+     "Más de 3.5": {
+      "brier": 0.19297,
+      "logloss": 0.57468,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.25526,
+      "logloss": 0.70391,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4516
+     },
+     "1X2": {
+      "brier": 0.59843,
+      "logloss": 1.00515,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77631
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21479,
+      "logloss": 0.62306,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.6945
+     },
+     "Más de 2.5": {
+      "brier": 0.25589,
+      "logloss": 0.70555,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4375
+     },
+     "Más de 3.5": {
+      "brier": 0.17116,
+      "logloss": 0.52826,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.23
+     },
+     "Ambos marcan": {
+      "brier": 0.25471,
+      "logloss": 0.70263,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4684
+     },
+     "1X2": {
+      "brier": 0.63485,
+      "logloss": 1.05571,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82848
+     },
+     "n": 129
+    }
+   }
+  ],
+  "rho": [
+   {
+    "parametro": "rho",
+    "valor": -0.1,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21257,
+      "logloss": 0.61556,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6941
+     },
+     "Más de 2.5": {
+      "brier": 0.24334,
+      "logloss": 0.68024,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4248
+     },
+     "Más de 3.5": {
+      "brier": 0.19314,
+      "logloss": 0.57472,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.2537,
+      "logloss": 0.70072,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4633
+     },
+     "1X2": {
+      "brier": 0.59961,
+      "logloss": 1.00799,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.78391
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21448,
+      "logloss": 0.62227,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.7082
+     },
+     "Más de 2.5": {
+      "brier": 0.25438,
+      "logloss": 0.70247,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4393
+     },
+     "Más de 3.5": {
+      "brier": 0.17053,
+      "logloss": 0.52705,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2314
+     },
+     "Ambos marcan": {
+      "brier": 0.25409,
+      "logloss": 0.70136,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4817
+     },
+     "1X2": {
+      "brier": 0.636,
+      "logloss": 1.05742,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.83244
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "rho",
+    "valor": -0.05,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21258,
+      "logloss": 0.61549,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6882
+     },
+     "Más de 2.5": {
+      "brier": 0.24334,
+      "logloss": 0.68024,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4248
+     },
+     "Más de 3.5": {
+      "brier": 0.19314,
+      "logloss": 0.57472,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.25455,
+      "logloss": 0.70247,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4573
+     },
+     "1X2": {
+      "brier": 0.59893,
+      "logloss": 1.00656,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77988
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21432,
+      "logloss": 0.62173,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.7021
+     },
+     "Más de 2.5": {
+      "brier": 0.25438,
+      "logloss": 0.70247,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4393
+     },
+     "Más de 3.5": {
+      "brier": 0.17053,
+      "logloss": 0.52705,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2314
+     },
+     "Ambos marcan": {
+      "brier": 0.25381,
+      "logloss": 0.70078,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4756
+     },
+     "1X2": {
+      "brier": 0.63618,
+      "logloss": 1.05762,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82913
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "rho",
+    "valor": 0.0,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21267,
+      "logloss": 0.61561,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6822
+     },
+     "Más de 2.5": {
+      "brier": 0.24334,
+      "logloss": 0.68024,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4248
+     },
+     "Más de 3.5": {
+      "brier": 0.19314,
+      "logloss": 0.57472,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.25547,
+      "logloss": 0.70437,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4513
+     },
+     "1X2": {
+      "brier": 0.59868,
+      "logloss": 1.00586,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77721
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21424,
+      "logloss": 0.62138,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.696
+     },
+     "Más de 2.5": {
+      "brier": 0.25438,
+      "logloss": 0.70247,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4393
+     },
+     "Más de 3.5": {
+      "brier": 0.17053,
+      "logloss": 0.52705,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2314
+     },
+     "Ambos marcan": {
+      "brier": 0.2536,
+      "logloss": 0.70036,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4696
+     },
+     "1X2": {
+      "brier": 0.6368,
+      "logloss": 1.05865,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82746
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "rho",
+    "valor": 0.05,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21283,
+      "logloss": 0.61589,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6762
+     },
+     "Más de 2.5": {
+      "brier": 0.24334,
+      "logloss": 0.68024,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4248
+     },
+     "Más de 3.5": {
+      "brier": 0.19314,
+      "logloss": 0.57472,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.25647,
+      "logloss": 0.70644,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4453
+     },
+     "1X2": {
+      "brier": 0.59886,
+      "logloss": 1.00594,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77588
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21423,
+      "logloss": 0.62121,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.69
+     },
+     "Más de 2.5": {
+      "brier": 0.25438,
+      "logloss": 0.70247,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4393
+     },
+     "Más de 3.5": {
+      "brier": 0.17053,
+      "logloss": 0.52705,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2314
+     },
+     "Ambos marcan": {
+      "brier": 0.25346,
+      "logloss": 0.70009,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4635
+     },
+     "1X2": {
+      "brier": 0.63787,
+      "logloss": 1.06055,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82742
+     },
+     "n": 129
+    }
+   }
+  ],
+  "prior": [
+   {
+    "parametro": "prior",
+    "valor": 4,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21346,
+      "logloss": 0.61732,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6802
+     },
+     "Más de 2.5": {
+      "brier": 0.24374,
+      "logloss": 0.68138,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4238
+     },
+     "Más de 3.5": {
+      "brier": 0.19335,
+      "logloss": 0.57578,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2219
+     },
+     "Ambos marcan": {
+      "brier": 0.25698,
+      "logloss": 0.70754,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4474
+     },
+     "1X2": {
+      "brier": 0.59929,
+      "logloss": 1.00766,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.78366
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21435,
+      "logloss": 0.62213,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.6965
+     },
+     "Más de 2.5": {
+      "brier": 0.25537,
+      "logloss": 0.70452,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4405
+     },
+     "Más de 3.5": {
+      "brier": 0.17134,
+      "logloss": 0.52889,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.233
+     },
+     "Ambos marcan": {
+      "brier": 0.25413,
+      "logloss": 0.70143,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4684
+     },
+     "1X2": {
+      "brier": 0.63738,
+      "logloss": 1.0602,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.83257
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "prior",
+    "valor": 8,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21267,
+      "logloss": 0.61561,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6822
+     },
+     "Más de 2.5": {
+      "brier": 0.24334,
+      "logloss": 0.68024,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4248
+     },
+     "Más de 3.5": {
+      "brier": 0.19314,
+      "logloss": 0.57472,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2215
+     },
+     "Ambos marcan": {
+      "brier": 0.25547,
+      "logloss": 0.70437,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4513
+     },
+     "1X2": {
+      "brier": 0.59868,
+      "logloss": 1.00586,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77721
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.21424,
+      "logloss": 0.62138,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.696
+     },
+     "Más de 2.5": {
+      "brier": 0.25438,
+      "logloss": 0.70247,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4393
+     },
+     "Más de 3.5": {
+      "brier": 0.17053,
+      "logloss": 0.52705,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2314
+     },
+     "Ambos marcan": {
+      "brier": 0.2536,
+      "logloss": 0.70036,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4696
+     },
+     "1X2": {
+      "brier": 0.6368,
+      "logloss": 1.05865,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82746
+     },
+     "n": 129
+    }
+   },
+   {
+    "parametro": "prior",
+    "valor": 12,
+    "train": {
+     "Más de 1.5": {
+      "brier": 0.21229,
+      "logloss": 0.61484,
+      "frec_real": 0.692,
+      "frec_modelo": 0.6834
+     },
+     "Más de 2.5": {
+      "brier": 0.24338,
+      "logloss": 0.68016,
+      "frec_real": 0.48,
+      "frec_modelo": 0.4253
+     },
+     "Más de 3.5": {
+      "brier": 0.19313,
+      "logloss": 0.57429,
+      "frec_real": 0.268,
+      "frec_modelo": 0.2212
+     },
+     "Ambos marcan": {
+      "brier": 0.25456,
+      "logloss": 0.70247,
+      "frec_real": 0.532,
+      "frec_modelo": 0.4539
+     },
+     "1X2": {
+      "brier": 0.59876,
+      "logloss": 1.00554,
+      "frec_real": 0.504
+     },
+     "distribucion": {
+      "logloss": 2.77417
+     },
+     "n": 250
+    },
+    "test": {
+     "Más de 1.5": {
+      "brier": 0.2141,
+      "logloss": 0.62075,
+      "frec_real": 0.6899,
+      "frec_modelo": 0.6959
+     },
+     "Más de 2.5": {
+      "brier": 0.25358,
+      "logloss": 0.70079,
+      "frec_real": 0.4109,
+      "frec_modelo": 0.4386
+     },
+     "Más de 3.5": {
+      "brier": 0.16995,
+      "logloss": 0.52565,
+      "frec_real": 0.2093,
+      "frec_modelo": 0.2304
+     },
+     "Ambos marcan": {
+      "brier": 0.25312,
+      "logloss": 0.69939,
+      "frec_real": 0.4574,
+      "frec_modelo": 0.4707
+     },
+     "1X2": {
+      "brier": 0.63659,
+      "logloss": 1.05788,
+      "frec_real": 0.4496
+     },
+     "distribucion": {
+      "logloss": 2.82424
+     },
+     "n": 129
+    }
+   }
+  ]
+ }
+}

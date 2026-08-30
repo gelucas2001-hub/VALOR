@@ -28,6 +28,7 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 | `TRASPASO.md` | Informe de traspaso — léelo primero | A mano, mantenerlo al día |
 | `docs/design-handoff/` | Entrega de diseño de Claude Design, verificada | No editar; es referencia |
 | `backtest.py` | Calibración contra resultados | A mano |
+| `barrido_lambda.py` | Barrido out-of-sample walk-forward de los parámetros que tocan λ (`escala_goles`, `VIDA_MEDIA_DIAS`, `rho`, `prior`), con train/test temporal, midiendo goles (over 1.5/2.5/3.5, ambos marcan, distribución completa) y el 1X2 como control. **Medido el 2026-08-29: producción está en el óptimo; ninguna variante mejora robustamente OOS — NO tocar λ salvo fuente nueva. Ver TRASPASO.md.** `python barrido_lambda.py arg [--fast]` | A mano, si alguien propone retocar λ |
 | `medir_sesgo.py` | Cuánto nos apartamos de la línea del mercado | A mano, antes y después de tocar el modelo |
 | `medir_vs_mercado.py` | Brier contra la cuota de cierre real | A mano |
 | `medir_calibracion.py` | Cuando la app dice 70%, ¿pasa el 70%? Mide la calibración de lo que la app ya publicó, partido por partido — a diferencia de `backtest.py`, que reconstruye lo que el modelo habría dicho. Faltaba en esta tabla hasta el 2026-08-24 | A mano, cada tanto |

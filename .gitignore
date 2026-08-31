@@ -16,3 +16,4 @@ skills-lock.json
 # Cache de football-data.co.uk: es de dominio publico, se re-baja
 # solo, y crece con cada fecha. No tiene sentido versionarlo.
 data/cache_historico/
+scratch/

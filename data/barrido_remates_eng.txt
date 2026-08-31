@@ -1,0 +1,34 @@
+
+============================================================================
+  ¿FUERZAS CON REMATES EN VEZ DE GOLES? — eng, métrica: al_arco
+============================================================================
+
+  w = cuánto pesa el λ de goles. w=1.00 es producción.
+  train < 2022-01-01 elige · test >= 2022-01-01 confirma
+
+  4180 de 4180 partidos con al_arco
+
+  ajustando walk-forward por las dos vías (tarda)...
+    1000 evaluados...
+    2000 evaluados...
+    3000 evaluados...
+    4000 evaluados...
+  4140 partidos · train 2423 · test 1717
+
+      w │ Brier 1X2 tr Brier 1X2 te │ Brier O/U tr Brier O/U te
+  --------------------------------------------------------------
+   0.00 │      0.57602      0.58534 │      0.49873      0.48897
+   0.20 │      0.57424      0.58359 │      0.49866      0.48898
+   0.40 │      0.57338      0.58252 │      0.49859      0.48898
+   0.50 │      0.57330      0.58224 │      0.49855      0.48898
+   0.60 │      0.57344      0.58212 │      0.49852      0.48899
+   0.80 │      0.57438      0.58238 │      0.49844      0.48900
+   1.00 │      0.57618      0.58327 │      0.49837      0.48903  ← producción
+
+  ========================================================================
+  1X2 — mejor w en train: 0.50 · en test: 0.60 · producción: 1.00
+
+  El ganador de train no es el de test: no es estable.
+  Con w=0.50 el Brier de test da 0.58224 contra 0.58327 de producción (mejora).
+  ========================================================================
+

@@ -127,7 +127,15 @@ def estadisticas_fila(f):
     return out or None
 
 # Fuentes de cuota de cierre, en orden de preferencia.
-FUENTES = (("pinnacle", "PSC"), ("promedio", "AvgC"))
+# El orden importa: `cuotas_cierre()` recorre esta tupla y se queda con
+# la PRIMERA completa, así que Pinnacle va adelante (menos margen, es la
+# referencia de la industria). Bet365 se agregó el 2026-08-30 y va
+# último a propósito: no cambia qué fuente elige `cuotas_cierre()` en
+# ningún partido que ya tuviera Pinnacle o el promedio, así que ninguna
+# medición vieja se mueve. Está acá porque `cuotas_de()` la necesita —
+# es la casa donde se apuesta de verdad, y comparar el consenso contra
+# ella es el método del paper.
+FUENTES = (("pinnacle", "PSC"), ("promedio", "AvgC"), ("bet365", "B365C"))
 
 
 def _num(v):
@@ -150,6 +158,22 @@ def cuotas_cierre(f):
         if all(x is not None for x in c):
             return c, nombre
     return None, None
+
+
+def cuotas_de(f, casa):
+    """Las tres cuotas de UNA casa, o None si esa casa no está completa.
+
+    `cuotas_cierre()` elige la mejor fuente disponible y devuelve una
+    sola. Esto devuelve la que se pide, que es lo que necesita comparar
+    casas ENTRE SÍ — el método de consenso (arXiv 1710.02824) toma el
+    promedio del mercado como verdad y busca dónde una casa concreta se
+    aparta. Con una sola fuente eso no se puede hacer.
+    """
+    pref = dict(FUENTES).get(casa)
+    if not pref:
+        return None
+    c = [_num(f.get(pref + x)) for x in ("H", "D", "A")]
+    return c if all(x is not None for x in c) else None
 
 
 def desenlace(p):
@@ -255,6 +279,13 @@ def normalizar(filas):
         if c_ou:
             p["cuotas_ou"] = c_ou
             p["fuente_ou"] = fuente_ou
+        # Las cuotas de cada casa por separado, para poder compararlas
+        # entre sí (método de consenso). Aditivo: solo se agregan las
+        # que están completas, y nada de lo que ya leía estos partidos
+        # mira esta clave.
+        por_casa = {n: c for n, _ in FUENTES if (c := cuotas_de(f, n))}
+        if por_casa:
+            p["por_casa"] = por_casa
         est = estadisticas_fila(f)
         if est:
             p["est"] = est

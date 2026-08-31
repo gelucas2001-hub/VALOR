@@ -278,6 +278,28 @@ prueba("2-1 son exactamente 3, gana el over (la línea es 2.5)",
 prueba("1-1 son 2, gana el under", H.desenlace_ou({"gh": 1, "ga": 1}) == [0, 1])
 
 print("")
+print("cuotas_de() — cada casa por separado, para comparar entre ellas")
+print("")
+
+# El metodo de consenso (arXiv 1710.02824) no compara un modelo contra
+# el mercado: compara UNA casa contra el promedio de las demas. Para eso
+# hacen falta las cuotas separadas por proveedor, no la "mejor" que
+# elige cuotas_cierre().
+_F = {"AvgCH": "2.10", "AvgCD": "3.40", "AvgCA": "3.50",
+      "B365CH": "2.20", "B365CD": "3.30", "B365CA": "3.40",
+      "PSCH": "2.15", "PSCD": "3.45", "PSCA": "3.55"}
+
+prueba("saca el consenso del mercado", H.cuotas_de(_F, "promedio") == [2.10, 3.40, 3.50])
+prueba("saca Bet365 por separado", H.cuotas_de(_F, "bet365") == [2.20, 3.30, 3.40])
+prueba("y Pinnacle", H.cuotas_de(_F, "pinnacle") == [2.15, 3.45, 3.55])
+prueba("una casa que no esta devuelve None, no la de al lado",
+       H.cuotas_de({"AvgCH": "2.1"}, "bet365") is None)
+prueba("una fila incompleta no se completa a medias",
+       H.cuotas_de({"B365CH": "2.2", "B365CD": "3.3"}, "bet365") is None)
+prueba("una cuota rota descarta la casa entera",
+       H.cuotas_de({"B365CH": "1.00", "B365CD": "3.3", "B365CA": "3.4"}, "bet365") is None)
+
+print("")
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

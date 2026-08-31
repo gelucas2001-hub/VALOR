@@ -185,5 +185,34 @@ prueba("un partido que ya esta en el centro no se mueve",
 lh4, la4 = A.corregir_escala(0.2, 0.1, _MU, 0.0)
 prueba("nunca devuelve un lambda que rompa la matriz", lh4 > 0 and la4 > 0)
 
+
+print("")
+print("encoger_diferencia() — el modelo separaba de mas a los equipos")
+print("")
+
+# Segundo eje del mismo defecto. corregir_escala arregla CUANTOS goles
+# hay; esto arregla CUANTA diferencia hay entre los dos equipos. Medido
+# el 2026-08-30: solo pasa en arg (+2.4 e.e.), no en bra/eng/fra.
+
+prueba("con k=1 no toca nada", A.encoger_diferencia(2.0, 1.0, 1.0) == (2.0, 1.0))
+
+_l, _v = A.encoger_diferencia(2.0, 1.0, 0.5)
+prueba("el TOTAL de goles no se mueve", abs((_l + _v) - 3.0) < 1e-9)
+prueba("y la brecha se achica a la mitad", abs((_l - _v) - 0.5) < 1e-9)
+
+_l0, _v0 = A.encoger_diferencia(2.0, 1.0, 0.0)
+prueba("k=0 iguala a los dos equipos", abs(_l0 - _v0) < 1e-9)
+
+prueba("una liga sin diferencia medida no se corrige",
+       A.diferencia_de("competicion.inventada") == 1.0)
+prueba("arg si se corrige, y por debajo de 1",
+       0.5 < A.diferencia_de("arg.1") < 1.0)
+prueba("bra NO se corrige: ahi el modelo no exagera",
+       A.diferencia_de("bra.1") == 1.0)
+prueba("eng tampoco", A.diferencia_de("eng.1") == 1.0)
+
+_lx, _vx = A.encoger_diferencia(0.4, 0.35, 0.0)
+prueba("nunca devuelve un lambda que rompa la matriz", _lx > 0 and _vx > 0)
+
 print(f"\n{ok} ok, {fallan} fallan")
 sys.exit(1 if fallan else 0)

@@ -294,6 +294,51 @@ def centro_de(slug):
     return (COMPETICIONES.get(slug) or {}).get("centro")
 
 
+def diferencia_de(slug):
+    """El `k` que conserva de (λ_local − λ_visita), o 1.0 si no se midió.
+
+    Segundo eje del mismo defecto que `escala_de`. Aquella corrige
+    **cuántos goles hay**; esta corrige **cuánta diferencia hay entre
+    los dos equipos**, que es lo que mueve el 1X2.
+
+    Medido el 2026-08-30 (`barrido_diferencia.py`), train/test temporal
+    con test pareado sobre el Brier del 1X2:
+
+        arg   k=0.95   +0.00046 ± 0.00039  (+2.4 e.e.)   MEJORA
+        bra   k=1.00 es óptimo en train Y test
+        eng   k=1.00 es óptimo en train Y test
+        fra   train dice 0.95 pero en test EMPEORA
+
+    **Solo pasa en Argentina, y eso encaja con todo lo demás.** arg
+    juega 27 partidos por equipo a una sola vuelta con 28-30 equipos;
+    Brasil juega 38 a doble vuelta. Con menos partidos por equipo, el
+    ruido de estimación se lee como diferencia real entre equipos, y el
+    modelo los separa más de lo que la realidad los separa. Es la misma
+    raíz que explica que arg capture 7.7% de la ventaja del mercado
+    contra 45.4% de bra y 80.9% de eng/fra, y que el modelo "opine más
+    que el mercado" ahí (7.70% contra 7.02%).
+
+    Es también la causa del "1X2 de favoritos sobreconfiados" que este
+    repo arrastraba documentado sin explicación: `medir_calibracion.py`
+    sobre lo publicado daba "1X2 local: decimos 43.5%, pasa 25.4%".
+    """
+    return (COMPETICIONES.get(slug) or {}).get("diferencia", 1.0)
+
+
+def encoger_diferencia(lh, la, k):
+    """Acerca los dos λ entre sí SIN mover el total de goles.
+
+    Conservar el total es lo que hace que esta corrección sea
+    independiente de `corregir_escala`: una toca el eje "cuántos goles",
+    la otra el eje "quién gana". Si esta moviera el total, las dos se
+    pisarían y ninguna de las dos mediciones valdría.
+    """
+    if k == 1.0:
+        return lh, la
+    total, diff = lh + la, (lh - la) * k
+    return max(0.05, (total + diff) / 2), max(0.05, (total - diff) / 2)
+
+
 def corregir_escala(lh, la, mu, k):
     """λ encogido hacia `mu`, manteniendo el reparto entre local y visita.
 
@@ -336,6 +381,10 @@ COMPETICIONES = {
     # contra producción: +0.00372 ± 0.00351 (2.1 e.e.), sin dañar el 1X2.
     "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 70,
               "prior": 12, "escala": 0.50, "centro": 2.266,
+              # Unica liga donde el modelo exagera la diferencia entre
+              # equipos: 27 partidos por equipo a una vuelta contra los
+              # 38 de Brasil. Ver diferencia_de(), arriba.
+              "diferencia": 0.95,
               "corners": 9.4, "fouls": 25.5, "cards": 5.4},
     # Brasil entra el 2026-08-24. Es la liga donde el motor demostrablemente
     # funciona: captura el 61% de la ventaja del mercado sobre la tasa base
@@ -2302,6 +2351,14 @@ def main():
                     # se ve en pantalla, solo desplaza todo hacia abajo.
                     lh, la = corregir_escala(lh, la, centro_de(slug),
                                              escala_de(slug))
+                    # Segundo eje, y el orden importa: la escala se
+                    # aplica primero porque trabaja sobre el total, y
+                    # esta después porque redistribuye ese total sin
+                    # cambiarlo. Al revés el resultado sería el mismo
+                    # —las dos son lineales y actúan en ejes
+                    # independientes— pero así se lee en el orden en que
+                    # se midieron, que es como están documentadas.
+                    lh, la = encoger_diferencia(lh, la, diferencia_de(slug))
                     lh = round(max(0.35, min(3.20, lh)), 3)
                     la = round(max(0.30, min(3.00, la)), 3)
                     n = min(n_loc, n_vis)

@@ -3531,3 +3531,62 @@ Una competición sin `escala` y `centro` medidos **no se corrige**. Las
 copas no tienen cuotas históricas en football-data, así que no se
 pudieron medir, y extrapolar el k de una liga a una copa sería
 inventar.
+
+### Addendum · El segundo eje: la diferencia entre equipos (2026-08-30)
+
+Salió de una pregunta de Lucas —"¿cómo le fue a la app el 30/8?"— y
+terminó explicando el problema de Argentina.
+
+**Cómo le fue esa fecha** (16 partidos, sin análisis: motor puro):
+
+```
+lean (1X2):     11/16 = 69%     siempre local: 10/16 = 63%
+escalera:       24/48 = 50%
+  Lo más probable  9/16 = 56%   ← la banda promete 68-93%
+  Intermedia       8/16 = 50%
+  Arriesgada       7/16 = 44%   ← la banda promete 12-45%
+```
+
+El pronóstico anduvo bien (69% contra 63% de la vara) y confirma que el
+29/8 fue una fecha anómala, no un defecto. Pero la franja "Lo más
+probable" acertó 56% cuando su banda promete al menos 68%, y la
+"Arriesgada" acertó de más. Las dos hacia el centro.
+
+**`medir_calibracion.py` sobre los 59 partidos ya publicados lo
+confirma:**
+
+```
+Probabilidades altas (60%+):  -6.6% de desvío
+Probabilidades bajas (<40%):  +9.8% de desvío
+1X2 local:  decimos 43.5%, pasa 25.4%   (-18.1%)
+```
+
+**Es el mismo defecto que `medir_compresion.py`, en el otro eje.** La
+corrección de escala arregla *cuántos goles hay*; esto es *cuánta
+diferencia hay entre los dos equipos*, que es lo que mueve el 1X2. Son
+independientes: `encoger_diferencia()` conserva el total.
+
+**Y solo pasa en Argentina.** Barrido train/test con test pareado sobre
+el Brier del 1X2:
+
+| liga | k de train | test |
+|---|---|---|
+| **arg** | **0.95** | **+0.00046 ± 0.00039 (+2.4 e.e.) MEJORA** |
+| bra | 1.00 | 1.00 es el óptimo en las dos mitades |
+| eng | 1.00 | 1.00 es el óptimo en las dos mitades |
+| fra | 0.95 | empeora en test |
+
+**Eso cierra el diagnóstico de Argentina**, que el documento arrastraba
+como "el candidato serio, nunca se probó": arg juega 27 partidos por
+equipo a una sola vuelta con 28-30 equipos; Brasil juega 38 a doble
+vuelta. Con menos partidos por equipo, **el ruido de estimación se lee
+como diferencia real entre equipos**, y el modelo los separa más de lo
+que la realidad los separa.
+
+Es la misma raíz de todo lo que ya estaba medido sin explicación: que
+arg capture 7.7% de la ventaja del mercado contra 45.4% de bra y 80.9%
+de eng/fra, que el modelo "opine más que el mercado" ahí (7.70% contra
+7.02%), y el "1X2 de favoritos sobreconfiados".
+
+Aplicado solo a `arg.1` (`"diferencia": 0.95`). Las demás quedan en
+1.00 porque ahí el modelo NO exagera — medido, no supuesto.

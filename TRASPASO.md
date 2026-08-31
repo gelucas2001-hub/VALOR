@@ -3946,3 +3946,70 @@ es cero. No convierte una lectura en recomendación — al revés, hace
 imposible confundirlas. No reemplaza ninguna medición: le da a cada una
 un lugar fijo donde su resultado se ve. Y no arregla el eje de Volumen:
 ese techo es del fútbol, no del modelo.
+
+### Addendum · El eje Dominio, medido — y una corrección (2026-08-31)
+
+**Primero la corrección, porque la escribí mal más arriba en esta misma
+sección.** Este documento decía que el ancla por equipo estaba
+"a re-medir" y que "nadie volvió a medir". Es falso: el docstring de
+`historia_equipos.py` trae la medición, del 2026-08-25, walk-forward
+sobre eng y fra. Lo que faltaba era otra cosa, y son dos cosas:
+
+1. esa medición cubría **solo córners**. Las otras cuatro métricas
+   —remates, al arco, faltas, tarjetas— se guardan y se muestran igual,
+   sin un número que las respalde;
+2. la comparación era contra *"solo la temporada en curso, k=200"*, o
+   sea contra una vara con un `k` prestado.
+
+`medir_dominio.py` (con `test_medir_dominio.py`, 27 pruebas) mide las
+cinco, y le deja a cada pronóstico **elegir su propio `k` en train**.
+
+#### Lo medido, test temporal, error cuadrático
+
+| | eng: mejora / gana ± e.e. | fra: mejora / gana ± e.e. |
+|---|---|---|
+| remates | +9.9% / +0.117 ± 0.250 | +7.0% / +0.243 ± 0.175 |
+| al arco | +7.3% / +0.036 ± 0.055 | **+9.1% / +0.122 ± 0.042** |
+| córners | +4.8% / +0.097 ± 0.063 | **+2.9% / +0.142 ± 0.036** |
+| faltas | +1.8% / **−0.199 ± 0.072** | +4.1% / **−0.105 ± 0.082** |
+| tarjetas | +1.0% / +0.000 ± 0.005 | +0.6% / +0.000 ± 0.005 |
+
+*mejora* = cuánto le saca el ancla larga a la media de la liga.
+*gana* = cuánto le saca al caché corto, que es la pregunta real.
+
+#### Tres cosas que salen de ahí
+
+**El ancla vale bastante menos de lo que decía el número viejo.** En
+córners de eng, contra una vara con `k` propio, la ganancia es
++0.097 ± 0.063 — **1.6 errores estándar**, no concluyente. El 4.5 e.e.
+del 2026-08-25 se midió contra `k=200`, que es el `k` de Brasil, no el
+de Inglaterra. No es que aquella medición esté mal: es que su vara era
+peor de lo necesario, y por eso la mejora parecía más grande. En fra sí
+aguanta (3.9 e.e. en córners, 2.9 en al arco).
+
+**Donde más se sabe no es donde estábamos mirando.** Contra la media de
+la liga, remates rinde +9.9% y al arco +7.3%, contra +4.8% de córners.
+Los córners eran el mercado que se estaba mirando porque es el que la
+casa cotiza más visible, no porque sea donde más sabemos.
+
+**El ancla larga PUEDE EMPEORAR, y con faltas empeora.** −0.199 ± 0.072
+en eng (2.8 e.e. en contra) y −0.105 en fra. Tiene sentido y no es un
+bug: las faltas se mueven con la época —cambios de reglamento, criterio
+arbitral— así que once temporadas de historia son un ancla vieja. La
+lección general es la que importa: **más historia no es gratis; en una
+métrica que deriva, el pasado lejano es peor que el caché reciente.**
+Tarjetas es el caso extremo: ancla y caché dan lo mismo hasta el tercer
+decimal, y ninguno de los dos le saca nada a la liga.
+
+#### Qué queda decidido para el eje Dominio
+
+- **Se muestra** (vara 1): remates, al arco y córners, que le sacan
+  entre 3% y 10% a la media de la liga en las dos ligas.
+- **Se muestra con el sesgo declarado**: faltas y tarjetas, que no
+  aportan nada — y en faltas, el ancla larga directamente no se usa.
+- **No se marca** ninguna (vara 2). Contra plata sigue sin medirse, y
+  **no se puede medir hacia atrás**: football-data no publica cuota de
+  córners. Hace falta acumular líneas hacia adelante, que es lo que ya
+  hace `mercado_extra.py` con Bet365. Ese es el único camino, y tarda.
+- `confianza: "calibrada"`, `medido_por: "medir_dominio.py"` cuando el
+  eje se cuelgue del contrato.

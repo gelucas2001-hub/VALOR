@@ -47,10 +47,23 @@ errores estándar, la hipótesis está muerta y conviene decirlo.
     python medir_bajas.py
 """
 
+import json
+import sys
+from collections import defaultdict
+from pathlib import Path
 
-pl = json.load(open(r"C:\Users\Lucas\Desktop\VALOR\data\planteles.json", encoding="utf-8"))["equipos"]
-cache = json.load(open(r"C:\Users\Lucas\Desktop\VALOR\data\cache_disciplina.json", encoding="utf-8"))
-res = json.load(open(r"C:\Users\Lucas\Desktop\VALOR\data\resultados.json", encoding="utf-8"))
+sys.stdout.reconfigure(encoding="utf-8")
+
+DATOS = Path(__file__).resolve().parent / "data"
+
+
+def _leer(nombre):
+    return json.load(open(DATOS / nombre, encoding="utf-8"))
+
+
+pl = _leer("planteles.json")["equipos"]
+cache = _leer("cache_disciplina.json")
+res = _leer("resultados.json")
 
 # peso_goles total del plantel, y por jugador
 peso = {eq: {j["id"]: j.get("peso_goles") or 0.0 for j in js} for eq, js in pl.items()}
@@ -85,7 +98,6 @@ if len(obs) < 40:
     print("  muestra insuficiente"); sys.exit()
 
 # Promedio de goles del equipo, para comparar contra su propio nivel
-from collections import defaultdict
 por_eq = defaultdict(list)
 for o in obs:
     por_eq[o["eq"]].append(o["goles"])

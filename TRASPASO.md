@@ -3590,3 +3590,102 @@ de eng/fra, que el modelo "opine más que el mercado" ahí (7.70% contra
 
 Aplicado solo a `arg.1` (`"diferencia": 0.95`). Las demás quedan en
 1.00 porque ahí el modelo NO exagera — medido, no supuesto.
+
+---
+
+## 15. Dónde retomar (2026-08-31)
+
+Lo que sigue es el estado al cerrar la sesión del 30-31/08 y la
+hipótesis con la que conviene arrancar la próxima. Leer esta sección
+entera antes de tocar nada: ahorra repetir mediciones que ya se
+hicieron y dieron que no.
+
+### La hipótesis para arrancar, y salió de Lucas
+
+Textual: *"imaginate si en el partido del Chelsea ponía: gana Chelsea,
+ambos marcan y hay más de 2.5 goles como variantes. Pero que esto no
+salga porque sí, sino por estudio, medición."*
+
+Chelsea–Brighton terminó 4-3: las tres habrían acertado.
+
+**Lo que hace distinta a esa idea:** esas tres cosas NO son
+independientes. Si Chelsea gana Y ambos marcan, ya hay 3 goles mínimo.
+Y el motor tiene esa correlación exacta en la matriz de marcadores
+(0-9 × 0-9) — `combinada()` ya la usa para dos patas. Pero `escalera()`
+elige mercado por mercado, como si fueran independientes, y tira justo
+la información que hace coherente al conjunto.
+
+**Las dos preguntas medibles, en orden:**
+
+1. **¿El modelo acierta mejor los goles CONDICIONADO al resultado que
+   en general?** Está medido que en general no sabe nada de goles
+   (`medir_ejes.py`: aporte entre −0.9% y +0.4% sobre la tasa base).
+   Pero "cuántos goles habrá" y "dado que gana el favorito, cuántos
+   goles suele haber" son preguntas distintas. La segunda nunca se
+   midió.
+
+2. **¿Un escenario coherente acierta más que tres mercados sueltos?**
+   Construir el escenario desde la matriz (el marcador más probable y
+   lo que se desprende de él) y compararlo contra la escalera actual.
+
+Si la (1) da que sí, la (2) tiene fundamento y el producto que Lucas
+pide se puede construir medido. Si da que no, la escalera se queda como
+está —solo Resultado— y eso también cierra el tema.
+
+Herramientas que ya existen para medirlo: `medir_ejes.py` (aporte por
+mercado contra la tasa base), `medir_roi.py` (ROI, drawdown, Sharpe),
+`eval_fecha.js` (cómo le fue al motor en una fecha real).
+
+### Lo que se hizo el 30-31/08, para no repetirlo
+
+**Motor — dos correcciones, las dos medidas y aplicadas:**
+
+- **Escala de λ** (§14): el modelo estiraba su rango de goles 2.7 veces
+  más que la realidad. Corregido en las cuatro ligas.
+- **Diferencia entre equipos** (§14, addendum): exageraba la brecha
+  entre local y visitante. Corregido **solo en arg**, que es la única
+  liga donde el defecto aparece — y eso cierra el diagnóstico del
+  "candidato serio" que este documento arrastraba: 27 partidos por
+  equipo a una vuelta contra 38 de Brasil.
+
+**Producto:**
+
+- La app **no marca valor en arg ni bra**: medido que ahí la regla
+  resta (−9.17% y −9.13%, significativo), y `barrido_valor.py` probó 39
+  ventanas distintas sin encontrar ninguna positiva.
+- La escalera **solo recomienda mercados de Resultado**, con piso de
+  cuota 1.30. Es el único eje donde el modelo tiene información medida.
+- La skill de análisis: `desarrollo` pasa a obligatorio (estaba en 1 de
+  20) y el principio O se actualizó con el sesgo re-medido (69% de
+  inclinaciones al local contra 45% que corresponde).
+
+**Caminos cerrados con número — no volver a proponerlos sin dato nuevo:**
+
+| camino | resultado |
+|---|---|
+| Mover los umbrales de valor | 39 ventanas, ninguna positiva OOS |
+| Mercado de goles (over/under) | eng −2.85%, fra −8.27% |
+| Consenso del mercado (arXiv 1710.02824) | Bet365 no se desvía; con alpha del paper, cero apuestas |
+| Remates para estimar fuerzas | mejora +0.8 e.e., no alcanza |
+| Bajas de goleadores → menos goles | r = −0.06 ± 0.14, sin señal |
+| xG de fuente gratis | cinco fuentes probadas, todas cerradas |
+
+**Lo que se desbloqueó y conviene usar:**
+
+- **El CLV se puede medir hacia atrás.** Este documento decía que no
+  (§6sexdecies), y es cierto para ESPN pero falso para football-data,
+  que publica apertura y cierre. `medir_apertura.py`. Con 362 apuestas
+  el CLV ya es concluyente mientras el ROI sigue en ±14 — es el
+  instrumento correcto para evaluar cualquier cambio del modelo sin
+  esperar mil apuestas.
+- **Japón y México están medidas y son las mejores candidatas.** jpn da
+  +2.78% de ROI con la menor caída de las seis ligas (2.0% contra 9.7%
+  de arg), y es la única donde el modelo también aporta en goles. No es
+  significativo (±7.67), pero es el mejor perfil que hay.
+
+### El estado honesto, en una línea
+
+Contra Bet365 el CLV es cero: el modelo **empata con el mercado antes
+de comisión**. No elige mal — la pérdida es el margen que se paga sin
+ventaja que lo compense. Para ganar hace falta CLV positivo, y eso solo
+sale de información que el mercado todavía no tiene.

@@ -1635,5 +1635,90 @@ test("la escalera no repite el mismo tema (familia+lado) cuando las tres líneas
          `sigue repitiendo tema más de lo esperable: ${repiteTema}/${revisados} (${(fraccion*100).toFixed(0)}%) — ej: ${detalle}`);
 });
 
+/* ══════════════════════════════════════════════════════════════════
+   LA ESCALERA NO PUEDE APOSTAR A "EXACTAMENTE N GOLES" SIN QUERER
+
+   Lucas vio Manchester United–Ipswich (5-2): la escalera mostró "más
+   de 1.5 goles" arriba y "menos de 2.5" abajo. Juntas significan
+   **exactamente 2 goles** — una tesis que nadie eligió, que salió de
+   que cada franja elige por su cuenta.
+
+   `incompatibles()` no lo agarra, y hace bien: esos dos mercados SÍ
+   pueden pasar juntos. El problema no es la contradicción lógica sino
+   que la combinación no tiene sentido como recomendación.
+
+   Medido sobre la grilla real: pasaba en 15 de 49 partidos (31%).
+
+   Y hay una razón más para no llenar la escalera de goles, medida
+   aparte (`medir_ejes.py`, 6270 partidos de arg y 4140 de eng): el
+   modelo NO aporta nada ahí. Sobre la tasa base de cada mercado, Goles
+   da entre −0.9% y +0.4%, mientras Resultado da +2.6% en arg y +13.2%
+   en eng. La escalera venía destacando justo el eje donde menos
+   sabemos.
+   ══════════════════════════════════════════════════════════════════ */
+test("la escalera no deja un rango de goles tan estrecho que equivalga a un marcador exacto", ()=>{
+  L.cargar(PARTIDOS, {});
+  let estrechos = 0, revisados = 0, ejemplo = "";
+  PARTIDOS.forEach(m=>{
+    const ops = L.escalera(m).map(f=> f.op).filter(Boolean);
+    if(ops.length < 2) return;
+    revisados++;
+    const goles = ops.filter(o=> o.fam === "Goles");
+    const ov = goles.filter(o=> o.lado === "over").map(o=> o.linea);
+    const un = goles.filter(o=> o.lado === "under").map(o=> o.linea);
+    if(!ov.length || !un.length) return;
+    const lo = Math.max(...ov), hi = Math.min(...un);
+    if(hi - lo <= 1.0){
+      estrechos++;
+      if(!ejemplo) ejemplo = `${m.home} vs ${m.away}: ${ops.map(o=>o.id).join(", ")}`;
+    }
+  });
+  cierto(revisados > 0, "no hay partidos para revisar");
+  igual(estrechos, 0,
+    `${estrechos}/${revisados} partidos apuestan a un marcador exacto sin querer — ej: ${ejemplo}`);
+});
+
+test("cuando hay un mercado de Resultado disponible en la franja, gana sobre uno de Goles", ()=>{
+  /* `medir_ejes.py` sobre 10.410 partidos: Resultado aporta +2.6%
+     (arg) y +13.2% (eng) sobre la tasa base; Goles, entre −0.9% y
+     +0.4%. Si los dos caben en la misma franja, mostrar el de goles es
+     destacar el eje donde el modelo no sabe nada.
+
+     Solo rige cuando ninguno tiene ventaja real medida: si Goles la
+     tiene y Resultado no, la ventaja sigue mandando (Regla 2). */
+  L.cargar(PARTIDOS, {});
+  let mal = 0, revisados = 0, ejemplo = "";
+  PARTIDOS.forEach(m=>{
+    const lec = L.lectura(m);
+    const todos = L.mercados(lec.M, m);
+    L.escalera(m).forEach(f=>{
+      if(!f.op || f.op.fam !== "Goles" || f.ventaja != null) return;
+      // ¿había un Resultado disponible en esta misma franja?
+      const hubo = todos.some(o=> o.fam === "Resultado"
+        && o.p >= f.franja.lo && o.p < f.franja.hi
+        && !L.contradice(o, lec.lean));
+      revisados++;
+      if(hubo){
+        mal++;
+        if(!ejemplo) ejemplo = `${m.home}: eligió ${f.op.id} habiendo Resultado en ${f.franja.n}`;
+      }
+    });
+  });
+  igual(mal, 0, `${mal}/${revisados} franjas prefirieron Goles sobre Resultado — ej: ${ejemplo}`);
+});
+
+test("y no llena la escalera de goles, que es donde el modelo no aporta", ()=>{
+  L.cargar(PARTIDOS, {});
+  let soloGoles = 0, revisados = 0;
+  PARTIDOS.forEach(m=>{
+    const ops = L.escalera(m).map(f=> f.op).filter(Boolean);
+    if(ops.length < 2) return;
+    revisados++;
+    if(ops.filter(o=> o.fam === "Goles").length > 1) soloGoles++;
+  });
+  igual(soloGoles, 0,
+    `${soloGoles}/${revisados} partidos tienen más de un mercado de goles en la escalera`);
+});
+
 console.log(`\n${ok} ok, ${mal} fallando\n`);
 process.exit(mal ? 1 : 0);

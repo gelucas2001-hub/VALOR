@@ -1563,9 +1563,34 @@ function escalera(m){
      candidato es peor que repetir tema. */
   const temasUsados = new Set();
 
+  /* UN SOLO mercado de goles por escalera, y es una regla de producto
+     con dos motivos medidos detrás.
+
+     1. Sin esto la escalera podía mostrar "más de 1.5" arriba y "menos
+        de 2.5" abajo, que juntas significan **exactamente 2 goles** —
+        una tesis que nadie eligió, y que salía de que cada franja
+        elegía por su cuenta. `incompatibles()` no lo agarra, y hace
+        bien: esos dos mercados sí pueden pasar juntos. El problema no
+        es la contradicción lógica sino que la combinación no tiene
+        sentido como recomendación. Medido sobre la grilla real:
+        pasaba en 15 de 49 partidos (31%).
+
+     2. `medir_ejes.py` (6270 partidos de arg, 4140 de eng): sobre la
+        tasa base de cada mercado, Goles aporta entre −0.9% y +0.4%
+        mientras Resultado aporta +2.6% en arg y +13.2% en eng. **El
+        modelo no sabe nada sobre cuántos goles habrá.** Llenar la
+        escalera de goles era destacar justo el eje donde menos
+        sabemos.
+
+     No se prohíben del todo: un mercado de goles puede ser lo único
+     razonable de una franja, y una franja vacía es peor. Se limita a
+     uno. */
+  let golesUsados = 0;
+
   const filas = FRANJAS.map(f=>{
     const candTodos = ops.filter(o=> o.p>=f.lo && o.p<f.hi && !contradice(o, dir)
-                                && !yaElegidos.some(id=> incompatibles(id, o.id)));
+                                && !yaElegidos.some(id=> incompatibles(id, o.id))
+                                && !(golesUsados && o.fam==="Goles"));
     const sinRepetir = candTodos.filter(o=> !temasUsados.has(temaDe(o)));
     const cand = sinRepetir.length ? sinRepetir : candTodos;
     if(!cand.length) return {franja:f, op:null};
@@ -1580,12 +1605,33 @@ function escalera(m){
     if(creibles.length){
       elegido = creibles[0].o; ventaja = creibles[0].v;
     } else {
+      /* Sin ventaja real que decida, manda DÓNDE SABEMOS. Medido con
+         `medir_ejes.py` sobre 10.410 partidos, aporte sobre la tasa
+         base de cada mercado:
+
+             Resultado   +2.6% (arg)   +13.2% (eng)
+             Goles       −0.9% a +0.4%
+             Ambos       −0.4% a +0.6%
+
+         O sea que el modelo sabe quién gana y no sabe cuántos goles
+         hay. Elegir por "cercanía al centro de la franja" entre todos
+         mezclados hacía que Goles ganara casi siempre —se reparten
+         suave por toda la probabilidad— y la escalera terminaba
+         destacando justo el eje donde no aportamos, con el 1X2
+         relegado a "Otros mercados".
+
+         Esto solo rige en el camino SIN ventaja real: si un mercado de
+         goles tiene ventaja medida y el de Resultado no, la ventaja
+         sigue mandando (Regla 2, el valor se marca aparte). */
       const centro = (f.lo+f.hi)/2;
-      elegido = cand.reduce((a,b)=> Math.abs(a.p-centro)<=Math.abs(b.p-centro)?a:b);
+      const resultado = cand.filter(o=> o.fam==="Resultado");
+      const pool = resultado.length ? resultado : cand;
+      elegido = pool.reduce((a,b)=> Math.abs(a.p-centro)<=Math.abs(b.p-centro)?a:b);
       const pm = pMercado(elegido, pq, mk, mx);
       ventaja = pm==null ? null : elegido.p - pm;
     }
     temasUsados.add(temaDe(elegido));
+    if(elegido.fam === "Goles") golesUsados++;
     const cuota = cuotaUsada(elegido, pq, mk, mx);
     const valor = !ligaSinValor(m)
                   && ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX

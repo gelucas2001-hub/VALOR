@@ -4228,3 +4228,54 @@ pruebas):
 corra sobre apuestas cuya línea efectivamente se movió, en vez de sobre
 un 58% de precios clavados. No mejora el modelo — hace que el
 instrumento mida.
+
+### Addendum 5 · El eje Jugadores en pantalla, y un estado nuevo (2026-08-31)
+
+Es el eje que más se parece a lo que Lucas pidió — *"quién puede
+marcar, quién puede rematar"* — y el que obligó a arreglar el contrato.
+
+**El hueco que tenía el contrato.** `remates` está medido (618 casos) y
+el resultado es que se desvía **2.09 veces lo que explica el azar**.
+Declararlo `sin_medir` sería mentir por omisión: sí se midió.
+Declararlo `calibrada` sería mentir a secas. Faltaba el estado del
+medio, y ahora existe:
+
+    sin_medir  <  mal_calibrada  <  calibrada  <  con_plata
+
+El orden importa: es lo que hace posible la regla nueva de `sellar()`.
+
+**La regla nueva: el que llama puede BAJAR la confianza, nunca
+subirla.** La tabla `MEDICIONES` dice qué se midió por eje, pero cuánto
+vale depende de qué métrica se muestra — goles calibra bien, remates
+mal— y eso solo lo sabe quien arma el eje. Que solo se pueda bajar es
+lo que mantiene la regla original en pie: nadie se declara más
+confiable de lo que la medición permite. Está testeado en los dos
+sentidos.
+
+**El eje vale lo que vale su métrica peor.** Como en pantalla va
+remates, el eje entero sale `mal_calibrada` y el chip dice *"una de las
+tres no es de fiar"*. Mostrar goles bien calibrado al lado de remates
+mal calibrado y declarar el conjunto "calibrado" sería usar lo bueno
+para tapar lo malo.
+
+En pantalla, remates va en **gris apagado**, no en terracota: la
+terracota dice alerta y esto no es una alerta, es un dato que no hay
+que usar para apostar (`DESIGN.md`, un color un solo trabajo).
+
+**Un bug encontrado mirando, que ningún test iba a encontrar.** La
+leyenda decía *"23 partidos en la muestra"* usando `j.pj` —la
+temporada entera— mientras el número se calcula con `serie.pj`, que
+suele ser 3. O sea que decía que el dato era ocho veces más firme de lo
+que es, y el que lee no tenía cómo saberlo. Corregido: ahora dice *"el
+número sale de sus últimos 3 partidos"*.
+
+**Una falsa alarma que vale documentar**, porque el próximo que mire va
+a sospechar lo mismo: Kevin Serna y Hulk aparecen con `gol 0.24` y
+`al arco 0.74` idénticos. No es una fusión de jugadores — sus series de
+goles son las dos `[1,1,0]`, por casualidad, con tres partidos cada
+una. Se verificó antes de tocar nada.
+
+Cobertura: 38 de 49 partidos tienen el eje (arg y bra completos, eng y
+fra a medias — ESPN todavía no publica series por jugador de todos los
+equipos europeos). Donde no hay, el eje no aparece: media lectura es
+peor que ninguna.

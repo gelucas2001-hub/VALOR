@@ -785,6 +785,15 @@ a{color:inherit}
    Filete de salvia porque es VOZ SECUNDARIA — una lectura, no un estado
    (DESIGN.md: la mostaza dice valor y la terracota dice alerta; esto no
    dice ninguna de las dos y por eso no puede usar ninguno de los dos). */
+.mrow .jugcifras{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 8px}
+.mrow .jm{font-family:var(--mono);font-size:11px;color:var(--gris);
+  letter-spacing:.04em;text-transform:uppercase}
+.mrow .jm b{font-family:var(--texto);font-size:14px;color:var(--tinta);
+  margin-left:5px;letter-spacing:0}
+/* Gris apagado para la métrica que está MEDIDA y da mal. No terracota:
+   la terracota dice alerta y esto no es una alerta, es un dato que no
+   hay que usar para apostar (DESIGN.md, un color un solo trabajo). */
+.mrow .jm.flojo,.mrow .jm.flojo b{color:var(--neutroPapel)}
 .mrow .barra2{height:7px;background:var(--hueco);position:relative;margin:2px 0 8px}
 .mrow .barra2 i{position:absolute;top:0;left:0;bottom:0;background:var(--salvia);opacity:.85}
 /* La marca del 50%. Sin ella las tres barras del eje (52%, 54%, 53%)
@@ -1936,7 +1945,16 @@ function marcaDeValor(m){
    el nombre, la suite deja de encontrarla: es a propósito.
    ══════════════════════════════════════════════════════════════════ */
 /* ==== INICIO EJES ==== */
-const CONFIANZAS = ["sin_medir", "calibrada", "con_plata"];
+/* De menos a más, y el orden IMPORTA: es lo que permite bajar una
+   confianza sin poder subirla.
+
+   `mal_calibrada` se agregó el 2026-08-31 con el eje Jugadores, y llena
+   un hueco real: "remates" está medido —618 casos— y el resultado es
+   que se desvía 2.09 veces lo que explica el azar. Declararlo
+   `sin_medir` sería mentir por omisión (sí se midió) y `calibrada`
+   sería mentir a secas. Es su propio estado: sabemos, y lo que sabemos
+   es que ese número no es de fiar. */
+const CONFIANZAS = ["sin_medir", "mal_calibrada", "calibrada", "con_plata"];
 
 const CONTRATO = ["eje", "titulo", "estimacion", "ancla", "medido_por",
                   "confianza", "aporte", "mercado", "lectura", "apuesta"];
@@ -1971,6 +1989,15 @@ const MEDICIONES = {
     aporte:     {"eng.1": {remates: 9.9, al_arco: 7.3, corners: 4.8},
                  "fra.1": {remates: 7.0, al_arco: 9.1, corners: 2.9}},
   },
+  jugadores: {
+    medido_por: "medir_jugadores.py",
+    // El techo del eje. Cuánto vale cada métrica adentro sale de
+    // `data/calibracion_jugadores.json`, que lo mide contra el RUIDO y
+    // no contra cero: con 618 predicciones un modelo perfecto ya se
+    // desvía 3.5 puntos por azar. Hoy: goles y asistencias bien,
+    // al arco regular, remates mal (2.09 veces el ruido).
+    confianza:  "calibrada",
+  },
 };
 
 /* El sello. Nadie construye un eje a mano: todos pasan por acá, y acá
@@ -1987,7 +2014,15 @@ function sellar(id, liga, campos){
      otra — es la misma regla que se aprendió a los golpes con
      `parametros_metricas()` mezclando competiciones. */
   const hayLiga = !med.por_liga || aporte !== null;
-  const confianza = (med.medido_por && hayLiga) ? declarada : "sin_medir";
+  let confianza = (med.medido_por && hayLiga) ? declarada : "sin_medir";
+  /* El que llama puede BAJAR la confianza, nunca subirla. Lo necesita el
+     eje Jugadores: la tabla dice qué se midió, pero cuánto vale depende
+     de la métrica que se muestre (goles calibra bien, remates mal), y
+     eso solo lo sabe quien arma el eje. Que solo se pueda bajar es lo
+     que mantiene la regla en pie: nadie se declara más confiable de lo
+     que la medición permite. */
+  const pedida = CONFIANZAS.indexOf((campos || {}).confianza);
+  if(pedida >= 0 && pedida < CONFIANZAS.indexOf(confianza)) confianza = CONFIANZAS[pedida];
   const c = campos || {};
   return {
     eje:        id,
@@ -2029,6 +2064,17 @@ function construirEjes(datos){
       titulo:     "Quién ataca más",
       estimacion: d.dominio,
       ancla:      d.anclaDominio || null,
+    }));
+  }
+  /* Jugadores baja al peor nivel de las métricas que efectivamente
+     muestra: si en pantalla va a estar remates —medido y mal—, el eje
+     no puede decirse calibrado. */
+  if(d.jugadores && d.jugadores.length){
+    ejes.push(sellar("jugadores", d.liga, {
+      titulo:     "Quién puede marcar y quién puede rematar",
+      estimacion: d.jugadores,
+      ancla:      d.calibracionJugadores || null,
+      confianza:  d.confianzaJugadores || null,
     }));
   }
   return ejes;
@@ -2604,6 +2650,7 @@ function tabPronosticos(m){
   const otros = otrosMercados(m);
   const fams = ["Resultado","Goles","Ambos"];
   h += bloqueDominio(m);
+  h += bloqueJugadores(m);
 
   h += `<div class="banda banda2">Otros mercados<em>NUESTRA LECTURA DE CADA UNO</em></div>`;
   fams.forEach(fam=>{
@@ -2676,15 +2723,114 @@ function dominioDe(L, V){
   return (a && b) ? {local: a, visita: b} : null;
 }
 
+/* ── El eje Jugadores ───────────────────────────────────────────
+   Las métricas van en el orden en que se les cree, medido contra el
+   RUIDO y no contra cero (`medir_jugadores.py`): con 618 predicciones
+   un modelo perfecto ya se desvía 3.5 puntos por azar. Hoy goles y
+   asistencias dan bien, al arco regular y remates mal. */
+const JUG_METRICAS = [
+  ["goles",   "Gol"],
+  ["al_arco", "Al arco"],
+  ["remates", "Remates"],
+];
+
+const NIVEL_A_CONFIANZA = {bien: "calibrada", regular: "calibrada",
+                           mal: "mal_calibrada"};
+
+function confianzaJugadores(metricas){
+  /* El eje vale lo que vale su métrica PEOR. Mostrar goles bien
+     calibrado al lado de remates mal calibrado y declarar el conjunto
+     "calibrado" sería usar lo bueno para tapar lo malo. */
+  let peor = "calibrada";
+  metricas.forEach(k => {
+    const f = fiabilidadJugador(k);
+    const c = f ? (NIVEL_A_CONFIANZA[f.nivel] || "sin_medir") : "sin_medir";
+    if(CONFIANZAS.indexOf(c) < CONFIANZAS.indexOf(peor)) peor = c;
+  });
+  return peor;
+}
+
+function jugadoresDe(m, cuantos = 4){
+  const de = id => (PLANTELES[String(id)] || []);
+  const pool = [];
+  [[m.homeId, m.home], [m.awayId, m.away]].forEach(([id, equipo])=>{
+    de(id).forEach(j=>{
+      const e = ((j.serie || {}).esp) || {};
+      if(e.goles == null) return;
+      /* `serie.pj` y NO `j.pj`: el esperado se calcula con la serie
+         reciente, no con la temporada entera. Poner "23 partidos"
+         debajo de un número que sale de 3 dice que el dato es más
+         firme de lo que es — y el que lee no tiene cómo saberlo. */
+      pool.push({nombre: j.nombre, equipo: equipo, pos: j.pos,
+                 pj: (j.serie || {}).pj || 0, esp: e});
+    });
+  });
+  /* Por chance de gol, que es lo que la gente mira primero y además la
+     métrica mejor calibrada de las tres. */
+  pool.sort((a, b)=> (b.esp.goles || 0) - (a.esp.goles || 0));
+  return pool.slice(0, cuantos);
+}
+
 function ejesDe(m){
   const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  const jug = jugadoresDe(m);
+  const mets = JUG_METRICAS.map(([k]) => k);
   return construirEjes({
     liga:     ligaDe(m, L, V),
     probs:    lectura(m).p,
     goles:    {esperados: m.lh + m.la},
     mercado:  m.mercado || null,
     dominio:  dominioDe(L, V),
+    jugadores: jug,
+    confianzaJugadores: jug.length ? confianzaJugadores(mets) : null,
+    calibracionJugadores: mets.reduce((o, k)=>{
+      const f = fiabilidadJugador(k);
+      if(f) o[k] = {nivel: f.nivel, n: f.n};
+      return o;
+    }, {}),
   });
+}
+
+function bloqueJugadores(m){
+  const eje = ejesDe(m).find(e => e.eje === "jugadores");
+  if(!eje || !eje.estimacion || !eje.estimacion.length) return "";
+
+  const chip = eje.confianza === "mal_calibrada"
+    ? "UNA DE LAS TRES NO ES DE FIAR"
+    : "CALIBRADO · NO ES UNA APUESTA";
+
+  let h = `<div class="banda banda2">${esc_(eje.titulo)}<em>${chip}</em></div>
+    <div class="sec"><div class="grp">`;
+
+  eje.estimacion.forEach(j=>{
+    const cifras = JUG_METRICAS.map(([k, etiqueta])=>{
+      const f = fiabilidadJugador(k);
+      const flojo = f && f.nivel === "mal";
+      return `<span class="jm${flojo ? " flojo" : ""}">${esc_(etiqueta)}
+        <b>${(j.esp[k] || 0).toFixed(2)}</b></span>`;
+    }).join("");
+    h += `<div class="mrow">
+      <div class="top2"><span class="mkt">${esc_(j.nombre)}</span>
+        <span class="modelo">${esc_(j.equipo)}</span></div>
+      <div class="jugcifras">${cifras}</div>
+      <div class="umb">${j.pos || "—"} · el número sale de sus últimos
+        ${Math.round(j.pj || 0)} partidos</div>
+    </div>`;
+  });
+
+  /* El hueco declarado, no escondido: decir cuál de las tres no sirve
+     es más útil que un promedio de confianza que no significa nada. */
+  const malas = JUG_METRICAS.filter(([k])=>{
+    const f = fiabilidadJugador(k);
+    return f && f.nivel === "mal";
+  }).map(([, e]) => e);
+
+  h += `</div><div class="foot">Números esperados para este partido, de la serie
+    reciente de cada uno.${malas.length ? ` <b>${esc_(malas.join(" y "))}</b> aparece en gris
+    porque está medido que le erra bastante más de lo que explica el azar — lo mostramos
+    para comparar jugadores entre sí, no para jugarlo.` : ""}
+    Contra el precio de la casa esto todavía no se midió, así que no marcamos nada.</div></div>`;
+  return h;
 }
 
 function bloqueDominio(m){

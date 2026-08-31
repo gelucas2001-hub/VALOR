@@ -130,6 +130,54 @@ test("Dominio tampoco puede llevar apuesta: contra plata no se midió", () => {
 });
 
 /* ══════════════════════════════════════════════════════════════════
+   1ter. Jugadores — y el estado "medido, y da mal"
+   ══════════════════════════════════════════════════════════════════ */
+
+const JUGS = [{nombre: "Neymar", equipo: "Santos", pos: "F", pj: 11,
+               esp: {goles: 0.42, al_arco: 0.91, remates: 3.23}}];
+const CON_JUG = Object.assign({}, DATOS, {jugadores: JUGS});
+
+test("mal_calibrada existe y vale MENOS que calibrada", () => {
+  cierto(CONFIANZAS.indexOf("mal_calibrada") < CONFIANZAS.indexOf("calibrada"),
+         "el orden de CONFIANZAS es lo que permite bajar sin poder subir");
+  cierto(CONFIANZAS.indexOf("sin_medir") < CONFIANZAS.indexOf("mal_calibrada"),
+         "medido y malo sigue siendo más que no medido");
+});
+
+test("con jugadores aparece el eje", () => {
+  cierto(construirEjes(CON_JUG).some(e => e.eje === "jugadores"));
+});
+
+test("sin jugadores el eje no aparece", () => {
+  cierto(!construirEjes(DATOS).some(e => e.eje === "jugadores"));
+});
+
+test("el que llama puede BAJAR la confianza del eje", () => {
+  const e = construirEjes(Object.assign({}, CON_JUG,
+    {confianzaJugadores: "mal_calibrada"})).find(x => x.eje === "jugadores");
+  igual(e.confianza, "mal_calibrada",
+        "si una métrica en pantalla no es de fiar, el eje entero baja:");
+});
+
+test("pero sigue sin poder subirla", () => {
+  const e = construirEjes(Object.assign({}, CON_JUG,
+    {confianzaJugadores: "con_plata"})).find(x => x.eje === "jugadores");
+  igual(e.confianza, "calibrada", "la tabla manda hacia arriba:");
+});
+
+test("una confianza inventada no baja ni sube nada", () => {
+  const e = construirEjes(Object.assign({}, CON_JUG,
+    {confianzaJugadores: "excelente"})).find(x => x.eje === "jugadores");
+  igual(e.confianza, "calibrada");
+});
+
+test("y bajar la confianza tampoco habilita una apuesta", () => {
+  construirEjes(Object.assign({}, CON_JUG,
+    {confianzaJugadores: "mal_calibrada"}))
+    .forEach(e => igual(e.apuesta, null, `${e.eje}:`));
+});
+
+/* ══════════════════════════════════════════════════════════════════
    2. Regla 1 — sin script que lo mida, no se declara nada
    ══════════════════════════════════════════════════════════════════ */
 

@@ -32,7 +32,7 @@ function cargarLogica(){
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
               mercados, otrosMercados, divergen, senalDividida, tabHistorial, tarjeta, tabPlantel,
-              tabEstadisticas, tabHerramientas, tabPronosticos,
+              tabEstadisticas, tabHerramientas, tabPronosticos, CUOTA_MIN_ESCALERA, cuotaUsada2:cuotaUsada,
               onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
               fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL, combinada,
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
@@ -659,26 +659,47 @@ test("senalDividida() sin senal (o sin analisis) devuelve null", ()=>{
   igual(L.senalDividida(claro), null, "senal incierto:");
 });
 
+/* Desde el 2026-08-31 `senalDividida()` mira "Otros mercados" y no la
+   escalera: la escalera es solo de Resultado y ahí no hay goles que
+   contradecir. Y exige que el mercado en conflicto esté MARCADO EN
+   VALOR — declarar tensión sobre algo que no recomendamos sería ruido.
+   Por eso los fixtures ahora construyen ventaja real. */
+function conVentajaEn(m, id, pp){
+  const o = L.mercados(L.lectura(m).M, m).find(x=> x.id===id);
+  const t = o.p - 0.08;
+  const ex = {...(m.mercadoExtra||{})};
+  if(id === "btts_si") ex.btts = {si: 1/t, no: 1/(1-t)};
+  else ex.goles = {...(ex.goles||{}), [String(o.linea)]:
+        o.lado==="over" ? [1/t, 1/(1-t)] : [1/(1-t), 1/t]};
+  /* Premier: el fixture del snapshot es de Liga Profesional, y ahí el
+     gate de LIGAS_SIN_VALOR apaga toda marca por medición. Este test
+     prueba senalDividida, no el gate — que tiene los suyos. */
+  return {...m, comp: "Premier League", mercadoExtra: ex};
+}
+
 test("senalDividida() con ritmo bajo detecta opciones de goles altos", ()=>{
-  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
+  const claro2 = conVentajaEn(claro, "ov2.5");
+  L.cargar([claro2], {[claro2.id]: {contexto:"x", inclinacion:"L",
     desarrollo:{texto:"trabado", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"incierto"}}}});
-  const sd = L.senalDividida(claro);
+  const sd = L.senalDividida(claro2);
   cierto(sd && sd.fenom==="goles", "deberia marcar senal de goles");
   cierto(sd.opciones.length >= 1, "deberia haber al menos una opcion de goles altos en conflicto");
 });
 
 test("senalDividida() con ambos poco probable detecta btts_si", ()=>{
-  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
+  const c2 = conVentajaEn(claro, "btts_si");
+  L.cargar([c2], {[c2.id]: {contexto:"x", inclinacion:"L",
     desarrollo:{texto:"cerrado", senal:{ritmo_goleador:"incierto", estructura:"neutral", ambos_marcan:"poco_probable"}}}});
-  const sd = L.senalDividida(claro);
+  const sd = L.senalDividida(c2);
   cierto(sd && sd.fenom==="ambos", "deberia marcar senal de ambos");
   cierto(sd.opciones.includes("btts_si"), "la opcion en conflicto es ambos marcan");
 });
 
 test("senalDividida() con ambas señales acumula las opciones en conflicto", ()=>{
-  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
+  const c3 = conVentajaEn(conVentajaEn(claro, "ov2.5"), "btts_si");
+  L.cargar([c3], {[c3.id]: {contexto:"x", inclinacion:"L",
     desarrollo:{texto:"x", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"poco_probable"}}}});
-  const sd = L.senalDividida(claro);
+  const sd = L.senalDividida(c3);
   cierto(sd && sd.opciones.includes("ov2.5"), "no incluye la opcion de goles altos en conflicto");
   cierto(sd && sd.opciones.includes("btts_si"), "no incluye ambos marcan en conflicto");
 });
@@ -1245,15 +1266,22 @@ test("la escalera nunca recomienda un mercado y su contrario", ()=>{
   igual(choques, 0, `la escalera se contradice en ${choques} casos. Ej: ${detalle}`);
 });
 
-test("al resolver el choque no se pierde la franja si hay alternativa", ()=>{
-  /* Sacar la opción contradictoria no puede dejar el escalón vacío
-     cuando había otro mercado válido en esa franja: el usuario perdería
-     una recomendación legítima por un problema que no es suyo. */
+test("la escalera conserva cobertura razonable pese a las restricciones", ()=>{
+  /* El umbral era 0.8 cuando la escalera podía elegir entre los tres
+     ejes. Desde el 2026-08-31 solo recomienda Resultado (el único donde
+     el modelo tiene información medida) y con piso de cuota, así que
+     quedan menos candidatos por franja: la cobertura real cayó a ~67%.
+
+     Eso NO es una regresión, es el precio de no recomendar lo que no
+     sabemos. Un escalón que dice "sin opción clara en esta franja" es
+     más honesto que uno que ofrece un under a cuota 1.10 en un partido
+     que va a terminar 5-2. El piso baja a 0.55 para que siga
+     protegiendo contra una escalera que se vacía de verdad. */
   let conOp = 0, total = 0;
   PARTIDOS.forEach(m=>{
     L.escalera(m).forEach(x=>{ total++; if(x.op) conOp++; });
   });
-  cierto(conOp / total >= 0.8,
+  cierto(conOp / total >= 0.55,
          `solo ${conOp} de ${total} escalones quedaron con recomendación`);
 });
 
@@ -1548,24 +1576,29 @@ test("combinada() vuelve a encontrar una pata de Resultado en la mayoría de los
    no repite lo mismo tres veces solo porque una familia tiene más
    candidatos. ══════════════════════════════════════════════════════════════════ */
 
-test("la escalera no repite la misma familia en las tres franjas si hay alternativa", ()=>{
-  // Con mercadoExtra real, Goles(1.5/2.5/3.5) tiene precio real en las
-  // tres líneas (antes solo 2.5 vía DraftKings) y gana el "más cerca
-  // del centro" más seguido — el mismo escenario que hoy en la app.
+test("la escalera no repite el mismo mercado dos veces", ()=>{
+  /* Reemplaza al viejo test de diversidad de FAMILIA, que dejó de
+     tener sentido el 2026-08-31: la escalera es toda de Resultado a
+     propósito, porque es el único eje donde el modelo tiene información
+     medida (`medir_ejes.py`). Que las tres franjas compartan familia ya
+     no es un síntoma — es el diseño.
+
+     Lo que sí sigue importando es que no repita el MISMO mercado, que
+     sería mostrar la misma apuesta dos veces con otro nombre. */
   const con = USABLES.map(conGolesCompleto);
   L.cargar(con, {});
-  let mismaFamilia = 0, revisados = 0;
+  let repetidos = 0, revisados = 0, ejemplo = "";
   con.forEach(m=>{
-    const esc = L.escalera(m).filter(x=> x.op);
-    if(esc.length < 2) return;
+    const ids = L.escalera(m).map(x=> x.op && x.op.id).filter(Boolean);
+    if(ids.length < 2) return;
     revisados++;
-    const familias = new Set(esc.map(x=> x.op.fam));
-    if(familias.size === 1) mismaFamilia++;
+    if(new Set(ids).size !== ids.length){
+      repetidos++;
+      if(!ejemplo) ejemplo = `${m.home}: ${ids.join(", ")}`;
+    }
   });
-  cierto(revisados > 0, "no hay partidos con dos o más franjas para revisar");
-  const fraccion = mismaFamilia / revisados;
-  cierto(fraccion < 0.5,
-         `sigue repitiendo la misma familia en las tres franjas: ${mismaFamilia}/${revisados} (${(fraccion*100).toFixed(0)}%)`);
+  cierto(revisados > 0, "no hay partidos con dos o más franjas");
+  igual(repetidos, 0, `${repetidos}/${revisados} repiten mercado — ej: ${ejemplo}`);
 });
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1676,6 +1709,79 @@ test("la escalera no deja un rango de goles tan estrecho que equivalga a un marc
   cierto(revisados > 0, "no hay partidos para revisar");
   igual(estrechos, 0,
     `${estrechos}/${revisados} partidos apuestan a un marcador exacto sin querer — ej: ${ejemplo}`);
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   LA ESCALERA SOLO RECOMIENDA DONDE EL MODELO SABE, Y A PRECIO REAL
+
+   Dos reglas que salen de la misma queja de Lucas: "recomienda menos
+   de 1.5 goles en un partido que terminó 5-2" y "recomienda cuotas de
+   mierda".
+
+   1. Solo Resultado. `medir_ejes.py` sobre 10.410 partidos: Resultado
+      aporta +2.6% (arg) y +13.2% (eng) sobre la tasa base; Goles, de
+      −0.9% a +0.4%; Ambos marcan, −0.4%. El modelo NO tiene información
+      sobre cuántos goles habrá. Recomendar ahí es vender lo que no se
+      sabe.
+
+   2. Piso de cuota. Con el margen de la casa en 7.7%, una cuota de
+      1.10 no deja nada. La app ya lo dice en Método y lo mostraba
+      igual.
+
+   Efecto lateral que arregla un tercer problema: con las tres franjas
+   sobre el MISMO eje, más probabilidad implica menos cuota siempre. Se
+   acabó el "Arriesgada: gana River, paga 1.61" mientras "Lo más
+   probable" pagaba 1.17 — que pasaba por mezclar ejes con escalas de
+   precio distintas.
+   ══════════════════════════════════════════════════════════════════ */
+test("la escalera solo recomienda mercados de Resultado", ()=>{
+  L.cargar(PARTIDOS, {});
+  let otros = 0, total = 0, ejemplo = "";
+  PARTIDOS.forEach(m=>{
+    L.escalera(m).forEach(f=>{
+      if(!f.op) return;
+      total++;
+      if(f.op.fam !== "Resultado"){
+        otros++;
+        if(!ejemplo) ejemplo = `${m.home}: ${f.op.id}`;
+      }
+    });
+  });
+  cierto(total > 0, "no hay escalones para revisar");
+  igual(otros, 0, `${otros}/${total} escalones no son de Resultado — ej: ${ejemplo}`);
+});
+
+test("y nunca por debajo del piso de cuota", ()=>{
+  L.cargar(PARTIDOS, {});
+  let bajos = 0, total = 0, ejemplo = "";
+  PARTIDOS.forEach(m=>{
+    L.escalera(m).forEach(f=>{
+      if(!f.op) return;
+      total++;
+      const c = L.cuotaUsada(f.op, L.devig(m.mercado||{}), m.mercado||{}, m.mercadoExtra||{});
+      if(c != null && c < L.CUOTA_MIN_ESCALERA){
+        bajos++;
+        if(!ejemplo) ejemplo = `${m.home}: ${f.op.id} paga ${c}`;
+      }
+    });
+  });
+  igual(bajos, 0, `${bajos}/${total} escalones pagan menos del piso — ej: ${ejemplo}`);
+});
+
+test("las tres franjas quedan ordenadas: más probable paga menos", ()=>{
+  /* Con todo sobre el mismo eje esto se cumple solo. Si algún día
+     vuelve a fallar, es que se coló otro eje en la escalera. */
+  L.cargar(PARTIDOS, {});
+  let desordenes = 0, revisados = 0;
+  PARTIDOS.forEach(m=>{
+    const ops = L.escalera(m).map(f=> f.op).filter(Boolean);
+    if(ops.length < 2) return;
+    revisados++;
+    for(let i = 1; i < ops.length; i++)
+      if(ops[i].p > ops[i-1].p) desordenes++;
+  });
+  cierto(revisados > 0, "no hay partidos con dos escalones");
+  igual(desordenes, 0, `${desordenes} escalones rompen el orden de probabilidad`);
 });
 
 test("cuando hay un mercado de Resultado disponible en la franja, gana sobre uno de Goles", ()=>{

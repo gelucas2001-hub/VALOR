@@ -4379,3 +4379,55 @@ Con esto el contrato tiene **cinco ejes**: resultado, volumen, dominio,
 jugadores y contexto. Falta Fricción (faltas, tarjetas, árbitro), que
 está medido y da poco: faltas con sesgo de 9 puntos, tarjetas sin
 aporte, y el árbitro sin efecto detectable por permutación.
+
+### Addendum 8 · La segunda skill: el mercado de estadísticas (2026-08-31)
+
+Lucas lo había pedido y yo lo había dejado pasar: *"¿no te había dicho
+que yo quería una skill aparte para estadísticas? Tenemos la principal
+del partido, faltaría la de estadísticas, quiero que tengamos dos
+mercados divididos en un partido."*
+
+Tenía razón y ahora están los dos.
+
+| skill | expediente | escribe | alimenta |
+|---|---|---|---|
+| `valor-analisis-inclinacion` | `expediente.py` | `analisis.json` | inclinación + eje Contexto |
+| **`valor-analisis-estadisticas`** | **`expediente_estadisticas.py`** | **`analisis_estadisticas.json`** | **lectura de Dominio y Jugadores** |
+
+**Dónde encaja en la arquitectura, y por qué encajó sin pelear.** Los
+ejes Dominio y Jugadores tenían la `lectura` en `null` desde que se
+construyeron — el contrato la soportaba y nadie la llenaba. La skill
+nueva la llena. No hubo que tocar el contrato ni `sellar()`: un campo
+que ya existía encontró quién lo escribiera.
+
+**Las tres reglas duras de la skill nueva salen de mediciones**, no de
+criterio:
+
+- **no escribe una cifra de remates** como pronóstico — la métrica está
+  medida y se desvía 2.09 veces el ruido. Puede decir "es el que más
+  patea"; no puede decir "va a rematar 3 veces";
+- **no le atribuye nada al árbitro** — efecto sobre tarjetas medido por
+  permutación, y da cero;
+- **no habla de quién gana** — ese es el otro mercado, y repetirlo hace
+  que el usuario lea dos veces lo mismo.
+
+**El expediente es una lista blanca, igual que el otro**, y tiene una
+exclusión que no es obvia: `corners`, `fouls` y `cards` de
+`partidos.json` **no viajan**, porque son *los que esperamos nosotros* —
+salida del modelo disfrazada de dato. Lo que sí viaja son los promedios
+crudos por equipo, que es otra cosa. Hay un test que lo ata.
+
+**Lo que hace útil al expediente nuevo es `concede`.** Sin él la skill
+solo puede describir a un equipo; la pregunta del mercado de
+estadísticas es casi siempre sobre el cruce. Probado en Athletico–
+Fluminense: el promedio de Athletico dice 9.75 remates y esconde que de
+local produce 20 y de visitante 6.33 — el split cambia la lectura
+entera.
+
+Verificado de punta a punta: expediente → skill → JSON → los dos ejes
+mostrando el texto arriba de sus números, en el navegador, con datos
+reales.
+
+Herramientas: `expediente_estadisticas.py`,
+`test_expediente_estadisticas.py` (32 pruebas, la mitad sobre que no se
+filtre la salida del modelo), `.claude/skills/valor-analisis-estadisticas/`.

@@ -35,6 +35,7 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 | `medir_calibracion.py` | Cuando la app dice 70%, ¿pasa el 70%? Mide la calibración de lo que la app ya publicó, partido por partido — a diferencia de `backtest.py`, que reconstruye lo que el modelo habría dicho. Faltaba en esta tabla hasta el 2026-08-24 | A mano, cada tanto |
 | `historico.py` | Baja y normaliza el historial largo de football-data.co.uk: 6310 partidos de arg, 5544 de bra, **4180 de eng y 3857 de fra** (agregadas el 2026-08-25), con cuota de cierre de Pinnacle. Es la base de las mediciones serias. Lee los **dos** formatos de la fuente — un archivo único para las ligas nuevas, uno por temporada para las clásicas de Europa. Solo el segundo trae estadísticas por partido, y esa es la razón por la que en Inglaterra se distinguen los equipos y en Argentina no | A mano |
 | `equipos.py` | Cruza los nombres de equipo del CSV de football-data con los de ESPN, que es lo unico que ataba las dos fuentes. **Solo por igualdad exacta despues de normalizar** — nada de parecido ni prefijos: en Ligue 1 juegan Paris Saint-Germain y Paris FC a la vez, y el CSV tiene a los dos (395 partidos contra 34). Un cruce difuso les funde la historia y eso no se ve como un error, se ve como datos. De los 15 nombres que no coincidian, 12 los resuelve el `shortDisplayName` que ESPN ya publica y uno el apostrofo: la tabla a mano es de **tres** entradas. Cruza 19 de 20 en Inglaterra y 17 de 18 en Francia; los dos que faltan son ascendidos sin historia en primera | A mano, cuando cambia una liga |
+| `expediente_estadisticas.py` | El expediente objetivo del **mercado de estadisticas**, para la segunda skill. Mismo molde que `expediente.py` y misma razon: lista blanca, y lo que no esta no viaja — sin λ, sin rho, sin cuotas, y **sin los corners/faltas/tarjetas que esperamos nosotros**, que son salida del modelo aunque no lo parezcan. Lo que si manda es lo que cada equipo produce **y lo que concede**, el split local/visita, la serie por jugador (no el promedio) y cuanto se le cree a cada metrica. `python expediente_estadisticas.py <id>` | A mano, antes de correr la skill |
 | `mercado_extra.py` | La cuota que ESPN NO publica, de Bet365 vía odds-api.io: 17 a 19 lineas de gol, ambos marcan, doble oportunidad cotizada, corners del partido **y por equipo con los dos lados**, y la escalera de remates de ~50 jugadores por partido. ESPN daba UNA casa y tres cosas (1X2, goles 2.5, handicap); todo el resto de 'Otros mercados' salia del modelo sin nada real contra que compararse. Cruza los partidos por **fixture** (liga + fecha + los dos equipos), nunca por nombre: ellos escriben 'CA River Plate (ARG)' y tienen ademas 'Racing Club De Lens'. 46 de 46 cruzan unico. **Sin `ODDS_API_KEY` no hace nada y la app queda igual** | A mano / lo llama el cron |
 | `historia_equipos.py` | Escribe `data/historia_equipos.json`: la historia larga de cada equipo (296 partidos contra los 5 del cache), cruzada a ids de ESPN con `equipos.py`. Guarda `n`, `suma` y `suma2` por equipo y metrica — de ahi salen media y varianza exactas, y pesa 18 KB en vez de 80.000 numeros sueltos. **Se corre A MANO**: el cron NO lo baja, serian 22 pedidos a football-data dos veces por dia para un archivo que cambia una vez por semana. Volver a correrlo cuando cambian los ascensos y descensos | A mano, cada tanto |
 | `medir_historico.py` | El modelo contra el mercado sobre TODO el historial, walk-forward. La vara es la tasa base, no 'siempre un tercio' | A mano, cada tanto |
@@ -72,6 +73,24 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 | `data/historia_equipos.json` | El ancla de cada equipo en corners, remates, al arco, faltas y tarjetas, desde 11 temporadas de football-data. Lo escribe `historia_equipos.py`; `actualizar.py` lo lee si esta. **Si no esta, la app se comporta exactamente como antes de que existiera** — arg.1 y bra.1 no lo tienen porque la fuente no trae estadisticas de esas ligas | A mano, via ese script |
 | `data/calibracion_jugadores.json` | Cuánto le erra cada línea de jugador. Lo escribe `medir_jugadores.py`, y la app lo lee para decir en pantalla de qué fiarse | A mano, vía ese script |
 | `data/analisis.json` | Análisis cualitativo, carga manual. El cron **nunca** lo toca | A mano |
+| `data/analisis_estadisticas.json` | El **segundo mercado** del partido: córners, remates, al arco, faltas, tarjetas y que jugador las produce. Lo escribe la skill `valor-analisis-estadisticas` y llena la `lectura` de los ejes Dominio y Jugadores. Carga manual; el cron **nunca** lo toca | A mano |
+
+## Las DOS skills del partido, y cuál escribe qué
+
+Desde el 2026-08-31 un partido tiene **dos mercados** y una skill para
+cada uno. No se pisan, y mezclarlas hace que el usuario lea dos veces
+lo mismo:
+
+| skill | expediente | escribe | alimenta |
+|---|---|---|---|
+| `valor-analisis-inclinacion` | `expediente.py` | `data/analisis.json` | la inclinación y el eje Contexto |
+| `valor-analisis-estadisticas` | `expediente_estadisticas.py` | `data/analisis_estadisticas.json` | la lectura de los ejes Dominio y Jugadores |
+
+La segunda tiene tres reglas duras que salen de mediciones, no de
+opiniones: **no escribe una cifra de remates** como pronóstico (la
+métrica está medida y se desvía 2.09 veces el ruido), **no le atribuye
+nada al árbitro** (efecto medido por permutación: cero), y **no habla
+de quién gana** — ese es el otro mercado.
 
 ## El research de `analisis.json` — con qué skill, y con cuál no
 

@@ -1,0 +1,15 @@
+{
+ "_schema": {
+  "_comentario": "Análisis del MERCADO DE ESTADÍSTICAS, uno por partido. Lo escribe la skill valor-analisis-estadisticas a partir de expediente_estadisticas.py. Carga manual: el cron nunca toca este archivo. Es el segundo de los dos mercados; el del resultado vive en analisis.json.",
+  "_dominio": "Obligatorio. Quién va a tener la pelota y el arco de frente, y por qué el CRUCE lo produce. Llena la lectura del eje Dominio.",
+  "_jugadores": "Obligatorio. A quién mirar y por qué ese y no otro. Llena la lectura del eje Jugadores.",
+  "_friccion": "Opcional. Faltas y tarjetas. Solo si hay algo real que decir.",
+  "_prohibido": "Cifras de remates como pronóstico (métrica medida MAL), atribuirle algo al árbitro (efecto medido = cero), y hablar de quién gana (ese es el otro mercado)."
+ },
+ "espn401841208": {
+  "actualizado": "2026-08-31",
+  "dominio": "El promedio de Athletico engaña: como local produce más del triple de remates que como visitante, y ahí saca ocho córners por partido en vez de dos. En su cancha es otro equipo. Enfrente tiene a un Fluminense que ni de visitante suelta la pelota — se queda con casi el 59% incluso afuera — pero que igual concede: le rematan más de lo que le rematan a un equipo promedio. Es un cruce de dos que quieren la pelota y ninguno de los dos la defiende bien, así que el volumen de llegadas debería estar por encima de lo normal para los dos lados. Advertencia: son cuatro y tres partidos de muestra, y el split de local se apoya en menos todavía.",
+  "jugadores": "Kevin Viveros es el que sostiene la ofensiva de Athletico y el único que llega con regularidad: patea en los cuatro partidos de su serie, la mitad de eso va al arco, y ya lleva dos goles. Del lado de Fluminense el nombre no es el más goleador sino el más eficiente: a Kevin Serna todo lo que patea le va al arco — uno, uno y dos, los tres partidos — así que rinde más para las líneas de remate al arco que para las de remate a secas. Ojo con René, el lateral: metió tres remates en un partido y cero en los otros dos, que es el patrón del que pega de afuera cuando el partido se le abre, no el de alguien que patea siempre. Y Stiven Mendoza viene de 0, 4, 0 y 0: eso es una racha, no una tendencia.",
+  "friccion": "Es el eje donde el cruce se nota más. Fluminense de visitante comete diecinueve faltas por partido y se lleva tres amarillas; Athletico de local comete siete y no vio ninguna. Si el patrón se repite, las tarjetas van a caer casi todas del mismo lado, y las faltas de Viveros vienen subiendo partido a partido — dos, dos, tres y cuatro — así que él es el candidato del lado local."
+ }
+}

@@ -785,6 +785,8 @@ a{color:inherit}
    Filete de salvia porque es VOZ SECUNDARIA — una lectura, no un estado
    (DESIGN.md: la mostaza dice valor y la terracota dice alerta; esto no
    dice ninguna de las dos y por eso no puede usar ninguno de los dos). */
+.sec .lectura-eje{margin:0 20px 12px 16px;padding:0}
+.sec .lectura-eje p{font-size:14px;line-height:1.55;color:var(--tinta2);margin:0}
 .mrow .jugcifras{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 8px}
 .mrow .jm{font-family:var(--mono);font-size:11px;color:var(--gris);
   letter-spacing:.04em;text-transform:uppercase}
@@ -1127,6 +1129,7 @@ let PARAM_LIGA={};     /* lo mismo, pero calculado DENTRO de cada liga.
    simplemente no dice nada sobre fiabilidad — no inventa. */
 let CALIBRACION={}, CALIBRADO="";
 let CAL_JUG={};        /* lo mismo para las líneas de jugador */
+let ANALISIS_EST={};   /* la skill del mercado de estadísticas */
 let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
 let PARAMJUG_LIGA={};  /* y por puesto DENTRO de cada liga: un 9 inglés no se
                           encoge hacia el promedio de los 9 argentinos. */
@@ -2077,6 +2080,10 @@ function construirEjes(datos){
       titulo:     "Quién ataca más",
       estimacion: d.dominio,
       ancla:      d.anclaDominio || null,
+      /* La escribe la skill del mercado de estadísticas. Es texto, no
+         un número: no puede subir la confianza del eje ni habilitar una
+         apuesta — `sellar()` no se lo permitiría de todos modos. */
+      lectura:    (d.estadisticas || {}).dominio || null,
     }));
   }
   /* Jugadores baja al peor nivel de las métricas que efectivamente
@@ -2088,6 +2095,7 @@ function construirEjes(datos){
       estimacion: d.jugadores,
       ancla:      d.calibracionJugadores || null,
       confianza:  d.confianzaJugadores || null,
+      lectura:    (d.estadisticas || {}).jugadores || null,
     }));
   }
   /* Contexto es el único eje cuya `lectura` viene llena: los demás la
@@ -2823,6 +2831,7 @@ function ejesDe(m){
     mercado:  m.mercado || null,
     dominio:  dominioDe(L, V),
     contexto: ANALISIS[m.id] || null,
+    estadisticas: ANALISIS_EST[m.id] || null,
     jugadores: jug,
     confianzaJugadores: jug.length ? confianzaJugadores(mets) : null,
     calibracionJugadores: mets.reduce((o, k)=>{
@@ -2842,7 +2851,7 @@ function bloqueJugadores(m){
     : "CALIBRADO · NO ES UNA APUESTA";
 
   let h = `<div class="banda banda2">${esc_(eje.titulo)}<em>${chip}</em></div>
-    <div class="sec"><div class="grp">`;
+    <div class="sec">${lecturaDeEje(eje)}<div class="grp">`;
 
   eje.estimacion.forEach(grupo=>{
     h += `<div class="gh">${esc_(grupo.linea)}</div>`;
@@ -2878,6 +2887,15 @@ function bloqueJugadores(m){
   return h;
 }
 
+/* El texto que escribe la skill del mercado de estadísticas, arriba de
+   los números del eje. Va antes y no después a propósito: la frase dice
+   qué mirar, y los números sin esa frase son una tabla. Si no hay
+   análisis cargado, el bloque queda exactamente como antes. */
+function lecturaDeEje(eje){
+  if(!eje || !eje.lectura) return "";
+  return `<div class="read lectura-eje"><p>${esc_(eje.lectura)}</p></div>`;
+}
+
 function bloqueDominio(m){
   const eje = ejesDe(m).find(e => e.eje === "dominio");
   if(!eje) return "";
@@ -2892,7 +2910,7 @@ function bloqueDominio(m){
   const chip = sinMedir ? "SIN MEDIR EN ESTA LIGA" : "CALIBRADO · NO ES UNA APUESTA";
 
   let h = `<div class="banda banda2">${esc_(eje.titulo)}<em>${chip}</em></div>
-    <div class="sec"><div class="grp">`;
+    <div class="sec">${lecturaDeEje(eje)}<div class="grp">`;
 
   filas.forEach(([k, etiqueta])=>{
     const a = L[k], b = V[k], tot = a + b;
@@ -4326,12 +4344,13 @@ async function traer(url, def){
   ACTUALIZADO = p.actualizado || "";
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
-  const [an, rs, pl, es, cal, calj] = await Promise.all([
+  const [an, rs, pl, es, cal, calj, anEst] = await Promise.all([
     traer("data/analisis.json", {}),
     traer("data/resultados.json", {}), traer("data/planteles.json", {}),
     traer("data/estadisticas.json", {}),
     traer("data/calibracion_lineas.json", {}),
     traer("data/calibracion_jugadores.json", {}),
+    traer("data/analisis_estadisticas.json", {}),
   ]);
   RESULTADOS = rs || {};
   /* la clave _schema es documentación del formato, no un partido */
@@ -4345,6 +4364,10 @@ async function traer(url, def){
   CALIBRACION = (cal && cal.metricas) || {};
   CALIBRADO = (cal && cal.actualizado) || "";
   CAL_JUG = (calj && calj.metricas) || {};
+  /* La segunda skill del partido: escribe la lectura de los ejes
+     Dominio y Jugadores. Si el archivo no está, los ejes salen sin
+     texto y todo lo demás anda igual — es carga manual. */
+  ANALISIS_EST = anEst || {};
 
   desdeHash();
   render();

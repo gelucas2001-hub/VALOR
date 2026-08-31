@@ -178,6 +178,51 @@ test("y bajar la confianza tampoco habilita una apuesta", () => {
 });
 
 /* ══════════════════════════════════════════════════════════════════
+   1ter-bis. La skill de estadísticas llena la lectura de dos ejes
+   ══════════════════════════════════════════════════════════════════ */
+
+const EST = {dominio: "A Athletico le rematan 19.5 veces por partido.",
+             jugadores: "Hulk viene de 6, 4 y 0 remates.",
+             friccion: "Partido de pocas faltas."};
+const CON_EST = Object.assign({}, DATOS,
+  {dominio: DOM, jugadores: JUGS, estadisticas: EST});
+
+test("la skill de estadísticas escribe la lectura de Dominio", () => {
+  const e = construirEjes(CON_EST).find(x => x.eje === "dominio");
+  igual(e.lectura, EST.dominio);
+});
+
+test("y la de Jugadores", () => {
+  const e = construirEjes(CON_EST).find(x => x.eje === "jugadores");
+  igual(e.lectura, EST.jugadores);
+});
+
+test("sin esa skill los dos ejes siguen existiendo, sin texto", () => {
+  const sin = Object.assign({}, DATOS, {dominio: DOM, jugadores: JUGS});
+  const ejes = construirEjes(sin);
+  igual(ejes.find(x => x.eje === "dominio").lectura, null);
+  igual(ejes.find(x => x.eje === "jugadores").lectura, null);
+});
+
+test("el texto de la skill NO sube la confianza de un eje", () => {
+  const e = construirEjes(CON_EST).find(x => x.eje === "jugadores");
+  igual(e.confianza, "calibrada",
+        "la confianza sale de la medición, no de que alguien haya escrito:");
+});
+
+test("ni habilita una apuesta", () => {
+  construirEjes(CON_EST).forEach(e => igual(e.apuesta, null, `${e.eje}:`));
+});
+
+test("el texto de un eje no se filtra al otro", () => {
+  const soloDom = Object.assign({}, DATOS,
+    {dominio: DOM, jugadores: JUGS, estadisticas: {dominio: "solo dominio"}});
+  const ejes = construirEjes(soloDom);
+  igual(ejes.find(x => x.eje === "dominio").lectura, "solo dominio");
+  igual(ejes.find(x => x.eje === "jugadores").lectura, null);
+});
+
+/* ══════════════════════════════════════════════════════════════════
    1quater. Contexto — el único eje que escribe una persona
    ══════════════════════════════════════════════════════════════════ */
 

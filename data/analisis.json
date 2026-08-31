@@ -1,170 +1,186 @@
 {
-   "_schema": {
-      "_comentario": "Análisis específico de UN cruce puntual — lo que la estadística sola no ve (motivación, contexto de tabla, algo raro de esta semana). actualizar.py nunca escribe este archivo. Clave = mismo id de partido que usa data/partidos.json (formato espnNNNNNNNNN).",
-      "_inclinacion": "OBLIGATORIO para que la app marque valor. Es la dirección que sale del análisis HUMANO, no del modelo: 'L' local, 'V' visitante, 'E' empate, o null si el análisis no inclina para ningún lado. La regla de alineación la usa para descartar cualquier apuesta que contradiga esta lectura, y el valor se calcula sobre ella. Si viniera del modelo, sería el modelo dándose la razón a sí mismo — y eso es justo lo que la regla existe para evitar. Sin inclinacion, el partido cuenta como no analizado y no se marca nada.",
-      "_ejemplo": {
-         "actualizado": "2026-08-20",
-         "inclinacion": "L",
-         "local": "Cómo juega y cómo llega el local, con sus ausencias pesadas por partidos jugados y goles",
-         "visitante": "Lo mismo del visitante, incluido cómo le va lejos de su cancha",
-         "contexto": "Solo lo que cruza a los dos: la llave, la tabla, el árbitro, qué se juega cada uno",
-         "veredicto": "Lectura final: hacia dónde inclina esto el análisis"
-      },
-      "_local_visitante": "Una lectura por equipo, agregadas el 2026-08-20. Existen porque con un solo campo de prosa nada obligaba a hablar del rival y el hueco no se veía en pantalla: los análisis terminaban siendo una lista de bajas del equipo grande. La app las muestra bajo el nombre de cada equipo. Son opcionales para atrás — los análisis viejos solo tienen contexto/veredicto y siguen andando — pero la skill los exige para todo análisis nuevo.",
-      "_desarrollo": "Campo nuevo (2026-08-29). Objeto {texto, senal}. texto: cómo se VA a jugar el partido (quién tendrá la pelota, abierto o trabado, ritmo, qué puede alterar el guion), único por partido, sin números del modelo ni del mercado, incertidumbre explícita cuando no hay base. senal: {ritmo_goleador: alto|bajo|incierto, estructura: abierto|trabado|neutral|incierto, ambos_marcan: probable|poco_probable|incierto}. Incierto = sin base, correcto. No toca inclinacion ni marcaDeValor."
-   },
-   "espn401874155": {
-      "actualizado": "2026-08-19",
-      "inclinacion": "L",
-      "contexto": "Este cruce es la vuelta de los octavos de Libertadores: en la ida, el 12 de agosto, Palmeiras y Cerro Porteño empataron 1-1 en San Pablo, así que la serie sigue abierta. Palmeiras llega con varias bajas —Khellven, Sosa, Paulinho y Jefté afuera, más la suspensión de Andreas Pereira— aunque recupera a su capitán y central titular, Gustavo Gómez, que ya entrena con el plantel. Abel Ferreira sigue al mando pese a la presión de la hinchada por los resultados recientes. Cerro Porteño, por su lado, pierde a Cecilio Domínguez por una lesión muscular y a Matías Pérez, que lleva dos semanas afuera por el mismo motivo, aunque el resto del equipo llegaría sin dudas.",
-      "veredicto": "Palmeiras recupera a su capitán pero sigue golpeado en bajas, y Cerro Porteño juega la definición de local con la serie empatada. Se inclina para el local."
-   },
-   "espn401874143": {
-      "actualizado": "2026-08-19",
-      "inclinacion": "L",
-      "contexto": "Esta es la vuelta de los octavos de Libertadores: la ida terminó 1-1 en cancha de Platense, el 12 de agosto. Platense cambió de técnico el 5 de agosto, con la vuelta de Martín Palermo en reemplazo de Walter Zunino, después de un 4-0 en contra frente a Talleres (Córdoba) — pero el arranque de Palermo fue bueno, no traumático: le ganó 1-0 a Independiente de visitante en su debut y empató 1-1 con Boca de local el 16 de agosto. El problema real son las bajas: seis, repartidas en todas las líneas — los defensores Celías Ingenthron y Gonzalo Goñi, los mediocampistas Iván Gómez y Maximiliano Amarfil, y los delanteros Augusto Lotti y Tomas Nasif. Coquimbo Unido, con Hernán Caputto sin cambios en el banco, solo pierde a dos delanteros, Dixon Pereira y Enzo Mettifogo.",
-      "veredicto": "Coquimbo llega mucho más entero —dos bajas puntuales contra seis repartidas en toda la cancha— y de local, con la serie empatada. Se inclina para el local."
-   },
-   "espn401902714": {
-      "actualizado": "2026-08-19",
-      "inclinacion": "L",
-      "contexto": "Atlético-MG llega a la vuelta de octavos de Sudamericana con ventaja: ganó la ida 1-0 en Bragança Paulista el 12 de agosto. Bragantino tiene tres bajas confirmadas por lesión — Vanderlan (ligamento de la rodilla izquierda), Cauê (muscular en el muslo) y Davi Gomes (recuperación de una cirugía de rodilla). Atlético-MG no puede contar con Thiago Borbas, pero no por lesión: el delantero pertenece al propio Bragantino a préstamo, y el club decidió no pagar la cláusula del contrato que le permitiría jugarle a su dueño.",
-      "veredicto": "Atlético-MG llega arriba en la serie, de local, y con menos golpes reales que un Bragantino con tres bajas por lesión. Se inclina para el local."
-   },
-   "espn401874141": {
-      "actualizado": "2026-08-19",
-      "inclinacion": "L",
-      "contexto": "Esta es la vuelta de los octavos de Libertadores, después del 1-1 de la ida, el 13 de agosto en el Mineirão. Cruzeiro llega con siete bajas confirmadas: los dos arqueros habituales, Cássio y Léo Aragão, los delanteros Villarreal, Gabriel Pec y Sinisterra —los tres en la enfermería— y el volante Matheus Henrique, suspendido por la tercera amarilla que vio en la ida. Flamengo, en cambio, tiene tres bajas confirmadas —Alex Sandro, Nico De La Cruz y Vitão, en el departamento médico— y dos dudas físicas, Everton Cebolinha y Bruno Henrique, todavía sin descartar.",
-      "veredicto": "Cruzeiro llega golpeado como pocas veces —sin sus dos arqueros de plantel y con tres delanteros afuera—, mientras Flamengo tiene bajas mucho más manejables y juega de local. Se inclina para el local."
-   },
-   "espn401903232": {
-      "actualizado": "2026-08-19",
-      "inclinacion": "L",
-      "contexto": "River, con Eduardo Coudet en el banco desde marzo, llega golpeado en la lista de convocados para esta ida de octavos de Sudamericana: no están Gonzalo Montiel (distensión en el aductor izquierdo), Marcos Acuña ni Sebastián Driussi (los dos sin el alta médica), y tampoco fueron citados Lucas Beltrán, Francisco Ortega, Giovanni González ni Mauro Arambarri — siete nombres afuera en total. En el torneo local viene de cortar una racha de cuatro derrotas seguidas con un triunfo el 16 de agosto ante Argentinos Juniors, en medio de un semestre flojo que tiene a Coudet bajo presión. Santa Fe tiene cuatro bajas confirmadas —Emerson Rodríguez, Juan Espitia, Víctor Moreno y el arquero titular, Andrés Mosquera Marmolejo, que se lesionó la pierna derecha en el partido anterior, ante Boyacá Chicó.",
-      "veredicto": "River llega con muchas más ausencias, varias de peso, y recién saliendo de una racha floja en el torneo local, mientras Santa Fe pierde nombres puntuales pero conserva la base del equipo. Se inclina para el local."
-   },
-   "espn401902571": {
-      "actualizado": "2026-08-19",
-      "inclinacion": "L",
-      "contexto": "Esta es la revancha de una llave que ya arrancó con ventaja para el local: en la ida, el 12 de agosto, Montevideo City Torque le ganó 1-0 a Tigre en Victoria. Tigre llega golpeado en las bajas — Ramón Arias, con rotura de ligamento cruzado, fue una de las cuatro ausencias confirmadas en esa ida, y una lesión de esa magnitud no se resuelve en tan poco tiempo. El local, en cambio, terminó primero en su grupo de la Sudamericana sin perder en sus últimos cuatro partidos de la copa, aunque en el torneo local uruguayo viene más irregular.",
-      "veredicto": "Tigre llega con bajas de peso sin resolver desde la ida, mientras Montevideo City Torque es el líder invicto de su grupo en esta copa y ya le ganó una vez a este mismo rival. Se inclina para el local."
-   },
-   "espn401896387": {
-      "actualizado": "2026-08-19",
-      "inclinacion": "V",
-      "contexto": "Racing llega golpeado como pocas veces en el año: cinco bajas confirmadas para este cruce puntual — Lautaro Díaz (desgarro, lesionado el 14 de agosto ante Banfield), Matías Zaracho, Marco Di Césare, Adrián Fernández y Valentín Carboni, este último con una rotura de ligamento cruzado de varios meses. El equipo no gana hace casi un mes y quedó en la parte baja de su zona en el torneo local. Belgrano llega en la vereda de enfrente: es el campeón vigente del Torneo Apertura 2026 y viene de dos triunfos seguidos, el más reciente el 15 de agosto ante Independiente Rivadavia. Sus únicas dudas —Morales y Sánchez, con golpes leves— entrenaron con el grupo y serían titulares. El partido se juega en San Luis, cancha neutral: la localía de Racing acá es solo administrativa.",
-      "veredicto": "Racing tiene la lista de bajas más larga que mostró en el año y no gana hace un mes, mientras Belgrano —campeón vigente y con el funcionamiento más sólido de los dos— no pierde nada por jugar en cancha neutral. Se inclina para la visita."
-   },
-   "espn401841518": {
-      "actualizado": "2026-08-23",
-      "inclinacion": null,
-      "local": "River sigue en su peor racha en más de un siglo: cinco derrotas seguidas, último de su zona, apenas dos goles convertidos en sus últimos cinco de liga. Driussi está lesionado desde julio y no debutó en este Clausura; se especula con que llegue a la convocatoria para este partido, pero no hay formación confirmada. El plantel no tiene otras bajas identificadas más allá de esa duda.",
-      "visitante": "Vélez llega invicto en sus últimos cinco: tres victorias y dos empates, incluyendo un 3-1 de visitante contra Talleres. El gol está repartido entre Lanzini y Valdés, un cuarto cada uno, sin depender de un solo nombre. No trascendieron bajas relevantes.",
-      "contexto": "River jugó la ida de octavos de Copa Sudamericana el miércoles 20 en Bogotá (0-0), pero fue un partido de 90 minutos sin definición: el desgaste de jugar entre semana es el ritmo normal de cualquier equipo que compite en copa, no una ventaja exclusiva de este cruce. El historial entre los dos es parejo, sin un patrón claro en cuatro cruces. La tabla no cruza a los dos: Vélez juega en otra zona.",
-      "veredicto": "River está en crisis y Vélez invicto, pero eso ya lo ve el modelo en la forma de cada uno. No encontramos un factor propio —Driussi es una duda, no una baja confirmada, y el partido de copa fue un desgaste normal— que alcance para inclinar por sobre lo que los números ya muestran."
-   },
-   "espn401841517": {
-      "actualizado": "2026-08-23",
-      "inclinacion": "L",
-      "local": "Racing viene irregular en su cancha —una victoria, tres derrotas y un empate en los últimos cinco de este torneo—, con Juan Pablo Vojvoda como técnico desde el 19 de junio, así que el proceso ya lleva dos meses y no es una novedad. No trascendieron bajas de peso para este partido.",
-      "visitante": "Boca llega invicto en sus últimos cinco (tres victorias, dos empates) pero golpeado en el plantel: confirmó tres bajas —Paredes, Lozano y Pellegrino, ninguno de los tres entre los que convierten— y arrastra dudas físicas en dos jugadores más por acumulación de partidos, después de haber jugado por Copa Sudamericana el 18 de agosto, cinco días antes de este cruce. Ascacibar sigue disponible y es, con diferencia, el que más pesa en ataque: hizo 3 de los 5 goles del equipo en este tramo.",
-      "contexto": "El historial reciente favorece a Boca —sin derrotas en los últimos tres cruces— pero los dos anteriores los había ganado Racing; con cinco cruces no hay un patrón parejo para apoyarse. La tabla no cruza a los dos: Boca juega en otra zona.",
-      "veredicto": "Lo que inclina esto son las tres bajas confirmadas de Boca —Paredes, Lozano y Pellegrino— más las dos dudas físicas que la prensa reportó para este partido puntual. No es que jugar entre semana sea en sí una desventaja —es el ritmo normal de cualquier equipo en copa—, pero acá hay nombres concretos afuera, no una suposición de desgaste."
-   },
-   "espn401841510": {
-      "actualizado": "2026-08-23",
-      "inclinacion": null,
-      "local": "Belgrano llega irregular pero sólido en su cancha: en los últimos cinco de este torneo ganó dos, perdió dos y empató uno, sin una racha marcada en ningún sentido. El gol está repartido entre cinco jugadores distintos, ninguno concentra más del 20%. No trascendieron bajas para este partido.",
-      "visitante": "Defensa y Justicia, con Julio Vaccari desde fines de mayo, viene mostrando señales de recuperación: dos victorias, dos empates y una derrota en los últimos cinco, incluyendo un 0-3 en contra con Estudiantes. Aaron Molinas es el nombre propio del equipo —30% de los goles y titular en 15 de los partidos que se tienen registrados—, pero no hay indicios de que esté en duda para este partido.",
-      "contexto": "Cuatro cruces desde 2024, parejos: un triunfo de cada uno y dos empates. No alcanza para marcar un patrón. La tabla no cruza a los dos: Defensa juega en otra zona.",
-      "veredicto": "Dos equipos irregulares, sin una baja que pese ni una racha que se imponga sobre la otra. No hay un factor propio que aporte algo por sobre lo que ya muestra la forma reciente de cada uno."
-   },
-   "espn401841509": {
-      "actualizado": "2026-08-23",
-      "inclinacion": "L",
-      "local": "Barracas defiende bien y convierte poco: en sus últimos cinco de este torneo metió apenas tres goles, pero ganó tres de esos cinco por la mínima. El gol está repartido —tres jugadores distintos aportaron uno cada uno, incluido un defensor— y no depende de un nombre. De local viene de perder 0-1 con Rosario Central el 16 de agosto, así que no llega en racha, pero tampoco hay bajas que trascendieran.",
-      "visitante": "Platense llega desgastado: el 19 de agosto jugó 120 minutos más penales en Chile para eliminar a Coquimbo Unido y meterse por primera vez en su historia en cuartos de Copa Libertadores. Son cuatro días de descanso nada más, con viaje de por medio. En la liga viene de tres empates seguidos (Coquimbo, Boca, Coquimbo otra vez) y no ganó de visitante desde el 9 de agosto. El gol también está repartido entre varios delanteros, ninguno concentra más del 22%.",
-      "contexto": "La tabla no cruza a los dos: Platense juega en otra zona. El historial reciente es apenas dos cruces, así que no pesa.",
-      "veredicto": "El desgaste de Copa es el dato que más pesa acá: Platense viene de un cruce a penales fuera de casa hace cuatro días, mientras Barracas llega con la semana completa. Se inclina para el local."
-   },
-   "espn401841519": {
-      "actualizado": "2026-08-23",
-      "inclinacion": null,
-      "local": "Sarmiento depende de un nombre: Junior Marabel hizo 4 de los 11 goles del equipo en el torneo, más de un tercio. Ganó tres de los últimos cinco de local, pero también perdió dos por goleada corta (2-3 con Banfield y con Argentinos). La prensa mencionó dos bajas para este partido sin identificarlas, así que no se puede pesar ninguna.",
-      "visitante": "Estudiantes llega en el mejor momento de los dos: ganó sus últimos dos partidos de manera contundente, 4-0 a Gimnasia y 3-0 a Universidad Católica de visitante por Copa Libertadores, resultado con el que avanzó a cuartos de final. También arrastra el desgaste de ese viaje a Chile, jugado apenas cinco días antes. Un medio platense mencionó una baja sensible para este viaje, sin nombrarla.",
-      "contexto": "Los dos llegan de competir en el plano internacional en la misma semana, así que el desgaste físico se compensa entre ambos y no distingue a ninguno. El historial es de solo dos cruces, anécdota. La tabla no cruza a los dos: Estudiantes juega en otra zona.",
-      "veredicto": "Estudiantes llega mejor de racha, pero las dos bajas mencionadas en la prensa no se pudieron identificar ni pesar, y el desgaste de la semana europea-sudamericana golpea a los dos por igual. No hay un factor propio que decida esto por sobre lo que ya muestra la forma de cada uno."
-   },
-   "espn401841522": {
-      "actualizado": "2026-08-20",
-      "inclinacion": "E",
-      "local": "El problema de Aldosivi es el gol: en los cinco partidos de este torneo no marcó más de uno por partido, y suma tres en total. El reparto del plantel cuenta lo mismo — entre sus seis delanteros hay un solo gol, y el que más convirtió es un volante. En el Minella jugó dos veces en este torneo: 0-0 con Tigre el 15 de agosto y 1-2 con Gimnasia La Plata el 2 de agosto. Sigue sin ganar, último de su zona con dos puntos. Israel Damonte lo dirige desde fines de marzo de 2026, así que la sequía ya no es cosa de un técnico recién llegado. No trascendieron bajas.",
-      "visitante": "Unión es un equipo de gol repartido y escaso: su máximo goleador es un volante, Menossi, y el centrodelantero Tarragona lleva uno. Fuera de casa todavía no ganó en este torneo — empató 2-2 con Platense el 25 de julio y después perdió 0-2 con Gimnasia de Mendoza y 0-1 con San Lorenzo, los dos sin convertir. Su única victoria fue de local, 2-1 a Lanús el 6 de agosto. Y llega desarmado: pierde por lesión a Vargas, Malcorra y Mosqueira, tres de los que más habían jugado, y Mosqueira además había hecho uno de los pocos goles del equipo.",
-      "contexto": "Se cruzaron tres veces desde 2025, pero solo una en el Minella: el 27 de marzo de 2025, con victoria de Aldosivi 2-1. Es un antecedente suelto, no un patrón. Se juega a las 14:30.",
-      "veredicto": "Dos equipos a los que les cuesta convertir y que llegan sin ganar: el local no puede en su cancha, el visitante no gana afuera y pierde a tres titulares. El reparto de puntos es la salida más consistente con lo que muestran los dos."
-   },
-   "espn401841521": {
-      "actualizado": "2026-08-24",
-      "inclinacion": null,
-      "local": "Tigre vive de partidos cerrados y casi no convierte: dos goles en sus últimos cinco encuentros contando todos los torneos, con Ignacio Russo aportando la mitad de lo que hizo el equipo en el Clausura. En Victoria le ganó 1-0 a River y empató 0-0 con Belgrano, o sea un gol en dos presentaciones como local. Llega de quedar eliminado de la Sudamericana el 20 de agosto ante Montevideo City Torque, tras caer 1-0 en casa y 2-1 en Montevideo. Pierde a Joaquín Laso, capitán y titular en los últimos partidos, por un desgarro de sóleo que lo deja un mes afuera, pero recupera a Bruno Leyes, el futbolista con más partidos de la temporada, que venía sin sumar minutos.",
-      "visitante": "Todo el gol de Central Córdoba pasa por Michael Santos: hizo dos tercios de los goles del equipo y marcó en dos de sus últimos tres partidos. Detrás de él el reparto es flaco, porque el otro que convirtió es el defensor Facundo Mansilla. Fuera de Santiago ganó 2-1 en Santa Fe el 11 de agosto y perdió 0-1 en Mendoza el 24 de julio. Venía de dos triunfos al hilo hasta caer 0-1 con Instituto el 16 de agosto en su cancha. Mansilla arrastra una sobrecarga en el isquiotibial derecho que ya lo dejó afuera de ese partido y es el segundo goleador del plantel. El equipo lo dirige Sebastián Domínguez.",
-      "contexto": "Los cuatro cruces recientes entre los dos terminaron con tres goles o menos en total, y en Victoria puntualmente Tigre no pudo ganarles: perdió 1-2 en marzo de 2025 y empató 1-1 en julio de 2024. Su única victoria en la serie fue de visitante, 1-0 en Santiago en septiembre de 2025. Tigre además llega con cuatro días de descanso después de jugar en Montevideo, mientras que Central Córdoba no juega desde el 16 de agosto.",
-      "veredicto": "Partido de pocos goles entre dos equipos a los que les cuesta convertir: lo que Tigre pierde con su capitán lo compensa con la vuelta de su jugador más usado, y del otro lado la duda de Mansilla resta en una medida parecida, así que no aparece un motivo para inclinar la balanza."
-   },
-   "espn401841198": {
-      "actualizado": "2026-08-24",
-      "inclinacion": "V",
-      "local": "Botafogo reparte el gol en vez de concentrarlo: Arthur Cabral y Danilo Santos comparten la máxima cifra con siete cada uno, algo menos de un cuarto del total del equipo. El problema es que el ataque está seco — ninguno de sus máximos artilleros convirtió en sus últimos tres partidos. En el Engenhão viene de empatar 0-0 con Vitória y 1-1 con Fluminense y de ganarle 2-1 a Santos por el Brasileirão. Fuera del torneo sufrió una goleada 1-6 en Cusco el 14 de agosto y se repuso con un 1-0 el 21. Para este partido no cuenta con Arthur Cabral, expulsado en la fecha anterior y suspendido, que era titular en los últimos tres, ni con Warleson, el arquero que se había ganado el puesto en ese mismo tramo. Y lo dirige de manera interina Rodrigo Bellão.",
-      "visitante": "Athletico Paranaense vive de Kevin Viveros: catorce goles, la mitad de los del equipo, y máximo artillero del campeonato. Es un equipo de resultados cortos y fondo sólido, con treinta y un goles en veintitrés fechas, que gana por poco y rara vez se desborda. Lejos de Curitiba ganó 2-0 en Santos el 9 de agosto, empató 0-0 con Corinthians el 30 de julio y ganó 2-1 en San Pablo el 23 de julio. No juega desde el 15 de agosto. Pierde a Gilberto, lateral que venía de titular en los últimos tres; los otros laterales que figuran afuera, Lucas Esquivel y Claudinho, ya venían sin jugar, y el equipo consiguió esos resultados sin ellos. El técnico es Odair Hellmann.",
-      "contexto": "En el Brasileirão los de arriba pelean los cupos a la Libertadores y los últimos cuatro descienden: Athletico está entre los cuatro primeros con cuarenta y un puntos y Botafogo transita el medio de la tabla, con treinta. De los tres cruces recientes, dos se jugaron en Curitiba (4-1 y 0-1) y el único en el Engenhão terminó 1-1, en junio de 2024. Ahí hay una tensión que conviene decir: Athletico no gana en esa cancha desde enero de 2021. Del otro lado, Botafogo jugó hace tres días y el visitante viene de nueve sin competencia.",
-      "veredicto": "Botafogo llega desarmado justo donde importa — técnico interino, sin uno de sus dos goleadores por suspensión y sin el arquero que venía atajando — mientras que del rival la lista de bajas es más ruidosa que real, así que el análisis se inclina por el visitante."
-   },
-   "espn401841515": {
-      "actualizado": "2026-08-24",
-      "inclinacion": null,
-      "local": "El gol de Lanús pasa por Yoshan Valois, que hizo la mitad de los del equipo en el torneo aunque arrancó como titular una sola vez en sus últimos tres partidos: entra y convierte. Detrás de él el reparto es parejo y corto, seis goles en cinco fechas. Llega mal: contando todas las competencias perdió cuatro de sus últimos cinco, incluido un 0-4 en Cusco el 30 de julio y un 1-3 con Independiente en su cancha el 17 de agosto. De local en el torneo ganó uno de tres, el 1-0 a San Lorenzo, y cayó con Instituto y con Independiente. No tendrá a Ramiro Carrera, que venía de titular en los últimos tres, por suspensión.",
-      "visitante": "Argentinos Juniors ataca desde varios lados en vez de depender de un nueve: su máximo artillero, Hernán López, hizo dos goles y ninguno de sus jugadores llega a un cuarto del total del equipo, que convirtió nueve en cinco fechas. Viene de ganar cuatro de esas cinco presentaciones, y la única derrota fue 0-2 con River el 16 de agosto. Fuera de La Paternal ganó 1-0 en Córdoba el 1 de agosto y 3-2 en Junín el 23 de julio, además de esa caída en Núñez. No trascendieron bajas para este partido.",
-      "contexto": "Los tres cruces recientes entre los dos se jugaron todos en La Paternal y los ganó Argentinos: 2-0, 2-1 y 2-0. No hay antecedente reciente en cancha de Lanús, así que la sede no aporta historia a este partido puntual. Dirige Sebastián Zunino.",
-      "veredicto": "Argentinos llega mucho mejor y Lanús encadena caídas, pero de este análisis no sale ninguna novedad que se sume a eso: una suspensión sin peso goleador de un lado y nada confirmado del otro no alcanzan para inclinar la balanza."
-   },
-   "espn401841520": {
-      "actualizado": "2026-08-24",
-      "inclinacion": null,
-      "local": "A Talleres le cuesta sostener el arco: en sus dos presentaciones en el Kempes por el torneo recibió tres goles en cada una, 0-3 con Lanús el 12 de agosto y 1-3 con Vélez el 30 de julio. En ataque depende de Rick, que hizo un tercio de los goles del equipo y convirtió dos en su último partido. Está último en su zona con tres puntos en cinco fechas: una sola victoria, el 4-0 a Platense de visitante el 3 de agosto, y cuatro derrotas. Jorge Sampaoli sigue en el cargo pero con su continuidad discutida desde la caída 1-3 en Mendoza el 18 de agosto. No trascendieron bajas de peso, y los regresos anunciados son de futbolistas con pocos minutos en el torneo.",
-      "visitante": "Rosario Central gana por poco y con el arco en cero: 1-0 a Barracas, 1-0 a River y 0-0 con Racing. Convirtió cinco goles en cinco fechas de torneo, con Jáminton Campaz y Julián Fernández compartiendo la máxima cifra con uno cada uno, así que no hay un goleador sino un equipo que se para bien y define los partidos por un gol. Lejos de Arroyito ganó 1-0 en Núñez el 2 de agosto y 1-0 en Barracas el 16, y perdió 1-2 en Córdoba con Belgrano el 23 de julio. Quedó eliminado de la Libertadores el 21 de agosto en San Pablo, tras el 0-0 de la ida y el 0-1 de la vuelta. Las bajas que se mencionaron, Franco Cervi y Kevin Gutiérrez, no figuran entre los que más jugaron.",
-      "contexto": "Los cuatro cruces recientes entre los dos fueron todos cerrados: 0-1, 1-1, 0-0 y 2-2, y de esos solo uno se jugó en el Kempes, el 0-0 de marzo de 2025. Central además jugó hace tres días en Brasil, mientras que Talleres no juega desde el 18 de agosto.",
-      "veredicto": "Talleres atraviesa su peor momento del torneo pero recibe a un rival que viene de jugar en Brasil y quedar eliminado a mitad de semana: los dos llegan tocados por motivos distintos y ninguno de esos motivos alcanza para inclinar la balanza."
-   },
-   "espn401874147": {
-      "actualizado": "2026-08-24",
-      "inclinacion": "L",
-      "local": "Independiente del Valle reparte el gol como pocos: cinco futbolistas entre seis y diez tantos y ninguno que llegue al quince por ciento del total del equipo, así que no depende de un nueve sino que ataca desde varios lados, con Junior Sornoza convirtiendo en dos de sus últimos tres partidos. Llega en su mejor momento: ganó los cinco últimos encuentros contando todas las competencias, entre el 2 y el 22 de agosto, incluidos un 2-0 a Liga de Quito fuera de casa y el 1-0 en Ibagué. No trascendieron bajas.",
-      "visitante": "El gol de Deportes Tolima es Luis Sandoval, con diez tantos, casi un tercio de todo lo que convirtió el equipo. Está afuera por una lesión muscular en los isquiotibiales, la misma que ya le hizo perderse la ida, y sin él los delanteros que vienen jugando —Adrián Parra y Kelvin Flórez— no marcaron en sus últimos tres partidos. Llega irregular: empató 0-0 con Bucaramanga el 22 de agosto, le ganó 2-1 a Internacional de Bogotá el 8 y perdió 2-3 con Independiente Medellín el 4, casi todo en su cancha. Su única salida reciente fue el 2-1 a Alianza el 1 de agosto. Recuperó a Bryan Rovira y a Neto Volpi para la serie.",
-      "contexto": "Es la vuelta de los octavos de final y la llave viene 1-0 para Independiente del Valle, que ganó en Ibagué el 19 de agosto: al local le alcanza con empatar para pasar a cuartos, mientras que Tolima está obligado a ganar — por un gol la serie se define desde el punto del penal y por dos o más avanza directo. Se juega en la altura de Quito, y los dos equipos vienen de jugar el 22 de agosto, así que llegan con el mismo descanso.",
-      "veredicto": "Tolima tiene que salir a buscar el partido en la altura y sin su goleador, justo contra un equipo que encadena cinco triunfos y que juega con la ventaja de la ida a favor, así que el análisis se inclina por el local."
-   },
-   "espn401903295": {
-      "actualizado": "2026-08-26",
-      "inclinacion": "E",
-      "local": "River llegó invicto a esta instancia como líder de su zona de grupos, pero en los últimos cinco partidos por todo torneo se quedó sin convertir en tres, incluido el 0-0 de la ida ante Santa Fe: la producción de gol está bastante concentrada en pocos nombres. Coudet pierde a Gonzalo Montiel, su lateral derecho titular, por una distensión en el aductor sufrida el 16 de agosto, y sin un reemplazo natural anotado en la lista de buena fe tiene que improvisar esa posición. Sigue también sin Sebastián Driussi, ausente desde hace meses y el de mayor peso goleador del plantel junto a Ángel Correa, que sí está disponible y llega de convertir en dos de sus últimos tres partidos.",
-      "visitante": "Independiente Santa Fe llega invicto en sus últimos cinco compromisos —dos victorias y tres empates— apoyado en una defensa que no se abrió fácil: solo cedió goles en uno de esos cinco. Ofensivamente vive de Hugo Rodallega, autor de catorce goles y un tercio de la producción del equipo, pero pierde a Omar Fernández, su principal generador de juego con ocho asistencias en la temporada, y también a su arquero titular, Andrés Mosquera. Como visitante en este torneo el único antecedente que tiene es una goleada 3-0 a Caracas.",
-      "contexto": "La serie llegó igualada 0-0 desde la ida en Bogotá, así que el que gane esta noche avanza a cuartos de final. Santa Fe recupera para este partido a Daniel Torres y Víctor Moreno, que venían golpeados.",
-      "veredicto": "Dos equipos con bajas sensibles y una serie que llega sin favorito claro: River sin su lateral titular y con el ataque apagado, Santa Fe sin su principal generador de juego y su arquero — un partido parejo, donde el empate pinta un desenlace tan probable como cualquiera de los dos ganadores."
-   },
-   "espn401841525": {
-      "actualizado": "2026-08-29",
-      "inclinacion": null,
-      "local": "Unión vive del gol de Cristian Tarragona, que lleva la mitad de los tantos del equipo en el Clausura y viene de marcarle doblete a Aldosivi. El equipo de Madelón tiene un arranque irregular: ganó 3-1 en Mar del Plata pero llegó a esa fecha con dos derrotas al hilo y lleva siete goles en contra en seis partidos. Para este cruce es baja confirmada Julián Palacios, expulsado la fecha pasada y uno de los fijos del equipo; vuelve Malcorra tras su lesión.",
-      "visitante": "Sarmiento es la sorpresa del Clausura: segundo de su zona con doce puntos y cuatro victorias al hilo, contra Independiente Rivadavia, Atlético Tucumán, Huracán y Estudiantes. Es el equipo más goleador del torneo, con doce tantos, y su ataque vive de Junior Marabel, que además es ex jugador de Unión, a préstamo. De visitante mejoró: ganó en Atlético Tucumán y cortó su mala racha fuera de Junín venciendo a Barracas.",
-      "contexto": "Chocan dos estados de forma opuestos: Unión irregular en su zona, Sarmiento peleando arriba en la suya (juegan en grupos distintos, no se pueden comparar posiciones). El único cruce reciente entre ambos, en febrero, lo ganó Unión 3-1 en Junín.",
-      "veredicto": "El presente claramente favorece al visitante, que viene goleando, y el local pierde a uno de sus fijos. Pero casi todo eso ya lo procesa el modelo con la forma de cada equipo, así que la lectura no agrega un factor decisivo y la dirección honesta es no inclinar.",
-      "desarrollo": {
-         "texto": "Se espera un partido con llegadas a los dos arcos: Sarmiento viene siendo el más goleador del torneo y Unión recibe bastante, así que el escenario natural es un cruce abierto, probablemente con goles de los dos lados. Marabel llega afilado y Tarragona es la vía de gol clara del local. El desarrollo puede alterarse si el partido se traba temprano, pero la base de los números apunta a ritmo alto.",
-         "senal": {
-            "ritmo_goleador": "alto",
-            "estructura": "abierto",
-            "ambos_marcan": "probable"
-         }
-      }
+ "_schema": {
+  "_comentario": "Análisis específico de UN cruce puntual — lo que la estadística sola no ve (motivación, contexto de tabla, algo raro de esta semana). actualizar.py nunca escribe este archivo. Clave = mismo id de partido que usa data/partidos.json (formato espnNNNNNNNNN).",
+  "_inclinacion": "OBLIGATORIO para que la app marque valor. Es la dirección que sale del análisis HUMANO, no del modelo: 'L' local, 'V' visitante, 'E' empate, o null si el análisis no inclina para ningún lado. La regla de alineación la usa para descartar cualquier apuesta que contradiga esta lectura, y el valor se calcula sobre ella. Si viniera del modelo, sería el modelo dándose la razón a sí mismo — y eso es justo lo que la regla existe para evitar. Sin inclinacion, el partido cuenta como no analizado y no se marca nada.",
+  "_ejemplo": {
+   "actualizado": "2026-08-20",
+   "inclinacion": "L",
+   "local": "Cómo juega y cómo llega el local, con sus ausencias pesadas por partidos jugados y goles",
+   "visitante": "Lo mismo del visitante, incluido cómo le va lejos de su cancha",
+   "contexto": "Solo lo que cruza a los dos: la llave, la tabla, el árbitro, qué se juega cada uno",
+   "veredicto": "Lectura final: hacia dónde inclina esto el análisis"
+  },
+  "_local_visitante": "Una lectura por equipo, agregadas el 2026-08-20. Existen porque con un solo campo de prosa nada obligaba a hablar del rival y el hueco no se veía en pantalla: los análisis terminaban siendo una lista de bajas del equipo grande. La app las muestra bajo el nombre de cada equipo. Son opcionales para atrás — los análisis viejos solo tienen contexto/veredicto y siguen andando — pero la skill los exige para todo análisis nuevo.",
+  "_desarrollo": "Campo nuevo (2026-08-29). Objeto {texto, senal}. texto: cómo se VA a jugar el partido (quién tendrá la pelota, abierto o trabado, ritmo, qué puede alterar el guion), único por partido, sin números del modelo ni del mercado, incertidumbre explícita cuando no hay base. senal: {ritmo_goleador: alto|bajo|incierto, estructura: abierto|trabado|neutral|incierto, ambos_marcan: probable|poco_probable|incierto}. Incierto = sin base, correcto. No toca inclinacion ni marcaDeValor."
+ },
+ "espn401874155": {
+  "actualizado": "2026-08-19",
+  "inclinacion": "L",
+  "contexto": "Este cruce es la vuelta de los octavos de Libertadores: en la ida, el 12 de agosto, Palmeiras y Cerro Porteño empataron 1-1 en San Pablo, así que la serie sigue abierta. Palmeiras llega con varias bajas —Khellven, Sosa, Paulinho y Jefté afuera, más la suspensión de Andreas Pereira— aunque recupera a su capitán y central titular, Gustavo Gómez, que ya entrena con el plantel. Abel Ferreira sigue al mando pese a la presión de la hinchada por los resultados recientes. Cerro Porteño, por su lado, pierde a Cecilio Domínguez por una lesión muscular y a Matías Pérez, que lleva dos semanas afuera por el mismo motivo, aunque el resto del equipo llegaría sin dudas.",
+  "veredicto": "Palmeiras recupera a su capitán pero sigue golpeado en bajas, y Cerro Porteño juega la definición de local con la serie empatada. Se inclina para el local."
+ },
+ "espn401874143": {
+  "actualizado": "2026-08-19",
+  "inclinacion": "L",
+  "contexto": "Esta es la vuelta de los octavos de Libertadores: la ida terminó 1-1 en cancha de Platense, el 12 de agosto. Platense cambió de técnico el 5 de agosto, con la vuelta de Martín Palermo en reemplazo de Walter Zunino, después de un 4-0 en contra frente a Talleres (Córdoba) — pero el arranque de Palermo fue bueno, no traumático: le ganó 1-0 a Independiente de visitante en su debut y empató 1-1 con Boca de local el 16 de agosto. El problema real son las bajas: seis, repartidas en todas las líneas — los defensores Celías Ingenthron y Gonzalo Goñi, los mediocampistas Iván Gómez y Maximiliano Amarfil, y los delanteros Augusto Lotti y Tomas Nasif. Coquimbo Unido, con Hernán Caputto sin cambios en el banco, solo pierde a dos delanteros, Dixon Pereira y Enzo Mettifogo.",
+  "veredicto": "Coquimbo llega mucho más entero —dos bajas puntuales contra seis repartidas en toda la cancha— y de local, con la serie empatada. Se inclina para el local."
+ },
+ "espn401902714": {
+  "actualizado": "2026-08-19",
+  "inclinacion": "L",
+  "contexto": "Atlético-MG llega a la vuelta de octavos de Sudamericana con ventaja: ganó la ida 1-0 en Bragança Paulista el 12 de agosto. Bragantino tiene tres bajas confirmadas por lesión — Vanderlan (ligamento de la rodilla izquierda), Cauê (muscular en el muslo) y Davi Gomes (recuperación de una cirugía de rodilla). Atlético-MG no puede contar con Thiago Borbas, pero no por lesión: el delantero pertenece al propio Bragantino a préstamo, y el club decidió no pagar la cláusula del contrato que le permitiría jugarle a su dueño.",
+  "veredicto": "Atlético-MG llega arriba en la serie, de local, y con menos golpes reales que un Bragantino con tres bajas por lesión. Se inclina para el local."
+ },
+ "espn401874141": {
+  "actualizado": "2026-08-19",
+  "inclinacion": "L",
+  "contexto": "Esta es la vuelta de los octavos de Libertadores, después del 1-1 de la ida, el 13 de agosto en el Mineirão. Cruzeiro llega con siete bajas confirmadas: los dos arqueros habituales, Cássio y Léo Aragão, los delanteros Villarreal, Gabriel Pec y Sinisterra —los tres en la enfermería— y el volante Matheus Henrique, suspendido por la tercera amarilla que vio en la ida. Flamengo, en cambio, tiene tres bajas confirmadas —Alex Sandro, Nico De La Cruz y Vitão, en el departamento médico— y dos dudas físicas, Everton Cebolinha y Bruno Henrique, todavía sin descartar.",
+  "veredicto": "Cruzeiro llega golpeado como pocas veces —sin sus dos arqueros de plantel y con tres delanteros afuera—, mientras Flamengo tiene bajas mucho más manejables y juega de local. Se inclina para el local."
+ },
+ "espn401903232": {
+  "actualizado": "2026-08-19",
+  "inclinacion": "L",
+  "contexto": "River, con Eduardo Coudet en el banco desde marzo, llega golpeado en la lista de convocados para esta ida de octavos de Sudamericana: no están Gonzalo Montiel (distensión en el aductor izquierdo), Marcos Acuña ni Sebastián Driussi (los dos sin el alta médica), y tampoco fueron citados Lucas Beltrán, Francisco Ortega, Giovanni González ni Mauro Arambarri — siete nombres afuera en total. En el torneo local viene de cortar una racha de cuatro derrotas seguidas con un triunfo el 16 de agosto ante Argentinos Juniors, en medio de un semestre flojo que tiene a Coudet bajo presión. Santa Fe tiene cuatro bajas confirmadas —Emerson Rodríguez, Juan Espitia, Víctor Moreno y el arquero titular, Andrés Mosquera Marmolejo, que se lesionó la pierna derecha en el partido anterior, ante Boyacá Chicó.",
+  "veredicto": "River llega con muchas más ausencias, varias de peso, y recién saliendo de una racha floja en el torneo local, mientras Santa Fe pierde nombres puntuales pero conserva la base del equipo. Se inclina para el local."
+ },
+ "espn401902571": {
+  "actualizado": "2026-08-19",
+  "inclinacion": "L",
+  "contexto": "Esta es la revancha de una llave que ya arrancó con ventaja para el local: en la ida, el 12 de agosto, Montevideo City Torque le ganó 1-0 a Tigre en Victoria. Tigre llega golpeado en las bajas — Ramón Arias, con rotura de ligamento cruzado, fue una de las cuatro ausencias confirmadas en esa ida, y una lesión de esa magnitud no se resuelve en tan poco tiempo. El local, en cambio, terminó primero en su grupo de la Sudamericana sin perder en sus últimos cuatro partidos de la copa, aunque en el torneo local uruguayo viene más irregular.",
+  "veredicto": "Tigre llega con bajas de peso sin resolver desde la ida, mientras Montevideo City Torque es el líder invicto de su grupo en esta copa y ya le ganó una vez a este mismo rival. Se inclina para el local."
+ },
+ "espn401896387": {
+  "actualizado": "2026-08-19",
+  "inclinacion": "V",
+  "contexto": "Racing llega golpeado como pocas veces en el año: cinco bajas confirmadas para este cruce puntual — Lautaro Díaz (desgarro, lesionado el 14 de agosto ante Banfield), Matías Zaracho, Marco Di Césare, Adrián Fernández y Valentín Carboni, este último con una rotura de ligamento cruzado de varios meses. El equipo no gana hace casi un mes y quedó en la parte baja de su zona en el torneo local. Belgrano llega en la vereda de enfrente: es el campeón vigente del Torneo Apertura 2026 y viene de dos triunfos seguidos, el más reciente el 15 de agosto ante Independiente Rivadavia. Sus únicas dudas —Morales y Sánchez, con golpes leves— entrenaron con el grupo y serían titulares. El partido se juega en San Luis, cancha neutral: la localía de Racing acá es solo administrativa.",
+  "veredicto": "Racing tiene la lista de bajas más larga que mostró en el año y no gana hace un mes, mientras Belgrano —campeón vigente y con el funcionamiento más sólido de los dos— no pierde nada por jugar en cancha neutral. Se inclina para la visita."
+ },
+ "espn401841518": {
+  "actualizado": "2026-08-23",
+  "inclinacion": null,
+  "local": "River sigue en su peor racha en más de un siglo: cinco derrotas seguidas, último de su zona, apenas dos goles convertidos en sus últimos cinco de liga. Driussi está lesionado desde julio y no debutó en este Clausura; se especula con que llegue a la convocatoria para este partido, pero no hay formación confirmada. El plantel no tiene otras bajas identificadas más allá de esa duda.",
+  "visitante": "Vélez llega invicto en sus últimos cinco: tres victorias y dos empates, incluyendo un 3-1 de visitante contra Talleres. El gol está repartido entre Lanzini y Valdés, un cuarto cada uno, sin depender de un solo nombre. No trascendieron bajas relevantes.",
+  "contexto": "River jugó la ida de octavos de Copa Sudamericana el miércoles 20 en Bogotá (0-0), pero fue un partido de 90 minutos sin definición: el desgaste de jugar entre semana es el ritmo normal de cualquier equipo que compite en copa, no una ventaja exclusiva de este cruce. El historial entre los dos es parejo, sin un patrón claro en cuatro cruces. La tabla no cruza a los dos: Vélez juega en otra zona.",
+  "veredicto": "River está en crisis y Vélez invicto, pero eso ya lo ve el modelo en la forma de cada uno. No encontramos un factor propio —Driussi es una duda, no una baja confirmada, y el partido de copa fue un desgaste normal— que alcance para inclinar por sobre lo que los números ya muestran."
+ },
+ "espn401841517": {
+  "actualizado": "2026-08-23",
+  "inclinacion": "L",
+  "local": "Racing viene irregular en su cancha —una victoria, tres derrotas y un empate en los últimos cinco de este torneo—, con Juan Pablo Vojvoda como técnico desde el 19 de junio, así que el proceso ya lleva dos meses y no es una novedad. No trascendieron bajas de peso para este partido.",
+  "visitante": "Boca llega invicto en sus últimos cinco (tres victorias, dos empates) pero golpeado en el plantel: confirmó tres bajas —Paredes, Lozano y Pellegrino, ninguno de los tres entre los que convierten— y arrastra dudas físicas en dos jugadores más por acumulación de partidos, después de haber jugado por Copa Sudamericana el 18 de agosto, cinco días antes de este cruce. Ascacibar sigue disponible y es, con diferencia, el que más pesa en ataque: hizo 3 de los 5 goles del equipo en este tramo.",
+  "contexto": "El historial reciente favorece a Boca —sin derrotas en los últimos tres cruces— pero los dos anteriores los había ganado Racing; con cinco cruces no hay un patrón parejo para apoyarse. La tabla no cruza a los dos: Boca juega en otra zona.",
+  "veredicto": "Lo que inclina esto son las tres bajas confirmadas de Boca —Paredes, Lozano y Pellegrino— más las dos dudas físicas que la prensa reportó para este partido puntual. No es que jugar entre semana sea en sí una desventaja —es el ritmo normal de cualquier equipo en copa—, pero acá hay nombres concretos afuera, no una suposición de desgaste."
+ },
+ "espn401841510": {
+  "actualizado": "2026-08-23",
+  "inclinacion": null,
+  "local": "Belgrano llega irregular pero sólido en su cancha: en los últimos cinco de este torneo ganó dos, perdió dos y empató uno, sin una racha marcada en ningún sentido. El gol está repartido entre cinco jugadores distintos, ninguno concentra más del 20%. No trascendieron bajas para este partido.",
+  "visitante": "Defensa y Justicia, con Julio Vaccari desde fines de mayo, viene mostrando señales de recuperación: dos victorias, dos empates y una derrota en los últimos cinco, incluyendo un 0-3 en contra con Estudiantes. Aaron Molinas es el nombre propio del equipo —30% de los goles y titular en 15 de los partidos que se tienen registrados—, pero no hay indicios de que esté en duda para este partido.",
+  "contexto": "Cuatro cruces desde 2024, parejos: un triunfo de cada uno y dos empates. No alcanza para marcar un patrón. La tabla no cruza a los dos: Defensa juega en otra zona.",
+  "veredicto": "Dos equipos irregulares, sin una baja que pese ni una racha que se imponga sobre la otra. No hay un factor propio que aporte algo por sobre lo que ya muestra la forma reciente de cada uno."
+ },
+ "espn401841509": {
+  "actualizado": "2026-08-23",
+  "inclinacion": "L",
+  "local": "Barracas defiende bien y convierte poco: en sus últimos cinco de este torneo metió apenas tres goles, pero ganó tres de esos cinco por la mínima. El gol está repartido —tres jugadores distintos aportaron uno cada uno, incluido un defensor— y no depende de un nombre. De local viene de perder 0-1 con Rosario Central el 16 de agosto, así que no llega en racha, pero tampoco hay bajas que trascendieran.",
+  "visitante": "Platense llega desgastado: el 19 de agosto jugó 120 minutos más penales en Chile para eliminar a Coquimbo Unido y meterse por primera vez en su historia en cuartos de Copa Libertadores. Son cuatro días de descanso nada más, con viaje de por medio. En la liga viene de tres empates seguidos (Coquimbo, Boca, Coquimbo otra vez) y no ganó de visitante desde el 9 de agosto. El gol también está repartido entre varios delanteros, ninguno concentra más del 22%.",
+  "contexto": "La tabla no cruza a los dos: Platense juega en otra zona. El historial reciente es apenas dos cruces, así que no pesa.",
+  "veredicto": "El desgaste de Copa es el dato que más pesa acá: Platense viene de un cruce a penales fuera de casa hace cuatro días, mientras Barracas llega con la semana completa. Se inclina para el local."
+ },
+ "espn401841519": {
+  "actualizado": "2026-08-23",
+  "inclinacion": null,
+  "local": "Sarmiento depende de un nombre: Junior Marabel hizo 4 de los 11 goles del equipo en el torneo, más de un tercio. Ganó tres de los últimos cinco de local, pero también perdió dos por goleada corta (2-3 con Banfield y con Argentinos). La prensa mencionó dos bajas para este partido sin identificarlas, así que no se puede pesar ninguna.",
+  "visitante": "Estudiantes llega en el mejor momento de los dos: ganó sus últimos dos partidos de manera contundente, 4-0 a Gimnasia y 3-0 a Universidad Católica de visitante por Copa Libertadores, resultado con el que avanzó a cuartos de final. También arrastra el desgaste de ese viaje a Chile, jugado apenas cinco días antes. Un medio platense mencionó una baja sensible para este viaje, sin nombrarla.",
+  "contexto": "Los dos llegan de competir en el plano internacional en la misma semana, así que el desgaste físico se compensa entre ambos y no distingue a ninguno. El historial es de solo dos cruces, anécdota. La tabla no cruza a los dos: Estudiantes juega en otra zona.",
+  "veredicto": "Estudiantes llega mejor de racha, pero las dos bajas mencionadas en la prensa no se pudieron identificar ni pesar, y el desgaste de la semana europea-sudamericana golpea a los dos por igual. No hay un factor propio que decida esto por sobre lo que ya muestra la forma de cada uno."
+ },
+ "espn401841522": {
+  "actualizado": "2026-08-20",
+  "inclinacion": "E",
+  "local": "El problema de Aldosivi es el gol: en los cinco partidos de este torneo no marcó más de uno por partido, y suma tres en total. El reparto del plantel cuenta lo mismo — entre sus seis delanteros hay un solo gol, y el que más convirtió es un volante. En el Minella jugó dos veces en este torneo: 0-0 con Tigre el 15 de agosto y 1-2 con Gimnasia La Plata el 2 de agosto. Sigue sin ganar, último de su zona con dos puntos. Israel Damonte lo dirige desde fines de marzo de 2026, así que la sequía ya no es cosa de un técnico recién llegado. No trascendieron bajas.",
+  "visitante": "Unión es un equipo de gol repartido y escaso: su máximo goleador es un volante, Menossi, y el centrodelantero Tarragona lleva uno. Fuera de casa todavía no ganó en este torneo — empató 2-2 con Platense el 25 de julio y después perdió 0-2 con Gimnasia de Mendoza y 0-1 con San Lorenzo, los dos sin convertir. Su única victoria fue de local, 2-1 a Lanús el 6 de agosto. Y llega desarmado: pierde por lesión a Vargas, Malcorra y Mosqueira, tres de los que más habían jugado, y Mosqueira además había hecho uno de los pocos goles del equipo.",
+  "contexto": "Se cruzaron tres veces desde 2025, pero solo una en el Minella: el 27 de marzo de 2025, con victoria de Aldosivi 2-1. Es un antecedente suelto, no un patrón. Se juega a las 14:30.",
+  "veredicto": "Dos equipos a los que les cuesta convertir y que llegan sin ganar: el local no puede en su cancha, el visitante no gana afuera y pierde a tres titulares. El reparto de puntos es la salida más consistente con lo que muestran los dos."
+ },
+ "espn401841521": {
+  "actualizado": "2026-08-24",
+  "inclinacion": null,
+  "local": "Tigre vive de partidos cerrados y casi no convierte: dos goles en sus últimos cinco encuentros contando todos los torneos, con Ignacio Russo aportando la mitad de lo que hizo el equipo en el Clausura. En Victoria le ganó 1-0 a River y empató 0-0 con Belgrano, o sea un gol en dos presentaciones como local. Llega de quedar eliminado de la Sudamericana el 20 de agosto ante Montevideo City Torque, tras caer 1-0 en casa y 2-1 en Montevideo. Pierde a Joaquín Laso, capitán y titular en los últimos partidos, por un desgarro de sóleo que lo deja un mes afuera, pero recupera a Bruno Leyes, el futbolista con más partidos de la temporada, que venía sin sumar minutos.",
+  "visitante": "Todo el gol de Central Córdoba pasa por Michael Santos: hizo dos tercios de los goles del equipo y marcó en dos de sus últimos tres partidos. Detrás de él el reparto es flaco, porque el otro que convirtió es el defensor Facundo Mansilla. Fuera de Santiago ganó 2-1 en Santa Fe el 11 de agosto y perdió 0-1 en Mendoza el 24 de julio. Venía de dos triunfos al hilo hasta caer 0-1 con Instituto el 16 de agosto en su cancha. Mansilla arrastra una sobrecarga en el isquiotibial derecho que ya lo dejó afuera de ese partido y es el segundo goleador del plantel. El equipo lo dirige Sebastián Domínguez.",
+  "contexto": "Los cuatro cruces recientes entre los dos terminaron con tres goles o menos en total, y en Victoria puntualmente Tigre no pudo ganarles: perdió 1-2 en marzo de 2025 y empató 1-1 en julio de 2024. Su única victoria en la serie fue de visitante, 1-0 en Santiago en septiembre de 2025. Tigre además llega con cuatro días de descanso después de jugar en Montevideo, mientras que Central Córdoba no juega desde el 16 de agosto.",
+  "veredicto": "Partido de pocos goles entre dos equipos a los que les cuesta convertir: lo que Tigre pierde con su capitán lo compensa con la vuelta de su jugador más usado, y del otro lado la duda de Mansilla resta en una medida parecida, así que no aparece un motivo para inclinar la balanza."
+ },
+ "espn401841198": {
+  "actualizado": "2026-08-24",
+  "inclinacion": "V",
+  "local": "Botafogo reparte el gol en vez de concentrarlo: Arthur Cabral y Danilo Santos comparten la máxima cifra con siete cada uno, algo menos de un cuarto del total del equipo. El problema es que el ataque está seco — ninguno de sus máximos artilleros convirtió en sus últimos tres partidos. En el Engenhão viene de empatar 0-0 con Vitória y 1-1 con Fluminense y de ganarle 2-1 a Santos por el Brasileirão. Fuera del torneo sufrió una goleada 1-6 en Cusco el 14 de agosto y se repuso con un 1-0 el 21. Para este partido no cuenta con Arthur Cabral, expulsado en la fecha anterior y suspendido, que era titular en los últimos tres, ni con Warleson, el arquero que se había ganado el puesto en ese mismo tramo. Y lo dirige de manera interina Rodrigo Bellão.",
+  "visitante": "Athletico Paranaense vive de Kevin Viveros: catorce goles, la mitad de los del equipo, y máximo artillero del campeonato. Es un equipo de resultados cortos y fondo sólido, con treinta y un goles en veintitrés fechas, que gana por poco y rara vez se desborda. Lejos de Curitiba ganó 2-0 en Santos el 9 de agosto, empató 0-0 con Corinthians el 30 de julio y ganó 2-1 en San Pablo el 23 de julio. No juega desde el 15 de agosto. Pierde a Gilberto, lateral que venía de titular en los últimos tres; los otros laterales que figuran afuera, Lucas Esquivel y Claudinho, ya venían sin jugar, y el equipo consiguió esos resultados sin ellos. El técnico es Odair Hellmann.",
+  "contexto": "En el Brasileirão los de arriba pelean los cupos a la Libertadores y los últimos cuatro descienden: Athletico está entre los cuatro primeros con cuarenta y un puntos y Botafogo transita el medio de la tabla, con treinta. De los tres cruces recientes, dos se jugaron en Curitiba (4-1 y 0-1) y el único en el Engenhão terminó 1-1, en junio de 2024. Ahí hay una tensión que conviene decir: Athletico no gana en esa cancha desde enero de 2021. Del otro lado, Botafogo jugó hace tres días y el visitante viene de nueve sin competencia.",
+  "veredicto": "Botafogo llega desarmado justo donde importa — técnico interino, sin uno de sus dos goleadores por suspensión y sin el arquero que venía atajando — mientras que del rival la lista de bajas es más ruidosa que real, así que el análisis se inclina por el visitante."
+ },
+ "espn401841515": {
+  "actualizado": "2026-08-24",
+  "inclinacion": null,
+  "local": "El gol de Lanús pasa por Yoshan Valois, que hizo la mitad de los del equipo en el torneo aunque arrancó como titular una sola vez en sus últimos tres partidos: entra y convierte. Detrás de él el reparto es parejo y corto, seis goles en cinco fechas. Llega mal: contando todas las competencias perdió cuatro de sus últimos cinco, incluido un 0-4 en Cusco el 30 de julio y un 1-3 con Independiente en su cancha el 17 de agosto. De local en el torneo ganó uno de tres, el 1-0 a San Lorenzo, y cayó con Instituto y con Independiente. No tendrá a Ramiro Carrera, que venía de titular en los últimos tres, por suspensión.",
+  "visitante": "Argentinos Juniors ataca desde varios lados en vez de depender de un nueve: su máximo artillero, Hernán López, hizo dos goles y ninguno de sus jugadores llega a un cuarto del total del equipo, que convirtió nueve en cinco fechas. Viene de ganar cuatro de esas cinco presentaciones, y la única derrota fue 0-2 con River el 16 de agosto. Fuera de La Paternal ganó 1-0 en Córdoba el 1 de agosto y 3-2 en Junín el 23 de julio, además de esa caída en Núñez. No trascendieron bajas para este partido.",
+  "contexto": "Los tres cruces recientes entre los dos se jugaron todos en La Paternal y los ganó Argentinos: 2-0, 2-1 y 2-0. No hay antecedente reciente en cancha de Lanús, así que la sede no aporta historia a este partido puntual. Dirige Sebastián Zunino.",
+  "veredicto": "Argentinos llega mucho mejor y Lanús encadena caídas, pero de este análisis no sale ninguna novedad que se sume a eso: una suspensión sin peso goleador de un lado y nada confirmado del otro no alcanzan para inclinar la balanza."
+ },
+ "espn401841520": {
+  "actualizado": "2026-08-24",
+  "inclinacion": null,
+  "local": "A Talleres le cuesta sostener el arco: en sus dos presentaciones en el Kempes por el torneo recibió tres goles en cada una, 0-3 con Lanús el 12 de agosto y 1-3 con Vélez el 30 de julio. En ataque depende de Rick, que hizo un tercio de los goles del equipo y convirtió dos en su último partido. Está último en su zona con tres puntos en cinco fechas: una sola victoria, el 4-0 a Platense de visitante el 3 de agosto, y cuatro derrotas. Jorge Sampaoli sigue en el cargo pero con su continuidad discutida desde la caída 1-3 en Mendoza el 18 de agosto. No trascendieron bajas de peso, y los regresos anunciados son de futbolistas con pocos minutos en el torneo.",
+  "visitante": "Rosario Central gana por poco y con el arco en cero: 1-0 a Barracas, 1-0 a River y 0-0 con Racing. Convirtió cinco goles en cinco fechas de torneo, con Jáminton Campaz y Julián Fernández compartiendo la máxima cifra con uno cada uno, así que no hay un goleador sino un equipo que se para bien y define los partidos por un gol. Lejos de Arroyito ganó 1-0 en Núñez el 2 de agosto y 1-0 en Barracas el 16, y perdió 1-2 en Córdoba con Belgrano el 23 de julio. Quedó eliminado de la Libertadores el 21 de agosto en San Pablo, tras el 0-0 de la ida y el 0-1 de la vuelta. Las bajas que se mencionaron, Franco Cervi y Kevin Gutiérrez, no figuran entre los que más jugaron.",
+  "contexto": "Los cuatro cruces recientes entre los dos fueron todos cerrados: 0-1, 1-1, 0-0 y 2-2, y de esos solo uno se jugó en el Kempes, el 0-0 de marzo de 2025. Central además jugó hace tres días en Brasil, mientras que Talleres no juega desde el 18 de agosto.",
+  "veredicto": "Talleres atraviesa su peor momento del torneo pero recibe a un rival que viene de jugar en Brasil y quedar eliminado a mitad de semana: los dos llegan tocados por motivos distintos y ninguno de esos motivos alcanza para inclinar la balanza."
+ },
+ "espn401874147": {
+  "actualizado": "2026-08-24",
+  "inclinacion": "L",
+  "local": "Independiente del Valle reparte el gol como pocos: cinco futbolistas entre seis y diez tantos y ninguno que llegue al quince por ciento del total del equipo, así que no depende de un nueve sino que ataca desde varios lados, con Junior Sornoza convirtiendo en dos de sus últimos tres partidos. Llega en su mejor momento: ganó los cinco últimos encuentros contando todas las competencias, entre el 2 y el 22 de agosto, incluidos un 2-0 a Liga de Quito fuera de casa y el 1-0 en Ibagué. No trascendieron bajas.",
+  "visitante": "El gol de Deportes Tolima es Luis Sandoval, con diez tantos, casi un tercio de todo lo que convirtió el equipo. Está afuera por una lesión muscular en los isquiotibiales, la misma que ya le hizo perderse la ida, y sin él los delanteros que vienen jugando —Adrián Parra y Kelvin Flórez— no marcaron en sus últimos tres partidos. Llega irregular: empató 0-0 con Bucaramanga el 22 de agosto, le ganó 2-1 a Internacional de Bogotá el 8 y perdió 2-3 con Independiente Medellín el 4, casi todo en su cancha. Su única salida reciente fue el 2-1 a Alianza el 1 de agosto. Recuperó a Bryan Rovira y a Neto Volpi para la serie.",
+  "contexto": "Es la vuelta de los octavos de final y la llave viene 1-0 para Independiente del Valle, que ganó en Ibagué el 19 de agosto: al local le alcanza con empatar para pasar a cuartos, mientras que Tolima está obligado a ganar — por un gol la serie se define desde el punto del penal y por dos o más avanza directo. Se juega en la altura de Quito, y los dos equipos vienen de jugar el 22 de agosto, así que llegan con el mismo descanso.",
+  "veredicto": "Tolima tiene que salir a buscar el partido en la altura y sin su goleador, justo contra un equipo que encadena cinco triunfos y que juega con la ventaja de la ida a favor, así que el análisis se inclina por el local."
+ },
+ "espn401903295": {
+  "actualizado": "2026-08-26",
+  "inclinacion": "E",
+  "local": "River llegó invicto a esta instancia como líder de su zona de grupos, pero en los últimos cinco partidos por todo torneo se quedó sin convertir en tres, incluido el 0-0 de la ida ante Santa Fe: la producción de gol está bastante concentrada en pocos nombres. Coudet pierde a Gonzalo Montiel, su lateral derecho titular, por una distensión en el aductor sufrida el 16 de agosto, y sin un reemplazo natural anotado en la lista de buena fe tiene que improvisar esa posición. Sigue también sin Sebastián Driussi, ausente desde hace meses y el de mayor peso goleador del plantel junto a Ángel Correa, que sí está disponible y llega de convertir en dos de sus últimos tres partidos.",
+  "visitante": "Independiente Santa Fe llega invicto en sus últimos cinco compromisos —dos victorias y tres empates— apoyado en una defensa que no se abrió fácil: solo cedió goles en uno de esos cinco. Ofensivamente vive de Hugo Rodallega, autor de catorce goles y un tercio de la producción del equipo, pero pierde a Omar Fernández, su principal generador de juego con ocho asistencias en la temporada, y también a su arquero titular, Andrés Mosquera. Como visitante en este torneo el único antecedente que tiene es una goleada 3-0 a Caracas.",
+  "contexto": "La serie llegó igualada 0-0 desde la ida en Bogotá, así que el que gane esta noche avanza a cuartos de final. Santa Fe recupera para este partido a Daniel Torres y Víctor Moreno, que venían golpeados.",
+  "veredicto": "Dos equipos con bajas sensibles y una serie que llega sin favorito claro: River sin su lateral titular y con el ataque apagado, Santa Fe sin su principal generador de juego y su arquero — un partido parejo, donde el empate pinta un desenlace tan probable como cualquiera de los dos ganadores."
+ },
+ "espn401841525": {
+  "actualizado": "2026-08-29",
+  "inclinacion": null,
+  "local": "Unión vive del gol de Cristian Tarragona, que lleva la mitad de los tantos del equipo en el Clausura y viene de marcarle doblete a Aldosivi. El equipo de Madelón tiene un arranque irregular: ganó 3-1 en Mar del Plata pero llegó a esa fecha con dos derrotas al hilo y lleva siete goles en contra en seis partidos. Para este cruce es baja confirmada Julián Palacios, expulsado la fecha pasada y uno de los fijos del equipo; vuelve Malcorra tras su lesión.",
+  "visitante": "Sarmiento es la sorpresa del Clausura: segundo de su zona con doce puntos y cuatro victorias al hilo, contra Independiente Rivadavia, Atlético Tucumán, Huracán y Estudiantes. Es el equipo más goleador del torneo, con doce tantos, y su ataque vive de Junior Marabel, que además es ex jugador de Unión, a préstamo. De visitante mejoró: ganó en Atlético Tucumán y cortó su mala racha fuera de Junín venciendo a Barracas.",
+  "contexto": "Chocan dos estados de forma opuestos: Unión irregular en su zona, Sarmiento peleando arriba en la suya (juegan en grupos distintos, no se pueden comparar posiciones). El único cruce reciente entre ambos, en febrero, lo ganó Unión 3-1 en Junín.",
+  "veredicto": "El presente claramente favorece al visitante, que viene goleando, y el local pierde a uno de sus fijos. Pero casi todo eso ya lo procesa el modelo con la forma de cada equipo, así que la lectura no agrega un factor decisivo y la dirección honesta es no inclinar.",
+  "desarrollo": {
+   "texto": "Se espera un partido con llegadas a los dos arcos: Sarmiento viene siendo el más goleador del torneo y Unión recibe bastante, así que el escenario natural es un cruce abierto, probablemente con goles de los dos lados. Marabel llega afilado y Tarragona es la vía de gol clara del local. El desarrollo puede alterarse si el partido se traba temprano, pero la base de los números apunta a ritmo alto.",
+   "senal": {
+    "ritmo_goleador": "alto",
+    "estructura": "abierto",
+    "ambos_marcan": "probable"
    }
+  }
+ },
+ "espn401879295": {
+  "actualizado": "2026-08-31",
+  "inclinacion": "V",
+  "local": "Aston Villa llega desarmado. No están Ollie Watkins ni Leon Bailey, sus dos vías de gol del año pasado; Amadou Onana está afuera por la rodilla, Joao Gomes suspendido y Tammy Abraham en duda por una molestia inguinal. A eso se suma que el arquero Zion Suzuki, Leon Goretzka y Nicolás Jackson debutan hoy: tres piezas nuevas en un equipo que viene de recibir cuatro en Brighton. El único partido de Premier que lleva jugado no alcanza para leer una tendencia, pero sí muestra el estado en el que llega.",
+  "visitante": "Arsenal viene de ganar 3-0 en su estreno y pierde dos defensores: William Saliba y Jurrien Timber. Bruno Guimaraes es duda por el aductor y no lo iban a arriesgar. Son bajas reales, pero afectan la línea de fondo, no la generación: Ødegaard, Havertz y Saka siguen disponibles, y son los tres que más peso de gol cargan en el plantel del expediente.",
+  "contexto": "Lunes a las 20 en Villa Park, segunda fecha de la Premier. Los dos equipos llevan un solo partido jugado en el torneo, así que no hay forma reciente que leer todavía: lo único medible es cómo llega cada plantel. El historial reciente entre ellos está repartido — Arsenal ganó 4-1 en diciembre del 25 y Villa se había impuesto 2-1 en Villa Park días antes, con un 2-2 y un 0-2 en los dos cruces anteriores.",
+  "veredicto": "El desbalance de bajas es lo único que separa a estos dos hoy, y es grande: Villa pierde a sus dos delanteros de referencia más un mediocampista suspendido y estrena tres titulares, mientras Arsenal solo resigna centrales. Un equipo al que le faltan las vías de gol tiene un problema distinto del que tiene uno al que le faltan defensores.",
+  "desarrollo": {
+   "texto": "Arsenal debería tener la pelota y el campo: con Villa reconstruyendo el ataque sobre debutantes, es probable que el local se meta atrás y espere. El punto donde el guion puede darse vuelta está en la defensa visitante, que juega sin Saliba ni Timber — si Villa consigue llegar, va a encontrar una línea de fondo rearmada. Con los dos equipos estrenando piezas en zonas distintas, es un partido más de errores que de circuitos aceitados.",
+   "senal": {
+    "ritmo_goleador": "incierto",
+    "estructura": "abierto",
+    "ambos_marcan": "incierto"
+   }
+  }
+ }
 }

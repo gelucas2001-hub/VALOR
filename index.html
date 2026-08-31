@@ -781,6 +781,12 @@ a{color:inherit}
 /* Cada mercado es una tarjeta con sombra, no una fila con filete: acá
    el usuario carga un dato y espera una respuesta, así que cada uno es
    una unidad con la que interactúa, no un renglón de tabla. */
+/* La barra del eje Dominio: cuánto del total esperado se lleva el local.
+   Filete de salvia porque es VOZ SECUNDARIA — una lectura, no un estado
+   (DESIGN.md: la mostaza dice valor y la terracota dice alerta; esto no
+   dice ninguna de las dos y por eso no puede usar ninguno de los dos). */
+.mrow .barra2{height:7px;background:var(--hueco);position:relative;margin:2px 0 8px}
+.mrow .barra2 i{position:absolute;top:0;left:0;bottom:0;background:var(--salvia);opacity:.85}
 .mrow{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:11px 12px;margin:0 20px 12px 16px}
 .mrow.val{background:var(--mostazaBg);border-left:2px solid var(--mostaza)}
 .mrow.mal{border-left:2px solid var(--terracota)}
@@ -1947,6 +1953,18 @@ const MEDICIONES = {
     // El aporte medido va de -0.9% a +0.4%: dentro del ruido.
     aporte:     {"arg.1": -0.9, "eng.1": 0.4},
   },
+  dominio: {
+    medido_por: "medir_dominio.py",
+    confianza:  "calibrada",
+    // % de error cuadrático que le sacamos a la media de la liga, en
+    // test temporal (2026-08-31). Solo eng y fra: la fuente no trae
+    // estadísticas por partido de arg ni bra, así que ahí no hay
+    // medición — y `por_liga` hace que la app lo diga sola en vez de
+    // heredar el número de Inglaterra.
+    por_liga:   true,
+    aporte:     {"eng.1": {remates: 9.9, al_arco: 7.3, corners: 4.8},
+                 "fra.1": {remates: 7.0, al_arco: 9.1, corners: 2.9}},
+  },
 };
 
 /* El sello. Nadie construye un eje a mano: todos pasan por acá, y acá
@@ -1954,9 +1972,16 @@ const MEDICIONES = {
 function sellar(id, liga, campos){
   const med = (MEDICIONES || {})[id] || {};
   const declarada = CONFIANZAS.indexOf(med.confianza) >= 0 ? med.confianza : "sin_medir";
-  const confianza = med.medido_por ? declarada : "sin_medir";
   const aporte = (med.aporte && liga && Object.prototype.hasOwnProperty.call(med.aporte, liga))
                  ? med.aporte[liga] : null;
+  /* `por_liga` es para las mediciones que NO se hicieron en todas las
+     ligas: Dominio se midió en eng y fra porque la fuente solo trae
+     estadísticas por partido de esas dos. Sin medición en la liga del
+     partido, el eje se declara sin medir en vez de heredar el número de
+     otra — es la misma regla que se aprendió a los golpes con
+     `parametros_metricas()` mezclando competiciones. */
+  const hayLiga = !med.por_liga || aporte !== null;
+  const confianza = (med.medido_por && hayLiga) ? declarada : "sin_medir";
   const c = campos || {};
   return {
     eje:        id,
@@ -1978,7 +2003,7 @@ function sellar(id, liga, campos){
    contrato, después se cuelgan los ejes nuevos. */
 function construirEjes(datos){
   const d = datos || {};
-  return [
+  const ejes = [
     sellar("resultado", d.liga, {
       titulo:     "Quién gana",
       estimacion: d.probs || null,
@@ -1990,6 +2015,17 @@ function construirEjes(datos){
       mercado:    d.mercadoGoles || null,
     }),
   ];
+  /* Dominio solo si hay estadísticas de los dos equipos. Un eje a medias
+     —con el local y sin el visitante— es peor que no mostrarlo: invita a
+     comparar contra un hueco. */
+  if(d.dominio && d.dominio.local && d.dominio.visita){
+    ejes.push(sellar("dominio", d.liga, {
+      titulo:     "Quién ataca más",
+      estimacion: d.dominio,
+      ancla:      d.anclaDominio || null,
+    }));
+  }
+  return ejes;
 }
 /* ==== FIN EJES ==== */
 
@@ -2561,6 +2597,8 @@ function tabPronosticos(m){
      ventaja real — no solo el que ganó su franja en la escalera. */
   const otros = otrosMercados(m);
   const fams = ["Resultado","Goles","Ambos"];
+  h += bloqueDominio(m);
+
   h += `<div class="banda banda2">Otros mercados<em>NUESTRA LECTURA DE CADA UNO</em></div>`;
   fams.forEach(fam=>{
     h += `<div class="grp"><div class="gh">${esc_(fam)}</div>`;
@@ -2582,6 +2620,107 @@ function tabPronosticos(m){
     Donde hay cuota real de Bet365 la mostramos al lado; donde no, solo el umbral teórico.
     Y solo marcamos en dorado cuando además el precio está a favor.</div>`;
   return h + `</div>`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   EL EJE DOMINIO — la primera lectura que se muestra sin recomendar
+
+   Es el primer eje que baja a pantalla desde el contrato (TRASPASO
+   §17). Y es a propósito uno que NO se puede marcar: contra plata no
+   está medido y no se puede medir hacia atrás, porque football-data no
+   publica cuota de córners. Que igual se muestre es la regla nueva —
+   vara 1 para mostrar, vara 2 para marcar.
+
+   Los números y el orden salen de `medir_dominio.py` (2026-08-31, test
+   temporal en eng y fra): remates +9.9%, al arco +7.3% y córners +4.8%
+   sobre la media de la liga. Van en ese orden porque es el orden en que
+   sabemos, no el orden en que la casa los cotiza.
+
+   Faltas y tarjetas no están: se midió que no aportan nada sobre el
+   promedio de la liga (+1.0% y +0.6%), así que siguen en Estadísticas
+   como dato crudo y no acá como lectura.
+   ══════════════════════════════════════════════════════════════════ */
+const DOMINIO_METRICAS = [
+  ["remates",  "Remates"],
+  ["al_arco",  "Al arco"],
+  ["corners",  "Córners"],
+];
+
+/* El slug de la liga. `m.liga` lo escribe `actualizar.py` desde el
+   2026-08-31, pero los archivos que ya están publicados no lo tienen —
+   y el cron corre dos veces por día, así que hay una ventana donde
+   falta. El caché de estadísticas guarda el mismo slug por equipo, y
+   sirve de respaldo sin inventar nada: si tampoco está, se devuelve
+   null y los ejes se declaran sin medir, que es lo correcto. */
+function ligaDe(m, L, V){
+  return m.liga || (L && L.liga) || (V && V.liga) || null;
+}
+
+/* Solo las tres métricas que `medir_dominio.py` midió, y desde
+   `esperado` —el número ajustado por rival y por localía que la app ya
+   usa en las líneas— y no desde el promedio crudo. */
+function dominioDe(L, V){
+  if(!L || !V || !L.esperado || !V.esperado) return null;
+  const lado = e => {
+    const o = {};
+    DOMINIO_METRICAS.forEach(([k]) => { if(e[k] != null) o[k] = e[k]; });
+    return Object.keys(o).length ? o : null;
+  };
+  const a = lado(L.esperado), b = lado(V.esperado);
+  return (a && b) ? {local: a, visita: b} : null;
+}
+
+function ejesDe(m){
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  return construirEjes({
+    liga:     ligaDe(m, L, V),
+    probs:    lectura(m).p,
+    goles:    {esperados: m.lh + m.la},
+    mercado:  m.mercado || null,
+    dominio:  dominioDe(L, V),
+  });
+}
+
+function bloqueDominio(m){
+  const eje = ejesDe(m).find(e => e.eje === "dominio");
+  if(!eje) return "";
+  const L = eje.estimacion.local, V = eje.estimacion.visita;
+  const filas = DOMINIO_METRICAS.filter(([k]) => L[k] != null && V[k] != null);
+  if(!filas.length) return "";
+
+  /* El chip dice lo que la medición dice, y nada más. `sin_medir` no es
+     un error ni un "todavía no": es el estado real de arg y bra, donde
+     la fuente no publica estadísticas por partido. */
+  const sinMedir = eje.confianza === "sin_medir";
+  const chip = sinMedir ? "SIN MEDIR EN ESTA LIGA" : "CALIBRADO · NO ES UNA APUESTA";
+
+  let h = `<div class="banda banda2">${esc_(eje.titulo)}<em>${chip}</em></div>
+    <div class="sec"><div class="grp">`;
+
+  filas.forEach(([k, etiqueta])=>{
+    const a = L[k], b = V[k], tot = a + b;
+    const pct = tot > 0 ? Math.round(a / tot * 100) : 50;
+    const ap = (eje.aporte || {})[k];
+    h += `<div class="mrow">
+      <div class="top2"><span class="mkt">${esc_(etiqueta)}</span>
+        <span class="modelo">${a.toFixed(1)} — ${b.toFixed(1)}</span></div>
+      <div class="barra2"><i style="width:${pct}%"></i></div>
+      <div class="umb">${esc_(m.home)} ${pct}% del total esperado${
+        ap != null ? ` · le sacamos <b>${ap.toFixed(1)}%</b> de error al promedio de la liga` : ""
+      }</div>
+    </div>`;
+  });
+
+  h += `</div><div class="foot">${sinMedir
+    ? `En esta liga la fuente no publica estadísticas por partido, así que
+       <b>no hay medición</b> detrás de estos números: son el promedio de lo poco que
+       vimos, y los mostramos como dato, no como lectura.`
+    : `Medido partido a partido en las últimas temporadas: acá le ganamos al promedio de
+       la liga. <b>No lo marcamos como oportunidad</b> y no es un descuido — contra el
+       precio de la casa nunca se midió, y no se puede medir hacia atrás porque no hay
+       cuotas históricas de córners. Hasta que las juntemos, esto se lee y no se juega.`
+  }</div></div>`;
+  return h;
 }
 
 /* ── 3. Historial ──────────────────────────────────────────────── */

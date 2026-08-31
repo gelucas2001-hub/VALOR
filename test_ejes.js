@@ -81,8 +81,52 @@ test("todo eje sale con todas las claves, ninguna de más", () => {
   });
 });
 
-test("hoy salen los dos ejes que ya existían", () => {
+test("sin estadísticas salen los dos ejes que siempre existieron", () => {
   igual(construirEjes(DATOS).map(e => e.eje), ["resultado", "volumen"]);
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   1bis. Dominio — el primer eje que se muestra sin poder marcarse
+   ══════════════════════════════════════════════════════════════════ */
+
+const DOM = {
+  local:  {remates: 14.2, al_arco: 5.1, corners: 6.0},
+  visita: {remates: 9.8,  al_arco: 3.2, corners: 4.0},
+};
+const CON_DOM = Object.assign({}, DATOS, {dominio: DOM});
+
+test("con estadísticas de los dos equipos aparece Dominio", () => {
+  igual(construirEjes(CON_DOM).map(e => e.eje), ["resultado", "volumen", "dominio"]);
+});
+
+test("con las estadísticas de uno solo, el eje no aparece a medias", () => {
+  const solo = Object.assign({}, DATOS, {dominio: {local: DOM.local}});
+  cierto(!construirEjes(solo).some(e => e.eje === "dominio"),
+         "medio eje invita a comparar contra un hueco");
+});
+
+test("en una liga medida, Dominio sale calibrado con su aporte por métrica", () => {
+  const e = construirEjes(CON_DOM).find(x => x.eje === "dominio");
+  igual(e.confianza, "calibrada");
+  igual(e.aporte, {remates: 9.9, al_arco: 7.3, corners: 4.8});
+  igual(e.medido_por, "medir_dominio.py");
+});
+
+test("en una liga NO medida no hereda el número: se declara sin medir", () => {
+  const arg = Object.assign({}, CON_DOM, {liga: "arg.1"});
+  const e = construirEjes(arg).find(x => x.eje === "dominio");
+  igual(e.aporte, null, "arg no tiene estadísticas por partido en la fuente:");
+  igual(e.confianza, "sin_medir",
+        "sin medición en ESTA liga, calibrada sería mentira:");
+});
+
+test("y sin liga tampoco se cuelga de la medición de otra", () => {
+  const sinLiga = Object.assign({}, CON_DOM, {liga: null});
+  igual(construirEjes(sinLiga).find(x => x.eje === "dominio").confianza, "sin_medir");
+});
+
+test("Dominio tampoco puede llevar apuesta: contra plata no se midió", () => {
+  construirEjes(CON_DOM).forEach(e => igual(e.apuesta, null, `${e.eje}:`));
 });
 
 /* ══════════════════════════════════════════════════════════════════

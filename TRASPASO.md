@@ -4013,3 +4013,52 @@ decimal, y ninguno de los dos le saca nada a la liga.
   hace `mercado_extra.py` con Bet365. Ese es el único camino, y tarda.
 - `confianza: "calibrada"`, `medido_por: "medir_dominio.py"` cuando el
   eje se cuelgue del contrato.
+
+### Addendum 2 · El eje Dominio en pantalla (2026-08-31)
+
+Paso 3: el primer eje que baja del contrato a la interfaz, y a
+propósito uno que **no se puede marcar**. Aparece en Pronósticos, entre
+la escalera y Otros mercados.
+
+Qué muestra: remates, al arco y córners esperados de cada equipo, en
+**ese orden** — que es el orden en que sabemos (+9.9%, +7.3%, +4.8%
+sobre la media de la liga), no el orden en que la casa los cotiza. Con
+la barra de reparto en salvia, que es la voz secundaria de `DESIGN.md`:
+no puede ser mostaza ni terracota porque no dice valor ni alerta.
+
+Faltas y tarjetas quedan afuera del eje: medido que no aportan nada
+(+1.0% y +0.6%). Siguen en Estadísticas como dato crudo.
+
+El pie dice, con todas las letras, por qué no está marcado: *"contra el
+precio de la casa nunca se midió, y no se puede medir hacia atrás
+porque no hay cuotas históricas de córners"*. Es la vara 2 declarada en
+pantalla en vez de escondida.
+
+**Tres piezas nuevas, y una regla nueva:**
+
+- `MEDICIONES.dominio` con `por_liga: true`. Es la regla nueva: una
+  medición que **no se hizo en todas las ligas** degrada la confianza a
+  `sin_medir` donde no se midió, en vez de heredar el número de otra.
+  Verificado en el navegador contra datos reales: Premier sale
+  `calibrada` con su aporte, Argentina sale `sin_medir` — la fuente no
+  publica estadísticas por partido de arg ni bra.
+- `ligaDe(m, L, V)`: el slug sale de `m.liga` y, si todavía no está
+  —los archivos publicados no lo tienen hasta que corra el cron—, del
+  caché de estadísticas, que guarda el mismo slug por equipo. Sin
+  ninguno de los dos devuelve null y el eje se declara sin medir.
+- `dominioDe(L, V)`: toma las tres métricas de `esperado`, el número
+  ajustado por rival y localía que la app ya usa en las líneas, no el
+  promedio crudo. Y si falta un equipo **no arma medio eje**: media
+  lectura invita a comparar contra un hueco.
+
+Verificado: `test_ejes.js` 21/21 (6 pruebas nuevas, todas sobre las
+reglas y no sobre los números), `test_registro.js` 22/22,
+`test_alineacion.js` 110/110, `test_probabilidad.js` 43/43,
+`test_actualizar.py` 33/33, `test_medir_dominio.py` 27/27. Sin errores
+de consola; el bloque renderiza con los números correctos y se comprobó
+por hit-testing que efectivamente se pinta.
+
+**Lo que NO pude verificar:** la captura de pantalla del navegador de
+esta sesión devuelve negro apenas la página está scrolleada — falla del
+entorno, no de la página. La verificación visual quedó en el texto
+renderizado y en el hit-testing, no en una foto del bloque.

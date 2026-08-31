@@ -170,6 +170,30 @@ de las veces en el fútbol sudamericano. Con 12 casos eso no es una
 racha: es un sesgo de proceso, y se ve aunque la muestra sea chica
 porque es una propiedad de lo que escribís, no de si acertás.
 
+**Re-medido el 2026-08-31, sobre 20 análisis y 13 direcciones: sigue
+en 9 `L` — el 69,2%.** Bajó seis puntos en una semana y sigue a
+veinticuatro del 45% que corresponde. Contra lo que efectivamente pasó
+en esos partidos, la distancia es peor todavía:
+
+```
+              tus análisis    lo que pasó
+  Local           69,2%          33,3%
+  Empate          15,4%          33,3%
+  Visitante       15,4%          33,3%
+```
+
+Que el número se mueva tan poco después de escribir este principio
+significa que **leerlo no alcanza**: la localía se cuela igual, como
+"hace pesar su cancha", "el público lo empuja" o "de local es otro
+equipo". Todas esas frases son la localía con otro nombre, y el modelo
+ya la tiene — `mu_local` y `mu_visita` se estiman por separado, es de
+lo primero que ve.
+
+Y prestá atención al otro lado del mismo sesgo: **2 de 13 direcciones
+al visitante**. No es que los visitantes no tengan factores exclusivos
+—viajes, rotación por copa, un DT nuevo— es que no los estás buscando
+con la misma atención con la que encontrás los del local.
+
 Dos causas probables, y las dos son evitables:
 
 - **Cobertura.** Del local hay más prensa —formación probable, notas
@@ -322,6 +346,12 @@ Si de un equipo sabés poco, escribí lo que tenés (forma, sede, plantel) y no 
 - No es una probabilidad, no es un nivel de confianza, no es una recomendación de apuesta. Es una dirección o nada.
 
 `veredicto`: la lectura final, en una frase — hacia dónde inclina esto el análisis, y de ahí se deduce `inclinacion`. Si no hay señal relevante tras la investigación, `veredicto` describe el partido en términos neutros de forma y contexto (nunca vacío, nunca "no hay nada que destacar" tal cual) e `inclinacion` va en `null`.
+
+**`desarrollo` es OBLIGATORIO, en todos los análisis.** Medido el 2026-08-31: estaba presente en **1 de 20** análisis escritos. El campo existe desde el 2026-08-30 y quedó prácticamente sin usar.
+
+Que sea obligatorio no significa afirmar un guion cuando no lo hay: `senal` acepta `incierto` en las tres dimensiones, y `texto` puede decir que no hay base para sostener un desarrollo. Lo que no puede es faltar. Es el único campo que describe **cómo se va a jugar el partido** en vez de quién gana, y sin él el análisis queda siendo tres párrafos sobre lo mismo — el resultado — que es justo lo que el modelo ya calcula.
+
+Y es lo que la app muestra como narrativa. Un análisis sin `desarrollo` deja la pestaña Análisis con dos lecturas del resultado y nada sobre el partido.
 
 **`desarrollo` — el desarrollo esperado.** Único por partido: describe cómo se va a jugar la interacción de los dos equipos, no dos descripciones separadas. `texto` va en 2-4 frases, tono de analista deportivo, sin jerga cuantitativa. `desarrollo` describe el **partido**, nunca el mercado: no se usan términos de mercado (`over`/`under`) — eso contaminaría la independencia de la lectura.
 

@@ -1,0 +1,28 @@
+
+  ¿EN QUÉ EJE SABEMOS MÁS? — jpn
+
+  ajustando walk-forward...
+    2000 evaluados...
+    4000 evaluados...
+  4499 partidos
+
+  mercado                nuestro  tasa base    aporte
+  ----------------------------------------------------
+  Resultado
+    Gana el local         0.2292     0.2418     +5.2%  ←
+    Empate                0.1865     0.1870     +0.2%
+    Gana el visitante     0.2144     0.2250     +4.7%  ←
+    Local o empate        0.2144     0.2250     +4.7%  ←
+    Visita o empate       0.2292     0.2418     +5.2%  ←
+    Gana alguno           0.1865     0.1870     +0.2%
+  Goles
+    Más de 1.5 goles      0.2001     0.2028     +1.3%
+    Más de 2.5 goles      0.2480     0.2498     +0.7%
+    Más de 3.5 goles      0.1953     0.1964     +0.6%
+  Ambos
+    Ambos marcan          0.2483     0.2497     +0.6%
+
+  'aporte' = cuánto mejora el modelo sobre saber solo la
+  frecuencia histórica de ese mercado. Negativo = el modelo
+  resta: conviene publicar la tasa base y no nuestra opinión.
+

@@ -67,6 +67,15 @@ TEMPORADAS = 11
 LIGAS = {
     "arg": {"archivo": "ARG", "pais": "Argentina", "formato": "unico"},
     "bra": {"archivo": "BRA", "pais": "Brazil", "formato": "unico"},
+    # Japón y México entran SOLO PARA MEDIR (2026-08-31). En el barrido
+    # de 26 ligas de §6vicies ter salieron 1º y 2º en atraso contra el
+    # cierre — o sea donde el modelo predice más parecido al mercado— y
+    # se descartaron entonces porque no tenían mercado de props de
+    # jugador, que era el objetivo de ese momento. Para 1X2 esa objeción
+    # no aplica, y nadie volvió a mirarlas. Estar en COMPETICIONES de
+    # actualizar.py es otra decisión: esto solo las hace medibles.
+    "jpn": {"archivo": "JPN", "pais": "Japan", "formato": "unico"},
+    "mex": {"archivo": "MEX", "pais": "Mexico", "formato": "unico"},
     # Agregadas el 2026-08-25. Se eligieron midiendo tres cosas a la vez
     # (ver TRASPASO.md): atraso del modelo contra el cierre, profundidad
     # del mercado de props en ESPN/DraftKings, y si con la historia que

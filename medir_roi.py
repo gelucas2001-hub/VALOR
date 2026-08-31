@@ -141,35 +141,81 @@ def apuestas_ou(filas, valor_min=VALOR_MIN, valor_max=VALOR_MAX,
     return out
 
 
+def _drawdown(retornos):
+    """La peor caída desde un pico, en unidades apostadas.
+
+    El ROI medio no dice cómo fue el camino: dos estrategias con el
+    mismo +2% no son la misma cosa si una llegó derecho y la otra pasó
+    por una caída de 40 unidades en el medio. La segunda se abandona
+    antes de llegar, y una estrategia que no se puede sostener no
+    rinde lo que dice el promedio.
+
+    Con stake fijo de 1 unidad, la caída se mide en unidades y no hace
+    falta suponer un bankroll inicial.
+    """
+    pico = acum = peor = 0.0
+    for r in retornos:
+        acum += r
+        pico = max(pico, acum)
+        peor = max(peor, pico - acum)
+    return peor
+
+
 def roi(aps):
-    """ROI con su incertidumbre. Sin el error estándar, el número miente.
+    """ROI con su incertidumbre y su riesgo. Sin eso, el número miente.
 
     Una ganada devuelve `cuota - 1` (la ganancia), no `cuota`: contar
     el monto apostado como ganancia infla el ROI en cada acierto.
+
+    El **drawdown** se mide en orden CRONOLÓGICO, no en el orden en que
+    vinieron las apuestas en la lista: una caída depende de la secuencia,
+    y medirla sobre un orden arbitrario da un número que no le pasó a
+    nadie.
+
+    El **Sharpe** acá es por apuesta, no anualizado: media dividido
+    desvío de los retornos, con tasa libre de riesgo en cero. Vale la
+    pena saber que está atado a la significancia — `sharpe = z / √n`,
+    donde z es el ROI en errores estándar. No es información nueva sobre
+    si hay ventaja; es la misma información en unidades de riesgo, que
+    es como se compara una estrategia contra otra.
     """
     n = len(aps or [])
     if not n:
         return {"n": 0, "roi": None, "se": None, "acierto": None,
-                "significativo": False}
-    retornos = [(a["cuota"] - 1) if a["gano"] else -1.0 for a in aps]
+                "significativo": False, "drawdown": None, "sharpe": None}
+    ordenadas = sorted(aps, key=lambda a: (a.get("fecha") or 0, a.get("cuota", 0)))
+    retornos = [(a["cuota"] - 1) if a["gano"] else -1.0 for a in ordenadas]
     media = sum(retornos) / n
     var = sum((r - media) ** 2 for r in retornos) / n
-    se = (var ** 0.5) / (n ** 0.5)
+    sd = var ** 0.5
+    se = sd / (n ** 0.5)
     ganadas = sum(1 for a in aps if a["gano"])
     return {"n": n, "roi": media, "se": se, "acierto": ganadas / n,
             # Dos errores estándar Y muestra suficiente. Las dos
             # condiciones, no una: con 40 apuestas el intervalo es tan
             # ancho que "no significativo" no informa nada.
-            "significativo": abs(media) > 2 * se and n >= MIN_APUESTAS}
+            "significativo": abs(media) > 2 * se and n >= MIN_APUESTAS,
+            "drawdown": _drawdown(retornos),
+            # Sin variación no hay riesgo que medir y la división no
+            # existe. Devolver None es más honesto que un infinito que
+            # después alguien formatea como número.
+            "sharpe": (media / sd) if sd > 0 else None}
 
 
 def _linea(etiqueta, r):
     if not r["n"]:
         return f"  {etiqueta:10} sin una sola apuesta que califique"
-    marca = "" if r["significativo"] else "   (ruido: el intervalo incluye cero)"
-    return (f"  {etiqueta:10} {r['n']:5d} apuestas   "
-            f"ROI {r['roi']*100:+6.2f}% ±{r['se']*200:5.2f}   "
-            f"acierto {r['acierto']*100:4.1f}%{marca}")
+    marca = "" if r["significativo"] else "  (ruido)"
+    sharpe = f"{r['sharpe']:+.3f}" if r["sharpe"] is not None else "  —  "
+    # El drawdown va en unidades apostadas y también como múltiplo de lo
+    # que la estrategia ganó o perdió en total: 12 unidades de caída son
+    # otra cosa sobre 100 apuestas que sobre 2000.
+    dd_rel = r["drawdown"] / r["n"] * 100
+    return (f"  {etiqueta:10} {r['n']:5d} ap.  "
+            f"ROI {r['roi']*100:+6.2f}% ±{r['se']*200:5.2f}  "
+            f"acierto {r['acierto']*100:4.1f}%  "
+            f"caída {r['drawdown']:6.1f}u ({dd_rel:4.1f}%)  "
+            f"Sharpe {sharpe}{marca}")
 
 
 def medir_liga(liga, progreso=None):

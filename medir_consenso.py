@@ -83,18 +83,15 @@ def apuestas(partidos, alpha=0.05, verdad="promedio", casa="bet365",
 
 
 def roi(aps):
-    """ROI con su error estándar. Una ganada devuelve cuota−1, no cuota."""
-    n = len(aps or [])
-    if not n:
-        return {"n": 0, "roi": None, "se": None, "acierto": None,
-                "significativo": False}
-    ret = [(a["cuota"] - 1) if a["gano"] else -1.0 for a in aps]
-    media = sum(ret) / n
-    var = sum((r - media) ** 2 for r in ret) / n
-    se = (var ** 0.5) / (n ** 0.5)
-    return {"n": n, "roi": media, "se": se,
-            "acierto": sum(1 for a in aps if a["gano"]) / n,
-            "significativo": abs(media) > 2 * se and n >= MIN_APUESTAS}
+    """ROI, incertidumbre y riesgo. Es la MISMA cuenta que `medir_roi`.
+
+    Se reexporta en vez de reimplementarse a propósito: dos copias de la
+    cuenta que decide si algo da plata terminan divergiendo, y ahí una de
+    las dos miente sin que nadie se entere. Es la misma razón por la que
+    `TESTS` de index.html es un solo objeto para promesa y cobro.
+    """
+    import medir_roi
+    return medir_roi.roi(aps)
 
 
 def main(argv):

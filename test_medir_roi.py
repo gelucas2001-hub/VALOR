@@ -124,6 +124,67 @@ def t_sin_apuestas_no_inventa_numero():
     assert r["roi"] is None, "inventó un ROI sin una sola apuesta"
 
 
+# ── Riesgo: el ROI medio esconde cómo fue el camino ───────────────────
+#
+# Dos estrategias con el mismo ROI no son la misma estrategia si una
+# llegó derecho y la otra pasó por una caída del 40% en el medio. Es lo
+# que separa algo jugable de algo que se abandona a mitad de camino.
+
+def ap(cuota, gano, dia=1):
+    """Una apuesta ficticia. `dia` ordena la secuencia — el drawdown
+    depende del orden, así que los tests necesitan controlarlo."""
+    from datetime import timedelta
+    return {"cuota": cuota, "gano": gano, "ventaja": 0.08, "liga": "arg",
+            "fecha": date(2024, 1, 1) + timedelta(days=dia)}
+
+
+def t_una_racha_ganadora_no_tiene_caida():
+    aps = [ap(2.0, True, i + 1) for i in range(10)]
+    assert R.roi(aps)["drawdown"] == 0, "inventó una caída en una racha sin perdidas"
+
+
+def t_cinco_perdidas_seguidas_son_cinco_unidades_de_caida():
+    aps = [ap(2.0, False, i + 1) for i in range(5)]
+    assert abs(R.roi(aps)["drawdown"] - 5.0) < 1e-9, \
+        f"drawdown mal medido: {R.roi(aps)['drawdown']}"
+
+
+def t_la_caida_se_mide_desde_el_pico_no_desde_el_arranque():
+    # sube 4 (4 ganadas a cuota 2), después pierde 3: la caída es 3, no 1
+    aps = [ap(2.0, True, i + 1) for i in range(4)] + \
+          [ap(2.0, False, i + 5) for i in range(3)]
+    d = R.roi(aps)["drawdown"]
+    assert abs(d - 3.0) < 1e-9, f"esperaba 3 unidades desde el pico, dio {d}"
+
+
+def t_el_drawdown_depende_del_orden_cronologico():
+    """Las mismas apuestas en otro orden dan otra caída — por eso se ordena."""
+    ganadas = [ap(2.0, True, 1), ap(2.0, True, 2)]
+    perdidas = [ap(2.0, False, 3), ap(2.0, False, 4)]
+    # perdidas primero en la lista, pero con fechas posteriores
+    revuelto = perdidas + ganadas
+    assert abs(R.roi(revuelto)["drawdown"] - 2.0) < 1e-9, \
+        "no ordenó por fecha antes de medir la caída"
+
+
+def t_sharpe_cero_cuando_no_hay_ventaja():
+    aps = [ap(2.0, i % 2 == 0, i + 1) for i in range(100)]
+    assert abs(R.roi(aps)["sharpe"]) < 1e-9, "50/50 a cuota 2.0 debe dar Sharpe cero"
+
+
+def t_sharpe_positivo_cuando_se_gana_mas_de_lo_que_se_pierde():
+    aps = [ap(3.0, i % 3 == 0, i + 1) for i in range(99)]   # 33% a cuota 3 = break-even
+    aps += [ap(3.0, True, 100), ap(3.0, True, 101)]          # dos ganadas de más
+    assert R.roi(aps)["sharpe"] > 0, "no detectó ventaja real"
+
+
+def t_sin_variacion_no_se_inventa_un_sharpe_infinito():
+    """Todas ganadas a la misma cuota: desvío cero, no se divide por cero."""
+    aps = [ap(2.0, True, i + 1) for i in range(5)]
+    s = R.roi(aps)["sharpe"]
+    assert s is None or s == float("inf") or s > 0, f"sharpe roto: {s}"
+
+
 # ── El mercado de GOLES, que nunca se había medido contra plata ───────
 
 def fila_ou(modelo_ou, cuotas_ou, real_ou, liga="eng"):

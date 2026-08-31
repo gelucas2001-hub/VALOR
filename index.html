@@ -1893,6 +1893,107 @@ function marcaDeValor(m){
 }
 
 /* ══════════════════════════════════════════════════════════════════
+   LECTURA POR EJES — el contrato
+
+   Un partido son varios ejes (quién gana, cuántos goles, quién ataca
+   más, cuánto se corta el juego, los jugadores, el contexto) y en cada
+   uno sabemos DISTINTO. La app venía midiendo todo con una sola
+   pregunta —"¿le gana al precio de cierre?"— que es la vara de una
+   recomendación de apuesta y no la de un análisis. Con esa vara se
+   cerraron córners, tarjetas y remates por jugador, que pertenecían a
+   la otra.
+
+   Acá hay dos varas:
+
+     1. ¿el número es verdadero?   → calibración → se MUESTRA
+     2. ¿le gana al precio?        → CLV y ROI   → se MARCA
+
+   Y las dos reglas duras que hacen que eso sea estructura y no
+   disciplina (`test_ejes.js` las ata):
+
+     · un eje sin `medido_por` no puede declarar más que `sin_medir`;
+     · solo `confianza === "con_plata"` puede llevar `apuesta`, que es
+       lo único que después se pinta de mostaza.
+
+   `construirEjes()` es PURO a propósito: recibe los números ya
+   calculados en vez de volver a correr el motor. El motor tiene una
+   sola implementación —regla de CLAUDE.md— y este contrato no la toca.
+
+   La región está marcada porque `test_ejes.js` la lee tal cual, igual
+   que `test_registro.js` con la resolución. Si la movés o le cambiás
+   el nombre, la suite deja de encontrarla: es a propósito.
+   ══════════════════════════════════════════════════════════════════ */
+/* ==== INICIO EJES ==== */
+const CONFIANZAS = ["sin_medir", "calibrada", "con_plata"];
+
+const CONTRATO = ["eje", "titulo", "estimacion", "ancla", "medido_por",
+                  "confianza", "aporte", "mercado", "lectura", "apuesta"];
+
+/* Qué sabemos de cada eje, y quién lo midió. Esta tabla es el registro
+   honesto del proyecto: si un eje no está acá con su script, la app lo
+   declara sin medir sola. `aporte` es el % de Brier que le sacamos a la
+   tasa base de ese mismo mercado, por liga y solo donde se midió — un
+   número de otra liga NO se hereda. */
+const MEDICIONES = {
+  resultado: {
+    medido_por: "medir_ejes.py",
+    confianza:  "calibrada",       // sabe, pero el CLV contra Bet365 es cero
+    aporte:     {"arg.1": 2.6, "eng.1": 13.2},
+  },
+  volumen: {
+    medido_por: "medir_ejes.py",
+    confianza:  "calibrada",
+    // Techo de varianza explicable por λ: 7.2% en eng, 5.5% en arg.
+    // El aporte medido va de -0.9% a +0.4%: dentro del ruido.
+    aporte:     {"arg.1": -0.9, "eng.1": 0.4},
+  },
+};
+
+/* El sello. Nadie construye un eje a mano: todos pasan por acá, y acá
+   es donde las dos reglas se aplican una sola vez. */
+function sellar(id, liga, campos){
+  const med = (MEDICIONES || {})[id] || {};
+  const declarada = CONFIANZAS.indexOf(med.confianza) >= 0 ? med.confianza : "sin_medir";
+  const confianza = med.medido_por ? declarada : "sin_medir";
+  const aporte = (med.aporte && liga && Object.prototype.hasOwnProperty.call(med.aporte, liga))
+                 ? med.aporte[liga] : null;
+  const c = campos || {};
+  return {
+    eje:        id,
+    titulo:     c.titulo || "",
+    estimacion: c.estimacion || null,
+    ancla:      c.ancla || null,
+    medido_por: med.medido_por || null,
+    confianza:  confianza,
+    aporte:     aporte,
+    mercado:    c.mercado || null,
+    lectura:    c.lectura || null,
+    // Regla 2, en una línea: sin plata medida no hay apuesta que valga.
+    apuesta:    confianza === "con_plata" ? (c.apuesta || null) : null,
+  };
+}
+
+/* Los ejes de un partido. Hoy dos —los que ya existían, reempaquetados—
+   y por eso en pantalla no cambia nada todavía: primero se prueba el
+   contrato, después se cuelgan los ejes nuevos. */
+function construirEjes(datos){
+  const d = datos || {};
+  return [
+    sellar("resultado", d.liga, {
+      titulo:     "Quién gana",
+      estimacion: d.probs || null,
+      mercado:    d.mercado || null,
+    }),
+    sellar("volumen", d.liga, {
+      titulo:     "Cuántos goles",
+      estimacion: d.goles || null,
+      mercado:    d.mercadoGoles || null,
+    }),
+  ];
+}
+/* ==== FIN EJES ==== */
+
+/* ══════════════════════════════════════════════════════════════════
    HELPERS DE PRESENTACIÓN
    ══════════════════════════════════════════════════════════════════ */
 const pc = p => Math.round(p*100)+"%";

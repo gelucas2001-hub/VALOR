@@ -2446,6 +2446,16 @@ def main():
 
             partidos.append({
                 "id": f"espn{ev['id']}",
+                # El slug, ademas del nombre para mostrar. Hasta el
+                # 2026-08-31 la app identificaba la liga por expresion
+                # regular sobre `comp` (ver LIGAS_SIN_VALOR en
+                # index.html), o sea por el texto que se le muestra al
+                # usuario: si manana ESPN escribe "Brasileirao" sin
+                # acento, la regla medida deja de aplicarse en silencio.
+                # El contrato de ejes lo necesita ademas para buscar el
+                # aporte medido por liga. Campo NUEVO: agregar esta
+                # permitido, renombrar o cambiar tipos no.
+                "liga": slug,
                 "date": fecha, "comp": meta["nombre"], "compLogo": comp_logo, "hora": hora,
                 "home": loc_nombre, "away": vis_nombre,
                 "homeId": loc_id, "awayId": vis_id,

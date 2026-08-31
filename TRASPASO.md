@@ -3781,3 +3781,168 @@ solo puede dar menos.
 
     python medir_condicional.py arg
     python test_medir_condicional.py
+
+---
+
+## 17. Lectura por ejes: dos varas en vez de una (2026-08-31)
+
+Redirección de arquitectura, y sale de una objeción de Lucas que es la
+más importante que recibió el proyecto. Textual: *"no quiero que VALOR
+se limite porque una determinada medición todavía no sea buena. Quiero
+que pensemos al revés: esto hoy no funciona lo suficientemente bien,
+¿qué necesitamos hacer para que funcione?"*
+
+### El error, y es de método
+
+Durante tres meses se midió TODO con una sola pregunta: **¿le gana al
+precio de cierre?** Esa es la vara de una recomendación de apuesta. No
+es la vara de un análisis.
+
+Con esa vara se cerraron córners (§6vicies quater), tarjetas, faltas y
+remates por jugador (§6quindecies) — mercados donde el número era
+honesto y útil de leer, pero no le ganaba al precio. Se los trató como
+fracasos cuando eran material de producto.
+
+El resultado es un producto que sabe mucho de un solo eje y no dice
+nada de los otros cinco, y un usuario con la sensación —correcta— de
+que buscando por su cuenta llegaría a lo mismo. En el 1X2 eso está
+medido: capturamos el 80.9% de lo que sabe el mercado en eng/fra, o
+sea que publicamos el consenso con otro método.
+
+### La regla nueva
+
+Dos varas, y cada cosa se juzga con la suya:
+
+| vara | pregunta | instrumento | consecuencia |
+|---|---|---|---|
+| 1 | ¿el número es verdadero? | calibración | **se muestra** |
+| 2 | ¿le gana al precio? | CLV, ROI | **se marca** |
+
+**Todo eje se muestra. Solo el que pasa la vara 2 se marca.** Con eso
+el análisis completo del partido se puede construir entero sin mentir,
+y la mostaza recupera el significado que pierde cuando está en todos
+lados (regla de los dos metales, `DESIGN.md`).
+
+### El contrato
+
+Los seis ejes emiten el mismo registro de diez claves. La app no sabe
+qué es un córner: sabe renderizar un eje. Agregar el séptimo no toca
+una línea de interfaz.
+
+    eje · titulo · estimacion · ancla · medido_por
+    confianza · aporte · mercado · lectura · apuesta
+
+`confianza ∈ {sin_medir, calibrada, con_plata}`, y **sale de la tabla
+`MEDICIONES`, nunca del que llama**. Las dos reglas duras:
+
+1. Un eje sin `medido_por` no puede declarar más que `sin_medir`.
+2. Solo `confianza === "con_plata"` puede llevar `apuesta`.
+
+Eso convierte la honestidad en estructura y no en disciplina: si nadie
+escribió el script que mide un eje, la app lo declara sin medir sola.
+Para saltear la regla hay que romper un test a propósito.
+
+`aporte` es por liga y **no se hereda**: una liga sin medición da
+`null`, no el número de la vecina. Es la misma regla que §6vicies
+semel aprendió a los golpes con `parametros_metricas()`.
+
+### Los seis ejes y su estado
+
+| eje | pregunta | mide | estado |
+|---|---|---|---|
+| Resultado | quién gana | `medir_ejes`, `medir_roi`, `medir_apertura` | calibrada; aporte +13.2% eng, +2.6% arg; CLV cero |
+| Volumen | cuántos goles | `medir_ejes`, `medir_condicional` | calibrada, sin aporte; techo 7.2% eng, 5.5% arg |
+| Dominio | córners, remates, al arco | `medir_corners`, `medir_lineas` | **a re-medir** |
+| Fricción | faltas, tarjetas, árbitro | `medir_lineas`, `medir_arbitros` | parcial; faltas con sesgo de 9 puntos |
+| Jugadores | remates, al arco, goles, asistencias | `medir_jugadores` | calibración conocida; **plata sin medir** |
+| Contexto | bajas, DT, motivación | `medir_analisis` | corregido el 30/08, sin re-medir |
+
+**El "a re-medir" de Dominio es el hallazgo operativo de esta sesión.**
+§6vicies quater cerró los córners el 2026-08-25 con este motivo escrito:
+*"le apostamos el promedio de la liga a una casa que sí distingue equipo
+por equipo"* — `k` de córners 17 en arg, 200 en bra. Y dejó anotado qué
+haría falta: más muestra por equipo para que `k` baje.
+
+Esa muestra llegó. `data/historia_equipos.json` tiene hoy 300-418
+partidos por equipo en eng y fra, y los `k` que salen de ahí son 11.6
+en córners, 6.8 en remates, 8.4 en al arco. **Nadie volvió a medir.**
+La puerta que cerramos con un "no sirve" está destrabada hace una
+semana. Es el ejemplo exacto de lo que pide la objeción de Lucas: no
+cerrar, preguntar qué falta — y después volver.
+
+### El techo de cada eje, medido el 2026-08-31
+
+Var(resultado) = ruido Poisson irreducible + Var(lo que el modelo
+mueve). Para dos Poisson independientes el piso de ruido es el MISMO
+en los dos ejes, así que lo único que los distingue es cuánto varía la
+parte nuestra:
+
+| liga | eje | Var real | Var(λ) | techo |
+|---|---|---|---|---|
+| eng | diferencia (1X2) | 3.577 | 0.782 | **21.9%** |
+| eng | total (goles) | 2.748 | 0.199 | **7.2%** |
+| arg | diferencia (1X2) | 2.260 | 0.212 | **9.4%** |
+| arg | total (goles) | 2.337 | 0.128 | **5.5%** |
+
+Explica de una sola vez tres cosas que estaban sueltas: por qué el eje
+de goles no aporta (techo de 5-7%, y encima no lo agarramos), por qué
+el 1X2 sí (techo 21.9% en eng, capturamos 13.2), y por qué Argentina
+anda peor (techo de 9.4% contra 21.9% — no es que el modelo falle más,
+es que hay menos para saber).
+
+El script quedó en el scratchpad, no en el repo. Si se va a citar de
+nuevo, promoverlo a `medir_techo.py` con su suite.
+
+### Cómo se juntan los ejes
+
+1. **La probabilidad conjunta sale de la matriz, nunca del producto de
+   los ejes.** Es lo único que sobrevive del "escenario coherente"
+   (§16): la correlación existe y `combinada()` ya la usa; multiplicar
+   dos porcentajes de pantalla da un número que no existe.
+2. **La lectura global no afirma más que su eje más débil.** Si no, la
+   prosa asciende sola una lectura a recomendación, que es justo lo que
+   la vara 2 existe para impedir.
+3. **Cuando dos ejes se contradicen, se dice.** No se promedia.
+   `senalDividida()` ya lo hace entre modelo y skill; se generaliza.
+
+### Hecho en esta sesión (paso 1 de 5)
+
+- **`index.html`**: región marcada `/* ==== INICIO EJES ==== */`, con
+  `CONFIANZAS`, `CONTRATO`, `MEDICIONES`, `sellar()` y
+  `construirEjes()`. `construirEjes` es **puro**: recibe los números ya
+  calculados en vez de volver a correr el motor, así el motor sigue
+  teniendo una sola implementación (regla de `CLAUDE.md`).
+- **`test_ejes.js`**: 15 pruebas que leen esa región del `index.html`
+  publicado, igual que `test_registro.js`. Atan las dos reglas duras.
+- **`actualizar.py`**: cada partido ahora trae `"liga": slug` además de
+  `comp`. Hasta hoy la app identificaba la liga por expresión regular
+  sobre el nombre que se muestra en pantalla (`LIGAS_SIN_VALOR`): si
+  ESPN cambia "Brasileirão" por "Brasileirao", la regla medida deja de
+  aplicarse **en silencio**. Campo nuevo, contrato intacto.
+- **En pantalla no cambia nada**, y es a propósito: primero se prueba
+  el contrato contra lo que ya funciona.
+
+Verificado: `test_ejes.js` 15/15, `test_registro.js` 22/22,
+`test_alineacion.js` 110/110, `test_probabilidad.js` 43/43,
+`test_actualizar.py` 33/33, más `test_pronosticos`, `test_calibracion`
+y `test_forma`. La app carga sin errores de consola y
+`construirEjes()` corre contra `data/partidos.json` real.
+
+### Lo que sigue
+
+2. **Dominio con los anclas nuevos y la re-medición.** eng y fra, que
+   son las que tienen historia por equipo.
+3. **Jugadores: medir plata**, que nunca se hizo. Los datos de Bet365
+   ya entran y `data/props_jugadores.json` ya acumula.
+4. **Fricción**, con el sesgo de faltas declarado en pantalla.
+5. **Contexto: una skill por eje.** Recién acá — una skill que estudie
+   remates de jugadores solo sirve cuando el eje que la recibe ya
+   existe y sabe declarar cuánto se le cree.
+
+### Lo que esto NO hace
+
+No crea ventaja: ordena y declara la que hay, que hoy contra el precio
+es cero. No convierte una lectura en recomendación — al revés, hace
+imposible confundirlas. No reemplaza ninguna medición: le da a cada una
+un lugar fijo donde su resultado se ve. Y no arregla el eje de Volumen:
+ese techo es del fútbol, no del modelo.

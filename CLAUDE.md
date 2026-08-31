@@ -23,6 +23,7 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 | `actualizar.py` | Baja datos de ESPN y calcula λ. Corre solo, 2 veces por día, vía GitHub Actions | Con cuidado — es el motor |
 | `index.html` | La app. Es la interfaz nueva: reemplazó a la vieja el 2026-08-18 | Una herramienta por vez — ver abajo |
 | `test_registro.js`, `test_alineacion.js` | Suites que leen el `index.html` publicado, no una copia | Correr después de tocar la app |
+| `test_ejes.js` | El contrato de lectura por ejes (TRASPASO §17). Lee la región marcada `/* ==== INICIO EJES ==== */` del `index.html` publicado, igual que `test_registro.js`. Ata las dos reglas duras: un eje sin `medido_por` no puede declarar más que `sin_medir`, y solo `con_plata` puede llevar apuesta — o sea, solo eso puede pintarse de mostaza. Sin estos tests las reglas son disciplina; con ellos son estructura | Correr después de tocar los ejes |
 | `doble_via.py` | Compara el motor de Python contra el de JavaScript | Correr después de tocar el motor |
 | `data/resultados.json` | Marcadores finales que escribe el cron. Hace exacto el cruce del Registro | Nadie |
 | `TRASPASO.md` | Informe de traspaso — léelo primero | A mano, mantenerlo al día |

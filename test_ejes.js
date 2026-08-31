@@ -1,0 +1,180 @@
+/* ══════════════════════════════════════════════════════════════════
+   TEST DEL CONTRATO DE EJES
+
+   Corré:  node test_ejes.js
+
+   Extrae la región marcada de `index.html` — no una copia — igual que
+   `test_registro.js`. Lo que se prueba acá no es cuánto sabe el modelo:
+   es que la app NO PUEDA declarar más confianza de la que hay medida.
+
+   Las dos reglas duras de la arquitectura (TRASPASO §17):
+
+     1. Un eje sin `medido_por` no puede declarar más que `sin_medir`.
+     2. Solo `confianza === "con_plata"` puede llevar una apuesta, que
+        es lo único que después se pinta de mostaza.
+
+   Sin estos tests, las dos reglas son disciplina — o sea, se pierden
+   la primera vez que alguien agrega un eje con apuro. Con ellos, son
+   estructura: para saltearlas hay que romper un test a propósito.
+   ══════════════════════════════════════════════════════════════════ */
+
+const fs = require("fs");
+const path = require("path");
+
+const RAIZ = __dirname;
+const INICIO = "/* ==== INICIO EJES ==== */";
+const FIN    = "/* ==== FIN EJES ==== */";
+
+function cargarEjes(){
+  const html = fs.readFileSync(path.join(RAIZ, "index.html"), "utf8");
+  const a = html.indexOf(INICIO), b = html.indexOf(FIN);
+  if(a < 0 || b < 0)
+    throw new Error(`index.html no tiene la región marcada ${INICIO} … ${FIN}`);
+  const src = html.slice(a + INICIO.length, b);
+  const salida = {};
+  new Function("exportar", src + `
+    exportar({CONFIANZAS, CONTRATO, MEDICIONES, sellar, construirEjes});
+  `)(o => Object.assign(salida, o));
+  return salida;
+}
+
+let ok = 0, mal = 0;
+const test = (nombre, fn) => {
+  try { fn(); console.log("  ok   " + nombre); ok++; }
+  catch(e){ console.log("  FALLA " + nombre + "\n         " + e.message); mal++; }
+};
+const igual = (a, b, msg) => {
+  const A = JSON.stringify(a), B = JSON.stringify(b);
+  if(A !== B) throw new Error(`${msg||""} esperaba ${B}, dio ${A}`);
+};
+const cierto = (v, msg) => { if(!v) throw new Error(msg || "esperaba verdadero"); };
+
+const { CONFIANZAS, CONTRATO, MEDICIONES, sellar, construirEjes } = cargarEjes();
+
+/* Un partido de mentira, con los números ya calculados: `construirEjes`
+   es puro a propósito — no vuelve a correr el motor, lo recibe. Así el
+   contrato se puede probar sin arrastrar la matriz, y el motor sigue
+   teniendo una sola implementación (regla de CLAUDE.md). */
+const DATOS = {
+  liga: "eng.1",
+  probs: {L: 0.52, E: 0.26, V: 0.22},
+  goles: {esperados: 2.95, mas25: 0.58, ambos: 0.54},
+  mercado: {casa: "draftkings", L: 1.85, E: 3.60, V: 4.20},
+};
+
+console.log("\nContrato de ejes — las dos reglas duras\n");
+
+/* ══════════════════════════════════════════════════════════════════
+   1. La forma del registro
+   ══════════════════════════════════════════════════════════════════ */
+
+test("el contrato tiene exactamente las diez claves acordadas", () => {
+  igual([...CONTRATO].sort(), [
+    "ancla","aporte","apuesta","confianza","eje",
+    "estimacion","lectura","medido_por","mercado","titulo",
+  ]);
+});
+
+test("todo eje sale con todas las claves, ninguna de más", () => {
+  construirEjes(DATOS).forEach(e => {
+    igual(Object.keys(e).sort(), [...CONTRATO].sort(), `eje ${e.eje}:`);
+  });
+});
+
+test("hoy salen los dos ejes que ya existían", () => {
+  igual(construirEjes(DATOS).map(e => e.eje), ["resultado", "volumen"]);
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   2. Regla 1 — sin script que lo mida, no se declara nada
+   ══════════════════════════════════════════════════════════════════ */
+
+test("un eje sin medido_por queda en sin_medir aunque la tabla diga otra cosa", () => {
+  const e = sellar("__inventado__", "eng.1", {titulo: "Eje que nadie midió"});
+  igual(e.medido_por, null);
+  igual(e.confianza, "sin_medir");
+});
+
+test("una confianza que no está en la lista se degrada, no se acepta", () => {
+  const guardado = MEDICIONES.resultado.confianza;
+  MEDICIONES.resultado.confianza = "buenisima";
+  try {
+    igual(sellar("resultado", "eng.1", {}).confianza, "sin_medir");
+  } finally { MEDICIONES.resultado.confianza = guardado; }
+});
+
+test("el que llama no puede subir la confianza por su cuenta", () => {
+  const e = sellar("resultado", "eng.1", {confianza: "con_plata"});
+  igual(e.confianza, MEDICIONES.resultado.confianza,
+        "la confianza sale de la tabla de mediciones, no del llamador:");
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   3. Regla 2 — la apuesta solo existe donde hay plata medida
+   ══════════════════════════════════════════════════════════════════ */
+
+test("una apuesta en un eje calibrado se cae", () => {
+  const e = sellar("resultado", "eng.1", {apuesta: {op: "L", cuota: 2.10}});
+  igual(e.confianza, "calibrada");
+  igual(e.apuesta, null, "calibrada no alcanza para recomendar:");
+});
+
+test("con plata medida, la apuesta sobrevive", () => {
+  const guardado = MEDICIONES.resultado.confianza;
+  MEDICIONES.resultado.confianza = "con_plata";
+  try {
+    const e = sellar("resultado", "eng.1", {apuesta: {op: "L", cuota: 2.10}});
+    igual(e.apuesta, {op: "L", cuota: 2.10});
+  } finally { MEDICIONES.resultado.confianza = guardado; }
+});
+
+test("hoy ningún eje sale con plata — y eso es el estado real, no un bug", () => {
+  construirEjes(DATOS).forEach(e => {
+    cierto(e.confianza !== "con_plata", `${e.eje} dice tener plata medida y no la tiene`);
+    igual(e.apuesta, null, `${e.eje}:`);
+  });
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   4. El aporte es por liga, y falta cuando falta
+   ══════════════════════════════════════════════════════════════════ */
+
+test("el aporte se lee de la liga del partido", () => {
+  igual(sellar("resultado", "eng.1", {}).aporte, 13.2);
+  igual(sellar("resultado", "arg.1", {}).aporte, 2.6);
+});
+
+test("una liga sin medición no hereda el número de otra", () => {
+  igual(sellar("resultado", "bra.1", {}).aporte, null);
+  igual(sellar("resultado", undefined, {}).aporte, null);
+});
+
+/* ══════════════════════════════════════════════════════════════════
+   5. Lo que cada eje efectivamente dice
+   ══════════════════════════════════════════════════════════════════ */
+
+test("Resultado publica las tres probabilidades que ya publicaba", () => {
+  const e = construirEjes(DATOS)[0];
+  igual(e.estimacion, {L: 0.52, E: 0.26, V: 0.22});
+  igual(e.mercado, DATOS.mercado);
+});
+
+test("Volumen publica goles esperados y sus dos mercados", () => {
+  const e = construirEjes(DATOS)[1];
+  igual(e.estimacion, {esperados: 2.95, mas25: 0.58, ambos: 0.54});
+});
+
+test("sin datos de mercado el eje sigue existiendo, con mercado en null", () => {
+  const e = construirEjes({liga: "eng.1", probs: DATOS.probs, goles: DATOS.goles})[0];
+  igual(e.mercado, null);
+  igual(e.confianza, "calibrada", "que no haya precio no cambia lo que sabemos:");
+});
+
+test("la lectura arranca vacía: el texto lo compone la pantalla, no el contrato", () => {
+  construirEjes(DATOS).forEach(e => igual(e.lectura, null, `${e.eje}:`));
+});
+
+console.log("");
+console.log(`${ok} ok, ${mal} fallando`);
+console.log("");
+process.exit(mal ? 1 : 0);

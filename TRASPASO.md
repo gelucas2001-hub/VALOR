@@ -4431,3 +4431,38 @@ reales.
 Herramientas: `expediente_estadisticas.py`,
 `test_expediente_estadisticas.py` (32 pruebas, la mitad sobre que no se
 filtre la salida del modelo), `.claude/skills/valor-analisis-estadisticas/`.
+
+### Addendum 8bis · Los cuatro huecos de la skill nueva (2026-08-31)
+
+Lucas preguntó si la skill le transmite al apostador todo lo que
+necesita. No. Cuatro huecos, y el primero lo probó la propia salida de
+la skill.
+
+**1. No exigía mirar si el jugador es titular.** El dato viajaba
+(`titular_en`) y nadie lo miraba — incluido el primer análisis, que
+recomendó a **Kevin Serna** por su eficiencia al arco sin decir que
+había arrancado **1 de 3**. Un pronóstico de remates de alguien que
+entra a los sesenta no sirve. Ahora el expediente manda un campo
+`arranca` que dice `titular`, `suplente` o `2 de 3` en castellano, hay
+un aviso, y la skill tiene el principio D-bis con el caso adentro. El
+análisis se reescribió.
+
+**2. Faltaba `atajadas`.** Está en el caché, se cotiza, y quedó afuera
+de `METRICAS_EQUIPO` por olvido. Entró, junto con `offsides` — que
+describe una línea alta, y una línea alta produce córners.
+
+**3. Nadie sabe quién patea córners, tiros libres y penales.** Es el
+dato que más define esos mercados y **no existe en ninguna fuente que
+tengamos**. No se puede arreglar con código: quedó como aviso explícito
+del expediente y como obligación de research. Es un pendiente real, no
+una tarea.
+
+**4. No hay ausencias.** ESPN devuelve a todos los jugadores como
+activos — el expediente del resultado ya lo declaraba y este no. Mismo
+tratamiento: aviso explícito, y la skill no puede llamar "candidato
+firme" a nadie sin chequear la alineación.
+
+La lección que vale más allá de esto: **una skill se audita corriéndola
+y leyendo lo que escribió, no releyendo su documento.** El hueco 1
+estaba en el SKILL.md como dato disponible y aun así la salida lo
+ignoró.

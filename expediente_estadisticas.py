@@ -64,7 +64,11 @@ TOPE_PLANTEL = 18
 # superaron el techo de falsa señal en `medir_discriminacion.py`, o sea
 # lo único donde de verdad distinguimos un equipo de otro.
 METRICAS_EQUIPO = ("remates", "al_arco", "corners", "faltas", "tarjetas",
-                   "posesion", "tackles")
+                   "posesion", "tackles", "atajadas", "offsides")
+# `atajadas` estaba en el caché y quedó afuera de la primera versión por
+# olvido, no por criterio: es un mercado que se cotiza y es el único de
+# esta lista donde el arquero es el protagonista. `offsides` entra por
+# lo mismo — describe una línea alta, que es lo que produce córners.
 
 # Lo del jugador que se cotiza por separado en Bet365, más las dos de
 # disciplina que la app ya muestra.
@@ -143,9 +147,19 @@ def jugadores_de(plantel, tope=TOPE_PLANTEL):
     out = []
     for j in sorted(plantel or [], key=lambda x: -(x.get("pj") or 0))[:tope]:
         serie = j.get("serie") or {}
+        tit, spj = serie.get("tit"), serie.get("pj")
         fila = {"nombre": j.get("nombre"), "pos": j.get("pos"),
-                "pj": j.get("pj"), "partidos_en_serie": serie.get("pj"),
-                "titular_en": serie.get("tit")}
+                "pj": j.get("pj"), "partidos_en_serie": spj,
+                "titular_en": tit}
+        # Explícito y no a cuenta del que lee: un jugador que entró desde
+        # el banco juega 20 minutos, y una serie de remates suya no se
+        # compara con la de un titular. La primera versión mandaba `tit`
+        # y nadie lo miraba — incluido el primer análisis que se escribió
+        # con esta skill, que recomendó a alguien que arrancó 1 de 3.
+        if spj:
+            fila["arranca"] = ("titular" if tit == spj
+                               else "suplente" if not tit
+                               else f"{tit} de {spj}")
         vistos = {m: serie[m] for m in METRICAS_JUGADOR if serie.get(m)}
         if vistos:
             fila["serie"] = vistos
@@ -206,6 +220,17 @@ def expediente(p, est=None, planteles=None, cal=None):
                       "CERO. No escribas que un árbitro 'saca muchas'.")
     avisos.append("Las series por jugador son de pocos partidos: mirá "
                   "`partidos_en_serie` antes de afirmar una tendencia.")
+    avisos.append("Mirá `arranca` antes de proponer a un jugador: el que "
+                  "entra desde el banco juega 20 minutos y su serie no se "
+                  "compara con la de un titular.")
+    avisos.append("Quién patea córners, tiros libres y penales NO está en "
+                  "ningún dato de este expediente, y define varios de estos "
+                  "mercados. Si no lo averiguás por tu cuenta, no lo "
+                  "afirmes.")
+    avisos.append("El plantel NO dice quién está lesionado ni suspendido: "
+                  "ESPN devuelve a todos como activos. Un candidato que no "
+                  "juega no es un candidato, así que las ausencias son "
+                  "research tuyo — igual que en la skill del resultado.")
     e["avisos"] = avisos
     return e
 

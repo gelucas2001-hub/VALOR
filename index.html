@@ -2750,7 +2750,18 @@ function confianzaJugadores(metricas){
   return peor;
 }
 
-function jugadoresDe(m, cuantos = 4){
+/* Por línea, y no una lista sola de los más goleadores. Con una lista
+   sola la delantera se lleva todos los lugares siempre — que es verdad
+   y es inútil: el que mira ya sabe que los delanteros rematan más. Lo
+   que no sabe es cuál de los volantes de ESTE partido llega mejor, y
+   eso solo se ve comparando adentro de su línea. */
+const JUG_LINEAS = [
+  ["F", "Delantera"],
+  ["M", "Mediocampo"],
+  ["D", "Defensa"],
+];
+
+function jugadoresDe(m, porLinea = 2){
   const de = id => (PLANTELES[String(id)] || []);
   const pool = [];
   [[m.homeId, m.home], [m.awayId, m.away]].forEach(([id, equipo])=>{
@@ -2767,8 +2778,14 @@ function jugadoresDe(m, cuantos = 4){
   });
   /* Por chance de gol, que es lo que la gente mira primero y además la
      métrica mejor calibrada de las tres. */
-  pool.sort((a, b)=> (b.esp.goles || 0) - (a.esp.goles || 0));
-  return pool.slice(0, cuantos);
+  const out = [];
+  JUG_LINEAS.forEach(([pos, etiqueta])=>{
+    const linea = pool.filter(j => j.pos === pos)
+      .sort((a, b)=> (b.esp.goles || 0) - (a.esp.goles || 0))
+      .slice(0, porLinea);
+    if(linea.length) out.push({linea: etiqueta, jugadores: linea});
+  });
+  return out;
 }
 
 function ejesDe(m){
@@ -2802,20 +2819,23 @@ function bloqueJugadores(m){
   let h = `<div class="banda banda2">${esc_(eje.titulo)}<em>${chip}</em></div>
     <div class="sec"><div class="grp">`;
 
-  eje.estimacion.forEach(j=>{
-    const cifras = JUG_METRICAS.map(([k, etiqueta])=>{
-      const f = fiabilidadJugador(k);
-      const flojo = f && f.nivel === "mal";
-      return `<span class="jm${flojo ? " flojo" : ""}">${esc_(etiqueta)}
-        <b>${(j.esp[k] || 0).toFixed(2)}</b></span>`;
-    }).join("");
-    h += `<div class="mrow">
-      <div class="top2"><span class="mkt">${esc_(j.nombre)}</span>
-        <span class="modelo">${esc_(j.equipo)}</span></div>
-      <div class="jugcifras">${cifras}</div>
-      <div class="umb">${j.pos || "—"} · el número sale de sus últimos
-        ${Math.round(j.pj || 0)} partidos</div>
-    </div>`;
+  eje.estimacion.forEach(grupo=>{
+    h += `<div class="gh">${esc_(grupo.linea)}</div>`;
+    grupo.jugadores.forEach(j=>{
+      const cifras = JUG_METRICAS.map(([k, etiqueta])=>{
+        const f = fiabilidadJugador(k);
+        const flojo = f && f.nivel === "mal";
+        return `<span class="jm${flojo ? " flojo" : ""}">${esc_(etiqueta)}
+          <b>${(j.esp[k] || 0).toFixed(2)}</b></span>`;
+      }).join("");
+      h += `<div class="mrow">
+        <div class="top2"><span class="mkt">${esc_(j.nombre)}</span>
+          <span class="modelo">${esc_(j.equipo)}</span></div>
+        <div class="jugcifras">${cifras}</div>
+        <div class="umb">el número sale de sus últimos
+          ${Math.round(j.pj || 0)} partidos</div>
+      </div>`;
+    });
   });
 
   /* El hueco declarado, no escondido: decir cuál de las tres no sirve

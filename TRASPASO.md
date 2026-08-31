@@ -4279,3 +4279,67 @@ Cobertura: 38 de 49 partidos tienen el eje (arg y bra completos, eng y
 fra a medias — ESPN todavía no publica series por jugador de todos los
 equipos europeos). Donde no hay, el eje no aparece: media lectura es
 peor que ninguna.
+
+### Addendum 6 · Qué mueve los remates de un jugador: medido, y no es el rival (2026-08-31)
+
+La pregunta es de Lucas, textual: *"no sé cuáles son las variables que
+pueden intensificar las probabilidades de que x jugador remate. Puede
+ser el equipo — al Fluminense le suelen rematar mucho los
+mediocampistas — o los laterales contra estos rivales suelen pegar de
+afuera."*
+
+Es la pregunta correcta, porque el número de jugador **no mira nada de
+eso**. `esperado_jugador()` toma la serie reciente y la encoge hacia el
+promedio del puesto. No mira contra quién juega, ni cuánto remata su
+equipo, ni si el partido pinta trabado. Y es la métrica peor calibrada
+que tenemos (2.09 veces el ruido).
+
+Lo llamativo es que la información ya estaba en casa: a nivel EQUIPO la
+app sí ajusta por lo que concede el rival. Ese ajuste nunca bajó al
+jugador.
+
+`medir_ajuste_jugador.py` lo baja y lo mide, walk-forward, contra lo
+que se publica hoy:
+
+| pronóstico | error² | le gana a hoy | e.e. |
+|---|---|---|---|
+| hoy | 1.4775 | — | — |
+| ajustado por rival | 1.6092 | **−0.1317** | 0.0476 |
+| por cuota del equipo | 1.9540 | **−0.4765** | 0.1495 |
+
+**Los dos empeoran**, con 2.8 y 3.2 errores estándar, y el
+dejar-uno-afuera no cruza el cero en ninguno (rival: −0.17 a −0.08;
+cuota: −0.55 a −0.35). No es un partido: es el ajuste.
+
+**Por qué, y es la misma lección de siempre en este repo.** El factor
+del rival sale de 3 o 4 partidos, así que es una estimación ruidosa.
+Multiplicar un número ruidoso (la serie del jugador) por otro número
+ruidoso (el factor) suma varianza sin sumar señal. Es exactamente lo
+que `parametros_metricas()` ya sabía a nivel equipo: con pocos partidos
+hay que encoger MÁS, no multiplicar.
+
+**Qué NO prueba.** No prueba que el rival no importe — prueba que
+*esta estimación del rival* hace daño. Un factor bien estimado
+necesitaría muchos más partidos por equipo, y los anclas largos que
+darían eso existen solo para eng y fra, que son justo las ligas donde
+ESPN todavía no publica series por jugador de todos los equipos. El
+camino queda abierto y con una condición clara.
+
+**Lo de "partido trabado o dinámico": no está medido.** Se puede
+derivar (faltas esperadas, λ total) pero nadie probó que prediga
+remates de jugador. Es candidato, no hallazgo.
+
+**Y un cambio de producto que sí entró**, porque era estructura y no
+decoración: el eje Jugadores ahora agrupa por **línea** — Delantera,
+Mediocampo, Defensa — con dos candidatos por línea en vez de una lista
+sola. Con una lista sola la delantera se llevaba todos los lugares
+siempre: verdadero e inútil, porque el que mira ya sabe que los
+delanteros rematan más. Lo que no sabe es cuál de los volantes de ESTE
+partido llega mejor, y eso solo se ve comparando adentro de su línea.
+
+Herramientas: `medir_ajuste_jugador.py`, `test_medir_ajuste_jugador.py`
+(28 pruebas). El test encontró dos cosas antes que yo: que `evaluar()`
+no era inyectable —dependía de `planteles.json` para tener tests— y que
+un fixture con jugadores idénticos deja a `parametros_metricas()`
+devolviendo `{}`, porque necesita variación entre jugadores y ocho de
+ellos como mínimo.

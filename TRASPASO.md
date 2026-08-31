@@ -4124,17 +4124,53 @@ nada. Por eso se mide la deriva de los escalones que no apostamos:
 
 La vara está en cero, así que el CLV no es la casa moviéndose sola.
 
+#### CORRECCIÓN, media hora después: la señal era UN partido
+
+Antes de escribir nada en el producto le pasé dos controles más, y no
+los pasa. **Se retira el hallazgo.**
+
+**Control 1 — dejar un partido afuera por vez.** El error estándar
+asume apuestas independientes, y las de un mismo partido no lo son:
+comparten equipos, hora y quién movió esa pizarra.
+
+    sin 401841209   14 apuestas   CLV +5.96%
+    sin 401841535   14 apuestas   CLV +0.17%   ← se desarma
+    (los otros ocho quedan entre +4.39% y +5.06%)
+
+Cinco apuestas de un solo evento sostenían todo el +4.28%.
+
+**Control 2 — cuántas líneas se movieron.** 11 de las 19 tienen el
+precio **clavado** entre la primera foto y la última: ahí el CLV es
+cero por construcción y el instrumento no está midiendo nada. El
+promedio se calculaba sobre 8 apuestas que se movieron, no sobre 19.
+
+Y un tercer olor, que no necesita test: las apuestas se concentran en
+cuotas de 21.00 con `p = 0.056`. El modelo dice tener ventaja justo
+donde su estimación es menos confiable — el patrón clásico de la
+ventaja falsa.
+
+Los dos controles quedaron **dentro del script** (`dejar_uno_afuera()`
+y `sin_movimiento()`), no como una revisión suelta que se pierde. La
+próxima vez que alguien corra esto, los ve sin tener que acordarse.
+
+**Lo metodológico, que sí queda:** con dos fotos por día y ninguna
+pegada al inicio, el CLV en props casi no tiene resolución — la casa no
+mueve esas pizarras entre nuestras fotos. Para medirlo en serio hace
+falta una foto cerca del inicio, y eso es un cambio en el cron, no una
+medición nueva.
+
 #### Qué significa y qué NO
 
-Es **la primera señal positiva del proyecto**: en el 1X2 contra Bet365
-el CLV es exactamente cero (§15), y acá da +4.3 puntos sobre la deriva.
-Coincide con lo que dice la teoría —el mercado blando es el que la casa
-no modela— y con la elección de mirar props.
+**No hay señal.** Lo que parecía la primera positiva del proyecto era
+un partido, y los dos controles de arriba lo muestran. Queda el
+instrumento, que es lo que de verdad valía: es la primera vez que se
+puede medir plata en este mercado, y el mismo script contesta cuando
+haya muestra.
 
-Pero: **n = 19**, en 10 partidos, con una ventana de ventaja entre
-varias que probé. Dos errores estándar con esa muestra es una pista.
-Además el "cierre" es la última foto que tomamos, no la línea de cierre
-real. No alcanza para tocar el producto.
+Lo que aprendí, y es lo que más vale de todo esto: **dos errores
+estándar no alcanzan cuando las observaciones vienen en camadas.**
+Diecinueve apuestas de diez partidos no son diecinueve datos
+independientes. El dejar-uno-afuera lo ve y el intervalo no.
 
 #### Lo que sigue, y no requiere trabajo nuevo
 

@@ -251,6 +251,47 @@ def deriva(filas):
     return {"n": n, "clv": media * 100, "ee": (var / n) ** 0.5 * 100}
 
 
+def dejar_uno_afuera(filas, umbral=UMBRAL_MIN, techo=UMBRAL_MAX):
+    """El CLV recalculado sacando un partido por vez.
+
+    Existe porque el 2026-08-31 el CLV daba +4.28% sobre la deriva, dos
+    errores estándar, y parecía la primera señal positiva del proyecto.
+    Sacando UN partido caía a +0.17%: cinco apuestas de un solo evento
+    sostenían todo. El error estándar no lo detectaba porque asume que
+    las apuestas son independientes, y las de un mismo partido no lo
+    son — comparten equipos, hora y quién movió esa pizarra.
+
+    Con pocos partidos, esto dice más que el intervalo. Si el número se
+    desarma al sacar uno, no hay señal: hay un partido.
+    """
+    evs = sorted({f["ev"] for f in filas})
+    out = []
+    for e in evs:
+        c = clv([f for f in filas if f["ev"] != e], umbral, techo)
+        if c:
+            out.append({"sin": e, "n": c["n"], "clv": c["clv"]})
+    return out
+
+
+def sin_movimiento(filas, umbral=UMBRAL_MIN, techo=UMBRAL_MAX):
+    """Qué fracción de las apuestas tiene la línea CLAVADA entre fotos.
+
+    Si la casa no movió el precio entre nuestra primera foto y la
+    última, el CLV de esa apuesta es cero por construcción y no aporta
+    información: el instrumento no está midiendo nada ahí. Con las fotos
+    de hoy —dos por día, ninguna pegada al inicio— eso pasa en la
+    mayoría de los casos, y conviene verlo antes de leer el promedio.
+    """
+    jugadas = [f for f in filas
+               if umbral <= f["ev_esperado"] <= techo
+               and f.get("cierre") and f["cierre"] > 1]
+    if not jugadas:
+        return None
+    quietas = sum(1 for f in jugadas if abs(f["precio"] - f["cierre"]) < 1e-9)
+    return {"n": len(jugadas), "quietas": quietas,
+            "pct": quietas / len(jugadas) * 100}
+
+
 def clv(filas, umbral=UMBRAL_MIN, techo=UMBRAL_MAX):
     """¿La línea se movió hacia nosotros entre la primera foto y la última?
 
@@ -332,6 +373,23 @@ def main(argv):
         print("\n    Si esa diferencia no se despega de cero, el CLV de arriba")
         print("    es la casa achicando el margen sobre la hora — no nosotros")
         print("    eligiendo bien.")
+
+    q = sin_movimiento(filas, umbral)
+    if q:
+        print(f"\n  de esas {q['n']} apuestas, {q['quietas']} tienen la línea "
+              f"CLAVADA ({q['pct']:.0f}%):")
+        print("  ahí el CLV es cero por construcción y no mide nada.")
+
+    fuera = dejar_uno_afuera(filas, umbral)
+    if len(fuera) > 2:
+        print("\n  dejando UN partido afuera por vez:\n")
+        for f in fuera:
+            print(f"    sin {f['sin']}: {f['n']:4d} apuestas · CLV {f['clv']:+.2f}%")
+        peor = min(fuera, key=lambda f: f["clv"])
+        print(f"\n    El peor caso deja el CLV en {peor['clv']:+.2f}%. Si ahí se")
+        print("    desarma, no hay señal: hay un partido. El error estándar no")
+        print("    lo ve porque asume apuestas independientes, y las de un")
+        print("    mismo partido no lo son.")
 
     print("\n  El ROI es al precio REAL, con el margen de la casa adentro:")
     print("  no se le quita nada. Con esta muestra el ROI casi seguro no")

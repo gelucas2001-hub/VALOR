@@ -153,6 +153,31 @@ prueba("sin ninguna foto de cierre no hay deriva que medir",
        P.deriva([fila(0.10, 2.0, 1)]) is None)
 
 
+print("\ndejar_uno_afuera() y sin_movimiento() — los dos controles que "
+      "encontraron\nque la señal era un solo partido\n")
+
+# Nueve apuestas sin movimiento y cinco de UN evento que se movieron
+# fuerte: el promedio da lindo y no hay señal.
+UNO = ([dict(fila(0.10, 2.0, 0, cierre=2.0), ev="A") for _ in range(9)]
+       + [dict(fila(0.10, 2.4, 0, cierre=2.0), ev="B") for _ in range(5)])
+fuera = P.dejar_uno_afuera(UNO, 0.04)
+prueba("recalcula el CLV sacando cada partido por vez", len(fuera) == 2)
+sinB = [f for f in fuera if f["sin"] == "B"][0]
+prueba("sacando el partido que lo sostiene, el CLV se desarma",
+       cerca(sinB["clv"], 0.0))
+prueba("y sacando cualquier otro, no cambia casi nada",
+       [f for f in fuera if f["sin"] == "A"][0]["clv"] > 15)
+
+q = P.sin_movimiento(UNO, 0.04)
+prueba("cuenta las apuestas con la línea clavada", q["quietas"] == 9)
+prueba("y las expresa como fracción", cerca(q["pct"], 9 / 14 * 100))
+prueba("una linea que se movio no cuenta como quieta",
+       P.sin_movimiento([dict(fila(0.10, 2.4, 0, cierre=2.0), ev="A")],
+                        0.04)["quietas"] == 0)
+prueba("sin apuestas no inventa un porcentaje",
+       P.sin_movimiento([fila(0.001, 2.0, 0, cierre=2.0)], 0.04) is None)
+
+
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

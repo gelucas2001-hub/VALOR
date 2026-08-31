@@ -2718,5 +2718,53 @@
    "vida_media": 300,
    "prior": 8
   }
+ },
+ "espn401841549": {
+  "fecha": "2026-09-06",
+  "comp": "Liga Profesional Argentina",
+  "home": "River Plate",
+  "away": "Independiente Rivadavia",
+  "lh": 1.474,
+  "la": 0.963,
+  "rho": -0.05,
+  "mercado": [
+   0.534,
+   0.2727,
+   0.1933
+  ],
+  "cuotas": [
+   1.77,
+   3.35,
+   4.6
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841548": {
+  "fecha": "2026-09-06",
+  "comp": "Liga Profesional Argentina",
+  "home": "Racing Club",
+  "away": "Atlético Tucumán",
+  "lh": 1.358,
+  "la": 0.824,
+  "rho": -0.05,
+  "mercado": [
+   0.5157,
+   0.2863,
+   0.198
+  ],
+  "cuotas": [
+   1.83,
+   3.2,
+   4.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
  }
 }

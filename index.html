@@ -1989,6 +1989,19 @@ const MEDICIONES = {
     aporte:     {"eng.1": {remates: 9.9, al_arco: 7.3, corners: 4.8},
                  "fra.1": {remates: 7.0, al_arco: 9.1, corners: 2.9}},
   },
+  contexto: {
+    // El único eje que no calcula nadie: lo escribe la skill
+    // `valor-analisis-inclinacion` a mano, en `data/analisis.json`.
+    medido_por: "medir_analisis.py",
+    // `sin_medir` a propósito, y no es pereza. La última medición
+    // encontró que la skill inclinaba al local el 69% de las veces
+    // contra el 45% que corresponde. Eso se corrigió el 2026-08-30 y
+    // NO se volvió a medir: hace falta una fecha nueva de análisis
+    // escritos con la skill corregida. Declarar "calibrada" con la
+    // corrección sin verificar sería exactamente el error que este
+    // contrato existe para impedir.
+    confianza:  "sin_medir",
+  },
   jugadores: {
     medido_por: "medir_jugadores.py",
     // El techo del eje. Cuánto vale cada métrica adentro sale de
@@ -2075,6 +2088,17 @@ function construirEjes(datos){
       estimacion: d.jugadores,
       ancla:      d.calibracionJugadores || null,
       confianza:  d.confianzaJugadores || null,
+    }));
+  }
+  /* Contexto es el único eje cuya `lectura` viene llena: los demás la
+     dejan en null porque el texto lo compone la pantalla, y acá el
+     texto ES el dato — lo escribió una persona con una skill. */
+  if(d.contexto && d.contexto.inclinacion){
+    ejes.push(sellar("contexto", d.liga, {
+      titulo:     "Quién falta, cómo llega, qué se juega cada uno",
+      estimacion: {inclinacion: d.contexto.inclinacion,
+                   actualizado: d.contexto.actualizado || null},
+      lectura:    d.contexto.veredicto || d.contexto.contexto || null,
     }));
   }
   return ejes;
@@ -2798,6 +2822,7 @@ function ejesDe(m){
     goles:    {esperados: m.lh + m.la},
     mercado:  m.mercado || null,
     dominio:  dominioDe(L, V),
+    contexto: ANALISIS[m.id] || null,
     jugadores: jug,
     confianzaJugadores: jug.length ? confianzaJugadores(mets) : null,
     calibracionJugadores: mets.reduce((o, k)=>{

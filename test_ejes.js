@@ -178,6 +178,52 @@ test("y bajar la confianza tampoco habilita una apuesta", () => {
 });
 
 /* ══════════════════════════════════════════════════════════════════
+   1quater. Contexto — el único eje que escribe una persona
+   ══════════════════════════════════════════════════════════════════ */
+
+const CTX = {inclinacion: "L", actualizado: "2026-08-19",
+             veredicto: "Palmeiras recupera a su capitán pero sigue golpeado.",
+             contexto: "Vuelta de los octavos de Libertadores."};
+const CON_CTX = Object.assign({}, DATOS, {contexto: CTX});
+
+test("con análisis cargado aparece el eje Contexto", () => {
+  cierto(construirEjes(CON_CTX).some(e => e.eje === "contexto"));
+});
+
+test("sin inclinación declarada NO aparece: prosa sola no es un eje", () => {
+  const solo = Object.assign({}, DATOS, {contexto: {veredicto: "algo"}});
+  cierto(!construirEjes(solo).some(e => e.eje === "contexto"));
+});
+
+test("Contexto se declara sin medir aunque tenga script", () => {
+  const e = construirEjes(CON_CTX).find(x => x.eje === "contexto");
+  igual(e.medido_por, "medir_analisis.py");
+  igual(e.confianza, "sin_medir",
+        "el sesgo al local se corrigió el 30/08 y no se volvió a medir:");
+});
+
+test("es el único eje que trae la lectura escrita", () => {
+  const ejes = construirEjes(Object.assign({}, CON_CTX, {dominio: DOM}));
+  const ctx = ejes.find(e => e.eje === "contexto");
+  igual(ctx.lectura, CTX.veredicto);
+  ejes.filter(e => e.eje !== "contexto")
+      .forEach(e => igual(e.lectura, null, `${e.eje}:`));
+});
+
+test("sin veredicto cae al contexto, y si no hay ninguno queda en null", () => {
+  const soloCtx = Object.assign({}, DATOS,
+    {contexto: {inclinacion: "V", contexto: "solo contexto"}});
+  igual(construirEjes(soloCtx).find(e => e.eje === "contexto").lectura,
+        "solo contexto");
+  const pelado = Object.assign({}, DATOS, {contexto: {inclinacion: "V"}});
+  igual(construirEjes(pelado).find(e => e.eje === "contexto").lectura, null);
+});
+
+test("y tampoco puede llevar apuesta", () => {
+  construirEjes(CON_CTX).forEach(e => igual(e.apuesta, null, `${e.eje}:`));
+});
+
+/* ══════════════════════════════════════════════════════════════════
    2. Regla 1 — sin script que lo mida, no se declara nada
    ══════════════════════════════════════════════════════════════════ */
 

@@ -4343,3 +4343,39 @@ no era inyectable —dependía de `planteles.json` para tener tests— y que
 un fixture con jugadores idénticos deja a `parametros_metricas()`
 devolviendo `{}`, porque necesita variación entre jugadores y ocho de
 ellos como mínimo.
+
+### Addendum 7 · El eje Contexto: cableado, y declarado sin medir (2026-08-31)
+
+Lo preguntó Lucas — *"¿no nos falta la skill?"*— y tenía razón: el plan
+tenía cinco pasos y quedamos en el tercero. Contexto es el paso 5, y es
+el único eje que **no calcula nadie**: lo escribe la skill
+`valor-analisis-inclinacion` a mano en `data/analisis.json`.
+
+**Queda `sin_medir`, y es la decisión importante de este addendum.**
+Hay script que lo mide (`medir_analisis.py`) y hay medición hecha: la
+skill inclinaba al local el **69% de las veces contra el 45% que
+corresponde**. Eso se corrigió el 2026-08-30 y **no se volvió a medir**
+— hace falta una fecha nueva de análisis escritos con la skill
+corregida. Declararlo "calibrada" con la corrección sin verificar sería
+exactamente el error que este contrato existe para impedir.
+
+**Es el único eje que trae la `lectura` llena.** Los otros cuatro la
+dejan en `null` porque el texto lo compone la pantalla; acá el texto
+**es** el dato — lo escribió una persona. El contrato lo soportaba
+desde el principio sin que nadie lo hubiera usado.
+
+**No se agregó un sexto bloque a Pronósticos, a propósito.** Lucas
+acababa de decir que esa pestaña está sobrecargada, y el análisis ya
+tiene su propia pestaña. El eje entra al **contrato** para que la
+arquitectura esté completa y Claude Design decida dónde ponerlo; sumar
+píxeles a la pestaña que se está por rediseñar hubiera sido trabajo
+para tirar.
+
+Cobertura hoy: 1 de 49 partidos tiene análisis cargado. No es un bug —
+`analisis.json` es carga manual y solo se escribe para los partidos que
+se miran en serio.
+
+Con esto el contrato tiene **cinco ejes**: resultado, volumen, dominio,
+jugadores y contexto. Falta Fricción (faltas, tarjetas, árbitro), que
+está medido y da poco: faltas con sesgo de 9 puntos, tarjetas sin
+aporte, y el árbitro sin efecto detectable por permutación.

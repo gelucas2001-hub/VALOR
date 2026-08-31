@@ -3689,3 +3689,95 @@ Contra Bet365 el CLV es cero: el modelo **empata con el mercado antes
 de comisión**. No elige mal — la pérdida es el margen que se paga sin
 ventaja que lo compense. Para ganar hace falta CLV positivo, y eso solo
 sale de información que el mercado todavía no tiene.
+
+## 16. El escenario coherente: la pregunta 1 da que NO (2026-08-31)
+
+§15 dejó dos preguntas en orden, y la segunda solo tenía sentido si la
+primera daba que sí. Está medida la primera: **no da**. Herramienta
+nueva: `medir_condicional.py` (con `test_medir_condicional.py`, 22
+pruebas).
+
+### Qué se midió, exactamente
+
+Para cada condición de resultado R se toman **solo los partidos donde R
+efectivamente pasó**, y ahí se comparan tres pronósticos del mercado de
+goles G:
+
+1. la **tasa base condicionada** — la frecuencia de G entre esos mismos
+   partidos. Es la vara;
+2. el modelo **sin condicionar**, P(G), que es lo que la app publica;
+3. el modelo **condicionado**, P(G|R) = P(G∩R)/P(R), leído de la misma
+   matriz de marcadores que ya usa `combinada()`.
+
+La columna que contesta la hipótesis es la (3) contra la (1). Bootstrap
+pareado de 2000 remuestreos para el error estándar, porque al cortar por
+resultado la muestra baja a un tercio.
+
+### El resultado, seis ligas, 28.881 partidos walk-forward
+
+Aporte sobre la tasa base, en la condición que le importa al producto
+(*dado que gana el favorito del modelo*), contra el aporte que el mismo
+modelo ya tenía **sin** condicionar:
+
+| liga | n | +1.5 sin/cond | +2.5 sin/cond | +3.5 sin/cond | ambos sin/cond |
+|---|---|---|---|---|---|
+| arg | 2781 | −0.6 / **−1.2** | −0.9 / **−1.9** | −0.9 / **−1.9** | −0.4 / **−1.6** |
+| bra | 2748 | −0.1 / **+0.2** | −0.4 / **−1.3** | −1.1 / **−2.0** | −1.1 / **−1.8** |
+| eng | 2213 | +0.1 / **+0.1** | +0.4 / **−0.2** | +0.3 / **−0.0** | −0.2 / **+0.0** |
+| fra | 1950 | +0.1 / **+1.9** | +1.3 / **+1.6** | +2.4 / **+3.4** | −0.7 / **+0.2** |
+| jpn | 2109 | +1.3 / **+2.0** | +0.7 / **+1.6** | +0.6 / **+1.6** | +0.6 / **+1.0** |
+| mex | 2191 | −0.5 / **+0.3** | +0.0 / **−0.6** | −0.0 / **+1.0** | −1.8 / **−1.3** |
+
+Los errores estándar del condicionado están entre 0.6 y 1.1. O sea: casi
+ningún número de esa tabla llega a dos errores estándar de cero, y los
+que llegan son de fra y jpn, **las dos ligas donde el modelo ya sabía
+algo de goles sin condicionar**. Condicionar no destapa información
+donde no la había: la mueve entre medio punto y un punto donde ya la
+había. En arg y bra el condicionado es *peor* que la tasa base.
+
+### La trampa que casi lo hace parecer un hallazgo
+
+La primera versión del script imprimía el **delta** (condicionado menos
+sin condicionar) sin el error estándar del condicionado. Y el delta es
+espectacular: +5.3% en arg dado que gana el favorito, **+44.8%** en la
+condición "empate" sobre más de 2.5 goles.
+
+Ese número es real y no significa nada. Quiere decir que si uno ya sabe
+que el partido terminó empatado, el modelo sin condicionar —que publica
+P(más de 2.5) ≈ 49%— queda ridículo contra el 14.9% que de verdad pasa.
+Condicionar corrige el **nivel** de goles del subconjunto, que es
+exactamente lo que la tasa base condicionada ya sabe. Por eso el
+condicionado aterriza en +0.3%: acomoda el nivel y **no agrega nada
+partido por partido**.
+
+Es el mismo error que §6vicies bis: calibrar no es saber. Un pronóstico
+que le da a todos los partidos del subconjunto el promedio de ese
+subconjunto calibra perfecto y no sirve para apostar.
+
+Y hay algo peor: condicionar al resultado real **no se puede hacer antes
+del partido**. La medición mira una información que el apostador no
+tiene. Aun así, con esa ayuda regalada, el aporte da cero. Sin la ayuda
+solo puede dar menos.
+
+### Qué queda decidido
+
+- **La pregunta 2 de §15 no se abre.** No hay escenario coherente que
+  construir: el eje de goles sigue sin información propia, condicionado
+  o no. La escalera se queda como está — solo Resultado.
+- **Camino cerrado con número.** Sumar a la tabla de §15: *goles
+  condicionados al resultado — aporte entre −2.0% y +3.4%, con e.e. de
+  0.6 a 1.1, y solo positivo donde ya lo era sin condicionar*.
+- **Lo que sí sigue vivo del pedido de Lucas.** La idea de mostrar un
+  escenario en vez de tres mercados sueltos es buena como *lectura*: si
+  alguna vez se publica, la probabilidad conjunta tiene que salir de la
+  matriz (`combinada()`), nunca del producto de tres mercados sueltos —
+  eso está bien fundado y es lo que hace coherente al conjunto. Lo que
+  esta medición prohíbe es **recomendarlo como valor**: la coherencia
+  interna del escenario no es información sobre goles.
+- **fra y jpn son las dos ligas con algo en el eje de goles**, y eso
+  refuerza lo que §15 ya decía de jpn por otro lado (ROI +2.78%, la
+  menor caída de las seis). Si algún día se prueba un mercado de goles,
+  se prueba ahí y en ningún otro lado.
+
+    python medir_condicional.py arg
+    python test_medir_condicional.py

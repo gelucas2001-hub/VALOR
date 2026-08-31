@@ -4184,3 +4184,47 @@ Mientras tanto, el eje Jugadores va como **lectura**: `confianza:
 2.09× el ruido, al arco 1.59, goles y asistencias bien), y sin marca.
 
 Herramientas: `medir_props.py`, `test_medir_props.py` (33 pruebas).
+
+### Addendum 4 · La foto pegada al inicio (2026-08-31)
+
+El hallazgo metodológico del addendum 3 —que el CLV en props no tiene
+resolución porque la línea no se mueve entre nuestras fotos— resultó
+ser un arreglo de una tarde, no un pendiente.
+
+**El diagnóstico, con número:** el cron corre 09:00 y 15:00 de
+Argentina; los partidos arrancan entre las 08:00 y las 21:00. Para uno
+de las 19:00 la última foto es de cuatro horas antes, justo antes de
+que la línea se mueva de verdad — dinero informado y alineaciones
+confirmadas, que salen alrededor de una hora antes del inicio.
+
+**Por qué no alcanzaba con correr el cron más seguido:** `actualizar.py`
+cuesta ~55 pedidos a odds-api por corrida (uno por liga más uno por
+partido pendiente). Cada hora serían ~800 por día contra ~110 de hoy.
+
+**`foto_props.py`** pide **solo los partidos que arrancan en las
+próximas 2 horas**: entre cero y cinco pedidos, y la mayoría de las
+corridas no pide nada. La foto cara se saca donde sirve.
+
+Detalles que importan y están testeados (`test_foto_props.py`, 19
+pruebas):
+
+- **El corte de abajo, que es el que se olvida.** Un partido que YA
+  empezó tiene cuota en vivo: es otro mercado, y compararlo contra la
+  apertura no mide CLV — mide otra cosa y se ve igual de bien.
+- **La zona horaria.** `partidos.json` guarda hora de Argentina y el
+  runner de GitHub corre en UTC. Tres horas de error mandan la foto al
+  momento equivocado y el archivo igual queda lleno de datos, que es la
+  peor forma de fallar. Hay un test que compara desde las dos zonas.
+- **No toca nada más.** No escribe `partidos.json`, no recalcula λ, no
+  cambia lo que la app muestra. Solo agrega fotos a
+  `props_jugadores.json`, que es un archivo que solo crece. Sin
+  `ODDS_API_KEY` sale sin ruido, igual que el resto de esa fuente.
+- El workflow (`.github/workflows/foto_props.yml`) corre cada hora
+  entre las 07:00 y las 21:00 de Argentina, con `concurrency` para que
+  dos corridas no se pisen el archivo, y `pull --rebase` antes del push
+  porque el cron grande puede haber escrito mientras tanto.
+
+**Qué se espera de esto:** que en dos o tres semanas `medir_props.py`
+corra sobre apuestas cuya línea efectivamente se movió, en vez de sobre
+un 58% de precios clavados. No mejora el modelo — hace que el
+instrumento mida.

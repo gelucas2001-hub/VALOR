@@ -1,0 +1,67 @@
+# Guardar en:  .github/workflows/foto_props.yml
+#
+# Por qué existe, y por qué NO es "correr el cron más seguido":
+#
+# `medir_props.py` encontró el 2026-08-31 que 11 de 19 apuestas tenían
+# el precio CLAVADO entre la primera foto y la última. El CLV de esas
+# es cero por construcción: el instrumento no estaba midiendo nada.
+#
+# La causa es la cadencia, no el mercado. `actualizar.yml` corre a las
+# 09:00 y 15:00 de Argentina y los partidos arrancan entre las 08:00 y
+# las 21:00 — para uno de las 19:00, la última foto es de cuatro horas
+# antes, justo antes de que la línea se mueva de verdad (dinero
+# informado y alineaciones confirmadas).
+#
+# Correr `actualizar.py` cada hora costaría ~55 pedidos a odds-api por
+# corrida. `foto_props.py` pide SOLO los partidos que arrancan en las
+# próximas dos horas: entre cero y cinco pedidos, y la mayoría de las
+# corridas no pide nada. La foto cara se saca donde sirve.
+#
+# No toca partidos.json ni recalcula nada: solo agrega fotos a
+# data/props_jugadores.json, que es un archivo que solo crece.
+
+name: Foto de props cerca del inicio
+
+on:
+  schedule:
+    # Cada hora entre las 10:00 y las 00:00 UTC — o sea de 07:00 a 21:00
+    # de Argentina, que es la franja donde arrancan los partidos. Fuera
+    # de esa franja no hay nada que fotografiar y no se gasta una
+    # corrida.
+    - cron: "0 10-23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Dos corridas a la vez escribirían el mismo archivo y la última
+# ganaría, perdiendo la foto de la otra. Con esto la segunda espera.
+concurrency:
+  group: foto-props
+  cancel-in-progress: false
+
+jobs:
+  foto:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Foto de las líneas de jugador
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python foto_props.py
+
+      - name: Guardar la foto
+        run: |
+          git config user.name  "valor-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/props_jugadores.json
+          git diff --staged --quiet && echo "sin fotos nuevas" && exit 0
+          git commit -m "props: foto $(date -u '+%Y-%m-%d %H:%M')"
+          # El cron grande puede haber pusheado mientras tanto.
+          git pull --rebase --autostash
+          git push

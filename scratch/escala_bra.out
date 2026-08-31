@@ -1,0 +1,37 @@
+
+==============================================================================
+  CORREGIR LA EXAGERACIÓN DE λ — bra, train/test temporal
+==============================================================================
+
+  train: < 2022-01-01  (elige k y μ)   ·   test: >= 2022-01-01  (confirma)
+  k=1.00 es producción. La pendiente medida sugiere ~0.37.
+
+  ajustando walk-forward (una sola vez)...
+    2000 evaluados...
+    4000 evaluados...
+  5504 partidos · train 3759 · test 1745
+  μ de train: 2.371 goles
+
+      k │ Brier O/U tr Brier O/U te │  ROI O/U te    ±2se     n │ Brier 1X2 te
+  ----------------------------------------------------------------------------
+   0.30 │      0.48517      0.49679 │          —       —     0 │      0.61409
+   0.40 │      0.48473      0.49662 │          —       —     0 │      0.61403
+   0.50 │      0.48468      0.49676 │          —       —     0 │      0.61399
+   0.60 │      0.48501      0.49721 │          —       —     0 │      0.61397
+   0.70 │      0.48570      0.49796 │          —       —     0 │      0.61396
+   0.85 │      0.48738      0.49961 │          —       —     0 │      0.61399
+   1.00 │      0.48978      0.50187 │          —       —     0 │      0.61406  ← producción
+   1.15 │      0.49286      0.50470 │          —       —     0 │      0.61417
+
+  ==========================================================================
+  mejor k en TRAIN: 0.50   ·   mejor k en TEST: 0.40   ·   producción: 1.00
+
+  El ganador de train NO es el de test. Eso es la señal de que
+  el efecto no es estable — la misma que apagó barrido_lambda.py.
+
+  Brier O/U en test con k=0.50: 0.49676   ·   con producción: 0.50187   (mejora)
+  Brier 1X2 en test (control de daño): 0.61399 contra 0.61406 de producción
+
+  Nada se toca hasta que mejore en test SIN romper el 1X2.
+  ==========================================================================
+

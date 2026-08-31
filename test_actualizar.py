@@ -131,5 +131,59 @@ prueba("la línea se movió: agrega una foto nueva",
 prueba("sin mercadoExtra, no rompe y no agrega nada",
        A.snapshot_props({}, [{"id": "espn2"}], "t1") == {})
 
+
+print("")
+print("corregir_escala() — el modelo exageraba su rango de goles")
+print("")
+
+# Medido el 2026-08-30 (medir_compresion.py, barrido_escala_lambda.py):
+# el modelo predice un rango de 1.80 a 3.11 goles donde la realidad va
+# de 2.07 a 2.44. La corrección lo encoge hacia la media de la liga.
+
+_MU = 2.5
+
+prueba("con k=1 no toca nada (es el comportamiento viejo)",
+       A.corregir_escala(1.6, 1.1, _MU, 1.0) == (1.6, 1.1))
+
+lh, la = A.corregir_escala(2.0, 1.5, _MU, 0.5)
+prueba("un partido de mucho gol se acerca a la media",
+       abs((lh + la) - (_MU + 0.5 * (3.5 - _MU))) < 1e-9)
+
+lh2, la2 = A.corregir_escala(0.9, 0.7, _MU, 0.5)
+prueba("y uno de poco gol tambien, desde el otro lado",
+       abs((lh2 + la2) - (_MU + 0.5 * (1.6 - _MU))) < 1e-9)
+
+lh3, la3 = A.corregir_escala(2.0, 1.0, _MU, 0.5)
+prueba("el reparto local/visitante se mantiene: corrige cuanto, no quien",
+       abs(lh3 / (lh3 + la3) - 2.0 / 3.0) < 1e-9)
+
+prueba("un k de liga que no esta medido no corrige nada",
+       A.escala_de("competicion.inventada") == 1.0)
+
+prueba("y las medidas traen su valor",
+       0 < A.escala_de("arg.1") < 1.0)
+
+prueba("una liga sin centro medido tampoco se corrige",
+       A.centro_de("competicion.inventada") is None)
+
+prueba("sin centro, corregir_escala devuelve el lambda intacto aunque haya k",
+       A.corregir_escala(2.0, 1.5, None, 0.5) == (2.0, 1.5))
+
+# El centro NO es mu_local+mu_visita: medido sobre arg, eso da 2.025
+# mientras la media real de lambda es 2.266, porque lambda es
+# multiplicativo y E[a*d] no vale 1. Centrar mal metia -0.11 goles de
+# sesgo en cada partido, sin excepcion ni aviso.
+prueba("el centro de cada liga es el mismo con el que se midio su k",
+       abs(A.centro_de("arg.1") - 2.266) < 1e-9
+       and abs(A.centro_de("eng.1") - 2.785) < 1e-9)
+
+_c = A.centro_de("arg.1")
+_lh, _la = A.corregir_escala(_c * 0.6, _c * 0.4, _c, A.escala_de("arg.1"))
+prueba("un partido que ya esta en el centro no se mueve",
+       abs((_lh + _la) - _c) < 1e-9)
+
+lh4, la4 = A.corregir_escala(0.2, 0.1, _MU, 0.0)
+prueba("nunca devuelve un lambda que rompa la matriz", lh4 > 0 and la4 > 0)
+
 print(f"\n{ok} ok, {fallan} fallan")
 sys.exit(1 if fallan else 0)

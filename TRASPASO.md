@@ -3421,3 +3421,113 @@ necesita 1-2 frases de "por qué" que tejan dato + contexto (`inclinacion`
 de la skill), no solo un número con una etiqueta. Depende de que la
 escalera ya elija bien (punto 1 arriba) antes de tener sentido escribirle
 texto a lo que elige.
+
+---
+
+## 14. El modelo exageraba su rango de goles (2026-08-30)
+
+**El hallazgo más importante de la sesión, y salió de una objeción de
+Lucas sobre un partido puntual.** Vale la pena contar cómo, porque el
+método es el hallazgo tanto como el número.
+
+### Cómo apareció
+
+Lucas vio Unión–Sarmiento: ~2.70 de goles esperados, escalera de "pocos
+goles" y "no marcan ambos", terminó 4-1. Su objeción: los dos equipos
+convierten y reciben, no era un partido para esperar poco gol.
+
+La respuesta fácil —y la que se dio primero— era "un partido es
+varianza, con λ=2.70 un 4-1 vive en la cola". Es cierto y no alcanza:
+la pregunta que quedaba sin contestar era si el modelo acierta *el
+rango*, no si acertó *ese* partido. Lucas insistió, y tenía razón.
+
+### Qué se midió
+
+`medir_compresion.py`, sobre 6270 partidos de arg, walk-forward,
+partiendo por **λ predicho** — la vista que ninguna medición anterior
+usaba:
+
+```
+ franja λ      n   predicho   real   desvío
+  0.0-2.0   1583      1.80    2.07    +0.27
+  2.4-2.6    931      2.49    2.31    -0.18
+  3.0-3.3    129      3.11    2.44    -0.67
+
+ pendiente de real contra predicho: 0.368 ± 0.108
+```
+
+**El modelo predecía un rango de 1.80 a 3.11 goles donde la realidad va
+de 2.07 a 2.44.** Estiraba su rango ~2.7 veces de más: donde decía
+mucho gol pasaban menos, y donde decía poco gol pasaban más.
+
+**No es atenuación estadística**, y esto se verificó antes de creerle
+al número: un modelo PERFECTO simulado con la misma muestra y la misma
+distribución de λ da pendiente 0.944 ± 0.091; uno que exagera 2.7x da
+0.335 ± 0.091. El real (0.368) está en el segundo grupo.
+
+### Por qué nadie lo había visto en tres semanas de mediciones
+
+**En agregado se cancela.** Los partidos inflados y los desinflados se
+compensan, así que todas las mediciones promedio daban "sin problema":
+
+- `medir_historico.py` parte por banda de probabilidad del 1X2.
+- `barrido_lambda.py` mide over 2.5 en total, y daba **bien calibrado**
+  (0.357 real contra 0.375 predicho sobre 2559 partidos).
+- `backtest.py` mira franjas de probabilidad, no de λ.
+
+Ninguna partía por λ predicho. **La lección de método: un promedio que
+da bien puede estar tapando dos errores que se cancelan. Si el producto
+falla en casos concretos mientras el agregado calibra, buscá la
+partición donde el error NO se cancele.**
+
+### La corrección, y qué compra
+
+```
+λ_corregido = centro_liga + k · (λ_modelo − centro_liga)
+```
+
+Barrida con train/test temporal (`barrido_escala_lambda.py`), y
+verificada con test **pareado** sobre el Brier de goles en test:
+
+| liga | k | centro | Brier de goles en test | 1X2 |
+|---|---|---|---|---|
+| arg | 0.50 | 2.266 | +0.00372 ± 0.00351 (**2.1 e.e.**, pareado) | sin daño |
+| bra | 0.50 | 2.371 | 0.49676 contra 0.50187 | sin daño |
+| eng | 0.60 | 2.785 | +0.00245 ± 0.00342 (1.4 e.e., pareado) | sin daño |
+| fra | 0.60 | 2.617 | 0.49176 contra 0.49343 | sin daño |
+
+**Las cuatro ligas, independientes, todas con el óptimo en k < 1 y
+dentro de la grilla** — exagerar más (k=1.15) empeora en las cuatro. La
+significancia individual solo se verificó con test pareado en arg
+(2.1 e.e.) y eng (1.4); lo que sostiene a las otras dos es la
+consistencia de la dirección y que el óptimo no cae en un borde.
+
+**Lo que NO compra, y hay que decirlo: no mejora el ROI.** Entra porque
+corrige un defecto medido en un número que la app **muestra en
+pantalla** ("2.7 goles esperados entre los dos"), no porque haga ganar
+plata. Mejorar el Brier y ganar plata no son la misma cosa — ver
+`medir_encogimiento.py`, que ya costó esa lección.
+
+### La trampa del centro, que casi se implementa mal
+
+El centro parecía obvio: `mu_local + mu_visita`, el λ de dos equipos
+promedio. **Es incorrecto.** Medido sobre arg da 2.025 mientras la
+media real de λ es 2.266, porque λ es multiplicativo y `E[a·d]` no
+vale 1. Centrar ahí metía un sesgo sistemático de **−0.11 goles en cada
+partido** — un error que no tira excepción, no aparece en los tests y
+solo desplaza todo hacia abajo.
+
+Por eso el centro es una **constante medida por liga**, y es el mismo
+valor con el que se barrió cada `k`: medir con una vara y aplicar con
+otra es el error de §6vicies, y acá estuvo a un paso de repetirse.
+
+### Qué NO se tocó
+
+`index.html` no cambia: la corrección vive en `actualizar.py`, así que
+el frontend recibe λ ya corregido. `doble_via.py` sigue dando 6.7e-16
+de diferencia máxima — el motor de las dos vías sigue siendo el mismo.
+
+Una competición sin `escala` y `centro` medidos **no se corrige**. Las
+copas no tienen cuotas históricas en football-data, así que no se
+pudieron medir, y extrapolar el k de una liga a una copa sería
+inventar.

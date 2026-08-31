@@ -1,0 +1,30 @@
+
+==========================================================================
+  LA REGLA DE VALOR CONTRA PLATA — por liga, walk-forward
+==========================================================================
+
+  regla: ventaja en [6%, 12%] · cuota <= 4.5
+  precio: cuota de CIERRE (el más difícil que existe)
+  sin el filtro de análisis humano — no es simulable hacia atrás
+
+  arg: ajustando walk-forward (tarda ~8 min)...
+  arg 1X2     1789 apuestas   ROI  -9.17% ± 6.44   acierto 32.9%
+  arg O/U    la fuente no publica línea de goles para esta liga
+  bra: ajustando walk-forward (tarda ~8 min)...
+  bra 1X2     1333 apuestas   ROI  -9.13% ± 7.32   acierto 34.2%
+  bra O/U    la fuente no publica línea de goles para esta liga
+  eng: ajustando walk-forward (tarda ~8 min)...
+  eng 1X2      947 apuestas   ROI  +1.01% ± 8.92   acierto 38.6%   (ruido: el intervalo incluye cero)
+  eng O/U      792 apuestas   ROI  -2.85% ± 7.49   acierto 47.5%   (ruido: el intervalo incluye cero)
+  fra: ajustando walk-forward (tarda ~8 min)...
+  fra 1X2      993 apuestas   ROI  -5.22% ± 8.71   acierto 35.6%   (ruido: el intervalo incluye cero)
+  fra O/U      707 apuestas   ROI  -8.27% ± 7.92   acierto 44.4%
+
+  ----------------------------------------------------------------------
+  La comparación es el punto: si una liga da distinto de otra,
+  el problema no es 'el modelo' sino dónde se lo aplica.
+  ----------------------------------------------------------------------
+
+  Recordá las dos salvedades: se apuesta al CIERRE (vara dura,
+  un cero acá es mejor de lo que parece) y sin filtro de análisis.
+

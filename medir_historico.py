@@ -167,11 +167,15 @@ def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
                       # favoritos sobreconfiados y el over 2.5 está bien
                       # calibrado, así que medir plata solo en el primero
                       # era medir el peor de los dos.
+                      # La cuota solo donde la fuente la publica, pero la
+                      # probabilidad y el resultado SIEMPRE: la calibración
+                      # de goles se puede medir sin mercado, y arg —la liga
+                      # que más importa acá— no tiene línea publicada.
+                      # Atarlas juntas dejaba a arg sin poder medirse.
                       "cuotas_ou": p.get("cuotas_ou"),
-                      "modelo_ou": ([backtest.suma_si(matriz, lambda i, j: i + j > 2.5),
-                                     backtest.suma_si(matriz, lambda i, j: i + j < 2.5)]
-                                    if p.get("cuotas_ou") else None),
-                      "real_ou": H.desenlace_ou(p) if p.get("cuotas_ou") else None,
+                      "modelo_ou": [backtest.suma_si(matriz, lambda i, j: i + j > 2.5),
+                                    backtest.suma_si(matriz, lambda i, j: i + j < 2.5)],
+                      "real_ou": H.desenlace_ou(p),
                       "lh": lh, "la": la, "fuente": p.get("fuente"),
                       # Para poder cortar despues por torneo, por equipo o
                       # por cuanta historia tenia cada uno.

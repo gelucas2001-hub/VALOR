@@ -213,6 +213,105 @@ PRIOR_FUERZA = 3           # "partidos fantasma" a nivel promedio (fuerza 1.0)
 # (-0.10 / -0.14, que nunca tuvo respaldo en datos) porque las dos ligas
 # que sí se pudieron medir dicen que ese negativo estaba mal. Recalibrar
 # cuando haya más temporada jugada.
+# ══════════════════════════════════════════════════════════════════════
+# ESCALA DE λ — el modelo exageraba su rango de goles
+#
+# Medido el 2026-08-30 (`medir_compresion.py`) sobre 6270 partidos de
+# arg, walk-forward, partiendo por λ PREDICHO — la vista que ninguna
+# medición anterior usaba:
+#
+#     franja λ      n   predicho   real   desvío
+#      0.0-2.0    1583      1.80    2.07    +0.27
+#      2.4-2.6     931      2.49    2.31    -0.18
+#      3.0-3.3     129      3.11    2.44    -0.67
+#
+#     pendiente de real contra predicho: 0.368 ± 0.108
+#
+# El modelo predecía un rango de 1.80 a 3.11 goles donde la realidad va
+# de 2.07 a 2.44: estiraba su rango ~2.7 veces de más. Donde decía
+# mucho gol pasaban menos, y donde decía poco gol pasaban más.
+#
+# No es atenuación estadística: un modelo PERFECTO simulado con la misma
+# muestra y la misma distribución de λ da pendiente 0.944 ± 0.091, y uno
+# que exagera 2.7x da 0.335 ± 0.091. El real (0.368) está en el segundo
+# grupo. Es la regla del repo aplicada — comparar contra el ruido, no
+# contra cero.
+#
+# Por qué no se había visto nunca: EN AGREGADO SE CANCELA. Los partidos
+# inflados y los desinflados se compensan, así que `medir_historico.py`
+# (que parte por banda de probabilidad del 1X2) y `barrido_lambda.py`
+# (que mide over 2.5 en total: 0.357 real contra 0.375 predicho, bien
+# calibrado) daban los dos "sin problema".
+#
+# La corrección encoge λ hacia la media de la liga:
+#
+#     λ_corregido = μ_liga + k · (λ_modelo − μ_liga)
+#
+# `k` se barrió con train/test temporal (`barrido_escala_lambda.py`,
+# train < 2022 elige, test >= 2022 confirma). Test PAREADO sobre el
+# Brier de goles en test, contra producción (k=1.00):
+#
+#     arg (n=2583, k=0.50)   +0.00372 ± 0.00351   +2.1 e.e.   mejora
+#     eng (n=1717, k=0.60)   +0.00245 ± 0.00342   +1.4 e.e.   misma dirección
+#
+# El 1X2 no se daña en ninguna de las dos (+0.4 y −0.6 e.e., dentro del
+# ruido), y el óptimo cae DENTRO de la grilla en las dos — exagerar más
+# (k=1.15) empeora, así que no es un borde.
+#
+# LO QUE ESTA CORRECCIÓN NO HACE, y hay que decirlo: **no mejora el
+# ROI.** Medido en eng, el ROI de over/under con k=0.60 no mejora sobre
+# producción. Entra porque corrige un defecto medido en un número que la
+# app MUESTRA en pantalla ("2.7 goles esperados entre los dos"), no
+# porque haga ganar plata. Mejorar el Brier y ganar plata no son la
+# misma cosa — este repo ya se comió esa lección con
+# `medir_encogimiento.py`.
+#
+# Una competición sin `escala` medida NO se corrige (queda en 1.0). Las
+# copas no tienen cuotas históricas en football-data, así que no se
+# pudieron medir, y extrapolar el k de una liga a una copa sería
+# inventar — el mismo criterio que ya rige para `prior`.
+ESCALA_DEFECTO = 1.0
+
+
+def escala_de(slug):
+    """El `k` de corrección de λ de una competición, o 1.0 si no se midió."""
+    return (COMPETICIONES.get(slug) or {}).get("escala", ESCALA_DEFECTO)
+
+
+def centro_de(slug):
+    """Hacia dónde encoge `corregir_escala`: la media de λ de la liga.
+
+    Es una constante medida y no un cálculo en vivo, por dos razones:
+
+    - **Tiene que ser el MISMO valor con el que se midió la mejora.**
+      El barrido que aprobó cada `k` usó la media de λ del train de esa
+      liga; centrar en otro punto en producción mediría una cosa y
+      aplicaría otra, que es el error del devig de §6vicies.
+    - La media de la grilla del día son 5 a 15 partidos: demasiado
+      ruidosa para un centro, y reintroduciría por la ventana la
+      varianza que la corrección viene a sacar.
+    """
+    return (COMPETICIONES.get(slug) or {}).get("centro")
+
+
+def corregir_escala(lh, la, mu, k):
+    """λ encogido hacia `mu`, manteniendo el reparto entre local y visita.
+
+    Se corrige el TOTAL y se reparte con la misma proporción que tenía:
+    lo que se midió mal es cuántos goles hay en el partido, no quién
+    ataca más. Escalar lh y la por separado cambiaría también eso, que
+    es otra corrección y no está medida.
+    """
+    total = lh + la
+    # Sin centro medido no se corrige: una liga que no se barrió se
+    # comporta exactamente como antes de que esto existiera.
+    if total <= 0 or k == 1.0 or not mu:
+        return lh, la
+    nuevo = max(0.4, mu + k * (total - mu))
+    f = nuevo / total
+    return lh * f, la * f
+
+
 COMPETICIONES = {
     # `conf` decide el tamano de la apuesta: en index.html, >=72 da cuarto
     # de Kelly, >=60 da octavo. arg.1 estuvo en 75 —el mismo escalon que
@@ -232,8 +331,11 @@ COMPETICIONES = {
     # 70 y no 55: es el ajuste conservador. Reconoce la diferencia medida
     # sin recortar a un cuarto la mitad de la grilla. Queda en el mismo
     # escalon que las copas CONMEBOL, que tampoco calibran bien.
+    # `escala`: ver el bloque ESCALA_DEFECTO, arriba. Medido con
+    # train/test sobre 6270 partidos; test pareado del Brier de goles
+    # contra producción: +0.00372 ± 0.00351 (2.1 e.e.), sin dañar el 1X2.
     "arg.1": {"nombre": "Liga Profesional Argentina", "rho": -0.05, "conf": 70,
-              "prior": 12,
+              "prior": 12, "escala": 0.50, "centro": 2.266,
               "corners": 9.4, "fouls": 25.5, "cards": 5.4},
     # Brasil entra el 2026-08-24. Es la liga donde el motor demostrablemente
     # funciona: captura el 61% de la ventaja del mercado sobre la tasa base
@@ -241,8 +343,12 @@ COMPETICIONES = {
     # (47.4% vs 46.7%). Hasta hoy el modelo corria SOLO en la liga donde
     # falla. Los promedios salen de medir 60 partidos de bra.1 2026 via
     # /summary, no de copiar los de Argentina.
+    # `escala` 0.50 / `centro` 2.371: mismo barrido. Brier de goles
+    # en test 0.49676 contra 0.50187 de producción. Tercera liga
+    # independiente que mejora con k < 1, y la tercera donde el
+    # óptimo cae dentro de la grilla.
     "bra.1": {"nombre": "Brasileirão Série A", "rho": 0.00, "conf": 75,
-              "prior": 8,
+              "prior": 8, "escala": 0.50, "centro": 2.371,
               "corners": 10.0, "fouls": 25.1, "cards": 4.1},
     "conmebol.libertadores": {"nombre": "CONMEBOL Libertadores", "rho": 0.00, "conf": 65,
               "corners": 9.8, "fouls": 24.0, "cards": 5.0},
@@ -285,11 +391,18 @@ COMPETICIONES = {
     #   y 7.7% de Argentina (conf 70). Es el escalon de cuarto de Kelly,
     #   igual que Brasil — el numero mas alto reconoce la medicion sin
     #   inventar un escalon nuevo.
+    # `escala` 0.60: mismo barrido que arg. El test pareado da +0.00245
+    # ± 0.00342 (1.4 e.e.) — la misma dirección que arg pero sin
+    # despegarse del ruido, con 1717 partidos de test contra 2583. Entra
+    # porque el óptimo cae dentro de la grilla en las dos ligas y en las
+    # dos el 1.00 de producción es peor que cualquier k < 1.
     "eng.1": {"nombre": "Premier League", "rho": -0.02, "conf": 80,
-              "prior": 5,
+              "prior": 5, "escala": 0.60, "centro": 2.785,
               "corners": 10.33, "fouls": 21.51, "cards": 3.91},
+    # `escala` 0.60 / `centro` 2.617: cuarta liga, misma direccion.
+    # Brier de goles en test 0.49176 contra 0.49343 de produccion.
     "fra.1": {"nombre": "Ligue 1", "rho": -0.05, "conf": 80,
-              "prior": 8,
+              "prior": 8, "escala": 0.60, "centro": 2.617,
               "corners": 9.47, "fouls": 24.22, "cards": 3.98},
     # Copa Argentina salio el 2026-08-25, por decision de producto. Es
     # eliminacion directa: sin red de cruces no hay fuerzas que calibrar,
@@ -2174,6 +2287,21 @@ def main():
                 if n_loc >= MIN_PARTIDOS_FUERZA and n_vis >= MIN_PARTIDOS_FUERZA:
                     lh = mu_local * a_loc * d_vis
                     la = mu_visita * a_vis * d_loc
+                    # El modelo exageraba su rango de goles ~2.7 veces
+                    # (ver ESCALA_DEFECTO, arriba). Se encoge hacia el
+                    # centro medido de la liga.
+                    #
+                    # OJO con el centro, que casi se elige mal: la
+                    # tentación es `mu_local + mu_visita`, que parece el
+                    # centro natural (es el λ de dos equipos promedio).
+                    # No lo es: medido sobre arg da 2.025 mientras la
+                    # media real de λ es 2.266, porque λ es
+                    # multiplicativo y E[a·d] no vale 1. Centrar ahí
+                    # metería un sesgo sistemático de −0.11 goles en
+                    # cada partido — un error que no tira excepción ni
+                    # se ve en pantalla, solo desplaza todo hacia abajo.
+                    lh, la = corregir_escala(lh, la, centro_de(slug),
+                                             escala_de(slug))
                     lh = round(max(0.35, min(3.20, lh)), 3)
                     la = round(max(0.30, min(3.00, la)), 3)
                     n = min(n_loc, n_vis)

@@ -787,6 +787,12 @@ a{color:inherit}
    dice ninguna de las dos y por eso no puede usar ninguno de los dos). */
 .mrow .barra2{height:7px;background:var(--hueco);position:relative;margin:2px 0 8px}
 .mrow .barra2 i{position:absolute;top:0;left:0;bottom:0;background:var(--salvia);opacity:.85}
+/* La marca del 50%. Sin ella las tres barras del eje (52%, 54%, 53%)
+   se ven idénticas y la barra no dice nada: el reparto de remates casi
+   nunca se aparta mucho de la mitad, así que lo que hay que poder leer
+   es la distancia al empate, no la posición absoluta. */
+.mrow .barra2::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;
+  width:1px;background:var(--tinta3);opacity:.5}
 .mrow{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:11px 12px;margin:0 20px 12px 16px}
 .mrow.val{background:var(--mostazaBg);border-left:2px solid var(--mostaza)}
 .mrow.mal{border-left:2px solid var(--terracota)}

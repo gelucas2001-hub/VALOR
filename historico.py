@@ -176,6 +176,35 @@ def cuotas_de(f, casa):
     return c if all(x is not None for x in c) else None
 
 
+# En football-data, la "C" del medio marca el CIERRE: B365H es la
+# apertura de Bet365 y B365CH el cierre. Solo el formato clásico (E0,
+# F1) trae las dos; el formato "new" (ARG, BRA) publica únicamente el
+# cierre.
+_APERTURA = {"pinnacle": "PS", "promedio": "Avg", "bet365": "B365"}
+
+
+def cuotas_apertura(f, casa):
+    """Las tres cuotas de APERTURA de una casa, o None.
+
+    Toda la medición del proyecto usa el cierre, que es el precio más
+    difícil que existe: para entonces la línea ya incorporó el dinero
+    informado. Pero **la app no apuesta al cierre** — apuesta cuando el
+    usuario mira, horas o días antes. Medir contra un precio al que
+    nunca se apuesta y concluir que no hay ventaja es un sesgo de
+    método, no un hallazgo sobre el modelo.
+
+    Y sirve para lo otro que estaba dado por imposible: con apertura y
+    cierre juntos, el CLV se puede medir **hacia atrás**. `TRASPASO.md`
+    dice que no se puede, y es cierto para ESPN (borra las cuotas
+    cuando el partido termina) pero falso para football-data.
+    """
+    pref = _APERTURA.get(casa)
+    if not pref:
+        return None
+    c = [_num(f.get(pref + x)) for x in ("H", "D", "A")]
+    return c if all(x is not None for x in c) else None
+
+
 def desenlace(p):
     """Qué pasó, en el mismo orden que las cuotas: [local, empate, visita]."""
     gh, ga = p["gh"], p["ga"]
@@ -286,6 +315,12 @@ def normalizar(filas):
         por_casa = {n: c for n, _ in FUENTES if (c := cuotas_de(f, n))}
         if por_casa:
             p["por_casa"] = por_casa
+        # Y la apertura, donde la fuente la publica (formato clásico).
+        # Es el precio al que la app apostaría de verdad, y la otra
+        # mitad que hace falta para medir CLV hacia atrás.
+        apertura = {n: c for n, _ in FUENTES if (c := cuotas_apertura(f, n))}
+        if apertura:
+            p["apertura"] = apertura
         est = estadisticas_fila(f)
         if est:
             p["est"] = est

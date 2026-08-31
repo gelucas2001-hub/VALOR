@@ -300,6 +300,30 @@ prueba("una cuota rota descarta la casa entera",
        H.cuotas_de({"B365CH": "1.00", "B365CD": "3.3", "B365CA": "3.4"}, "bet365") is None)
 
 print("")
+print("cuotas_apertura() — el precio al que se apuesta de verdad")
+print("")
+
+# Toda la medicion del proyecto usa la cuota de CIERRE, que es el precio
+# mas dificil que existe: ya incorporo todo el dinero informado. Pero la
+# app no apuesta al cierre, apuesta cuando el usuario mira. El formato
+# clasico trae las dos: sin "C" es apertura, con "C" es cierre.
+_F2 = {"B365H": "2.30", "B365D": "3.30", "B365A": "3.10",
+       "B365CH": "2.20", "B365CD": "3.40", "B365CA": "3.20",
+       "PSH": "2.35", "PSD": "3.35", "PSA": "3.15",
+       "PSCH": "2.25", "PSCD": "3.45", "PSCA": "3.25"}
+
+prueba("saca la apertura de Bet365", H.cuotas_apertura(_F2, "bet365") == [2.30, 3.30, 3.10])
+prueba("y la de Pinnacle", H.cuotas_apertura(_F2, "pinnacle") == [2.35, 3.35, 3.15])
+prueba("la apertura NO es la de cierre",
+       H.cuotas_apertura(_F2, "bet365") != H.cuotas_de(_F2, "bet365"))
+prueba("el formato nuevo no trae apertura, y no se inventa",
+       H.cuotas_apertura({"B365CH": "2.2", "B365CD": "3.4", "B365CA": "3.2"},
+                         "bet365") is None)
+prueba("una apertura incompleta no se completa con el cierre",
+       H.cuotas_apertura({"B365H": "2.3", "B365CD": "3.4", "B365CA": "3.2"},
+                         "bet365") is None)
+
+print("")
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

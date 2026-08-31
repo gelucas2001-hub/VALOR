@@ -4062,3 +4062,89 @@ por hit-testing que efectivamente se pinta.
 esta sesión devuelve negro apenas la página está scrolleada — falla del
 entorno, no de la página. La verificación visual quedó en el texto
 renderizado y en el hit-testing, no en una foto del bloque.
+
+### Addendum 3 · El eje Jugadores contra plata: la primera señal positiva (2026-08-31)
+
+Paso 4. **Es la primera vez que este proyecto mide dinero en las líneas
+de jugador**, y la primera vez que ve un CLV que no es cero. Con una
+muestra chiquísima, así que lo que sigue es una pista, no un hallazgo.
+
+#### Lo que lo hizo posible, y no era obvio
+
+`data/props_jugadores.json` no guarda la línea sola: guarda **la
+escalera de precios entera** de Bet365 (1.5 → 1.02, 2.5 → 1.10, …
+10.5 → 21.0) y **varias fotos por partido**. O sea que había precio real
+para ROI y movimiento de línea para CLV, acumulándose hace días sin que
+nadie lo mirara.
+
+#### El cruce de nombres, y por qué NO se aflojó
+
+Bet365 escribe "Lucas Beltran" y ESPN "Lucas Beltrán". El impulso obvio
+es cruzar por parecido para levantar el rendimiento del 55%. Mirando
+los que no cruzan se ve por qué no:
+
+    Clever Ferreira   → ESPN tiene Pablo Ferreira, Javier Ferreira
+    Wesley Fofana     → ESPN tiene Malick Fofana
+    Angel Gomez       → ESPN tiene Lautaro Gómez, Thiago Gómez
+
+**Son personas distintas.** De los 1029 que no cruzan, 407 comparten
+apellido con alguien de ESPN y casi todos son otro jugador; los otros
+622 directamente no están en el caché de planteles. Un cruce difuso les
+fundiría la historia y no se vería como un error: se vería como datos.
+Es Brentford y Brest otra vez (CLAUDE.md).
+
+Encima del cruce exacto hay un segundo candado: **el id tiene que haber
+jugado ese partido**. Un jugador que no jugó anula la apuesta en la
+vida real, así que no es un descarte sino la regla del mercado.
+
+#### Lo medido
+
+10 partidos utilizables, 872 escalones de precio evaluados walk-forward
+con el mismo camino que usa el pipeline (`prob_mayor` de
+`medir_lineas.py`, parámetros por puesto con lo anterior).
+
+| umbral de ventaja | apuestas | ROI | CLV |
+|---|---|---|---|
+| 2% | 25 | +51.5% ±82 | +4.29% ±1.81 |
+| 4% | 19 | +74.2% ±107 | +4.39% ±2.09 |
+| 6% | 15 | +110.6% ±133 | +5.72% ±2.41 |
+| 10% | 13 | +143.0% ±152 | +4.79% ±2.37 |
+
+**El ROI no dice nada** — ±107 sobre 19 apuestas es ruido con decimales,
+y lo digo antes de que alguien lea el +74% como un resultado.
+
+**El CLV sí dice algo, y pasó el control que importa.** El confundidor
+obvio: si la casa achica el margen sobre la hora, TODOS los precios
+bajan y cualquier selección muestra CLV positivo sin haber elegido
+nada. Por eso se mide la deriva de los escalones que no apostamos:
+
+    854 escalones sin elegir    +0.12% ±0.47   ← no hay deriva de fondo
+    los 19 que apostaríamos     +4.39% ±2.09
+    elegimos mejor por          +4.28% ±2.14   (2.0 e.e.)
+
+La vara está en cero, así que el CLV no es la casa moviéndose sola.
+
+#### Qué significa y qué NO
+
+Es **la primera señal positiva del proyecto**: en el 1X2 contra Bet365
+el CLV es exactamente cero (§15), y acá da +4.3 puntos sobre la deriva.
+Coincide con lo que dice la teoría —el mercado blando es el que la casa
+no modela— y con la elección de mirar props.
+
+Pero: **n = 19**, en 10 partidos, con una ventana de ventaja entre
+varias que probé. Dos errores estándar con esa muestra es una pista.
+Además el "cierre" es la última foto que tomamos, no la línea de cierre
+real. No alcanza para tocar el producto.
+
+#### Lo que sigue, y no requiere trabajo nuevo
+
+El cron ya acumula `props_jugadores.json` cada corrida. En dos o tres
+semanas hay diez veces esta muestra, y **el mismo script contesta**. Si
+el +4.3% aguanta con n de tres dígitos, es lo primero que este proyecto
+puede llevar al producto como valor medido. Si se cae, se cae barato.
+
+Mientras tanto, el eje Jugadores va como **lectura**: `confianza:
+"calibrada"` con la calibración por métrica que ya está medida (remates
+2.09× el ruido, al arco 1.59, goles y asistencias bien), y sin marca.
+
+Herramientas: `medir_props.py`, `test_medir_props.py` (33 pruebas).

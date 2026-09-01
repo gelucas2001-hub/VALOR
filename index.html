@@ -40,6 +40,13 @@
   --linea:#241D16;
   --linea2:#2A2318;
   --linea3:#3A3122;
+  --sombra:#13100B;     /* la sombra dura, y el fondo de la mesa. Estaba
+                           escrita a mano 26 veces: el día que la hoja
+                           cambie de tono hay que cambiarla en 26 lugares
+                           o queda una sola sombra vieja que nadie ve. */
+  --filete:#4A4030;     /* el filete más callado: subrayados, el + de un
+                           acordeón cerrado */
+  --selloBg:#1D1811;    /* fondo del sello neutro del Registro */
   --mostaza:#D6963A;    /* VALOR. y nada más */
   --mostazaBg:#2E2210;
   --mostazaBorde:#4A3C1E;
@@ -71,7 +78,7 @@ html,body{margin:0;padding:0;overflow-x:clip}
    apoyada sobre una mesa, no un fondo infinito. En un teléfono no se
    ve nunca; aparece de 520px para arriba. */
 body{
-  background:#13100B;color:var(--tinta);
+  background:var(--sombra);color:var(--tinta);
   font-family:var(--cuerpo);font-size:15px;line-height:1.5;
   -webkit-font-smoothing:antialiased;
   padding-bottom:calc(64px + env(safe-area-inset-bottom));
@@ -167,14 +174,6 @@ a{color:inherit}
    Sudamericana no dice "ahora solo ves Sudamericana", dice "llevame
    ahí". Si esa competición no juega hoy, el botón queda apagado en vez
    de desaparecer — la tira no debe saltar de lugar día a día. */
-.comps{display:flex;gap:7px;padding:0 16px var(--e4);overflow-x:auto;scrollbar-width:none}
-.comps::-webkit-scrollbar{display:none}
-.compchip{flex:0 0 auto;display:flex;align-items:center;gap:6px;background:var(--panel);
-  padding:6px 11px 6px 7px;border:none}
-.compchip img{width:16px;height:16px;object-fit:contain;flex:0 0 16px}
-.compchip span{font-family:var(--mono);font-size:11px;color:var(--tinta3);white-space:nowrap}
-.compchip.vacio{opacity:.4}
-.compchip:disabled{cursor:default}
 
 /* ── banda de competición ──────────────────────────────────────────
    Entintada al revés: papel beige, texto negro. Es el recurso de la
@@ -193,19 +192,9 @@ a{color:inherit}
    sombra es dura (4px, sin blur) — una hoja apoyada, no una tarjeta
    de dashboard con blur. El margen derecho es mayor que el izquierdo
    a propósito: deja ver la sombra. */
-/* `width:auto`, no `100%`: con márgenes laterales, un 100% se suma a
-   los márgenes y desborda. Un botón en `display:flex` es un bloque y
-   ya ocupa el ancho disponible menos los márgenes. */
-.card{display:flex;width:auto;text-align:left;margin:0 20px var(--e4) 16px;
+/* `width:auto`, no `100%`: con márgenes laterales{display:flex;width:auto;text-align:left;margin:0 20px var(--e4) 16px;
   background:var(--panel);border:none;padding:0;
-  box-shadow:4px 4px 0 #13100B}
-.card:active{background:#28211a}
-
-.talon{flex:0 0 52px;padding:13px 0 13px 11px}
-.talon .n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gris3)}
-.talon .hora{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--tinta);
-  margin-top:7px;letter-spacing:-.01em}
-.talon .de{font-family:var(--mono);font-size:11px;color:var(--gris3);margin-top:2px;letter-spacing:.08em}
+  box-shadow:4px 4px 0 var(--sombra)}
 /* El perforado que separa el talón del cuerpo. */
 .perf{flex:0 0 1px;margin:11px 0;background:repeating-linear-gradient(180deg,#3A3122 0 3px,transparent 3px 8px)}
 .cuerpo{flex:1;min-width:0;padding:13px 12px}
@@ -246,19 +235,8 @@ a{color:inherit}
 .forma i.e{background:rgba(238,227,206,.26);color:var(--tinta)}
 .forma i.p{background:none;border-color:var(--linea3);color:var(--gris2)}
 
-/* El sello: el veredicto en dos palabras. Rotado y encajonado, como
-   el sello de goma de una mesa de entradas. */
-.sellov{flex:0 0 auto;transform:rotate(-2.5deg);border:1.5px solid rgba(238,227,206,.4);
+/* El sello: el veredicto en dos palabras. Rotado y encajonado{flex:0 0 auto;transform:rotate(-2.5deg);border:1.5px solid rgba(238,227,206,.4);
   padding:4px 8px 5px;text-align:center}
-.sellov > div{border-top:1px solid rgba(238,227,206,.2);border-bottom:1px solid rgba(238,227,206,.2);
-  padding:2px 0}
-.sellov .a{font-family:var(--anton);font-size:11px;letter-spacing:.05em;color:var(--tinta2);
-  line-height:1.1;font-weight:400}
-.sellov .b{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gris);
-  letter-spacing:.09em;margin-top:1px}
-
-/* Pie perforado: la tarjeta termina como termina un cupón. */
-.piecard{height:1px;margin-top:11px;background:repeating-linear-gradient(90deg,#3A3122 0 3px,transparent 3px 7px)}
 .firma{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
   letter-spacing:.12em;color:var(--neutroPanel);margin-top:6px}
 
@@ -307,9 +285,6 @@ a{color:inherit}
 .o.alerta b{color:var(--terracota)}
 .o.sin b{color:var(--gris2)}
 
-.sig{margin-top:10px;font-family:var(--anton);font-size:11px;letter-spacing:.03em;color:var(--mostaza)}
-.sig.alerta{color:var(--terracota)}
-
 /* La lectura y el sello comparten renglón: la frase a la izquierda, el
    veredicto sellado a la derecha, alineados por la base. */
 .cierre{display:flex;align-items:flex-end;gap:10px;margin-top:10px}
@@ -329,21 +304,8 @@ a{color:inherit}
 /* Los dos equipos apilados y alineados a la izquierda, no centrados con
    un "vs" en el medio: así los nombres arrancan en la misma columna y
    se comparan de un vistazo, que es lo que uno hace al abrir un
-   partido. La hora va a la derecha del local, en el mismo renglón. */
-.head{padding:6px 16px 16px;background:var(--hueco)}
-.head .eq{display:flex;align-items:center;gap:9px}
-.head .eq + .eq{margin-top:3px}
-.head .nom{flex:1;min-width:0;font-family:var(--anton);font-size:24px;line-height:1.1;
-  color:var(--tinta);font-weight:400}
-.head .hora{flex:0 0 auto;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--tinta3)}
-.head .grupo{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--gris3);margin-top:9px}
+   partido. La hora va a la derecha del local{padding:6px 16px 16px;background:var(--hueco)}
 .crest.gr{width:24px;height:24px;flex:0 0 24px}
-
-.dodds{display:flex;gap:6px;padding:14px 16px 0}
-.dodds .o{background:var(--panel)}
-.dodds .o.val{background:var(--mostazaBg)}
-.dodds .o.alerta{background:var(--terracotaBg)}
 
 /* ── pestañas silenciosas: línea, nunca botón con caja ─────────── */
 /* Siete pestañas no entran en 375px y la séptima quedaba cortada sin
@@ -357,13 +319,6 @@ a{color:inherit}
 .mas{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
      mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%)}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--gris2);position:relative;white-space:nowrap;
-  /* Medían 25px de alto. El alto sube a 44 sin mover el subrayado del
-     activo, que sigue apoyado en el filete de abajo. */
-  min-height:44px;padding:14px 0 10px;background:none;border:none}
-.tab.on{color:var(--tinta)}
-.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--tinta)}
 
 .sec{padding:0 16px}
 .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin-bottom:var(--e3)}
@@ -390,7 +345,6 @@ a{color:inherit}
 .cifras b{display:block;font-family:var(--mono);font-size:19px;font-weight:600;color:var(--tinta);line-height:1}
 .cifras small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gris2);
   margin-top:4px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cifras-pie{font-size:11px;line-height:1.5;color:var(--gris3);margin-top:7px}
 
 /* Rótulo de sección con filete: separa sin abrir una caja nueva. */
 .rot{display:flex;align-items:center;gap:8px;margin-top:22px}
@@ -414,28 +368,15 @@ a{color:inherit}
 .banda2{display:flex;align-items:center;gap:8px}
 .banda2 em{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;
   letter-spacing:.1em;color:var(--neutroPapel);font-style:normal}
-/* La tabla también se apoya en el papel, con la misma sombra dura. */
-.tablawrap{margin:0 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+/* La tabla también se apoya en el papel{margin:0 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   padding:12px 12px 6px}
 .banda{margin:20px 16px 11px;background:var(--tinta2);padding:5px 10px 6px;
   font-family:var(--anton);font-size:13px;color:var(--hueco);letter-spacing:.05em;
   text-transform:uppercase;line-height:1;font-weight:400}
 
 /* La curva, hundida en el hueco, con sus extremos rotulados. */
-/* La curva acumulada, con la escala declarada arriba y abajo: una
-   línea sin extremos rotulados no dice de dónde sale ni a dónde llega. */
-.curva{margin:18px 16px 0}
-.curva .chart{margin:0;width:100%;height:56px;display:block;background:var(--hueco)}
-.curva .ejes{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--neutro)}
-.curva .ejes.arriba{margin-bottom:5px}
-.curva .ejes.abajo{margin-top:3px;letter-spacing:0}
+/* La curva acumulada{margin:18px 16px 0}
 .vacio b{color:var(--tinta3);display:block;margin-bottom:8px;font-weight:600;font-size:14px}
-
-/* ── pronósticos: lectura + escalera de riesgo ─────────────────── */
-.read{margin-bottom:4px}
-.read .big{font-family:var(--anton);font-size:19px;line-height:1.25;margin:0 0 7px;color:var(--tinta)}
-.read p{font-size:12.5px;line-height:1.6;color:var(--tinta3);margin:0}
 /* La escalera baja de verdad: un travesaño por escalón, unidos por un
    larguero. El peldaño se acorta a medida que baja — la probabilidad
    dibujada, no solo escrita. */
@@ -443,21 +384,13 @@ a{color:inherit}
    Cada escalón es un talón numerado: la app usa el mismo recurso que
    la tarjeta de portada para decir "esto es una de N opciones". */
 .pasos{margin:0}
-.paso{display:flex;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+.paso{display:flex;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   margin:0 20px 14px 16px;animation:sube .34s cubic-bezier(.22,1,.36,1) backwards}
 .paso.val{background:var(--mostazaBg)}
-.paso .talon{flex:0 0 40px;padding:12px 0 12px 11px}
-.paso .pn{font-family:var(--anton);font-size:21px;color:var(--gris3);line-height:.9;font-weight:400}
-.paso.val .pn{color:var(--mostaza)}
 .paso .de{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gris2);margin-top:3px}
 .paso .cuerpo{flex:1;min-width:0;padding:12px 12px 12px 11px}
 .paso .ph{display:flex;align-items:baseline;gap:8px}
 .paso .franja{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gris)}
-.paso .pp{margin-left:auto;font-family:var(--mono);font-size:20px;font-weight:600;color:var(--tinta);
-  line-height:1;letter-spacing:-.02em}
-.paso .pp i{font-size:11px;color:var(--gris);font-style:normal}
-.paso .oplabel{font-family:var(--anton);font-size:17.5px;line-height:1.15;color:var(--tinta);
-  margin-top:7px;text-wrap:pretty;font-weight:400}
 
 /* La barra con escala 0/50/100. Un porcentaje suelto no se compara con
    nada; contra la escala se ve de un saque si el escalón está por
@@ -468,11 +401,7 @@ a{color:inherit}
 .paso.val .barra u{background:var(--mostaza)}
 .paso .escala{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
   color:var(--gris2);letter-spacing:.08em;margin-top:3px}
-.paso .umb{font-family:var(--mono);font-size:11px;color:var(--tinta2);margin-top:10px}
-.paso .umb b{font-size:13.5px;color:var(--tinta);font-weight:600}
-.paso.val .umb b{color:var(--mostaza)}
 .paso .cobra{font-size:11.5px;line-height:1.5;color:var(--tinta3);margin-top:7px}
-.paso .sinop{font-size:11.5px;line-height:1.5;color:var(--gris2);margin-top:8px}
 .paso .rsub{font-size:11px;color:var(--gris3);margin:6px 0 0}
 
 /* Aviso de "todavía no lo estudiamos": caja hundida, no tarjeta. */
@@ -480,13 +409,10 @@ a{color:inherit}
   color:var(--gris);text-wrap:pretty}
 
 /* La combinada. Misma sombra, sin talón: no es un escalón más. */
-.cmb{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:12px;margin-top:11px}
-.cmb .l1{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.cmb{background:var(--panel);box-shadow:4px 4px 0 var(--sombra);padding:12px;margin-top:11px}
 .cmb .mkt{font-size:13px;color:var(--tinta2);min-width:0}
 .cmb .mkt i{color:var(--gris3);font-style:normal}
 .cmb .prob{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--tinta);flex:0 0 auto}
-.cmb .umb{font-family:var(--mono);font-size:11px;color:var(--gris);margin-top:7px}
-.cmb .umb b{font-size:13px;color:var(--tinta2);font-weight:600}
 .cmb .cobra{font-size:11px;line-height:1.5;color:var(--gris2);margin-top:6px;text-wrap:pretty}
 /* Dato al margen del rótulo con filete. El filete es un ::after, que
    se genera después del último hijo, así que el orden va explícito:
@@ -494,12 +420,6 @@ a{color:inherit}
 .rot em{font-family:var(--mono);font-size:11px;color:var(--gris2);font-style:normal;
   flex:0 0 auto;order:2}
 .rot::after{order:1}
-.foot{margin-top:var(--e6);font-size:11px;line-height:1.6;color:var(--gris3);border-top:1px solid var(--linea);padding-top:var(--e4)}
-
-/* ── historial ─────────────────────────────────────────────────── */
-.eqhd{display:flex;align-items:center;gap:8px;margin:var(--e5) 0 var(--e3)}
-.eqhd:first-child{margin-top:0}
-.eqhd b{font-family:var(--cuerpo);font-weight:600;font-size:13.5px}
 /* Tira de forma: los últimos cinco de un vistazo, antes del detalle.
    La intensidad hace el trabajo del color — ganado en tinta plena,
    perdido casi apagado. Mostaza y terracota no entran acá: están
@@ -507,29 +427,13 @@ a{color:inherit}
 /* ── Historial ─────────────────────────────────────────────────────
    Una tarjeta por equipo, con la tira de los cinco arriba y los cinco
    partidos listados abajo. Ganado en tinta plena, empate neutro,
-   perdido apagado: intensidad, nunca color. */
-.fcard{background:var(--panel);box-shadow:4px 4px 0 #13100B;margin:0 20px 14px 16px;
+   perdido apagado: intensidad{background:var(--panel);box-shadow:4px 4px 0 var(--sombra);margin:0 20px 14px 16px;
   animation:sube .34s cubic-bezier(.22,1,.36,1) backwards}
-.fhd{display:flex;align-items:center;gap:8px;padding:11px 12px 9px}
-.fhd b{flex:1;min-width:0;font-family:var(--anton);font-size:17px;line-height:1.1;
-  color:var(--tinta);font-weight:400}
 .racha{font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:var(--gris);
   padding:0 12px 10px}
-.flist{padding:0 12px 11px}
-.frow{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--linea);font-size:12px}
-.frow .r{width:16px;height:16px;display:grid;place-items:center;font-family:var(--mono);
-  font-size:11px;font-weight:700;flex:0 0 16px}
-.frow .r.W{background:var(--tinta);color:var(--hueco)}
-.frow .r.D{background:var(--neutro);color:var(--hueco)}
-.frow .r.L{background:var(--linea2);color:var(--gris2)}
-.frow .rival{flex:1;min-width:0;color:var(--tinta3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.frow .loc{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 34px}
-.frow .sc{font-family:var(--mono);color:var(--gris);flex:0 0 34px;text-align:right}
 
 /* Cruces directos: talón con la fecha, marcador grande en el medio. */
-.h2h{display:flex;background:var(--panel);box-shadow:4px 4px 0 #13100B;margin:0 20px 14px 16px}
-.h2h .talon{flex:0 0 52px;padding:13px 0 13px 11px}
-.h2h .pn2{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--tinta3);line-height:1}
+.h2h{display:flex;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);margin:0 20px 14px 16px}
 .h2h .de{font-family:var(--mono);font-size:11px;color:var(--gris3);margin-top:3px;letter-spacing:.08em}
 .h2h .cuerpo{flex:1;min-width:0;padding:13px 12px 13px 11px}
 .h2h .linea{display:flex;align-items:center;gap:8px}
@@ -539,30 +443,10 @@ a{color:inherit}
   line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}
 .h2h .marc{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--tinta);
   line-height:1;flex:0 0 auto}
-
-/* ── posiciones ────────────────────────────────────────────────── */
-.stand{width:100%;border-collapse:collapse;font-size:11.5px}
-.stand th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gris2);text-transform:uppercase;text-align:right;padding:0 0 8px;font-weight:400}
-.stand th.l{text-align:left}
-.stand td{padding:7px 0;border-top:1px solid var(--linea);text-align:right;font-family:var(--mono);color:var(--gris)}
-.stand td.l{text-align:left;font-family:var(--cuerpo)}
-.stand td.l .wrap{display:flex;align-items:center;gap:7px}
-.stand td.l span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.stand td.rk{width:18px}
-.stand td.pts{color:var(--tinta);font-weight:600}
 /* Los dos equipos del partido, resaltados en TINTA. Antes el número de
    posición iba en mostaza: eso es usar el color del valor para marcar
-   selección, que es la regla que DESIGN.md llama "el error que más
-   caro paga el usuario". */
-.stand tr.me{background:var(--linea2)}
-.stand tr.me td.l span{color:var(--tinta);font-weight:600}
-.stand tr.me td.rk{color:var(--tinta)}
-.stand tr.me td.pts{color:var(--tinta)}
+   selección{background:var(--linea2)}
 .grupo{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris2);margin:var(--e5) 0 var(--e2)}
-
-/* ── plantel ───────────────────────────────────────────────────── */
-.eqblock{margin-bottom:var(--e6)}
-.eqblock .eqhd b{font-family:var(--anton);font-size:16px;font-weight:400}
 .blurb{font-size:12.5px;line-height:1.6;color:var(--tinta3);margin:0 0 13px}
 /* Comparativa: la misma tinta del cupón, ahora enfrentada. Las dos
    barras salen del centro, así se lee quién saca ventaja en cada
@@ -579,11 +463,6 @@ a{color:inherit}
 .vs .barra i{position:absolute;top:0;bottom:0;background:var(--tinta3);opacity:.55}
 .vs .barra.izq i{right:0}
 .vs .barra.der i{left:0}
-.vs .fila.gana-i .barra.izq i,.vs .fila.gana-d .barra.der i{opacity:1;background:var(--tinta)}
-.tstats{display:flex;gap:6px;margin-bottom:6px}
-.tstats .t{flex:1;background:var(--panel);padding:8px 2px;text-align:center;min-width:0}
-.tstats .t span{display:block;font-size:11px;letter-spacing:.07em;color:var(--gris2);text-transform:uppercase}
-.tstats .t b{display:block;font-family:var(--mono);font-size:14px;font-weight:600;margin-top:3px}
 
 /* ── cancha del once probable ───────────────────────────────────────
    Geometría y colores tomados del prototipo (docs/design-handoff):
@@ -595,7 +474,7 @@ a{color:inherit}
   font-size:13px;letter-spacing:.03em;line-height:1;background:transparent;color:var(--gris);
   transition:background .18s ease,color .18s ease;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .plsel .pleq.on{background:var(--tinta);color:var(--hueco)}
-.plcampo{position:relative;background:var(--hueco);box-shadow:4px 4px 0 #13100B;
+.plcampo{position:relative;background:var(--hueco);box-shadow:4px 4px 0 var(--sombra);
   padding:14px 8px;height:342px;display:flex;flex-direction:column-reverse}
 .plcampo i{position:absolute;pointer-events:none}
 .plcampo .borde{left:14px;right:14px;top:14px;bottom:14px;border:1px solid var(--linea2)}
@@ -691,25 +570,9 @@ a{color:inherit}
 
    Se parte en dos renglones, porque un solo rótulo no puede ser completo
    y fijo a la vez: con el nombre entero y el rol, en 390px se va a tres
-   líneas, y una franja opaca de 57px pegada arriba te tapa dos filas de
-   la tabla mientras scrolleás.
-
-     .cmphead  el nombre entero y el rol, quieto, arriba de la tabla
-     .cmpfijo  el apellido del club solo, una línea, pegado al scroll */
-.cmphead{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
+   líneas, quieto, una línea{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
          font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris3);
          padding-bottom:6px;line-height:1.35}
-.cmphead span{flex:1;min-width:0}
-.cmpfijo{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
-         font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gris2);
-         padding:5px 0;position:sticky;top:0;z-index:3;background:var(--fondo);
-         border-bottom:1px solid var(--linea2);line-height:1}
-.cmpfijo span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cmphead span:last-child,.cmpfijo span:last-child{text-align:right}
-.cmp{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--linea)}
-.cmp b{font-family:var(--mono);font-size:13px;color:var(--gris2);flex:0 0 108px;font-weight:600}
-.cmp b:last-child{text-align:right}
-.cmp b.alto{color:var(--tinta)}
 /* El desvío va como sub-línea chica, no al lado — al lado no entra en
    54px y competiría en peso visual con el número que sí importa. */
 /* Decía "rival concede 6.3" en una columna de 54px: tres renglones por
@@ -720,13 +583,8 @@ a{color:inherit}
    "rival" se queda. Sacarlo ahorraba 22px pero invertía el sentido: el
    número es lo que le conceden A ese equipo, y "concede 6.3" debajo de
    la columna de Tigre se lee como que lo concede Tigre. El pie del
-   bloque lo aclara, pero está abajo de diez filas — para cuando se lee
-   ya se entendió al revés diez veces. El ancho salió de otro lado: el
-   centro se quedaba con 163px para etiquetas de 58px. */
-.cmp .desv{display:block;font-family:var(--cuerpo);font-style:normal;font-size:11px;
+   bloque lo aclara{display:block;font-family:var(--cuerpo);font-style:normal;font-size:11px;
            font-weight:400;color:var(--gris3);letter-spacing:0;margin-top:2px}
-.cmp span{flex:1;text-align:center;font-family:var(--mono);font-size:11px;
-          letter-spacing:.05em;text-transform:uppercase;color:var(--gris3)}
 
 /* La serie partido por partido va como sub-linea del nombre, igual que
    el peso goleador: al lado no entra y competiria con la columna. */
@@ -757,8 +615,6 @@ a{color:inherit}
 /* Sesgo sistematico: se dice fuerte, en tinta plena, porque es lo mismo
    que decir "no le creas a este numero". */
 .fiab.mal{color:var(--tinta);border-left:2px solid var(--tinta3);font-weight:500}
-.escf .sinmuestra{display:block;font-style:normal;font-size:11px;
-                  letter-spacing:.02em;color:var(--gris2);margin:0 0 6px}
 .escl b{flex:1;text-align:center;font-family:var(--mono);font-size:11px;
         font-weight:600;color:var(--gris3);border:1px solid var(--linea);
         border-radius:2px;padding:5px 2px}
@@ -782,39 +638,25 @@ a{color:inherit}
    el usuario carga un dato y espera una respuesta, así que cada uno es
    una unidad con la que interactúa, no un renglón de tabla. */
 /* La barra del eje Dominio: cuánto del total esperado se lleva el local.
-   Filete de salvia porque es VOZ SECUNDARIA — una lectura, no un estado
-   (DESIGN.md: la mostaza dice valor y la terracota dice alerta; esto no
-   dice ninguna de las dos y por eso no puede usar ninguno de los dos). */
-.sec .lectura-eje{margin:0 20px 12px 16px;padding:0}
-.sec .lectura-eje p{font-size:14px;line-height:1.55;color:var(--tinta2);margin:0}
-.mrow .jugcifras{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 8px}
-.mrow .jm{font-family:var(--mono);font-size:11px;color:var(--gris);
-  letter-spacing:.04em;text-transform:uppercase}
-.mrow .jm b{font-family:var(--texto);font-size:14px;color:var(--tinta);
-  margin-left:5px;letter-spacing:0}
+   Filete de salvia porque es VOZ SECUNDARIA — una lectura{margin:0 20px 12px 16px;padding:0}
 /* Gris apagado para la métrica que está MEDIDA y da mal. No terracota:
    la terracota dice alerta y esto no es una alerta, es un dato que no
-   hay que usar para apostar (DESIGN.md, un color un solo trabajo). */
-.mrow .jm.flojo,.mrow .jm.flojo b{color:var(--neutroPapel)}
-.mrow .barra2{height:7px;background:var(--hueco);position:relative;margin:2px 0 8px}
-.mrow .barra2 i{position:absolute;top:0;left:0;bottom:0;background:var(--salvia);opacity:.85}
+   hay que usar para apostar (DESIGN.md{color:var(--neutroPapel)}
 /* La marca del 50%. Sin ella las tres barras del eje (52%, 54%, 53%)
    se ven idénticas y la barra no dice nada: el reparto de remates casi
    nunca se aparta mucho de la mitad, así que lo que hay que poder leer
-   es la distancia al empate, no la posición absoluta. */
-.mrow .barra2::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;
+   es la distancia al empate{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;
   width:1px;background:var(--tinta3);opacity:.5}
-.mrow{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:11px 12px;margin:0 20px 12px 16px}
+.mrow{background:var(--panel);box-shadow:4px 4px 0 var(--sombra);padding:11px 12px;margin:0 20px 12px 16px}
 .mrow.val{background:var(--mostazaBg);border-left:2px solid var(--mostaza)}
 .mrow.mal{border-left:2px solid var(--terracota)}
 .mrow .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px}
 .mrow .mkt{font-size:13px;color:var(--tinta2)}
 .mrow .modelo{font-family:var(--mono);font-size:11px;color:var(--gris2);flex:0 0 auto}
-.mrow .umb{font-family:var(--mono);font-size:11px;color:var(--gris2);margin-top:0}
 .inrow{display:flex;gap:10px;align-items:center}
 .inrow input{flex:1;min-width:0;background:var(--hueco);border:1px solid var(--linea2);color:var(--tinta);font-family:var(--mono);font-size:13px;text-align:center;padding:8px 0}
 .mrow.val .inrow input{border-color:var(--mostazaBorde)}
-.inrow input::placeholder{color:#4A4030}
+.inrow input::placeholder{color:var(--filete)}
 .out{flex:1.4;display:flex;justify-content:space-between;align-items:baseline;gap:6px}
 .out .ev{font-family:var(--mono);font-size:11px;color:var(--gris2)}
 .out .ev.pos{color:var(--mostaza)}
@@ -822,18 +664,8 @@ a{color:inherit}
 .juega{text-align:right}
 .juega span{display:block;font-size:11px;color:var(--gris2);text-transform:uppercase;letter-spacing:.06em}
 .juega b{font-family:var(--mono);font-size:15px;color:var(--mostaza);font-weight:600}
-
-/* ── registro ──────────────────────────────────────────────────── */
-.ledger{display:flex;margin:14px 16px 0;background:var(--panel);box-shadow:4px 4px 0 #13100B}
-.ledger div{flex:1;text-align:center;padding:12px 4px;border-right:1px solid var(--linea2);min-width:0}
-.ledger div:last-child{border-right:none}
-.ledger small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris2);margin-bottom:4px}
-.ledger b{font-family:var(--mono);font-size:15px;font-weight:600}
 /* Mismo criterio que los sellos: el resultado no se pinta. Ganar es
-   tinta plena, perder es apagado. */
-.ledger b.pos{color:var(--tinta)}
-.ledger b.neg{color:var(--gris2)}
-.chart{margin:14px 16px 4px;height:56px;width:calc(100% - 32px)}
+   tinta plena{color:var(--tinta)}
 .filters{display:flex;gap:6px;padding:14px 16px 0;overflow-x:auto;scrollbar-width:none}
 .filters::-webkit-scrollbar{display:none}
 .chip{flex:0 0 auto;font-family:var(--mono);font-size:11px;color:var(--gris2);background:var(--panel);padding:6px 11px;white-space:nowrap;border:none}
@@ -841,7 +673,7 @@ a{color:inherit}
 /* ── ficha del Registro ────────────────────────────────────────────
    Tarjeta con sombra, no fila con filete: cada carga es una unidad que
    se puede corregir, no un renglón de planilla. */
-.lbet{background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:11px 12px;
+.lbet{background:var(--panel);box-shadow:4px 4px 0 var(--sombra);padding:11px 12px;
   margin:0 20px 12px 16px}
 .lbet .top2{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .lbet .part{font-size:12.5px;color:var(--tinta2);min-width:0}
@@ -867,8 +699,8 @@ a{color:inherit}
   text-transform:uppercase;padding:3px 8px;flex:0 0 auto;font-weight:400;border:none;transform:none}
 .sello.gan{background:var(--tinta);color:var(--hueco)}
 .sello.per{background:var(--linea2);color:var(--gris)}
-.sello.sin{background:#1D1811;color:var(--gris2)}
-.sello.esp{background:#1D1811;color:var(--tinta3)}
+.sello.sin{background:var(--selloBg);color:var(--gris2)}
+.sello.esp{background:var(--selloBg);color:var(--tinta3)}
 .sello.man{background:var(--linea2);color:var(--tinta3)}
 
 .res{display:flex;gap:6px;margin-top:9px}
@@ -916,13 +748,6 @@ a{color:inherit}
    cupón, de arriba abajo. Una sola vez, al cambiar de día — no en cada
    render, o se vuelve un tic. */
 @keyframes sube{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.card{animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
-/* El sello entra golpeando y queda torcido. La rotación final es la
-   misma que la de reposo, así que al terminar no salta. */
-@keyframes selló{from{opacity:0;transform:scale(1.14) rotate(-2.5deg)}
-                 to{opacity:1;transform:scale(1) rotate(-2.5deg)}}
-.sellov{animation:selló .5s cubic-bezier(.22,1,.36,1) backwards}
-
 /* El despliegue de pestaña: las pestañas están dispuestas en
    horizontal, así que el contenido entra en horizontal — no la misma
    animación vertical de las tarjetas puesta en otro lado. Un
@@ -930,20 +755,20 @@ a{color:inherit}
    la hoja, no como una transición de página completa. */
 @keyframes desliza{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
 .tabsec{animation:desliza .22s cubic-bezier(.22,1,.36,1)}
-@media (prefers-reduced-motion:reduce){.card,.tabsec{animation:none}}
+@media (prefers-reduced-motion:reduce){.tabsec{animation:none}}
 
 /* Carga: el esqueleto del cupón, no un spinner. Se ve lo que va a
    venir en vez de un símbolo que no dice nada. */
 @keyframes late{0%,100%{opacity:.28}50%{opacity:.6}}
 .skel{margin:0 20px 12px 16px;background:var(--panel);padding:13px 14px;
-  box-shadow:4px 4px 0 #13100B;animation:late 1.4s ease-in-out infinite}
+  box-shadow:4px 4px 0 var(--sombra);animation:late 1.4s ease-in-out infinite}
 .skel .b{background:var(--linea2);height:9px;margin-bottom:9px}
 .skel .b.t{height:15px;width:72%;margin-bottom:12px}
 .skel .row{display:flex;gap:5px}
 .skel .row div{flex:1;height:38px;background:var(--hueco)}
 @media (prefers-reduced-motion:reduce){.skel{animation:none;opacity:.4}}
 
-.aviso{margin:16px 20px 16px 16px;padding:14px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+.aviso{margin:16px 20px 16px 16px;padding:14px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   font-size:12.5px;line-height:1.6;color:var(--tinta3)}
 .aviso b{display:block;font-family:var(--anton);font-size:17px;color:var(--tinta);
   font-weight:400;margin-bottom:6px}
@@ -1001,7 +826,7 @@ a{color:inherit}
    contador. El contador no es adorno: "01 DE 06 MERCADOS" dice de una
    cuánto se miró y cuánto quedó afuera. */
 .sello2{margin:16px 20px 0 16px;background:var(--tinta2);padding:6px 11px 7px;
-  display:flex;align-items:center;gap:8px;box-shadow:4px 4px 0 #13100B}
+  display:flex;align-items:center;gap:8px;box-shadow:4px 4px 0 var(--sombra)}
 .sello2 b{font-family:var(--anton);font-size:15px;line-height:1;color:var(--hueco);
   letter-spacing:.03em;text-transform:uppercase;font-weight:400}
 .sello2 em{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;
@@ -1012,7 +837,7 @@ a{color:inherit}
    también en un dato crudo, dejaría de querer decir "acá el precio está
    a favor" y pasaría a querer decir "esto es importante", que es justo
    lo que no puede significar. */
-.oport{margin:14px 20px 0 16px;background:var(--mostazaBg);box-shadow:4px 4px 0 #13100B;
+.oport{margin:14px 20px 0 16px;background:var(--mostazaBg);box-shadow:4px 4px 0 var(--sombra);
   border-left:2px solid var(--mostaza);padding:13px 13px 14px}
 .oport .oh{display:flex;align-items:baseline;gap:8px}
 .oport .oh b{flex:1;min-width:0;font-family:var(--mono);font-size:11px;line-height:1;
@@ -1042,7 +867,7 @@ a{color:inherit}
 
 /* El estado más frecuente, y por eso el primero que se dibujó: no hay
    nada apostable. Tiene que verse terminado, no roto ni vacío. */
-.nada{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+.nada{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   padding:16px 14px 17px;text-align:center}
 .nada b{display:block;font-family:var(--anton);font-size:22px;line-height:1.15;
   color:var(--tinta);text-transform:uppercase;font-weight:400}
@@ -1068,7 +893,7 @@ a{color:inherit}
   color:var(--gris3);margin-top:5px;font-style:normal}
 .emk .est{flex:0 0 auto;font-family:var(--mono);font-size:10.5px;line-height:1;
   letter-spacing:.08em;color:var(--neutroPanel);text-transform:uppercase}
-.emk .mas{font-family:var(--mono);font-size:15px;line-height:1;color:#4A4030}
+.emk .mas{font-family:var(--mono);font-size:15px;line-height:1;color:var(--filete)}
 /* Riesgo: el mercado donde el precio está PEOR de lo que vemos. No
    lleva etiqueta de estado — el motivo ya lo dice, y una etiqueta más
    lo pondría a competir con los de al lado, que son otra cosa. */
@@ -1100,6 +925,11 @@ a{color:inherit}
   font-weight:600;color:var(--tinta2);margin-top:5px}
 
 /* La nota al pie de una capa: el porqué común, dicho una vez. */
+/* La nota adentro de un acordeón de Referencia: la misma voz que
+   .notacapa pero sin los márgenes de la columna — ya está adentro de una
+   caja. */
+.notaref{margin:0;font-size:12px;line-height:1.6;color:var(--gris3);text-wrap:pretty}
+.notaref.sep{margin-top:11px}
 .notacapa{margin:11px 20px 0 16px;font-size:11.5px;line-height:1.6;color:var(--gris3);text-wrap:pretty}
 
 /* ── pie de talón ─────────────────────────────────────────────────
@@ -1115,7 +945,7 @@ a{color:inherit}
    Los cruces entre capas son parte del diseño: la evidencia de la
    Lectura enlaza al mercado del Veredicto, la oportunidad enlaza al
    dato del que sale. Sin eso, tres capas son tres pestañas nuevas. */
-.lnkf{margin:18px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+.lnkf{margin:18px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   padding:12px 13px;display:flex;align-items:center;gap:10px;width:calc(100% - 36px);text-align:left}
 .lnkf .t{flex:1;min-width:0}
 .lnkf .t small{display:block;font-family:var(--mono);font-size:11px;line-height:1;
@@ -1134,12 +964,12 @@ a{color:inherit}
    La regla entera de esta capa es que el número que sostiene una frase
    está en el MISMO bloque que la frase. Si hay que ir a buscarlo, es la
    arquitectura vieja con otro nombre. */
-.tesis{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:14px 13px 15px}
+.tesis{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);padding:14px 13px 15px}
 .tesis b{display:block;font-family:var(--anton);font-size:19px;line-height:1.18;color:var(--tinta);
   font-weight:400;text-wrap:pretty}
 .tesis p{margin:8px 0 0;font-size:12.5px;line-height:1.6;color:var(--tinta3);text-wrap:pretty}
 .args{margin:11px 0 0;display:flex;flex-direction:column;gap:11px}
-.arg{margin:0 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:14px 13px 13px}
+.arg{margin:0 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);padding:14px 13px 13px}
 .arg .rotarg{font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.1em;
   text-transform:uppercase;color:var(--gris3)}
 .arg p{margin:9px 0 0;font-size:13px;line-height:1.62;color:var(--tinta2);text-wrap:pretty}
@@ -1254,7 +1084,7 @@ a{color:inherit}
 .spark i{flex:1;background:rgba(238,227,206,.22);border-top:2px solid var(--tinta3);min-height:2px}
 .spark i.cero{border-top-color:var(--neutro)}
 .jgrow.supl .spark i{background:rgba(238,227,206,.1);border-top-color:var(--neutro)}
-.vermas{margin:12px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+.vermas{margin:12px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   padding:12px;width:calc(100% - 36px);text-align:left;display:flex;align-items:center;gap:8px;
   font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--tinta3)}
 .vermas em{margin-left:auto;font-style:normal;color:var(--gris3)}
@@ -1263,7 +1093,7 @@ a{color:inherit}
    Los tres destinos que eran pestañas de primer nivel. Se consultan
    poco: ahora pesan lo que valen. */
 .refs{margin:14px 20px 0 16px;display:flex;flex-direction:column;gap:10px}
-.refac{background:var(--panel);box-shadow:4px 4px 0 #13100B}
+.refac{background:var(--panel);box-shadow:4px 4px 0 var(--sombra)}
 .refac .rh{width:100%;text-align:left;padding:12px 12px 11px;display:flex;align-items:center;gap:9px}
 .refac .rh b{flex:1;font-family:var(--anton);font-size:15px;line-height:1;color:var(--tinta);
   text-transform:uppercase;font-weight:400}
@@ -1318,7 +1148,7 @@ a{color:inherit}
    La portada NO interpreta. "Llega mejor" y "partido parejo" son
    lectura, y la lectura vive adentro del partido. Acá cada renglón dice
    una sola cosa: si hay algo apostable. */
-.vday{margin:14px 20px 0 16px;background:var(--hueco);box-shadow:4px 4px 0 #13100B;padding:11px 12px 12px}
+.vday{margin:14px 20px 0 16px;background:var(--hueco);box-shadow:4px 4px 0 var(--sombra);padding:11px 12px 12px}
 .vday .vh{display:flex;align-items:baseline;gap:8px}
 .vday .vh b{font-family:var(--mono);font-size:11px;line-height:1;font-weight:700;letter-spacing:.14em;
   text-transform:uppercase;color:var(--salvia)}
@@ -1352,7 +1182,7 @@ a{color:inherit}
 .ligarow .ln i b.riesgo{color:var(--terracota)}
 .ligarow .n{flex:0 0 auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--gris3)}
 /* Abierta: la fila se vuelve papel, como el sello de sección. */
-.ligarow.on{background:var(--tinta2);box-shadow:4px 4px 0 #13100B;padding:9px 11px;border-top:0}
+.ligarow.on{background:var(--tinta2);box-shadow:4px 4px 0 var(--sombra);padding:9px 11px;border-top:0}
 .ligarow.on .mas{color:var(--neutroPapel)}
 .ligarow.on .ln b{font-size:15px;color:var(--hueco)}
 .ligarow.on .ln i{color:var(--neutroPapel)}
@@ -1364,7 +1194,7 @@ a{color:inherit}
 .ligarow.on .n{color:var(--neutroPapel)}
 
 .plins{margin-top:9px;display:flex;flex-direction:column;gap:8px}
-.plin{width:100%;text-align:left;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+.plin{width:100%;text-align:left;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   padding:10px 11px;display:flex;align-items:center;gap:9px;
   animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
 .plin .hr{flex:0 0 auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta3)}
@@ -1380,7 +1210,7 @@ a{color:inherit}
   font-weight:700;letter-spacing:.04em;color:var(--neutroPanel)}
 /* El talón abierto: el veredicto abreviado del partido con oportunidad.
    No es un menú de destinos — entra por la capa 01 y listo. */
-.talonab{width:100%;text-align:left;background:var(--mostazaBg);box-shadow:4px 4px 0 #13100B;
+.talonab{width:100%;text-align:left;background:var(--mostazaBg);box-shadow:4px 4px 0 var(--sombra);
   display:flex;gap:11px;padding:11px 12px 12px;
   animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
 .talonab .izq{flex:0 0 52px;padding-right:10px;
@@ -1421,14 +1251,14 @@ a{color:inherit}
   color:var(--tinta2);margin-top:5px}
 .tcels .cuota b{color:var(--mostaza)}
 .tcels .muestra b{color:var(--gris2)}
-.fin button{text-decoration:underline;text-decoration-color:#4A4030;text-underline-offset:3px;
+.fin button{text-decoration:underline;text-decoration-color:var(--filete);text-underline-offset:3px;
   font-family:var(--mono);font-size:11px;color:var(--gris3)}
 
 /* ── REGISTRO: el intervalo ────────────────────────────────────────
    En la pantalla de honestidad del producto, una barra que contradice
    sus propios números es el peor error posible. Las tres marcas —banda,
    punto y cero— salen de la MISMA escala, calculada del dato. */
-.roi{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:14px 13px 15px}
+.roi{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);padding:14px 13px 15px}
 .roi .cif{display:flex;align-items:baseline;gap:9px}
 .roi .cif b{font-family:var(--mono);font-size:34px;line-height:1;font-weight:600;color:var(--tinta2)}
 .roi .cif b.neg{color:var(--terracota)}
@@ -1482,7 +1312,7 @@ a{color:inherit}
 .paso2 .tp b{display:block;font-family:var(--anton);font-size:14px;line-height:1.1;color:var(--tinta);
   text-transform:uppercase;font-weight:400}
 .paso2 .tp p{margin:6px 0 0;font-size:12px;line-height:1.55;color:var(--tinta3);text-wrap:pretty}
-.senalbox{margin:12px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:13px 13px 14px}
+.senalbox{margin:12px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);padding:13px 13px 14px}
 .senalf + .senalf{margin-top:10px}
 .senalf .sf{display:flex;align-items:baseline;gap:8px}
 .senalf .sf span{flex:1;min-width:0;font-size:12px;color:var(--tinta3)}
@@ -1708,7 +1538,6 @@ let ANALISIS_EST={};   /* la skill del mercado de estadísticas */
 let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
 let PARAMJUG_LIGA={};  /* y por puesto DENTRO de cada liga: un 9 inglés no se
                           encoge hacia el promedio de los 9 argentinos. */
-let LIN_MET="corners";  /* la metrica cuyas lineas se estan mirando */
 let PL_MET="goles";   /* la estadística que se está mirando en Plantel */
 let CORRIGIENDO=null;   // key de la carga con los botones abiertos, efímero
 let BOOT_ERROR=null, CARGANDO=true;
@@ -2735,10 +2564,6 @@ function diasDisponibles(){
   });
 }
 
-/* Orden fijo de las cuatro competiciones — no el orden en que aparecen
-   en los datos del día, que cambia. El logo sale de CUALQUIER partido
-   de esa competición en toda la semana, no solo los de hoy: así la
-   tira no desaparece un día que esa copa no juega. */
 /* El orden es de casa hacia afuera: primero lo local, después Europa,
    después las copas. Premier y Ligue 1 entraron el 2026-08-25 — son las
    dos únicas ligas donde el mercado de estadísticas de JUGADOR existe y
@@ -2749,17 +2574,6 @@ const COMPS_ORDEN = ["Liga Profesional Argentina", "Brasileirão Série A",
 const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Brasileirão Série A":"Brasil",
   "Premier League":"Premier", "Ligue 1":"Ligue 1",
   "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
-
-function tiraCompeticiones(delDia){
-  const logos = {};
-  MATCHES.forEach(m=>{ if(!logos[m.comp]) logos[m.comp] = m.compLogo; });
-  const hoy = new Set(delDia.map(m=>m.comp));
-  return `<div class="comps">${COMPS_ORDEN.filter(c=>logos[c]).map(c=>`
-    <button class="compchip ${hoy.has(c)?"":"vacio"}" data-scrollcomp="${esc_(c)}" ${hoy.has(c)?"":"disabled"}>
-      <img src="${esc_(logos[c])}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
-      <span>${esc_(COMPS_CORTO[c]||c)}</span>
-    </button>`).join("")}</div>`;
-}
 
 /* ══════════════════════════════════════════════════════════════════
    PORTADA
@@ -2881,8 +2695,7 @@ function viewFecha(){
   h += `</div>`;
 
   h += `<div class="fin">Datos actualizados ${esc_((ACTUALIZADO||"").replace("T"," "))} ·
-    <button data-nav="metodo" style="text-decoration:underline;text-decoration-color:#4A4030;
-      text-underline-offset:3px">cómo se calcula</button></div>`;
+    <button data-nav="metodo">cómo se calcula</button></div>`;
   return h;
 }
 
@@ -3502,7 +3315,12 @@ function capaLectura(m){
      análisis no se disimula: se declara, porque es lo que explica que no
      haya ninguna marca en el Veredicto. */
   let h = sello2("Lectura", hayProsa(m.id) ? "POR QUÉ LO DECIMOS" : "SIN NOTA CARGADA");
-  h += `<div class="tesis"><b>${esc_(lec.titulo)}</b><p>${esc_(lec.cuerpo)}</p></div>`;
+  /* El marcador más repetido, con su frecuencia al lado. Solo, "1-0" se
+     lee como un pronóstico; con el "12 de cada 100" se lee como lo que
+     es — el más probable de una distribución muy chata. */
+  h += `<div class="tesis"><b>${esc_(lec.titulo)}</b><p>${esc_(lec.cuerpo)}
+    El marcador que más se repite es <b>${marcadorTop(lec.M)}</b>, y aun así pasa
+    ${Math.round(probMarcadorTop(lec.M)*100)} de cada 100 veces.</p></div>`;
 
   /* 01 · Dominio. El texto lo escribe la skill del mercado de
      estadísticas cuando está cargado; los números son los del eje. */
@@ -3872,8 +3690,8 @@ function datosReferencia(m){
   tabla.forEach(f=> (grupos[f.grupo || ""] = grupos[f.grupo || ""] || []).push(f));
   const claves = Object.keys(grupos);
   h += bloque("pos", "Posiciones", tabla.length ? `${tabla.length} EQUIPOS` : "SIN TABLA", ()=>{
-    if(!tabla.length) return `<p style="font-size:12.5px;line-height:1.6;color:var(--gris3);margin:0">
-      En las llaves por eliminación no hay tabla que mostrar, y la fuente tampoco la devuelve.</p>`;
+    if(!tabla.length) return `<p class="notaref">En las llaves por eliminación no hay tabla que
+      mostrar, y la fuente tampoco la devuelve.</p>`;
     const g = claves.includes(REF_TABLA) ? REF_TABLA : claves[0];
     const mios = new Set([String(m.homeId), String(m.awayId)]);
     const filas = grupos[g];
@@ -3900,7 +3718,7 @@ function datosReferencia(m){
     });
     if(saltados) out += `<div class="stdr puntos">···  ${saltados} equipo${saltados===1?"":"s"} más</div>`;
     const n = quienFalta(m);
-    if(n) out += `<p style="font-size:11.5px;line-height:1.6;color:var(--gris3);margin:11px 0 0">${n.texto}</p>`;
+    if(n) out += `<p class="notaref sep">${n.texto}</p>`;
     return out;
   });
 
@@ -4089,28 +3907,6 @@ function ejesDe(m){
   });
 }
 
-/* El texto que escribe la skill del mercado de estadísticas, arriba de
-   los números del eje. Va antes y no después a propósito: la frase dice
-   qué mirar, y los números sin esa frase son una tabla. Si no hay
-   análisis cargado, el bloque queda exactamente como antes. */
-function lecturaDeEje(eje){
-  if(!eje || !eje.lectura) return "";
-  return `<div class="read lectura-eje"><p>${esc_(eje.lectura)}</p></div>`;
-}
-
-/* El escudo de un rival, buscado por nombre entre los equipos que ya
-   están en el archivo. No siempre está, y cuando no está el hueco se
-   esconde solo — el crest con `ph` ya lo maneja. */
-function logoDe(nombre){
-  const n = norm(nombre);
-  let url = "";
-  MATCHES.forEach(m=>{
-    if(!url && norm(m.home)===n) url = m.homeLogo;
-    if(!url && norm(m.away)===n) url = m.awayLogo;
-  });
-  return url;
-}
-
 /* ══════════════════════════════════════════════════════════════════
    POR QUÉ FALTA UN EQUIPO EN LA TABLA
 
@@ -4227,17 +4023,6 @@ function probMayor(mu, disp, linea){
   }
   return Math.min(1, Math.max(0, 1 - acum));
 }
-
-/* Las métricas que se apuestan por línea. Posesión y pases quedan
-   afuera a propósito: no hay mercado de "más de 51.5% de posesión", y
-   un porcentaje no es un conteo — la campana de acá no lo describe. */
-const LINEAS = [
-  {k:"corners",  et:"Córners"},
-  {k:"tarjetas", et:"Tarjetas"},
-  {k:"remates",  et:"Remates"},
-  {k:"al_arco",  et:"Al arco"},
-  {k:"faltas",   et:"Faltas"},
-];
 
 /* Qué parte de un número es del equipo y qué parte es de la liga.
 
@@ -4629,7 +4414,7 @@ function jugadores(nombre, id, met){
     <div class="mets">${botones}</div>
     ${juicio}
     <div class="jhead"><span>Jugador</span><span>Prom. por partido</span></div>
-    <div class="jlist">${filas}</div>
+    <div>${filas}</div>
     <p class="jfuente">Ordenados por total en la temporada. Cada casilla es un partido de los
       últimos que tenemos, y se llena de tinta según lo que hizo ahí — vacía es cero.${conLinea
       ? ` A la derecha, la chance de pasar esa línea.` : ""}
@@ -5143,7 +4928,7 @@ function render(){
   /* Vale igual para la fila de metricas de Plantel, que se corta en
      "FALT..." por el mismo motivo. `.on` cubre la pestana activa y la
      metrica elegida: las dos usan esa clase. */
-  document.querySelectorAll(".tabs, .mets").forEach(tira => {
+  document.querySelectorAll(".mets, .ordmet").forEach(tira => {
     const on = tira.querySelector(".on");
     if(on){
       const meta = on.offsetLeft - (tira.clientWidth - on.offsetWidth) / 2;
@@ -5186,17 +4971,12 @@ function ir(v, extra){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-capa],[data-expl],[data-mk],[data-met],[data-loc],[data-jugmet],[data-jugeq],[data-ref],[data-reftabla],[data-expandir],[data-abrir],[data-liga],[data-pleq],[data-plmet],[data-linmet],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
+  const t = e.target.closest("[data-nav],[data-dia],[data-partido],[data-capa],[data-expl],[data-mk],[data-met],[data-loc],[data-jugmet],[data-jugeq],[data-ref],[data-reftabla],[data-expandir],[data-abrir],[data-liga],[data-pleq],[data-plmet],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
   if(!t) return;
   const d = t.dataset;
 
   if(d.nav){ ir(d.nav); }
   else if(d.dia){ DIA = d.dia; render(); }
-  else if(d.scrollcomp){
-    /* Solo salta, nunca filtra — ver el comentario en .comps del CSS. */
-    document.querySelector(`.lg[data-comp="${CSS.escape(d.scrollcomp)}"]`)
-      ?.scrollIntoView({behavior:"smooth", block:"start"});
-  }
   else if(d.partido){ ir("partido", d.partido); }
   /* ── las tres capas ─────────────────────────────────────────────
      Un toggle y nada más: los acordeones cerrados no montan su cuerpo,
@@ -5226,7 +5006,6 @@ document.addEventListener("click", e=>{
   }
   else if(d.pleq){ PL_EQ = d.pleq; render(); }
   else if(d.plmet){ PL_MET = d.plmet; render(); }
-  else if(d.linmet){ LIN_MET = d.linmet; render(); }
   else if(d.volver){ ir("fecha"); }
   else if(d.filtro){ FILTRO = d.filtro; render(); }
   else if(d.estado){

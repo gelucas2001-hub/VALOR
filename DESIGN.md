@@ -93,6 +93,19 @@ Elegido por Lucas sobre la alternativa de ampliar mostaza a
 resultado de una apuesta puntual: la **marca de valor** y la **curva
 acumulada** del Registro.
 
+### Mostaza vive en una sola capa (2026-09-01)
+
+"Solo valor" no alcanza — importa también **dónde**. Desde que el
+partido pasa a tres capas (Veredicto · Lectura · Datos, ver TRASPASO
+§18), el dorado vive **solo en Veredicto**. Ningún dato crudo de
+Lectura o Datos lo usa nunca, aunque describa algo favorable: un
+número que el usuario está leyendo para entender el partido no es una
+recomendación, y pintarlo de mostaza lo haría parecer una.
+
+Es una regla más estricta que "mostaza = valor" a secas, y hasta esta
+revisión vivía solo en TRASPASO/CLAUDE.md — quien mirara nada más que
+este documento no tenía cómo saberlo.
+
 ### Salvia tiene tres trabajos, no cero (corregido 2026-08-18)
 
 Este archivo decía «decorativo, solo el filete bajo el masthead, sin
@@ -123,6 +136,21 @@ colores que comunican estado, y salvia no es uno.
   valor" es el error que más caro paga el usuario.
 - La escala de grises tibios (`gris`, `gris-2`, `gris-3`, `neutro`) es
   jerarquía de texto, no significado.
+
+### Tinta también tiene grados, según cuánto decide el control (2026-09-01)
+
+"Tinta = seleccionado" no es un solo tono — son tres, y es a propósito:
+más lleno cuanto más decide el control.
+
+| Token | Cuándo | Ejemplos |
+|---|---|---|
+| `tinta` | Decide qué pantalla entera se muestra | Día del slider, Veredicto·Lectura·Datos, lado del plantel, filtro de Registro |
+| `tinta-2` | Filtra o reordena dentro de una pantalla ya elegida | Local/visita en Equipos, orden en Jugadores, sub-tabla en Referencia, liga desplegada en la portada |
+| `tinta-3` (`.suave`) | Filtro anidado dentro de un panel que ya está abierto | Club dentro de Datos · Jugadores |
+
+Ninguno de los tres usa mostaza ni terracota — esa es la regla de
+arriba ("Nunca mostaza para selección de UI"), esto es solo cuánto de
+tinta.
 
 ### Los grises se aclararon (2026-08-24)
 
@@ -253,8 +281,16 @@ tinta plena, empate en neutro, perdido apagado.
 
 ## Chrome y densidad
 
-- **Pestañas silenciosas:** línea inferior de 2px y cambio de color de
-  texto. Nunca botón con caja ni relleno.
+- **Pestañas silenciosas — solo en `.nav` y `.subcapas`:** línea
+  inferior de 2px y cambio de color de texto, nunca botón con caja ni
+  relleno. Rige la barra de abajo (Fecha · Registro · Método) y la
+  sub-navegación de Datos (Equipos · Jugadores · Referencia).
+  **`.capas` (Veredicto · Lectura · Datos) no es una pestaña
+  silenciosa, y no tiene por qué serlo:** decide qué capa entera del
+  partido se muestra, no un matiz de la misma vista — fondo `panel` en
+  reposo, `tinta` sobre `hueco` activa. Antes de citar "pestaña
+  silenciosa" para descartar algo, fijarse cuál de las tres barras es
+  la que está en pantalla.
 - **Filas planas** en listas largas. Nada de tarjeta dentro de tarjeta:
   un filete de 1px arriba de cada fila alcanza.
 - **El bloque de análisis es tipografía sola, sin caja** — nota de
@@ -265,8 +301,28 @@ tinta plena, empate en neutro, perdido apagado.
 ## Navegación
 
 Tres destinos: **Fecha · Registro · Método**. Combinadas y Ajustes no son
-destinos — la combinada recomendada vive dentro de Pronósticos, y la banca
+destinos — la combinada recomendada vive dentro de Veredicto, y la banca
 se pregunta inline en Herramientas la primera vez que hace falta.
+
+Adentro de un partido, tres capas — **Veredicto · Lectura · Datos**
+(2026-09-01, ver TRASPASO §18) — reemplazan lo que antes eran siete
+pestañas. Veredicto es el único lugar con recomendación; Lectura es la
+narrativa con el número que la sostiene al lado; Datos es exploración
+libre, sin veredictos. Es la barra `.capas` de "Pestañas silenciosas"
+arriba: fondo lleno, no subrayado.
+
+Adentro de Datos, tres sub-destinos — **Equipos · Jugadores ·
+Referencia** — sí son pestañas silenciosas como Fecha · Registro ·
+Método.
+
+## Pendiente
+
+**`.jgrow.supl .mt` pinta de terracota "SUPLENTE" en Datos · Jugadores**
+(§ Un color, un solo trabajo). No es una alerta de apuesta, es un dato
+descriptivo — rompe "terracota: alerta, y nada más". Encontrado en la
+auditoría del 2026-09-01. Es un cambio de código, no de este documento:
+queda anotado para que Lucas elija el color correcto (probablemente de
+la escala de grises) sin que el hallazgo se pierda.
 
 ## Fuente de verdad
 

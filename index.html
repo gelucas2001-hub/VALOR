@@ -1112,8 +1112,13 @@ a{color:inherit}
 .filtro3.suave button.on{background:var(--tinta3)}
 /* El filtro que no puede: apagado y con su muestra a la vista. No se
    esconde — un filtro ausente se lee como un filtro que nadie pensó. */
-.filtro3 button.mudo{flex-direction:column;gap:3px;color:var(--gris3);opacity:.55}
-.filtro3 button.mudo em{font-style:normal;font-size:9.5px;letter-spacing:.04em;color:var(--neutro)}
+/* `opacity` en el botón entero apaga el texto junto con el fondo: acá
+   se leía a ~2.2:1, muy debajo del 4.5:1 que pide AA — apagaba la
+   única frase que explica por qué el filtro no sirve. La distinción de
+   "apagado" queda en la escala de grises (un paso más tenue que el
+   resto de la fila), no en la opacidad. */
+.filtro3 button.mudo{flex-direction:column;gap:3px;color:var(--gris2)}
+.filtro3 button.mudo em{font-style:normal;font-size:9.5px;letter-spacing:.04em;color:var(--gris3)}
 .avfiltro{margin:8px 20px 0 16px;font-family:var(--mono);font-size:10px;line-height:1.5;
   letter-spacing:.02em;color:var(--gris3);text-wrap:pretty}
 /* El filtro de equipo dice el nombre recortado ("Defensa" por "Defensa

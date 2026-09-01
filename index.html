@@ -1025,8 +1025,10 @@ a{color:inherit}
 .oport p b{color:var(--tinta);font-weight:600}
 .ocels{display:flex;gap:1px;margin-top:12px}
 .ocels div{flex:1;background:var(--hueco);padding:9px 10px;min-width:0}
-.ocels small{display:block;font-family:var(--mono);font-size:10.5px;line-height:1;
-  letter-spacing:.08em;color:var(--gris3)}
+/* 10px y sin espaciado extra: "CUOTA MÍNIMA" en una celda de un tercio
+   de 375px se partía en dos renglones y desalineaba las tres cifras. */
+.ocels small{display:block;font-family:var(--mono);font-size:10px;line-height:1;
+  letter-spacing:.02em;color:var(--gris3);white-space:nowrap}
 .ocels b{display:block;font-family:var(--mono);font-size:16px;line-height:1;font-weight:600;
   color:var(--tinta2);margin-top:6px}
 .ocels .cuota b{color:var(--mostaza)}
@@ -3185,9 +3187,10 @@ function mercadosDeVeredicto(m){
       motivo:`${lee} · nadie publica esta línea`});
     if(sinValor) return Object.assign(base, {estado:"NO OPINAMOS",
       motivo:`${lee} · en esta liga la regla de valor resta`});
+    /* El porqué es el mismo para las tres familias y se dice una vez al
+       pie de la escalera: repetirlo en cada renglón no informa, ocupa. */
     if(!dir) return Object.assign(base, {estado:"NO OPINAMOS",
-      motivo:`${lee} · pagan ${c.toFixed(2)}, ${hayProsa(m.id)
-        ? "sin dirección declarada" : "sin lectura cargada"}`});
+      motivo:`${lee} · pagan ${c.toFixed(2)}`});
     return Object.assign(base, {estado:"SIN VENTAJA",
       motivo:`${lee} · pagan ${c.toFixed(2)} y la mínima sería ${umbral(x.op.p).toFixed(2)}`});
   };
@@ -3405,7 +3408,10 @@ function bloqueLineasDe(m, k){
 }
 
 function capaVeredicto(m){
-  const v = mercadosDeVeredicto(m);
+  /* El mismo objeto que lee la portada, memoizado: si esta pantalla lo
+     recalculara por su cuenta, un día el renglón y la tarjeta dirían
+     cosas distintas y nadie sabría cuál de las dos está bien. */
+  const v = veredictoDe(m);
   const total = v.filas.length + (v.oportunidad ? 1 : 0);
   let h = sello2("Veredicto", `${dd(v.oportunidad ? 1 : 0)} DE ${dd(total)} MERCADOS`);
 
@@ -3800,7 +3806,12 @@ function datosJugadores(m){
   let h = sello2("Jugadores", `${dd(pool.length)} EN PLANTEL`);
   h += `<div class="ordmet">${METRICAS.map(x=>
     `<button class="${x.k===clave?"on":""}" data-jugmet="${x.k}">${esc_(x.et)}</button>`).join("")}</div>`;
-  h += `<div class="filtro3 suave">${[["dos","Los dos"],["L",m.home],["V",m.away]]
+  /* En el filtro va el nombre corto: "Defensa y Justicia" en un tercio
+     de 375px se parte en tres renglones y desalinea los tres segmentos.
+     El nombre completo está en el renglón de cada jugador. */
+  const club = n => { const x = String(n||"").replace(/\s*\(.*$/, "");
+    return x.length > 12 ? x.split(" ")[0] : x; };
+  h += `<div class="filtro3 suave">${[["dos","Los dos"],["L",club(m.home)],["V",club(m.away)]]
     .map(([k,l])=> `<button class="${JUG_EQ===k?"on":""}" data-jugeq="${esc_(k)}">${esc_(l)}</button>`).join("")}</div>`;
   h += `<div class="jgh"><span class="c1">Jugador <em style="color:var(--tinta3);font-style:normal">·
       <span class="senal ${se.clase}">${esc_(se.texto)}</span></em></span>
@@ -5161,10 +5172,14 @@ function entrarAPartido(id){
   MATCH_ID = id; CAPA = "veredicto"; EXPANDIDAS.clear();
   /* Referencia arranca con Posiciones e Historial desplegados y
      Planteles cerrado: es lo que se consulta y lo que no. */
-  /* Y Datos · Equipos con la primera métrica desplegada: una pantalla
-     de nueve acordeones todos cerrados se ve vacía y obliga a un toque
-     antes de ver un solo número. */
-  ABIERTOS = new Set(["ref:pos", "ref:hist", "met:" + COMPARA[0].k]);
+  /* Y Datos · Equipos con una métrica desplegada: una pantalla de diez
+     acordeones cerrados se ve vacía y obliga a un toque antes de ver un
+     solo número. Se abre la primera de SEÑAL ALTA y no la primera de la
+     lista: las de señal baja se dibujan atenuadas —es lo que dice la
+     medición— y abrir de entrada la más apagada de todas es empezar por
+     el número del que menos hay que fiarse. */
+  const conSenal = COMPARA.find(x=> senalDe(x.k).clase === "alta") || COMPARA[0];
+  ABIERTOS = new Set(["ref:pos", "ref:hist", "met:" + conSenal.k]);
 }
 
 function ir(v, extra){
@@ -5345,6 +5360,12 @@ async function traer(url, def){
      Dominio y Jugadores. Si el archivo no está, los ejes salen sin
      texto y todo lo demás anda igual — es carga manual. */
   ANALISIS_EST = anEst || {};
+  /* El veredicto se memoiza por partido, y acá recién termina de entrar
+     el dato del que sale. Sin este clear, cualquier cosa que lo pida
+     antes —una pantalla dibujada a mitad de la carga, una prueba desde
+     la consola— deja cacheado un veredicto calculado sin estadísticas y
+     la app lo repite todo el día. */
+  _veredictos.clear();
 
   desdeHash();
   render();

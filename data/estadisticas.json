@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-09-01T12:12",
+ "actualizado": "2026-09-01T18:08",
  "sobre": 8,
  "parametros": {
   "remates": {
@@ -442,37 +442,37 @@
     "media": 0.58,
     "disp": 1.03,
     "k": 5.0,
-    "equipos": 456
+    "equipos": 457
    },
    "al_arco": {
-    "media": 0.16,
+    "media": 0.15,
     "disp": 0.93,
-    "k": 69.7,
-    "equipos": 456
+    "k": 69.2,
+    "equipos": 457
    },
    "faltas": {
     "media": 0.84,
     "disp": 1.07,
     "k": 10.4,
-    "equipos": 456
+    "equipos": 457
    },
    "amarillas": {
     "media": 0.18,
     "disp": 0.79,
-    "k": 15.4,
-    "equipos": 456
+    "k": 15.3,
+    "equipos": 457
    },
    "goles": {
     "media": 0.04,
     "disp": 0.96,
-    "k": 65.5,
-    "equipos": 456
+    "k": 66.2,
+    "equipos": 457
    },
    "asist": {
     "media": 0.04,
     "disp": 0.94,
-    "k": 17.1,
-    "equipos": 456
+    "k": 17.2,
+    "equipos": 457
    }
   },
   "M": {
@@ -480,37 +480,37 @@
     "media": 1.0,
     "disp": 1.07,
     "k": 2.4,
-    "equipos": 488
+    "equipos": 487
    },
    "al_arco": {
     "media": 0.29,
     "disp": 0.96,
     "k": 5.5,
-    "equipos": 488
+    "equipos": 487
    },
    "faltas": {
     "media": 0.89,
     "disp": 1.01,
     "k": 5.6,
-    "equipos": 488
+    "equipos": 487
    },
    "amarillas": {
     "media": 0.15,
     "disp": 0.78,
     "k": 10.2,
-    "equipos": 488
+    "equipos": 487
    },
    "goles": {
     "media": 0.08,
     "disp": 0.97,
     "k": 7.8,
-    "equipos": 488
+    "equipos": 487
    },
    "asist": {
     "media": 0.07,
     "disp": 1.09,
     "k": 8.1,
-    "equipos": 488
+    "equipos": 487
    }
   },
   "F": {
@@ -1098,76 +1098,76 @@
     "remates": {
      "media": 0.58,
      "disp": 1.11,
-     "k": 10.7,
-     "equipos": 91
+     "k": 11.3,
+     "equipos": 92
     },
     "al_arco": {
-     "media": 0.18,
+     "media": 0.17,
      "disp": 0.94,
      "k": 200.0,
-     "equipos": 91
+     "equipos": 92
     },
     "faltas": {
-     "media": 0.81,
-     "disp": 1.31,
+     "media": 0.82,
+     "disp": 1.29,
      "k": 200.0,
-     "equipos": 91
+     "equipos": 92
     },
     "amarillas": {
      "media": 0.15,
      "disp": 0.93,
      "k": 200.0,
-     "equipos": 91
+     "equipos": 92
     },
     "goles": {
      "media": 0.04,
      "disp": 1.0,
      "k": 200.0,
-     "equipos": 91
+     "equipos": 92
     },
     "asist": {
      "media": 0.04,
      "disp": 0.75,
      "k": 3.5,
-     "equipos": 91
+     "equipos": 92
     }
    },
    "M": {
     "remates": {
-     "media": 1.06,
+     "media": 1.07,
      "disp": 0.86,
      "k": 1.1,
-     "equipos": 86
+     "equipos": 85
     },
     "al_arco": {
      "media": 0.29,
      "disp": 1.0,
-     "k": 5.1,
-     "equipos": 86
+     "k": 5.2,
+     "equipos": 85
     },
     "faltas": {
-     "media": 0.84,
-     "disp": 0.89,
+     "media": 0.83,
+     "disp": 0.9,
      "k": 4.2,
-     "equipos": 86
+     "equipos": 85
     },
     "amarillas": {
-     "media": 0.13,
+     "media": 0.14,
      "disp": 0.83,
-     "k": 18.1,
-     "equipos": 86
+     "k": 18.8,
+     "equipos": 85
     },
     "goles": {
      "media": 0.13,
      "disp": 1.27,
      "k": 200.0,
-     "equipos": 86
+     "equipos": 85
     },
     "asist": {
-     "media": 0.1,
+     "media": 0.11,
      "disp": 1.11,
-     "k": 85.0,
-     "equipos": 86
+     "k": 93.3,
+     "equipos": 85
     }
    },
    "F": {

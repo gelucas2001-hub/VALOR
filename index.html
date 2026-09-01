@@ -948,6 +948,536 @@ a{color:inherit}
 .aviso b{display:block;font-family:var(--anton);font-size:17px;color:var(--tinta);
   font-weight:400;margin-bottom:6px}
 .fin{padding:22px 16px 34px;text-align:center;font-size:11px;color:var(--gris3);font-family:var(--mono)}
+
+/* ══════════════════════════════════════════════════════════════════
+   TRES CAPAS — Veredicto · Lectura · Datos
+
+   Las siete pestañas estaban cortadas por ORIGEN del dato (la skill /
+   el motor / el caché / ESPN) y no por lo que el que mira está tratando
+   de hacer. De ahí salían dos lugares que recomendaban —Pronósticos y
+   Estadísticas—, la afirmación separada de su evidencia, y
+   Historial/Posiciones/Plantel pesando lo mismo que una recomendación.
+   Estas clases son el corte nuevo: una capa que recomienda, una que
+   explica, una que deja mirar.
+
+   Los tokens no cambian: la paleta, las tipografías y la sombra dura ya
+   eran las de esta hoja. Lo que cambia es la arquitectura.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── conmutador de capas ───────────────────────────────────────────
+   Tres segmentos iguales. Persiste en las tres pantallas del partido, y
+   el filete de salvia lo ata a la cabecera: es un solo bloque de
+   navegación, no dos tiras apiladas. */
+.capas{background:var(--hueco);padding:0 16px 11px;display:flex;gap:4px;position:relative}
+.capas::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--salvia)}
+.capas button{flex:1;min-height:36px;padding:9px 0;text-align:center;background:var(--panel);
+  font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gris)}
+.capas button.on{background:var(--tinta);color:var(--hueco)}
+.capas.pegada{padding-bottom:9px}
+.capas.pegada::after{display:none}
+
+/* Sub-conmutador de Datos: subrayado, sin fondo. Es un segundo nivel y
+   tiene que verse como tal — con fondo competiría con el de arriba. */
+.subcapas{background:var(--hueco);padding:2px 16px 10px;display:flex;gap:18px;position:relative}
+.subcapas::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--salvia)}
+.subcapas button{font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--neutroPanel);padding:6px 0 7px;min-height:32px}
+.subcapas button.on{color:var(--tinta);border-bottom:2px solid var(--tinta);padding-bottom:5px}
+
+/* Cabecera de partido de las tres capas: el cruce arriba, la liga y el
+   número abajo. Reemplaza al bloque de escudos grande — adentro del
+   partido ya se sabe qué partido es, y ese alto se lo queda el
+   contenido. */
+.cab{background:var(--hueco);padding:calc(13px + env(safe-area-inset-top)) 16px 12px;
+  display:flex;align-items:center;gap:10px}
+.cab .id{flex:1;min-width:0}
+.cab .cruce{font-family:var(--anton);font-size:14px;line-height:1.1;color:var(--tinta);font-weight:400}
+.cab .meta{font-family:var(--mono);font-size:11px;line-height:1;color:var(--gris3);
+  letter-spacing:.06em;margin-top:4px}
+
+/* ── sello de sección ──────────────────────────────────────────────
+   Franja de papel con el título de la capa y, a la derecha, el
+   contador. El contador no es adorno: "01 DE 06 MERCADOS" dice de una
+   cuánto se miró y cuánto quedó afuera. */
+.sello2{margin:16px 20px 0 16px;background:var(--tinta2);padding:6px 11px 7px;
+  display:flex;align-items:center;gap:8px;box-shadow:4px 4px 0 #13100B}
+.sello2 b{font-family:var(--anton);font-size:15px;line-height:1;color:var(--hueco);
+  letter-spacing:.03em;text-transform:uppercase;font-weight:400}
+.sello2 em{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.1em;color:var(--neutroPapel);font-style:normal;text-align:right}
+
+/* ── la tarjeta de oportunidad ─────────────────────────────────────
+   La ÚNICA pieza dorada de todo el partido. Si el dorado apareciera
+   también en un dato crudo, dejaría de querer decir "acá el precio está
+   a favor" y pasaría a querer decir "esto es importante", que es justo
+   lo que no puede significar. */
+.oport{margin:14px 20px 0 16px;background:var(--mostazaBg);box-shadow:4px 4px 0 #13100B;
+  border-left:2px solid var(--mostaza);padding:13px 13px 14px}
+.oport .oh{display:flex;align-items:baseline;gap:8px}
+.oport .oh b{flex:1;min-width:0;font-family:var(--mono);font-size:11px;line-height:1;
+  font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--mostaza)}
+.oport .oh span{font-family:var(--mono);font-size:10.5px;line-height:1;letter-spacing:.08em;
+  color:var(--neutro);text-transform:uppercase}
+.oport .otit{font-family:var(--anton);font-size:20px;line-height:1.15;color:var(--tinta);
+  font-weight:400;margin-top:9px;text-wrap:pretty}
+.oport p{margin:9px 0 0;font-size:12.5px;line-height:1.6;color:var(--tinta2);text-wrap:pretty}
+.oport p b{color:var(--tinta);font-weight:600}
+.ocels{display:flex;gap:1px;margin-top:12px}
+.ocels div{flex:1;background:var(--hueco);padding:9px 10px;min-width:0}
+.ocels small{display:block;font-family:var(--mono);font-size:10.5px;line-height:1;
+  letter-spacing:.08em;color:var(--gris3)}
+.ocels b{display:block;font-family:var(--mono);font-size:16px;line-height:1;font-weight:600;
+  color:var(--tinta2);margin-top:6px}
+.ocels .cuota b{color:var(--mostaza)}
+.ocels .muestra b{color:var(--gris2)}
+.oport .opie{margin-top:11px;padding-top:10px;border-top:1px solid var(--mostazaBorde);
+  display:flex;align-items:center;gap:8px;width:100%;text-align:left}
+.oport .opie span{font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.06em;
+  color:var(--tinta3)}
+.oport .opie em{margin-left:auto;font-family:var(--mono);font-size:11px;line-height:1;
+  letter-spacing:.06em;color:var(--mostaza);font-style:normal}
+
+/* El estado más frecuente, y por eso el primero que se dibujó: no hay
+   nada apostable. Tiene que verse terminado, no roto ni vacío. */
+.nada{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+  padding:16px 14px 17px;text-align:center}
+.nada b{display:block;font-family:var(--anton);font-size:22px;line-height:1.15;
+  color:var(--tinta);text-transform:uppercase;font-weight:400}
+.nada p{margin:9px 0 0;font-size:12.5px;line-height:1.6;color:var(--tinta3);text-wrap:pretty}
+
+/* ── separador de sección con rótulo ───────────────────────────── */
+.sepsec{margin:16px 20px 0 16px;display:flex;align-items:baseline;gap:8px}
+.sepsec span{font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--neutroPanel)}
+.sepsec i{flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--linea3) 0 3px,transparent 3px 7px)}
+
+/* ── la escalera de mercados ───────────────────────────────────────
+   Todo lo que se miró y no se recomienda, con el MOTIVO. Un mercado que
+   no aparece se lee como un mercado que nadie miró; uno que aparece
+   diciendo "sin precio" es una respuesta. */
+.emks{margin:11px 20px 0 16px;display:flex;flex-direction:column;gap:1px}
+.emk{background:var(--panel);padding:11px 12px;display:flex;align-items:center;gap:10px;
+  width:100%;text-align:left}
+.emk .en{flex:1;min-width:0}
+.emk .en b{display:block;font-family:var(--anton);font-size:15px;line-height:1.1;
+  color:var(--tinta2);font-weight:400}
+.emk .en i{display:block;font-family:var(--mono);font-size:11px;line-height:1.5;
+  color:var(--gris3);margin-top:5px;font-style:normal}
+.emk .est{flex:0 0 auto;font-family:var(--mono);font-size:10.5px;line-height:1;
+  letter-spacing:.08em;color:var(--neutroPanel);text-transform:uppercase}
+.emk .mas{font-family:var(--mono);font-size:15px;line-height:1;color:#4A4030}
+/* Riesgo: el mercado donde el precio está PEOR de lo que vemos. No
+   lleva etiqueta de estado — el motivo ya lo dice, y una etiqueta más
+   lo pondría a competir con los de al lado, que son otra cosa. */
+.emk.riesgo{background:var(--terracotaBg);border-left:2px solid var(--terracota)}
+.emk.riesgo .en b{color:var(--tinta)}
+.emk.riesgo .en i{color:var(--terracota)}
+.emk.riesgo .mas{color:#4A2E20}
+/* Señal baja: se muestra, apagado. Esconderlo sería decidir por el que
+   mira; mostrarlo con la misma tinta sería mentirle. */
+.emk.baja{opacity:.62}
+.emk.baja .en b{color:var(--gris2)}
+.emk.baja .en i,.emk.baja .est{color:var(--neutro)}
+.emk.baja .mas{color:var(--linea3)}
+/* El cuerpo desplegado de una fila: el detalle que antes vivía en
+   Pronósticos o en Estadísticas. */
+.emkc{background:var(--hueco);padding:11px 12px 12px;font-size:12.5px;line-height:1.6;
+  color:var(--tinta3)}
+.emkc p{margin:0}
+.emkc p + p{margin-top:7px}
+.cifras2{display:flex;gap:1px;margin-top:10px}
+.cifras2 div{flex:1;background:var(--panel);padding:8px 9px;min-width:0}
+.cifras2 small{display:block;font-family:var(--mono);font-size:10px;line-height:1;
+  letter-spacing:.08em;color:var(--gris3)}
+.cifras2 b{display:block;font-family:var(--mono);font-size:14px;line-height:1;
+  font-weight:600;color:var(--tinta2);margin-top:5px}
+
+/* La nota al pie de una capa: el porqué común, dicho una vez. */
+.notacapa{margin:11px 20px 0 16px;font-size:11.5px;line-height:1.6;color:var(--gris3);text-wrap:pretty}
+
+/* ── pie de talón ─────────────────────────────────────────────────
+   Filete punteado y dos rótulos enfrentados. Cierra la capa como se
+   cierra un talón de entrada: cuándo se escribió, y cuál de las tres
+   capas es esta. */
+.tpie{height:1px;margin:18px 20px 0 16px;
+  background:repeating-linear-gradient(90deg,var(--linea3) 0 3px,transparent 3px 7px)}
+.tlbl{display:flex;justify-content:space-between;margin:7px 20px 0 16px;
+  font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.12em;color:var(--neutroPanel)}
+
+/* ── fila de enlace entre capas ───────────────────────────────────
+   Los cruces entre capas son parte del diseño: la evidencia de la
+   Lectura enlaza al mercado del Veredicto, la oportunidad enlaza al
+   dato del que sale. Sin eso, tres capas son tres pestañas nuevas. */
+.lnkf{margin:18px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+  padding:12px 13px;display:flex;align-items:center;gap:10px;width:calc(100% - 36px);text-align:left}
+.lnkf .t{flex:1;min-width:0}
+.lnkf .t small{display:block;font-family:var(--mono);font-size:11px;line-height:1;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gris3)}
+.lnkf .t b{display:block;font-family:var(--anton);font-size:16px;line-height:1;color:var(--tinta);
+  text-transform:uppercase;font-weight:400;margin-top:5px}
+.lnkf .fl{font-family:var(--mono);font-size:18px;line-height:1;color:var(--gris3)}
+/* La variante de una línea: etiqueta y destino, sin titular. */
+.lnkf.chica{padding:11px 12px}
+.lnkf.chica .t b{font-family:var(--cuerpo);font-size:12px;text-transform:none;color:var(--tinta3);
+  margin:0;font-weight:400}
+.lnkf.chica .dst{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--gris3)}
+.lnkf.chica .dst.oro{color:var(--mostaza)}
+
+/* ── LECTURA: el argumento con su evidencia pegada ─────────────────
+   La regla entera de esta capa es que el número que sostiene una frase
+   está en el MISMO bloque que la frase. Si hay que ir a buscarlo, es la
+   arquitectura vieja con otro nombre. */
+.tesis{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:14px 13px 15px}
+.tesis b{display:block;font-family:var(--anton);font-size:19px;line-height:1.18;color:var(--tinta);
+  font-weight:400;text-wrap:pretty}
+.tesis p{margin:8px 0 0;font-size:12.5px;line-height:1.6;color:var(--tinta3);text-wrap:pretty}
+.args{margin:11px 0 0;display:flex;flex-direction:column;gap:11px}
+.arg{margin:0 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:14px 13px 13px}
+.arg .rotarg{font-family:var(--mono);font-size:11px;line-height:1;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gris3)}
+.arg p{margin:9px 0 0;font-size:13px;line-height:1.62;color:var(--tinta2);text-wrap:pretty}
+.arg p b{color:var(--tinta);font-weight:600}
+.evid{margin-top:11px;background:var(--hueco);padding:10px 11px 11px}
+.evid .epie{margin-top:10px;padding-top:9px;border-top:1px solid var(--linea2);
+  display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;
+  line-height:1.4;color:var(--gris3)}
+.evid .epie em{margin-left:auto;font-style:normal;color:var(--mostaza);flex:0 0 auto}
+/* Barra comparativa: dos valores enfrentados y el nombre de la métrica
+   en el medio. Tinta plena = número MÁS ALTO, no número mejor: más
+   faltas no es mejor, y un semáforo acá sería una opinión disfrazada de
+   dato. */
+.cbar .cv{display:flex;align-items:baseline;gap:8px}
+.cbar .cv b{flex:0 0 40px;font-family:var(--mono);font-size:13px;line-height:1;font-weight:600;
+  color:var(--gris2)}
+.cbar .cv b.alto{color:var(--tinta)}
+.cbar .cv b.d{text-align:right}
+.cbar .cv span{flex:1;text-align:center;font-family:var(--mono);font-size:10.5px;line-height:1;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gris3)}
+.cbar .cb{display:flex;gap:3px;margin-top:7px}
+.cbar .cb i{height:6px;background:rgba(238,227,206,.24)}
+.cbar .cb i.alto{background:var(--tinta)}
+.cbar + .cbar{margin-top:11px}
+/* Renglón de tabla como evidencia: solo los dos equipos del partido. La
+   tabla entera vive en Datos · Referencia. */
+.trow{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--panel)}
+.trow + .trow{margin-top:1px}
+.trow .ps{flex:0 0 20px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gris2)}
+.trow .nm{flex:1;min-width:0;font-size:12px;color:var(--tinta2);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.trow .pt{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta)}
+.trow .zn{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--gris3)}
+/* H2H como evidencia: cuatro cruces y nada más. */
+.h2hc{display:flex;gap:1px}
+.h2hc div{flex:1;background:var(--panel);padding:9px 6px;text-align:center;min-width:0}
+.h2hc b{display:block;font-family:var(--mono);font-size:13px;line-height:1;font-weight:600;color:var(--tinta2)}
+.h2hc span{display:block;font-family:var(--mono);font-size:10px;line-height:1;color:var(--neutroPanel);margin-top:5px}
+/* Bloque de advertencia. La contradicción se muestra: si el motor y la
+   lectura no dicen lo mismo, esconderlo sería elegir cuál de los dos
+   tiene razón sin tener con qué. */
+.warn{margin:11px 20px 0 16px;background:var(--terracotaBg);border-left:2px solid var(--terracota);
+  padding:12px 13px}
+.warn b{display:block;font-family:var(--mono);font-size:11px;line-height:1;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--terracota)}
+.warn p{margin:8px 0 0;font-size:12.5px;line-height:1.6;color:var(--tinta2);text-wrap:pretty}
+
+/* ── DATOS · Equipos ───────────────────────────────────────────────
+   Acordeón por métrica, siempre en el par produce / concede. `concede`
+   está medido en las nueve y se mostraba en un renglón chico al pie:
+   era la mitad del dato. */
+.filtro3{margin:12px 20px 0 16px;display:flex;gap:1px}
+.filtro3 button{flex:1;padding:8px 0;text-align:center;background:var(--panel);color:var(--gris);
+  font-family:var(--mono);font-size:10.5px;line-height:1;letter-spacing:.06em;text-transform:uppercase;
+  min-height:34px}
+.filtro3 button.on{background:var(--tinta2);color:var(--hueco)}
+.filtro3.suave button.on{background:var(--tinta3)}
+.metacs{margin:12px 20px 0 16px;display:flex;flex-direction:column;gap:1px}
+.metac{background:var(--panel)}
+.metac .mh{width:100%;text-align:left;padding:12px 12px 11px;display:flex;align-items:center;gap:9px}
+.metac .mh b{flex:1;min-width:0;font-family:var(--anton);font-size:15px;line-height:1;
+  color:var(--tinta);text-transform:uppercase;font-weight:400}
+.metac .mh .mas{font-family:var(--mono);font-size:16px;line-height:1;color:var(--gris3)}
+/* El marcador de señal es un ATRIBUTO del número, no un disclaimer al
+   pie: cuánto se le cree a una métrica se lee al mismo tiempo que la
+   métrica, o no se lee. */
+.senal{flex:0 0 auto;font-family:var(--mono);font-size:10px;line-height:1;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--tinta3)}
+.senal.alta{color:var(--tinta)}
+.senal.baja,.senal.sinmedir{color:var(--neutro)}
+.metac.floja{opacity:.7}
+.metac.floja .mh b{color:var(--gris2)}
+.metac .mc{padding:0 12px 13px}
+.metac .par + .par{margin-top:11px}
+.metac .rot2{font-family:var(--mono);font-size:10px;line-height:1;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gris3);margin-bottom:6px}
+.metac .mpie{margin-top:11px;padding-top:9px;border-top:1px solid var(--linea2);display:flex;
+  justify-content:space-between;gap:10px;font-family:var(--mono);font-size:10.5px;
+  line-height:1.3;color:var(--neutroPanel)}
+
+/* ── DATOS · Jugadores ─────────────────────────────────────────────
+   Los 18 de cada plantel, no solo los que la app destaca. El que mira
+   arma sus propios candidatos: para eso hace falta la lista entera,
+   ordenable, con la serie a la vista. */
+.ordmet{margin:12px 20px 0 16px;display:flex;gap:1px;overflow-x:auto;scrollbar-width:none}
+.ordmet::-webkit-scrollbar{display:none}
+.ordmet button{flex:0 0 auto;padding:8px 11px;background:var(--panel);color:var(--gris);
+  font-family:var(--mono);font-size:10.5px;line-height:1;letter-spacing:.06em;
+  text-transform:uppercase;min-height:34px}
+.ordmet button.on{background:var(--tinta2);color:var(--hueco)}
+.jgh{margin:14px 20px 0 16px;display:flex;align-items:center;gap:9px;padding-bottom:7px;
+  border-bottom:1px solid var(--linea2);font-family:var(--mono);font-size:10px;line-height:1;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--gris3)}
+.jgh .c1{flex:1;min-width:0}
+.jgh .c2{flex:0 0 64px;text-align:center}
+.jgh .c3{flex:0 0 34px;text-align:right;color:var(--tinta)}
+.jglist{margin:0 20px 0 16px}
+.jgrow{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid var(--panel)}
+.jgrow .c1{flex:1;min-width:0}
+.jgrow .nm{font-family:var(--anton);font-size:14px;line-height:1.05;color:var(--tinta2);font-weight:400}
+.jgrow.destacado .nm{color:var(--tinta)}
+.jgrow .mt{font-family:var(--mono);font-size:10px;line-height:1.3;color:var(--gris3);margin-top:5px}
+.jgrow .med{flex:0 0 34px;text-align:right;font-family:var(--mono);font-size:14px;line-height:1;
+  font-weight:600;color:var(--tinta2)}
+/* El suplente entra veinte minutos: su serie no se compara con la de un
+   titular. Se baja de intensidad y se dice en el renglón — pero NO se
+   esconde de la lista, que es lo que hacía la pantalla vieja. */
+.jgrow.supl{opacity:.66}
+.jgrow.supl .nm{color:var(--gris2)}
+.jgrow.supl .mt{color:var(--terracota)}
+.spark{flex:0 0 64px;height:24px;display:flex;align-items:flex-end;gap:3px}
+.spark i{flex:1;background:rgba(238,227,206,.22);border-top:2px solid var(--tinta3);min-height:2px}
+.spark i.cero{border-top-color:var(--neutro)}
+.jgrow.supl .spark i{background:rgba(238,227,206,.1);border-top-color:var(--neutro)}
+.vermas{margin:12px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+  padding:12px;width:calc(100% - 36px);text-align:left;display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--tinta3)}
+.vermas em{margin-left:auto;font-style:normal;color:var(--gris3)}
+
+/* ── DATOS · Referencia ────────────────────────────────────────────
+   Los tres destinos que eran pestañas de primer nivel. Se consultan
+   poco: ahora pesan lo que valen. */
+.refs{margin:14px 20px 0 16px;display:flex;flex-direction:column;gap:10px}
+.refac{background:var(--panel);box-shadow:4px 4px 0 #13100B}
+.refac .rh{width:100%;text-align:left;padding:12px 12px 11px;display:flex;align-items:center;gap:9px}
+.refac .rh b{flex:1;font-family:var(--anton);font-size:15px;line-height:1;color:var(--tinta);
+  text-transform:uppercase;font-weight:400}
+.refac .rh em{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--gris3);font-style:normal}
+.refac .rh .mas{font-family:var(--mono);font-size:16px;line-height:1;color:var(--gris3)}
+.refac .rc{padding:0 12px 13px}
+.tablas{display:flex;gap:1px;margin-bottom:11px}
+.tablas button{flex:1;padding:7px 0;text-align:center;background:var(--hueco);color:var(--gris2);
+  font-family:var(--mono);font-size:10px;line-height:1;letter-spacing:.06em;text-transform:uppercase;
+  min-height:32px}
+.tablas button.on{background:var(--tinta2);color:var(--hueco)}
+.stdh,.stdr{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px}
+.stdh{padding-bottom:6px;border-bottom:1px solid var(--linea2);letter-spacing:.09em;
+  text-transform:uppercase;font-size:10px;color:var(--gris3)}
+.stdr{padding:9px 0;border-bottom:1px solid var(--linea);color:var(--gris2)}
+.stdr .p{flex:0 0 18px}
+.stdr .e{flex:1;min-width:0;font-family:var(--cuerpo);font-size:12px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.stdr .v{flex:0 0 26px;text-align:right}
+.stdr .pts{flex:0 0 30px;text-align:right;color:var(--tinta3)}
+/* Los dos equipos del partido, destacados. El resto de la tabla es
+   contexto: colapsa. */
+.stdr.mio{background:var(--linea2);margin:0 -8px;padding:9px 8px;color:var(--tinta);font-weight:600}
+.stdr.mio .pts,.stdr.mio .e{color:var(--tinta)}
+.stdr.puntos{opacity:.5;justify-content:center;letter-spacing:.2em;color:var(--gris3)}
+.rsub{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--gris3);margin:14px 0 7px}
+.rsub.primero{margin-top:0}
+.h2hr{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--hueco)}
+.h2hr .f{flex:0 0 44px;font-family:var(--mono);font-size:10.5px;color:var(--gris3)}
+.h2hr .c{flex:1;min-width:0;font-size:12px;color:var(--tinta3);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.h2hr .r{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta2)}
+/* Los últimos cinco SIN verde ni rojo: ganó es tinta plena, empató
+   media, perdió apenas. El semáforo es la tentación más vieja de una app
+   de fútbol y es la que convierte un dato en un juicio. */
+.cinco{display:flex;align-items:center;gap:9px;padding:7px 0}
+.cinco .e{flex:1;min-width:0;font-size:12px;color:var(--tinta3);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.cinco .cs{display:flex;gap:3px;flex:0 0 auto}
+.cinco i{width:16px;height:16px;background:rgba(238,227,206,.12)}
+.cinco i.g{background:var(--tinta)}
+.cinco i.e2{background:rgba(238,227,206,.3)}
+.leyenda{margin-top:10px;padding-top:9px;border-top:1px solid var(--hueco);display:flex;
+  align-items:center;gap:12px;font-family:var(--mono);font-size:10px;color:var(--gris3)}
+.leyenda span{display:flex;align-items:center;gap:5px}
+.leyenda i{width:10px;height:10px;background:rgba(238,227,206,.12)}
+.leyenda i.g{background:var(--tinta)}
+.leyenda i.e2{background:rgba(238,227,206,.3)}
+
+/* ── PORTADA ───────────────────────────────────────────────────────
+   La portada NO interpreta. "Llega mejor" y "partido parejo" son
+   lectura, y la lectura vive adentro del partido. Acá cada renglón dice
+   una sola cosa: si hay algo apostable. */
+.vday{margin:14px 20px 0 16px;background:var(--hueco);box-shadow:4px 4px 0 #13100B;padding:11px 12px 12px}
+.vday .vh{display:flex;align-items:baseline;gap:8px}
+.vday .vh b{font-family:var(--mono);font-size:11px;line-height:1;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--salvia)}
+.vday .vh em{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  color:var(--gris3);font-style:normal}
+.vday .vr{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--linea);
+  margin-top:8px;width:100%;text-align:left}
+.vday .vr .bl{flex:0 0 3px;align-self:stretch;background:var(--mostaza);min-height:22px}
+.vday .vr.riesgo .bl{background:var(--terracota)}
+.vday .vr .hr{flex:0 0 40px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta2)}
+.vday .vr .cr{flex:1;min-width:0;font-size:13px;color:var(--tinta2);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.vday .vr .mo{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--mostaza);
+  flex:0 0 auto}
+.vday .vr.riesgo .mo{color:var(--terracota)}
+.vday .vr .lg2{font-family:var(--mono);font-size:10px;color:var(--gris3);flex:0 0 auto}
+.vday .vacio2{margin-top:9px;padding-top:9px;border-top:1px solid var(--linea);
+  font-size:12.5px;line-height:1.55;color:var(--gris3)}
+
+.ligas{margin:18px 20px 0 16px}
+.ligarow{width:100%;text-align:left;padding:13px 0;border-top:1px solid var(--linea2);
+  display:flex;align-items:center;gap:11px}
+.ligarow .mas{flex:0 0 auto;font-family:var(--mono);font-size:21px;line-height:1;color:var(--gris3)}
+.ligarow .ln{flex:1;min-width:0}
+.ligarow .ln b{display:block;font-family:var(--anton);font-size:16px;line-height:1.05;
+  color:var(--tinta);text-transform:uppercase;font-weight:400}
+.ligarow .ln i{display:block;font-family:var(--mono);font-size:10.5px;line-height:1.4;
+  color:var(--gris3);margin-top:5px;font-style:normal}
+.ligarow .ln i b{display:inline;font-family:var(--mono);font-size:10.5px;color:var(--mostaza);
+  font-weight:400;text-transform:none}
+.ligarow .ln i b.riesgo{color:var(--terracota)}
+.ligarow .n{flex:0 0 auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--gris3)}
+/* Abierta: la fila se vuelve papel, como el sello de sección. */
+.ligarow.on{background:var(--tinta2);box-shadow:4px 4px 0 #13100B;padding:9px 11px;border-top:0}
+.ligarow.on .mas{color:var(--neutroPapel)}
+.ligarow.on .ln b{font-size:15px;color:var(--hueco)}
+.ligarow.on .ln i{color:var(--neutroPapel)}
+.ligarow.on .ln i b{color:#8A6520}
+.ligarow.on .n{color:var(--neutroPapel)}
+
+.plins{margin-top:9px;display:flex;flex-direction:column;gap:8px}
+.plin{width:100%;text-align:left;background:var(--panel);box-shadow:4px 4px 0 #13100B;
+  padding:10px 11px;display:flex;align-items:center;gap:9px;
+  animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
+.plin .hr{flex:0 0 auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta3)}
+.plin .eqs{flex:1;min-width:0}
+.plin .eqs div{display:flex;align-items:center;gap:6px;min-width:0}
+.plin .eqs div + div{margin-top:3px}
+.plin .eqs img{width:15px;height:15px;flex:0 0 15px;object-fit:contain}
+.plin .eqs span{flex:1;min-width:0;font-size:12.5px;color:var(--tinta2);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.plin .est2{flex:0 0 auto;text-align:right;font-family:var(--mono);font-size:11px;line-height:1.25;
+  font-weight:700;letter-spacing:.04em;color:var(--neutroPanel)}
+/* El talón abierto: el veredicto abreviado del partido con oportunidad.
+   No es un menú de destinos — entra por la capa 01 y listo. */
+.talonab{width:100%;text-align:left;background:var(--mostazaBg);box-shadow:4px 4px 0 #13100B;
+  display:flex;gap:11px;padding:11px 12px 12px;
+  animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
+.talonab .izq{flex:0 0 52px;padding-right:10px;
+  background:repeating-linear-gradient(180deg,var(--mostazaBorde) 0 3px,transparent 3px 8px) right/1px 100% no-repeat}
+.talonab .izq .n2{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--mostaza)}
+.talonab .izq .h2{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--tinta2);margin-top:6px}
+.talonab .izq .d2{font-family:var(--mono);font-size:10px;color:var(--neutro);margin-top:4px}
+.talonab .der{flex:1;min-width:0}
+.talonab .eq2{display:flex;align-items:center;gap:7px;min-width:0}
+.talonab .eq2 + .eq2{margin-top:4px}
+.talonab .eq2 img{width:17px;height:17px;flex:0 0 17px;object-fit:contain}
+.talonab .eq2 b{flex:1;min-width:0;font-family:var(--anton);font-size:15.5px;line-height:1.18;
+  color:var(--tinta);font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.talonab .rot3{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mostaza);margin-top:10px}
+.talonab .tit3{font-family:var(--anton);font-size:17px;line-height:1.18;color:var(--tinta);
+  font-weight:400;margin-top:5px;text-wrap:pretty}
+.talonab .tes3{font-size:12px;line-height:1.5;color:var(--tinta3);margin-top:6px;text-wrap:pretty}
+.talonab .ent{margin-top:10px;padding-top:10px;
+  background:repeating-linear-gradient(90deg,var(--mostazaBorde) 0 3px,transparent 3px 8px) top/100% 1px no-repeat;
+  display:flex;align-items:center;gap:8px}
+.talonab .ent .t3{flex:1;min-width:0}
+.talonab .ent small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gris3)}
+.talonab .ent b{display:block;font-family:var(--anton);font-size:14px;line-height:1;color:var(--tinta);
+  text-transform:uppercase;font-weight:400;margin-top:4px}
+.talonab .ent .fl{font-family:var(--mono);font-size:18px;color:var(--mostaza)}
+
+/* ── REGISTRO: el intervalo ────────────────────────────────────────
+   En la pantalla de honestidad del producto, una barra que contradice
+   sus propios números es el peor error posible. Las tres marcas —banda,
+   punto y cero— salen de la MISMA escala, calculada del dato. */
+.roi{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:14px 13px 15px}
+.roi .cif{display:flex;align-items:baseline;gap:9px}
+.roi .cif b{font-family:var(--mono);font-size:34px;line-height:1;font-weight:600;color:var(--tinta2)}
+.roi .cif b.neg{color:var(--terracota)}
+.roi .cif b.pos{color:var(--tinta)}
+.roi .cif span{font-family:var(--mono);font-size:12px;color:var(--gris3)}
+.intv{margin-top:12px;background:var(--hueco);padding:12px 11px 13px}
+.intv .riel{height:8px;background:rgba(238,227,206,.1);position:relative}
+.intv .banda3{position:absolute;top:0;bottom:0;background:rgba(194,113,82,.45)}
+.intv .banda3.pos{background:rgba(238,227,206,.3)}
+.intv .pt{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--terracota)}
+.intv .pt.pos{background:var(--tinta)}
+.intv .cero{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--tinta)}
+.intv .eje{position:relative;height:13px;margin-top:8px;font-family:var(--mono);font-size:10px;
+  color:var(--gris3)}
+.intv .eje .iz{position:absolute;left:0}
+.intv .eje .de{position:absolute;right:0}
+.intv .eje .ce{position:absolute;transform:translateX(-50%);color:var(--tinta3)}
+.roi .notaint{margin:11px 0 0;font-size:11.5px;line-height:1.55;color:var(--gris3)}
+.cel3{margin:1px 20px 0 16px;display:flex;gap:1px}
+.cel3 div{flex:1;background:var(--panel);padding:10px 10px 11px;min-width:0}
+.cel3 small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--gris3)}
+.cel3 b{display:block;font-family:var(--mono);font-size:15px;line-height:1;font-weight:600;
+  color:var(--tinta2);margin-top:6px}
+.cel3 b.neg{color:var(--terracota)}
+.famt{margin:0 20px 0 16px}
+.famh,.famr{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px}
+.famh{padding-bottom:7px;border-bottom:1px solid var(--linea2);font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gris3)}
+.famr{padding:10px 0;border-bottom:1px solid var(--linea);color:var(--tinta3)}
+.famr .m{flex:1;min-width:0;font-family:var(--cuerpo);font-size:12.5px}
+.famr .n{flex:0 0 26px;text-align:right;color:var(--gris2)}
+.famr .r{flex:0 0 54px;text-align:right;font-weight:600;color:var(--tinta2)}
+.famr .r.neg{color:var(--terracota)}
+.famr .r.nd{color:var(--neutroPanel);font-weight:400}
+.cerr{margin:0 20px 0 16px;display:flex;flex-direction:column;gap:1px}
+.cerrf{background:var(--panel);padding:10px 11px;display:flex;align-items:center;gap:9px}
+.cerrf .bl{flex:0 0 3px;align-self:stretch;min-height:26px;background:var(--salvia)}
+.cerrf.per .bl{background:var(--terracota)}
+.cerrf .t4{flex:1;min-width:0}
+.cerrf .t4 b{display:block;font-size:13px;color:var(--tinta2);font-weight:400;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.cerrf .t4 i{display:block;font-family:var(--mono);font-size:10.5px;color:var(--gris3);margin-top:4px;
+  font-style:normal}
+.cerrf .u{flex:0 0 auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta2)}
+.cerrf.per .u{color:var(--terracota)}
+
+/* ── MÉTODO: la señal por métrica ──────────────────────────────────
+   El riel va de 0 a 2.00× y el tick es el techo (1.00). Arriba del
+   techo el número está medido y medido MAL: eso no es un disclaimer, es
+   el resultado. */
+.pasos2{margin:14px 20px 0 16px;display:flex;flex-direction:column;gap:1px}
+.paso2{background:var(--panel);padding:12px 12px 13px;display:flex;gap:11px}
+.paso2 .np{flex:0 0 20px;font-family:var(--anton);font-size:18px;line-height:1;color:var(--gris3);font-weight:400}
+.paso2 .tp{flex:1;min-width:0}
+.paso2 .tp b{display:block;font-family:var(--anton);font-size:14px;line-height:1.1;color:var(--tinta);
+  text-transform:uppercase;font-weight:400}
+.paso2 .tp p{margin:6px 0 0;font-size:12px;line-height:1.55;color:var(--tinta3);text-wrap:pretty}
+.senalbox{margin:12px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 #13100B;padding:13px 13px 14px}
+.senalf + .senalf{margin-top:10px}
+.senalf .sf{display:flex;align-items:baseline;gap:8px}
+.senalf .sf span{flex:1;min-width:0;font-size:12px;color:var(--tinta3)}
+.senalf .sf b{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta2)}
+.senalf .sf b.mal{color:var(--terracota)}
+.senalf .sr{height:6px;background:rgba(238,227,206,.08);position:relative;margin-top:6px}
+.senalf .sr i{position:absolute;top:0;bottom:0;left:0;background:var(--tinta)}
+.senalf .sr i.medio{background:rgba(238,227,206,.5)}
+.senalf .sr i.alto{background:rgba(194,113,82,.55)}
+.senalf .sr .techo{position:absolute;top:-2px;bottom:-2px;left:50%;width:1px;background:var(--salvia)}
+.senalpie{margin-top:12px;padding-top:10px;border-top:1px solid var(--hueco);display:flex;
+  align-items:center;gap:7px;font-family:var(--mono);font-size:10px;color:var(--gris3)}
+.senalpie i{width:1px;height:10px;background:var(--salvia);display:inline-block}
+.limites{margin:12px 20px 0 16px;display:flex;flex-direction:column;gap:1px}
+.limite{background:var(--terracotaBg);border-left:2px solid var(--terracota);padding:11px 12px}
+.limite b{display:block;font-size:13px;color:var(--tinta);font-weight:400}
+.limite i{display:block;font-family:var(--mono);font-size:11px;line-height:1.45;color:var(--terracota);
+  margin-top:5px;font-style:normal}
 </style>
 </head>
 <body>
@@ -1109,7 +1639,26 @@ const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
    ESTADO
    ══════════════════════════════════════════════════════════════════ */
 let MATCHES=[], ANALISIS={}, PLANTELES={}, ACTUALIZADO="";
-let VISTA="fecha", DIA=null, MATCH_ID=null, TAB="analisis", FILTRO="todas";
+let VISTA="fecha", DIA=null, MATCH_ID=null, FILTRO="todas";
+/* ── el estado de las tres capas ────────────────────────────────
+   La navegación del partido dejó de ser una pestaña sola: hay una capa
+   (qué está tratando de hacer el que mira), y adentro de Datos un
+   explorador. Los dos persisten al moverse entre pantallas, que es lo
+   que hace que se sientan una sola cosa y no seis destinos. */
+let CAPA="veredicto";     /* veredicto | lectura | datos */
+let EXPL="equipos";       /* equipos | jugadores | referencia */
+let LOCALIA="todo";       /* todo | local | visita — filtro de Datos·Equipos */
+let JUG_ORDEN="remates";  /* métrica que ordena la lista de jugadores */
+let JUG_EQ="dos";         /* dos | L | V */
+let REF_TABLA=null;       /* qué tabla de Referencia está a la vista */
+/* Los acordeones abiertos, con prefijo por familia ("met:corners",
+   "mk:goles", "ref:pos"). Un Set y no un booleano por bloque: los
+   cerrados no montan su cuerpo, así que la lista no crece con la
+   pantalla. */
+let ABIERTOS=new Set();
+let EXPANDIDAS=new Set(); /* listas truncadas que el usuario abrió */
+let LIGA_ABIERTA=null;    /* acordeón de liga en la portada */
+let PARTIDO_ABIERTO=null; /* qué renglón está en talón dentro de la liga */
 /* Qué equipo muestra la cancha de Plantel: "H" local, "A" visitante.
    Los dos no entran en un dibujo solo, y apilarlos obliga a scrollear
    dos canchas para comparar. El prototipo ya lo resolvía con un par de
@@ -2426,51 +2975,818 @@ function marcaV(sfx, alto=58){
 /* ══════════════════════════════════════════════════════════════════
    PANTALLA: DETALLE DE PARTIDO
    ══════════════════════════════════════════════════════════════════ */
-const TABS = [
-  ["analisis","Análisis"], ["pronosticos","Pronósticos"], ["estadisticas","Estadísticas"],
-  ["historial","Historial"], ["posiciones","Posiciones"], ["plantel","Plantel"],
-  ["herramientas","Herramientas"],
-];
+/* ══════════════════════════════════════════════════════════════════
+   LAS TRES CAPAS DEL PARTIDO
+
+   Antes eran siete pestañas: Análisis · Pronósticos · Estadísticas ·
+   Historial · Posiciones · Plantel · Herramientas. Estaban cortadas por
+   ORIGEN del dato —la skill, el motor, el caché de disciplina, ESPN— y
+   ninguna correspondía a lo que el que mira está tratando de hacer. De
+   ahí salían cuatro defectos concretos:
+
+     · DOS lugares recomendaban (Pronósticos y Estadísticas), así que se
+       superponían siempre: era un error de corte, no de criterio.
+     · La afirmación y su evidencia vivían en pestañas distintas.
+     · Historial, Posiciones y Plantel pesaban lo mismo que una
+       recomendación, y eso aplanaba la jerarquía.
+     · De los jugadores se veían los destacados; los 18 del plantel
+       estaban en el dato y no en la pantalla.
+
+   El corte nuevo es por intención y da tres:
+
+     VEREDICTO  el único lugar del producto donde aparece una
+                recomendación. Al haber uno solo, el solapamiento
+                desaparece por construcción y no por disciplina.
+     LECTURA    la narrativa con el número que la sostiene en el MISMO
+                bloque que la frase.
+     DATOS      exploración libre. Sin veredictos y sin dorado, nunca.
+
+   Regla dura que cruza las tres: el dorado (--mostaza) vive solo en
+   Veredicto. Si el mismo color dijera "acá el precio está a favor" y
+   "este número es importante", dejaría de decir la primera — que es la
+   única que cuesta plata.
+   ══════════════════════════════════════════════════════════════════ */
+const CAPAS = [["veredicto","Veredicto"], ["lectura","Lectura"], ["datos","Datos"]];
+const EXPLORADORES = [["equipos","Equipos"], ["jugadores","Jugadores"], ["referencia","Referencia"]];
+const dd = n => String(n).padStart(2, "0");
+function fechaCorta(iso){
+  const p = String(iso||"").slice(0,10).split("-");
+  return p.length===3 && p[0].length===4 ? `${p[2]}/${p[1]}/${p[0].slice(2)}` : "—";
+}
+
+/* El número del partido dentro de su día, el mismo que numera la
+   portada: "Nº 06" tiene que querer decir lo mismo en las dos
+   pantallas, o no quiere decir nada. */
+function numeroDe(m){
+  const dia = MATCHES.filter(x=> x.date===m.date)
+    .sort((a,b)=> (a.hora||"").localeCompare(b.hora||""));
+  return {n: dia.findIndex(x=> x.id===m.id) + 1, total: dia.length};
+}
+
+function cabPartido(m){
+  const {n, total} = numeroDe(m);
+  return `<div class="cab"><button class="back" data-volver="1">←</button>
+    <div class="id">
+      <div class="cruce">${esc_(m.home)} — ${esc_(m.away)}</div>
+      <div class="meta">${esc_(COMPS_CORTO[m.comp] || m.comp)} · Nº ${dd(n)} de ${dd(total)}${
+        m.hora ? " · " + esc_(m.hora) : ""}</div>
+    </div></div>`;
+}
+
+/* El conmutador persiste en las tres pantallas: es la misma pieza, no
+   tres cabeceras parecidas. Datos cuelga su sub-conmutador abajo y le
+   pasa el filete de salvia — los dos niveles son un solo bloque. */
+function conmutador(){
+  const capas = CAPAS.map(([k,l])=>
+    `<button class="${CAPA===k?"on":""}" data-capa="${k}">${esc_(l)}</button>`).join("");
+  if(CAPA !== "datos") return `<div class="capas">${capas}</div>`;
+  return `<div class="capas pegada">${capas}</div>
+    <div class="subcapas">${EXPLORADORES.map(([k,l])=>
+      `<button class="${EXPL===k?"on":""}" data-expl="${k}">${esc_(l)}</button>`).join("")}</div>`;
+}
+
+const sello2 = (titulo, cuenta) =>
+  `<div class="sello2"><b>${esc_(titulo)}</b><em>${esc_(cuenta)}</em></div>`;
+const pieTalon = (izq, der) =>
+  `<div class="tpie"></div><div class="tlbl"><span>${esc_(izq)}</span><span>${esc_(der)}</span></div>`;
+const aire = px => `<div style="height:${px}px"></div>`;
+
+/* ══════════════════════════════════════════════════════════════════
+   CAPA 01 · VEREDICTO
+
+   Todas las familias de mercado del partido en una sola escalera,
+   ordenadas por lo que sabemos de cada una. Lo que NO se recomienda
+   aparece igual, con el motivo: un mercado que no está se lee como un
+   mercado que nadie miró, y uno que dice "sin precio" es una respuesta.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Cuánto de la banca dice la cuenta que va acá, en PORCENTAJE y no en
+   pesos: el porcentaje no depende de que el usuario haya cargado su
+   banca, y esta pantalla tiene que verse igual con banca y sin. La
+   fracción de Kelly y el tope del 4% son los mismos que usa
+   Herramientas — una sola cuenta en toda la app. */
+function stakePct(m, p, c){
+  if(!(c > 1)) return null;
+  const kf = (m.conf>=72) ? 0.25 : (m.conf>=60) ? 0.125 : (m.conf>=50) ? 0.0625 : 0.005;
+  const f = Math.min(kelly(p, c) * kf, 0.04);
+  return f > 0 ? (f*100).toFixed(1) + "%" : null;
+}
+
+/* La muestra que sostiene los números de estadísticas de este cruce.
+   Se declara la más chica de las dos: es la que limita la lectura. */
+function muestraDe(m){
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  const n = Math.min((L && L.pj) || 0, (V && V.pj) || 0);
+  return n ? n + " PJ" : "—";
+}
+
+/* Las seis familias del partido, cada una con su estado y su motivo.
+
+   Los estados son cuatro y significan cosas distintas:
+
+     SIN VENTAJA  hay precio, lo miramos, y no está a favor
+     SIN PRECIO   no hay línea publicada contra la cual comparar
+     SIN DATO     falta el dato de entrada (equipo sin caché, etc.)
+     NO OPINAMOS  está medido que acá no sabemos lo suficiente
+
+   El cuarto es el que más cuesta escribir y el más importante: dice
+   que la medición existe y que salió mal. Un hueco declarado es
+   información; un hueco tapado es una promesa que no vamos a cumplir. */
+function mercadosDeVeredicto(m){
+  const lec = lectura(m);
+  const otros = otrosMercados(m);
+  const dir = inclinacionDe(m.id);
+  const al = alerta(m);
+  const mk = m.mercado || {}, mx = m.mercadoExtra || {};
+  const pq = devig(mk);
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  const sinValor = ligaSinValor(m);
+
+  /* Lo mejor de cada familia según NUESTRA lectura. La ventaja y la
+     marca salen de otrosMercados(), no se recalculan acá: dos varas
+     para lo mismo terminan diciendo cosas distintas el día que una de
+     las dos cambie. */
+  const mejor = fam => {
+    /* En Goles, solo las líneas de la escalera (1.5 · 2.5 · 3.5). Sin
+       ese corte "lo mejor" era siempre la línea más lejana —"menos de
+       4.5 al 82%"— que tiene ventaja alta por construcción y no dice
+       nada del partido: es la misma razón por la que LINEAS_ESCALERA
+       existe. */
+    const cands = otros.filter(x=> x.op.fam===fam && (!dir || !contradice(x.op, dir))
+      && (fam !== "Goles" || LINEAS_ESCALERA.has(x.op.linea)));
+    if(!cands.length) return null;
+    const conV = cands.filter(x=> x.ventaja != null);
+    return conV.length ? conV.slice().sort((a,b)=> b.ventaja - a.ventaja)[0]
+                       : cands.slice().sort((a,b)=> b.op.p - a.op.p)[0];
+  };
+
+  const deMercado = (id, nombre, fam) => {
+    const x = mejor(fam);
+    if(!x) return {id, nombre, estado:"SIN DATO",
+      motivo:"No tenemos lectura propia de este mercado en este partido."};
+    const c = cuotaUsada(x.op, pq, mk, mx);
+    const base = {id, nombre, op:x.op, ventaja:x.ventaja, cuota:c};
+    /* El motivo dice SIEMPRE la lectura del mercado, y el estado dice
+       por qué no se recomienda. Antes el motivo repetía la misma frase
+       ("todavía nadie escribió la lectura") en las tres familias, y
+       tres renglones idénticos no informan: ocupan. El porqué común va
+       una sola vez, al pie de la escalera. */
+    const lee = `${x.op.label} al ${pc(x.op.p)}`;
+    if(x.esVal) return Object.assign(base, {estado:"OPORTUNIDAD"});
+    if(c == null) return Object.assign(base, {estado:"SIN PRECIO",
+      motivo:`${lee} · nadie publica esta línea`});
+    if(sinValor) return Object.assign(base, {estado:"NO OPINAMOS",
+      motivo:`${lee} · en esta liga la regla de valor resta`});
+    if(!dir) return Object.assign(base, {estado:"NO OPINAMOS",
+      motivo:`${lee} · pagan ${c.toFixed(2)}, ${hayProsa(m.id)
+        ? "sin dirección declarada" : "sin lectura cargada"}`});
+    return Object.assign(base, {estado:"SIN VENTAJA",
+      motivo:`${lee} · pagan ${c.toFixed(2)} y la mínima sería ${umbral(x.op.p).toFixed(2)}`});
+  };
+
+  const filas = [
+    deMercado("resultado", "Resultado 1X2", "Resultado"),
+    deMercado("goles", "Total de goles", "Goles"),
+    deMercado("ambos", "Ambos marcan", "Ambos"),
+  ];
+
+  /* El precio ya está mejor de lo que vemos: eso no es una oportunidad
+     al revés, es un aviso. Va con el borde de terracota y sin etiqueta
+     de estado — el motivo ya lo dice, y una etiqueta más lo pondría a
+     competir con las de al lado, que son otra cosa. */
+  if(al){
+    const f = filas.find(x=> x.id === "resultado");
+    if(f){
+      f.riesgo = true;
+      f.motivo = `El mercado le da ${Math.round(al.dif*100)} puntos más que nosotros a ${
+        al.nombre ? esc_(al.nombre) : "el empate"} — el precio ya está mejor de lo que vemos.`;
+      if(f.estado !== "OPORTUNIDAD") f.estado = "";
+    }
+  }
+
+  /* ── el mercado de estadísticas ────────────────────────────────
+     Ninguna de estas familias se marca nunca en dorado, y no es un
+     olvido. Contra el precio de la casa está medido que perdemos
+     (medir_corners.py: atraso 0.0205 ±0.0093 en córners por equipo) o
+     no está medido en absoluto. La calibración dice si el número es
+     verdadero; el ROI dice si le gana al precio. Son dos preguntas y
+     acá solo tenemos contestada la primera. */
+  const hayEst = !!(L && V && L.esperado && V.esperado);
+  const estFam = (id, k, nombre) => {
+    if(!hayEst || L.esperado[k] == null || V.esperado[k] == null)
+      return {id, nombre, estado:"SIN DATO",
+        motivo:"La fuente no publica esta métrica por partido en esta liga."};
+    const total = L.esperado[k] + V.esperado[k];
+    const fi = fiabilidad(k);
+    const hayPrecio = k === "corners" && !!(mx.corners);
+    const fila = {id, nombre, estado:"NO OPINAMOS",
+      motivo: `${total.toFixed(1)} esperados entre los dos · ${hayPrecio
+        ? "hay línea real y medimos que ahí perdemos"
+        : "medido contra la realidad, nunca contra el precio"}`};
+    if(fi && fi.grave){
+      fila.baja = true;
+      fila.motivo = `${total.toFixed(1)} esperados · le erramos ${Math.abs(fi.sesgo).toFixed(0)} puntos, siempre para el mismo lado`;
+    }
+    return fila;
+  };
+
+  filas.push(estFam("corners", "corners", "Córners"));
+  filas.push(estFam("tarjetas", "tarjetas", "Tarjetas"));
+  filas.push(estFam("remates_eq", "remates", "Remates de equipo"));
+
+  /* Los mercados de jugador. El CLV se midió el 2026-08-31 y parecía la
+     primera señal positiva del proyecto (+4.28% ±2.14 sobre la deriva);
+     los controles la desarmaron — un solo partido la sostenía y 11 de
+     19 líneas ni se habían movido. Queda el instrumento, no la señal. */
+  const props = Object.keys(mx.remates || {}).length + Object.keys(mx.al_arco || {}).length;
+  const jug = jugadoresDe(m);
+  if(!jug.length){
+    /* La fuente no trae la serie reciente de todas las ligas: en las
+       europeas el plantel viene con totales de temporada y sin el
+       partido a partido. Sin serie no hay número de jugador que
+       mostrar, aunque Bet365 sí publique las líneas. */
+    filas.push({id:"jugadores", nombre:"Mercados de jugador", estado:"SIN DATO",
+      motivo: props
+        ? `${props} líneas de Bet365 · no tenemos la serie por jugador de estos planteles`
+        : "No tenemos la serie por jugador de estos dos planteles"});
+  } else if(!props){
+    filas.push({id:"jugadores", nombre:"Mercados de jugador", estado:"SIN PRECIO",
+      motivo:`${jug.reduce((s,g)=> s + g.jugadores.length, 0)} series cargadas, ninguna con línea publicada.`});
+  } else {
+    const mala = fiabilidadJugador("remates");
+    filas.push({id:"jugadores", nombre:"Mercados de jugador", estado:"NO OPINAMOS",
+      baja: !!(mala && mala.nivel === "mal"),
+      motivo: mala && mala.nivel === "mal"
+        ? `${props} líneas de Bet365 · remates se desvía ${((CAL_JUG.remates||{}).razon||0).toFixed(2)}× lo que explica el azar`
+        : `${props} líneas de Bet365 · contra el precio no encontramos ventaja`});
+  }
+
+  const oportunidad = filas.find(x=> x.estado === "OPORTUNIDAD") || null;
+  return {oportunidad, filas: filas.filter(x=> x !== oportunidad), lec, dir};
+}
+
+/* La tarjeta dorada. Es la única pieza con mostaza del partido entero,
+   y solo aparece cuando otrosMercados() marcó valor — o sea con
+   análisis cargado, dentro de la ventana medida, con piso de cuota y
+   fuera de las ligas donde medimos que la regla resta. */
+function tarjetaOportunidad(m, f){
+  const c = f.cuota;
+  const st = stakePct(m, f.op.p, c);
+  const fam = f.id === "resultado" ? "Resultado" : f.id === "goles" ? "Goles" : "Ambos marcan";
+  return `<div class="oport">
+    <div class="oh"><b>Oportunidad detectada</b><span>${esc_(fam)}</span></div>
+    <div class="otit">${esc_(f.op.label)}</div>
+    <p>${esc_(cuandoCobra(f.op, m))} Le damos <b>${pc(f.op.p)}</b>${
+      f.ventaja != null ? `, <b>${Math.round(f.ventaja*100)} puntos</b> más que la línea sin margen` : ""}.</p>
+    <div class="ocels">
+      <div class="cuota"><small>CUOTA MÍNIMA</small><b>${umbral(f.op.p).toFixed(2)}</b></div>
+      <div><small>STAKE</small><b>${st || "—"}</b></div>
+      <div class="muestra"><small>PAGAN</small><b>${c ? c.toFixed(2) : "—"}</b></div>
+    </div>
+    <button class="opie" data-capa="lectura"><span>De dónde sale</span><em>LECTURA ›</em></button>
+  </div>`;
+}
+
+function filaMercado(m, f){
+  const abierto = ABIERTOS.has("mk:" + f.id);
+  const cls = f.riesgo ? "emk riesgo" : f.baja ? "emk baja" : "emk";
+  return `<button class="${cls}" data-mk="${esc_(f.id)}">
+      <div class="en"><b>${esc_(f.nombre)}</b><i>${esc_(f.motivo || "")}</i></div>
+      ${f.estado ? `<span class="est">${esc_(f.estado)}</span>` : ""}
+      <span class="mas">${abierto ? "−" : "+"}</span>
+    </button>${abierto ? cuerpoMercado(m, f) : ""}`;
+}
+
+/* El cuerpo desplegado de una familia: el detalle que antes vivía en
+   Pronósticos (la escalera de riesgo) o en Estadísticas (la chance de
+   pasar la línea). No se recalcula nada — son las mismas funciones. */
+function cuerpoMercado(m, f){
+  if(f.id === "resultado"){
+    const filas = escalera(m).filter(x=> x.op);
+    if(!filas.length) return `<div class="emkc"><p>Sin candidatos en ninguna franja de riesgo.</p></div>`;
+    return `<div class="emkc"><p>La escalera de riesgo, de lo más probable a lo más arriesgado.
+      Solo Resultado: <b>medir_ejes.py</b> midió que en goles el aporte va de −0.9% a +0.4% sobre la
+      tasa base, o sea nada.</p>
+      <div class="cifras2">${filas.slice(0,3).map(x=>
+        `<div><small>${esc_((x.franja.et || x.franja.nombre || "").toUpperCase())}</small>
+          <b>${pc(x.op.p)}</b></div>`).join("")}</div>
+      <p style="margin-top:9px">${filas.map(x=> esc_(x.op.label)).join(" · ")}</p></div>`;
+  }
+  if(f.id === "goles" || f.id === "ambos"){
+    const lec = lectura(m);
+    const ops = mercados(lec.M, m).filter(o=> o.fam === (f.id==="goles" ? "Goles" : "Ambos"));
+    return `<div class="emkc"><p>Lo que dice el modelo, sin recomendarlo: en este eje el aporte
+      sobre la tasa base está medido y es cero.</p>
+      <div class="cifras2">${ops.slice(0, 3).map(o=>
+        `<div><small>${esc_(o.label.toUpperCase())}</small><b>${pc(o.p)}</b></div>`).join("")}</div></div>`;
+  }
+  if(f.id === "jugadores"){
+    return `<div class="emkc"><p>Las series están enteras en <b>Datos · Jugadores</b>, con los 18 de
+      cada plantel y la titularidad en el renglón. Acá no las recomendamos: contra el precio de Bet365
+      se midió el 31/08 y los controles desarmaron la señal.</p></div>`;
+  }
+  const k = f.id === "remates_eq" ? "remates" : f.id;
+  const fi = fiabilidad(k);
+  return `<div class="emkc">${bloqueLineasDe(m, k)}
+    <p style="margin-top:9px">${fi ? esc_(fi.texto)
+      : "Esta métrica todavía no se midió: no sabemos cuánto le erra."}</p></div>`;
+}
+
+/* La escalera de líneas de una métrica, sin los botones de la pestaña
+   vieja: acá la métrica ya la eligió la fila que se desplegó. */
+function bloqueLineasDe(m, k){
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  if(!L || !V || !L.esperado || !V.esperado) return "<p>Sin dato de los dos equipos.</p>";
+  const P = paramsDe(L, V)[k];
+  if(!P || L.esperado[k] == null || V.esperado[k] == null) return "<p>Sin dato de los dos equipos.</p>";
+  const mu = L.esperado[k] + V.esperado[k];
+  const disp = P.disp_total != null ? P.disp_total : P.disp;
+  const celdas = lineasDe(mu).map(Ln=>{
+    const q = probMayor(mu, disp, Ln);
+    return q == null ? "" : `<div><small>+${Ln.toFixed(1)}</small><b>${Math.round(q*100)}%</b></div>`;
+  }).join("");
+  return `<p>Chance de que el total del partido termine arriba de cada línea, con la campana
+    que le corresponde a esta métrica.</p><div class="cifras2">${celdas}</div>`;
+}
+
+function capaVeredicto(m){
+  const v = mercadosDeVeredicto(m);
+  const total = v.filas.length + (v.oportunidad ? 1 : 0);
+  let h = sello2("Veredicto", `${dd(v.oportunidad ? 1 : 0)} DE ${dd(total)} MERCADOS`);
+
+  if(v.oportunidad){
+    h += tarjetaOportunidad(m, v.oportunidad);
+  } else {
+    /* El estado más frecuente, y el que se implementó primero. Con el
+       ROI medido en −3.27% ±6.19 —el intervalo cruza el cero— prometer
+       valor donde no hay ventaja medida va contra el principio del
+       producto. Un día sin nada tiene que verse completo, no roto. */
+    h += `<div class="nada"><b>No hay nada acá</b>
+      <p>${total} mercado${total===1?"":"s"} mirado${total===1?"":"s"}, ninguno con precio a favor.</p></div>`;
+  }
+
+  h += `<div class="sepsec"><span>${v.oportunidad ? "Lo demás que miramos" : "Qué miramos"}</span><i></i></div>
+    <div class="emks">${v.filas.map(f=> filaMercado(m, f)).join("")}</div>`;
+
+  /* El porqué común, una vez. La regla de alineación pide una lectura
+     que NO salga del modelo: sin análisis cargado no hay contra qué
+     alinear, y entonces no se marca nada por más ventaja que muestre
+     la cuenta. */
+  if(ligaSinValor(m)){
+    h += `<p class="notacapa">En esta liga está medido que la regla de valor resta plata
+      (−9.2% de ROI walk-forward), así que acá no marcamos ninguna.</p>`;
+  } else if(!v.dir){
+    /* Dos huecos distintos, y decir el equivocado es peor que callarse:
+       un partido puede tener la nota escrita y no declarar dirección,
+       que es lo que la regla de alineación necesita. */
+    h += `<p class="notacapa">${hayProsa(m.id)
+      ? `La lectura de este partido está escrita pero <b>no declara hacia dónde inclina</b>, y sin
+         dirección no hay contra qué alinear: por eso no se marca ninguno.`
+      : `Ninguno se marca porque este partido todavía no tiene lectura escrita: la marca de valor se
+         mide contra una lectura que no sale del modelo, y sin eso sería el modelo dándose la razón a
+         sí mismo.`}</p>`;
+  }
+
+  h += pieTalon(`CERRADO ${fechaCorta(m.date)}`, "VEREDICTO 01 DE 03");
+
+  /* Herramientas no desapareció: es de esta capa. Cargar la cuota de tu
+     casa y anotar en el Registro son actos de apostar, no de explorar,
+     y no tienen por qué ocupar un destino de primer nivel. */
+  const abierto = ABIERTOS.has("herr");
+  h += `<button class="lnkf" data-abrir="herr"><div class="t">
+      <small>Tu casa</small><b>Cargá tu cuota y anotá</b></div>
+      <span class="fl">${abierto ? "−" : "›"}</span></button>
+    ${abierto ? `<div class="tabsec">${tabHerramientas(m)}</div>` : ""}`;
+
+  h += `<button class="lnkf" data-capa="lectura"><div class="t">
+      <small>Sigue</small><b>Por qué lo decimos</b></div><span class="fl">›</span></button>`;
+  return h;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CAPA 02 · LECTURA
+
+   Cada afirmación con el número que la sostiene en el MISMO bloque. Si
+   hay que ir a buscarlo a otra pantalla, es la arquitectura vieja con
+   otro nombre: el análisis decía "la defensa está rota" y el número
+   estaba tres pestañas más allá.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* La barra comparativa. Tinta plena = número MÁS ALTO, no número mejor:
+   más faltas no es mejor. Un semáforo acá sería una opinión disfrazada
+   de dato. */
+function barraComparativa(etiqueta, a, b, suf){
+  if(a == null || b == null) return "";
+  const may = a >= b, tot = (a + b) || 1;
+  const num = v => v.toFixed(1) + (suf || "");
+  return `<div class="cbar">
+    <div class="cv"><b class="${may?"alto":""}">${num(a)}</b>
+      <span>${esc_(etiqueta)}</span>
+      <b class="d ${!may?"alto":""}">${num(b)}</b></div>
+    <div class="cb"><i class="${may?"alto":""}" style="flex:${(a/tot*100).toFixed(1)}"></i>
+      <i class="${!may?"alto":""}" style="flex:${(b/tot*100).toFixed(1)}"></i></div>
+  </div>`;
+}
+
+function bloqueArgumento(rotulo, parrafo, evidencia, pie){
+  return `<div class="arg"><div class="rotarg">${esc_(rotulo)}</div>
+    <p>${parrafo}</p>
+    ${evidencia ? `<div class="evid">${evidencia}${pie || ""}</div>` : ""}</div>`;
+}
+
+function capaLectura(m){
+  const lec = lectura(m);
+  const a = ANALISIS[m.id] || {};
+  const est = ANALISIS_EST[m.id] || {};
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  const dir = inclinacionDe(m.id);
+  const div = divergen(m);
+  const bloques = [];
+  let n = 0;
+  const rot = t => `${dd(++n)} · ${t}`;
+
+  let h = sello2("Lectura", "POR QUÉ LO DECIMOS");
+  h += `<div class="tesis"><b>${esc_(lec.titulo)}</b><p>${esc_(lec.cuerpo)}</p></div>`;
+
+  /* 01 · Dominio. El texto lo escribe la skill del mercado de
+     estadísticas cuando está cargado; los números son los del eje. */
+  if(L && V && L.esperado && V.esperado){
+    const filas = DOMINIO_METRICAS
+      .map(([k, et])=> barraComparativa(et, L.esperado[k], V.esperado[k]))
+      .filter(Boolean).join("");
+    if(filas){
+      const eje = ejesDe(m).find(e=> e.eje === "dominio");
+      const sinMedir = !eje || eje.confianza === "sin_medir";
+      /* Cuando los dos lados muestran el MISMO número no es un error de
+         render: es el encogimiento diciendo que no hay muestra propia y
+         que lo esperable de los dos es el promedio de la liga. Sin
+         decirlo, dos cifras idénticas se leen como un bug. */
+      const P = paramsDe(L, V);
+      const flojo = DOMINIO_METRICAS.some(([k])=> P[k]
+        && (pesoEquipo((L.n||{})[k]||0, P[k].k) < 0.25 || pesoEquipo((V.n||{})[k]||0, P[k].k) < 0.25));
+      const texto = est.dominio ? esc_(est.dominio)
+        : `Lo que esperamos de cada uno en este cruce, ajustado por el rival y por la localía.
+           <b>${esc_(m.home)}</b> contra <b>${esc_(m.away)}</b>.`;
+      bloques.push(bloqueArgumento(rot("Dominio"), texto, filas,
+        `<div class="epie"><span>${flojo
+          ? "Con esta muestra el número es casi todo promedio de la liga: por eso los dos lados dan parecido."
+          : sinMedir
+          ? "En esta liga la fuente no publica estadísticas por partido: sin medición detrás."
+          : "Medido partido a partido: acá le ganamos al promedio de la liga."}</span></div>`));
+    }
+  }
+
+  /* 02 · La tabla, como evidencia y no como destino. Solo los dos
+     equipos del partido: la tabla entera vive en Datos · Referencia. */
+  const enTabla = id => (m.tabla || []).find(f=> String(f.id) === String(id));
+  const tl = enTabla(m.homeId), tv = enTabla(m.awayId);
+  if(tl && tv){
+    const pos = f => (m.tabla || []).filter(x=> (x.grupo||"") === (f.grupo||"")).indexOf(f) + 1;
+    const fila = (f, nombre)=> `<div class="trow"><span class="ps">${dd(pos(f))}</span>
+      <span class="nm">${esc_(nombre)}</span><span class="pt">${f.pts}</span>
+      <span class="zn">PTS · ${f.pj} PJ</span></div>`;
+    bloques.push(bloqueArgumento(rot("Tabla"),
+      `${esc_(m.home)} llega con <b>${tl.pts}</b> puntos en ${tl.pj} partidos y ${esc_(m.away)} con
+       <b>${tv.pts}</b> en ${tv.pj}.${tl.pj !== tv.pj
+        ? " No llegan con los mismos jugados, así que los puntos no se comparan derecho." : ""}`,
+      fila(tl, m.home) + fila(tv, m.away),
+      `<div class="epie"><span>La tabla completa está en Datos · Referencia</span></div>`));
+  }
+
+  /* 03 · El antecedente. Cuatro cruces y nada más. */
+  const h2h = (m.h2h || []).slice(0, 4);
+  if(h2h.length){
+    bloques.push(bloqueArgumento(rot("Antecedente"), antecedente(m),
+      `<div class="h2hc">${h2h.map(x=>
+        `<div><b>${esc_(x.s || "—")}</b><span>${esc_((x.d || "").slice(0,5))}</span></div>`).join("")}</div>`));
+  }
+
+  /* 04 · Contexto: lo único que no calcula nadie. Lo escribe una
+     persona con la skill `valor-analisis-inclinacion`, y por eso el eje
+     se declara sin medir hasta que haya una fecha nueva con la skill
+     corregida. */
+  const prosa = [["local", m.home], ["visitante", m.away]]
+    .filter(([k])=> a[k]).map(([k, eq])=>
+      `<div class="rotarg" style="margin-top:11px">${esc_(eq)}</div><p>${esc_(a[k])}</p>`).join("");
+  if(prosa || a.contexto || a.veredicto){
+    bloques.push(`<div class="arg"><div class="rotarg">${rot("Contexto")}</div>
+      ${a.contexto ? `<p>${esc_(a.contexto)}</p>` : ""}
+      ${prosa}
+      ${a.veredicto ? `<p><b>${esc_(a.veredicto)}</b></p>` : ""}
+      ${a.actualizado ? `<div class="evid"><div class="epie"><span>Escrito el ${esc_(a.actualizado)}
+        · el único eje que no calcula nadie</span></div></div>` : ""}</div>`);
+  } else {
+    bloques.push(`<div class="arg"><div class="rotarg">${rot("Contexto")}</div>
+      <p>Todavía nadie escribió la nota de este partido. Las bajas, el contexto de tabla y a quién
+      le sirve el empate se cargan aparte, partido por partido, y este no. Sin eso
+      <b>no marcamos precio a favor</b>: no hay contra qué alinear.</p></div>`);
+  }
+
+  h += `<div class="args">${bloques.join("")}</div>`;
+
+  /* Los dos bloques de advertencia. La contradicción se muestra: si el
+     motor y la lectura no dicen lo mismo, esconderlo sería elegir cuál
+     de los dos tiene razón sin tener con qué. */
+  if(div){
+    const nom = d => d==="E" ? "el empate" : (d==="L" ? m.home : m.away);
+    h += `<div class="warn"><b>El motor no dice lo mismo</b>
+      <p>El análisis inclina a <b>${esc_(nom(div.dirHumana))}</b> y el modelo ve más probable a
+      <b>${esc_(nom(div.dirModelo))}</b>. No lo resolvemos por vos: baja la confianza de todo lo que
+      dependa del resultado, y la marca de valor solo puede ir sobre la lectura escrita.</p></div>`;
+  }
+  const pj = Math.min((L && L.pj) || 0, (V && V.pj) || 0);
+  if(pj && pj < 5){
+    h += `<div class="warn"><b>Ojo con la muestra</b>
+      <p>El split de estos equipos se apoya en ${pj} partido${pj===1?"":"s"}. Con esa muestra el
+      número se parece más al promedio de la liga que a este equipo — está dicho métrica por métrica
+      en Datos.</p></div>`;
+  }
+  h += `<div class="warn"><b>El plantel no dice quién falta</b>
+    <p>La fuente devuelve a todos los jugadores como activos: lesionados y suspendidos no vienen en
+    el dato. Lo que falte de este partido está en el Contexto escrito a mano, o no está.</p></div>`;
+
+  h += pieTalon(a.actualizado ? `ESCRITO ${fechaCorta(a.actualizado)}` : "SIN NOTA CARGADA",
+                "LECTURA 02 DE 03");
+  h += `<button class="lnkf" data-capa="datos"><div class="t">
+      <small>Sigue</small><b>Los datos crudos</b></div><span class="fl">›</span></button>`;
+  return h;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CAPA 03 · DATOS
+
+   Exploración libre: sin veredictos y sin dorado. Tres exploradores —
+   Equipos, Jugadores, Referencia — y dos reglas que valen para los
+   tres:
+
+     · La unidad es el CRUCE, no el promedio. Cada métrica va siempre en
+       el par produce / concede: `concede` está medido en las nueve y se
+       mostraba en un renglón chico al pie, así que se estaba viendo la
+       mitad del dato.
+     · Tinta plena = número más alto, NO número mejor. La barra indica
+       magnitud, no ventaja. Acá no hay semáforo.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* El marcador de señal: cuánto se le cree a una métrica, medido.
+
+   Sale del dato, no de una tabla escrita a mano — `calibracion_lineas`
+   para las métricas de equipo y `calibracion_jugadores` para las de
+   jugador. Donde no hay medición dice SIN MEDIR, que es la verdad:
+   afirmar que una métrica es confiable sin haberla medido es peor que
+   callarse. */
+function senalDe(k){
+  const fi = fiabilidad(k);
+  if(!fi) return {clase:"sinmedir", texto:"SIN MEDIR", floja:true};
+  if(fi.grave) return {clase:"baja", texto:"SEÑAL BAJA", floja:true};
+  if(fi.flojo) return {clase:"media", texto:"SEÑAL MEDIA", floja:false};
+  return {clase:"alta", texto:"SEÑAL ALTA", floja:false};
+}
+
+function senalJugador(k){
+  const f = fiabilidadJugador(k);
+  if(!f) return {clase:"sinmedir", texto:"SIN MEDIR", floja:true};
+  const c = (CAL_JUG[k] || {}).razon;
+  if(f.nivel === "mal") return {clase:"baja", floja:true,
+    texto:`SEÑAL BAJA${c ? " · " + c.toFixed(2) + "×" : ""}`};
+  if(f.nivel === "regular") return {clase:"media", floja:false,
+    texto:`SEÑAL MEDIA${c ? " · " + c.toFixed(2) + "×" : ""}`};
+  return {clase:"alta", floja:false, texto:`SEÑAL ALTA${c ? " · " + c.toFixed(2) + "×" : ""}`};
+}
+
+/* El lado del split que corresponde al filtro, con la misma regla de
+   muestra mínima que ya usaba la comparativa: abajo de MIN_SPLIT el
+   total (que duplica la muestra) es más honesto que un promedio de dos
+   partidos con un decimal. */
+function ladoDe(eq, k, rol){
+  if(!eq) return null;
+  if(LOCALIA === "todo") return eq;
+  const split = eq[rol];
+  return usable(split, k) ? split : eq;
+}
+
+function datosEquipos(m){
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  if(!L || !V) return sello2("Equipos", "SIN DATO") +
+    `<div class="nada"><b>Falta el caché de uno de los dos</b>
+     <p>Sin los dos equipos no hay cruce que mostrar, y enfrentar un número contra un hueco invita
+     a compararlos igual.</p></div>`;
+
+  const pj = Math.min(L.pj || 0, V.pj || 0);
+  let h = sello2("Equipos", `${dd(COMPARA.length)} MÉTRICAS · ${pj} PJ`);
+  h += `<div class="filtro3">${[["todo","Todo"],["local","Local"],["visita","Visita"]]
+    .map(([k,l])=> `<button class="${LOCALIA===k?"on":""}" data-loc="${k}">${l}</button>`).join("")}</div>`;
+
+  h += `<div class="metacs">${COMPARA.map(x=>{
+    const A = ladoDe(L, x.k, "local"), B = ladoDe(V, x.k, "visita");
+    const val = (eq, r) => { const s = ladoDe(eq, x.k, r); if(!s) return null;
+      return x.calc ? x.calc(s) : s[x.k]; };
+    const a = val(L, "local"), b = val(V, "visita");
+    if(a == null && b == null) return "";
+    const se = senalDe(x.k);
+    const abierto = ABIERTOS.has("met:" + x.k);
+    /* `concede` es lo que le hacen A ese equipo. El cruce que importa
+       es produce del local contra concede del visitante: rematar 10 no
+       significa lo mismo contra un equipo que concede 6 que contra uno
+       que concede 15. */
+    const cL = x.cruza === false ? null : (L.concede || {})[x.k];
+    const cV = x.cruza === false ? null : (V.concede || {})[x.k];
+    return `<div class="metac${se.floja ? " floja" : ""}">
+      <button class="mh" data-met="${esc_(x.k)}"><b>${esc_(x.et)}</b>
+        <span class="senal ${se.clase}">${esc_(se.texto)}</span>
+        <span class="mas">${abierto ? "−" : "+"}</span></button>
+      ${abierto ? `<div class="mc">
+        <div class="par"><div class="rot2">Produce</div>
+          ${barraComparativa(x.et, a, b, x.suf)}</div>
+        ${cL != null && cV != null ? `<div class="par"><div class="rot2">Concede</div>
+          ${barraComparativa(x.et, cL, cV, x.suf)}</div>` : ""}
+        <div class="mpie"><span>${esc_(m.home)}</span><span>${esc_(m.away)}</span></div>
+      </div>` : ""}</div>`;
+  }).join("")}</div>`;
+
+  h += `<button class="lnkf chica" data-nav="metodo"><div class="t">
+      <b>Qué es la señal medida</b></div><span class="dst">MÉTODO ›</span></button>`;
+  h += pieTalon(`ESPN · ${pj} PJ`, "DATOS 03 DE 03");
+  return h;
+}
+
+/* Los 18 de cada plantel, no solo los destacados. El que mira arma sus
+   propios candidatos, y para eso hace falta la lista entera: ordenable,
+   con la serie a la vista y con la titularidad dicha en el renglón. */
+function datosJugadores(m){
+  const pool = [];
+  [[m.homeId, m.home, "L"], [m.awayId, m.away, "V"]].forEach(([id, equipo, lado])=>{
+    (PLANTELES[String(id)] || []).forEach(j=> pool.push(Object.assign({}, j, {equipo, lado})));
+  });
+  if(!pool.length) return sello2("Jugadores", "SIN DATO") +
+    `<div class="nada"><b>Sin planteles</b><p>Todavía no tenemos la serie de estos dos equipos.</p></div>`;
+
+  const clave = (METRICAS.find(x=> x.k === JUG_ORDEN) || METRICAS[0]).k;
+  const lista = pool
+    .filter(j=> JUG_EQ === "dos" || j.lado === JUG_EQ)
+    .filter(j=> j.pj > 0)
+    .sort((a,b)=>{
+      const va = (a.serie && a.serie.esp && a.serie.esp[clave]);
+      const vb = (b.serie && b.serie.esp && b.serie.esp[clave]);
+      const ma = va != null ? va : (a.pj > 0 ? (a[clave]||0)/a.pj : 0);
+      const mb = vb != null ? vb : (b.pj > 0 ? (b[clave]||0)/b.pj : 0);
+      return mb - ma;
+    });
+  const todos = EXPANDIDAS.has("jug");
+  const ver = todos ? lista : lista.slice(0, 12);
+  const se = senalJugador(clave);
+
+  let h = sello2("Jugadores", `${dd(pool.length)} EN PLANTEL`);
+  h += `<div class="ordmet">${METRICAS.map(x=>
+    `<button class="${x.k===clave?"on":""}" data-jugmet="${x.k}">${esc_(x.et)}</button>`).join("")}</div>`;
+  h += `<div class="filtro3 suave">${[["dos","Los dos"],["L",m.home],["V",m.away]]
+    .map(([k,l])=> `<button class="${JUG_EQ===k?"on":""}" data-jugeq="${esc_(k)}">${esc_(l)}</button>`).join("")}</div>`;
+  h += `<div class="jgh"><span class="c1">Jugador <em style="color:var(--tinta3);font-style:normal">·
+      <span class="senal ${se.clase}">${esc_(se.texto)}</span></em></span>
+    <span class="c2">Serie</span><span class="c3">Med</span></div>`;
+
+  h += `<div class="jglist">${ver.map((j, i)=>{
+    const s = (j.serie && j.serie[clave]) || [];
+    const tope = Math.max(1, ...s.map(v=> Number(v)||0));
+    const tit = (j.serie && j.serie.tit) || 0, spj = (j.serie && j.serie.pj) || 0;
+    /* Sin serie no se dibuja una serie vacía: tres barras a cero se
+       leen como "no hizo nada" cuando lo que pasa es que la fuente no
+       publica el partido a partido en esta liga. */
+    const haySerie = s.length > 0;
+    /* El que entra desde el banco juega veinte minutos: su serie no se
+       compara con la de un titular. Se baja de intensidad y se dice en
+       el renglón — pero no se esconde de la lista. */
+    const suplente = haySerie && spj > 0 && tit === 0;
+    const med = (j.serie && j.serie.esp && j.serie.esp[clave] != null)
+      ? j.serie.esp[clave].toFixed(1)
+      : (j.pj > 0 ? ((j[clave]||0)/j.pj).toFixed(1) : "—");
+    return `<div class="jgrow${suplente ? " supl" : ""}${i < 2 && !suplente ? " destacado" : ""}">
+      <div class="c1"><div class="nm">${esc_(j.nombre)}</div>
+        <div class="mt">${esc_(j.equipo)} · ${esc_(j.pos || "—")} · ${!haySerie
+          ? `${j.pj} PJ · SIN SERIE`
+          : suplente ? `SUPLENTE 0/${spj}` : `TITULAR ${tit}/${spj}`}</div></div>
+      <div class="spark">${haySerie ? s.map(v=>{
+        const n = Number(v) || 0;
+        return `<i class="${n?"":"cero"}" style="height:${Math.max(8, n/tope*100)}%"></i>`;
+      }).join("") : ""}</div>
+      <b class="med">${med}</b></div>`;
+  }).join("")}</div>`;
+
+  /* Dos números distintos en la misma columna, dicho una vez: donde
+     hay serie, MED es lo que esperamos de ese jugador en ESTE partido
+     (encogido hacia su puesto); donde no la hay, es su promedio de la
+     temporada. La fuente no publica el partido a partido en todas las
+     ligas y taparlo sería inventar. */
+  h += `<p class="notacapa">MED es lo que esperamos hoy cuando hay serie reciente, y el promedio de
+    la temporada cuando la fuente no la publica — ahí el renglón dice <b>SIN SERIE</b>.</p>`;
+
+  if(lista.length > 12)
+    h += `<button class="vermas" data-expandir="jug"><span>${todos
+      ? `Ver solo los primeros 12` : `Ver los ${lista.length}`}</span><em>${todos
+      ? "MENOS" : `${lista.length - 12} MÁS ›`}</em></button>`;
+
+  h += pieTalon("ESPN · ÚLTIMOS 3", "DATOS 03 DE 03");
+  return h;
+}
+
+/* Los tres destinos que eran pestañas de primer nivel: Posiciones,
+   Historial y Plantel. Se consultan poco y ahora pesan lo que valen. */
+function datosReferencia(m){
+  let h = sello2("Referencia", "TABLAS · HISTORIAL · PLANTELES");
+  h += `<div class="refs">`;
+
+  const bloque = (id, titulo, meta, cuerpo)=>{
+    const abierto = ABIERTOS.has("ref:" + id);
+    return `<div class="refac"><button class="rh" data-ref="${id}"><b>${esc_(titulo)}</b>
+      <em>${esc_(meta)}</em><span class="mas">${abierto ? "−" : "+"}</span></button>
+      ${abierto ? `<div class="rc">${cuerpo()}</div>` : ""}</div>`;
+  };
+
+  /* ── posiciones ── */
+  const tabla = m.tabla || [];
+  const grupos = {};
+  tabla.forEach(f=> (grupos[f.grupo || ""] = grupos[f.grupo || ""] || []).push(f));
+  const claves = Object.keys(grupos);
+  h += bloque("pos", "Posiciones", tabla.length ? `${tabla.length} EQUIPOS` : "SIN TABLA", ()=>{
+    if(!tabla.length) return `<p style="font-size:12.5px;line-height:1.6;color:var(--gris3);margin:0">
+      En las llaves por eliminación no hay tabla que mostrar, y la fuente tampoco la devuelve.</p>`;
+    const g = claves.includes(REF_TABLA) ? REF_TABLA : claves[0];
+    const mios = new Set([String(m.homeId), String(m.awayId)]);
+    const filas = grupos[g];
+    /* Los dos equipos del partido, destacados; el resto de la tabla es
+       contexto y colapsa en un renglón de puntos suspensivos. */
+    const idx = filas.map((f,i)=> ({f, i})).filter(x=> mios.has(String(x.f.id))).map(x=> x.i);
+    const cerca = new Set();
+    idx.forEach(i=> [i-1, i, i+1].forEach(j=> { if(j>=0 && j<filas.length) cerca.add(j); }));
+    if(!idx.length) filas.forEach((f,i)=> { if(i < 6) cerca.add(i); });
+    let out = claves.length > 1
+      ? `<div class="tablas">${claves.map(k=>
+          `<button class="${k===g?"on":""}" data-reftabla="${esc_(k)}">${esc_(grupoEs(k, m.comp) || "Tabla")}</button>`).join("")}</div>`
+      : "";
+    out += `<div class="stdh"><span class="p">#</span><span class="e">Equipo</span>
+      <span class="v">PJ</span><span class="v">GF</span><span class="pts">PTS</span></div>`;
+    let saltados = 0;
+    filas.forEach((f, i)=>{
+      if(!cerca.has(i)){ saltados++; return; }
+      if(saltados){ out += `<div class="stdr puntos">···  ${saltados} equipo${saltados===1?"":"s"} más</div>`; saltados = 0; }
+      out += `<div class="stdr${mios.has(String(f.id)) ? " mio" : ""}">
+        <span class="p">${dd(i+1)}</span><span class="e">${esc_(f.t)}</span>
+        <span class="v">${f.pj}</span><span class="v">${f.gf != null ? f.gf : "—"}</span>
+        <span class="pts">${f.pts}</span></div>`;
+    });
+    if(saltados) out += `<div class="stdr puntos">···  ${saltados} equipo${saltados===1?"":"s"} más</div>`;
+    const n = quienFalta(m);
+    if(n) out += `<p style="font-size:11.5px;line-height:1.6;color:var(--gris3);margin:11px 0 0">${n.texto}</p>`;
+    return out;
+  });
+
+  /* ── historial ── */
+  const h2h = m.h2h || [];
+  h += bloque("hist", "Historial", `${h2h.length} CRUCES`, ()=>{
+    let out = "";
+    if(h2h.length){
+      out += `<div class="rsub primero">Cara a cara</div>` + h2h.slice(0, 6).map(x=>
+        `<div class="h2hr"><span class="f">${esc_((x.d||"").slice(0,5))}</span>
+          <span class="c">${esc_(x.h)} — ${esc_(x.a)}</span>
+          <span class="r">${esc_(x.s || "—")}</span></div>`).join("");
+    }
+    const cinco = (nombre, forma)=>{
+      const f = (forma || []).slice().reverse();
+      if(!f.length) return "";
+      return `<div class="cinco"><span class="e">${esc_(nombre)}</span>
+        <span class="cs">${f.map(x=> `<i class="${x.r==="W"?"g":x.r==="D"?"e2":""}"></i>`).join("")}</span></div>`;
+    };
+    out += `<div class="rsub">Últimos cinco</div>`
+      + cinco(m.home, m.formH_general) + cinco(m.away, m.formA_general)
+      + `<div class="leyenda"><span><i class="g"></i>Ganó</span><span><i class="e2"></i>Empató</span>
+         <span><i></i>Perdió</span></div>`;
+    return out;
+  });
+
+  /* ── planteles ── */
+  const fichas = (PLANTELES[String(m.homeId)] || []).length + (PLANTELES[String(m.awayId)] || []).length;
+  h += bloque("pl", "Planteles", `${fichas} FICHAS`, ()=> cancha(m, false));
+
+  h += `</div>`;
+  h += `<div class="warn"><b>El plantel no dice quién falta</b>
+    <p>La fuente devuelve a todos como activos: lesionados y suspendidos no vienen en el dato. Va acá,
+    donde se mira el plantel, y no al final de un análisis.</p></div>`;
+  h += pieTalon("ESPN", "DATOS 03 DE 03");
+  return h;
+}
+
+function capaDatos(m){
+  return EXPL === "jugadores" ? datosJugadores(m)
+       : EXPL === "referencia" ? datosReferencia(m)
+       : datosEquipos(m);
+}
 
 function viewPartido(){
   const m = MATCHES.find(x=>x.id===MATCH_ID);
   if(!m) return `<div class="aviso"><b>Ese partido ya no está</b>Puede que el cron lo haya movido. Volvé a la fecha.</div>`;
-
-  const mk = m.mercado||{}, lec = lectura(m), al = alerta(m), pq = devig(mk);
-  const d = fechaDe(m.date);
-  const valKey = marcaDeValor(m);
-  const cls = k => valKey===k ? "o val" : (al && al.lean===k ? "o alerta" : "o");
-  const cuota = v => v ? v.toFixed(2) : "—";
-  const tinta = k => Math.round(lec.p[k]*100);
-  const casilla = (k, etiqueta, c) => `<div class="${cls(k)}">
-      <i class="fill" style="height:${tinta(k)}%"></i>
-      <span>${etiqueta}</span><b>${cuota(c)}</b><em>${pc(lec.p[k])}</em></div>`;
-
-  const cuerpo = {
-    analisis: tabAnalisis, pronosticos: tabPronosticos, estadisticas: tabEstadisticas,
-    historial: tabHistorial, posiciones: tabPosiciones, plantel: tabPlantel,
-    herramientas: tabHerramientas,
-  }[TAB](m);
-
-  return `<div class="top"><button class="back" data-volver="1">←</button>
-      <span class="comp">${esc_(m.comp)} · ${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]}</span></div>
-    <div class="head">
-      <div class="eq"><img class="crest gr" src="${esc_(m.homeLogo||"")}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
-        <div class="nom">${esc_(m.home)}</div>
-        <div class="hora">${esc_(m.hora||"")}</div></div>
-      <div class="eq"><img class="crest gr" src="${esc_(m.awayLogo||"")}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
-        <div class="nom">${esc_(m.away)}</div></div>
-      <div class="grupo">${esc_(grupoEs(m.grupo,m.comp)||m.comp)}${m.estadio
-        ? ` · ${esc_(m.estadio)}${m.ciudad ? ", "+esc_(m.ciudad) : ""}` : ""}</div>
-    </div>
-    <div class="dodds">
-      ${casilla("L","Local",mk.local)}
-      ${casilla("E","Empate",mk.empate)}
-      ${casilla("V","Visita",mk.visitante)}
-    </div>
-    <div class="tabs">${TABS.map(([k,l])=>`<button class="tab ${TAB===k?"on":""}" data-tab="${k}">${l}</button>`).join("")}</div>
-    <div class="tabsec">${cuerpo}</div>
-    <div style="height:20px"></div>`;
+  const cuerpo = CAPA === "lectura" ? capaLectura(m)
+               : CAPA === "datos"   ? capaDatos(m)
+               : capaVeredicto(m);
+  return cabPartido(m) + conmutador() + cuerpo + aire(26);
 }
 
 /* ── 1. Análisis ───────────────────────────────────────────────── */
@@ -3578,7 +4894,11 @@ function comparativa(m){
    equipo por vez, elegido con los dos botones de arriba. Debajo, la
    lista completa — la cancha muestra once y la lista es donde se pesa
    una baja, así que hacen falta las dos. */
-function cancha(m){
+/* `conLista` existe desde el rediseño de tres capas: en Datos ·
+   Referencia la cancha se muestra sola, porque la lista completa de
+   jugadores es el explorador de al lado y repetirla acá sería la misma
+   pieza dos veces en la misma capa. */
+function cancha(m, conLista = true){
   const esH = PL_EQ !== "A";
   const nombre = esH ? m.home : m.away;
   const id = esH ? m.homeId : m.awayId;
@@ -3609,7 +4929,7 @@ function cancha(m){
     <p class="blurb" style="font-size:11.5px;color:var(--gris2);margin-top:10px">Este once sale de
       quiénes vienen jugando más, no de una formación confirmada: ESPN no publica ni el equipo
       titular ni el esquema. Sirve para ver la forma del equipo, no para dar por hecho quién entra.</p>`;
-  return h + jugadores(nombre, id, PL_MET);
+  return conLista ? h + jugadores(nombre, id, PL_MET) : h;
 }
 
 /* Un nombre completo no entra abajo de un dorsal de 26px. Se corta al
@@ -4228,15 +5548,30 @@ function render(){
   });
 }
 
+/* Entrar a un partido, por toque o por hash. Vive en una función sola
+   porque los dos caminos tienen que dejar el mismo estado: entrando por
+   el link de la portada la capa arrancaba en Veredicto y entrando por
+   la URL los acordeones de Referencia quedaban todos cerrados. */
+function entrarAPartido(id){
+  MATCH_ID = id; CAPA = "veredicto"; EXPANDIDAS.clear();
+  /* Referencia arranca con Posiciones e Historial desplegados y
+     Planteles cerrado: es lo que se consulta y lo que no. */
+  ABIERTOS = new Set(["ref:pos", "ref:hist"]);
+}
+
 function ir(v, extra){
   VISTA = v;
-  if(v==="partido"){ MATCH_ID = extra; TAB = "analisis"; }
+  /* Un partido nuevo entra siempre por Veredicto, con los acordeones
+     cerrados: la capa 01 es la que contesta la pregunta con la que uno
+     abre un partido, y heredar los desplegables del partido anterior
+     haría que dos partidos se vieran distinto sin motivo. */
+  if(v==="partido") entrarAPartido(extra);
   location.hash = v==="partido" ? "#p/"+extra : "#"+v;
   render();
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-tab],[data-pleq],[data-plmet],[data-linmet],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
+  const t = e.target.closest("[data-nav],[data-dia],[data-scrollcomp],[data-partido],[data-capa],[data-expl],[data-mk],[data-met],[data-loc],[data-jugmet],[data-jugeq],[data-ref],[data-reftabla],[data-expandir],[data-abrir],[data-liga],[data-pleq],[data-plmet],[data-linmet],[data-volver],[data-filtro],[data-estado],[data-banca],[data-resetbanca],[data-anotar],[data-corregir],[data-auto]");
   if(!t) return;
   const d = t.dataset;
 
@@ -4248,7 +5583,33 @@ document.addEventListener("click", e=>{
       ?.scrollIntoView({behavior:"smooth", block:"start"});
   }
   else if(d.partido){ ir("partido", d.partido); }
-  else if(d.tab){ TAB = d.tab; render(); }
+  /* ── las tres capas ─────────────────────────────────────────────
+     Un toggle y nada más: los acordeones cerrados no montan su cuerpo,
+     así que abrir y cerrar es agregar o sacar del Set y volver a
+     dibujar. Varios abiertos a la vez está permitido — el gap de 1px
+     mantiene la lista leyéndose como una sola pieza. */
+  else if(d.capa){ CAPA = d.capa; render(); }
+  else if(d.expl){ EXPL = d.expl; render(); }
+  else if(d.mk){ alternar("mk:" + d.mk); }
+  else if(d.met){ alternar("met:" + d.met); }
+  else if(d.ref){ alternar("ref:" + d.ref); }
+  else if(d.abrir){ alternar(d.abrir); }
+  else if(d.loc){ LOCALIA = d.loc; render(); }
+  else if(d.jugmet){ JUG_ORDEN = d.jugmet; render(); }
+  else if(d.jugeq){ JUG_EQ = d.jugeq; render(); }
+  else if(d.reftabla){ REF_TABLA = d.reftabla; render(); }
+  else if(d.expandir){
+    if(EXPANDIDAS.has(d.expandir)) EXPANDIDAS.delete(d.expandir); else EXPANDIDAS.add(d.expandir);
+    render();
+  }
+  /* La portada: abrir una liga cierra las demás y suelta el talón. Un
+     día con seis competiciones abiertas es una lista de 40 renglones,
+     que es justo lo que la portada nueva viene a evitar. */
+  else if(d.liga){
+    LIGA_ABIERTA = LIGA_ABIERTA === d.liga ? null : d.liga;
+    PARTIDO_ABIERTO = null;
+    render();
+  }
   else if(d.pleq){ PL_EQ = d.pleq; render(); }
   else if(d.plmet){ PL_MET = d.plmet; render(); }
   else if(d.linmet){ LIN_MET = d.linmet; render(); }
@@ -4291,6 +5652,13 @@ document.addEventListener("change", e=>{
   render();
 });
 
+/* Abrir y cerrar un acordeón. Con prefijo por familia ("met:corners")
+   para que dos bloques distintos no compartan clave sin querer. */
+function alternar(clave){
+  if(ABIERTOS.has(clave)) ABIERTOS.delete(clave); else ABIERTOS.add(clave);
+  render();
+}
+
 function anotar(key){
   const [mid, oid] = [key.slice(0, key.indexOf("__")), key.slice(key.indexOf("__")+2)];
   const m = MATCHES.find(x=>x.id===mid); if(!m) return;
@@ -4318,7 +5686,7 @@ function anotar(key){
 
 function desdeHash(){
   const h = location.hash.slice(1);
-  if(h.startsWith("p/")){ VISTA="partido"; MATCH_ID=h.slice(2); }
+  if(h.startsWith("p/")){ VISTA="partido"; entrarAPartido(h.slice(2)); }
   else if(["registro","metodo","fecha"].includes(h)) VISTA=h;
   else VISTA="fecha";
 }

@@ -1450,9 +1450,16 @@ a{color:inherit}
 .famh{padding-bottom:7px;border-bottom:1px solid var(--linea2);font-size:10px;letter-spacing:.09em;
   text-transform:uppercase;color:var(--gris3)}
 .famr{padding:10px 0;border-bottom:1px solid var(--linea);color:var(--tinta3)}
-.famr .m{flex:1;min-width:0;font-family:var(--cuerpo);font-size:12.5px}
-.famr .n{flex:0 0 26px;text-align:right;color:var(--gris2)}
-.famr .r{flex:0 0 54px;text-align:right;font-weight:600;color:var(--tinta2)}
+/* Las tres columnas se declaran para la cabecera Y para la fila: si
+   solo las lleva la fila, el rótulo queda apelotonado a la izquierda y
+   no rotula nada. */
+.famh .m,.famr .m{flex:1;min-width:0;font-family:var(--cuerpo);font-size:12.5px}
+.famh .m{font-family:var(--mono);font-size:10px}
+.famh .n,.famr .n{flex:0 0 26px;text-align:right;color:var(--gris2)}
+.famh .r,.famr .r{flex:0 0 54px;text-align:right}
+.famr .n{color:var(--gris2)}
+.famr .r{font-weight:600;color:var(--tinta2)}
+.famh .n,.famh .r{color:var(--gris3)}
 .famr .r.neg{color:var(--terracota)}
 .famr .r.nd{color:var(--neutroPanel);font-weight:400}
 .cerr{margin:0 20px 0 16px;display:flex;flex-direction:column;gap:1px}
@@ -1697,6 +1704,7 @@ let PARAM_LIGA={};     /* lo mismo, pero calculado DENTRO de cada liga.
    simplemente no dice nada sobre fiabilidad — no inventa. */
 let CALIBRACION={}, CALIBRADO="";
 let CAL_JUG={};        /* lo mismo para las líneas de jugador */
+let CALJUG_FECHA="";   /* cuándo se midió: lo firma el gráfico de Método */
 let ANALISIS_EST={};   /* la skill del mercado de estadísticas */
 let PARAM_JUG={};      /* lo mismo, por puesto, para jugadores */
 let PARAMJUG_LIGA={};  /* y por puesto DENTRO de cada liga: un 9 inglés no se
@@ -5384,16 +5392,93 @@ function viewRegistro(){
   const aciertos = cerradas.filter(f=> f.r.estado==="ganada").length;
   const tasa = cerradas.length ? aciertos/cerradas.length : 0;
 
-  h += `<div class="ledger">
-    <div><small>Resultado</small><b class="${neto>0?"pos":neto<0?"neg":""}">${neto>0?"+":""}${plata(neto)}</b></div>
-    <div><small>Acierto</small><b>${cerradas.length?pc(tasa):"—"}</b></div>
-    <div><small>ROI</small><b class="${roi>0?"pos":roi<0?"neg":""}">${invertido?(roi>0?"+":"")+(roi*100).toFixed(1)+"%":"—"}</b></div>
-    <div><small>Cerradas</small><b>${cerradas.length}</b></div>
+  /* ── el rendimiento, con su incertidumbre al lado ───────────────
+     Un ROI sin intervalo es una promesa. Con 20 apuestas el error
+     estándar es más grande que casi cualquier ventaja real, y esconderlo
+     hace que una racha se lea como un método. El intervalo sale de la
+     dispersión de los retornos, no de un número escrito a mano: si un
+     día la muestra crece, el intervalo se angosta solo. */
+  const retornos = cerradas.map(f=> f.r.estado==="ganada" ? (f.carga.cuota-1) : -1);
+  const media = retornos.length ? retornos.reduce((a,b)=>a+b,0)/retornos.length : 0;
+  const varia = retornos.length > 1
+    ? retornos.reduce((a,b)=> a + (b-media)*(b-media), 0)/(retornos.length-1) : 0;
+  const ee = retornos.length ? Math.sqrt(varia/retornos.length) : 0;
+  const lo = (roi - 1.96*ee)*100, hi = (roi + 1.96*ee)*100;
+  const rango = (hi - lo) || 1;
+  /* Las tres marcas —banda, punto y cero— salen de la MISMA escala. En
+     la pantalla de honestidad del producto, una barra que contradice sus
+     propios números es el peor error posible. */
+  const pctCero = Math.max(0, Math.min(100, (0 - lo)/rango*100));
+  const pctRoi  = Math.max(0, Math.min(100, (roi*100 - lo)/rango*100));
+  const cruza = lo <= 0 && hi >= 0;
+
+  h += `<div class="roi">
+    <div class="cif"><b class="${roi>0?"pos":roi<0?"neg":""}">${cerradas.length
+      ? (roi>0?"+":"") + (roi*100).toFixed(2) + "%" : "—"}</b>
+      <span>${cerradas.length>1 ? "± " + (1.96*ee*100).toFixed(2) : "sin muestra para el margen"}</span></div>
+    ${cerradas.length>1 ? `<div class="intv">
+      <div class="riel">
+        <i class="banda3 ${roi>0?"pos":""}" style="left:0;width:100%"></i>
+        <i class="pt ${roi>0?"pos":""}" style="left:${pctRoi.toFixed(1)}%"></i>
+        ${cruza ? `<i class="cero" style="left:${pctCero.toFixed(1)}%"></i>` : ""}
+      </div>
+      <div class="eje"><span class="iz">${lo.toFixed(1)}%</span>
+        ${cruza ? `<span class="ce" style="left:${pctCero.toFixed(1)}%">0</span>` : ""}
+        <span class="de">+${hi.toFixed(1)}%</span></div>
+    </div>` : ""}
+    <p class="notaint">${cerradas.length<2
+      ? "Con menos de dos apuestas cerradas no hay margen que calcular."
+      : cruza
+      ? "El intervalo cruza el cero: con esta muestra no se puede afirmar que el método gane ni que pierda."
+      : roi>0
+      ? "El intervalo queda entero arriba del cero, y aun así son pocas apuestas: mirá el número de nuevo dentro de cien."
+      : "El intervalo queda entero abajo del cero con esta muestra."}</p>
+  </div>
+  <div class="cel3">
+    <div><small>STAKE TOTAL</small><b>${plata(invertido)}</b></div>
+    <div><small>RESULTADO</small><b class="${neto<0?"neg":""}">${neto>0?"+":""}${plata(neto)}</b></div>
+    <div><small>ACIERTO</small><b>${cerradas.length?pc(tasa):"—"}</b></div>
   </div>`;
 
-  /* De dónde viene cada estado. Va arriba de la lista porque el cruce
-     por nombre de rival es frágil: el usuario tiene que poder ver de
-     un vistazo cuánto de su registro lo decidió la app sola. */
+  /* ── por familia de mercado ─────────────────────────────────────
+     La familia sale del id de la opción, que es lo que quedó guardado
+     en la clave: el label es texto para leer y cambia con el nombre del
+     equipo. Con menos de cinco cerradas la columna dice `n/d` — un ROI
+     de tres apuestas no es un ROI. */
+  const familiaDe = key => {
+    const id = key.slice(key.indexOf("__")+2);
+    return id.startsWith("1x2") ? "Resultado 1X2"
+         : id.startsWith("dc")  ? "Doble oportunidad"
+         : id.startsWith("btts")? "Ambos marcan"
+         : /^(ov|un)/.test(id)  ? "Total de goles" : "Otros";
+  };
+  const fams = {};
+  cerradas.forEach(f=>{
+    const k = familiaDe(f.carga.key);
+    const a = fams[k] || (fams[k] = {n:0, stake:0, neto:0});
+    a.n++; a.stake += f.carga.stake;
+    a.neto += f.r.estado==="ganada" ? f.carga.stake*(f.carga.cuota-1) : -f.carga.stake;
+  });
+  const claves = Object.keys(fams);
+  if(claves.length){
+    h += `<div class="lbl sep" style="margin:22px 20px 9px 16px">Por familia de mercado</div>
+      <div class="famt"><div class="famh"><span class="m">Mercado</span>
+        <span class="n">N</span><span class="r">ROI</span></div>
+      ${claves.map(k=>{
+        const a = fams[k], r = a.stake ? a.neto/a.stake : 0;
+        const poco = a.n < 5;
+        return `<div class="famr"><span class="m">${esc_(k)}</span>
+          <span class="n">${a.n}</span>
+          <span class="r ${poco?"nd":r<0?"neg":""}">${poco ? "n/d"
+            : (r>0?"+":"") + (r*100).toFixed(1) + "%"}</span></div>`;
+      }).join("")}</div>
+      <p class="notacapa">Con menos de cinco apuestas cerradas la columna dice <b>n/d</b>: un ROI de
+      tres apuestas no es un ROI.</p>`;
+  }
+
+  /* De dónde viene cada estado. El cruce por nombre de rival es frágil,
+     así que el usuario tiene que poder ver de un vistazo cuánto de su
+     registro lo decidió la app sola. */
   const nAuto = cerradas.filter(f=> f.r.auto).length;
   const nEsper = filas.filter(f=> f.r.esperando).length;
   const nManual = filas.filter(f=> !f.r.auto).length;
@@ -5403,23 +5488,6 @@ function viewRegistro(){
     nManual? `${nManual} ${nManual===1?"corregida":"corregidas"} a mano` : "",
   ].filter(Boolean).join(" · ");
   if(proc) h += `<div class="proc">${esc_(proc)}</div>`;
-
-  /* La curva acumulada: la única línea curva de toda la app, y la
-     única cosa del Registro que sigue en mostaza. No es el resultado
-     de una apuesta puntual — es la trayectoria entera, que sí es la
-     lectura que la app quiere que mires. */
-  if(cerradas.length>1){
-    let acc=0; const pts=[0];
-    cerradas.forEach(f=>{ acc += f.r.estado==="ganada" ? f.carga.stake*(f.carga.cuota-1) : -f.carga.stake; pts.push(acc); });
-    const min=Math.min(...pts), max=Math.max(...pts), rango=(max-min)||1;
-    const d = pts.map((v,i)=>`${(i/(pts.length-1)*300).toFixed(1)},${(52-(v-min)/rango*48).toFixed(1)}`).join(" ");
-    h += `<div class="curva">
-      <div class="ejes arriba"><span>Acumulado</span><span>${cerradas.length} ${cerradas.length===1?"movimiento":"movimientos"}</span></div>
-      <svg class="chart" viewBox="0 0 300 56" preserveAspectRatio="none" aria-label="Acumulado">
-        <polyline points="${d}" fill="none" stroke="#D6963A" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
-      <div class="ejes abajo"><span>Arranque</span><span>${neto>0?"+":""}${plata(neto)}</span></div>
-    </div>`;
-  }
 
   const cont = e => filas.filter(f=> e==="todas" || f.r.estado===e).length;
   h += `<div class="filters">
@@ -5493,11 +5561,74 @@ function cuando(iso){
 /* ══════════════════════════════════════════════════════════════════
    PANTALLA: MÉTODO
    ══════════════════════════════════════════════════════════════════ */
+/* Los cuatro pasos, en orden. Es la cadena entera del producto dicha en
+   cuatro frases: sin esto, "cuota mínima" y "stake" aparecen en el
+   Veredicto sin que nada explique de dónde salen. */
+const PASOS = [
+  ["Goles esperados", "Cuántos goles esperamos de cada equipo, con todos los partidos de la temporada y pesando más los recientes."],
+  ["Probabilidad", "De esos dos números sale la chance de cada resultado posible, con Dixon-Coles: no una promesa, una proporción."],
+  ["Cuota mínima", "La cuota justa más un margen de seguridad. Si te pagan más que eso, conviene; si te pagan menos, no."],
+  ["Stake", "Cuánto jugar según Kelly, siempre fraccionado y con tope. La cuenta dice el número; la decisión es tuya."],
+];
+
 function viewMetodo(){
-  return `<header class="masthead titulada">
+  /* La señal por métrica sale de `calibracion_jugadores.json`, medida
+     contra el RUIDO y no contra cero: con 618 predicciones un modelo
+     perfecto ya se desvía 3.5 puntos por azar. El riel va de 0 a 2.00× y
+     el tick es el techo (1.00). Arriba del techo el número está medido y
+     medido mal — eso no es un disclaimer, es el resultado. */
+  const metricas = Object.keys(CAL_JUG || {})
+    .filter(k=> (CAL_JUG[k]||{}).razon != null)
+    .sort((a,b)=> CAL_JUG[a].razon - CAL_JUG[b].razon);
+  const nombreMet = {remates:"Remates", al_arco:"Remates al arco", faltas:"Faltas",
+                     amarillas:"Amarillas", goles:"Goles", asist:"Asistencias"};
+  const cerradas = LOG.filter(x=> x.estado==="ganada" || x.estado==="perdida").length;
+
+  let h = `<header class="masthead titulada">
     <div class="tq">${troquel("MÉTODO","mt",150)}</div>
-    <div class="kicker">Cómo pensamos cada partido</div></header>
-  <div class="sec metodo" style="padding-top:20px">
+    <div class="kicker">Cómo se calcula y cuánto se le cree</div></header>
+  <div class="pasos2">${PASOS.map(([t, p], i)=>
+    `<div class="paso2"><span class="np">${dd(i+1)}</span>
+      <span class="tp"><b>${esc_(t)}</b><p>${esc_(p)}</p></span></div>`).join("")}</div>`;
+
+  if(metricas.length){
+    h += `<div class="sepsec"><span>Señal por métrica</span><i></i></div>
+      <p class="notacapa">Cuánto se desvía cada línea de jugador comparada con lo que explica el
+      azar. Debajo de <b>1.00</b> le creemos el número; arriba, está medido que no.</p>
+      <div class="senalbox">${metricas.map(k=>{
+        const r = CAL_JUG[k].razon;
+        const pct = Math.max(2, Math.min(100, r/2*100));
+        const cls = r < 1 ? "" : r <= 1.6 ? "medio" : "alto";
+        return `<div class="senalf"><div class="sf"><span>${esc_(nombreMet[k] || k)}</span>
+          <b class="${r>1.6?"mal":""}">${r.toFixed(2)}×</b></div>
+          <div class="sr"><i class="${cls}" style="width:${pct.toFixed(1)}%"></i>
+            <i class="techo"></i></div></div>`;
+      }).join("")}
+      <div class="senalpie"><i></i><span>techo 1.00</span></div></div>`;
+  }
+
+  /* Los límites, dichos donde el usuario los puede usar. Son cuatro y
+     ninguno es opinión: los tres primeros son propiedades de la fuente,
+     el cuarto es el tamaño de la muestra propia. */
+  h += `<div class="sepsec"><span>Límites</span><i></i></div>
+    <div class="limites">
+      <div class="limite"><b>Cinco partidos por equipo</b><i>El caché de estadísticas es corto:
+        abajo de esa muestra el número es casi todo promedio de la liga.</i></div>
+      <div class="limite"><b>No hay partes médicos</b><i>La fuente devuelve a todos los jugadores
+        como activos. Lesionados y suspendidos no vienen en el dato.</i></div>
+      <div class="limite"><b>Una sola casa de cuotas</b><i>La referencia es DraftKings, que ni
+        siquiera opera en Argentina. Por eso mostramos umbral y no cuota.</i></div>
+      <div class="limite"><b>${cerradas} apuesta${cerradas===1?"":"s"} cerrada${cerradas===1?"":"s"}</b>
+        <i>${cerradas
+          ? "Con esta muestra el intervalo de tu ROI todavía es más ancho que cualquier ventaja real."
+          : "Todavía no anotaste ninguna: sin muestra propia no hay nada que medir de este lado."}</i></div>
+    </div>
+  <button class="lnkf" data-nav="registro"><div class="t">
+      <small>Rendimiento real</small><b>Registro</b></div><span class="fl">›</span></button>
+  ${pieTalon(CALJUG_FECHA ? `CALIBRADO ${fechaCorta(CALJUG_FECHA)}` : "SIN CALIBRAR",
+             `${metricas.length} MÉTRICAS`)}
+  <div class="sepsec"><span>En detalle</span><i></i></div>
+  <div class="sec metodo" style="padding-top:14px">
 
     <h3>Qué hacemos</h3>
     <p class="capitular">Estimamos cuántos goles esperamos de cada equipo, y de ahí sale la
@@ -5570,6 +5701,7 @@ function viewMetodo(){
 
     <div style="height:24px"></div>
   </div>`;
+  return h;
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -5813,6 +5945,7 @@ async function traer(url, def){
   CALIBRACION = (cal && cal.metricas) || {};
   CALIBRADO = (cal && cal.actualizado) || "";
   CAL_JUG = (calj && calj.metricas) || {};
+  CALJUG_FECHA = (calj && calj.actualizado) || "";
   /* La segunda skill del partido: escribe la lectura de los ejes
      Dominio y Jugadores. Si el archivo no está, los ejes salen sin
      texto y todo lo demás anda igual — es carga manual. */

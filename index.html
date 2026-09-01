@@ -1325,8 +1325,8 @@ a{color:inherit}
 .vday .vr .hr{flex:0 0 40px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta2)}
 .vday .vr .cr{flex:1;min-width:0;font-size:13px;color:var(--tinta2);overflow:hidden;
   text-overflow:ellipsis;white-space:nowrap}
-.vday .vr .mo{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--mostaza);
-  flex:0 0 auto}
+.vday .vr .mo{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--mostaza);
+  flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vday .vr.riesgo .mo{color:var(--terracota)}
 .vday .vr .lg2{font-family:var(--mono);font-size:10px;color:var(--gris3);flex:0 0 auto}
 .vday .vacio2{margin-top:9px;padding-top:9px;border-top:1px solid var(--linea);
@@ -1350,7 +1350,11 @@ a{color:inherit}
 .ligarow.on .mas{color:var(--neutroPapel)}
 .ligarow.on .ln b{font-size:15px;color:var(--hueco)}
 .ligarow.on .ln i{color:var(--neutroPapel)}
-.ligarow.on .ln i b{color:#8A6520}
+/* `.ligarow.on` son dos clases y le gana en especificidad a
+   `.ligarow .ln i b`: sin repetir acá el tamaño, la cifra de la
+   sub-línea se dibujaba con los 15px del título. */
+.ligarow.on .ln i b{color:#8A6520;font-family:var(--mono);font-size:10.5px}
+.ligarow.on .ln i b.riesgo{color:#7A3A22}
 .ligarow.on .n{color:var(--neutroPapel)}
 
 .plins{margin-top:9px;display:flex;flex-direction:column;gap:8px}
@@ -1396,6 +1400,21 @@ a{color:inherit}
 .talonab .ent b{display:block;font-family:var(--anton);font-size:14px;line-height:1;color:var(--tinta);
   text-transform:uppercase;font-weight:400;margin-top:4px}
 .talonab .ent .fl{font-family:var(--mono);font-size:18px;color:var(--mostaza)}
+/* El talón se arma con spans adentro de un botón —un botón no puede
+   contener otro control interactivo— así que las columnas se declaran
+   acá en vez de heredarlo del `div`. */
+.talonab .izq,.talonab .der,.talonab .izq span,.talonab .rot3,.talonab .tit3,
+.talonab .tes3,.talonab .ent .t3 small,.talonab .ent .t3 b{display:block}
+.tcels{display:flex;gap:1px;margin-top:10px}
+.tcels > span{flex:1;background:var(--hueco);padding:8px 9px;min-width:0}
+.tcels small{display:block;font-family:var(--mono);font-size:10px;line-height:1;
+  letter-spacing:.06em;color:var(--gris3)}
+.tcels b{display:block;font-family:var(--mono);font-size:14px;line-height:1;font-weight:600;
+  color:var(--tinta2);margin-top:5px}
+.tcels .cuota b{color:var(--mostaza)}
+.tcels .muestra b{color:var(--gris2)}
+.fin button{text-decoration:underline;text-decoration-color:#4A4030;text-underline-offset:3px;
+  font-family:var(--mono);font-size:11px;color:var(--gris3)}
 
 /* ── REGISTRO: el intervalo ────────────────────────────────────────
    En la pantalla de honestidad del producto, una barra que contradice
@@ -2735,108 +2754,170 @@ function tiraCompeticiones(delDia){
     </button>`).join("")}</div>`;
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   PORTADA
+
+   La portada NO interpreta. Las etiquetas viejas —"llega mejor",
+   "partido parejo"— son lectura, y la lectura vive adentro del partido:
+   ponerlas acá obligaba a leer una opinión antes de haber pedido
+   ninguna. Cada renglón dice una sola cosa, si hay algo apostable, y la
+   franja de arriba cuenta OPORTUNIDADES, no partidos destacados. Si un
+   día no hay ninguna, dice cero.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* El veredicto de un partido cuesta una matriz de Dixon-Coles y una
+   pasada por todos los mercados, y la portada lo necesita para los 17
+   partidos del día en cada render. Se memoiza por id: nada de lo que
+   entra ahí cambia dentro de una sesión (los datos los trae el cron y
+   la cuota manual del usuario no participa de este cálculo). */
+const _veredictos = new Map();
+function veredictoDe(m){
+  if(!_veredictos.has(m.id)) _veredictos.set(m.id, mercadosDeVeredicto(m));
+  return _veredictos.get(m.id);
+}
+
+/* El estado de un partido en dos palabras, para el renglón de la
+   portada. El orden importa: una oportunidad manda sobre un riesgo, y
+   un riesgo sobre "no hay precio". */
+function estadoDe(m){
+  const v = veredictoDe(m);
+  if(v.oportunidad) return {clase:"oportunidad", corto:["OPORTUNIDAD",""],
+    motivo: v.oportunidad.op ? v.oportunidad.op.label.toUpperCase() : "PRECIO A FAVOR"};
+  const riesgo = v.filas.find(f=> f.riesgo);
+  /* El motivo de la franja entra en una línea al lado del cruce: es una
+     etiqueta, no una frase. El porqué largo está adentro del partido. */
+  if(riesgo) return {clase:"riesgo", corto:["RIESGO","NO COMPENSADO"],
+    motivo:"PRECIO EN CONTRA"};
+  /* Los tres motivos por los que un partido no tiene nada apostable son
+     distintos y el renglón tiene que decir CUÁL: sin precio publicado,
+     con precio pero sin lectura escrita (que es lo que habilita la
+     marca), o con las dos cosas y la ventaja no alcanza. Ponerlos todos
+     como "SIN PRECIO" era decir algo falso en la mayoría de los
+     renglones. */
+  if(!v.filas.some(f=> f.cuota != null)) return {clase:"", corto:["SIN","PRECIO"]};
+  if(ligaSinValor(m)) return {clase:"", corto:["NO","OPINAMOS"]};
+  if(!v.dir) return {clase:"", corto:["SIN","LECTURA"]};
+  return {clase:"", corto:["SIN","VENTAJA"]};
+}
+
 function viewFecha(){
   const dias = diasDisponibles();
   if(!DIA || !dias.some(d=>d.iso===DIA)) DIA = dias.length ? dias[0].iso : null;
   const delDia = MATCHES.filter(m=>m.date===DIA);
   const d = DIA ? fechaDe(DIA) : new Date();
+  const estados = new Map(delDia.map(m=> [m.id, estadoDe(m)]));
+  const opor = delDia.filter(m=> estados.get(m.id).clase === "oportunidad");
+  const riesgos = delDia.filter(m=> estados.get(m.id).clase === "riesgo");
 
-  /* El contador no es adorno: dice el tamaño del día antes de scrollear. */
   const n = delDia.length;
   let h = `<header class="masthead portada">
     ${marcaV("f")}
     <div class="nombre"><b>VALOR</b></div>
-    <div class="bajada">${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]} · ${n} ${n===1?"partido":"partidos"}</div>
+    <div class="bajada">${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]} ·
+      ${n} ${n===1?"partido":"partidos"} ·
+      ${opor.length} ${opor.length===1?"oportunidad":"oportunidades"}</div>
   </header>
   <div class="days">${dias.map(x=>`
     <button class="day ${x.iso===DIA?"on":""} ${x.n?"":"vacio"}" data-dia="${x.iso}">
       <b>${x.dia}</b><span>${x.nombre}</span>
-    </button>`).join("")}</div>
-  ${tiraCompeticiones(delDia)}`;
+    </button>`).join("")}</div>`;
 
   if(!delDia.length){
-    h += `<div class="aviso"><b>No hay partidos este día</b>Elegí otro en la barra de arriba.</div>`;
-    return h;
+    return h + `<div class="aviso"><b>No hay partidos este día</b>Elegí otro en la barra de arriba.</div>`;
   }
 
+  /* La franja del día. Cuenta oportunidades: si no hay ninguna, lo dice
+     con todas las letras en vez de rellenar con los partidos más
+     "interesantes", que es exactamente la promesa que el producto no
+     puede hacer con un ROI de −3.27% ±6.19. */
+  const destacados = opor.concat(riesgos).slice(0, 4);
+  h += `<div class="vday"><div class="vh"><b>Veredicto del día</b>
+      <em>${dd(opor.length)} DE ${dd(n)}</em></div>
+    ${destacados.length ? destacados.map(m=>{
+      const e = estados.get(m.id);
+      return `<button class="vr ${e.clase==="riesgo"?"riesgo":""}" data-partido="${esc_(m.id)}">
+        <i class="bl"></i><span class="hr">${esc_(m.hora||"—")}</span>
+        <span class="cr">${esc_(m.home)} — ${esc_(m.away)}</span>
+        <span class="mo">${esc_(e.motivo || "")}</span>
+        <span class="lg2">${esc_(COMPS_CORTO[m.comp]||m.comp)}</span></button>`;
+    }).join("")
+    : `<div class="vacio2">Miramos los ${n} partidos del día y ninguno tiene el precio a favor.
+       Un día sin nada apostable es el estado más frecuente, no una falla.</div>`}</div>`;
+
+  /* Acordeones por liga. Uno abierto por vez: un día con seis
+     competiciones desplegadas son cuarenta renglones, que es justo lo
+     que esta portada viene a evitar. */
   const grupos = {};
   delDia.forEach(m=> (grupos[m.comp] = grupos[m.comp]||[]).push(m));
+  const comps = Object.keys(grupos)
+    .sort((a,b)=> COMPS_ORDEN.indexOf(a) - COMPS_ORDEN.indexOf(b));
+  if(!comps.some(c=> c === LIGA_ABIERTA)) LIGA_ABIERTA = comps[0];
 
-  let i = 0;
-  for(const comp in grupos){
-    const cuantos = grupos[comp].length;
-    h += `<div class="lg" data-comp="${esc_(comp)}"><b>${esc_(comp)}</b>
-      <em>${String(cuantos).padStart(2,"0")} ${cuantos===1?"PARTIDO":"PARTIDOS"}</em></div>`;
-    grupos[comp].sort((a,b)=>(a.hora||"").localeCompare(b.hora||"")).forEach(m=>{
-      h += tarjeta(m, i++, delDia.length);
-    });
-  }
-  h += `<div class="fin">Datos actualizados ${esc_((ACTUALIZADO||"").replace("T"," "))}</div>`;
+  h += `<div class="sepsec"><span>Competiciones</span><i></i></div><div class="ligas">`;
+  comps.forEach(comp=>{
+    const ms = grupos[comp].slice().sort((a,b)=> (a.hora||"").localeCompare(b.hora||""));
+    const abierta = comp === LIGA_ABIERTA;
+    const horas = ms.map(m=> m.hora).filter(Boolean);
+    const nOp = ms.filter(m=> estados.get(m.id).clase === "oportunidad").length;
+    const nRi = ms.filter(m=> estados.get(m.id).clase === "riesgo").length;
+    const sub = nOp ? `<b>${nOp} ${nOp===1?"oportunidad":"oportunidades"}</b>`
+              : nRi ? `<b class="riesgo">${nRi} ${nRi===1?"riesgo":"riesgos"} no compensado${nRi===1?"":"s"}</b>`
+              : `${ms.length} mirado${ms.length===1?"":"s"}, ninguna`;
+    h += `<button class="ligarow ${abierta?"on":""}" data-liga="${esc_(comp)}">
+      <span class="mas">${abierta?"−":"+"}</span>
+      <span class="ln"><b>${esc_(comp)}</b>
+        <i>${horas.length ? `${esc_(horas[0])} → ${esc_(horas[horas.length-1])} · ` : ""}${sub}</i></span>
+      <span class="n">${dd(ms.length)}</span></button>`;
+    if(!abierta) return;
+    h += `<div class="plins">${ms.map((m, i)=> renglonPartido(m, estados.get(m.id), i)).join("")}</div>`;
+  });
+  h += `</div>`;
+
+  h += `<div class="fin">Datos actualizados ${esc_((ACTUALIZADO||"").replace("T"," "))} ·
+    <button data-nav="metodo" style="text-decoration:underline;text-decoration-color:#4A4030;
+      text-underline-offset:3px">cómo se calcula</button></div>`;
   return h;
 }
 
-function tarjeta(m, orden=0, total=0){
-  const lec = lectura(m);
-  const mk = m.mercado || {};
-  const al = alerta(m);
-  const hayAnalisis = analizado(m.id);
+/* Un renglón de partido. Cuando hay oportunidad se abre al talón: el
+   veredicto abreviado, con la entrada por la capa 01. El talón NO es un
+   menú de destinos — Lectura y Datos quedan a un toque desde adentro. */
+function renglonPartido(m, e, i){
+  const delay = `animation-delay:${Math.min(i,7)*38}ms`;
+  const img = (logo, nombre) => `<div><img src="${esc_(logo||"")}" alt="" loading="lazy"
+    onerror="this.style.visibility='hidden'"><span>${esc_(nombre)}</span></div>`;
 
-  const pq = devig(mk);
-  const valKey = marcaDeValor(m);
-  const cls = k => valKey===k ? "o val" : (al && al.lean===k ? "o alerta" : (mk.local?"o":"o sin"));
-  const cuota = v => v ? v.toFixed(2) : "—";
-  /* La tinta del cupón se normaliza contra el resultado más probable,
-     no contra 100%: si el máximo fuese 45% las tres casillas quedarían
-     casi vacías y no se leería nada. Lo que importa es la proporción
-     entre las tres, que es lo que dice la forma del partido. */
-  /* Escala fija: el casillero se llena del todo a partir de 70%. Si se
-     normalizara contra el más probable de cada partido, un favorito de
-     38% llenaría igual que uno de 66% y el cupón mentiría sobre la
-     confianza. Con escala fija se leen las dos cosas: la forma del
-     partido y cuánto nos jugamos. */
-  const tinta = k => Math.round(lec.p[k]*100);
-  const casilla = (k, etiqueta, c) => `<div class="${cls(k)}">
-      <i class="fill" style="height:${tinta(k)}%"></i>
-      <span>${etiqueta}</span><b>${cuota(c)}</b><em>${pc(lec.p[k])}</em></div>`;
+  if(e.clase !== "oportunidad")
+    return `<button class="plin" data-partido="${esc_(m.id)}" style="${delay}">
+      <span class="hr">${esc_(m.hora||"—")}</span>
+      <span class="eqs">${img(m.homeLogo, m.home)}${img(m.awayLogo, m.away)}</span>
+      <span class="est2">${esc_(e.corto[0])}<br>${esc_(e.corto[1])}</span></button>`;
 
-  /* La señal es una línea sola, y la mayoría de las tarjetas no la
-     tienen. Sin marca no hace falta aclarar que no la hay: repetir
-     "todavía no lo estudiamos" en las diez tarjetas del día no es
-     honestidad, es ruido. El detalle de por qué vive en el partido. */
-  const pie = al ? `<div class="sig alerta">Cuidado con el precio</div>`
-            : valKey ? `<div class="sig">Acá el precio está a favor</div>`
-            : "";
-
-  const dir = inclinacionDe(m.id);
-  const s = sello(lec, m, dir);
-  const num = String(orden+1).padStart(2,"0");
-  const eq = (logo, nombre, forma) => `<div class="eq">${crest(logo)}
-    <div class="nom">${esc_(nombre)}</div>${tiraForma(forma)}</div>`;
-
-  return `<button class="card" data-partido="${esc_(m.id)}" style="animation-delay:${Math.min(orden,7)*38}ms">
-    <div class="talon">
-      <div class="n">Nº ${num}</div>
-      <div class="hora">${esc_(m.hora||"—")}</div>
-      <div class="de">DE ${String(total).padStart(2,"0")}</div>
-    </div>
-    <div class="perf"></div>
-    <div class="cuerpo">
-      ${eq(m.homeLogo, m.home, m.formH_general)}
-      ${eq(m.awayLogo, m.away, m.formA_general)}
-      <div class="odds">
-        ${casilla("L","Local",mk.local)}
-        ${casilla("E","Empate",mk.empate)}
-        ${casilla("V","Visita",mk.visitante)}
-      </div>
-      ${pie}
-      <div class="cierre">
-        <div class="corto">${fraseCorta(lec, m, dir)}</div>
-        <div class="sellov"><div><div class="a">${esc_(s[0])}</div><div class="b">${esc_(s[1])}</div></div></div>
-      </div>
-      <div class="piecard"></div>
-      <div class="firma"><span>VALOR · PROGRAMA</span><span>${num} DE ${String(total).padStart(2,"0")}</span></div>
-    </div>
-  </button>`;
+  const v = veredictoDe(m);
+  const f = v.oportunidad;
+  const {n, total} = numeroDe(m);
+  const st = stakePct(m, f.op.p, f.cuota);
+  return `<button class="talonab" data-partido="${esc_(m.id)}" style="${delay}">
+    <span class="izq"><span class="n2">Nº ${dd(n)}</span>
+      <span class="h2">${esc_(m.hora||"—")}</span>
+      <span class="d2">DE ${dd(total)}</span></span>
+    <span class="der">
+      <span class="eq2"><img src="${esc_(m.homeLogo||"")}" alt="" loading="lazy"
+        onerror="this.style.visibility='hidden'"><b>${esc_(m.home)}</b></span>
+      <span class="eq2"><img src="${esc_(m.awayLogo||"")}" alt="" loading="lazy"
+        onerror="this.style.visibility='hidden'"><b>${esc_(m.away)}</b></span>
+      <span class="rot3">Veredicto</span>
+      <span class="tit3">${esc_(f.op.label)}</span>
+      <span class="tes3">Le damos ${pc(f.op.p)}${f.ventaja!=null
+        ? `, ${Math.round(f.ventaja*100)} puntos más que la línea sin margen` : ""}.</span>
+      <span class="tcels">
+        <span class="cuota"><small>MÍNIMA</small><b>${umbral(f.op.p).toFixed(2)}</b></span>
+        <span><small>STAKE</small><b>${st||"—"}</b></span>
+        <span class="muestra"><small>MERCADOS</small><b>1/${v.filas.length+1}</b></span>
+      </span>
+      <span class="ent"><span class="t3"><small>Entrás por</small><b>Veredicto</b></span>
+        <span class="fl">›</span></span>
+    </span></button>`;
 }
 
 /* Los últimos cinco, del más viejo al más nuevo — se lee como se lee

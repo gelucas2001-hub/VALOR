@@ -4581,3 +4581,226 @@ mitad de carga, una prueba desde la consola— queda cacheado un veredicto
 calculado sin estadísticas y la app lo repite todo el día. Pasó al
 probar. El arranque limpia la caché después de asignar los JSON, y el
 `cargar()` de los tests hace lo mismo.
+
+
+## 19. Lo que la pantalla no decía (2026-09-01)
+
+Lucas revisó las tres capas ya publicadas y señaló seis cosas que no se
+entendían. Cinco eran de presentación; una destapó un bug de contenido y
+otra un bug de CSS que llevaba semanas puesto. Todo lo de acá es
+`index.html` salvo el once real, que toca `actualizar.py`.
+
+### 19.1 Los cuadros de ganado/empatado/perdido no tenían letra
+
+`tiraForma()` **ya escribía G/E/P adentro de cada casilla**. La regla
+`.plin .forma.mini i` le ponía `font-size:0`. La portada mostraba cinco
+cuadros mudos, sin leyenda al lado, y no había de dónde sacar el código.
+
+Y había un segundo dibujo del mismo dato: Historial usaba `.cinco` con
+cuadros propios sin letra más una leyenda al pie. Dos dibujos del mismo
+dato obligan a aprender dos códigos. Ahora Historial usa `tiraForma`; la
+leyenda queda porque presenta la letra una vez, no porque el cuadro no
+diga nada.
+
+La casilla mini pasó de 9 a 11px (una letra de 8px necesita eso) y la
+columna de la portada de 53 a 63px.
+
+### 19.2 `crest()` existía y no lo llamaba nadie
+
+Función completa, con placeholder para el 404 de ESPN y todo, sin un
+solo llamado. Los escudos de la portada se dibujaban con un `<img>`
+inline aparte, y el resto de la app no tenía ninguno.
+
+Ahora lo llaman los diez lugares que nombran un club: portada (renglón y
+talón), cabecera del partido, Datos · Jugadores (renglón y filtro),
+Lectura (Tabla, Antecedente, Jugadores), pie de las barras de Equipos,
+Posiciones, Cara a cara, Últimos cinco y el selector de Planteles.
+
+Dos efectos que valen por sí solos:
+
+- **Las tarjetas del Antecedente decían `1-5` y la fecha.** Para saber
+  quién puso el 1 había que acordarse de que el orden es local-visitante
+  y de quién jugó de local aquella vez. Ahora llevan los dos escudos en
+  el orden del marcador. El cruce es por **igualdad exacta** contra
+  `m.home`/`m.away`: un nombre que no es ninguno de los dos va al hueco.
+  Un escudo adivinado no se ve como un error, se ve como el partido al
+  revés.
+- **En Datos · Jugadores hay homónimos.** Mirassol tiene dos Carlos
+  Eduardo. El nombre no alcanzaba ni sabiendo la liga.
+
+El escudo le comió 20px al renglón de Lectura · Jugadores y empezó a
+cortar nombres. Se recuperó sacando `GOL ESPERADO` de los seis renglones
+y diciéndolo una vez arriba de la columna: seis repeticiones de las
+mismas tres palabras no informaban seis veces, ocupaban.
+
+### 19.3 El filtro local/visita no cambiaba nada, y no lo decía
+
+`MIN_SPLIT` es 4 y está bien fundado (§ del split). Con el caché en 4
+partidos por equipo quedan **2 por sede**, así que `ladoDe()` caía al
+total en las tres opciones: tres botones, los mismos diez números,
+ningún aviso. El que mira concluye que el equipo juega igual de local
+que de visitante, que es justo lo que el dato no dice.
+
+`alcanceFiltro()` cuenta en cuántas métricas cambiaría cada filtro. Con
+cero, el botón se apaga y muestra con cuántos partidos cuenta (`2 PJ`),
+y abajo va la razón. **"Este cruce" no se apaga nunca**: es el default y
+su caída al total es la lectura correcta. El filtro elegido persiste
+entre partidos, así que si viene puesto de uno que sí tenía muestra, la
+marca vuelve al default en vez de dejar los tres sin marcar.
+
+### 19.4 La serie del jugador — tres bugs en una columna
+
+**La barra no se podía leer.** `.spark` normalizaba contra el máximo DE
+ESE JUGADOR: la barra más alta de uno y la de otro no valían lo mismo, y
+no había forma de saberlo. Reemplazada por la pieza `.sq` que Lectura ya
+usaba —cuatro intensidades con el número adentro—, bajada al renglón
+porque en 64px de columna ocho casillas no entran. Una sola función
+(`tiraSerie`) la dibuja en las dos pantallas.
+
+**Iba al revés del tiempo.** `planteles.json` guarda la serie del más
+nuevo al más viejo (`jugados` viene ordenado por fecha descendente, ver
+`actualizar.py`). La app la dibujaba cruda, o sea al revés que la tira
+de los últimos cinco, que sí se invierte. Dos tiras al lado con
+direcciones opuestas no se leen como órdenes distintos: se leen mal.
+
+**`SIN SERIE` acusaba a la fuente equivocada.** El pie decía "la fuente
+no publica el partido a partido de esa liga" mientras en el mismo
+Mirassol diecinueve compañeros tenían serie. Que la fuente publique es
+propiedad de la **liga**, no del jugador: si algún compañero tiene
+serie, el que no la tiene es porque no jugó. Ahora son dos estados
+distintos, `SIN SERIE` y `NO VIENE JUGANDO`.
+
+Eso arrastraba lo peor: sin serie, MED cae al promedio de temporada **sin
+encoger**, y se ordenaba contra números encogidos. `Tiziano Perrota`
+encabezaba la lista de remates de Defensa sin haber jugado ninguna de
+las últimas fechas — el primer nombre que leía el que apuesta era el que
+no juega. Ahora los que tienen serie van primero. No se esconden: se
+ordenan.
+
+### 19.5 El bug de contenido: el análisis leyó la serie al revés
+
+Verificando la dirección de la serie contra ESPN partido por partido:
+
+    Juan Gutiérrez — remates
+    09/08: 6    17/08: 2    23/08: 1
+
+`expediente_estadisticas.py` manda la serie cruda **sin decir de qué
+lado está el presente**, y la skill la leyó de izquierda a derecha. El
+análisis publicado de Defensa y Justicia – Platense dice que Gutiérrez
+"subió su volumen" con "uno, dos y seis". Viene bajando. Lo mismo con
+Zapiola ("irrupción tardía" sobre una serie 6, 1, 2).
+
+Arreglado en la causa: el expediente manda la serie en orden
+cronológico, con un aviso explícito, y `SKILL.md` lo anota. **El texto
+ya publicado en `data/analisis_estadisticas.json` sigue invertido** —
+es carga manual y hay que volver a correr la skill para esos partidos.
+
+Regla general: una lista de números sin fecha se lee de izquierda a
+derecha como se lee el tiempo. Un orden implícito no se ve como un
+error, se ve como una tendencia.
+
+### 19.6 Dos cosas se llamaban `.mas`
+
+La máscara de degradado que avisa "hay más a la derecha" en las tiras
+que se cortan, y el `+`/`−` de los acordeones. El glifo mide 10px y la
+máscara pone su tramo opaco en `calc(100% - 30px)` —o sea en −20px—, así
+que **todo el signo caía adentro del degradado y se dibujaba semi
+transparente**. Por eso el `+` de "SEÑAL BAJA +" se veía lavado y pegado
+al texto en vez de leerse como un control. La máscara pasó a `.corte`.
+
+Dos nombres iguales para dos cosas distintas no fallan: se tapan.
+
+### 19.7 El once real, no el inferido
+
+`cancha()` dibujaba a los que más partidos llevan, acomodados por
+puesto, con una nota que decía que **ESPN no publica ni el equipo
+titular ni el esquema**. Verificado contra la API el 2026-09-01: para un
+partido YA JUGADO sí los publica.
+
+    Racing Club   formation= 4-2-3-1   starters 11
+    Boca Juniors  formation= 4-3-3     starters 11
+
+`rosters[]` trae `starter`, `jersey`, `formationPlace` y `formation`, en
+el mismo `/summary` que el cron ya pide para la serie: **cero pedidos
+nuevos**. `once_partido()` saca los once de cada lado y `ultimo_once()`
+elige el partido más reciente que tenga uno —recorre hacia atrás, porque
+un partido sin `rosters` cargados no puede dejar al equipo sin once— y
+lo guarda con su fecha, su rival y su marcador. Un once sin fecha se lee
+como el once de hoy.
+
+Un lado con distinto de once titulares se descarta entero, que es el
+mismo criterio que ya usaba `onceProbable()`: un dibujo con ocho
+jugadores miente sobre el equipo tanto como uno con cuatro delanteros.
+
+En la app: cinco filas y no cuatro, porque ESPN dice `CD-L`, `AM-R`,
+`LF` y no `D`/`M`/`F`, y eso es justo lo que separa el "2" del "3" en un
+4-2-3-1. La fila vacía no se dibuja. **El dibujo manda sobre la
+etiqueta**: si el esquema que publica ESPN no coincide con el que sale
+de las posiciones, se rotula el que se dibuja — una cancha con cinco
+volantes abajo de un cartel que dice 2-3 es peor que no poner cartel.
+Los dorsales reales reemplazan a la letra del puesto.
+
+`resumen_completo()` ahora exige `_once`, así que los resúmenes ya
+cacheados que se vuelvan a mirar se re-piden una vez. Es
+auto-limitante: solo se re-piden los que la ventana de partidos
+recientes toca.
+
+Sin la clave `once`, la cancha se comporta exactamente como antes.
+
+### 19.8 Los chicos
+
+- `19:30 → 19:30 · 1 mirado, ninguna` — "ninguna" ¿qué? La palabra
+  "oportunidad" no aparecía en esa rama de la franja. Y el rango de
+  horas de un solo partido ahora muestra una hora sola.
+- El club dejó de repetirse en Datos · Jugadores cuando la lista está
+  filtrada a un equipo: ahí ya lo dicen el botón de arriba y el escudo
+  del renglón.
+
+### Qué quedó verificado
+
+    test_alineacion  117 ok   (11 nuevos)
+    test_registro     22 ok
+    test_ejes         40 ok
+    test_plantel      45 ok   (9 nuevos)
+    test_expediente_estadisticas  34 ok  (2 nuevos)
+
+Los tests nuevos fallan contra el código viejo, que es la única forma de
+que un test proteja algo: dirección de la serie, orden de la lista,
+`SIN SERIE` contra `NO VIENE JUGANDO`, el filtro que se apaga y el que
+sigue vivo, el once real y su caída al inferido, y que el cartel del
+esquema nunca contradiga al dibujo.
+
+### 19.9 Tres cosas más, del mismo repaso
+
+- **El dorsal ya venía y se tiraba.** `roster()` recibe `jersey` y
+  `aplanar_jugador()` no lo guardaba. Mirassol tiene **dos Carlos
+  Eduardo** en el mismo plantel: ahí el escudo no distingue nada. Ahora
+  `planteles.json` trae `dorsal` y va detrás del nombre, en la línea de
+  arriba — no en la de contexto, que ya se estira sola.
+- **Qué significa la tinta, dicho en pantalla.** "Tinta plena = número
+  más alto, NO número mejor" estaba escrito en el código y en ningún
+  lado de la app. En `Produce` el más alto se lee como el mejor y no hay
+  problema; en `Concede` es exactamente al revés y el mismo dibujo dice
+  las dos cosas. Se aclara con una línea de texto: meter un semáforo
+  sería una opinión disfrazada de dato.
+- **`injuries` de ESPN está siempre vacío.** El aviso "el plantel no
+  dice quién falta" era una afirmación heredada; el 2026-09-01 se midió
+  sobre 166 jugadores de cuatro equipos: `injuries: []` y
+  `status: active` en los 166. El aviso es correcto y ahora está
+  verificado.
+
+### Lo que queda abierto
+
+- **La prosa del eje Jugadores se corrigió a mano donde estaba
+  invertida, no se regeneró.** En `espn401841528` dos lecturas decían lo
+  contrario del dato (Gutiérrez "subió su volumen" con 6→2→1; Zapiola
+  "irrupción tardía" con 6→1→2) y se reescribieron con la serie
+  verificada contra ESPN; en `espn401913077` se dieron vuelta los cinco
+  arreglos citados para que coincidan con lo que la app dibuja. **Se
+  tocó solo lo que la verificación mostró falso** — los juicios de
+  magnitud, la titularidad y las advertencias quedaron como los escribió
+  la skill. Lo correcto sigue siendo volver a correrla para esos
+  partidos.
+- En `espn401913077`, "Pedro… en dos de esos llevó tres al arco": la
+  serie al arco es 0, 3, 2, 0 — un partido con tres, no dos. No es un
+  error de dirección y no se tocó.

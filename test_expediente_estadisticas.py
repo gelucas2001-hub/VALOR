@@ -119,7 +119,11 @@ js = e.get("jugadoresLocal") or []
 prueba("viajan los jugadores del equipo", len(js) == 2)
 prueba("ordenados por partidos jugados", js[0]["nombre"] == "Rematador")
 prueba("viaja la SERIE entera, no su media",
-       js[0]["serie"]["remates"] == [1, 0, 6])
+       js[0]["serie"]["remates"] == [6, 0, 1])
+prueba("y va del mas viejo al mas nuevo, al reves que planteles.json",
+       js[0]["serie"]["remates"][-1] == 1)
+prueba("y el expediente lo dice, en vez de dejarlo a la interpretacion",
+       any("MAS VIEJO AL MAS NUEVO" in a for a in e["avisos"]))
 prueba("y cuántos partidos tiene esa serie",
        js[0]["partidos_en_serie"] == 3 and js[0]["titular_en"] == 3)
 prueba("una métrica en cero no ensucia la serie del jugador",

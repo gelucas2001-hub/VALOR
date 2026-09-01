@@ -143,6 +143,16 @@ def jugadores_de(plantel, tope=TOPE_PLANTEL):
     Viaja la SERIE y no solo el promedio: "1, 0, 6" y "2, 2, 3" tienen
     la misma media y no son el mismo jugador, y esa diferencia es
     justamente de lo que puede escribir una skill y no un promedio.
+
+    La serie sale DADA VUELTA respecto de planteles.json, que la guarda
+    del mas nuevo al mas viejo (`jugados` viene ordenado por fecha
+    descendente). Una lista de numeros sin fecha se lee de izquierda a
+    derecha como se lee el tiempo, y sin decir nada la skill la leyo
+    asi: el 2026-09-01 el analisis de Defensa y Justicia - Platense
+    escribio que Juan Gutierrez "subio su volumen" con "uno, dos y seis"
+    cuando la serie real era 6, 2, 1 y venia BAJANDO. Verificado contra
+    ESPN partido por partido: 09/08 seis remates, 17/08 dos, 23/08 uno.
+    Un orden implicito no se ve como un error, se ve como una tendencia.
     """
     out = []
     for j in sorted(plantel or [], key=lambda x: -(x.get("pj") or 0))[:tope]:
@@ -160,7 +170,8 @@ def jugadores_de(plantel, tope=TOPE_PLANTEL):
             fila["arranca"] = ("titular" if tit == spj
                                else "suplente" if not tit
                                else f"{tit} de {spj}")
-        vistos = {m: serie[m] for m in METRICAS_JUGADOR if serie.get(m)}
+        vistos = {m: list(reversed(serie[m]))
+                  for m in METRICAS_JUGADOR if serie.get(m)}
         if vistos:
             fila["serie"] = vistos
         out.append(fila)
@@ -218,6 +229,9 @@ def expediente(p, est=None, planteles=None, cal=None):
         avisos.append("El árbitro viaja como dato, pero su efecto sobre las "
                       "tarjetas está medido con prueba de permutación y da "
                       "CERO. No escribas que un árbitro 'saca muchas'.")
+    avisos.append("Las series por jugador van DEL MAS VIEJO AL MAS NUEVO: "
+                  "el ultimo numero es el ultimo partido. Una serie [6, 2, 1] "
+                  "es un jugador que viene BAJANDO.")
     avisos.append("Las series por jugador son de pocos partidos: mirá "
                   "`partidos_en_serie` antes de afirmar una tendencia.")
     avisos.append("Mirá `arranca` antes de proponer a un jugador: el que "

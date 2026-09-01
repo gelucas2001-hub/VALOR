@@ -47,6 +47,7 @@ function cargarLogica(){
                                   if(o.LOCALIA) LOCALIA = o.LOCALIA;
                                   if(o.JUG_ORDEN) JUG_ORDEN = o.JUG_ORDEN;
                                   if(o.JUG_EQ) JUG_EQ = o.JUG_EQ;
+                                  if(o.ONCES) ONCES = o.ONCES;
                                   if(o.ABIERTOS) ABIERTOS = new Set(o.ABIERTOS); },
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
@@ -721,15 +722,20 @@ test("Datos · Referencia usa formH_general/formA_general, no formH/formA", ()=>
   L.cargar(PARTIDOS, {});
   L.setEstado({ABIERTOS:["ref:hist"]});
   /* El historial ya no imprime el nombre del rival —los últimos cinco
-     son cinco cuadrados sin verde ni rojo— así que lo que se verifica es
-     el RESULTADO: formH da "W" (cuadrado lleno, clase g) y
-     formH_general da "L" (cuadrado vacío). Si sigue leyendo formH, el
-     bloque muestra ganados donde hay perdidos. */
+     son la misma tira que la portada, con la letra adentro— así que lo
+     que se verifica es el RESULTADO: formH da "W" (casilla llena, clase
+     g, letra G) y formH_general da "L" (casilla vacía, clase p, letra
+     P). Si sigue leyendo formH, el bloque muestra ganados donde hay
+     perdidos.
+
+     El corte va hasta "leyenda", que es la fila que presenta las tres
+     letras: si entrara, sus propias casillas de muestra darían clase g
+     siempre y el test pasaría sin proteger nada. */
   const html = L.datosReferencia(m);
   const cinco = html.slice(html.indexOf("Últimos cinco"), html.indexOf("leyenda"));
   cierto(!/class="g"/.test(cinco),
          "Referencia sigue mostrando formH/formA (ganado) en vez de la forma general (perdido)");
-  cierto(/<i class=""><\/i>/.test(cinco), "no dibujó la racha de la forma general");
+  cierto(/<i class="p">P<\/i>/.test(cinco), "no dibujó la racha de la forma general");
 });
 
 test("el renglón de portada usa formH_general/formA_general, no formH/formA", ()=>{
@@ -773,6 +779,101 @@ test("el plantel muestra los jugadores cuando hay plantel cargado", ()=>{
   cierto(html.includes("Suplente Cualquiera"), "no aparecen los jugadores de menos peso");
   cierto(!html.includes("Sin jugadores"),
          "sigue diciendo 'Sin jugadores' aunque el plantel está cargado");
+});
+
+/* ── 11bis. El once REAL, no el inferido ───────────────────────────
+   La cancha dibujaba a los que más partidos llevan, acomodados por
+   puesto, con una nota que decía que ESPN no publica ni el titular ni
+   el esquema. Verificado contra la API el 2026-09-01: para un partido
+   YA JUGADO sí los publica — `rosters[].formation` ("4-2-3-1") y
+   `starter`/`jersey` por jugador, en el mismo /summary que el cron ya
+   pide para la serie. El último once real es un dato; el inferido es
+   una suposición. Se prefiere el dato y se cae al otro.
+   ══════════════════════════════════════════════════════════════════ */
+
+const ONCE_REAL = {
+  "99": {
+    fecha: "2026-08-31", rival: "Rival FC", local: true, marcador: "3-0",
+    esquema: "4-3-3",
+    jugadores: [
+      {id:"1",  nombre:"Uno Arquero",  pos:"G",    dorsal:"1"},
+      {id:"2",  nombre:"Dos Lateral",  pos:"RB",   dorsal:"4"},
+      {id:"3",  nombre:"Tres Central", pos:"CD-R", dorsal:"2"},
+      {id:"4",  nombre:"Cuatro Cent",  pos:"CD-L", dorsal:"6"},
+      {id:"5",  nombre:"Cinco Lat",    pos:"LB",   dorsal:"3"},
+      {id:"6",  nombre:"Seis Volante", pos:"CM",   dorsal:"5"},
+      {id:"7",  nombre:"Siete Vol",    pos:"RM",   dorsal:"8"},
+      {id:"8",  nombre:"Ocho Vol",     pos:"LM",   dorsal:"10"},
+      {id:"9",  nombre:"Nueve Punta",  pos:"F",    dorsal:"9"},
+      {id:"10", nombre:"Diez Extremo", pos:"RF",   dorsal:"7"},
+      {id:"11", nombre:"Once Extremo", pos:"LF",   dorsal:"11"},
+    ],
+  },
+};
+
+test("la cancha dibuja el once que el equipo puso de verdad", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({ONCES: ONCE_REAL});
+  const html = L.cancha(m, false);
+  cierto(html.includes("Uno Arquero") || html.includes("Arquero"),
+         "no dibujó a los titulares reales");
+  cierto(!html.includes("Rodallega"),
+         "siguió infiriendo el once con los que más juegan");
+  cierto(/ESQUEMA REAL/.test(html), "no dice que el esquema es el real");
+  cierto(html.includes("4-3-3"), "no muestra el esquema que salió del once real");
+  L.setEstado({ONCES: {}});
+});
+
+test("y dice de qué partido salió, porque no es el once de hoy", ()=>{
+  /* Un once sin fecha se lee como la formación confirmada para el
+     partido que viene, que es exactamente lo que nadie publica. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({ONCES: ONCE_REAL});
+  const html = L.cancha(m, false);
+  cierto(/Rival FC/.test(html), "no dice contra quién fue ese once");
+  cierto(/31 de ago/.test(html), "no dice de qué fecha es");
+  cierto(/No es la formaci[óo]n de hoy/i.test(html),
+         "lo presenta como el equipo de hoy");
+  L.setEstado({ONCES: {}});
+});
+
+test("los dorsales reales reemplazan a la letra del puesto", ()=>{
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({ONCES: ONCE_REAL});
+  const html = L.cancha(m, false);
+  cierto(/class="dorsal">10</.test(html), "no usó el dorsal del jugador");
+  L.setEstado({ONCES: {}});
+});
+
+test("el cartel del esquema nunca contradice al dibujo", ()=>{
+  /* ESPN publica su propio "4-2-3-1" y nuestras filas salen de las
+     posiciones. Casi siempre coinciden; cuando no, manda el DIBUJO. Una
+     cancha con cinco volantes abajo de un cartel que dice 2-3 es peor
+     que no poner cartel. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const mentiroso = { "99": { ...ONCE_REAL["99"], esquema: "9-9-9" } };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({ONCES: mentiroso});
+  const html = L.cancha(m, false);
+  cierto(!html.includes("9-9-9"), "rotuló el dibujo con un esquema que no es");
+  cierto(html.includes("4-3-3"), "no rotuló lo que efectivamente dibujó");
+  L.setEstado({ONCES: {}});
+});
+
+test("sin once real la cancha se comporta exactamente como antes", ()=>{
+  /* La regla del proyecto para toda fuente nueva: sin ella, todo tiene
+     que seguir andando igual. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({ONCES: {}});
+  const html = L.cancha(m, false);
+  cierto(/ESQUEMA INFERIDO/.test(html), "no cayó al once inferido");
+  cierto(html.includes("Rodallega"), "perdió el once inferido de siempre");
+  cierto(/no tenemos el once del [úu]ltimo\s+partido/i.test(html),
+         "no explica por qué está infiriendo");
 });
 
 test("el plantel muestra el peso goleador, que es lo que pesa una baja", ()=>{
@@ -1066,6 +1167,120 @@ test("el selector de metrica esta en la pantalla y marca la elegida", ()=>{
     cierto(html.includes(`data-jugmet="${x.k}"`), `no se puede elegir ${x.k}`));
 });
 
+/* ── 12bis. La serie del jugador ───────────────────────────────────
+   Tres reglas que salieron de mirar la pantalla contra los datos el
+   2026-09-01, y que sin test son disciplina:
+
+   · la serie se dibuja del más viejo al más nuevo, igual que la tira de
+     los últimos cinco del equipo — `planteles.json` la guarda al revés;
+   · el que no viene jugando no puede encabezar la lista;
+   · "SIN SERIE" es un hueco de la FUENTE, no un jugador que no entra.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Un plantel donde el que NO viene jugando tiene el promedio de
+   temporada más alto de los dos: 3.0 contra el 2.0 esperado del que sí
+   juega. Ordenados juntos, el que no entra iba primero. */
+const PL_SERIE = {
+  "99": [
+    {id:"1", nombre:"Viene Jugando", pos:"F", pj:10, goles:2, asist:0,
+     remates:20, al_arco:8, faltas:5, amarillas:1, rojas:0, peso_goles:0.2,
+     serie:{pj:3, tit:3, remates:[1, 2, 6], al_arco:[0, 1, 3],
+            esp:{remates:2.0, al_arco:0.7}}},
+    {id:"2", nombre:"Hace Meses Afuera", pos:"F", pj:9, goles:1, asist:0,
+     remates:27, al_arco:9, faltas:3, amarillas:0, rojas:0, peso_goles:0.1},
+  ],
+  "98": [
+    {id:"3", nombre:"Liga Sin Serie", pos:"M", pj:8, goles:0, asist:1,
+     remates:8, al_arco:2, faltas:6, amarillas:2, rojas:0, peso_goles:0},
+  ],
+};
+
+test("el dorsal separa a dos homonimos del mismo club", ()=>{
+  /* Mirassol tiene DOS Carlos Eduardo. El escudo distingue Flamengo de
+     Mirassol y no sirve para nada acá: los dos son del mismo club. El
+     dorsal ya venía en la respuesta de ESPN y se tiraba. */
+  const homonimos = {
+    "99": [
+      {id:"1", nombre:"Carlos Eduardo", pos:"M", dorsal:"8", pj:10,
+       goles:2, asist:0, remates:12, al_arco:4, faltas:5, amarillas:1,
+       rojas:0, peso_goles:0.2},
+      {id:"2", nombre:"Carlos Eduardo", pos:"F", dorsal:"29", pj:4,
+       goles:0, asist:0, remates:3, al_arco:1, faltas:1, amarillas:0,
+       rojas:0, peso_goles:0},
+    ],
+  };
+  L.cargar(PARTIDOS, {}, homonimos);
+  L.setEstado({JUG_ORDEN:"remates", JUG_EQ:"L"});
+  const html = L.datosJugadores({ ...PARTIDOS[0], homeId:"99", awayId:"98" });
+  cierto(html.includes(">8<") && html.includes(">29<"),
+         "no dibuja el dorsal, y los dos homónimos quedan idénticos");
+  L.setEstado({JUG_EQ:"dos"});
+});
+
+test("un jugador sin dorsal no dibuja un hueco", ()=>{
+  /* ESPN lo publica para 32 de 35: el que no lo tiene no puede dejar un
+     `<em>` vacío colgando del nombre. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({JUG_ORDEN:"remates", JUG_EQ:"L"});
+  const html = L.datosJugadores(m);
+  cierto(!/<em><\/em>/.test(html), "dibujó un dorsal vacío");
+  L.setEstado({JUG_EQ:"dos"});
+});
+
+test("la serie del jugador se dibuja del mas viejo al mas nuevo", ()=>{
+  /* Verificado contra ESPN el 2026-09-01 con Juan Gutiérrez: la serie
+     guardada era [1, 2, 6] y los partidos reales fueron 09/08 seis
+     remates, 17/08 dos, 23/08 uno. O sea que el 6 es el MÁS VIEJO y va
+     a la izquierda, como en la tira de los últimos cinco. Dibujarla
+     cruda muestra a un jugador subiendo cuando viene bajando. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_SERIE);
+  L.setEstado({JUG_ORDEN:"remates", JUG_EQ:"L"});
+  const html = L.datosJugadores(m);
+  const cajas = (html.match(/class="sq [^"]*">(\d+)</g) || [])
+    .map(x=> x.replace(/.*>(\d+)</, "$1"));
+  igual(cajas.join(""), "621", "la serie no se dibujó del más viejo al más nuevo");
+});
+
+test("el que no viene jugando no encabeza la lista", ()=>{
+  /* Su MED es el promedio de temporada SIN encoger; el del que juega
+     está encogido hacia su puesto. Ordenar los dos números juntos ponía
+     primero al que hace ocho fechas no entra — y el primer nombre de la
+     lista es el que el que mira lee. No se esconde: se ordena. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_SERIE);
+  L.setEstado({JUG_ORDEN:"remates", JUG_EQ:"L"});
+  const html = L.datosJugadores(m);
+  cierto(html.indexOf("Viene Jugando") < html.indexOf("Hace Meses Afuera"),
+         "el que no viene jugando quedó arriba del que sí");
+  cierto(html.includes("Hace Meses Afuera"), "lo escondió en vez de ordenarlo");
+});
+
+test("SIN SERIE es un hueco de la fuente, no un jugador que no entra", ()=>{
+  /* Los dos casos se dibujaban igual y el pie afirmaba el equivocado:
+     en Mirassol decía "la fuente no la publica" mientras diecinueve
+     compañeros tenían serie. Que la fuente publique es propiedad de la
+     LIGA: si algún compañero tiene serie, el que no la tiene es porque
+     no jugó. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, PL_SERIE);
+  L.setEstado({JUG_ORDEN:"remates", JUG_EQ:"L"});
+  const conCompaneros = L.datosJugadores(m);
+  cierto(/NO VIENE JUGANDO/.test(conCompaneros),
+         "no distingue al que no entra del hueco de la fuente");
+  cierto(!/SIN SERIE/.test(conCompaneros.slice(0, conCompaneros.indexOf("notacapa"))),
+         "sigue culpando a la fuente por un jugador que simplemente no juega");
+
+  L.setEstado({JUG_EQ:"V"});
+  const fuenteMuda = L.datosJugadores(m);
+  cierto(/SIN SERIE/.test(fuenteMuda),
+         "donde NINGÚN jugador tiene serie, la fuente sí es la que falta");
+  cierto(!/NO VIENE JUGANDO/.test(fuenteMuda.slice(0, fuenteMuda.indexOf("notacapa"))),
+         "acusó de no jugar a un plantel entero cuya liga no publica la serie");
+  L.setEstado({JUG_EQ:"dos"});
+});
+
 /* ── 13. Las estadísticas del equipo ────────────────────────────────
    Vienen del mismo /summary que el pipeline ya pedía para los córners
    del modelo: 25 métricas por equipo y por partido, de las que se
@@ -1200,6 +1415,63 @@ test("un split con muestra insuficiente NO se usa, aunque exista", ()=>{
          "usó un split de 2 partidos en vez de caer al total");
   cierto(!html.includes("14.0") && !html.includes("7.0"),
          "mostró el split pese a la muestra insuficiente");
+});
+
+test("dice qué significa la tinta, que en Concede es al reves", ()=>{
+  /* "Tinta plena = número MÁS ALTO, no número mejor" era una regla
+     escrita en el código y en ningún lado de la pantalla. En `Produce`
+     el más alto se lee como el mejor y no hay problema; en `Concede` es
+     exactamente al revés, y el mismo dibujo dice las dos cosas. Se
+     aclara con palabras: meter un semáforo sería una opinión disfrazada
+     de dato, que es justo lo que esta pantalla no hace. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const conConcede = {
+    "99": {remates: 10.0, pj: 6, n: {remates: 6},
+           concede: {remates: 8.0, pj: 6, n: {remates: 6}}},
+    "98": {remates: 9.0,  pj: 6, n: {remates: 6},
+           concede: {remates: 12.0, pj: 6, n: {remates: 6}}},
+  };
+  L.cargar(PARTIDOS, {}, {}, conConcede);
+  const html = equipos(m);
+  cierto(/m[áa]s alto/i.test(html), "no dice qué marca la tinta plena");
+  cierto(/Concede/.test(html), "no aclara que en Concede el más alto es el peor");
+});
+
+test("y el filtro lo DICE en vez de quedarse mudo", ()=>{
+  /* La regla de arriba es correcta y era invisible: con 2 por sede,
+     "Este cruce", "De local" y "De visita" mostraban los mismos diez
+     números y ninguno avisaba. El que mira concluye que el equipo juega
+     igual de local que de visitante — que es justo lo que el dato NO
+     dice. Un control que no cambia nada es peor que un control ausente,
+     así que se apaga y muestra con cuántos partidos cuenta. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const flaco = {
+    "99": {remates: 10.0, pj: 4, n: {remates: 4},
+           local:  {remates: 14.0, pj: 2, n: {remates: 2}},
+           visita: {remates: 6.0,  pj: 2, n: {remates: 2}}},
+    "98": {remates: 9.0,  pj: 4, n: {remates: 4},
+           local:  {remates: 11.0, pj: 2, n: {remates: 2}},
+           visita: {remates: 7.0,  pj: 2, n: {remates: 2}}},
+  };
+  L.cargar(PARTIDOS, {}, {}, flaco);
+  const html = equipos(m);
+  cierto(!/data-loc="local"/.test(html) && !/data-loc="visita"/.test(html),
+         "los filtros que no pueden hacer nada siguen clicables");
+  cierto(/data-loc="cruce"/.test(html),
+         "apagó también el default, que sí es la lectura correcta");
+  cierto(/2 PJ/.test(html), "no dice con cuántos partidos por sede cuenta");
+  cierto(/avfiltro/.test(html), "no explica por qué los tres dan lo mismo");
+});
+
+test("con muestra suficiente el filtro vuelve a estar vivo", ()=>{
+  /* La otra mitad del contrato: si esto no se verifica, apagar los tres
+     botones siempre daría verde arriba y el filtro no existiría más. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  L.cargar(PARTIDOS, {}, {}, EST_SPLIT);
+  const html = equipos(m);
+  cierto(/data-loc="local"/.test(html) && /data-loc="visita"/.test(html),
+         "dejó apagado un filtro que sí tiene muestra");
+  cierto(!/avfiltro/.test(html), "avisó que no se puede cuando sí se puede");
 });
 
 test("Datos · Equipos muestra lo que el rival concede en esa metrica", ()=>{

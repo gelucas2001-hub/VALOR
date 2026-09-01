@@ -205,6 +205,16 @@ a{color:inherit}
   color:var(--tinta);font-weight:400}
 .crest{width:17px;height:17px;object-fit:contain;flex:0 0 17px}
 .crest.ph{background:var(--linea3);border-radius:50%}
+/* Un nombre de club no identifica a nadie que no siga esa liga, y la
+   app lista jugadores, tablas y series de dos equipos a la vez. El
+   escudo es lo único que separa "Carlos Eduardo de Mirassol" de
+   "Carlos Eduardo del otro Mirassol" antes de leer el renglón. Va
+   siempre pegado al nombre, nunca solo: dos escudos parecidos a 13px
+   se confunden, escudo + nombre no.
+
+   `crest()` ya trae el hueco cuando ESPN devuelve 404, que pasa seguido
+   en los equipos chicos — el hueco ocupa lugar para que la columna no
+   se corra media fila. */
 
 /* Cabecera del partido abierto y meta del Registro: la portada ya no
    las usa (tiene talón), pero el detalle sí. */
@@ -315,8 +325,16 @@ a{color:inherit}
 /* El degradado no es de las pestanas: es de cualquier tira que se corte
    a la derecha. La fila de metricas de Plantel mide 460 en 343 y se
    cortaba igual, en la misma pantalla, sin ningun aviso. Una sola forma
-   de decir "hay mas a la derecha". */
-.mas{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
+   de decir "hay mas a la derecha".
+
+   Se llamaba `.mas` y colisionaba con el `.mas` del `+`/`−` de los
+   acordeones, que es otra cosa entera. El glifo mide 10px y la mascara
+   pone su tramo opaco en `calc(100% - 30px)` —o sea en −20px—, asi que
+   TODO el signo caia adentro del degradado y se dibujaba semi
+   transparente. Por eso el `+` de "SEÑAL BAJA +" se veia lavado y
+   pegado al texto en vez de leerse como un control. Dos nombres iguales
+   para dos cosas distintas no fallan, se tapan. */
+.corte{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%);
      mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 30px),transparent 100%)}
 .tabs::-webkit-scrollbar{display:none}
 
@@ -482,7 +500,9 @@ a{color:inherit}
 .plsel{display:flex;background:var(--hueco);padding:3px;gap:3px;margin-bottom:10px}
 .plsel .pleq{flex:1;border:0;cursor:pointer;min-height:44px;padding:0 4px;font-family:var(--anton);
   font-size:13px;letter-spacing:.03em;line-height:1;background:transparent;color:var(--gris);
-  transition:background .18s ease,color .18s ease;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  transition:background .18s ease,color .18s ease;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;gap:7px}
+.plsel .pleq span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .plsel .pleq.on{background:var(--tinta);color:var(--hueco)}
 .plcampo{position:relative;background:var(--hueco);box-shadow:4px 4px 0 var(--sombra);
   padding:14px 8px;height:342px;display:flex;flex-direction:column-reverse}
@@ -501,8 +521,12 @@ a{color:inherit}
   font-weight:700;border-radius:50%}
 .plj .pln{font-family:var(--mono);font-size:11px;letter-spacing:.04em;line-height:1.15;
   color:var(--tinta3);text-align:center;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.plpie{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;
-  letter-spacing:.1em;color:var(--gris3);margin-top:6px}
+/* Con el esquema real el rotulo de la izquierda crecio ("4-1-4-1 ·
+   ESQUEMA REAL") y los dos extremos se tocaban: `space-between` no
+   separa nada cuando el contenido ya llena la fila. */
+.plpie{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.1em;color:var(--gris3);margin-top:6px;text-wrap:pretty}
+.plpie span:last-child{flex:0 0 auto;text-align:right}
 
 /* Filas planas, como el resto de las listas largas de la app. El peso
    goleador va en tinta plena porque es el dato que cambia una lectura;
@@ -840,7 +864,10 @@ a{color:inherit}
 .cab{background:var(--hueco);padding:calc(13px + env(safe-area-inset-top)) 16px 12px;
   display:flex;align-items:center;gap:10px}
 .cab .id{flex:1;min-width:0}
-.cab .cruce{font-family:var(--anton);font-size:14px;line-height:1.1;color:var(--tinta);font-weight:400}
+.cab .cruce{font-family:var(--anton);font-size:14px;line-height:1.1;color:var(--tinta);
+  font-weight:400;display:flex;align-items:center;gap:6px;overflow:hidden}
+.cab .cruce span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cab .cruce em{flex:0 0 auto;font-style:normal;color:var(--gris3)}
 .cab .meta{font-family:var(--mono);font-size:11px;line-height:1;color:var(--gris3);
   letter-spacing:.06em;margin-top:4px}
 
@@ -1045,13 +1072,23 @@ a{color:inherit}
 .trow{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--panel)}
 .trow + .trow{margin-top:1px}
 .trow .ps{flex:0 0 20px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gris2)}
+.trow .nm span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .trow .nm{flex:1;min-width:0;font-size:12px;color:var(--tinta2);overflow:hidden;
+  display:flex;align-items:center;gap:7px;
   text-overflow:ellipsis;white-space:nowrap}
 .trow .pt{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta)}
 .trow .zn{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--gris3)}
+/* La cabecera de la columna, para las listas donde la unidad es la
+   misma en todos los renglones. Alineada con la caja, no con el texto:
+   rotula la lista entera. */
+.trowh{display:flex;align-items:center;gap:9px;padding:0 11px 7px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--gris3)}
+.trowh em{margin-left:auto;font-style:normal}
 /* H2H como evidencia: cuatro cruces y nada más. */
 .h2hc{display:flex;gap:1px}
 .h2hc div{flex:1;background:var(--panel);padding:9px 6px;text-align:center;min-width:0}
+.h2hc .ec{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:6px}
 .h2hc b{display:block;font-family:var(--mono);font-size:13px;line-height:1;font-weight:600;color:var(--tinta2)}
 .h2hc span{display:block;font-family:var(--mono);font-size:10px;line-height:1;color:var(--neutroPanel);margin-top:5px}
 /* Bloque de advertencia. La contradicción se muestra: si el motor y la
@@ -1073,6 +1110,16 @@ a{color:inherit}
   min-height:34px}
 .filtro3 button.on{background:var(--tinta2);color:var(--hueco)}
 .filtro3.suave button.on{background:var(--tinta3)}
+/* El filtro que no puede: apagado y con su muestra a la vista. No se
+   esconde — un filtro ausente se lee como un filtro que nadie pensó. */
+.filtro3 button.mudo{flex-direction:column;gap:3px;color:var(--gris3);opacity:.55}
+.filtro3 button.mudo em{font-style:normal;font-size:9.5px;letter-spacing:.04em;color:var(--neutro)}
+.avfiltro{margin:8px 20px 0 16px;font-family:var(--mono);font-size:10px;line-height:1.5;
+  letter-spacing:.02em;color:var(--gris3);text-wrap:pretty}
+/* El filtro de equipo dice el nombre recortado ("Defensa" por "Defensa
+   y Justicia"): con el escudo delante se reconoce sin leerlo. */
+.filtro3 button{display:flex;align-items:center;justify-content:center;gap:6px}
+.filtro3 button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .metacs{margin:12px 20px 0 16px;display:flex;flex-direction:column;gap:1px}
 .metac{background:var(--panel)}
 .metac .mh{width:100%;text-align:left;padding:12px 12px 11px;display:flex;align-items:center;gap:9px}
@@ -1107,6 +1154,20 @@ a{color:inherit}
 .metac .mpie{margin-top:11px;padding-top:9px;border-top:1px solid var(--linea2);display:flex;
   justify-content:space-between;gap:10px;font-family:var(--mono);font-size:10.5px;
   line-height:1.3;color:var(--neutroPanel)}
+/* "Tinta plena = numero mas alto, NO numero mejor" era una regla
+   escrita en el codigo y en ningun lado de la pantalla. En `Produce` el
+   mas alto se lee como el mejor y no hay problema; en `Concede` es
+   exactamente al reves, y el mismo dibujo dice las dos cosas. Se
+   aclara con palabras, que es la unica forma que no rompe la regla de
+   no meter semaforo. */
+.metac .rtinta{margin-top:11px;font-family:var(--mono);font-size:10px;line-height:1.5;
+  color:var(--gris3);text-wrap:pretty}
+.metac .rtinta b{color:var(--tinta3);font-weight:400}
+
+/* El escudo de cada lado va del lado de su barra: el del local a la
+   izquierda, el del visitante a la derecha, como estan las dos mitades
+   de la barra que este pie rotula. */
+.metac .mpie span{display:flex;align-items:center;gap:6px}
 
 /* ── DATOS · Jugadores ─────────────────────────────────────────────
    Los 18 de cada plantel, no solo los que la app destaca. El que mira
@@ -1121,14 +1182,27 @@ a{color:inherit}
 .jgh{margin:14px 20px 0 16px;display:flex;align-items:center;gap:9px;padding-bottom:7px;
   border-bottom:1px solid var(--linea2);font-family:var(--mono);font-size:10px;line-height:1;
   letter-spacing:.09em;text-transform:uppercase;color:var(--gris3)}
+.jgh .c0{flex:0 0 13px}
 .jgh .c1{flex:1;min-width:0}
-.jgh .c2{flex:0 0 64px;text-align:center}
 .jgh .c3{flex:0 0 34px;text-align:right;color:var(--tinta)}
 .jgh em{color:var(--tinta3);font-style:normal}
 .jglist{margin:0 20px 0 16px}
 .jgrow{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid var(--panel)}
+/* La lista mezcla los dos planteles y ordena por numero: dos renglones
+   seguidos pueden ser de equipos distintos, y el club solo estaba dicho
+   en la linea chica de abajo, en versalitas de 10px. Peor con dos
+   homonimos --Mirassol tiene dos Carlos Eduardo-- donde el nombre no
+   alcanza ni sabiendo la liga. El escudo va con el nombre, arriba, que
+   es donde se mira. */
+.jgrow .c0{flex:0 0 13px;align-self:flex-start;margin-top:2px;display:flex}
+.jgrow.supl .c0{opacity:.7}
 .jgrow .c1{flex:1;min-width:0}
 .jgrow .nm{font-family:var(--anton);font-size:14px;line-height:1.05;color:var(--tinta2);font-weight:400}
+/* El dorsal detras del nombre, no adentro de la linea de contexto: dos
+   homonimos del mismo club se separan ahi arriba, que es donde se mira,
+   y la linea chica no se estira. */
+.jgrow .nm em,.jrow .jn .drs{font-family:var(--mono);font-size:10px;font-style:normal;
+  color:var(--gris3);margin-left:6px;letter-spacing:.04em}
 .jgrow.destacado .nm{color:var(--tinta)}
 .jgrow .mt{font-family:var(--mono);font-size:10px;line-height:1.3;color:var(--gris3);margin-top:5px}
 .jgrow .med{flex:0 0 34px;text-align:right;font-family:var(--mono);font-size:14px;line-height:1;
@@ -1139,17 +1213,17 @@ a{color:inherit}
    número, no solo en el pie: en la misma columna se leían como uno. */
 .jgrow .med.prom{color:var(--tinta3);text-decoration:underline dotted var(--filete);
   text-decoration-thickness:1px;text-underline-offset:4px}
-.jgrow .spark.vacia{border-bottom:1px dotted var(--linea3)}
+/* La serie va debajo del nombre y no en una columna al costado: en
+   64px de ancho ocho casillas no entran, y achicarlas hasta que entren
+   fue lo que dejo la barra sin numeros. Abajo hay ancho de sobra. */
+.jgrow .ser{display:flex;gap:3px;margin-top:7px}
 /* El suplente entra veinte minutos: su serie no se compara con la de un
    titular. Se baja de intensidad y se dice en el renglón — pero NO se
    esconde de la lista, que es lo que hacía la pantalla vieja. */
 .jgrow.supl{opacity:.66}
 .jgrow.supl .nm{color:var(--gris2)}
 .jgrow.supl .mt{color:var(--terracota)}
-.spark{flex:0 0 64px;height:24px;display:flex;align-items:flex-end;gap:3px}
-.spark i{flex:1;background:rgba(238,227,206,.22);border-top:2px solid var(--tinta3);min-height:2px}
-.spark i.cero{border-top-color:var(--neutro)}
-.jgrow.supl .spark i{background:rgba(238,227,206,.1);border-top-color:var(--neutro)}
+.jgrow.supl .sq{border-color:var(--linea2)}
 .vermas{margin:12px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   padding:12px;width:calc(100% - 36px);text-align:left;display:flex;align-items:center;gap:8px;
   font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--tinta3)}
@@ -1176,8 +1250,9 @@ a{color:inherit}
   text-transform:uppercase;font-size:10px;color:var(--gris3)}
 .stdr{padding:9px 0;border-bottom:1px solid var(--linea);color:var(--gris2)}
 .stdr .p{flex:0 0 18px}
-.stdr .e{flex:1;min-width:0;font-family:var(--cuerpo);font-size:12px;overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap}
+.stdr .e{flex:1;min-width:0;font-family:var(--cuerpo);font-size:12px;
+  display:flex;align-items:center;gap:7px;overflow:hidden}
+.stdr .e span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .stdr .v{flex:0 0 26px;text-align:right}
 .stdr .pts{flex:0 0 30px;text-align:right;color:var(--tinta3)}
 /* Los dos equipos del partido, destacados. El resto de la tabla es
@@ -1190,25 +1265,28 @@ a{color:inherit}
 .rsub.primero{margin-top:0}
 .h2hr{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--hueco)}
 .h2hr .f{flex:0 0 44px;font-family:var(--mono);font-size:10.5px;color:var(--gris3)}
-.h2hr .c{flex:1;min-width:0;font-size:12px;color:var(--tinta3);overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap}
+.h2hr .c{flex:1;min-width:0;font-size:12px;color:var(--tinta3);
+  display:flex;align-items:center;gap:5px;overflow:hidden}
+.h2hr .c span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.h2hr .c em{flex:0 0 auto;font-style:normal;color:var(--gris3)}
 .h2hr .r{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta2)}
 /* Los últimos cinco SIN verde ni rojo: ganó es tinta plena, empató
    media, perdió apenas. El semáforo es la tentación más vieja de una app
    de fútbol y es la que convierte un dato en un juicio. */
+/* Historial tenia su propio dibujo de los cinco --cuadros mudos con una
+   leyenda al pie-- mientras la portada y el Registro usaban `tiraForma`,
+   que escribe G/E/P adentro. Dos dibujos del mismo dato obligan a
+   aprender dos codigos, y el de aca solo se entendia bajando hasta la
+   leyenda. Ahora es la misma pieza; la leyenda queda porque presenta la
+   letra una vez, no porque el cuadro no diga nada. */
 .cinco{display:flex;align-items:center;gap:9px;padding:7px 0}
-.cinco .e{flex:1;min-width:0;font-size:12px;color:var(--tinta3);overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap}
-.cinco .cs{display:flex;gap:3px;flex:0 0 auto}
-.cinco i{width:16px;height:16px;background:rgba(238,227,206,.12)}
-.cinco i.g{background:var(--tinta)}
-.cinco i.e2{background:rgba(238,227,206,.3)}
+.cinco .e{flex:1;min-width:0;font-size:12px;color:var(--tinta3);
+  display:flex;align-items:center;gap:7px;overflow:hidden}
+.cinco .e span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .leyenda{margin-top:10px;padding-top:9px;border-top:1px solid var(--hueco);display:flex;
   align-items:center;gap:12px;font-family:var(--mono);font-size:10px;color:var(--gris3)}
 .leyenda span{display:flex;align-items:center;gap:5px}
-.leyenda i{width:10px;height:10px;background:rgba(238,227,206,.12)}
-.leyenda i.g{background:var(--tinta)}
-.leyenda i.e2{background:rgba(238,227,206,.3)}
+.leyenda .forma i{width:13px;height:13px;font-size:9px}
 
 /* ── PORTADA ───────────────────────────────────────────────────────
    La portada NO interpreta. "Llega mejor" y "partido parejo" son
@@ -1276,10 +1354,16 @@ a{color:inherit}
 /* Columna propia, ancho de cinco casillas (5×9 + 4×2). Alineada a la
    derecha: el equipo con menos fechas jugadas trae menos casillas y el
    hueco tiene que quedar del lado del pasado, no del presente. */
-.plin .sen{flex:0 0 53px;display:flex;flex-direction:column;gap:3px}
+.plin .sen{flex:0 0 63px;display:flex;flex-direction:column;gap:3px}
 .plin .sen .forma.mini{justify-content:flex-end}
 .plin .forma.mini{flex:0 0 auto;gap:2px}
-.plin .forma.mini i,.talonab .forma.mini i{width:9px;height:9px;font-size:0;line-height:0}
+/* La casilla mini medía 9px y llevaba `font-size:0`: `tiraForma` escribe
+   G/E/P adentro de cada una y acá la letra estaba tapada. Cinco cuadros
+   sin letra no son un dato, son una textura — el que no sabe el código
+   no tiene de dónde sacarlo, y en la portada no hay leyenda al lado.
+   11px es lo que necesita una letra de 8px para leerse; la columna pasa
+   de 53 a 63 (5×11 + 4×2). */
+.plin .forma.mini i,.talonab .forma.mini i{width:11px;height:11px;font-size:8px;line-height:1}
 /* Fijo, no `auto`: con el estado midiendo lo que mide, un partido de
    nombres largos y otro de nombres cortos partían la fila en un lugar
    distinto y la lista dejaba de tener columnas. */
@@ -1570,7 +1654,7 @@ const umbral = p => p>0 ? (1+MIN_EV)/p : Infinity;
 /* ══════════════════════════════════════════════════════════════════
    ESTADO
    ══════════════════════════════════════════════════════════════════ */
-let MATCHES=[], ANALISIS={}, PLANTELES={}, ACTUALIZADO="";
+let MATCHES=[], ANALISIS={}, PLANTELES={}, ONCES={}, ACTUALIZADO="";
 let VISTA="fecha", DIA=null, MATCH_ID=null, FILTRO="todas";
 /* ── el estado de las tres capas ────────────────────────────────
    La navegación del partido dejó de ser una pestaña sola: hay una capa
@@ -2775,11 +2859,15 @@ function viewFecha(){
     const nRi = ms.filter(m=> estados.get(m.id).clase === "riesgo").length;
     const sub = nOp ? `<b>${nOp} ${nOp===1?"oportunidad":"oportunidades"}</b>`
               : nRi ? `<b class="riesgo">${nRi} ${nRi===1?"riesgo":"riesgos"} no compensado${nRi===1?"":"s"}</b>`
-              : `${ms.length} mirado${ms.length===1?"":"s"}, ninguna`;
+              /* "1 mirado, ninguna" — ¿ninguna qué? La palabra
+                 "oportunidad" no aparecia en ningun lado de la franja:
+                 estaba en las otras dos ramas y en esta se elidia. */
+              : `${ms.length} mirado${ms.length===1?"":"s"}, ninguna oportunidad`;
     h += `<button class="ligarow ${abierta?"on":""}" data-liga="${esc_(comp)}">
       <span class="mas">${abierta?"−":"+"}</span>
       <span class="ln"><b>${esc_(comp)}</b>
-        <i>${horas.length ? `${esc_(horas[0])} → ${esc_(horas[horas.length-1])} · ` : ""}${sub}</i></span>
+        <i>${horas.length ? `${horas[0] === horas[horas.length-1]
+            ? esc_(horas[0]) : `${esc_(horas[0])} → ${esc_(horas[horas.length-1])}`} · ` : ""}${sub}</i></span>
       <span class="n">${dd(ms.length)}</span></button>`;
     if(!abierta) return;
     h += `<div class="plins">${ms.map((m, i)=> renglonPartido(m, estados.get(m.id), i)).join("")}</div>`;
@@ -2800,8 +2888,8 @@ function renglonPartido(m, e, i){
      copa juega cada tres semanas mostraba una racha de meses atrás
      mientras el archivo ya traía la fresca. Es dato crudo, no lectura:
      ganó, empató o perdió. */
-  const img = (logo, nombre) => `<div><img src="${esc_(logo||"")}" alt="" loading="lazy"
-    onerror="this.style.visibility='hidden'"><span>${esc_(nombre)}</span></div>`;
+  const img = (logo, nombre) =>
+    `<div>${crest(logo, 15)}<span>${esc_(nombre)}</span></div>`;
 
   if(e.clase !== "oportunidad")
     return `<button class="plin" data-partido="${esc_(m.id)}" style="${delay}">
@@ -2820,10 +2908,8 @@ function renglonPartido(m, e, i){
       <span class="h2">${esc_(m.hora||"—")}</span>
       <span class="d2">DE ${dd(total)}</span></span>
     <span class="der">
-      <span class="eq2"><img src="${esc_(m.homeLogo||"")}" alt="" loading="lazy"
-        onerror="this.style.visibility='hidden'"><b>${esc_(m.home)}</b></span>
-      <span class="eq2"><img src="${esc_(m.awayLogo||"")}" alt="" loading="lazy"
-        onerror="this.style.visibility='hidden'"><b>${esc_(m.away)}</b></span>
+      <span class="eq2">${crest(m.homeLogo, 17)}<b>${esc_(m.home)}</b></span>
+      <span class="eq2">${crest(m.awayLogo, 17)}<b>${esc_(m.away)}</b></span>
       <span class="rot3">Veredicto</span>
       <span class="tit3">${esc_(f.op.label)}</span>
       <span class="tes3">Le damos ${pc(f.op.p)}${f.ventaja!=null
@@ -2844,6 +2930,26 @@ function tiraForma(forma, tam){
   const cls = {W:"g", D:"e", L:"p"}, txt = {W:"G", D:"E", L:"P"};
   return `<div class="forma ${tam||""}">${(forma||[]).slice().reverse()
     .map(f=>`<i class="${cls[f.r]||"p"}">${txt[f.r]||"P"}</i>`).join("")}</div>`;
+}
+
+/* La serie partido a partido de un jugador. Misma direccion que la
+   tira de forma: a la derecha llega el presente. Venia al reves
+   —el partido mas nuevo a la izquierda— en las dos pantallas que la
+   dibujan, y al lado de una tira que corre para el otro lado eso no se
+   nota como un orden distinto, se lee mal y ya.
+
+   Cuatro intensidades y el numero adentro. El 4 y el 9 se pintan igual
+   y esta bien: la caja da el golpe de vista y el numero da el dato. La
+   barra que habia en Datos se normalizaba contra el maximo DE ESE
+   JUGADOR, asi que la barra mas alta de uno y la de otro no valian lo
+   mismo y no habia forma de saberlo. */
+function tiraSerie(valores){
+  const s = (valores || []).slice().reverse();
+  if(!s.length) return "";
+  const tinta = v => { const n = Number(v)||0;
+    return n <= 0 ? "f0" : n === 1 ? "f1" : n <= 3 ? "f2" : "f3"; };
+  return `<div class="ser">${s.map(v=>
+    `<span class="sq ${tinta(v)}">${Number(v)||0}</span>`).join("")}</div>`;
 }
 
 /* El marcador exacto más probable. Se muestra siempre con su
@@ -2968,7 +3074,8 @@ function cabPartido(m){
   const {n, total} = numeroDe(m);
   return `<div class="cab"><button class="back" data-volver="1">←</button>
     <div class="id">
-      <div class="cruce">${esc_(m.home)} — ${esc_(m.away)}</div>
+      <div class="cruce">${crest(m.homeLogo, 15)}<span>${esc_(m.home)}</span>
+        <em>—</em>${crest(m.awayLogo, 15)}<span>${esc_(m.away)}</span></div>
       <div class="meta">${esc_(COMPS_CORTO[m.comp] || m.comp)} · Nº ${dd(n)} de ${dd(total)}${
         m.hora ? " · " + esc_(m.hora) : ""}</div>
     </div></div>`;
@@ -3514,23 +3621,37 @@ function capaLectura(m){
   const tl = enTabla(m.homeId), tv = enTabla(m.awayId);
   if(tl && tv){
     const pos = f => (m.tabla || []).filter(x=> (x.grupo||"") === (f.grupo||"")).indexOf(f) + 1;
-    const fila = (f, nombre)=> `<div class="trow"><span class="ps">${dd(pos(f))}</span>
-      <span class="nm">${esc_(nombre)}</span><span class="pt">${f.pts}</span>
+    const fila = (f, nombre, logo)=> `<div class="trow"><span class="ps">${dd(pos(f))}</span>
+      <span class="nm">${crest(logo, 13)}<span>${esc_(nombre)}</span></span>
+      <span class="pt">${f.pts}</span>
       <span class="zn">PTS · ${f.pj} PJ</span></div>`;
     bloques.push(bloqueArgumento(rot("Tabla"),
       `${esc_(m.home)} llega con <b>${tl.pts}</b> puntos en ${tl.pj} partidos y ${esc_(m.away)} con
        <b>${tv.pts}</b> en ${tv.pj}.${tl.pj !== tv.pj
         ? " No llegan con los mismos jugados, así que los puntos no se comparan derecho." : ""}`,
-      fila(tl, m.home) + fila(tv, m.away),
+      fila(tl, m.home, m.homeLogo) + fila(tv, m.away, m.awayLogo),
       `<div class="epie"><span>La tabla completa está en Datos · Referencia</span></div>`));
   }
 
   /* 03 · El antecedente. Cuatro cruces y nada más. */
   const h2h = (m.h2h || []).slice(0, 4);
+  const logoH2H = n => n === m.home ? m.homeLogo : n === m.away ? m.awayLogo : null;
   if(h2h.length){
     bloques.push(bloqueArgumento(rot("Antecedente"), antecedente(m),
+      /* La tarjeta decia "1-5" y la fecha, y nada mas. Un marcador sin
+         los dos escudos no dice quien puso el 1 y quien el 5: el que
+         lee tiene que acordarse de que el orden es local-visitante Y de
+         quien jugo de local aquella vez, dos datos que la tarjeta no
+         trae. Los escudos van en el mismo orden que los numeros.
+
+         Solo por igualdad exacta: si un cruce viejo trae un nombre que
+         no es ninguno de los dos de hoy, va el hueco. Adivinar cual es
+         cual pondria el escudo equivocado, y un escudo equivocado no se
+         ve como un error -- se ve como el partido al reves. */
       `<div class="h2hc">${h2h.map(x=>
-        `<div><b>${esc_(x.s || "—")}</b><span>${esc_((x.d || "").slice(0,5))}</span></div>`).join("")}</div>`));
+        `<div><span class="ec">${crest(logoH2H(x.h), 13)}${crest(logoH2H(x.a), 13)}</span>
+          <b>${esc_(x.s || "—")}</b>
+          <span>${esc_((x.d || "").slice(0,5))}</span></div>`).join("")}</div>`));
   }
 
   /* 04 · Jugadores. El eje que escribe la skill del mercado de
@@ -3542,17 +3663,20 @@ function capaLectura(m){
   if(ejeJug && ejeJug.estimacion && ejeJug.estimacion.length){
     const filas = ejeJug.estimacion.map(g=> g.jugadores.map(j=>
       `<div class="trow"><span class="ps">${esc_(j.pos||"—")}</span>
-        <span class="nm">${esc_(j.nombre)}</span>
-        <span class="pt">${(j.esp.goles||0).toFixed(2)}</span>
-        <span class="zn">GOL ESPERADO</span></div>`).join("")).join("");
+        <span class="nm">${crest(j.logo, 13)}<span>${esc_(j.nombre)}</span></span>
+        <span class="pt">${(j.esp.goles||0).toFixed(2)}</span></div>`).join("")).join("");
     const flojas = JUG_METRICAS.filter(([k])=>{
       const f = fiabilidadJugador(k); return f && f.nivel === "mal";
     }).map(([, e])=> e);
+    /* La unidad iba repetida en cada renglon: seis veces "GOL ESPERADO"
+       no informan seis veces, ocupan el ancho que el nombre necesita
+       para no cortarse. Se dice una vez, arriba de la columna. */
+    const cabJug = `<div class="trowh"><span>Jugador</span><em>Gol esperado</em></div>`;
     bloques.push(bloqueArgumento(rot("Jugadores"),
       est.jugadores ? esc_(est.jugadores)
         : `Lo que esperamos de los que más pesan en cada línea, de su serie reciente.
            <b>No es una apuesta</b>: contra el precio de la casa esto todavía no se midió.`,
-      filas,
+      cabJug + filas,
       `<div class="epie"><span>${flojas.length
         ? `${esc_(flojas.join(" y "))} está medido y le erra bastante más de lo que explica el azar`
         : "Las tres métricas del eje están medidas contra el ruido"}</span>
@@ -3699,6 +3823,32 @@ function ladoDe(eq, k, rol){
   return usable(split, k) ? split : eq;
 }
 
+/* Cuántas de las métricas comparadas cambiaría un filtro, y con cuántos
+   partidos por sede cuenta.
+
+   Existe porque el filtro podía no hacer NADA sin decirlo. Con el caché
+   en 4 partidos por equipo quedan 2 por sede, abajo de MIN_SPLIT, y
+   `ladoDe` cae al total en las tres opciones: tres botones, los mismos
+   diez números, y ningún aviso. Un control que no cambia nada es peor
+   que un control ausente — el que mira concluye que el equipo juega
+   igual de local que de visitante, que es justo lo que el dato no dice.
+
+   Cuenta las métricas donde AL MENOS UN equipo usaría su split, porque
+   `ladoDe` decide equipo por equipo: puede pasar que el local tenga
+   muestra y el visitante no. */
+function alcanceFiltro(L, V, k){
+  let cambia = 0, pj = 0;
+  COMPARA.forEach(x=>{
+    const a = k === "cruce" ? (L || {}).local : (L || {})[k];
+    const b = k === "cruce" ? (V || {}).visita : (V || {})[k];
+    if(usable(a, x.k) || usable(b, x.k)) cambia++;
+    const na = (a && a.n && a.n[x.k]) || 0, nb = (b && b.n && b.n[x.k]) || 0;
+    const m = Math.min(na, nb);
+    if(m > pj) pj = m;
+  });
+  return {cambia, pj};
+}
+
 /* El par produce, en el renglón cerrado del acordeón. Misma regla que
    la barra grande: tinta plena = número MÁS ALTO, no número mejor. */
 function resumenMetrica(a, b, suf){
@@ -3720,8 +3870,27 @@ function datosEquipos(m){
 
   const pj = Math.min(L.pj || 0, V.pj || 0);
   let h = sello2("Equipos", `${dd(COMPARA.length)} MÉTRICAS · ${pj} PJ`);
+  /* "Este cruce" no se apaga nunca: es el default, y su caída al total
+     es la lectura correcta cuando no hay muestra por sede. Los otros dos
+     sí, porque prometen una comparación que no pueden hacer. */
+  const alcance = {};
+  ["cruce","local","visita"].forEach(k=> alcance[k] = alcanceFiltro(L, V, k));
+  /* El filtro elegido persiste entre partidos: se puede llegar acá con
+     "De local" puesto desde un partido que sí tenía muestra. Si en este
+     no la tiene, el botón queda apagado y la marca vuelve al default en
+     vez de dejar los tres sin marcar. */
+  const locVista = (LOCALIA !== "cruce" && !alcance[LOCALIA].cambia) ? "cruce" : LOCALIA;
   h += `<div class="filtro3">${[["cruce","Este cruce"],["local","De local"],["visita","De visita"]]
-    .map(([k,l])=> `<button class="${LOCALIA===k?"on":""}" data-loc="${k}">${l}</button>`).join("")}</div>`;
+    .map(([k,l])=>{
+      if(k !== "cruce" && !alcance[k].cambia)
+        return `<button class="mudo" disabled>${l}<em>${alcance[k].pj} PJ</em></button>`;
+      return `<button class="${locVista===k?"on":""}" data-loc="${k}">${l}</button>`;
+    }).join("")}</div>`;
+  /* Sin cifra en la frase: cada sede tiene la suya y el boton ya la
+     dice. Una sola cifra acá contradecia al boton de al lado. */
+  if(!alcance[locVista].cambia)
+    h += `<p class="avfiltro">Abajo de ${MIN_SPLIT} partidos por sede el split no dice nada:
+      las tres opciones muestran el total. Cada botón dice con cuántos cuenta.</p>`;
 
   h += `<div class="metacs">${COMPARA.map(x=>{
     const A = ladoDe(L, x.k, "local"), B = ladoDe(V, x.k, "visita");
@@ -3746,8 +3915,12 @@ function datosEquipos(m){
           ${barraComparativa(x.et, a, b, x.suf)}</div>
         ${cL != null && cV != null ? `<div class="par"><div class="rot2">Concede</div>
           ${barraComparativa(x.et, cL, cV, x.suf)}</div>` : ""}
-        <div class="mpie"><span>${esc_(m.home)}${LOCALIA==="cruce"?" · de local":""}</span>
-          <span>${esc_(m.away)}${LOCALIA==="cruce"?" · de visita":""}</span></div>
+        <div class="rtinta">La tinta plena marca el número <b>más alto</b>, no el mejor:
+          en <b>Concede</b> el más alto es el que peor viene.</div>
+        <div class="mpie"><span>${crest(m.homeLogo, 13)}${esc_(m.home)}${
+            LOCALIA==="cruce"?" · de local":""}</span>
+          <span>${esc_(m.away)}${LOCALIA==="cruce"?" · de visita":""}${
+            crest(m.awayLogo, 13)}</span></div>
       </div>` : resumenMetrica(a, b, x.suf)}</div>`;
   }).join("")}</div>`;
 
@@ -3762,17 +3935,39 @@ function datosEquipos(m){
    con la serie a la vista y con la titularidad dicha en el renglón. */
 function datosJugadores(m){
   const pool = [];
-  [[m.homeId, m.home, "L"], [m.awayId, m.away, "V"]].forEach(([id, equipo, lado])=>{
-    (PLANTELES[String(id)] || []).forEach(j=> pool.push(Object.assign({}, j, {equipo, lado})));
-  });
+  [[m.homeId, m.home, "L", m.homeLogo], [m.awayId, m.away, "V", m.awayLogo]]
+    .forEach(([id, equipo, lado, logo])=>{
+      (PLANTELES[String(id)] || []).forEach(j=>
+        pool.push(Object.assign({}, j, {equipo, lado, logo})));
+    });
   if(!pool.length) return sello2("Jugadores", "SIN DATO") +
     `<div class="nada"><b>Sin planteles</b><p>Todavía no tenemos la serie de estos dos equipos.</p></div>`;
 
   const clave = (METRICAS.find(x=> x.k === JUG_ORDEN) || METRICAS[0]).k;
+  /* Que la fuente publique la serie es una propiedad de la LIGA, no del
+     jugador: si algun companero tiene serie, la fuente la publica y el
+     que no la tiene es porque no jugo ninguno de los ultimos partidos.
+     Se mira por equipo porque un partido puede cruzar dos ligas. */
+  const conSerie = {};
+  pool.forEach(j=> { if(j.serie) conSerie[j.lado] = true; });
+  /* Cuantos partidos mira la serie, para poder decirlo: el companero
+     que jugo todos marca el largo de la ventana de ese equipo. */
+  const ventana = {};
+  pool.forEach(j=> { const n = (j.serie || {}).pj || 0;
+    if(n > (ventana[j.lado] || 0)) ventana[j.lado] = n; });
+
   const lista = pool
     .filter(j=> JUG_EQ === "dos" || j.lado === JUG_EQ)
     .filter(j=> j.pj > 0)
     .sort((a,b)=>{
+      /* El que no viene jugando va al fondo, aunque su promedio de
+         temporada sea el mas alto de la lista. Los dos numeros no son
+         comparables: el esperado esta encogido hacia el puesto y el
+         promedio de temporada no, asi que ordenarlos juntos ponia
+         primero al que hace ocho fechas no entra — el primer nombre de
+         la lista era el que no juega. No se esconde, se ordena. */
+      const ha = !!(a.serie && a.serie[clave]), hb = !!(b.serie && b.serie[clave]);
+      if(ha !== hb) return ha ? -1 : 1;
       const va = (a.serie && a.serie.esp && a.serie.esp[clave]);
       const vb = (b.serie && b.serie.esp && b.serie.esp[clave]);
       const ma = va != null ? va : (a.pj > 0 ? (a[clave]||0)/a.pj : 0);
@@ -3791,49 +3986,63 @@ function datosJugadores(m){
      El nombre completo está en el renglón de cada jugador. */
   const club = n => { const x = String(n||"").replace(/\s*\(.*$/, "");
     return x.length > 12 ? x.split(" ")[0] : x; };
-  h += `<div class="filtro3 suave">${[["dos","Los dos"],["L",club(m.home)],["V",club(m.away)]]
-    .map(([k,l])=> `<button class="${JUG_EQ===k?"on":""}" data-jugeq="${esc_(k)}">${esc_(l)}</button>`).join("")}</div>`;
-  h += `<div class="jgh"><span class="c1">Jugador <em>·
+  h += `<div class="filtro3 suave">${[["dos","Los dos",null],["L",club(m.home),m.homeLogo],
+      ["V",club(m.away),m.awayLogo]]
+    .map(([k,l,lg])=> `<button class="${JUG_EQ===k?"on":""}" data-jugeq="${esc_(k)}">${
+      lg ? crest(lg, 13) : ""}<span>${esc_(l)}</span></button>`).join("")}</div>`;
+  h += `<div class="jgh"><span class="c0"></span><span class="c1">Jugador <em>·
       <span class="senal ${se.clase}">${esc_(se.texto)}</span></em></span>
-    <span class="c2">Serie</span><span class="c3">Med</span></div>`;
+    <span class="c3">Med</span></div>`;
 
   h += `<div class="jglist">${ver.map((j, i)=>{
     const s = (j.serie && j.serie[clave]) || [];
-    const tope = Math.max(1, ...s.map(v=> Number(v)||0));
     const tit = (j.serie && j.serie.tit) || 0, spj = (j.serie && j.serie.pj) || 0;
-    /* Sin serie no se dibuja una serie vacía: tres barras a cero se
-       leen como "no hizo nada" cuando lo que pasa es que la fuente no
-       publica el partido a partido en esta liga. */
     const haySerie = s.length > 0;
     /* El que entra desde el banco juega veinte minutos: su serie no se
        compara con la de un titular. Se baja de intensidad y se dice en
        el renglón — pero no se esconde de la lista. */
     const suplente = haySerie && spj > 0 && tit === 0;
+    /* Dos causas opuestas se dibujaban con el mismo cartel. SIN SERIE
+       decia, y el pie confirmaba, que "la fuente no la publica" — pero
+       en el mismo Mirassol diecinueve companeros SI tenian serie. Lo
+       que le pasa a este jugador es lo contrario de un hueco de la
+       fuente: hace varias fechas que no entra, que es justo el dato que
+       importa antes de apostarle. */
+    const fuenteMuda = !conSerie[j.lado];
+    const frio = !haySerie && !fuenteMuda;
+    const estado = haySerie
+      ? (suplente ? `SUPLENTE 0/${spj}` : `TITULAR ${tit}/${spj}`)
+      : fuenteMuda ? `${j.pj} PJ · SIN SERIE`
+      : `${j.pj} PJ · NO VIENE JUGANDO`;
     /* Dos números distintos en la misma columna: el esperado de hoy y el
        promedio de la temporada. Se marca CUÁL es cada uno. */
     const esp = !!(j.serie && j.serie.esp && j.serie.esp[clave] != null);
     const med = esp ? j.serie.esp[clave].toFixed(1)
       : (j.pj > 0 ? ((j[clave]||0)/j.pj).toFixed(1) : "—");
-    return `<div class="jgrow${suplente ? " supl" : ""}${i < 2 && !suplente ? " destacado" : ""}">
-      <div class="c1"><div class="nm">${esc_(j.nombre)}</div>
-        <div class="mt">${esc_(j.equipo)} · ${esc_(j.pos || "—")} · ${!haySerie
-          ? `${j.pj} PJ · SIN SERIE`
-          : suplente ? `SUPLENTE 0/${spj}` : `TITULAR ${tit}/${spj}`}</div></div>
-      <div class="spark${haySerie ? "" : " vacia"}">${haySerie ? s.map(v=>{
-        const n = Number(v) || 0;
-        return `<i class="${n?"":"cero"}" style="height:${Math.max(8, n/tope*100)}%"></i>`;
-      }).join("") : ""}</div>
+    const apagado = suplente || frio;
+    return `<div class="jgrow${apagado ? " supl" : ""}${
+        i < 2 && !apagado ? " destacado" : ""}">
+      <div class="c0">${crest(j.logo, 13)}</div>
+      <div class="c1"><div class="nm">${esc_(j.nombre)}${
+        j.dorsal ? `<em>${esc_(j.dorsal)}</em>` : ""}</div>
+        <!-- El club solo cuando la lista mezcla los dos: filtrada, ya lo
+             dicen el boton de arriba y el escudo del renglon, y el nombre
+             repetido partia la linea en dos. -->
+        <div class="mt">${JUG_EQ === "dos" ? esc_(j.equipo) + " · " : ""}${esc_(j.pos || "—")} · ${estado}</div>
+        ${haySerie ? tiraSerie(s) : ""}</div>
       <b class="med${esp ? "" : " prom"}">${med}</b></div>`;
   }).join("")}</div>`;
 
-  /* Dos números distintos en la misma columna, dicho una vez: donde
-     hay serie, MED es lo que esperamos de ese jugador en ESTE partido
-     (encogido hacia su puesto); donde no la hay, es su promedio de la
-     temporada. La fuente no publica el partido a partido en todas las
-     ligas y taparlo sería inventar. */
-  h += `<p class="notacapa">MED es lo que esperamos hoy cuando hay serie reciente, y el promedio de
-    la temporada cuando la fuente no la publica — ahí el número va <b>punteado</b> y el renglón
-    dice <b>SIN SERIE</b>.</p>`;
+  /* Tres cosas que el renglón no puede decir doce veces: qué es la
+     serie, qué es MED y por qué hay dos MED distintos. Van una vez, al
+     pie, y no en cada fila. */
+  const vent = ventana[JUG_EQ === "V" ? "V" : "L"] || ventana.L || ventana.V || 0;
+  h += `<p class="notacapa">La <b>serie</b> es lo que hizo en cada uno de sus últimos
+    ${vent || "pocos"} partidos, del más viejo al más nuevo — igual que los últimos cinco del
+    equipo. <b>MED</b> es lo que esperamos de él hoy. Cuando no tiene serie, MED es el promedio
+    de la temporada: va <b>punteado</b>, y el renglón aclara si es porque
+    <b>no viene jugando</b> o porque la fuente no publica el partido a partido de esa liga
+    (<b>SIN SERIE</b>).</p>`;
 
   if(lista.length > 12)
     h += `<button class="vermas" data-expandir="jug"><span>${todos
@@ -3885,7 +4094,8 @@ function datosReferencia(m){
       if(!cerca.has(i)){ saltados++; return; }
       if(saltados){ out += `<div class="stdr puntos">···  ${saltados} equipo${saltados===1?"":"s"} más</div>`; saltados = 0; }
       out += `<div class="stdr${mios.has(String(f.id)) ? " mio" : ""}">
-        <span class="p">${dd(i+1)}</span><span class="e">${esc_(f.t)}</span>
+        <span class="p">${dd(i+1)}</span>
+        <span class="e">${crest(f.logo, 13)}<span>${esc_(f.t)}</span></span>
         <span class="v">${f.pj}</span><span class="v">${f.gf != null ? f.gf : "—"}</span>
         <span class="pts">${f.pts}</span></div>`;
     });
@@ -3900,21 +4110,29 @@ function datosReferencia(m){
   h += bloque("hist", "Historial", `${h2h.length} CRUCES`, ()=>{
     let out = "";
     if(h2h.length){
+      /* El cara a cara nombra a los dos equipos del partido y a nadie
+         mas: el escudo sale de ahi, sin tabla de nombres de por medio. */
+      const logoDe = n => n === m.home ? m.homeLogo : n === m.away ? m.awayLogo : null;
       out += `<div class="rsub primero">Cara a cara</div>` + h2h.slice(0, 6).map(x=>
         `<div class="h2hr"><span class="f">${esc_((x.d||"").slice(0,5))}</span>
-          <span class="c">${esc_(x.h)} — ${esc_(x.a)}</span>
+          <span class="c">${crest(logoDe(x.h), 13)}<span>${esc_(x.h)}</span>
+            <em>—</em>${crest(logoDe(x.a), 13)}<span>${esc_(x.a)}</span></span>
           <span class="r">${esc_(x.s || "—")}</span></div>`).join("");
     }
-    const cinco = (nombre, forma)=>{
-      const f = (forma || []).slice().reverse();
-      if(!f.length) return "";
-      return `<div class="cinco"><span class="e">${esc_(nombre)}</span>
-        <span class="cs">${f.map(x=> `<i class="${x.r==="W"?"g":x.r==="D"?"e2":""}"></i>`).join("")}</span></div>`;
+    /* La tira es `tiraForma`, la misma que la portada y el Registro:
+       antes esta pantalla dibujaba cuadros mudos y la de al lado los
+       dibujaba con la letra adentro. */
+    const cinco = (nombre, logo, forma)=>{
+      if(!(forma || []).length) return "";
+      return `<div class="cinco"><span class="e">${crest(logo, 13)}<span>${esc_(nombre)}</span></span>
+        ${tiraForma(forma)}</div>`;
     };
     out += `<div class="rsub">Últimos cinco</div>`
-      + cinco(m.home, m.formH_general) + cinco(m.away, m.formA_general)
-      + `<div class="leyenda"><span><i class="g"></i>Ganó</span><span><i class="e2"></i>Empató</span>
-         <span><i></i>Perdió</span></div>`;
+      + cinco(m.home, m.homeLogo, m.formH_general)
+      + cinco(m.away, m.awayLogo, m.formA_general)
+      + `<div class="leyenda"><span><div class="forma"><i class="g">G</i></div>Ganó</span>
+         <span><div class="forma"><i class="e">E</i></div>Empató</span>
+         <span><div class="forma"><i class="p">P</i></div>Perdió</span></div>`;
     return out;
   });
 
@@ -4043,7 +4261,7 @@ const JUG_LINEAS = [
 function jugadoresDe(m, porLinea = 2){
   const de = id => (PLANTELES[String(id)] || []);
   const pool = [];
-  [[m.homeId, m.home], [m.awayId, m.away]].forEach(([id, equipo])=>{
+  [[m.homeId, m.home, m.homeLogo], [m.awayId, m.away, m.awayLogo]].forEach(([id, equipo, logo])=>{
     de(id).forEach(j=>{
       const e = ((j.serie || {}).esp) || {};
       if(e.goles == null) return;
@@ -4051,7 +4269,7 @@ function jugadoresDe(m, porLinea = 2){
          reciente, no con la temporada entera. Poner "23 partidos"
          debajo de un número que sale de 3 dice que el dato es más
          firme de lo que es — y el que lee no tiene cómo saberlo. */
-      pool.push({nombre: j.nombre, equipo: equipo, pos: j.pos,
+      pool.push({nombre: j.nombre, equipo: equipo, logo: logo, pos: j.pos,
                  pj: (j.serie || {}).pj || 0, esp: e});
     });
   });
@@ -4354,20 +4572,26 @@ function cancha(m, conLista = true){
   const nombre = esH ? m.home : m.away;
   const id = esH ? m.homeId : m.awayId;
   const js = PLANTELES[String(id)] || [];
-  const btn = (k, txt) => `<button class="pleq ${(PL_EQ!=="A")===(k==="H")?"on":""}" data-pleq="${k}">${esc_(txt)}</button>`;
+  const btn = (k, txt, logo) => `<button class="pleq ${(PL_EQ!=="A")===(k==="H")?"on":""}"
+    data-pleq="${k}">${crest(logo, 17)}<span>${esc_(txt)}</span></button>`;
   let h = `<div class="lbl sep">Once probable</div>
-    <div class="plsel">${btn("H", m.home)}${btn("A", m.away)}</div>`;
+    <div class="plsel">${btn("H", m.home, m.homeLogo)}${btn("A", m.away, m.awayLogo)}</div>`;
 
   if(!js.length){
     return h + `<p class="blurb apag">Todavía no tenemos el plantel de este equipo.</p>`;
   }
 
-  const o = onceProbable(js);
+  /* El once REAL del último partido si el cron lo trajo; si no, el
+     inferido de siempre. Un equipo sin `rosters` cargados se ve igual
+     que antes de que esto existiera. */
+  const ult = ONCES[String(id)];
+  const real = onceReal(ult);
+  const o = real || onceProbable(js);
   /* column-reverse: el arquero abajo y el ataque arriba, como en el
      prototipo — "ataca hacia arriba" solo se lee si el dibujo lo hace. */
   const filas = o.lineas.map(linea=> `<div class="pllinea">${linea.map(j=>`
       <div class="plj">
-        <span class="dorsal">${j.pos||"·"}</span>
+        <span class="dorsal">${esc_(real ? (j.dorsal || j.pos || "·") : (j.pos || "·"))}</span>
         <span class="pln">${esc_(cortarNombre(j.nombre))}</span>
       </div>`).join("")}</div>`).join("");
 
@@ -4376,11 +4600,26 @@ function cancha(m, conLista = true){
       <i class="area ab"></i><i class="area ar"></i>
       ${filas}
     </div>
-    <div class="plpie"><span>${o.esquema} · ESQUEMA INFERIDO</span><span>ATACA HACIA ARRIBA</span></div>
-    <p class="blurb pie">Este once sale de
-      quiénes vienen jugando más, no de una formación confirmada: ESPN no publica ni el equipo
-      titular ni el esquema. Sirve para ver la forma del equipo, no para dar por hecho quién entra.</p>`;
+    <div class="plpie"><span>${esc_(o.esquema)} · ${real
+      ? "ESQUEMA REAL" : "ESQUEMA INFERIDO"}</span><span>ATACA HACIA ARRIBA</span></div>`;
+  h += real
+    ? `<p class="blurb pie">Es el once que ${esc_(nombre)} puso de arranque el
+        ${esc_(fechaCorta(ult.fecha))} ${ult.local ? "contra" : "de visita a"}
+        ${esc_(ult.rival || "su rival")}${ult.marcador ? ` (${esc_(ult.marcador)})` : ""},
+        con los dorsales de ese día. <b>No es la formación de hoy</b>: nadie publica el equipo
+        titular antes del partido. Es el mejor punto de partida que hay, no una confirmación.</p>`
+    : `<p class="blurb pie">Este once sale de
+        quiénes vienen jugando más, no de una formación confirmada: no tenemos el once del último
+        partido de este equipo. Sirve para ver la forma del equipo, no para dar por hecho quién
+        entra.</p>`;
   return conLista ? h + jugadores(nombre, id, PL_MET) : h;
+}
+
+/* "2026-08-31" adentro de una frase se lee como un número de serie. */
+function fechaCorta(iso){
+  const p = String(iso || "").slice(0, 10).split("-");
+  if(p.length !== 3) return String(iso || "");
+  return `${Number(p[2])} de ${MESES[Number(p[1]) - 1] || ""}`;
 }
 
 /* Un nombre completo no entra abajo de un dorsal de 26px. Se corta al
@@ -4446,6 +4685,49 @@ function onceProbable(plantel){
     esquema: [def.length, med.length, del.length].join("-"),
     total: arq.length + def.length + med.length + del.length,
   };
+}
+
+/* ESPN no dice "D" y "M": dice CD-L, RB, AM-R, LF. Es mas fino que
+   nuestras cuatro filas y es justo lo que hace falta para dibujar la
+   forma real — un 4-2-3-1 y un 4-5-1 tienen los mismos once y no son el
+   mismo equipo.
+
+   Seis filas y no cuatro: el mediocampo se parte en el que sostiene
+   (DM), el de en medio y el que ataca (AM*). Es lo que separa el "2"
+   del "3" en un 4-2-3-1 y el "1" del "4" en un 4-1-4-1 — con cuatro
+   filas los dos caian en "4-5-1". Verificado contra tres partidos
+   reales el 2026-09-01: asi el dibujo reproduce el esquema que publica
+   ESPN. La fila que queda vacia no se dibuja. */
+const LINEA_DE_POS = {
+  G:"G", GK:"G",
+  D:"D", CB:"D", CD:"D", LB:"D", RB:"D", WB:"D", LWB:"D", RWB:"D", SW:"D",
+  DM:"H", CDM:"H", LDM:"H", RDM:"H",
+  AM:"A", CAM:"A", SS:"A",
+  F:"F", CF:"F", ST:"F", LF:"F", RF:"F", W:"F", LW:"F", RW:"F",
+};
+/* Todo lo que no esta en la tabla cae en el mediocampo, que es la linea
+   elastica: una etiqueta nueva de ESPN produce un dibujo raro, no un
+   equipo con diez jugadores. */
+function lineaDePos(pos){
+  const base = String(pos || "").toUpperCase().split("-")[0];
+  return LINEA_DE_POS[base] || "M";
+}
+
+/* El once que el equipo puso de verdad la ultima vez. Reemplaza a la
+   inferencia cuando existe. */
+function onceReal(once){
+  const js = (once && once.jugadores) || [];
+  if(js.length !== 11) return null;
+  const de = k => js.filter(j=> lineaDePos(j.pos) === k);
+  const lineas = [de("G"), de("D"), de("H"), de("M"), de("A"), de("F")].filter(l=> l.length);
+  /* El dibujo manda sobre la etiqueta. ESPN publica su propio
+     "4-2-3-1" y casi siempre coincide con lo que sale de las
+     posiciones, pero si no coincide se rotula lo que se DIBUJA: una
+     cancha con cinco volantes abajo de un cartel que dice 2-3 es peor
+     que no poner cartel. */
+  const dibujado = lineas.slice(1).map(l=> l.length).join("-");
+  const esquema = (once.esquema || "") === dibujado ? once.esquema : dibujado;
+  return {lineas, esquema};
 }
 
 /* La lista de jugadores de un equipo, con los números que permiten pesar
@@ -4516,15 +4798,7 @@ function filaJugador(j, clave, liga){
      partidos pero hizo 4 en 1". El promedio los da iguales. */
   const s = j.serie && j.serie[clave];
   const L = lineaJugador(j, clave, liga);
-  /* Cuatro intensidades y nada más: el ojo tiene que distinguir "no
-     hizo", "hizo algo" y "hizo bastante", no leer una escala de doce
-     pasos. El 4 y el 9 se pintan igual y está bien — el número está
-     escrito adentro de la caja. */
-  const tinta = v => { const n = Number(v)||0;
-    return n <= 0 ? "f0" : n === 1 ? "f1" : n <= 3 ? "f2" : "f3"; };
-  const serie = s && s.length
-    ? `<div class="ser">${s.map(v=> `<span class="sq ${tinta(v)}">${Number(v)||0}</span>`).join("")}</div>`
-    : "";
+  const serie = tiraSerie(s);
 
   /* Renglón de contexto. "11 en 5 PJ" en vez de dos columnas mudas: se
      explica solo, así la fila no depende de una cabecera que en la sexta
@@ -4543,7 +4817,8 @@ function filaJugador(j, clave, liga){
   const cero = !hay || !(j[clave] > 0);
   return `<div class="jrow${corta ? " corta" : ""}${cero ? " cero" : ""}">
       <span class="pos">${esc_(j.pos||"—")}</span>
-      <span class="jn">${esc_(j.nombre)}</span>
+      <span class="jn">${esc_(j.nombre)}${
+        j.dorsal ? `<em class="drs">${esc_(j.dorsal)}</em>` : ""}</span>
       <b class="jprom">${media}</b>
       <span class="jctx">${ctx}</span>
       <span class="jlin">${L ? `+${L.linea.toFixed(1)} → ${Math.round(L.prob*100)}%` : ""}</span>
@@ -5146,7 +5421,7 @@ function render(){
       const meta = on.offsetLeft - (tira.clientWidth - on.offsetWidth) / 2;
       tira.scrollLeft = Math.max(0, meta);
     }
-    const fin = ()=> tira.classList.toggle("mas",
+    const fin = ()=> tira.classList.toggle("corte",
       tira.scrollWidth - tira.clientWidth - tira.scrollLeft > 8);
     fin();
     tira.addEventListener("scroll", fin, {passive:true});
@@ -5330,6 +5605,9 @@ async function traer(url, def){
   /* la clave _schema es documentación del formato, no un partido */
   ANALISIS = an || {}; delete ANALISIS._schema;
   PLANTELES = (pl && pl.equipos) || {};
+  /* El once del ultimo partido, si el cron lo trajo. Si no esta, la
+     cancha se comporta exactamente como antes: dibuja el inferido. */
+  ONCES = (pl && pl.once) || {};
   ESTADISTICAS = (es && es.equipos) || {};
   PARAMETROS = (es && es.parametros) || {};
   PARAM_LIGA = (es && es.parametros_liga) || {};

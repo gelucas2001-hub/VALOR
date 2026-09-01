@@ -872,6 +872,13 @@ def stats_jugador(atleta):
         "id": str(atleta.get("id", "")),
         "nombre": atleta.get("displayName", ""),
         "pos": (atleta.get("position") or {}).get("abbreviation", ""),
+        # El dorsal ya venia en la respuesta y se tiraba. Mirassol tiene
+        # DOS Carlos Eduardo en el mismo plantel: en una lista de dos
+        # equipos el nombre no alcanza ni sabiendo la liga, y el escudo
+        # tampoco cuando los dos homonimos son del mismo club. ESPN lo
+        # publica para 32 de 35 jugadores; el que no lo tiene queda con
+        # cadena vacia, que la app no dibuja.
+        "dorsal": str(atleta.get("jersey") or ""),
         "pj": num("appearances"),
         "goles": num("totalGoals"),
         "asist": num("goalAssists"),
@@ -1026,6 +1033,73 @@ def jugadores_partido(crudo):
     return out
 
 
+def once_partido(crudo):
+    """{team_id: {"esquema": "4-3-3", "jugadores": [...]}} de UN partido.
+
+    Los ONCE QUE ARRANCARON, con dorsal y puesto, del mismo /summary que
+    ya se pide para la serie. Cero pedidos nuevos.
+
+    Existe porque la app dibujaba un once INFERIDO —los que mas partidos
+    llevan, acomodados por puesto— con una nota que decia que ESPN no
+    publica ni el titular ni el esquema. Eso es cierto para un partido
+    que todavia no se jugo y falso para uno jugado: `rosters[]` trae
+    `starter`, `jersey`, `formationPlace` y `formation` ("4-2-3-1").
+    Verificado el 2026-09-01 contra la API. El ultimo once real es una
+    aproximacion mejor que una inferencia, y ademas es un dato.
+
+    Un lado con distinto de once titulares se descarta entero: un dibujo
+    con ocho jugadores miente sobre el equipo tanto como uno con cuatro
+    delanteros, y es el mismo criterio que ya usa `onceProbable()`.
+    """
+    out = {}
+    for lado in (crudo or {}).get("rosters", []) or []:
+        tid = str(((lado.get("team") or {}).get("id")) or "")
+        if not tid or tid == "None":
+            continue
+        once = []
+        for pl in lado.get("roster") or []:
+            if not pl.get("starter"):
+                continue
+            at = pl.get("athlete") or {}
+            once.append({
+                "id": str(at.get("id") or ""),
+                "nombre": at.get("displayName") or "",
+                "pos": (pl.get("position") or {}).get("abbreviation") or "",
+                "dorsal": str(pl.get("jersey") or ""),
+            })
+        if len(once) != 11:
+            continue
+        out[tid] = {"esquema": lado.get("formation") or "",
+                    "jugadores": once}
+    return out
+
+
+def ultimo_once(team_id, jugados, cache_resumen):
+    """El once del partido mas reciente de ese equipo que tenga uno.
+
+    Recorre hacia atras y no se queda solo con el ultimo: un partido
+    puede haber quedado sin `rosters` cargados, y en ese caso el once de
+    hace una fecha sigue siendo mejor que ninguno. Se devuelve CON su
+    fecha y su rival para que la pantalla pueda decir de que partido es
+    — un once sin fecha se lee como el once de hoy.
+    """
+    tid = str(team_id)
+    for pr in jugados:
+        once = ((cache_resumen.get(pr.get("id")) or {}).get("_once") or {}).get(tid)
+        if not once:
+            continue
+        local = bool(pr.get("local"))
+        return {
+            "fecha": (pr.get("fecha") or "")[:10],
+            "rival": pr.get("away") if local else pr.get("home"),
+            "local": local,
+            "marcador": pr.get("marcador") or "",
+            "esquema": once["esquema"],
+            "jugadores": once["jugadores"],
+        }
+    return None
+
+
 def serie_jugadores(jugados, cache_resumen, tope=SERIE_N, minimo=1):
     """{jugador_id: {metrica: [valor por partido], "pj": n, "tit": n}}.
 
@@ -1150,6 +1224,7 @@ def aplanar_resumen(crudo):
     # que todo lo que recorre los equipos del registro lo saltee.
     out["_arbitro"] = arbitro_de(crudo)
     out["_jugadores"] = jugadores_partido(crudo)
+    out["_once"] = once_partido(crudo)
     return out
 
 
@@ -1693,7 +1768,8 @@ def resumen_completo(datos):
     # clave tiene que existir: es lo que distingue "no hay arbitro" de
     # "todavia no se pregunto", y sin eso los 177 partidos ya cacheados
     # nunca se volverian a pedir.
-    if "_arbitro" not in datos or "_jugadores" not in datos:
+    if ("_arbitro" not in datos or "_jugadores" not in datos
+            or "_once" not in datos):
         return False
     return all("remates" in v for v in equipos)
 
@@ -2619,6 +2695,16 @@ def main():
             if d:
                 j["serie"] = d
 
+    # ── el once que cada equipo puso la ultima vez ──────────────────
+    # No reemplaza al plantel: lo acompana. La app dibuja este si esta y
+    # cae al inferido si no, asi que un equipo sin `rosters` cargados se
+    # comporta exactamente como antes de que esto existiera.
+    onces = {}
+    for tid in planteles:
+        uno = ultimo_once(tid, jugados_equipo.get(tid) or [], cache_resumen)
+        if uno:
+            onces[tid] = uno
+
     # Los parametros del puesto salen de TODOS los planteles juntos: para
     # saber que es mucho para un delantero hay que mirar a los delanteros,
     # no a los de un equipo. Recien despues se le pone a cada jugador lo
@@ -2679,9 +2765,11 @@ def main():
     PLANTELES.write_text(json.dumps({
         "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
         "equipos": planteles,
+        "once": onces,
     }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"· planteles: {len(planteles)} equipos, "
-          f"{sum(len(v) for v in planteles.values())} jugadores")
+          f"{sum(len(v) for v in planteles.values())} jugadores, "
+          f"{len(onces)} con el once del ultimo partido")
 
     ESTADISTICAS.write_text(json.dumps({
         "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),

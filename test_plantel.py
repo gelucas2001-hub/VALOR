@@ -205,5 +205,65 @@ prueba("un equipo sin goles no divide por cero",
        actualizar.peso_goleador(sin_goles) == {"1": 0.0})
 prueba("un plantel vacio no rompe", actualizar.peso_goleador([]) == {})
 
+
+# ── El once que arranco de verdad ──────────────────────────────────
+# La app dibujaba un once INFERIDO con una nota que decia que ESPN no
+# publica el titular. Es cierto para un partido por jugarse y falso para
+# uno jugado: `rosters[]` trae starter, jersey, formationPlace y
+# formation. Verificado contra la API el 2026-09-01.
+print("")
+print("El once del ultimo partido")
+print("")
+
+
+def tit(nombre, pid, pos, dorsal, starter=True):
+    return {"starter": starter, "jersey": dorsal,
+            "athlete": {"id": pid, "displayName": nombre},
+            "position": {"abbreviation": pos}}
+
+
+def lado(team_id, formacion, titulares, banco=2):
+    r = [tit("T%d" % i, str(100 + i), q, str(i + 1))
+         for i, q in enumerate(titulares)]
+    r += [tit("S%d" % i, str(200 + i), "M", "0", starter=False)
+          for i in range(banco)]
+    return {"team": {"id": team_id}, "formation": formacion, "roster": r}
+
+
+ONCE_433 = ["G", "RB", "LB", "CM", "CD-R", "CD-L", "RM", "LM", "F", "RF", "LF"]
+crudo = {"rosters": [lado("99", "4-3-3", ONCE_433)]}
+o = actualizar.once_partido(crudo)
+
+prueba("saca los once que arrancaron, y solo esos", len(o["99"]["jugadores"]) == 11)
+prueba("con el dorsal, que es lo que se dibuja en la cancha",
+       o["99"]["jugadores"][0]["dorsal"] == "1")
+prueba("y con el esquema que publica ESPN", o["99"]["esquema"] == "4-3-3")
+prueba("el suplente no entra en el once",
+       all(not j["nombre"].startswith("S") for j in o["99"]["jugadores"]))
+
+# Un lado incompleto se descarta ENTERO: un dibujo con ocho jugadores
+# miente sobre el equipo tanto como uno con cuatro delanteros.
+incompleto = {"rosters": [lado("99", "4-3-3", ONCE_433[:8])]}
+prueba("un lado con menos de once no se dibuja a medias",
+       actualizar.once_partido(incompleto) == {})
+prueba("un resumen sin rosters no rompe", actualizar.once_partido({}) == {})
+
+# `ultimo_once` recorre hacia atras: el partido mas nuevo sin rosters
+# cargados no puede dejar al equipo sin once.
+jugados = [
+    {"id": "e3", "fecha": "2026-08-31T00:00Z", "local": True,
+     "home": "Propio", "away": "Rival Nuevo", "marcador": "3-0"},
+    {"id": "e2", "fecha": "2026-08-23T00:00Z", "local": False,
+     "home": "Rival Viejo", "away": "Propio", "marcador": "1-2"},
+]
+cache = {"e3": {"_once": {}}, "e2": {"_once": o}}
+u = actualizar.ultimo_once("99", jugados, cache)
+prueba("cae al partido anterior cuando el ultimo no trae rosters",
+       u["fecha"] == "2026-08-23")
+prueba("y dice contra quien fue: un once sin fecha se lee como el de hoy",
+       u["rival"] == "Rival Viejo" and u["local"] is False)
+prueba("sin ningun once devuelve None, no un diccionario vacio",
+       actualizar.ultimo_once("99", jugados, {"e3": {}, "e2": {}}) is None)
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

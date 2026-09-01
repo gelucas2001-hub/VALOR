@@ -1086,7 +1086,11 @@ a{color:inherit}
   color:var(--tinta3)}
 .emkc p{margin:0}
 .emkc p + p{margin-top:7px}
-.cifras2{display:flex;gap:1px;margin-top:10px}
+.lin2 + .lin2{margin-top:11px}
+.lin2 .lq{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--tinta2)}
+.lin2 .ln2{display:block;font-family:var(--mono);font-size:10px;color:var(--gris3);
+  margin-top:4px;font-style:normal}
+.cifras2{display:flex;gap:1px;margin-top:7px}
 .cifras2 div{flex:1;background:var(--panel);padding:8px 9px;min-width:0}
 .cifras2 small{display:block;font-family:var(--mono);font-size:10px;line-height:1;
   letter-spacing:.08em;color:var(--gris3)}
@@ -1368,6 +1372,8 @@ a{color:inherit}
 .plin .eqs img{width:15px;height:15px;flex:0 0 15px;object-fit:contain}
 .plin .eqs span{flex:1;min-width:0;font-size:12.5px;color:var(--tinta2);overflow:hidden;
   text-overflow:ellipsis;white-space:nowrap}
+.plin .forma.mini,.talonab .forma.mini{flex:0 0 auto;gap:2px}
+.plin .forma.mini i,.talonab .forma.mini i{width:9px;height:9px;font-size:0;line-height:0}
 .plin .est2{flex:0 0 auto;text-align:right;font-family:var(--mono);font-size:11px;line-height:1.25;
   font-weight:700;letter-spacing:.04em;color:var(--neutroPanel)}
 /* El talón abierto: el veredicto abreviado del partido con oportunidad.
@@ -1673,7 +1679,10 @@ let VISTA="fecha", DIA=null, MATCH_ID=null, FILTRO="todas";
    que hace que se sientan una sola cosa y no seis destinos. */
 let CAPA="veredicto";     /* veredicto | lectura | datos */
 let EXPL="equipos";       /* equipos | jugadores | referencia */
-let LOCALIA="todo";       /* todo | local | visita — filtro de Datos·Equipos */
+let LOCALIA="cruce";      /* cruce | local | visita — filtro de Datos·Equipos.
+                             "cruce" es el default y significa cada equipo en SU rol
+                             de hoy, que es la lectura del partido; los otros dos
+                             miran a los dos del mismo lado. */
 let JUG_ORDEN="remates";  /* métrica que ordena la lista de jugadores */
 let JUG_EQ="dos";         /* dos | L | V */
 let REF_TABLA=null;       /* qué tabla de Referencia está a la vista */
@@ -2892,13 +2901,19 @@ function viewFecha(){
    menú de destinos — Lectura y Datos quedan a un toque desde adentro. */
 function renglonPartido(m, e, i){
   const delay = `animation-delay:${Math.min(i,7)*38}ms`;
-  const img = (logo, nombre) => `<div><img src="${esc_(logo||"")}" alt="" loading="lazy"
-    onerror="this.style.visibility='hidden'"><span>${esc_(nombre)}</span></div>`;
+  /* La forma va con `_general` y no con la del torneo: un equipo que en
+     copa juega cada tres semanas mostraba una racha de meses atrás
+     mientras el archivo ya traía la fresca. Es dato crudo, no lectura:
+     ganó, empató o perdió. */
+  const img = (logo, nombre, forma) => `<div><img src="${esc_(logo||"")}" alt="" loading="lazy"
+    onerror="this.style.visibility='hidden'"><span>${esc_(nombre)}</span>
+    ${tiraForma(forma, "mini")}</div>`;
 
   if(e.clase !== "oportunidad")
     return `<button class="plin" data-partido="${esc_(m.id)}" style="${delay}">
       <span class="hr">${esc_(m.hora||"—")}</span>
-      <span class="eqs">${img(m.homeLogo, m.home)}${img(m.awayLogo, m.away)}</span>
+      <span class="eqs">${img(m.homeLogo, m.home, m.formH_general)}${
+        img(m.awayLogo, m.away, m.formA_general)}</span>
       <span class="est2">${esc_(e.corto[0])}<br>${esc_(e.corto[1])}</span></button>`;
 
   const v = veredictoDe(m);
@@ -2911,9 +2926,11 @@ function renglonPartido(m, e, i){
       <span class="d2">DE ${dd(total)}</span></span>
     <span class="der">
       <span class="eq2"><img src="${esc_(m.homeLogo||"")}" alt="" loading="lazy"
-        onerror="this.style.visibility='hidden'"><b>${esc_(m.home)}</b></span>
+        onerror="this.style.visibility='hidden'"><b>${esc_(m.home)}</b>
+        ${tiraForma(m.formH_general, "mini")}</span>
       <span class="eq2"><img src="${esc_(m.awayLogo||"")}" alt="" loading="lazy"
-        onerror="this.style.visibility='hidden'"><b>${esc_(m.away)}</b></span>
+        onerror="this.style.visibility='hidden'"><b>${esc_(m.away)}</b>
+        ${tiraForma(m.formA_general, "mini")}</span>
       <span class="rot3">Veredicto</span>
       <span class="tit3">${esc_(f.op.label)}</span>
       <span class="tes3">Le damos ${pc(f.op.p)}${f.ventaja!=null
@@ -2965,64 +2982,6 @@ function antecedente(m){
 /* El veredicto en dos palabras. Sale de las mismas cuatro ramas que la
    prosa de lectura(), no de un criterio propio: si tuviera el suyo, un
    día el sello diría FAVORITO y el renglón de abajo "partido parejo". */
-/* El nombre para un sello: entero si entra, primera palabra si es largo.
-
-   Con una salvedad que apareció con datos reales: Gimnasia La Plata vs
-   Gimnasia (Mendoza) recortaban los dos a "GIMNASIA", y el sello no
-   decía nada. Cuando los dos colapsan al mismo texto se cae la palabra
-   que comparten y queda la que los distingue. */
-function nombreSello(nombre, otro){
-  if(!nombre) return "";
-  const recortar = n => (n.length > 13 ? n.split(" ")[0] : n).toUpperCase();
-  if(!otro || recortar(nombre) !== recortar(otro)) return recortar(nombre);
-  const propias = nombre.split(" ").filter(w => !otro.split(" ").includes(w));
-  const resto = propias.join(" ").replace(/[()]/g, "").trim();
-  return (resto || nombre).toUpperCase();
-}
-
-function sello(lec, m, dir){
-  const corto = n => nombreSello(n, n === m.home ? m.away : m.home);
-
-  /* Si hay análisis cargado, el veredicto es EL DEL ANÁLISIS. El modelo
-     pone el número, no la dirección.
-
-     Esto no es un detalle de copy: antes el sello salía del lean del
-     modelo y la marca dorada de la lectura humana, así que la tarjeta
-     podía decir "Gimnasia llega mejor" arriba y marcar la visita abajo.
-     Es el "es probable que gane River pero jugá a Racing" que Lucas
-     rechazó, y la regla de alineación existe justamente para que no
-     pase. Una tarjeta, una lectura. */
-  if(dir){
-    if(dir === "E") return ["PARTIDO","PAREJO"];
-    const nombre = dir === "L" ? m.home : m.away;
-    const p = lec.p[dir];
-    if(p >= 0.50 && lec.goles < 2.4) return [corto(nombre), "SIN GOLEADA"];
-    if(p >= 0.50) return [corto(nombre), "FAVORITO"];
-    if(p >= 0.40) return [corto(nombre), "LLEGA MEJOR"];
-    /* El análisis lo elige y los números no lo ponen adelante. Se dice
-       así, sin inflarlo: es información, no una contradicción. */
-    return [corto(nombre), "CON CHANCE"];
-  }
-
-  if(lec.parejo || !lec.nombre) return ["PARTIDO","PAREJO"];
-  if(lec.claro && lec.goles < 2.4) return [corto(lec.nombre), "SIN GOLEADA"];
-  if(lec.claro) return [corto(lec.nombre), "FAVORITO"];
-  return [corto(lec.nombre), "LLEGA MEJOR"];
-}
-
-/* La frase de una línea de la tarjeta. Con análisis cargado dice la
-   lectura humana y muestra el número del modelo al lado, incluso cuando
-   no coinciden — declarar la tensión es más honesto que esconderla. */
-function fraseCorta(lec, m, dir){
-  if(!dir) return lec.corto;
-  if(dir === "E") return `<b>Partido parejo</b> — le damos ${pc(lec.p.E)} al empate.`;
-  const nombre = dir === "L" ? m.home : m.away;
-  const p = lec.p[dir];
-  if(p >= 0.50) return `${esc_(nombre)} es nuestra lectura, y los números coinciden — le damos <b>${pc(p)}</b>.`;
-  if(p >= 0.40) return `${esc_(nombre)} es nuestra lectura — le damos <b>${pc(p)}</b>.`;
-  return `Vemos a ${esc_(nombre)}, aunque los números solos le dan <b>${pc(p)}</b>.`;
-}
-
 /* El troquelado: la palabra CALADA en una barra entintada, no dibujada
    encima. La máscara perfora el rect y deja ver el fondo a través de
    las letras, más tres perforaciones por lado — el talón de un cupón.
@@ -3310,6 +3269,16 @@ function mercadosDeVeredicto(m){
         : `${props} líneas de Bet365 · contra el precio no encontramos ventaja`});
   }
 
+  /* La combinada del partido: dos patas de familias distintas con la
+     probabilidad conjunta EXACTA sobre la matriz. Multiplicar las dos
+     por separado da un número más chico y falso — las dos patas del
+     mismo partido están correlacionadas. Nunca se marca: es una lectura
+     compuesta, y componer dos mercados no crea ventaja donde no la
+     había en ninguno de los dos. */
+  const cmb = combinada(m);
+  if(cmb) filas.push({id:"combinada", nombre:"Combinada del partido", estado:"NO OPINAMOS",
+    combi: cmb, motivo:`${cmb.patas.map(x=> x.label).join(" + ")} · ${pc(cmb.p)} juntas`});
+
   const oportunidad = filas.find(x=> x.estado === "OPORTUNIDAD") || null;
   return {oportunidad, filas: filas.filter(x=> x !== oportunidad), lec, dir};
 }
@@ -3369,6 +3338,15 @@ function cuerpoMercado(m, f){
       <div class="cifras2">${ops.slice(0, 3).map(o=>
         `<div><small>${esc_(o.label.toUpperCase())}</small><b>${pc(o.p)}</b></div>`).join("")}</div></div>`;
   }
+  if(f.id === "combinada" && f.combi){
+    const c = f.combi;
+    return `<div class="emkc"><p>Las dos juntas pasan el <b>${pc(c.p)}</b> de las veces, calculado
+      sobre la matriz del partido. Multiplicando las dos por separado daría ${pc(c.ingenua)}, que es
+      más chico y es falso: las dos patas del mismo partido están correlacionadas.</p>
+      <div class="cifras2">${c.patas.map(x=>
+        `<div><small>${esc_(x.label.toUpperCase())}</small><b>${pc(x.p)}</b></div>`).join("")}</div>
+      <p style="margin-top:9px">${esc_(cadaCuanto(c.p))}</p></div>`;
+  }
   if(f.id === "jugadores"){
     return `<div class="emkc"><p>Las series están enteras en <b>Datos · Jugadores</b>, con los 18 de
       cada plantel y la titularidad en el renglón. Acá no las recomendamos: contra el precio de Bet365
@@ -3376,26 +3354,54 @@ function cuerpoMercado(m, f){
   }
   const k = f.id === "remates_eq" ? "remates" : f.id;
   const fi = fiabilidad(k);
+  /* En córners hay además precio REAL de Bet365 (odds-api.io), con los
+     dos lados y ya sin margen. Va sin marca de valor a propósito:
+     medir_corners.py midió que el córner por equipo le pierde plata al
+     mercado, y pintarlo de mostaza sería prometer una ventaja que se
+     midió que no existe. */
+  const reales = k === "corners" ? bloqueCornersReales(m) : "";
   return `<div class="emkc">${bloqueLineasDe(m, k)}
-    <p style="margin-top:9px">${fi ? esc_(fi.texto)
-      : "Esta métrica todavía no se midió: no sabemos cuánto le erra."}</p></div>`;
+    <p style="margin-top:10px">${fi ? esc_(fi.texto)
+      : "Esta métrica todavía no se midió: no sabemos cuánto le erra."}</p>
+    ${reales}</div>`;
 }
 
-/* La escalera de líneas de una métrica, sin los botones de la pestaña
-   vieja: acá la métrica ya la eligió la fila que se desplegó. */
+/* La escalera de líneas de una métrica: los dos equipos y el total.
+   Sin los botones de la pestaña vieja, porque acá la métrica ya la
+   eligió la fila que se desplegó.
+
+   El total NO se calcula sumando dos equipos independientes: se midió
+   aparte y da distinto (en córners un equipo suelto tiene dispersión
+   1.75 y el total del partido 1.01, porque son medio suma cero). Por eso
+   la fila del total usa `disp_total` cuando existe. */
 function bloqueLineasDe(m, k){
   const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
   if(!L || !V || !L.esperado || !V.esperado) return "<p>Sin dato de los dos equipos.</p>";
   const P = paramsDe(L, V)[k];
   if(!P || L.esperado[k] == null || V.esperado[k] == null) return "<p>Sin dato de los dos equipos.</p>";
-  const mu = L.esperado[k] + V.esperado[k];
-  const disp = P.disp_total != null ? P.disp_total : P.disp;
-  const celdas = lineasDe(mu).map(Ln=>{
-    const q = probMayor(mu, disp, Ln);
-    return q == null ? "" : `<div><small>+${Ln.toFixed(1)}</small><b>${Math.round(q*100)}%</b></div>`;
-  }).join("");
-  return `<p>Chance de que el total del partido termine arriba de cada línea, con la campana
-    que le corresponde a esta métrica.</p><div class="cifras2">${celdas}</div>`;
+
+  const fila = (etiqueta, mu, disp, nota)=>{
+    const celdas = lineasDe(mu).map(Ln=>{
+      const q = probMayor(mu, disp, Ln);
+      return q == null ? "" : `<div><small>+${Ln.toFixed(1)}</small><b>${Math.round(q*100)}%</b></div>`;
+    }).join("");
+    if(!celdas) return "";
+    return `<div class="lin2"><span class="lq">${esc_(etiqueta)}</span>
+      <i class="ln2">${mu.toFixed(1)} esperados${nota ? " · " + esc_(nota) : ""}</i>
+      <div class="cifras2">${celdas}</div></div>`;
+  };
+  /* Cuánto del número es del equipo y cuánto es promedio de la liga. Sin
+     esto, dos equipos con la misma cifra parecen un error de render
+     cuando en realidad es el encogimiento diciendo que no hay muestra. */
+  const propio = eq => {
+    const w = Math.round(pesoEquipo((eq.n && eq.n[k]) || 0, P.k) * 100);
+    return `${w}% suyo, ${100-w}% de la liga`;
+  };
+  return fila(m.home, L.esperado[k], P.disp, propio(L))
+       + fila(m.away, V.esperado[k], P.disp, propio(V))
+       + fila("Total del partido", L.esperado[k] + V.esperado[k],
+              P.disp_total != null ? P.disp_total : P.disp,
+              P.disp_total != null ? "dispersión medida sobre el total" : "sin medición propia del total");
 }
 
 function capaVeredicto(m){
@@ -3494,7 +3500,10 @@ function capaLectura(m){
   let n = 0;
   const rot = t => `${dd(++n)} · ${t}`;
 
-  let h = sello2("Lectura", "POR QUÉ LO DECIMOS");
+  /* El contador del sello dice si hay nota escrita. Un partido sin
+     análisis no se disimula: se declara, porque es lo que explica que no
+     haya ninguna marca en el Veredicto. */
+  let h = sello2("Lectura", hayProsa(m.id) ? "POR QUÉ LO DECIMOS" : "SIN NOTA CARGADA");
   h += `<div class="tesis"><b>${esc_(lec.titulo)}</b><p>${esc_(lec.cuerpo)}</p></div>`;
 
   /* 01 · Dominio. El texto lo escribe la skill del mercado de
@@ -3550,18 +3559,58 @@ function capaLectura(m){
         `<div><b>${esc_(x.s || "—")}</b><span>${esc_((x.d || "").slice(0,5))}</span></div>`).join("")}</div>`));
   }
 
-  /* 04 · Contexto: lo único que no calcula nadie. Lo escribe una
+  /* 04 · Jugadores. El eje que escribe la skill del mercado de
+     estadísticas, con el chip de confianza que sale de la métrica PEOR:
+     mostrar goles bien calibrado al lado de remates mal calibrado y
+     declarar el conjunto "calibrado" sería usar lo bueno para tapar lo
+     malo. */
+  const ejeJug = ejesDe(m).find(e=> e.eje === "jugadores");
+  if(ejeJug && ejeJug.estimacion && ejeJug.estimacion.length){
+    const filas = ejeJug.estimacion.map(g=> g.jugadores.map(j=>
+      `<div class="trow"><span class="ps">${esc_(j.pos||"—")}</span>
+        <span class="nm">${esc_(j.nombre)}</span>
+        <span class="pt">${(j.esp.goles||0).toFixed(2)}</span>
+        <span class="zn">GOL ESPERADO</span></div>`).join("")).join("");
+    const flojas = JUG_METRICAS.filter(([k])=>{
+      const f = fiabilidadJugador(k); return f && f.nivel === "mal";
+    }).map(([, e])=> e);
+    bloques.push(bloqueArgumento(rot("Jugadores"),
+      est.jugadores ? esc_(est.jugadores)
+        : `Lo que esperamos de los que más pesan en cada línea, de su serie reciente.
+           <b>No es una apuesta</b>: contra el precio de la casa esto todavía no se midió.`,
+      filas,
+      `<div class="epie"><span>${flojas.length
+        ? `${esc_(flojas.join(" y "))} está medido y le erra bastante más de lo que explica el azar`
+        : "Las tres métricas del eje están medidas contra el ruido"}</span>
+        <em>DATOS ›</em></div>`));
+  }
+
+  /* 05 · Contexto: lo único que no calcula nadie. Lo escribe una
      persona con la skill `valor-analisis-inclinacion`, y por eso el eje
      se declara sin medir hasta que haya una fecha nueva con la skill
      corregida. */
   const prosa = [["local", m.home], ["visitante", m.away]]
     .filter(([k])=> a[k]).map(([k, eq])=>
       `<div class="rotarg" style="margin-top:11px">${esc_(eq)}</div><p>${esc_(a[k])}</p>`).join("");
-  if(prosa || a.contexto || a.veredicto){
+  const hayDesarrollo = !!(a.desarrollo && a.desarrollo.texto);
+  if(prosa || a.contexto || a.veredicto || hayDesarrollo){
     bloques.push(`<div class="arg"><div class="rotarg">${rot("Contexto")}</div>
       ${a.contexto ? `<p>${esc_(a.contexto)}</p>` : ""}
       ${prosa}
+      ${/* El desarrollo es el cuerpo de la nota: cómo se va a jugar el
+            partido. Es único por partido, no una lectura por equipo. */""}
+      ${a.desarrollo && a.desarrollo.texto
+        ? `<div class="rotarg" style="margin-top:11px">El desarrollo</div>
+           <p>${esc_(a.desarrollo.texto)}</p>` : ""}
       ${a.veredicto ? `<p><b>${esc_(a.veredicto)}</b></p>` : ""}
+      ${/* La dirección declarada se muestra, no se esconde: es lo que
+            habilita la marca de valor, y el que lee tiene derecho a ver
+            contra qué se está alineando la app. Si no hay, se dice. */""}
+      <p>${dir
+        ? `Este análisis inclina ${aQuien(dir, m)}. Con eso puesto, no recomendamos nada que lo
+           contradiga, y solo marcamos precio a favor sobre esa lectura.`
+        : `Este análisis <b>no declara para dónde inclina</b>, así que no marcamos precio a favor en
+           este partido.`}</p>
       ${a.actualizado ? `<div class="evid"><div class="epie"><span>Escrito el ${esc_(a.actualizado)}
         · el único eje que no calcula nadie</span></div></div>` : ""}</div>`);
   } else {
@@ -3642,14 +3691,37 @@ function senalJugador(k){
   return {clase:"alta", floja:false, texto:`SEÑAL ALTA${c ? " · " + c.toFixed(2) + "×" : ""}`};
 }
 
-/* El lado del split que corresponde al filtro, con la misma regla de
-   muestra mínima que ya usaba la comparativa: abajo de MIN_SPLIT el
-   total (que duplica la muestra) es más honesto que un promedio de dos
-   partidos con un decimal. */
+/* Cuántos partidos necesita un split (local o visita) para usarse en vez
+   del total.
+
+   Medido el 2026-08-23 sobre los datos reales: el caché de resúmenes
+   tiene mediana 3 partidos por equipo — es el tope de DISCIPLINA_N, que
+   existe para el modelo, no para esto. Al partir esos 3 en local/visita
+   quedan 1-2 por lado, y un promedio con un decimal sobre 2 partidos es
+   el mismo "muestra chica" que el proyecto le prohíbe al análisis.
+
+   Con 4 el split empieza a decir algo; abajo de eso el total (que
+   duplica la muestra) es más honesto aunque mezcle las dos sedes. El
+   caché crece solo con cada fecha, así que esto se va a ir habilitando
+   con el tiempo sin pedir un request más. */
+const MIN_SPLIT = 4;
+const usable = (split, k) => split && split.n && (split.n[k]||0) >= MIN_SPLIT;
+
+/* El lado del split que corresponde al filtro.
+
+   El default no es "el promedio general": es EL CRUCE — el local con su
+   promedio DE LOCAL y el visitante con el suyo DE VISITA. Jugar en casa
+   o afuera no es lo mismo, y mezclarlos en un promedio general tapa
+   justo la diferencia que el partido de hoy pone en juego. Los otros dos
+   filtros miran a los dos equipos del mismo lado, para comparar peras
+   con peras.
+
+   Con muestra insuficiente se cae al total: abajo de MIN_SPLIT un
+   promedio con un decimal sobre dos partidos es el mismo "muestra
+   chica" que el proyecto le prohíbe al análisis. */
 function ladoDe(eq, k, rol){
   if(!eq) return null;
-  if(LOCALIA === "todo") return eq;
-  const split = eq[rol];
+  const split = eq[LOCALIA === "cruce" ? rol : LOCALIA];
   return usable(split, k) ? split : eq;
 }
 
@@ -3662,7 +3734,7 @@ function datosEquipos(m){
 
   const pj = Math.min(L.pj || 0, V.pj || 0);
   let h = sello2("Equipos", `${dd(COMPARA.length)} MÉTRICAS · ${pj} PJ`);
-  h += `<div class="filtro3">${[["todo","Todo"],["local","Local"],["visita","Visita"]]
+  h += `<div class="filtro3">${[["cruce","Este cruce"],["local","De local"],["visita","De visita"]]
     .map(([k,l])=> `<button class="${LOCALIA===k?"on":""}" data-loc="${k}">${l}</button>`).join("")}</div>`;
 
   h += `<div class="metacs">${COMPARA.map(x=>{
@@ -3688,7 +3760,8 @@ function datosEquipos(m){
           ${barraComparativa(x.et, a, b, x.suf)}</div>
         ${cL != null && cV != null ? `<div class="par"><div class="rot2">Concede</div>
           ${barraComparativa(x.et, cL, cV, x.suf)}</div>` : ""}
-        <div class="mpie"><span>${esc_(m.home)}</span><span>${esc_(m.away)}</span></div>
+        <div class="mpie"><span>${esc_(m.home)}${LOCALIA==="cruce"?" · de local":""}</span>
+          <span>${esc_(m.away)}${LOCALIA==="cruce"?" · de visita":""}</span></div>
       </div>` : ""}</div>`;
   }).join("")}</div>`;
 
@@ -3878,238 +3951,14 @@ function viewPartido(){
   return cabPartido(m) + conmutador() + cuerpo + aire(26);
 }
 
-/* ── 1. Análisis ───────────────────────────────────────────────── */
-function tabAnalisis(m){
-  const a = ANALISIS[m.id];
-  if(!hayProsa(m.id)){
-    /* Hoy `analisis.json` está vacío, así que esta rama es la que se ve
-       en todos los partidos. No se disimula el hueco: se declara qué
-       falta, quién lo carga, y se pone abajo lo que sí sabemos por los
-       números — que no es poco. Un cartel de "próximamente" sería
-       peor que decir la verdad. */
-    const lec = lectura(m);
-    const s = sello(lec, m, inclinacionDe(m.id));
-    const corto = n => (n||"").length>11 ? n.split(" ")[0] : n;
-    return `<div class="banda banda2">Análisis<em>SIN CARGAR</em></div><div class="sec hueco">
-      <div class="big">Todavía nadie escribió la nota de este partido</div>
-      <p class="sub">Las bajas, el contexto de tabla y a quién le sirve el empate se escriben
-        aparte, partido por partido, y este todavía no. Esto es lo que sí sabemos por los números.</p>
-      <div class="cifras">
-        <div><b>${m.lh.toFixed(2)}</b><small>${esc_(corto(m.home))}</small></div>
-        <div><b>${m.la.toFixed(2)}</b><small>${esc_(corto(m.away))}</small></div>
-        <div><b>${marcadorTop(lec.M)}</b><small>Más probable</small></div>
-      </div>
-      <div class="cifras-pie">Goles esperados de cada uno, y el marcador exacto que más
-        se repite — que aun así pasa ${Math.round(probMarcadorTop(lec.M)*100)} de cada 100 veces.
-      </div>
-      <div class="rot"><span>El partido</span></div>
-      <p class="prosa">${lec.cuerpo}</p>
-      <div class="rot"><span>El antecedente</span></div>
-      <p class="prosa">${antecedente(m)}</p>
-      <div class="cierre" style="justify-content:flex-end">
-        <div class="sellov"><div><div class="a">${esc_(s[0])}</div><div class="b">${esc_(s[1])}</div></div></div>
-      </div>
-    </div>`;
-  }
-  let h = `<div class="banda banda2">Análisis<em>NUESTRA NOTA</em></div>
-    <div class="sec an"><div class="lbl">Nuestro análisis</div>`;
-
-  /* Una lectura por equipo, cada una bajo el nombre del equipo. El campo
-     único de antes no obligaba a nada: un análisis podía enumerar las
-     bajas del local y no decir una palabra del rival, y en la pantalla
-     no se veía el hueco. Acá sí se ve. Son campos agregados, no un
-     reemplazo — los análisis viejos solo tienen `contexto`. */
-  const lado = (txt, equipo) => txt
-    ? `<div class="rot"><span>${esc_(equipo)}</span></div><p class="prosa">${esc_(txt)}</p>`
-    : "";
-  h += lado(a.local, m.home) + lado(a.visitante, m.away);
-  if((a.local || a.visitante) && a.contexto)
-    h += `<div class="rot"><span>El partido</span></div>`;
-  if(a.contexto)  h += `<p>${esc_(a.contexto)}</p>`;
-  if(a.veredicto) h += `<p class="veredicto">${esc_(a.veredicto)}</p>`;
-
-  /* El desarrollo es el cuerpo de la nota: cómo se va a jugar el partido.
-     Es único por partido (no una lectura por equipo) y el campo `senal`
-     lo usa la Task 4 — acá solo se muestra el texto. */
-  const des = a.desarrollo;
-  if(des && des.texto){
-    h += `<div class="rot"><span>El desarrollo</span></div><p class="prosa">${esc_(des.texto)}</p>`;
-  }
-
-  /* La dirección declarada se muestra, no se esconde: es lo que
-     habilita la marca de valor, y el usuario tiene derecho a ver contra
-     qué se está alineando la app. Si no hay, se dice también. */
-  const dir = inclinacionDe(m.id);
-  h += `<div class="rot"><span>Hacia dónde inclina</span></div>
-    <p class="prosa">${dir
-      ? `Este análisis inclina ${aQuien(dir, m)}. Con eso puesto, no vamos a
-         recomendar nada que lo contradiga, y solo marcamos precio a favor sobre esa lectura.`
-      : `Este análisis no declara para dónde inclina, así que no marcamos precio a favor en
-         este partido. La escalera igual está en Pronósticos.`}</p>`;
-
-  if(a.actualizado) h += `<p class="fuente">Escrito el ${esc_(a.actualizado)}.</p>`;
-  return h + `</div></div>`;
-}
-
-/* ── 2. Pronósticos ────────────────────────────────────────────── */
-function tabPronosticos(m){
-  const lec = lectura(m);
-  const hay = analizado(m.id);
-  const esc = escalera(m);
-  const senal = senalDividida(m);
-
-  let h = `<div class="banda banda2">Pronósticos<em>ESCALERA DE RIESGO</em></div>
-    <div class="sec"><div class="read">
-    <div class="lbl">Nuestra lectura</div>
-    <div class="big">${esc_(lec.titulo)}</div>
-    <p>${esc_(lec.cuerpo)}</p>
-  </div>`;
-
-  /* La razón dominante va primero: si en esta liga no marcamos por
-     medición, da igual si hay análisis cargado o no. Y se dice con el
-     número, no con una vaguedad — es la misma disciplina que usa
-     quienFalta() para los huecos de datos: declarar el hueco en vez de
-     esconderlo. Una escalera sin marca y sin explicación se lee como
-     "hoy no hubo nada", que es una cosa distinta. */
-  if(ligaSinValor(m)){
-    h += `<div class="nota">En ${esc_(m.comp)} <b>no marcamos oportunidades</b>, y el
-      motivo está medido: sobre 1.789 apuestas históricas contra la cuota de cierre real,
-      nuestra regla de valor dio <b>−9,2%</b> de rentabilidad. Probamos 39 formas distintas
-      de ajustar el umbral y ninguna dio positivo fuera de muestra. El pronóstico sigue acá
-      entero — lo que dejamos de hacer es decirte que hay valor donde medimos que no lo hay.</div>`;
-  } else if(!hay){
-    h += `<div class="nota">Abajo está la escalera con lo que dice el modelo, para que la veas.
-      No vas a encontrar nada marcado como oportunidad: solo señalamos precio a favor en
-      partidos que miramos en serio, y este todavía no.</div>`;
-  } else {
-    const dv = divergen(m);
-    if(dv){
-      h += `<div class="nota">Los números crudos del modelo dan más chance
-        ${aQuien(dv.dirModelo, m)} arriba, pero nuestro análisis vio algo que los
-        números solos no ven, y se inclina ${aQuien(dv.dirHumana, m)}. Son dos
-        lecturas distintas a propósito — no vas a encontrar nada marcado como oportunidad en
-        contra de la del análisis, aunque el modelo diga otra cosa.</div>`;
-    }
-    if(senal){
-      const que = senal.fenom==="goles"
-        ? "nuestra lectura del desarrollo dice que va a ser un partido de pocos goles"
-        : "nuestra lectura del desarrollo dice que es poco probable que marquen los dos";
-      h += `<div class="nota">El modelo ve ventaja en opciones de
-        ${senal.fenom==="goles" ? "goles altos" : "ambos marcan"}, pero ${que}.
-        Por eso no te las marcamos en dorado: la lectura del desarrollo no
-        acompaña, y no recomendamos sobre algo que contradice nuestra propia
-        lectura. Quedan acá visibles por si querés decidir con los números y la
-        lectura a la vista.</div>`;
-    }
-  }
-  h += `</div>`;   // cierra el .sec de la lectura
-
-  /* Cada escalón es un talón numerado, igual que la tarjeta de portada:
-     la app usa el mismo recurso para decir "esto es una de N opciones".
-     La barra con escala 0/50/100 está porque un porcentaje suelto no se
-     compara con nada — al lado de la escala se ve de un saque si el
-     escalón está por encima o por debajo de jugarse una moneda. */
-  /* Solo las franjas que tienen algo que ofrecer. Desde que la escalera
-     se limita a Resultado con piso de cuota (2026-08-31), en muchos
-     partidos hay una o dos opciones y no tres — y mostrar dos talones
-     que dicen "sin opción clara" bajo un encabezado que promete "3
-     FORMAS" es peor que mostrar las que hay. Si no queda ninguna, se
-     dice una sola vez.
-
-     El talón numerado sigue diciendo "Nº 01 DE 02" con el total REAL,
-     que es lo que ese recurso siempre significó: una de N opciones. */
-  const conOp = esc.filter(x=> x.op);
-  const total = String(conOp.length).padStart(2,"0");
-  h += `<div class="banda banda2">Escalera de riesgo<em>${
-    conOp.length ? conOp.length + (conOp.length === 1 ? " FORMA" : " FORMAS") : "SIN OPCIONES"
-  }</em></div><div class="pasos">`;
-
-  if(!conOp.length){
-    h += `<div class="nota">Ninguna de las tres franjas de riesgo tiene una opción
-      que valga la pena en este partido. Los números de cada mercado están abajo,
-      en Otros mercados.</div></div>`;
-  }
-
-  conOp.forEach(({franja, op, valor}, i)=>{
-    const marcar = op && valor && hay && !(senal && senal.opciones.includes(op.id));
-    const n = String(i+1).padStart(2,"0");
-    h += `<div class="paso ${marcar?"val":""}">
-      <div class="talon">
-        <div class="pn">${n}</div>
-        <div class="de">DE ${total}</div>
-      </div>
-      <div class="perf"></div>
-      <div class="cuerpo">
-        <div class="ph"><span class="franja">${esc_(franja.n.toUpperCase())}</span>
-          ${op?`<span class="pp">${Math.round(op.p*100)}<i>%</i></span>`:""}</div>`;
-    if(!op){
-      h += `<div class="sinop">Sin ninguna opción clara en esta franja para este partido.</div>
-        <p class="rsub">${franja.sub}</p></div></div>`;
-      return;
-    }
-    const pct = Math.round(op.p*100);
-    const real = cuotaReal(m, op);
-    h += `<div class="oplabel">${esc_(op.label)}</div>
-      <div class="barra"><i style="width:${pct}%"></i><u style="margin-left:${pct}%"></u></div>
-      <div class="escala"><span>0</span><span>50</span><span>100</span></div>
-      ${marcar?`<div class="sig">Acá el precio está a favor</div>`:""}
-      ${real
-        ? `<div class="umb">Bet365 paga <b>${real.toFixed(2)}</b> — conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`
-        : `<div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`}
-      <div class="cobra">${esc_(cuandoCobra(op,m))}</div>
-    </div></div>`;
-  });
-  h += `</div><div class="sec">`;
-
-  const cmb = combinada(m);
-  if(cmb && hay){
-    /* La corrección por correlación importa de verdad en pocos casos
-       (medido: 4 de 16 combinadas pasan de 2pp, con un máximo de 6pp).
-       Cuando no importa, no la anunciamos como si importara. */
-    const dif = cmb.p - cmb.ingenua;
-    const nota = Math.abs(dif) >= 0.02
-      ? `Calculado sobre la matriz del partido. Multiplicar las dos por separado daría ${pc(cmb.ingenua)}, y estaría mal: las dos cosas pasan en el mismo partido y se afectan entre sí.`
-      : `Calculado sobre la matriz del partido, teniendo en cuenta que las dos cosas pasan en el mismo partido.`;
-    h += `<div class="rot"><span>Las dos juntas</span><em>${cadaCuanto(cmb.p)}</em></div>
-      <div class="cmb">
-        <div class="l1"><span class="mkt">${esc_(cmb.patas[0].label)} <i>+</i> ${esc_(cmb.patas[1].label)}</span><span class="prob">${pc(cmb.p)}</span></div>
-        <div class="umb">conviene si te pagan más de <b>${umbral(cmb.p).toFixed(2)}</b></div>
-        <div class="cobra">${nota}</div>
-      </div>`;
-  }
-
-  /* La escalera elige un mercado por franja, por ventaja — no por
-     familia. Si jugás siempre 1X2, o siempre doble oportunidad, tu
-     mercado puede no salir nunca ahí aunque el número exista. Acá está
-     nuestra lectura de TODOS los mercados elegibles, no solo el que
-     ganó arriba, y cada uno se marca en dorado por su cuenta si tiene
-     ventaja real — no solo el que ganó su franja en la escalera. */
-  const otros = otrosMercados(m);
-  const fams = ["Resultado","Goles","Ambos"];
-  h += bloqueDominio(m);
-  h += bloqueJugadores(m);
-
-  h += `<div class="banda banda2">Otros mercados<em>NUESTRA LECTURA DE CADA UNO</em></div>`;
-  fams.forEach(fam=>{
-    h += `<div class="grp"><div class="gh">${esc_(fam)}</div>`;
-    otros.filter(x=> x.op.fam===fam).forEach(({op, esVal})=>{
-      const v = esVal && !(senal && senal.opciones.includes(op.id));
-      const real = cuotaReal(m, op);
-      h += `<div class="mrow ${v?"val":""}">
-        <div class="top2"><span class="mkt">${esc_(op.label)}</span><span class="modelo">${pc(op.p)}</span></div>
-        ${real
-          ? `<div class="umb">Bet365 paga <b>${real.toFixed(2)}</b> — conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`
-          : `<div class="umb">conviene si te pagan más de <b>${umbral(op.p).toFixed(2)}</b></div>`}
-      </div>`;
-    });
-    h += `</div>`;
-  });
-
-  h += `<div class="foot">Las tres salen de la misma lectura — elegís vos cuánto arriesgar.
-    El umbral ya incluye un margen de seguridad: a la cuota justa pelada la ventaja es cero.
-    Donde hay cuota real de Bet365 la mostramos al lado; donde no, solo el umbral teórico.
-    Y solo marcamos en dorado cuando además el precio está a favor.</div>`;
-  return h + `</div>`;
+/* El slug de la liga. `m.liga` lo escribe `actualizar.py` desde el
+   2026-08-31, pero los archivos que ya están publicados no lo tienen —
+   y el cron corre dos veces por día, así que hay una ventana donde
+   falta. El caché de estadísticas guarda el mismo slug por equipo, y
+   sirve de respaldo sin inventar nada: si tampoco está, se devuelve
+   null y los ejes se declaran sin medir, que es lo correcto. */
+function ligaDe(m, L, V){
+  return m.liga || (L && L.liga) || (V && V.liga) || null;
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -4135,16 +3984,6 @@ const DOMINIO_METRICAS = [
   ["al_arco",  "Al arco"],
   ["corners",  "Córners"],
 ];
-
-/* El slug de la liga. `m.liga` lo escribe `actualizar.py` desde el
-   2026-08-31, pero los archivos que ya están publicados no lo tienen —
-   y el cron corre dos veces por día, así que hay una ventana donde
-   falta. El caché de estadísticas guarda el mismo slug por equipo, y
-   sirve de respaldo sin inventar nada: si tampoco está, se devuelve
-   null y los ejes se declaran sin medir, que es lo correcto. */
-function ligaDe(m, L, V){
-  return m.liga || (L && L.liga) || (V && V.liga) || null;
-}
 
 /* Solo las tres métricas que `medir_dominio.py` midió, y desde
    `esperado` —el número ajustado por rival y por localía que la app ya
@@ -4247,51 +4086,6 @@ function ejesDe(m){
   });
 }
 
-function bloqueJugadores(m){
-  const eje = ejesDe(m).find(e => e.eje === "jugadores");
-  if(!eje || !eje.estimacion || !eje.estimacion.length) return "";
-
-  const chip = eje.confianza === "mal_calibrada"
-    ? "UNA DE LAS TRES NO ES DE FIAR"
-    : "CALIBRADO · NO ES UNA APUESTA";
-
-  let h = `<div class="banda banda2">${esc_(eje.titulo)}<em>${chip}</em></div>
-    <div class="sec">${lecturaDeEje(eje)}<div class="grp">`;
-
-  eje.estimacion.forEach(grupo=>{
-    h += `<div class="gh">${esc_(grupo.linea)}</div>`;
-    grupo.jugadores.forEach(j=>{
-      const cifras = JUG_METRICAS.map(([k, etiqueta])=>{
-        const f = fiabilidadJugador(k);
-        const flojo = f && f.nivel === "mal";
-        return `<span class="jm${flojo ? " flojo" : ""}">${esc_(etiqueta)}
-          <b>${(j.esp[k] || 0).toFixed(2)}</b></span>`;
-      }).join("");
-      h += `<div class="mrow">
-        <div class="top2"><span class="mkt">${esc_(j.nombre)}</span>
-          <span class="modelo">${esc_(j.equipo)}</span></div>
-        <div class="jugcifras">${cifras}</div>
-        <div class="umb">el número sale de sus últimos
-          ${Math.round(j.pj || 0)} partidos</div>
-      </div>`;
-    });
-  });
-
-  /* El hueco declarado, no escondido: decir cuál de las tres no sirve
-     es más útil que un promedio de confianza que no significa nada. */
-  const malas = JUG_METRICAS.filter(([k])=>{
-    const f = fiabilidadJugador(k);
-    return f && f.nivel === "mal";
-  }).map(([, e]) => e);
-
-  h += `</div><div class="foot">Números esperados para este partido, de la serie
-    reciente de cada uno.${malas.length ? ` <b>${esc_(malas.join(" y "))}</b> aparece en gris
-    porque está medido que le erra bastante más de lo que explica el azar — lo mostramos
-    para comparar jugadores entre sí, no para jugarlo.` : ""}
-    Contra el precio de la casa esto todavía no se midió, así que no marcamos nada.</div></div>`;
-  return h;
-}
-
 /* El texto que escribe la skill del mercado de estadísticas, arriba de
    los números del eje. Va antes y no después a propósito: la frase dice
    qué mirar, y los números sin esa frase son una tabla. Si no hay
@@ -4299,107 +4093,6 @@ function bloqueJugadores(m){
 function lecturaDeEje(eje){
   if(!eje || !eje.lectura) return "";
   return `<div class="read lectura-eje"><p>${esc_(eje.lectura)}</p></div>`;
-}
-
-function bloqueDominio(m){
-  const eje = ejesDe(m).find(e => e.eje === "dominio");
-  if(!eje) return "";
-  const L = eje.estimacion.local, V = eje.estimacion.visita;
-  const filas = DOMINIO_METRICAS.filter(([k]) => L[k] != null && V[k] != null);
-  if(!filas.length) return "";
-
-  /* El chip dice lo que la medición dice, y nada más. `sin_medir` no es
-     un error ni un "todavía no": es el estado real de arg y bra, donde
-     la fuente no publica estadísticas por partido. */
-  const sinMedir = eje.confianza === "sin_medir";
-  const chip = sinMedir ? "SIN MEDIR EN ESTA LIGA" : "CALIBRADO · NO ES UNA APUESTA";
-
-  let h = `<div class="banda banda2">${esc_(eje.titulo)}<em>${chip}</em></div>
-    <div class="sec">${lecturaDeEje(eje)}<div class="grp">`;
-
-  filas.forEach(([k, etiqueta])=>{
-    const a = L[k], b = V[k], tot = a + b;
-    const pct = tot > 0 ? Math.round(a / tot * 100) : 50;
-    const ap = (eje.aporte || {})[k];
-    h += `<div class="mrow">
-      <div class="top2"><span class="mkt">${esc_(etiqueta)}</span>
-        <span class="modelo">${a.toFixed(1)} — ${b.toFixed(1)}</span></div>
-      <div class="barra2"><i style="width:${pct}%"></i></div>
-      <div class="umb">${esc_(m.home)} ${pct}% del total esperado${
-        ap != null ? ` · le sacamos <b>${ap.toFixed(1)}%</b> de error al promedio de la liga` : ""
-      }</div>
-    </div>`;
-  });
-
-  h += `</div><div class="foot">${sinMedir
-    ? `En esta liga la fuente no publica estadísticas por partido, así que
-       <b>no hay medición</b> detrás de estos números: son el promedio de lo poco que
-       vimos, y los mostramos como dato, no como lectura.`
-    : `Medido partido a partido en las últimas temporadas: acá le ganamos al promedio de
-       la liga. <b>No lo marcamos como oportunidad</b> y no es un descuido — contra el
-       precio de la casa nunca se midió, y no se puede medir hacia atrás porque no hay
-       cuotas históricas de córners. Hasta que las juntemos, esto se lee y no se juega.`
-  }</div></div>`;
-  return h;
-}
-
-/* ── 3. Historial ──────────────────────────────────────────────── */
-function tabHistorial(m){
-  const bloque = (nombre, logo, forma)=>{
-    if(!forma || !forma.length) return `<div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>
-      <div class="vacio" style="padding:8px 0">Sin partidos recientes cargados.</div>`;
-    const g = forma.filter(f=>f.r==="W").length, e = forma.filter(f=>f.r==="D").length;
-    const p = forma.length - g - e;
-    /* En `marcador` el primer número es SIEMPRE el del equipo del que
-       es la fila, no el del local. Verificado sobre los 206 partidos
-       con resultado de la muestra: 206 de 206 cierran con esta lectura
-       y solo 109 con la otra. */
-    const goles = f => (f.marcador||"").split("-").map(Number);
-    const hechos = forma.reduce((s,f)=> s + (goles(f)[0]||0), 0);
-    const recib  = forma.reduce((s,f)=> s + (goles(f)[1]||0), 0);
-    /* El escudo del rival se resuelve por nombre contra los equipos que
-       ya están en el archivo: no hay un campo de logo en `formH`. */
-    return `<div class="fcard">
-      <div class="fhd">${crest(logo, 20)}<b>${esc_(nombre)}</b>
-        ${tiraForma(forma, "gr")}</div>
-      <div class="racha">${g}G ${e}E ${p}P · ${hechos} hechos, ${recib} recibidos en los últimos ${forma.length}</div>
-      <!-- Del más viejo al de hoy, igual que la tirita de arriba y que el
-           título de la banda. El array viene del más nuevo al más viejo. -->
-      <div class="flist">${forma.slice().reverse().map(f=>`
-        <div class="frow">
-          <span class="r ${f.r}">${f.r==="W"?"G":f.r==="D"?"E":"P"}</span>
-          ${crest(logoDe(f.rival), 15)}
-          <span class="rival">${esc_(f.rival)}</span>
-          <span class="loc">${f.local?"Local":"Visita"}</span>
-          <span class="sc">${esc_(f.marcador||"")}</span>
-        </div>`).join("")}</div>
-    </div>`;
-  };
-  let h = `<div class="banda banda2">Últimos cinco<em>DEL MÁS VIEJO AL DE HOY</em></div>`;
-  h += bloque(m.home, m.homeLogo, m.formH_general);
-  h += bloque(m.away, m.awayLogo, m.formA_general);
-
-  h += `<div class="banda banda2">Cruces directos<em>${m.h2h&&m.h2h.length?String(m.h2h.length).padStart(2,"0"):"00"}</em></div>`;
-  if(m.h2h && m.h2h.length){
-    /* Cada cruce es un talón, con la fecha en el riel y el marcador
-       grande en el medio: se lee como el resultado de un programa, no
-       como una fila de planilla. */
-    h += m.h2h.map(x=>`<div class="h2h">
-      <div class="talon"><div class="pn2">${esc_((x.d||"").slice(0,5))}</div>
-        <div class="de">${esc_((x.d||"").slice(6))}</div></div>
-      <div class="perf"></div>
-      <div class="cuerpo">
-        <div class="linea">
-          <div class="lado">${crest(logoDe(x.h))}<span>${esc_(x.h)}</span></div>
-          <div class="marc">${esc_(x.s)}</div>
-          <div class="lado der"><span>${esc_(x.a)}</span>${crest(logoDe(x.a))}</div>
-        </div>
-      </div></div>`).join("");
-  } else {
-    h += `<div class="sec"><p class="prosa" style="font-size:11.5px;color:var(--gris2)">
-      No se cruzaron en el historial que tenemos, así que no hay antecedente directo.</p></div>`;
-  }
-  return h;
 }
 
 /* El escudo de un rival, buscado por nombre entre los equipos que ya
@@ -4413,47 +4106,6 @@ function logoDe(nombre){
     if(!url && norm(m.away)===n) url = m.awayLogo;
   });
   return url;
-}
-
-/* ── 4. Posiciones ─────────────────────────────────────────────── */
-function tabPosiciones(m){
-  if(!m.tabla || !m.tabla.length){
-    return `<div class="banda">Posiciones</div>
-      <div class="sec"><div class="big" style="font-size:20px">Sin tabla para esta competición</div>
-      <p class="prosa" style="color:var(--gris)">En las llaves por eliminación no hay tabla que
-        mostrar, y la fuente tampoco la devuelve.</p></div>`;
-  }
-  const mios = new Set([String(m.homeId), String(m.awayId)]);
-  const porGrupo = {};
-  m.tabla.forEach(f=> (porGrupo[f.grupo||""] = porGrupo[f.grupo||""]||[]).push(f));
-
-  let h = `<div class="banda banda2">${esc_(grupoEs(m.grupo, m.comp) || m.comp)}
-    <em>${esc_((COMPS_CORTO[m.comp]||m.comp).toUpperCase())}</em></div><div class="tablawrap">`;
-
-  for(const g in porGrupo){
-    if(Object.keys(porGrupo).length > 1 && g)
-      h += `<div class="lbl" style="margin-top:14px">${esc_(grupoEs(g, m.comp))}</div>`;
-    /* Sin columna de diferencia de gol: la tabla de ESPN trae goles a
-       favor pero no en contra, así que DG saldría vacía en todas las
-       filas. Va G-E-P, que sí tenemos. */
-    h += `<table class="stand">
-      <tr><th class="l">#</th><th class="l">Equipo</th><th>Pts</th><th>PJ</th><th>G-E-P</th><th>GF</th></tr>` +
-      porGrupo[g].map((f,i)=>{
-        const yo = mios.has(String(f.id));
-        return `<tr class="${yo?"me":""}">
-          <td class="rk">${i+1}</td>
-          <td class="l"><div class="wrap">${crest(f.logo)}<span>${esc_(f.t)}</span></div></td>
-          <td class="pts">${f.pts}</td><td>${f.pj}</td>
-          <td>${f.g}-${f.e}-${f.p}</td>
-          <td>${f.gf!=null?f.gf:"—"}</td></tr>`;
-      }).join("") + `</table>`;
-  }
-  h += `</div>`;
-
-  const n = quienFalta(m);
-  if(n) h += `<div class="sec"><div class="rot"><span>${esc_(n.rotulo)}</span></div>
-    <p class="prosa">${n.texto}</p></div>`;
-  return h;
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -4505,106 +4157,6 @@ function quienFalta(m){
       ninguna es suya, y tampoco figura en las otras tablas de la competición. Preferimos
       mostrarte la tabla incompleta y decírtelo, antes que inventarle una posición.`,
   };
-}
-
-/* ── 5. Plantel ────────────────────────────────────────────────── */
-/* ── Estadísticas ──────────────────────────────────────────────────
-   Córners, tarjetas y remates: el mercado que se apuesta por línea.
-
-   Vivía adentro de Plantel, debajo de los jugadores. Nadie que quiera
-   apostar córners abre una pestaña que dice "Plantel": estaba
-   construido y no se encontraba. Tiene pestaña propia desde el
-   2026-08-24. */
-function tabEstadisticas(m){
-  let h = `<div class="banda banda2">Estadísticas<em>CÓRNERS · TARJETAS · REMATES</em></div><div class="sec">`;
-  /* Primero lo que hicieron, después lo que esperamos. Las dos cosas
-     hablan de córners y faltas, así que el orden y las etiquetas tienen
-     que dejar claro cuál es cuál: una es medición, la otra es
-     estimación. Juntas y sin distinguir se leían como el mismo número
-     dicho dos veces. */
-  h += comparativa(m);
-  /* Lo que hicieron, y recién despues la chance de pasar una linea.
-     El orden importa: la escalera es una lectura DE esos numeros, y
-     puesta antes se leeria como un dato medido mas. */
-  h += bloqueLineas(m);
-  h += bloqueCornersReales(m);
-  h += `<div class="lbl sep">Lo que esperamos acá</div>
-    <div class="tstats">
-      <div class="t"><span>Córners</span><b>${m.corners!=null?m.corners.toFixed(1):"—"}</b></div>
-      <div class="t"><span>Faltas</span><b>${m.fouls!=null?m.fouls.toFixed(1):"—"}</b></div>
-      <div class="t"><span>Tarjetas</span><b>${m.cards!=null?m.cards.toFixed(1):"—"}</b></div>
-    </div>
-    <p class="fuente">Estimación para este partido, sumando a los dos equipos. Los números
-      de arriba son lo que cada uno viene haciendo; estos son lo que esperamos hoy.</p>`;
-  return h + `</div>`;
-}
-
-function tabPlantel(m){
-  const stat = (id, tabla)=> (tabla||[]).find(f=>String(f.id)===String(id));
-  const bloque = (nombre, id, logo)=>{
-    const t = stat(id, m.tabla);
-    let h = `<div class="eqblock"><div class="eqhd">${crest(logo)}<b>${esc_(nombre)}</b></div>`;
-    if(t){
-      h += `<div class="tstats">
-        <div class="t"><span>Puntos</span><b>${t.pts}</b></div>
-        <div class="t"><span>Jugados</span><b>${t.pj}</b></div>
-        <div class="t"><span>Ganados</span><b>${t.g}</b></div>
-        <div class="t"><span>Goles a favor</span><b>${t.gf!=null?t.gf:"—"}</b></div>
-      </div>`;
-    }
-    return h + `</div>`;
-  };
-
-  /* Cara a cara antes del detalle de cada equipo: es lo primero que uno
-     quiere saber cuando abre esta pestaña. */
-  const tl = stat(m.homeId, m.tabla), tv = stat(m.awayId, m.tabla);
-  let h = `<div class="banda banda2">Plantel<em>ESTILO Y ACTUALIDAD</em></div><div class="sec">`;
-  if(tl && tv){
-    const fila = (etiqueta, a, b)=>{
-      const tope = Math.max(a, b, 1);
-      const cls = a>b ? "gana-i" : b>a ? "gana-d" : "";
-      return `<div class="fila ${cls}">
-        <span class="n">${a}</span>
-        <span class="barra izq"><i style="width:${a/tope*100}%"></i></span>
-        <span class="q">${etiqueta}</span>
-        <span class="barra der"><i style="width:${b/tope*100}%"></i></span>
-        <span class="n d">${b}</span></div>`;
-    };
-    h += `<div class="lbl">Cara a cara en el torneo</div><div class="vs">
-      ${fila("Puntos", tl.pts, tv.pts)}
-      ${fila("Ganados", tl.g, tv.g)}
-      ${fila("Goles", tl.gf!=null?tl.gf:0, tv.gf!=null?tv.gf:0)}
-    </div>
-    ${/* Los bloques de abajo se sacaron por repetir estos mismos numeros,
-          pero traian uno que aca no esta: los partidos jugados. Sin el,
-          "30 puntos" contra "41 puntos" se compara mal — en Argentina los
-          equipos llegan a la misma fecha con distinta cantidad de partidos.
-          Va de pie y no de barra porque quien jugo mas no gana nada. */
-      tl.pj || tv.pj
-        ? `<p class="fuente">${tl.pj === tv.pj
-             ? `Sobre ${tl.pj} partido${tl.pj === 1 ? "" : "s"} de cada uno.`
-             : `Sobre ${tl.pj} partido${tl.pj === 1 ? "" : "s"} de ${esc_(m.home)} y
-                ${tv.pj} de ${esc_(m.away)} — no llegan con los mismos jugados.`}</p>`
-        : ""}`;
-  } else {
-    /* Sin los dos en la misma tabla no hay comparación posible. Antes
-       el bloque simplemente no aparecía y el usuario no sabía si era
-       que no había datos o que la app se los guardaba. Se declara. */
-    const n = quienFalta(m);
-    h += `<div class="lbl">Cara a cara en el torneo</div>
-      <p class="blurb" style="color:var(--gris)">${n
-        ? n.texto.replace(/La tabla de arriba[^.]*\./, "").trim() +
-          " Sin los dos en la misma tabla no hay comparación que hacer."
-        : "No tenemos a los dos equipos en una misma tabla, así que no hay comparación que hacer."}</p>`;
-  }
-  /* Los dos bloques de Puntos/Jugados/Ganados/Goles repetían, en un
-     tercer dibujo, los mismos cuatro números que ya están arriba en las
-     barras del cara a cara y enteros en la pestaña Posiciones. Se
-     muestran solo cuando NO hay cara a cara, que es cuando el dato no
-     aparece en ningún otro lado de esta pestaña. */
-  if(!(tl && tv)) h += bloque(m.home, m.homeId, m.homeLogo) + bloque(m.away, m.awayId, m.awayLogo);
-  h += cancha(m);
-  return h + `</div>`;
 }
 
 /* Lo que cada equipo hace por partido, uno al lado del otro. Sale del
@@ -4763,85 +4315,6 @@ function paramsDe(L, V){
   return (lg && PARAM_LIGA[lg]) || PARAMETROS;
 }
 
-function bloqueLineas(m){
-  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
-  if(!L || !V) return "";
-  const PARAMETROS = paramsDe(L, V);
-  const hay = LINEAS.filter(x => PARAMETROS[x.k]
-    && L.esperado && L.esperado[x.k] != null
-    && V.esperado && V.esperado[x.k] != null);
-  if(!hay.length) return "";
-  const x = hay.find(y => y.k === LIN_MET) || hay[0];
-  const p = PARAMETROS[x.k];
-  const muL = L.esperado[x.k], muV = V.esperado[x.k];
-
-  const escalon = (titulo, mu, disp, nota, sinMuestra) => {
-    const celdas = lineasDe(mu).map(Ln => {
-      const q = probMayor(mu, disp, Ln);
-      return q == null ? ""
-        : `<b>+${Ln.toFixed(1)}<em>${Math.round(q * 100)}%</em></b>`;
-    }).join("");
-    if(!celdas) return "";
-    /* Cuando el número del equipo es casi todo promedio de la liga, los
-       dos equipos muestran valores idénticos y parece un error. No lo
-       es: es el encogimiento diciendo que no hay muestra. Pero decirlo
-       en letra chica debajo de cuatro líneas de apuesta era engañoso en
-       la jerarquía aunque fuera honesto en el texto. */
-    const aviso = sinMuestra
-      ? `<i class="sinmuestra">Sin muestra propia todavía — esto es el promedio de la liga, no una lectura de este equipo</i>`
-      : "";
-    return `<div class="escf"><span class="escq">${titulo}</span>
-      <i class="desv">${mu.toFixed(1)} esperados · ${nota}</i>
-      ${aviso}
-      <div class="escl">${celdas}</div></div>`;
-  };
-
-  const propio = eq => {
-    const n = (eq.n && eq.n[x.k]) || 0;
-    const w = Math.round(pesoEquipo(n, p.k) * 100);
-    return `${w}% de su muestra, ${100 - w}% del promedio de la liga`;
-  };
-
-  /* El total NO se calcula sumando dos equipos independientes. Se midió
-     aparte y da distinto: en córners un equipo suelto tiene dispersión
-     1.75 y el total del partido 1.01, porque son medio suma cero — si
-     uno ataca, el otro no. Sumar dos modelos sueltos infla las colas y
-     hace ver valor donde no hay. */
-  /* Debajo de este peso, el número del equipo es casi todo liga. 0.25
-     no es a ojo: con menos de eso los dos equipos dan el MISMO valor y
-     la pantalla deja de hablar de este partido. */
-  const SIN_MUESTRA = 0.25;
-  const pesoDe = eq => pesoEquipo((eq.n && eq.n[x.k]) || 0, p.k);
-  const filas = [
-    escalon(esc_(m.home), muL, p.disp, propio(L), pesoDe(L) < SIN_MUESTRA),
-    escalon(esc_(m.away), muV, p.disp, propio(V), pesoDe(V) < SIN_MUESTRA),
-    escalon("Total del partido", muL + muV,
-            p.disp_total != null ? p.disp_total : p.disp,
-            p.disp_total != null ? "dispersión medida sobre el total"
-                                 : "sin medición propia del total",
-            false),
-  ].join("");
-
-  const botones = hay.map(y =>
-    `<button class="met${y.k === x.k ? " on" : ""}" data-linmet="${y.k}">${y.et}</button>`
-  ).join("");
-
-  const fi = fiabilidad(x.k);
-  const juicio = fi
-    ? `<p class="fiab ${fi.grave ? "mal" : fi.flojo ? "regular" : "bien"}">${fi.texto}</p>`
-    : `<p class="fiab">Esta métrica todavía no se midió: no sabemos cuánto le erra.</p>`;
-
-  return `<div class="lbl sep">Chance de pasar la línea</div>
-    <div class="mets">${botones}</div>
-    ${juicio}
-    ${filas}
-    <p class="fuente">La chance de que el número termine arriba de cada línea, con la
-      campana que le corresponde a esta métrica — no todas se reparten igual, y usar
-      Poisson para todo subvalúa las colas de remates y sobrevalúa las de tarjetas.
-      Cuando un equipo tiene pocos partidos, su número se apoya en el promedio de la
-      liga: ahí abajo dice cuánto. No es una cuota ni descuenta el margen de la casa.</p>`;
-}
-
 /* ══════════════════════════════════════════════════════════════════
    LO QUE COTIZA BET365 EN CÓRNERS — informativo, sin marca de valor
 
@@ -4897,87 +4370,6 @@ const COMPARA = [
   {k:"precision", et:"Pases OK", suf:"%", cruza:false,
    calc: e => e.pases != null && e.pases_tot ? (e.pases / e.pases_tot) * 100 : null},
 ];
-
-/* Cuántos partidos necesita un split (local o visita) para usarse en vez
-   del total.
-
-   Medido el 2026-08-23 sobre los datos reales: el caché de resúmenes
-   tiene mediana 3 partidos por equipo — es el tope de DISCIPLINA_N, que
-   existe para el modelo, no para esto. Al partir esos 3 en local/visita
-   quedan 1-2 por lado, y un promedio con un decimal sobre 2 partidos es
-   el mismo "muestra chica" que el proyecto le prohíbe al análisis.
-
-   Con 4 el split empieza a decir algo; abajo de eso el total (que
-   duplica la muestra) es más honesto aunque mezcle las dos sedes. El
-   caché crece solo con cada fecha, así que esto se va a ir habilitando
-   con el tiempo sin pedir un request más. */
-const MIN_SPLIT = 4;
-const usable = (split, k) => split && split.n && (split.n[k]||0) >= MIN_SPLIT;
-
-function comparativa(m){
-  const Lt = ESTADISTICAS[String(m.homeId)], Vt = ESTADISTICAS[String(m.awayId)];
-  /* Con los datos de uno solo, enfrentar un número contra un hueco
-     invita a compararlos igual. Sin los dos no hay comparación. */
-  if(!Lt || !Vt) return "";
-  const filas = COMPARA.map(x=>{
-    /* El local usa su propio split DE LOCAL, el visitante el DE VISITA
-       — jugar en casa o afuera no es lo mismo, y mezclarlos en un
-       promedio general tapa esa diferencia. Si no hay muestra para el
-       split (recién ascendido, pocas fechas), cae al total en vez de
-       mostrar un hueco. */
-    const L_ = usable(Lt.local, x.k) ? Lt.local : Lt;
-    const V_ = usable(Vt.visita, x.k) ? Vt.visita : Vt;
-    const a = x.calc ? x.calc(L_) : L_[x.k];
-    const b = x.calc ? x.calc(V_) : V_[x.k];
-    if(a == null && b == null) return "";   // ninguno la tiene: no se dibuja
-    const num = v => v == null ? "—" : v.toFixed(1) + (x.suf||"");
-    /* Debajo de cada uno, lo que concede SU RIVAL en esa misma métrica:
-       rematar 10 no significa lo mismo contra un equipo que concede 6
-       que contra uno que concede 15. Es el cruce que convierte un
-       promedio suelto en una lectura del partido — y el dato ya se
-       calculaba sin usarse. Va debajo y no al lado porque el número
-       propio es el que manda; este es contexto. */
-    const contra = (rival) => {
-      if(x.cruza === false) return "";
-      const c = rival && rival.concede;
-      if(!c || c[x.k] == null) return "";
-      return `<i class="desv">rival concede ${c[x.k].toFixed(1)}${x.suf||""}</i>`;
-    };
-    /* El más alto en tinta plena. No es "el mejor" — más faltas no es
-       mejor — es solo cuál de los dos hace más de esa cosa. */
-    const may = (a||0) >= (b||0);
-    return `<div class="cmp">
-      <b class="${may?"alto":""}">${num(a)}${contra(Vt)}</b>
-      <span>${x.et}</span>
-      <b class="${!may?"alto":""}">${num(b)}${contra(Lt)}</b>
-    </div>`;
-  }).join("");
-  if(!filas) return "";
-  /* Se declara la muestra más chica de las dos: es la que limita la
-     lectura, y esconderla haría que un promedio de 3 partidos se lea
-     igual que uno de 10. */
-  const n = Math.min(Lt.pj||0, Vt.pj||0);
-  const hayConcede = !!(Lt.concede || Vt.concede);
-  /* Para el rótulo fijo, el club sin la aclaración de provincia: es lo
-     que lo distingue de la otra columna y entra en una línea. El nombre
-     completo queda en el renglón de arriba y en la cabecera del partido. */
-  const club = n => String(n||"").replace(/\s*\(.*$/, "");
-  /* Salvo que los dos recorten al mismo nombre. Gimnasia (La Plata) y
-     Gimnasia (Mendoza) se distinguen justo por el parentesis, y un
-     rotulo fijo que dice "Gimnasia" en las dos columnas no rotula nada.
-     Ahi el parentesis se queda y que se recorte con puntos suspensivos:
-     un nombre cortado sigue diciendo mas que dos nombres iguales. */
-  const corto = club(m.home) === club(m.away)
-    ? (n => String(n||"")) : club;
-  return `<div class="lbl sep">Por partido</div>
-    <div class="cmphead"><span>${esc_(m.home)} · de local</span><span>${esc_(m.away)} · de visita</span></div>
-    <div class="cmpfijo"><span>${esc_(corto(m.home))}</span><span>${esc_(corto(m.away))}</span></div>
-    <div class="cmplist">${filas}</div>
-    <p class="fuente">Lo que viene haciendo cada uno${hayConcede ? `, y debajo lo que su rival
-      le suele conceder en eso mismo` : ""} — sobre ${n} partido${n===1?"":"s"} de cada uno,
-      contando solo los que jugó en ese rol cuando hay suficientes. Es lo que pasó, no una
-      predicción de este partido.</p>`;
-}
 
 /* La cancha con el once probable, como la diseñó el prototipo: un
    equipo por vez, elegido con los dos botones de arriba. Debajo, la
@@ -5769,7 +5161,10 @@ function entrarAPartido(id){
   MATCH_ID = id; CAPA = "veredicto"; EXPANDIDAS.clear();
   /* Referencia arranca con Posiciones e Historial desplegados y
      Planteles cerrado: es lo que se consulta y lo que no. */
-  ABIERTOS = new Set(["ref:pos", "ref:hist"]);
+  /* Y Datos · Equipos con la primera métrica desplegada: una pantalla
+     de nueve acordeones todos cerrados se ve vacía y obliga a un toque
+     antes de ver un solo número. */
+  ABIERTOS = new Set(["ref:pos", "ref:hist", "met:" + COMPARA[0].k]);
 }
 
 function ir(v, extra){

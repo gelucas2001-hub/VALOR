@@ -30,14 +30,33 @@ function cargarLogica(){
   const salida = {};
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
-              marcaDeValor, hayProsa, sello, fraseCorta, nombreSello, VALOR_MIN, VALOR_MAX,
-              mercados, otrosMercados, divergen, senalDividida, tabHistorial, tarjeta, tabPlantel,
-              tabEstadisticas, tabHerramientas, tabPronosticos, CUOTA_MIN_ESCALERA, cuotaUsada2:cuotaUsada,
-              onceProbable, tabAnalisis, aQuien, jugadores, METRICAS, incompatibles,
+              marcaDeValor, hayProsa, VALOR_MIN, VALOR_MAX,
+              mercados, otrosMercados, divergen, senalDividida, tabHerramientas,
+              CUOTA_MIN_ESCALERA, cuotaUsada2:cuotaUsada,
+              onceProbable, aQuien, jugadores, METRICAS, incompatibles,
               fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL, combinada,
+              /* Las tres capas: lo que antes eran siete pestañas. Los
+                 tests siguen a la pantalla — si la pantalla se mueve, el
+                 contrato se muda con ella en vez de quedar mirando una
+                 función que ya no dibuja nada. */
+              capaVeredicto, capaLectura, capaDatos, datosEquipos, datosJugadores,
+              datosReferencia, mercadosDeVeredicto, estadoDe, renglonPartido, cancha,
+              /* El estado de la pantalla, para poder pararse en la capa
+                 y el acordeón que el test quiere mirar. */
+              setEstado: (o) => { if(o.CAPA) CAPA = o.CAPA; if(o.EXPL) EXPL = o.EXPL;
+                                  if(o.LOCALIA) LOCALIA = o.LOCALIA;
+                                  if(o.JUG_ORDEN) JUG_ORDEN = o.JUG_ORDEN;
+                                  if(o.JUG_EQ) JUG_EQ = o.JUG_EQ;
+                                  if(o.ABIERTOS) ABIERTOS = new Set(o.ABIERTOS); },
               cargar: (ms, an, pl, es, calj, parj) => { MATCHES = ms; ANALISIS = an || {};
                                             PLANTELES = pl || {}; ESTADISTICAS = es || {};
-                                            CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG; },
+                                            CAL_JUG = calj || {}; PARAM_JUG = parj || PARAM_JUG;
+                                            /* El veredicto se memoiza por partido: si un test
+                                               cambia el análisis, la caché tiene que soltarse o
+                                               el siguiente test lee el veredicto del anterior. */
+                                            _veredictos.clear();
+                                            ABIERTOS = new Set(); EXPANDIDAS = new Set();
+                                            CAPA = "veredicto"; EXPL = "equipos"; LOCALIA = "cruce"; },
               setCuota: (k, v) => { CUOTAS[k] = v; }});
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
@@ -300,7 +319,7 @@ test("y la app DICE por qué no marca en esa liga, en vez de dejar la escalera m
      nada", que es distinto de "acá no marcamos y este es el motivo". */
   const lean = L.lectura(argentino).lean;
   L.cargar(PARTIDOS, {[argentino.id]: {contexto:"x", inclinacion:lean}});
-  const html = L.tabPronosticos(argentino);
+  const html = L.capaVeredicto(argentino);
   cierto(/-9|−9/.test(html),
     "no menciona el ROI medido que justifica apagar la marca");
   cierto(/no marcamos|dejamos de marcar/i.test(html),
@@ -337,83 +356,52 @@ test("en una liga SIN medición en contra, la marca sigue funcionando igual", ()
 });
 
 /* ══════════════════════════════════════════════════════════════════
-   4. Una tarjeta, una lectura
+   4. Una portada, una lectura
 
    El error que Lucas rechazó, textual: "es como decir, es probable que
    gane River pero paga poco, así que preferimos que juegues una ruleta
-   rusa a Racing". El sello del veredicto y la marca dorada no pueden
-   apuntar a lados distintos.
+   rusa a Racing". El renglón de la portada y la tarjeta de oportunidad
+   no pueden apuntar a lados distintos.
+
+   Antes esto lo garantizaba un test sobre `sello()`, que componía una
+   etiqueta aparte a partir de la lectura del modelo — dos textos con
+   dos criterios, y el test existía porque se habían separado. Con las
+   tres capas el sello no existe: la portada y el Veredicto leen el
+   MISMO objeto, así que el invariante es estructural. El test se queda
+   igual, mirando lo que ahora sí se dibuja.
    ══════════════════════════════════════════════════════════════════ */
-test("el sello del veredicto nunca contradice a la marca dorada", ()=>{
+test("el renglón de la portada nombra el mismo mercado que la tarjeta de oportunidad", ()=>{
   let revisados = 0;
   PARTIDOS.forEach(m=>{
     DIRS.forEach(dir=>{
       L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion:dir}});
-      const marca = L.marcaDeValor(m);
-      if(!marca) return;
+      const v = L.mercadosDeVeredicto(m);
+      if(!v.oportunidad) return;
       revisados++;
-      const s = L.sello(L.lectura(m), m, dir);
-      const esperado = marca === "E" ? "PARTIDO"
-        : comoSello(marca === "L" ? m.home : m.away, marca === "L" ? m.away : m.home);
-      igual(s[0], esperado,
-        `${m.home} vs ${m.away}: marca ${marca} pero el sello dice "${s.join(" / ")}" —`);
+      const e = L.estadoDe(m);
+      igual(e.clase, "oportunidad",
+        `${m.home} vs ${m.away}: el Veredicto marca y la portada no —`);
+      igual(e.motivo, v.oportunidad.op.label.toUpperCase(),
+        `${m.home} vs ${m.away}: la portada nombra otro mercado —`);
     });
   });
   cierto(revisados > 0, "no se revisó ninguna combinación con marca encendida");
-  console.log(`         (${revisados} tarjetas con marca revisadas, ninguna se contradice)`);
+  console.log(`         (${revisados} oportunidades revisadas, ninguna se contradice)`);
 });
 
-test("el sello sigue la dirección del análisis, no la del modelo", ()=>{
-  let contra = 0;
-  PARTIDOS.forEach(m=>{
-    const lean = L.lectura(m).lean;
-    DIRS.filter(d=> d !== lean).forEach(dir=>{
-      L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion:dir}});
-      const s = L.sello(L.lectura(m), m, dir);
-      const nom = dir === "E" ? "PARTIDO"
-        : comoSello(dir === "L" ? m.home : m.away, dir === "L" ? m.away : m.home);
-      igual(s[0], nom, `${m.home} vs ${m.away} con inclinación ${dir} (modelo dice ${lean}):`);
-      contra++;
-    });
-  });
-  cierto(contra > 0, "no se probó ninguna dirección distinta a la del modelo");
+test("la portada escribe el nombre completo del equipo, sin recortes ambiguos", ()=>{
+  /* Gimnasia (La Plata) y Gimnasia (Mendoza) se distinguen justo por el
+     paréntesis. La portada vieja recortaba el nombre para que entrara en
+     un sello de 176px y las dos quedaban como "GIMNASIA"; el renglón
+     nuevo no recorta en el markup — si no entra, lo corta el CSS con
+     puntos suspensivos, y el texto sigue estando. */
+  const m = { ...PARTIDOS[0], home: "Gimnasia (Mendoza)", away: "Gimnasia (La Plata)" };
+  L.cargar(PARTIDOS, {});
+  const html = L.renglonPartido(m, {clase:"", corto:["SIN","PRECIO"]}, 0);
+  cierto(html.includes("Gimnasia (Mendoza)"), "perdió la aclaración del local");
+  cierto(html.includes("Gimnasia (La Plata)"), "perdió la aclaración del visitante");
 });
 
-test("cuando el análisis va contra los números, el sello lo dice sin inflarlo", ()=>{
-  /* Ni "FAVORITO" ni "LLEGA MEJOR" para una dirección que el modelo ve
-     por debajo del 40%: eso sería venderle al usuario una diferencia
-     que no existe. */
-  PARTIDOS.forEach(m=>{
-    const lec = L.lectura(m);
-    ["L","V"].forEach(dir=>{
-      if(lec.p[dir] >= 0.40) return;
-      L.cargar(PARTIDOS, {[m.id]: {contexto:"x", inclinacion:dir}});
-      const s = L.sello(lec, m, dir);
-      cierto(!["FAVORITO","LLEGA MEJOR","SIN GOLEADA"].includes(s[1]),
-        `${m.home} vs ${m.away}: ${dir} vale ${(lec.p[dir]*100).toFixed(0)}% y el sello dice "${s[1]}"`);
-    });
-  });
-});
-
-/* ══════════════════════════════════════════════════════════════════
-   5. El nombre del sello tiene que identificar a un equipo
-
-   Apareció con datos reales: Gimnasia La Plata vs Gimnasia (Mendoza)
-   recortaban los dos a "GIMNASIA" y el sello no decía nada.
-   ══════════════════════════════════════════════════════════════════ */
-test("el sello distingue dos equipos que comparten el nombre", ()=>{
-  const g = PARTIDOS.find(m => m.home.startsWith("Gimnasia") && m.away.startsWith("Gimnasia"));
-  cierto(g, "el snapshot no tiene el cruce de los dos Gimnasia");
-  const local = L.nombreSello(g.home, g.away);
-  const visita = L.nombreSello(g.away, g.home);
-  cierto(local !== visita, `los dos dieron "${local}"`);
-  console.log(`         (${g.home} → ${local} · ${g.away} → ${visita})`);
-});
-
-test("con nombres distintos, el recorte no cambia", ()=>{
-  igual(L.nombreSello("Boca Juniors", "River Plate"), "BOCA JUNIORS", "nombre corto:");
-  igual(L.nombreSello("Independiente Rivadavia", "Fluminense"), "INDEPENDIENTE", "nombre largo:");
-});
 
 /* ══════════════════════════════════════════════════════════════════
    6. Otros mercados — la escalera elige uno por franja, pero alguien
@@ -717,7 +705,7 @@ test("senalDividida() nunca toca marcaDeValor (sigue dependiendo solo de inclina
    grupos) tenía forma vieja de meses en pantalla mientras el archivo
    ya traía forma_general fresca — el bug era no usarla acá.
    ══════════════════════════════════════════════════════════════════ */
-test("tabHistorial usa formH_general/formA_general, no formH/formA", ()=>{
+test("Datos · Referencia usa formH_general/formA_general, no formH/formA", ()=>{
   const m = {
     id: "test1", home: "Local FC", away: "Visita FC",
     homeLogo: "", awayLogo: "", h2h: [],
@@ -726,12 +714,21 @@ test("tabHistorial usa formH_general/formA_general, no formH/formA", ()=>{
     formH_general: [{d:"16/08/26", r:"L", marcador:"0-1", local:true, rival:"Rival Fresco"}],
     formA_general: [{d:"16/08/26", r:"L", marcador:"0-1", local:true, rival:"Rival Fresco"}],
   };
-  const html = L.tabHistorial(m);
-  cierto(html.includes("Rival Fresco"), "tabHistorial no muestra el rival de formH_general/formA_general");
-  cierto(!html.includes("Viejo Rival"), "tabHistorial sigue mostrando formH/formA en vez de la forma general");
+  L.cargar(PARTIDOS, {});
+  L.setEstado({ABIERTOS:["ref:hist"]});
+  /* El historial ya no imprime el nombre del rival —los últimos cinco
+     son cinco cuadrados sin verde ni rojo— así que lo que se verifica es
+     el RESULTADO: formH da "W" (cuadrado lleno, clase g) y
+     formH_general da "L" (cuadrado vacío). Si sigue leyendo formH, el
+     bloque muestra ganados donde hay perdidos. */
+  const html = L.datosReferencia(m);
+  const cinco = html.slice(html.indexOf("Últimos cinco"), html.indexOf("leyenda"));
+  cierto(!/class="g"/.test(cinco),
+         "Referencia sigue mostrando formH/formA (ganado) en vez de la forma general (perdido)");
+  cierto(/<i class=""><\/i>/.test(cinco), "no dibujó la racha de la forma general");
 });
 
-test("tarjeta (portada) usa formH_general/formA_general, no formH/formA", ()=>{
+test("el renglón de portada usa formH_general/formA_general, no formH/formA", ()=>{
   const base = PARTIDOS[0];
   const m = { ...base,
     formH: [{d:"01/08/26", r:"W", marcador:"1-0", local:true, rival:"Viejo Rival"}],
@@ -740,12 +737,12 @@ test("tarjeta (portada) usa formH_general/formA_general, no formH/formA", ()=>{
     formA_general: [{d:"16/08/26", r:"L", marcador:"0-1", local:true, rival:"Rival Fresco"}],
   };
   L.cargar(PARTIDOS, {});
-  const html = L.tarjeta(m, 0, 1);
+  const html = L.renglonPartido(m, {clase:"", corto:["SIN","PRECIO"]}, 0);
   // tiraForma no imprime el nombre del rival, solo G/E/P: formH da "W"
   // (letra G), formH_general da "L" (letra P). Si sigue leyendo formH,
-  // la tarjeta muestra "G" donde debería mostrar "P".
-  const franja = html.slice(html.indexOf('class="eq"'));
-  cierto(franja.includes('class="p">P<'), "la tarjeta de portada sigue mostrando formH/formA, no la forma general");
+  // el renglón muestra "G" donde debería mostrar "P".
+  cierto(html.includes('class="p">P<'),
+         "el renglón de portada sigue mostrando formH/formA, no la forma general");
 });
 
 /* ══════════════════════════════════════════════════════════════════
@@ -764,28 +761,28 @@ const PL_DEMO = {
   ],
 };
 
-test("tabPlantel muestra los jugadores cuando hay plantel cargado", ()=>{
+test("el plantel muestra los jugadores cuando hay plantel cargado", ()=>{
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, PL_DEMO);
-  const html = L.tabPlantel(m);
+  const html = L.cancha(m);
   cierto(html.includes("Hugo Rodallega"), "no aparece el jugador del plantel");
   cierto(html.includes("Suplente Cualquiera"), "no aparecen los jugadores de menos peso");
   cierto(!html.includes("Sin jugadores"),
          "sigue diciendo 'Sin jugadores' aunque el plantel está cargado");
 });
 
-test("tabPlantel muestra el peso goleador, que es lo que pesa una baja", ()=>{
+test("el plantel muestra el peso goleador, que es lo que pesa una baja", ()=>{
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, PL_DEMO);
-  const html = L.tabPlantel(m);
+  const html = L.cancha(m);
   cierto(/57\s*%|56\s*%/.test(html),
          "no muestra la fracción de goles del equipo que puso el goleador");
 });
 
-test("tabPlantel sin plantel cargado lo declara, no miente", ()=>{
+test("el plantel sin cargar lo declara, no miente", ()=>{
   const m = { ...PARTIDOS[0], homeId:"77", awayId:"76" };
   L.cargar(PARTIDOS, {}, {});
-  const html = L.tabPlantel(m);
+  const html = L.cancha(m);
   cierto(!html.includes("Hugo Rodallega"), "mostró un plantel que no corresponde");
   cierto(/todav[íi]a no|no tenemos|sin jugadores/i.test(html),
          "sin plantel cargado no declara el hueco");
@@ -898,7 +895,7 @@ const analisisCompleto = m => ({[m.id]: {
 
 test("el analisis muestra la lectura de cada equipo, con su nombre", ()=>{
   L.cargar(PARTIDOS, analisisCompleto(claro));
-  const h = L.tabAnalisis(claro);
+  const h = L.capaLectura(claro);
   cierto(h.includes("cuatro victorias seguidas"), "no muestra la lectura del local");
   cierto(h.includes("no gana de visitante"), "no muestra la lectura del visitante");
   cierto(h.includes(claro.home) && h.includes(claro.away),
@@ -913,10 +910,10 @@ test("los analisis viejos, con solo contexto y veredicto, siguen andando", ()=>{
     contexto: "Un contexto del esquema viejo.",
     veredicto: "Un veredicto del esquema viejo.",
   }});
-  const h = L.tabAnalisis(claro);
+  const h = L.capaLectura(claro);
   cierto(h.includes("Un contexto del esquema viejo"), "perdió el contexto viejo");
   cierto(h.includes("Un veredicto del esquema viejo"), "perdió el veredicto viejo");
-  cierto(!h.includes("SIN CARGAR"), "trató un análisis viejo como no cargado");
+  cierto(!h.includes("SIN NOTA CARGADA"), "trató un análisis viejo como no cargado");
 });
 
 test("un analisis con solo lectura por equipo cuenta como cargado", ()=>{
@@ -928,7 +925,7 @@ test("un analisis con solo lectura por equipo cuenta como cargado", ()=>{
     local: "Algo del local.", visitante: "Algo del visitante.",
   }});
   cierto(L.hayProsa(claro.id), "lo contó como partido sin nota");
-  cierto(!L.tabAnalisis(claro).includes("SIN CARGAR"),
+  cierto(!L.capaLectura(claro).includes("SIN NOTA CARGADA"),
          "mostró el cartel de sin cargar teniendo prosa");
 });
 
@@ -937,7 +934,7 @@ test("el analisis muestra el bloque de desarrollo cuando existe", ()=>{
     actualizado: "2026-08-29", inclinacion: "L",
     desarrollo: {texto: "Partido trabado de pocas llegadas.", senal: {ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"incierto"}},
   }});
-  const h = L.tabAnalisis(claro);
+  const h = L.capaLectura(claro);
   cierto(h.includes("Partido trabado de pocas llegadas."), "el texto de desarrollo no se muestra");
 });
 
@@ -945,8 +942,8 @@ test("los analisis sin desarrollo no muestran el bloque ni rompen", ()=>{
   L.cargar(PARTIDOS, {[claro.id]: {
     actualizado: "2026-08-18", inclinacion: "V", contexto: "Solo contexto.",
   }});
-  const h = L.tabAnalisis(claro);
-  cierto(!h.includes("SIN CARGAR"), "trató un análisis viejo como no cargado");
+  const h = L.capaLectura(claro);
+  cierto(!h.includes("SIN NOTA CARGADA"), "trató un análisis viejo como no cargado");
 });
 
 test("la frase de la inclinacion esta bien escrita para las tres direcciones", ()=>{
@@ -954,7 +951,7 @@ test("la frase de la inclinacion esta bien escrita para las tres direcciones", (
      "inclina a el empate". La preposición estaba fija afuera del mapa. */
   const con = dir => { L.cargar(PARTIDOS, {[claro.id]: {
     actualizado: "2026-08-20", inclinacion: dir, veredicto: "Algo.",
-  }}); return L.tabAnalisis(claro); };
+  }}); return L.capaLectura(claro); };
   cierto(con("E").includes("al <b>empate"), "escribió 'a el empate'");
   cierto(!con("E").includes("a el "), "quedó una preposición mal armada");
   cierto(con("L").includes("a <b>" + claro.home), "rompió la frase del local");
@@ -971,7 +968,7 @@ test("aQuien contrae la preposicion para el empate y no para los equipos", ()=>{
 
 test("sin nada escrito sigue mostrando el hueco declarado", ()=>{
   L.cargar(PARTIDOS, {[claro.id]: {actualizado: "2026-08-20", inclinacion: "L"}});
-  cierto(L.tabAnalisis(claro).includes("SIN CARGAR"),
+  cierto(L.capaLectura(claro).includes("SIN NOTA CARGADA"),
          "una inclinación sin prosa no es una nota escrita");
 });
 
@@ -1055,11 +1052,14 @@ test("la metrica sin dato no se inventa en cero", ()=>{
 });
 
 test("el selector de metrica esta en la pantalla y marca la elegida", ()=>{
+  /* Se mudó de Plantel a Datos · Jugadores, que es donde el que mira
+     arma sus propios candidatos: la lista entera de los dos planteles,
+     ordenable por cualquiera de las métricas bajadas. */
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, PL_DEMO);
-  const html = L.tabPlantel(m);
+  const html = L.datosJugadores(m);
   L.METRICAS.forEach(x=>
-    cierto(html.includes(`data-plmet="${x.k}"`), `no se puede elegir ${x.k}`));
+    cierto(html.includes(`data-jugmet="${x.k}"`), `no se puede elegir ${x.k}`));
 });
 
 /* ── 13. Las estadísticas del equipo ────────────────────────────────
@@ -1079,10 +1079,18 @@ const EST_DEMO = {
          pj: 8, n: {remates: 8, al_arco: 8, corners: 8, faltas: 8}},
 };
 
-test("tabEstadisticas enfrenta las estadisticas de los dos equipos", ()=>{
+/* Las nueve métricas se mudaron a Datos · Equipos, en acordeón: el
+   cuerpo cerrado no se monta, así que los tests abren los que van a
+   mirar. Es la misma decisión de siempre —los cerrados no montan— y por
+   eso el estado se declara acá en vez de asumirse. */
+const TODAS = ["remates","al_arco","corners","posesion","faltas","tarjetas",
+               "offsides","atajadas","tackles","precision"].map(k=> "met:"+k);
+const equipos = m => { L.setEstado({ABIERTOS: TODAS}); return L.datosEquipos(m); };
+
+test("Datos · Equipos enfrenta las estadisticas de los dos equipos", ()=>{
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   cierto(html.includes("14.2") && html.includes("8.5"),
          "no muestra los remates de los dos equipos");
   cierto(html.includes("57.3") || html.includes("57"),
@@ -1094,12 +1102,12 @@ test("no muestra estadisticas si falta la de alguno de los dos", ()=>{
      Si de un equipo no hay dato, no hay comparación que mostrar. */
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"55" };
   L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   cierto(!html.includes("14.2"), "comparó contra un equipo sin datos");
   /* Y que el bloque exista cuando SÍ están los dos: sin esto, el test
      daría verde por mirar una pestaña que ya no muestra estadísticas.
      Pasó de verdad el 2026-08-24, al mudarlas a su propia pestaña. */
-  const conLosDos = L.tabEstadisticas({ ...PARTIDOS[0], homeId:"99", awayId:"98" });
+  const conLosDos = equipos({ ...PARTIDOS[0], homeId:"99", awayId:"98" });
   cierto(conLosDos.includes("14.2"), "el bloque no aparece ni con los dos equipos");
 });
 
@@ -1109,7 +1117,10 @@ test("declara sobre cuantos partidos se promedio", ()=>{
      exigimos al análisis. */
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, PL_DEMO, EST_DEMO);
-  cierto(/8 partidos|últimos 8/i.test(L.tabEstadisticas(m)),
+  /* El sello de la capa lo declara en su contador: "10 MÉTRICAS · 8 PJ".
+     La forma cambió con el rediseño; lo que no cambia es que la muestra
+     tiene que estar escrita en la pantalla, al lado de los números. */
+  cierto(/8 PJ|8 partidos|últimos 8/i.test(equipos(m)),
          "no dice sobre cuántos partidos está promediando");
 });
 
@@ -1120,7 +1131,7 @@ test("una metrica que ningun equipo tiene no se dibuja vacia", ()=>{
     "98": {remates: 12, pj: 5, n: {remates: 5}},
   };
   L.cargar(PARTIDOS, {}, PL_DEMO, sinPosesion);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   cierto(!/posesi[óo]n/i.test(html), "dibujó una fila sin ningún dato");
   cierto(html.includes("10") && html.includes("12"), "perdió la que sí tenía");
 });
@@ -1143,10 +1154,10 @@ const EST_SPLIT = {
          visita: {remates: 7.0, pj: 4, n: {remates: 4}, desvio: {remates: 0.5}}},
 };
 
-test("la comparativa usa el split de local para el local y de visita para el visitante", ()=>{
+test("Datos · Equipos usa el split de local para el local y de visita para el visitante", ()=>{
   const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
   L.cargar(PARTIDOS, {}, {}, EST_SPLIT);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   cierto(html.includes("14.0"), "no usó el promedio DE LOCAL del equipo 99");
   cierto(html.includes("7.0"), "no usó el promedio DE VISITA del equipo 98");
   cierto(!html.includes("10.0") && !html.includes("9.0"),
@@ -1160,7 +1171,7 @@ test("sin split disponible, cae al total en vez de romper", ()=>{
     "98": {remates: 9.0,  pj: 8, n: {remates: 8}},
   };
   L.cargar(PARTIDOS, {}, {}, sinSplit);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   cierto(html.includes("10.0") && html.includes("9.0"),
          "no cayó al total cuando no hay local/visita");
 });
@@ -1180,14 +1191,14 @@ test("un split con muestra insuficiente NO se usa, aunque exista", ()=>{
            visita: {remates: 7.0,  pj: 2, n: {remates: 2}}},
   };
   L.cargar(PARTIDOS, {}, {}, flaco);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   cierto(html.includes("10.0") && html.includes("9.0"),
          "usó un split de 2 partidos en vez de caer al total");
   cierto(!html.includes("14.0") && !html.includes("7.0"),
          "mostró el split pese a la muestra insuficiente");
 });
 
-test("la comparativa muestra lo que el rival concede en esa metrica", ()=>{
+test("Datos · Equipos muestra lo que el rival concede en esa metrica", ()=>{
   /* Lo que Lucas pidió primero: ajustar por rival. "Remata 10" significa
      una cosa contra un equipo que concede 6 y otra contra uno que
      concede 15. El dato ya se calculaba y no se mostraba en ningún
@@ -1200,7 +1211,7 @@ test("la comparativa muestra lo que el rival concede en esa metrica", ()=>{
            concede: {remates: 15.0, pj: 6, n: {remates: 6}}},
   };
   L.cargar(PARTIDOS, {}, {}, conConcede);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   /* Debajo del local va lo que concede SU RIVAL (el visitante), porque
      eso es contra lo que va a rematar. Y al revés. */
   cierto(html.includes("15.0"), "no muestra lo que concede el visitante bajo el local");
@@ -1214,7 +1225,7 @@ test("sin dato de concede, la fila sigue mostrando lo propio", ()=>{
     "98": {remates: 9.0,  pj: 6, n: {remates: 6}},
   };
   L.cargar(PARTIDOS, {}, {}, sinConcede);
-  const html = L.tabEstadisticas(m);
+  const html = equipos(m);
   cierto(html.includes("10.0") && html.includes("9.0"),
          "perdió los números propios cuando falta concede");
   cierto(!/NaN|undefined/.test(html), "dibujó basura donde no hay concede");

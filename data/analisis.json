@@ -262,5 +262,21 @@
     "ambos_marcan": "poco_probable"
    }
   }
+ },
+ "espn401913077": {
+  "actualizado": "2026-09-01",
+  "inclinacion": null,
+  "local": "Flamengo vive de un ataque repartido y con un nueve que sostiene el promedio: Pedro lleva 15 goles, un tercio de los del equipo, y fue titular en los cuatro partidos de su serie reciente; detrás aparece Samuel Lino, con 8 y con los dos goles del 3-0 a Botafogo del 30 de agosto. Es el segundo del torneo con 48 puntos en 24 partidos y el que más convirtió de toda la tabla. Viene de un agosto muy cargado —cinco partidos entre el 13 y el 30, tres de ellos contra Cruzeiro— y aun así ganó tres. En el 5-1 del 16 de agosto jugó sin De la Cruz, Bruno Henrique, Alex Sandro, Vitão ni Cebolinha, y goleó igual: no trascendió que ninguno de esos casos siga abierto, y con ese antecedente tampoco sería una novedad de este partido.",
+  "visitante": "Mirassol no juega como un equipo que pelea abajo: Rafael Guanaes lo hace buscar la pelota y presionar arriba en vez de esperar, que es lo raro con su presupuesto. El problema es que esa idea no le sale lejos de su cancha — apenas 22% de aprovechamiento como visitante en este Brasileirão. Convierte poco: 27 goles en 24 partidos, con el gol repartido y sin ningún nombre que pase del 17% del total. Viene de dos empates 1-1 seguidos, contra Santos el 23 de agosto y contra el líder Palmeiras el 30. Arrastra dos ausencias largas, Negueba por una lesión multiligamentaria de rodilla y Aldo Filho por una rotura muscular: no son noticia de este partido, es cómo está armado el equipo hace meses.",
+  "contexto": "Los dos llegan con algo grande en juego y en direcciones opuestas: Flamengo es segundo a cuatro puntos de Palmeiras y este partido es el que tiene pendiente, así que ganarlo lo deja a uno del líder; Mirassol es decimosexto con 25 puntos, a tiro de la zona de descenso. Se cruzaron hace diecisiete días en Mirassol y terminó 5-1 para Flamengo, pero los otros dos antecedentes fueron un 3-3 en diciembre de 2025 y un 2-1 ajustado en el Maracaná en agosto de 2025 — en esta cancha hay un solo cruce, que es anécdota y no patrón. Mirassol quedó afuera de la Libertadores el 20 de agosto, por penales ante Liga de Quito, así que desde entonces juega solo el campeonato.",
+  "veredicto": "Flamengo llega mejor y con más gol, pero todo lo que lo separa de Mirassol —la campaña, la diferencia de plantel, jugar en el Maracaná— es lo que cualquiera ve mirando la tabla: no encontramos ninguna ausencia, cambio de técnico ni condición de calendario que agregue algo por encima de eso, así que el análisis no inclina para ningún lado.",
+  "desarrollo": {
+   "texto": "Mirassol es de los pocos equipos de abajo que sale a tener la pelota, y eso choca con un Flamengo que en el Maracaná ataca de entrada; lo más probable es que la propuesta del visitante dure mientras aguante la presión. La contra es que fuera de su cancha a Mirassol la idea le viene saliendo mal, y ahí el partido se le hace de resistir. Los antecedentes no ayudan a fijar un ritmo: entre estos dos hubo un 5-1 y un 3-3, y Mirassol viene de dos empates 1-1 — no hay base para afirmar un partido abierto ni uno cerrado.",
+   "senal": {
+    "ritmo_goleador": "incierto",
+    "estructura": "neutral",
+    "ambos_marcan": "incierto"
+   }
+  }
  }
 }

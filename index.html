@@ -1470,17 +1470,6 @@ a{color:inherit}
 .famh .n,.famh .r{color:var(--gris3)}
 .famr .r.neg{color:var(--terracota)}
 .famr .r.nd{color:var(--neutroPanel);font-weight:400}
-.cerr{margin:0 20px 0 16px;display:flex;flex-direction:column;gap:1px}
-.cerrf{background:var(--panel);padding:10px 11px;display:flex;align-items:center;gap:9px}
-.cerrf .bl{flex:0 0 3px;align-self:stretch;min-height:26px;background:var(--salvia)}
-.cerrf.per .bl{background:var(--terracota)}
-.cerrf .t4{flex:1;min-width:0}
-.cerrf .t4 b{display:block;font-size:13px;color:var(--tinta2);font-weight:400;overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap}
-.cerrf .t4 i{display:block;font-family:var(--mono);font-size:10.5px;color:var(--gris3);margin-top:4px;
-  font-style:normal}
-.cerrf .u{flex:0 0 auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta2)}
-.cerrf.per .u{color:var(--terracota)}
 
 /* ── MÉTODO: la señal por métrica ──────────────────────────────────
    El riel va de 0 a 2.00× y el tick es el techo (1.00). Arriba del
@@ -1695,7 +1684,6 @@ let REF_TABLA=null;       /* qué tabla de Referencia está a la vista */
 let ABIERTOS=new Set();
 let EXPANDIDAS=new Set(); /* listas truncadas que el usuario abrió */
 let LIGA_ABIERTA=null;    /* acordeón de liga en la portada */
-let PARTIDO_ABIERTO=null; /* qué renglón está en talón dentro de la liga */
 /* Qué equipo muestra la cancha de Plantel: "H" local, "A" visitante.
    Los dos no entran en un dibujo solo, y apilarlos obliga a scrollear
    dos canchas para comparar. El prototipo ya lo resolvía con un par de
@@ -3298,7 +3286,11 @@ function tarjetaOportunidad(m, f){
     <div class="oh"><b>Oportunidad detectada</b><span>${esc_(fam)}</span></div>
     <div class="otit">${esc_(f.op.label)}</div>
     <p>${esc_(cuandoCobra(f.op, m))} Le damos <b>${pc(f.op.p)}</b>${
-      f.ventaja != null ? `, <b>${Math.round(f.ventaja*100)} puntos</b> más que la línea sin margen` : ""}.</p>
+      f.ventaja != null ? `, <b>${Math.round(f.ventaja*100)} puntos</b> más que la línea sin margen` : ""}.${
+      /* La muestra sobre la que se apoya el cruce. El handoff le daba una
+         celda propia; acá va en la frase porque la tercera celda la ocupa
+         el precio real, que es contra lo que se compara la mínima. */
+      muestraDe(m) !== "—" ? ` Sobre ${muestraDe(m)} de cada uno.` : ""}</p>
     <div class="ocels">
       <div class="cuota"><small>CUOTA MÍNIMA</small><b>${umbral(f.op.p).toFixed(2)}</b></div>
       <div><small>STAKE</small><b>${st || "—"}</b></div>
@@ -5230,7 +5222,6 @@ document.addEventListener("click", e=>{
      que es justo lo que la portada nueva viene a evitar. */
   else if(d.liga){
     LIGA_ABIERTA = LIGA_ABIERTA === d.liga ? null : d.liga;
-    PARTIDO_ABIERTO = null;
     render();
   }
   else if(d.pleq){ PL_EQ = d.pleq; render(); }

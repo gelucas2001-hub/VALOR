@@ -1584,6 +1584,14 @@ let REF_TABLA=null;       /* qué tabla de Referencia está a la vista */
    "mk:goles", "ref:pos"). Un Set y no un booleano por bloque: los
    cerrados no montan su cuerpo, así que la lista no crece con la
    pantalla. */
+let PANTALLA="";          /* qué pantalla se dibujó la última vez, para
+                             saber si el render es una navegación o la
+                             misma pantalla actualizándose */
+/* Un elemento al que volver después de dibujar. Lo usa el acordeón de
+   ligas de la portada, que es el único que CIERRA a los demás: guardar
+   el scroll no alcanza ahí, porque al cerrarse la liga de arriba la
+   página se acorta y el punto guardado ya no señala lo mismo. */
+let ANCLA=null;
 let ABIERTOS=new Set();
 let EXPANDIDAS=new Set(); /* listas truncadas que el usuario abrió */
 let LIGA_ABIERTA=null;    /* acordeón de liga en la portada */
@@ -5018,6 +5026,16 @@ function render(){
       <div class="aviso"><b>No pudimos cargar los datos</b>${esc_(BOOT_ERROR)}</div>`;
     return;
   }
+  /* Qué pantalla se está mirando. Cambiar de pantalla arranca arriba;
+     abrir un acordeón, elegir una métrica o cambiar un filtro NO — eso
+     es la misma pantalla actualizándose, y mandar el scroll al tope en
+     cada toque hace que desplegar algo que está abajo lo saque de la
+     vista justo cuando lo abriste. */
+  const pantalla = [VISTA, MATCH_ID, CAPA, EXPL].join("/");
+  const mismaPantalla = pantalla === PANTALLA;
+  const scrollAntes = window.scrollY;
+  PANTALLA = pantalla;
+
   app.innerHTML = VISTA==="partido" ? viewPartido()
     : VISTA==="registro" ? viewRegistro()
     : VISTA==="metodo" ? viewMetodo()
@@ -5027,7 +5045,27 @@ function render(){
     const activo = b.dataset.nav===VISTA || (VISTA==="partido" && b.dataset.nav==="fecha");
     b.classList.toggle("on", activo);
   });
-  window.scrollTo(0, 0);
+  /* `instant` a propósito: una vuelta al tope animada mientras el
+     contenido ya cambió se ve como un salto doble. */
+  if(mismaPantalla){
+    /* El documento pudo crecer o encogerse al abrir o cerrar un bloque.
+       Se vuelve al mismo punto, y si la página se hizo más corta que
+       ese punto, al máximo que ahora existe. */
+    const tope = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    window.scrollTo({top: Math.min(scrollAntes, tope), behavior: "instant"});
+  } else {
+    window.scrollTo({top: 0, behavior: "instant"});
+  }
+  /* Y si hay un ancla, manda el ancla: la fila que se tocó tiene que
+     quedar a la vista, no en el punto donde estaba el scroll. */
+  if(ANCLA && mismaPantalla){
+    const el = document.querySelector(ANCLA);
+    if(el){
+      const y = el.getBoundingClientRect().top + window.scrollY - 12;
+      window.scrollTo({top: Math.max(0, y), behavior: "instant"});
+    }
+  }
+  ANCLA = null;
 
   /* El carrusel se centra solo: tocar "sábado" en el borde derecho no
      debería dejarlo pegado al borde, tiene que traerlo al medio como
@@ -5116,6 +5154,7 @@ document.addEventListener("click", e=>{
      que es justo lo que la portada nueva viene a evitar. */
   else if(d.liga){
     LIGA_ABIERTA = LIGA_ABIERTA === d.liga ? null : d.liga;
+    ANCLA = `[data-liga="${CSS.escape(d.liga)}"]`;
     render();
   }
   else if(d.pleq){ PL_EQ = d.pleq; render(); }

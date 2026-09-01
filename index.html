@@ -2675,8 +2675,13 @@ function veredictoDe(m){
    un riesgo sobre "no hay precio". */
 function estadoDe(m){
   const v = veredictoDe(m);
+  /* El motivo NOMBRA el mercado, no repite lo que ya dice la barra
+     dorada. El invariante es que la franja del día y la tarjeta de
+     oportunidad apunten al mismo lado: si acá dice solo "el precio está
+     a favor", hay que entrar al partido para saber a qué. Sale del mismo
+     objeto que dibuja la tarjeta, así que no pueden separarse. */
   if(v.oportunidad) return {clase:"oportunidad", corto:["PRECIO","A FAVOR"],
-    motivo:"el precio está a favor"};
+    motivo: v.oportunidad.op ? v.oportunidad.op.label : "el precio está a favor"};
   const riesgo = v.filas.find(f=> f.riesgo);
   /* El motivo de la franja entra en una línea al lado del cruce: es una
      etiqueta, no una frase. El porqué largo está adentro del partido. */

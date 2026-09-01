@@ -381,7 +381,11 @@ test("el renglón de la portada nombra el mismo mercado que la tarjeta de oportu
       const e = L.estadoDe(m);
       igual(e.clase, "oportunidad",
         `${m.home} vs ${m.away}: el Veredicto marca y la portada no —`);
-      igual(e.motivo, v.oportunidad.op.label.toUpperCase(),
+      /* Sin distinguir mayúsculas: lo que el invariante protege es que
+         la franja NOMBRE el mismo mercado que la tarjeta, no con qué
+         tipografía lo escribe. Cómo se escribe es decisión de diseño y
+         ya cambió una vez; qué se nombra, no puede cambiar. */
+      igual(e.motivo.toUpperCase(), v.oportunidad.op.label.toUpperCase(),
         `${m.home} vs ${m.away}: la portada nombra otro mercado —`);
     });
   });

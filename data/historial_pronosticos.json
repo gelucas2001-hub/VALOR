@@ -1435,7 +1435,10 @@
    2.6,
    3.7
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -1459,7 +1462,10 @@
    3.45,
    5.0
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -1483,7 +1489,10 @@
    3.2,
    3.4
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   3
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -1507,7 +1516,10 @@
    3.05,
    4.5
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -1531,7 +1543,10 @@
    3.05,
    5.0
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -2041,7 +2056,10 @@
    4.3,
    1.53
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2760,6 +2778,198 @@
    1.83,
    3.2,
    4.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841543": {
+  "fecha": "2026-09-04",
+  "comp": "Liga Profesional Argentina",
+  "home": "Belgrano (Córdoba)",
+  "away": "Huracán",
+  "lh": 1.152,
+  "la": 0.849,
+  "rho": -0.05,
+  "mercado": [
+   0.4832,
+   0.3184,
+   0.1984
+  ],
+  "cuotas": [
+   1.95,
+   2.9,
+   4.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841547": {
+  "fecha": "2026-09-04",
+  "comp": "Liga Profesional Argentina",
+  "home": "Platense",
+  "away": "Deportivo Riestra",
+  "lh": 0.985,
+  "la": 0.932,
+  "rho": -0.05,
+  "mercado": [
+   0.4154,
+   0.3362,
+   0.2484
+  ],
+  "cuotas": [
+   2.25,
+   2.75,
+   3.65
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841545": {
+  "fecha": "2026-09-05",
+  "comp": "Liga Profesional Argentina",
+  "home": "Aldosivi",
+  "away": "Banfield",
+  "lh": 1.109,
+  "la": 1.073,
+  "rho": -0.05,
+  "mercado": [
+   0.3784,
+   0.3164,
+   0.3052
+  ],
+  "cuotas": [
+   2.45,
+   2.9,
+   3.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841553": {
+  "fecha": "2026-09-05",
+  "comp": "Liga Profesional Argentina",
+  "home": "Gimnasia La Plata",
+  "away": "Tigre",
+  "lh": 1.087,
+  "la": 1.0,
+  "rho": -0.05,
+  "mercado": [
+   0.3574,
+   0.3184,
+   0.3243
+  ],
+  "cuotas": [
+   2.6,
+   2.9,
+   2.85
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841539": {
+  "fecha": "2026-09-05",
+  "comp": "Liga Profesional Argentina",
+  "home": "Gimnasia (Mendoza)",
+  "away": "Boca Juniors",
+  "lh": 1.143,
+  "la": 1.091,
+  "rho": -0.05,
+  "mercado": [
+   0.2452,
+   0.2964,
+   0.4584
+  ],
+  "cuotas": [
+   3.7,
+   3.1,
+   2.05
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841551": {
+  "fecha": "2026-09-05",
+  "comp": "Liga Profesional Argentina",
+  "home": "San Lorenzo",
+  "away": "Talleres (Córdoba)",
+  "lh": 1.109,
+  "la": 0.862,
+  "rho": -0.05,
+  "mercado": [
+   0.4139,
+   0.3106,
+   0.2755
+  ],
+  "cuotas": [
+   2.25,
+   2.95,
+   3.3
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841540": {
+  "fecha": "2026-09-05",
+  "comp": "Liga Profesional Argentina",
+  "home": "Vélez Sarsfield",
+  "away": "Estudiantes de La Plata",
+  "lh": 1.202,
+  "la": 0.91,
+  "rho": -0.05,
+  "mercado": [
+   0.3893,
+   0.3188,
+   0.292
+  ],
+  "cuotas": [
+   2.4,
+   2.9,
+   3.15
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841550": {
+  "fecha": "2026-09-06",
+  "comp": "Liga Profesional Argentina",
+  "home": "Rosario Central",
+  "away": "Newell's Old Boys",
+  "lh": 1.516,
+  "la": 0.758,
+  "rho": -0.05,
+  "mercado": [
+   0.5838,
+   0.2588,
+   0.1574
+  ],
+  "cuotas": [
+   1.62,
+   3.5,
+   5.5
   ],
   "resultado": null,
   "modelo": {

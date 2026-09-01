@@ -1034,6 +1034,12 @@ a{color:inherit}
 .cbar .cb i{height:6px;background:rgba(238,227,206,.24)}
 .cbar .cb i.alto{background:var(--tinta)}
 .cbar + .cbar{margin-top:11px}
+/* La métrica que no distingue a los dos equipos: se dice, no se dibuja.
+   Una barra tenue seguiría invitando a comparar dos números que no se
+   pueden comparar. */
+.nodistingue{font-family:var(--mono);font-size:10.5px;line-height:1.5;color:var(--gris3);
+  padding-top:10px;margin-top:11px;border-top:1px solid var(--linea2);text-wrap:pretty}
+.cbar + .nodistingue{margin-top:11px}
 /* Renglón de tabla como evidencia: solo los dos equipos del partido. La
    tabla entera vive en Datos · Referencia. */
 .trow{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--panel)}
@@ -3429,31 +3435,76 @@ function capaLectura(m){
     El marcador que más se repite es <b>${marcadorTop(lec.M)}</b>, y aun así pasa
     ${Math.round(probMarcadorTop(lec.M)*100)} de cada 100 veces.</p></div>`;
 
-  /* 01 · Dominio. El texto lo escribe la skill del mercado de
-     estadísticas cuando está cargado; los números son los del eje. */
+  /* 01 · Dominio. Solo las métricas donde el número DISTINGUE a estos
+     dos equipos.
+
+     Antes se dibujaban las tres siempre, y en Brasil eso daba
+     "15.2 REMATES 15.1": dos barras casi iguales que no comparan a
+     Flamengo con Mirassol sino al promedio de la liga consigo mismo. El
+     motivo está medido — `k` sale de partir la variación entre equipos
+     en ruido y señal, y en remates y córners de esa liga da 200, que es
+     el techo: con esta muestra los equipos son indistinguibles. Una
+     barra que no distingue no es un dato tenue, es un dato que no está,
+     y ponerla igual le hace creer al que mira que comparó algo.
+
+     Las que no distinguen no se esconden: se declaran, que es la misma
+     regla que el Veredicto aplica a un mercado sin ventaja. */
   if(L && V && L.esperado && V.esperado){
-    const filas = DOMINIO_METRICAS
-      .map(([k, et])=> barraComparativa(et, L.esperado[k], V.esperado[k]))
-      .filter(Boolean).join("");
-    if(filas){
+    const P = paramsDe(L, V);
+    /* Cuánto del número es del equipo y cuánto es promedio de la liga.
+       Manda el más flojo de los dos: si de uno sabemos y del otro no, la
+       comparación tampoco vale. El 0.25 es el mismo piso que el proyecto
+       ya usaba para decidir si un split se puede mostrar. */
+    const peso = (eq, k) => P[k] ? pesoEquipo((eq.n || {})[k] || 0, P[k].k) : 0;
+    const propio = k => Math.min(peso(L, k), peso(V, k));
+    const distingue = k => propio(k) >= 0.25;
+
+    const bar = ([k, et]) => barraComparativa(et, L.esperado[k], V.esperado[k]);
+    const conSenal = DOMINIO_METRICAS.filter(([k])=> L.esperado[k] != null
+      && V.esperado[k] != null && distingue(k));
+    const sinSenal = DOMINIO_METRICAS.filter(([k])=> L.esperado[k] != null
+      && V.esperado[k] != null && !distingue(k));
+
+    if(conSenal.length || sinSenal.length){
       const eje = ejesDe(m).find(e=> e.eje === "dominio");
       const sinMedir = !eje || eje.confianza === "sin_medir";
-      /* Cuando los dos lados muestran el MISMO número no es un error de
-         render: es el encogimiento diciendo que no hay muestra propia y
-         que lo esperable de los dos es el promedio de la liga. Sin
-         decirlo, dos cifras idénticas se leen como un bug. */
-      const P = paramsDe(L, V);
-      const flojo = DOMINIO_METRICAS.some(([k])=> P[k]
-        && (pesoEquipo((L.n||{})[k]||0, P[k].k) < 0.25 || pesoEquipo((V.n||{})[k]||0, P[k].k) < 0.25));
       const texto = est.dominio ? esc_(est.dominio)
         : `Lo que esperamos de cada uno en este cruce, ajustado por el rival y por la localía.
            <b>${esc_(m.home)}</b> contra <b>${esc_(m.away)}</b>.`;
-      bloques.push(bloqueArgumento(rot("Dominio"), texto, filas,
-        `<div class="epie"><span>${flojo
-          ? "Con esta muestra el número es casi todo promedio de la liga: por eso los dos lados dan parecido."
-          : sinMedir
-          ? "En esta liga la fuente no publica estadísticas por partido: sin medición detrás."
-          : "Medido partido a partido: acá le ganamos al promedio de la liga."}</span></div>`));
+      const nombres = sinSenal.map(([, et])=> et.toLowerCase()).join(" y ");
+      const evidencia = conSenal.map(bar).join("")
+        + (sinSenal.length ? `<div class="nodistingue">En ${esc_(nombres)} no distinguimos a
+             estos dos equipos: con ${Math.min(L.pj||0, V.pj||0)} partidos de muestra, los dos valen
+             el promedio de la liga.</div>` : "");
+      bloques.push(bloqueArgumento(rot("Dominio"), texto, evidencia,
+        `<div class="epie"><span>${conSenal.length
+          ? `Esperado en este partido${sinMedir
+             ? " · en esta liga la fuente no publica estadísticas por partido, así que no hay medición detrás"
+             : " · medido partido a partido contra el promedio de la liga"}`
+          : "Ninguna de las tres métricas distingue a estos dos equipos con esta muestra."}</span></div>`));
+    }
+  }
+
+  /* 01bis · Fricción. Faltas y tarjetas, que es donde el número SÍ
+     distingue en este cruce y además es la métrica mejor calibrada que
+     tenemos (`faltas` da "bien" contra el ruido, en 665 casos). Estaba
+     escrito por la skill del mercado de estadísticas y no se mostraba en
+     ninguna pantalla. */
+  if(L && V && L.esperado && V.esperado){
+    const P = paramsDe(L, V);
+    const propio = k => P[k]
+      ? Math.min(pesoEquipo((L.n || {})[k] || 0, P[k].k), pesoEquipo((V.n || {})[k] || 0, P[k].k))
+      : 0;
+    const filas = FRICCION_METRICAS
+      .filter(([k])=> L.esperado[k] != null && V.esperado[k] != null && propio(k) >= 0.25)
+      .map(([k, et])=> barraComparativa(et, L.esperado[k], V.esperado[k])).join("");
+    if(filas){
+      bloques.push(bloqueArgumento(rot("Fricción"),
+        est.friccion ? esc_(est.friccion)
+        : `Dónde se corta el juego: lo que esperamos de cada uno en este partido.`,
+        filas,
+        `<div class="epie"><span>Esperado en este partido · las faltas son la métrica que mejor
+          le acierta de todas las que medimos</span></div>`));
     }
   }
 
@@ -3922,6 +3973,15 @@ function ligaDe(m, L, V){
    promedio de la liga (+1.0% y +0.6%), así que siguen en Estadísticas
    como dato crudo y no acá como lectura.
    ══════════════════════════════════════════════════════════════════ */
+/* Faltas y tarjetas: el otro eje del partido, y el que mejor se mide.
+   No entra en DOMINIO_METRICAS porque `medir_dominio.py` no lo midió
+   contra el promedio de la liga — pero `medir_lineas.py` sí midió su
+   calibración, y faltas es la que menos le erra de todas. */
+const FRICCION_METRICAS = [
+  ["faltas",   "Faltas"],
+  ["tarjetas", "Tarjetas"],
+];
+
 const DOMINIO_METRICAS = [
   ["remates",  "Remates"],
   ["al_arco",  "Al arco"],

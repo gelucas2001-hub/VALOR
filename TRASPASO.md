@@ -4466,3 +4466,118 @@ La lección que vale más allá de esto: **una skill se audita corriéndola
 y leyendo lo que escribió, no releyendo su documento.** El hueco 1
 estaba en el SKILL.md como dato disponible y aun así la salida lo
 ignoró.
+
+
+## 18. Tres capas en vez de siete pestañas (2026-09-01)
+
+El rediseño llegó como entrega de Claude Design
+(`design_handoff_valor_tres_capas`) y se aplicó entero sobre
+`index.html`. **No toca el motor**: `escalera()`, `otrosMercados()`,
+`probMayor()`, `construirEjes()` y las constantes se llaman igual que
+antes. Es reorganización de presentación, y las cuatro suites siguen en
+verde (40 + 22 + 107 + 43).
+
+### El diagnóstico, que no era de contenido sino de corte
+
+Las siete pestañas —Análisis · Pronósticos · Estadísticas · Historial ·
+Posiciones · Plantel · Herramientas— estaban cortadas por **origen del
+dato**: la skill humana, el motor de goles, el caché de disciplina, las
+tablas de ESPN, el roster. Ninguna correspondía a lo que el que mira
+está tratando de hacer. De ahí salían cuatro defectos, y ninguno se
+arreglaba escribiendo mejor adentro de una pestaña:
+
+1. **Dos lugares recomendaban.** Pronósticos recomendaba resultado y
+   goles; Estadísticas recomendaba córners, tarjetas y candidatos de
+   jugador. Es la misma intención partida por familia de mercado:
+   mientras existan dos, el solapamiento vuelve siempre.
+2. **La afirmación y su evidencia vivían separadas.** El análisis decía
+   "la defensa está rota" y el número estaba tres pestañas más allá.
+3. **Historial, Posiciones y Plantel** pesaban lo mismo que una
+   recomendación, y eso aplana la jerarquía: si todo parece igual de
+   importante, nada lo es.
+4. **De los jugadores solo se veían los destacados**, con los 18 de cada
+   plantel bajados y sin mostrar.
+
+### El corte nuevo
+
+| Capa | Qué contesta | Absorbió |
+|---|---|---|
+| **Veredicto** | ¿hay algo apostable? | Pronósticos + candidatos de Estadísticas + Herramientas |
+| **Lectura** | ¿por qué lo decimos? | Análisis + Contexto, con Historial y Posiciones como evidencia inline |
+| **Datos** | quiero mirar yo | Estadísticas crudas + Plantel + Historial y Posiciones completos |
+
+Abajo siguen los dos destinos del producto: **Registro** y **Método**.
+Que queden fuera del flujo de buscar algo para apostar es deliberado —
+es lo que impide que la app se lea como una máquina de picks.
+
+**Un solo lugar recomienda, y el solapamiento desaparece por
+construcción y no por disciplina.** Eso es lo que se compró con el
+rediseño.
+
+### Lo que la pantalla ahora dice y antes callaba
+
+- **El estado de cada mercado, con su motivo.** SIN VENTAJA · SIN PRECIO
+  · SIN DATO · NO OPINAMOS. Un mercado que no aparece se lee como un
+  mercado que nadie miró; uno que aparece diciendo "sin precio" es una
+  respuesta. El más caro de escribir es el cuarto: dice que la medición
+  existe y salió mal.
+- **Cero oportunidades como estado terminado.** Con el ROI en
+  −3.27% ±6.19 —el intervalo cruza el cero— un día sin nada apostable es
+  lo normal, no una falla. La pantalla vacía se implementó **primero**.
+- **`concede` en las nueve métricas**, siempre en el par produce /
+  concede. Estaba medido y se mostraba en un renglón chico al pie: se
+  estaba viendo la mitad del dato.
+- **La señal medida como atributo del número**, no como disclaimer al
+  pie: sale de `calibracion_lineas.json` y `calibracion_jugadores.json`,
+  y donde no hay medición dice SIN MEDIR. El diseño proponía una tabla
+  fija (posesión y tackles "señal alta"); eso venía de
+  `medir_discriminacion.py` y **no está en ningún JSON que la app lea**,
+  así que se derivó del dato que sí está — la regla del repo: leerlo del
+  dato, no cablearlo.
+- **Los planteles enteros**, ordenables por cualquier métrica, con la
+  titularidad en el renglón (`serie.tit`/`serie.pj`; el handoff lo
+  llamaba `arranca`, que es el nombre que usa el expediente, no el del
+  JSON). El suplente se atenúa y se dice, **no se esconde**.
+- **El intervalo del ROI en Registro**, con las tres marcas —banda,
+  punto y cero— derivadas de la misma escala, calculada de la dispersión
+  de los retornos. Un ROI sin intervalo es una promesa.
+
+### Dos decisiones propias, contra el handoff
+
+- **El filtro de localía arranca en "Este cruce"**: el local con su
+  promedio DE LOCAL y el visitante con el suyo DE VISITA. El handoff
+  proponía Todo/Local/Visita con "Todo" como promedio general, y eso
+  perdía la lectura que la comparativa vieja ya hacía bien — que es
+  justo la que el partido de hoy pone en juego.
+- **Herramientas no desapareció.** El handoff no la menciona (la entrega
+  se hizo sobre las seis pestañas de contenido). Cargar la cuota de tu
+  casa y anotar en el Registro son actos de apostar, así que viven
+  adentro de Veredicto, detrás de un toque, y no ocupan un destino de
+  primer nivel.
+
+### Lo que se borró, y a dónde fue cada cosa
+
+Se eliminaron `tabAnalisis`, `tabPronosticos`, `tabEstadisticas`,
+`tabHistorial`, `tabPosiciones`, `tabPlantel`, `comparativa`,
+`bloqueLineas`, `bloqueDominio`, `bloqueJugadores`, `sello`,
+`fraseCorta`, `nombreSello` y `tarjeta`. Ninguna funcionalidad se
+perdió: el precio real de córners de Bet365 y la escalera de líneas por
+equipo pasaron al cuerpo desplegable de su fila de mercado, la combinada
+es una fila más del Veredicto, el eje Jugadores de la segunda skill es
+el bloque 04 de Lectura, y el desarrollo, la inclinación declarada y el
+marcador más probable están en Lectura.
+
+**Los tests se mudaron con la pantalla.** Cuando una función de
+presentación desaparece, el contrato que la cuidaba no se borra: se
+apunta a lo que ahora sí dibuja. Un test que mira una función muerta da
+verde sin proteger nada.
+
+### Una trampa que dejó el rediseño, y cómo quedó tapada
+
+El veredicto de un partido se **memoiza por id** (`_veredictos`): la
+portada lo necesita para los 17 partidos del día en cada render. Si algo
+lo pide antes de que termine de entrar el dato —una pantalla dibujada a
+mitad de carga, una prueba desde la consola— queda cacheado un veredicto
+calculado sin estadísticas y la app lo repite todo el día. Pasó al
+probar. El arranque limpia la caché después de asignar los JSON, y el
+`cargar()` de los tests hace lo mismo.

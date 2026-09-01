@@ -21,8 +21,9 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 | Archivo | Qué hace | Quién lo toca |
 |---|---|---|
 | `actualizar.py` | Baja datos de ESPN y calcula λ. Corre solo, 2 veces por día, vía GitHub Actions | Con cuidado — es el motor |
-| `index.html` | La app. Es la interfaz nueva: reemplazó a la vieja el 2026-08-18 | Una herramienta por vez — ver abajo |
+| `index.html` | La app. **Desde el 2026-09-01 son tres capas por partido —Veredicto · Lectura · Datos— en vez de siete pestañas**, más Fecha/Registro/Método abajo. Ver TRASPASO §18 | Una herramienta por vez — ver abajo |
 | `test_registro.js`, `test_alineacion.js` | Suites que leen el `index.html` publicado, no una copia | Correr después de tocar la app |
+| `test_alineacion.js` (ver arriba) | Desde el rediseño mira las tres capas: `capaVeredicto`, `capaLectura`, `datosEquipos`, `datosJugadores`, `datosReferencia`, `renglonPartido`. Si movés una pantalla, el contrato se muda con ella — un test que mira una función muerta da verde sin proteger nada | Correr después de tocar la app |
 | `test_ejes.js` | El contrato de lectura por ejes (TRASPASO §17). Lee la región marcada `/* ==== INICIO EJES ==== */` del `index.html` publicado, igual que `test_registro.js`. Ata las dos reglas duras: un eje sin `medido_por` no puede declarar más que `sin_medir`, y solo `con_plata` puede llevar apuesta — o sea, solo eso puede pintarse de mostaza. Sin estos tests las reglas son disciplina; con ellos son estructura | Correr después de tocar los ejes |
 | `doble_via.py` | Compara el motor de Python contra el de JavaScript | Correr después de tocar el motor |
 | `data/resultados.json` | Marcadores finales que escribe el cron. Hace exacto el cruce del Registro | Nadie |
@@ -202,7 +203,27 @@ esta.
   midiendo calibración del modelo de goles y ninguna midiendo si daba
   plata. Cuando por fin se midió, daba -6.18% de ROI. Ver `TRASPASO.md`.
 
-## El rediseño, ya cerrado
+## Las tres capas del partido (2026-09-01)
+
+Un partido se abre en **Veredicto** (el único lugar del producto donde
+aparece una recomendación), **Lectura** (la narrativa con el número que
+la sostiene en el mismo bloque) y **Datos** (exploración libre, sin
+veredictos). Abajo, en la barra: Fecha · Registro · Método.
+
+Dos reglas duras que salieron de ahí y no se negocian:
+
+- **El dorado (`--mostaza`) vive solo en Veredicto.** Ningún dato crudo
+  lo usa nunca. Si el mismo color dijera "acá el precio está a favor" y
+  "este número es importante", dejaría de decir la primera — que es la
+  única que cuesta plata.
+- **Un mercado que no se recomienda se muestra igual, con el motivo**
+  (SIN VENTAJA · SIN PRECIO · SIN DATO · NO OPINAMOS). Un mercado que no
+  aparece se lee como un mercado que nadie miró.
+
+El detalle de qué absorbió cada capa, qué se borró y a dónde fue cada
+cosa está en TRASPASO §18.
+
+## El rediseño anterior, ya cerrado
 
 La interfaz nueva **es** `index.html` desde el 2026-08-18. Se construyó
 aparte, como `app.html`, y recién cuando estuvo terminada y verificada

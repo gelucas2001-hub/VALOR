@@ -29,14 +29,14 @@ function cargarLogica(){
   };
   const salida = {};
   new Function("localStorage", "exportar", src + `
-    exportar({ probMayor, lineasDe, pesoEquipo, bloqueLineas, lineaJugador, filaJugador,
+    exportar({ probMayor, lineasDe, pesoEquipo, bloqueLineasDe, lineaJugador, filaJugador,
                cargarJug: p => { PARAM_JUG = p; },
                cargarEst: (eq, par) => { ESTADISTICAS = eq; PARAMETROS = par; } });
   `)(localStorage, o => Object.assign(salida, o));
   return salida;
 }
 
-const { probMayor, lineasDe, pesoEquipo, bloqueLineas, cargarEst,
+const { probMayor, lineasDe, pesoEquipo, bloqueLineasDe, cargarEst,
         lineaJugador, filaJugador, cargarJug } = cargarLogica();
 
 let ok = 0, fallan = 0;
@@ -129,7 +129,7 @@ prueba("sin partidos no pesa nada", pesoEquipo(0, 7) === 0);
 prueba("más partidos siempre pesan más", pesoEquipo(9, 7) > pesoEquipo(4, 7));
 
 console.log("");
-console.log("bloqueLineas() — la escalera en pantalla");
+console.log("bloqueLineasDe() — la escalera de una métrica en pantalla");
 console.log("");
 
 const PAR = {
@@ -143,7 +143,10 @@ const EQ = {
 const M = {homeId: "9", awayId: "20", home: "Boca", away: "River"};
 
 cargarEst(EQ, PAR);
-const html = bloqueLineas(M);
+/* La escalera dejó de ser una pestaña con botones de métrica: vive
+   adentro de la fila de mercado que se despliega en el Veredicto, y la
+   métrica ya viene elegida por esa fila. */
+const html = bloqueLineasDe(M, "corners");
 
 prueba("dibuja algo", html.length > 100);
 prueba("nombra a los dos equipos", html.includes("Boca") && html.includes("River"));
@@ -163,9 +166,14 @@ prueba("el total usa la dispersión medida del total, no la del equipo",
 
 /* Sin datos de uno de los dos no se dibuja media escalera. */
 cargarEst({"9": EQ["9"]}, PAR);
-prueba("con un solo equipo no se dibuja nada", bloqueLineas(M) === "");
+/* Con datos de uno solo no se dibuja media escalera: se declara el
+   hueco. Enfrentar un número contra un vacío invita a compararlos
+   igual. */
+prueba("con un solo equipo declara el hueco y no dibuja escalera",
+       /sin dato/i.test(bloqueLineasDe(M, "corners")) && !bloqueLineasDe(M, "corners").includes("%"));
 cargarEst(EQ, {});
-prueba("sin parámetros medidos no se inventa nada", bloqueLineas(M) === "");
+prueba("sin parámetros medidos no se inventa nada",
+       !bloqueLineasDe(M, "corners").includes("%"));
 cargarEst(EQ, PAR);
 
 

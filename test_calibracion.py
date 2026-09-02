@@ -93,5 +93,39 @@ prueba("con muestra grande y desvío chico, no hay señal",
        not C.fiabilidad(0.80, 0.79, 200))
 prueba("cero casos no divide por cero", not C.fiabilidad(0.8, 0.6, 0))
 
+print("\npatron() y CAMBIOS_MODELO — no promediar dos modelos distintos\n")
+
+# El caso real: el 2026-09-02 este script gritaba SOBRE-DISPERSION sobre
+# 85 partidos que cruzaban por el medio la correccion de escala del
+# 2026-08-30. Partido en dos, el defecto esta de un lado y no del otro.
+SOBRE = ([(0.85, False)] * 30 + [(0.85, True)] * 70 +
+         [(0.15, True)] * 30 + [(0.15, False)] * 70)
+pat = C.patron(C.calibrar(SOBRE))
+prueba("patron() ve la sobre-dispersion: altas por debajo", pat[0] < -0.02)
+prueba("y bajas por encima", pat[1] > 0.02)
+
+SANO = ([(0.85, True)] * 85 + [(0.85, False)] * 15 +
+        [(0.15, True)] * 15 + [(0.15, False)] * 85)
+pat2 = C.patron(C.calibrar(SANO))
+prueba("y no la inventa cuando el modelo esta calibrado",
+       abs(pat2[0]) < 0.02 and abs(pat2[1]) < 0.02)
+prueba("sin muestra en las puntas devuelve None",
+       C.patron(C.calibrar([(0.5, True)] * 5)) is None)
+prueba("sin datos tampoco rompe", C.patron({}) is None)
+
+prueba("hay al menos un cambio de modelo declarado", len(C.CAMBIOS_MODELO) >= 1)
+prueba("cada entrada es fecha ISO + motivo escrito",
+       all(len(f) == 10 and f[4] == "-" and f[7] == "-" and m.strip()
+           for f, m in C.CAMBIOS_MODELO))
+prueba("estan en orden cronologico: el ultimo es el corte vigente",
+       [f for f, _ in C.CAMBIOS_MODELO] == sorted(f for f, _ in C.CAMBIOS_MODELO))
+
+# El filtro por fecha es lo que hace posible no mezclar.
+_d, _, _n = C.cargar_pares(desde=C.CAMBIOS_MODELO[-1][0])
+_h, _, _m = C.cargar_pares(hasta=C.CAMBIOS_MODELO[-1][0])
+_t, _, _tot = C.cargar_pares()
+prueba("los dos tramos suman el total y no se pisan", _n + _m == _tot)
+prueba("y ninguno se queda con todo", _n > 0 and _m > 0)
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

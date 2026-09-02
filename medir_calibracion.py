@@ -38,6 +38,27 @@ for flujo in (sys.stdout, sys.stderr):
 RAIZ = Path(__file__).resolve().parent
 HISTORIAL = RAIZ / "data" / "historial_pronosticos.json"
 
+# Cuándo cambió el modelo debajo de este script.
+#
+# Existe porque el 2026-09-02 este script imprimía un aviso grande de
+# SOBRE-DISPERSIÓN sobre 85 partidos que cruzaban por el medio la
+# corrección de escala de λ (TRASPASO §14, del 2026-08-30). Partido en
+# dos, el defecto está de un lado y no del otro:
+#
+#     antes (62 partidos)   altas -6.1%  bajas +9.2%  Brier 0.2330
+#     desde (23 partidos)   altas -1.9%  bajas -0.3%  Brier 0.2110
+#
+# Promediar los dos tramos hace dos daños. Sigue gritando por un defecto
+# ya corregido, y —peor— el día que aparezca uno NUEVO, el promedio con
+# los partidos viejos lo va a tapar. Un script que mide un modelo tiene
+# que saber cuándo ese modelo cambió.
+#
+# Al agregar una entrada acá, poner la fecha del DEPLOY y no la del
+# commit: lo que corta es desde cuándo la app publicó números distintos.
+CAMBIOS_MODELO = [
+    ("2026-08-30", "corrección de escala de λ — TRASPASO §14"),
+]
+
 PASO = 0.1   # ancho de cada banda de probabilidad
 
 # Debajo de esto una banda no dice nada: con 5 casos, un desvío de 20
@@ -106,8 +127,12 @@ def fiabilidad(pred, real, n):
     return abs(real - pred) > 2 * (var ** 0.5)
 
 
-def cargar_pares():
+def cargar_pares(desde=None, hasta=None):
     """Todas las predicciones que la app mostró, con lo que pasó.
+
+    `desde` y `hasta` son fechas ISO (YYYY-MM-DD) y acotan el tramo:
+    `desde` incluye, `hasta` excluye. Sirven para no mezclar dos modelos
+    distintos en un mismo promedio — ver `CAMBIOS_MODELO`.
 
     Un partido aporta un par por mercado. Ojo: los mercados de un mismo
     partido NO son independientes (si salió 0-0, 'menos de 1.5' y 'no
@@ -140,6 +165,9 @@ def cargar_pares():
         res = h.get("resultado")
         if not res or len(res) < 2 or res[0] is None:
             continue
+        f = (h.get("fecha") or "")[:10]
+        if (desde and f < desde) or (hasta and f >= hasta):
+            continue
         gh, ga = res[0], res[1]
         M = matriz(h["lh"], h["la"], h.get("rho", 0))
         partidos += 1
@@ -149,6 +177,24 @@ def cargar_pares():
             pares.append((p, paso))
             por_mercado.setdefault(nombre, []).append((p, paso))
     return pares, por_mercado, partidos
+
+
+def patron(cal):
+    """(desvío de las altas, desvío de las bajas), o None si falta muestra.
+
+    Es el número que decide si hay sobre-dispersión, y estaba escrito
+    dentro de `main()` — o sea que no se podía calcular para dos tramos
+    y compararlos, que es justo lo que hacía falta.
+    """
+    altas = [d for b, d in (cal or {}).items()
+             if b[0] >= 0.6 and d["n"] >= MUESTRA_BANDA]
+    bajas = [d for b, d in (cal or {}).items()
+             if b[1] <= 0.4 and d["n"] >= MUESTRA_BANDA]
+    if not altas or not bajas:
+        return None
+    da = sum(d["desvio"] * d["n"] for d in altas) / sum(d["n"] for d in altas)
+    db = sum(d["desvio"] * d["n"] for d in bajas) / sum(d["n"] for d in bajas)
+    return da, db
 
 
 def barra(pred, real, ancho=22):
@@ -166,9 +212,18 @@ def barra(pred, real, ancho=22):
 
 
 def main():
-    pares, por_mercado, partidos = cargar_pares()
+    corte = CAMBIOS_MODELO[-1][0] if CAMBIOS_MODELO else None
+    motivo = CAMBIOS_MODELO[-1][1] if CAMBIOS_MODELO else ""
+    pares, por_mercado, partidos = cargar_pares(desde=corte)
+    viejo, _, n_viejo = cargar_pares(hasta=corte) if corte else ([], {}, 0)
+
     if not pares:
-        print("\n  No hay partidos con resultado todavía.\n")
+        if viejo:
+            print(f"\n  Todavía no hay partidos resueltos DESDE el {corte}")
+            print(f"  ({motivo}). Los {n_viejo} anteriores miden un modelo")
+            print("  que ya no corre, así que no se reportan como si fueran este.\n")
+        else:
+            print("\n  No hay partidos con resultado todavía.\n")
         return 0
 
     print(f"\n{'='*70}")
@@ -178,6 +233,10 @@ def main():
           f"({len(por_mercado)} mercados por partido)")
     print("  Ojo: los mercados de un mismo partido no son independientes,")
     print("  así que la muestra real pesa menos que ese número.")
+    if corte:
+        print(f"\n  Solo partidos DESDE el {corte} — {motivo}.")
+        print(f"  Los {n_viejo} anteriores miden un modelo distinto y van")
+        print("  aparte, al final. Promediarlos tapa lo que pase ahora.")
 
     cal = calibrar(pares)
     print(f"\n{'─'*70}")
@@ -201,9 +260,9 @@ def main():
     print(f"\n{'─'*70}")
     print("  EL PATRÓN")
     print(f"{'─'*70}\n")
-    if altas and bajas:
-        da = sum(d["desvio"] * d["n"] for d in altas) / sum(d["n"] for d in altas)
-        db = sum(d["desvio"] * d["n"] for d in bajas) / sum(d["n"] for d in bajas)
+    pat = patron(cal)
+    if pat:
+        da, db = pat
         print(f"  Probabilidades altas (60%+):  {da*100:+.1f}% de desvío")
         print(f"  Probabilidades bajas (<40%):  {db*100:+.1f}% de desvío")
         if da < -0.02 and db > 0.02:
@@ -237,6 +296,33 @@ def main():
 
     b = brier(pares)
     print(f"\n  Brier global: {b:.4f}  (0 es perfecto; 0.25 es decir siempre 50%)")
+
+    # ── El tramo anterior, aparte y rotulado ─────────────────────────
+    # No se promedia con lo de arriba, pero tampoco se tira: es la única
+    # forma de ver si el cambio de modelo sirvió. Los dos tramos con la
+    # misma vara, uno al lado del otro.
+    if viejo:
+        pv = patron(calibrar(viejo))
+        bv = brier(viejo)
+        print(f"\n{'─'*70}")
+        print(f"  EL TRAMO ANTERIOR — {n_viejo} partidos de ANTES del {corte}")
+        print(f"{'─'*70}\n")
+        print(f"  Mide un modelo que ya no corre ({motivo}).")
+        print("  Está acá para poder comparar, no para promediar.\n")
+        print(f"  {'tramo':<26} {'partidos':>8} {'altas':>8} {'bajas':>8} {'Brier':>8}")
+        if pv:
+            print(f"  {'antes del ' + corte:<26} {n_viejo:>8} "
+                  f"{pv[0]*100:>+7.1f}% {pv[1]*100:>+7.1f}% {bv:>8.4f}")
+        if pat:
+            print(f"  {'desde el ' + corte:<26} {partidos:>8} "
+                  f"{pat[0]*100:>+7.1f}% {pat[1]*100:>+7.1f}% {b:>8.4f}")
+        if pv and pat and pv[0] < -0.02 and pv[1] > 0.02 \
+                and not (pat[0] < -0.02 and pat[1] > 0.02):
+            print("\n  La sobre-dispersión está de un lado del corte y no del otro.")
+            print("  Es evidencia de que el cambio sirvió — con la salvedad de")
+            print(f"  siempre: {partidos} partidos son pocos, y un intervalo sobre")
+            print("  esa muestra es ancho. No confirma la magnitud, solo que el")
+            print("  defecto ya no se ve.")
     print()
     return 0
 

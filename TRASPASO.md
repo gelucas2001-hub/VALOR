@@ -5294,3 +5294,34 @@ frase y las otras se callan. El renglón conserva el borde de terracota
 —el aviso visual— pero recupera su lectura y su precio.
 
 De cinco párrafos con tres repeticiones se pasó a cuatro sin ninguna.
+
+### 24bis · Vuelve la Copa Argentina, con la guarda que le faltaba (2026-09-02)
+
+Salió el 2026-08-25 porque es eliminación directa: sin red de cruces no
+hay fuerzas que calibrar, y sus λ salían de `promedio_condicion()` en
+vez del motor. Era la única competición publicada sin pasar por
+Dixon-Coles.
+
+**Vuelve porque el motivo dejó de aplicar del todo:** `ancla_de()` ancla
+a cada equipo de copa a su fuerza en SU liga local — es lo que hace
+andar la Libertadores. Un equipo de Liga Profesional llega a la Copa con
+sus fechas ya calibradas.
+
+**Y vuelve con guarda, porque el motivo aplica a medias.** La Copa cruza
+primera con Federal A y Primera B, divisiones que la app no sigue. Ese
+equipo no tiene ancla en ningún lado y su λ vuelve a salir del promedio.
+
+`MIN_PARTIDOS` no lo ve: el equipo **tiene** partidos jugados. Lo que no
+tiene es una liga donde hayamos medido su fuerza. Son dos huecos
+distintos con el mismo efecto, y solo `actualizar.py` sabe cuál es cuál
+—es el único que sabe si `ancla_de()` encontró algo—, así que lo escribe
+en el partido:
+
+    "sinAncla": true    → la app no publica probabilidad, y dice por qué:
+                          "uno de los dos juega en una división que no
+                          seguimos, así que no tenemos medida su fuerza"
+
+Campo **aditivo**: los partidos guardados antes de hoy no lo traen y se
+comportan como siempre. Hay test de las dos mitades.
+
+El slug es `arg.copa`, no `copa.argentina` — el segundo devuelve 400.

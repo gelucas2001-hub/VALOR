@@ -1705,7 +1705,18 @@ function partidosJugados(m){
    prohíbe al análisis. Acá el efecto es peor que un promedio flojo —
    es un 1X2 publicado con cara de lectura. */
 const MIN_PARTIDOS = 4;
-const sinMuestra = m => partidosJugados(m) < MIN_PARTIDOS;
+
+/* Dos huecos distintos, el mismo efecto.
+
+   `sinMuestra` cuenta FECHAS. Sirve al arranque de una temporada, y no
+   ve el otro caso: una copa que cruza divisiones. Un equipo del Federal
+   A tiene partidos jugados de sobra, pero ninguno en una liga donde
+   hayamos medido su fuerza — su λ sale del promedio de la copa, o sea
+   de nada. `actualizar.py` lo marca con `sinAncla` porque es el único
+   que sabe si `ancla_de()` encontró algo.
+
+   Sin el campo, la app se comporta como antes: es aditivo. */
+const sinMuestra = m => partidosJugados(m) < MIN_PARTIDOS || m.sinAncla === true;
 
 /* Umbral de cuota, no cuota de referencia. Mostrar "@2.20 en DraftKings"
    es una trampa: el usuario va a Betsson, encuentra 2.05 y no sabe si
@@ -2860,10 +2871,11 @@ function diasDisponibles(){
    dos únicas ligas donde el mercado de estadísticas de JUGADOR existe y
    además el modelo anda mejor que en Argentina. */
 const COMPS_ORDEN = ["Liga Profesional Argentina", "Brasileirão Série A",
-  "Premier League", "Ligue 1", "J.League",
+  "Premier League", "Ligue 1", "J.League", "Copa Argentina",
   "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
 const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Brasileirão Série A":"Brasil",
   "Premier League":"Premier", "Ligue 1":"Ligue 1", "J.League":"Japón",
+  "Copa Argentina":"Copa Arg",
   "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
 
 /* ══════════════════════════════════════════════════════════════════
@@ -3341,8 +3353,10 @@ function mercadosDeVeredicto(m){
        renglón que no lo sabemos es publicarlo igual — el número queda
        en la cabeza del que lee. */
     if(pocos) return Object.assign(base, {estado:"SIN MUESTRA",
-      motivo:`${partidosJugados(m)} fecha${partidosJugados(m)===1?"":"s"} jugadas: con eso las
-        fuerzas se ajustan sobre nada y todos los equipos salen parecidos.`, op:null});
+      motivo: m.sinAncla
+        ? `Uno de los dos juega en una división que no seguimos: no tenemos medida su fuerza.`
+        : `${partidosJugados(m)} fecha${partidosJugados(m)===1?"":"s"} jugadas: con eso las
+           fuerzas se ajustan sobre nada y todos los equipos salen parecidos.`, op:null});
     if(c == null) return Object.assign(base, {estado:"SIN PRECIO",
       motivo:`${lee} · nadie publica esta línea`});
     /* El precio va SIEMPRE, aunque no recomendemos nada. Antes el
@@ -3648,9 +3662,13 @@ function loQueSabemos(m, filas){
      salgan parecidos. Se dice qué falta, que es lo único cierto. */
   if(sinMuestra(m)){
     const n = partidosJugados(m);
-    puntos.push({k:"est", t:`Todavía no publicamos probabilidades de este partido: se llevan jugadas
-      <b>${n} fecha${n===1?"":"s"}</b> y hacen falta ${MIN_PARTIDOS}. Con esa muestra las fuerzas
-      se ajustan sobre nada y un grande y un recién ascendido salen parecidos.`});
+    puntos.push({k:"est", t: m.sinAncla
+      ? `Todavía no publicamos probabilidades de este partido: uno de los dos juega en una
+         división que no seguimos, así que no tenemos medida su fuerza. Sin eso el modelo lo
+         empuja al promedio de la copa y lo trata como a cualquier otro.`
+      : `Todavía no publicamos probabilidades de este partido: se llevan jugadas
+         <b>${n} fecha${n===1?"":"s"}</b> y hacen falta ${MIN_PARTIDOS}. Con esa muestra las
+         fuerzas se ajustan sobre nada y un grande y un recién ascendido salen parecidos.`});
   }
   /* La distancia contra el mercado se dice UNA sola vez.
 

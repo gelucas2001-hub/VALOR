@@ -496,15 +496,30 @@ COMPETICIONES = {
     "jpn.1": {"nombre": "J.League", "rho": 0.00, "conf": 70,
               "prior": 8, "escala": 0.60, "centro": 2.695,
               "corners": 9.53, "fouls": 22.65, "cards": 2.77},
-    # Copa Argentina salio el 2026-08-25, por decision de producto. Es
-    # eliminacion directa: sin red de cruces no hay fuerzas que calibrar,
-    # asi que sus lambdas salian de `promedio_condicion()` (promedio
-    # propio ponderado por recencia) y no del motor. Era la unica
-    # competicion que se publicaba sin pasar por Dixon-Coles.
+    # Copa Argentina: salio el 2026-08-25 y VUELVE el 2026-09-02, a
+    # pedido de Lucas y con la guarda que antes no existia.
     #
-    # Su historia NO se borro: los pronosticos ya registrados y los
-    # resultados guardados siguen en data/. Reescribir el pasado es lo
-    # que el sello de `modelo` existe para evitar.
+    # Por que salio: es eliminacion directa, sin red de cruces no hay
+    # fuerzas que calibrar, y sus lambdas salian de
+    # `promedio_condicion()` en vez del motor. Era la unica competicion
+    # que se publicaba sin pasar por Dixon-Coles.
+    #
+    # Por que puede volver: `ancla_de()` ancla a cada equipo de copa a su
+    # fuerza en SU liga local — es lo que hace andar la Libertadores. Un
+    # equipo de Liga Profesional llega a la Copa con sus ~7 fechas ya
+    # calibradas.
+    #
+    # Lo que queda y por eso lleva guarda: la Copa cruza primera con
+    # Federal A y Primera B, divisiones que la app no sigue. Ese equipo
+    # no tiene ancla en ningun lado y su lambda vuelve a salir del
+    # promedio. `sin_ancla` lo detecta y el partido viaja con
+    # `sinAncla: true`; la app no publica probabilidad ahi. Es el mismo
+    # criterio que MIN_PARTIDOS, aplicado a un hueco que el conteo de
+    # fechas no ve: el equipo TIENE partidos jugados, lo que no tiene es
+    # una liga donde hayamos medido su fuerza.
+    "arg.copa": {"nombre": "Copa Argentina", "rho": -0.05, "conf": 65,
+              "prior": 8,
+              "corners": 9.6, "fouls": 26.4, "cards": 4.8},
 }
 
 _req_count = 0
@@ -2325,6 +2340,7 @@ def main():
             cache_tabla[slug] = tabla_competicion(slug, season)
         return cache_tabla[slug]
 
+    sin_ancla = {}       # slug -> equipos de copa sin fuerza en ninguna liga que sigamos
     cache_fuerzas = {}   # slug -> (fuerzas, mu_local, mu_visita, partidos_por_equipo)
     cache_dom = {}       # slug de liga local -> lo mismo, para las anclas
     cache_dom_resultados = {}   # slug de liga local -> resultados crudos, para forma_general
@@ -2382,6 +2398,13 @@ def main():
                     anclas[tid] = a
             if anclas:
                 print(f"    ancladas {len(anclas)} de {len(equipos)} fuerzas a la liga local")
+            # Quien quedo SIN ancla: en una copa que cruza divisiones, el
+            # que viene de una liga que no seguimos no tiene fuerza
+            # calibrada en ningun lado. Su lambda sale del promedio de la
+            # copa, o sea de nada. Se anota para que la app no publique
+            # una probabilidad construida sobre eso.
+            sin_ancla.setdefault(slug, set()).update(
+                t for t in equipos if t not in anclas)
             cache_fuerzas[slug] = fuerzas_equipos(
                 resultados, hoy, anclas=anclas,
                 prior=COMPETICIONES[slug].get("prior"))
@@ -2587,6 +2610,14 @@ def main():
                 "formH_general": forma_general(*get_hist_general(loc_id, slug)),
                 "formA_general": forma_general(*get_hist_general(vis_id, slug)),
                 "h2h": h2h, "tabla": tabla, "grupo": grupo,
+                # Copa que cruza divisiones: si alguno de los dos no
+                # tiene fuerza calibrada en ninguna liga que sigamos, su
+                # lambda sale del promedio de la copa — o sea de nada. La
+                # app corta ahi y no publica probabilidad. Campo nuevo,
+                # aditivo: si no esta, la app se comporta como antes.
+                "sinAncla": bool(
+                    str(loc_id) in sin_ancla.get(slug, ())
+                    or str(vis_id) in sin_ancla.get(slug, ())),
                 "estadio": estadio, "ciudad": ciudad,
                 "mercado": mercado,
                 "mercadoExtra": mercado_extra or {},

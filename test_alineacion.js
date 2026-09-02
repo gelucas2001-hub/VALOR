@@ -865,6 +865,35 @@ test("la tabla dice de que ZONA es, cuando la liga tiene mas de una", ()=>{
   cierto(/ZONA B/i.test(html), "muestra media liga sin decir que es una zona");
 });
 
+test("una copa que cruza divisiones tampoco publica probabilidad", ()=>{
+  /* La Copa Argentina volvio el 2026-09-02 y cruza primera con Federal
+     A y Primera B, divisiones que la app no sigue. Ese equipo TIENE
+     partidos jugados —asi que el conteo de fechas no lo ve— pero
+     ninguno en una liga donde hayamos medido su fuerza: su lambda sale
+     del promedio de la copa, o sea de nada. `actualizar.py` lo marca
+     con `sinAncla` porque es el unico que sabe si ancla_de() encontro
+     algo. */
+  const base = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad") || PARTIDOS[0];
+  const m = { ...base, comp:"Copa Argentina", sinAncla:true };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.capaVeredicto(m);
+  cierto(/SIN MUESTRA/.test(html), "publicó igual con un equipo sin fuerza medida");
+  cierto(/divisi[óo]n que no seguimos/.test(html),
+         "no dice cuál es el hueco: no es que falten fechas, es que falta la liga");
+  cierto(!/ al \d+%/.test(html), "dejó escapar un porcentaje del modelo");
+});
+
+test("y sin el campo la app se comporta como antes", ()=>{
+  /* `sinAncla` es aditivo: los partidos guardados antes del
+     2026-09-02 no lo traen y no pueden quedar todos apagados. */
+  const base = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad") || PARTIDOS[0];
+  const m = { ...base };
+  delete m.sinAncla;
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  cierto(!/SIN MUESTRA/.test(L.capaVeredicto(m)),
+         "apagó un partido viejo solo porque le falta el campo nuevo");
+});
+
 test("con menos de 4 fechas no se publica ninguna probabilidad", ()=>{
   /* El fixture se arma ANTES de `cargar`: `veredictoDe` memoiza por id
      y POCA_MUESTRA() comparte el id del partido original, asi que sin

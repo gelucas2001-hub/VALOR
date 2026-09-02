@@ -2107,6 +2107,25 @@ function lectura(m){
 
   let titulo, cuerpo, corto;
   const claro = p[lean] >= 0.50;
+  /* Sin muestra, la prosa tampoco publica el número. Se escapaba por
+     acá: el Veredicto y la portada ya decían SIN MUESTRA mientras el
+     encabezado de Lectura seguía diciendo "es el más probable con 42%"
+     — la misma probabilidad, en palabras. Un número dicho en prosa es
+     un número publicado.
+
+     Solo se tocan `titulo`/`cuerpo`/`corto`: `p` y `M` siguen igual
+     porque los usan `escalera()`, `otrosMercados()` y `alerta()`, y
+     cambiarlos acá movería el motor desde la capa de presentación. */
+  if(sinMuestra(m)){
+    const n = partidosJugados(m);
+    return {M, p, lean, nombre, goles,
+      titulo: "Todavía no hay con qué leer este partido",
+      cuerpo: `Se llevan jugadas ${n} fecha${n===1?"":"s"} y hacen falta ${MIN_PARTIDOS}. Con esa
+        muestra las fuerzas se ajustan sobre nada: un grande y un recién ascendido salen
+        parecidos, así que no publicamos probabilidades.`,
+      corto: `<b>Sin muestra</b> — ${n} fecha${n===1?"":"s"} jugadas, hacen falta ${MIN_PARTIDOS}.`,
+      parejo: false, claro: false};
+  }
   /* Con el más probable abajo de 40% no hay favorito, aunque uno saque
      algún punto de ventaja. Decir "llega mejor" con un 38% sería vender
      una diferencia que no existe. */
@@ -2905,7 +2924,9 @@ function viewFecha(){
           <span class="mo">${esc_(e.motivo || "")}</span></span>
         <span class="lg2">${esc_(COMPS_CORTO[m.comp]||m.comp)}</span></button>`;
     }).join("")
-    : `<div class="vacio2">Miramos los ${n} partidos del día y ninguno tiene el precio a favor.
+    : `<div class="vacio2">${n === 1
+         ? "Miramos el único partido del día y no tiene el precio a favor."
+         : `Miramos los ${n} partidos del día y ninguno tiene el precio a favor.`}
        Un día sin nada apostable es el estado más frecuente, no una falla.</div>`}</div>`;
 
   /* Acordeones por liga. Uno abierto por vez: un día con seis
@@ -3802,9 +3823,13 @@ function capaLectura(m){
   /* El marcador más repetido, con su frecuencia al lado. Solo, "1-0" se
      lee como un pronóstico; con el "12 de cada 100" se lee como lo que
      es — el más probable de una distribución muy chata. */
-  h += `<div class="tesis"><b>${esc_(lec.titulo)}</b><p>${esc_(lec.cuerpo)}
-    El marcador que más se repite es <b>${marcadorTop(lec.M)}</b>, y aun así pasa
-    ${Math.round(probMarcadorTop(lec.M)*100)} de cada 100 veces.</p></div>`;
+  /* El marcador más repetido sale de la MISMA matriz que las
+     probabilidades, así que cae con ellas: sin muestra no se publica.
+     Se escapaba de la frase que ya decía "no publicamos
+     probabilidades" y quedaba pegado abajo, contradiciéndola. */
+  h += `<div class="tesis"><b>${esc_(lec.titulo)}</b><p>${esc_(lec.cuerpo)}${sinMuestra(m) ? ""
+    : ` El marcador que más se repite es <b>${marcadorTop(lec.M)}</b>, y aun así pasa
+        ${Math.round(probMarcadorTop(lec.M)*100)} de cada 100 veces.`}</p></div>`;
 
   /* 01 · Dominio. Solo las métricas donde el número DISTINGUE a estos
      dos equipos.

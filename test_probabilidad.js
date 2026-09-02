@@ -221,7 +221,13 @@ console.log("la serie se muestra tal cual, que es lo que se pidió ver");
 console.log("");
 
 const fila = filaJugador(explosivo, "remates");
-prueba("dibuja la serie partido por partido", /4.+0.+0.+0.+1/.test(fila));
+/* Del MAS VIEJO al MAS NUEVO desde el 2026-09-02: `planteles.json`
+   guarda la serie al reves (jugados viene por fecha descendente) y
+   la app la daba vuelta al dibujarla en las dos pantallas, para que
+   corra en la misma direccion que la tira de los ultimos cinco. La
+   serie [4,0,0,0,1] se dibuja 1-0-0-0-4. Ver TRASPASO §19.4. */
+prueba("dibuja la serie partido por partido, del mas viejo al mas nuevo",
+       /1.+0.+0.+0.+4/.test(fila) && !/4.+0.+0.+0.+1/.test(fila));
 prueba("y la chance de pasar la línea", fila.includes("%"));
 prueba("un jugador sin serie no rompe la fila",
        typeof filaJugador({pos: "M"}, "remates") === "string");

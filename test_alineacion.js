@@ -781,6 +781,53 @@ test("el plantel muestra los jugadores cuando hay plantel cargado", ()=>{
          "sigue diciendo 'Sin jugadores' aunque el plantel está cargado");
 });
 
+/* ── 11ter. El Veredicto sin oportunidad no puede quedarse mudo ────
+   El 90% de los partidos no tiene marca de valor, y en esos el
+   Veredicto decía "No hay nada acá" y se terminaba la pantalla. Un
+   asesor que no dice nada nueve de cada diez veces no es un asesor
+   aunque tenga razón en callarse.
+
+   Las dos reglas duras del bloque nuevo:
+
+   · NUNCA lleva mostaza. El dorado significa "acá el precio está a
+     favor" y esto es literalmente el caso contrario. Si el mismo color
+     dijera las dos cosas, dejaría de decir la primera — que es la
+     única que cuesta plata (TRASPASO §18).
+   · No aparece cuando SÍ hay oportunidad: ahí la tarjeta dorada es la
+     respuesta y un segundo bloque compite con ella.
+   ══════════════════════════════════════════════════════════════════ */
+
+test("sin oportunidad, el Veredicto dice lo que sí sabemos", ()=>{
+  const m = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad") || PARTIDOS[0];
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.capaVeredicto(m);
+  cierto(/class="sabemos"/.test(html),
+         "el partido sin oportunidad se quedó sin nada que decir");
+  cierto(/once confirmado/.test(html),
+         "no dice qué mirar a la hora del partido, que es lo único que llega después de la línea");
+});
+
+test("y ese bloque no lleva una gota de mostaza", ()=>{
+  /* La regla más dura del rediseño. Un bloque que explica por qué NO
+     apostamos, pintado del color de "apostá acá", sería el peor error
+     posible de esta pantalla. */
+  const m = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad") || PARTIDOS[0];
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.capaVeredicto(m);
+  const i = html.indexOf('class="sabemos"');
+  const bloque = html.slice(i, html.indexOf("</div>", html.indexOf("</p>", i)));
+  cierto(!/mostaza|dorad|class="oro"/i.test(bloque),
+         "el bloque de 'lo que sí sabemos' se pintó como si fuera una apuesta");
+});
+
+test("con oportunidad no aparece: la tarjeta dorada es la respuesta", ()=>{
+  const m = PARTIDOS.find(x=> L.estadoDe(x).clase === "oportunidad");
+  if(!m) return;   // no hay ninguno en la grilla de prueba
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  cierto(!/class="sabemos"/.test(L.capaVeredicto(m)),
+         "compite con la tarjeta de oportunidad en vez de dejarla sola");
+});
+
 /* ── 11bis. El once REAL, no el inferido ───────────────────────────
    La cancha dibujaba a los que más partidos llevan, acomodados por
    puesto, con una nota que decía que ESPN no publica ni el titular ni

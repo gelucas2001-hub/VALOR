@@ -923,6 +923,19 @@ a{color:inherit}
    nada apostable. Tiene que verse terminado, no roto ni vacío. */
 .nada{margin:14px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
   padding:16px 14px 17px;text-align:center}
+/* Lo que sabemos cuando no hay nada que apostar. Pegado al bloque de
+   arriba —mismo panel, sin aire entre los dos— porque son una sola
+   cosa: "no hay apuesta, PERO esto sí se sabe". Separados se leen como
+   dos secciones y la segunda parece un premio consuelo.
+
+   Sin una gota de mostaza, a propósito: el dorado dice "acá el precio
+   está a favor" y esto es justo lo contrario. */
+.sabemos{margin:1px 20px 0 16px;background:var(--panel);box-shadow:4px 4px 0 var(--sombra);
+  padding:13px 14px 14px}
+.sabemos .rotarg{margin-bottom:9px}
+.sabemos p{margin:0;font-size:12.5px;line-height:1.6;color:var(--tinta3);text-wrap:pretty}
+.sabemos p + p{margin-top:9px;padding-top:9px;border-top:1px solid var(--hueco)}
+.sabemos b{color:var(--tinta);font-weight:400}
 .nada b{display:block;font-family:var(--anton);font-size:22px;line-height:1.15;
   color:var(--tinta);text-transform:uppercase;font-weight:400}
 .nada p{margin:9px 0 0;font-size:12.5px;line-height:1.6;color:var(--tinta3);text-wrap:pretty}
@@ -3448,6 +3461,96 @@ function bloqueLineasDe(m, k){
               P.disp_total != null ? "dispersión medida sobre el total" : "sin medición propia del total");
 }
 
+/* Lo que sabemos cuando no hay nada que apostar.
+
+   El 90% de los partidos no tiene marca de valor, y hasta hoy en esos
+   el Veredicto decía "No hay nada acá" y se terminaba la pantalla. Un
+   asesor que no dice nada nueve de cada diez veces no es un asesor,
+   aunque tenga razón en callarse.
+
+   Esto NO es una recomendación encubierta y no lleva mostaza: el
+   dorado sigue significando "acá el precio está a favor" y nada más.
+   Son las tres cosas que sí se pueden afirmar del partido, cada una
+   con el número que la sostiene, y la cuarta que dice qué falta para
+   poder opinar.
+
+   Todo sale de datos que la app ya calculaba y solo mostraba adentro
+   de Datos, a dos toques de distancia — o sea que el que abría un
+   partido sin oportunidad no llegaba nunca. */
+function loQueSabemos(m, filas){
+  const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
+  const puntos = [];
+
+  /* 1 · La métrica en la que más se distinguen ESTOS dos equipos, de
+     las que están medidas. No la más alta: la que más separa, que es
+     la única que dice algo del cruce. Sin señal medida no se dice
+     nada — repetir un número que no se sabe si es verdadero es lo que
+     esta app no hace. */
+  if(L && V){
+    let mejor = null;
+    COMPARA.forEach(x=>{
+      if(senalDe(x.k).clase !== "alta") return;
+      const a = ladoDe(L, x.k, "local"), b = ladoDe(V, x.k, "visita");
+      if(!a || !b) return;
+      const va = x.calc ? x.calc(a) : a[x.k], vb = x.calc ? x.calc(b) : b[x.k];
+      if(va == null || vb == null) return;
+      const sep = Math.abs(va - vb) / ((va + vb) / 2 || 1);
+      if(!mejor || sep > mejor.sep) mejor = {x, va, vb, sep};
+    });
+    if(mejor && mejor.sep > 0.12){
+      const arriba = mejor.va >= mejor.vb;
+      puntos.push(`<b>${esc_(mejor.x.et)}</b> es donde más se distinguen, y es de las medidas:
+        ${esc_(arriba ? m.home : m.away)} produce ${(arriba?mejor.va:mejor.vb).toFixed(1)}${
+        mejor.x.suf||""} contra ${(arriba?mejor.vb:mejor.va).toFixed(1)}${mejor.x.suf||""}.`);
+    }
+  }
+
+  /* 2 · Cuánto le falta al precio más cerca de encenderse. Es la
+     pregunta que el que mira se hace igual —"¿por cuánto no?"— y la
+     escalera la contestaba solo con la cuota mínima, que obliga a
+     restar de cabeza. */
+  const conV = filas.filter(f=> f.ventaja != null && f.op && f.cuota)
+    .sort((a,b)=> b.ventaja - a.ventaja);
+  if(conV.length){
+    const f = conV[0], v = Math.round(f.ventaja * 100);
+    /* En una liga donde la regla está medida perdiendo, decir "le
+       faltan N puntos" invita a esperar que los junte — y aunque los
+       juntara no la marcaríamos. Ahí la frase honesta es la otra: la
+       ventaja existe y aun así no alcanza, porque lo que falla no es
+       el umbral sino la regla entera en esa liga. */
+    if(ligaSinValor(m) && f.ventaja >= VALOR_MIN)
+      puntos.push(`<b>${esc_(f.op.label)}</b> tiene ${v} puntos de ventaja sobre la línea sin
+        margen, y aun así no la marcamos: en esta liga está medido que seguir la regla de valor
+        <b>resta plata</b>. La ventaja está; lo que no está es la evidencia de que cobrarla sirva.`);
+    else if(f.ventaja < VALOR_MIN){
+      const falta = Math.round((VALOR_MIN - f.ventaja) * 100);
+      puntos.push(`Lo más cerca de encenderse es <b>${esc_(f.op.label)}</b>: le damos ${pc(f.op.p)},
+        paga ${f.cuota.toFixed(2)} y le faltan ${falta} punto${falta===1?"":"s"} de ventaja
+        para que la marquemos.`);
+    }
+  }
+
+  /* 3 · Cuando el mercado nos gana de mano, decirlo es más útil que
+     callarlo: es la única señal que tenemos de que el precio sabe algo
+     que nosotros no. */
+  const al = alerta(m);
+  if(al) puntos.push(`El mercado le da <b>${Math.round(al.dif*100)} puntos más</b> que nosotros a
+    ${esc_(al.nombre || "el empate")}. Cuando pasa eso, el que suele tener razón es el precio.`);
+
+  /* 4 · Lo único que llega DESPUÉS de que la casa puso la línea, y que
+     ni el modelo ni la casa tienen todavía. */
+  const once = ONCES[String(m.homeId)] || ONCES[String(m.awayId)];
+  puntos.push(once
+    ? `A la hora del partido, lo que más mueve la línea es el <b>once confirmado</b>. El de los
+       últimos partidos está en Datos · Referencia; nadie publica el de hoy hasta una hora antes.`
+    : `A la hora del partido, lo que más mueve la línea es el <b>once confirmado</b>, y todavía
+       no lo publica nadie.`);
+
+  if(!puntos.length) return "";
+  return `<div class="sabemos"><div class="rotarg">Lo que sí sabemos</div>
+    ${puntos.map(t=> `<p>${t}</p>`).join("")}</div>`;
+}
+
 function capaVeredicto(m){
   /* El mismo objeto que lee la portada, memoizado: si esta pantalla lo
      recalculara por su cuenta, un día el renglón y la tarjeta dirían
@@ -3465,6 +3568,7 @@ function capaVeredicto(m){
        producto. Un día sin nada tiene que verse completo, no roto. */
     h += `<div class="nada"><b>No hay nada acá</b>
       <p>${total} mercado${total===1?"":"s"} mirado${total===1?"":"s"}, ninguno con precio a favor.</p></div>`;
+    h += loQueSabemos(m, v.filas);
   }
 
   h += `<div class="sepsec"><span>${v.oportunidad ? "Lo demás que miramos" : "Qué miramos"}</span><i></i></div>

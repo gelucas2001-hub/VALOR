@@ -4907,3 +4907,56 @@ mejorar el rendimiento:
 sin modelo · goles condicionados · ajuste del jugador por rival ·
 bajas → goles · árbitro → tarjetas · córners por equipo · **cambiar de
 casa**.
+
+## 21. El Veredicto deja de estar mudo (2026-09-02)
+
+Lucas: *"el 90% de los partidos no pone nada en el veredicto, ¿está
+bien?"*. No, y era el reclamo más justo de toda la sesión. Un asesor que
+no dice nada nueve de cada diez veces no es un asesor, aunque tenga
+razón en callarse.
+
+Hasta hoy, un partido sin marca de valor mostraba `No hay nada acá · N
+mercados mirados, ninguno con precio a favor` y ahí se terminaba la
+pantalla. `loQueSabemos()` agrega debajo, pegado al mismo panel, hasta
+cuatro afirmaciones — cada una con su número:
+
+1. **La métrica en la que más se distinguen estos dos equipos**, y solo
+   entre las de señal ALTA. No la más alta: la que más separa, que es la
+   única que dice algo del cruce. Con separación menor al 12% no se dice
+   nada.
+2. **Cuánto le falta al precio más cerca de encenderse.** La escalera lo
+   contestaba con la cuota mínima, que obliga a restar de cabeza.
+3. **Cuando el mercado nos gana de mano**, dicho con todas las letras:
+   es la única señal que tenemos de que el precio sabe algo que nosotros
+   no.
+4. **Qué mirar a la hora del partido** — el once confirmado, que es lo
+   único que llega DESPUÉS de que la casa puso la línea.
+
+### El caso que casi sale mal
+
+En arg y bra la regla de valor está medida perdiendo, así que ahí decir
+"le faltan N puntos para que la marquemos" invita a esperar que los
+junte — y aunque los juntara, no la marcaríamos. En esas ligas la frase
+es la otra: *"tiene 10 puntos de ventaja y aun así no la marcamos:
+está medido que seguir la regla resta plata"*. Lo que falla no es el
+umbral, es la regla entera en esa liga.
+
+### Las dos reglas duras, con test
+
+- **Nunca lleva mostaza.** El dorado significa "acá el precio está a
+  favor" y esto es literalmente el caso contrario. Si el mismo color
+  dijera las dos cosas dejaría de decir la primera, que es la única que
+  cuesta plata (§18).
+- **No aparece cuando SÍ hay oportunidad.** Ahí la tarjeta dorada es la
+  respuesta y un segundo bloque compite con ella.
+
+Verificado sobre 11 partidos reales de tres fechas, todos sin
+oportunidad: los 11 pasan de silencio a 3 o 4 afirmaciones. 124 tests de
+alineación, 0 fallando.
+
+### Lo que esto NO es
+
+No es una recomendación encubierta ni baja la vara de evidencia. Todo lo
+que dice ya lo calculaba la app y lo escondía dentro de Datos, a dos
+toques — o sea que el que abría un partido sin oportunidad no llegaba
+nunca. Es la misma información, puesta donde se mira.

@@ -914,7 +914,10 @@
    3.3,
    1.95
   ],
-  "resultado": null
+  "resultado": [
+   0,
+   2
+  ]
  },
  "espn401874402": {
   "fecha": "2026-08-27",
@@ -934,7 +937,10 @@
    3.2,
    5.75
   ],
-  "resultado": null
+  "resultado": [
+   3,
+   1
+  ]
  },
  "espn401874288": {
   "fecha": "2026-08-27",
@@ -954,7 +960,10 @@
    2.65,
    2.6
   ],
-  "resultado": null
+  "resultado": [
+   1,
+   1
+  ]
  },
  "espn401841198": {
   "fecha": "2026-08-24",
@@ -3018,6 +3027,342 @@
    1.74,
    3.35,
    4.8
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
+ },
+ "espn401892190": {
+  "fecha": "2026-09-02",
+  "comp": "Copa Argentina",
+  "home": "Vélez Sarsfield",
+  "away": "Boca Juniors",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": -0.05,
+  "mercado": [
+   0.2055,
+   0.2807,
+   0.5138
+  ],
+  "cuotas": [
+   4.5,
+   3.35,
+   1.87
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877628": {
+  "fecha": "2026-09-05",
+  "comp": "J.League",
+  "home": "Avispa Fukuoka",
+  "away": "Mito Hollyhock",
+  "lh": 1.702,
+  "la": 1.331,
+  "rho": 0.0,
+  "mercado": [
+   0.4727,
+   0.2838,
+   0.2436
+  ],
+  "cuotas": [
+   2.0,
+   3.25,
+   3.75
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877642": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "Fagiano Okayama",
+  "away": "Sanfrecce Hiroshima",
+  "lh": 0.969,
+  "la": 1.275,
+  "rho": 0.0,
+  "mercado": [
+   0.2619,
+   0.2579,
+   0.4802
+  ],
+  "cuotas": [
+   3.45,
+   3.5,
+   1.95
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877631": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "JEF United Ichihara-Chiba",
+  "away": "Gamba Osaka",
+  "lh": 1.265,
+  "la": 1.845,
+  "rho": 0.0,
+  "mercado": [
+   0.3009,
+   0.2637,
+   0.4354
+  ],
+  "cuotas": [
+   3.05,
+   3.45,
+   2.15
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877646": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "Kashima Antlers",
+  "away": "Urawa Red Diamonds",
+  "lh": 1.765,
+  "la": 1.107,
+  "rho": 0.0,
+  "mercado": [
+   0.5462,
+   0.2436,
+   0.2102
+  ],
+  "cuotas": [
+   1.74,
+   3.75,
+   4.3
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877629": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "Nagoya Grampus",
+  "away": "Machida Zelvia",
+  "lh": 1.371,
+  "la": 1.653,
+  "rho": 0.0,
+  "mercado": [
+   0.3029,
+   0.2698,
+   0.4273
+  ],
+  "cuotas": [
+   3.05,
+   3.4,
+   2.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877644": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "Cerezo Osaka",
+  "away": "Tokyo Verdy 1969",
+  "lh": 1.511,
+  "la": 0.822,
+  "rho": 0.0,
+  "mercado": [
+   0.534,
+   0.2524,
+   0.2136
+  ],
+  "cuotas": [
+   1.77,
+   3.6,
+   4.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877630": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "Kashiwa Reysol",
+  "away": "Yokohama F. Marinos",
+  "lh": 1.618,
+  "la": 1.561,
+  "rho": 0.0,
+  "mercado": [
+   0.5752,
+   0.2354,
+   0.1894
+  ],
+  "cuotas": [
+   1.65,
+   3.85,
+   4.7
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877641": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "Kawasaki Frontale",
+  "away": "Shimizu S-Pulse",
+  "lh": 1.465,
+  "la": 1.257,
+  "rho": 0.0,
+  "mercado": [
+   0.5239,
+   0.2516,
+   0.2245
+  ],
+  "cuotas": [
+   1.8,
+   3.6,
+   4.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877643": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "Vissel Kobe",
+  "away": "V-Varen Nagasaki",
+  "lh": 1.739,
+  "la": 0.971,
+  "rho": 0.0,
+  "mercado": [
+   0.5525,
+   0.2594,
+   0.1881
+  ],
+  "cuotas": [
+   1.71,
+   3.5,
+   4.7
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401877645": {
+  "fecha": "2026-09-06",
+  "comp": "J.League",
+  "home": "FC Tokyo",
+  "away": "Kyoto Sanga",
+  "lh": 1.502,
+  "la": 1.285,
+  "rho": 0.0,
+  "mercado": [
+   0.5836,
+   0.2333,
+   0.1831
+  ],
+  "cuotas": [
+   1.62,
+   3.85,
+   4.8
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841546": {
+  "fecha": "2026-09-06",
+  "comp": "Liga Profesional Argentina",
+  "home": "Lanús",
+  "away": "Defensa y Justicia",
+  "lh": 1.378,
+  "la": 0.906,
+  "rho": -0.05,
+  "mercado": [
+   0.5433,
+   0.2725,
+   0.1842
+  ],
+  "cuotas": [
+   1.74,
+   3.35,
+   4.8
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841544": {
+  "fecha": "2026-09-07",
+  "comp": "Liga Profesional Argentina",
+  "home": "Barracas Central",
+  "away": "Argentinos Juniors",
+  "lh": 0.986,
+  "la": 1.117,
+  "rho": -0.05,
+  "mercado": [
+   0.2286,
+   0.3127,
+   0.4587
+  ],
+  "cuotas": [
+   3.95,
+   2.95,
+   2.05
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401913960": {
+  "fecha": "2026-09-08",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Independiente Santa Fe",
+  "away": "Vasco da Gama",
+  "lh": 1.541,
+  "la": 0.61,
+  "rho": 0.0,
+  "mercado": [
+   0.3822,
+   0.3034,
+   0.3143
+  ],
+  "cuotas": [
+   2.45,
+   3.05,
+   2.95
   ],
   "resultado": null,
   "modelo": {

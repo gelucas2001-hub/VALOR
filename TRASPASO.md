@@ -4960,3 +4960,73 @@ No es una recomendación encubierta ni baja la vara de evidencia. Todo lo
 que dice ya lo calculaba la app y lo escondía dentro de Datos, a dos
 toques — o sea que el que abría un partido sin oportunidad no llegaba
 nunca. Es la misma información, puesta donde se mira.
+
+## 22. El primer lead que sobrevive a sus controles (2026-09-02)
+
+`medir_props.py` mide el eje Jugadores contra **plata**, al precio real
+de Bet365. Es el mercado más blando al que llega el proyecto: nadie en
+Bet365 le dedica a "remates de Almada en Liga Profesional" el esfuerzo
+que le dedica al 1X2 de Premier.
+
+El 2026-08-31 se midió sobre 10 partidos, dio CLV +4.28% ±2.14, y **los
+controles lo desarmaron**: un solo partido lo sostenía (+0.17% sin él) y
+11 de 19 líneas no se habían movido. Quedó anotado como "no hay señal,
+queda el instrumento".
+
+### Al volver a correrlo con 25 partidos, el resultado se dio vuelta
+
+```
+umbral 4%:  89 apuestas · ROI +9.98% ±21.12 · CLV +3.32% ±0.86
+
+LA VARA — la deriva de los escalones que NO se eligen
+  3214 escalones sin elegir · +0.99% ±0.29
+  los 89 que apostaríamos   · +3.32% ±0.86
+  elegimos mejor por        · +2.33% ±0.91   (2.6 e.e.)
+
+DEJANDO UN PARTIDO AFUERA POR VEZ
+  peor caso +2.55%   ·   mejor +3.55%
+```
+
+**Los dos controles que en agosto lo mataron ahora lo sostienen.**
+
+La deriva era la trampa principal, y es el control que este proyecto
+inventó para no engañarse: si toda la escalera de precios se mueve, un
+CLV positivo es la casa achicando su margen sobre la hora, no nosotros
+eligiendo bien. Contra esa vara elegimos **2.6 errores estándar mejor**.
+
+Y ningún partido lo carga: sacando cualquiera de los 25 queda entre
++2.55% y +3.55%. El CLV además es estable en los cinco umbrales medidos
+(+3.09% a +3.70%), o sea que no es un filo de la grilla.
+
+**Lo que más pesa: la señal creció con la muestra en vez de
+desaparecer.** Es lo contrario de lo que hace el ruido.
+
+### Los tres reparos que siguen en pie
+
+1. **62 de las 89 líneas no se movieron** (70%). Ahí el CLV es cero por
+   construcción, así que el número lo generan 27 apuestas, no 89.
+2. **El "cierre" puede no ser el cierre.** El cron corre 09:00 y 15:00 y
+   los partidos arrancan hasta las 21:00. `foto_props.py` se agregó el
+   2026-08-31 justo por eso y lleva dos días. La deriva controla parte
+   —los 3214 escalones se miden con la misma ventana— pero no todo.
+3. **CLV no es plata.** El ROI a umbral 4% es +9.98% **±21.12**: no dice
+   nada, y no va a decir nada hasta ~300 apuestas. Confundir las dos
+   cosas es exactamente el error que costó tres semanas en §5.
+
+### Qué hacer con esto
+
+**Nada todavía, salvo seguir juntando.** Van 89 de las ~300 que hacen
+falta para que el ROI diga algo, y `foto_props.py` ya mejora la
+resolución del CLV desde el 31/08 — o sea que la muestra que viene es de
+mejor calidad que la que produjo este número.
+
+Lo que NO corresponde: marcar props en dorado en la app. La regla del
+proyecto es que solo `con_plata` puede llevar apuesta, y esto todavía es
+CLV, no plata. El eje Jugadores sigue en NO OPINAMOS hasta que el ROI
+concluya.
+
+Lo que sí conviene: **volver a correr esto cada 10 partidos nuevos** y
+anotar la serie. Si el CLV sobre deriva se sostiene arriba de 2 errores
+estándar mientras la muestra crece, es el primer camino abierto que tuvo
+el proyecto. Si se desinfla, se cierra con evidencia y se documenta como
+los otros diez.

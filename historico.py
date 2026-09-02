@@ -363,6 +363,56 @@ def con_cuota(partidos):
     return [p for p in partidos or [] if p.get("cuotas")]
 
 
+# Debajo de esto, la ventana reciente ya no se esta midiendo contra
+# Pinnacle aunque el repo entero diga que si. No es un umbral medido: es
+# el punto donde la frase deja de ser cierta para la mayoria del tramo.
+PISO_PINNACLE = 0.50
+
+
+def cobertura_fuente(partidos, desde=None):
+    """De que casa sale la cuota, en total y en la ventana reciente.
+
+    `FUENTES` es una cadena de respaldo: Pinnacle, si no el promedio del
+    mercado, si no Bet365. Funciona como fue diseñada y por eso el
+    2026-09-02 nadie habia visto que football-data **dejo de llenar la
+    cuota de cierre de Pinnacle a mitad de la temporada 2025/26**. La
+    columna sigue existiendo y viene vacia:
+
+        E0  2425:  380 de 380 filas con PSCH
+        E0  2526:  210 de 380
+        SP1 2526:  188 de 380
+        arg / bra / usa 2026:  cero
+
+    El total lo tapa —Espana tiene 3987 de 4180 con Pinnacle real— pero
+    los partidos NUEVOS ya son todos promedio. El promedio del mercado
+    cobra mas margen que Pinnacle, asi que es una vara mas blanda: lo
+    reciente se ve mejor de lo que se veria contra el precio duro.
+
+    Es el patron que TRASPASO ya tiene anotado dos veces, con una vuelta
+    de tuerca: aca el parser no falla y el respaldo hace su trabajo. Por
+    eso hace falta contarlo, igual que se cuentan las filas que un
+    `except` saltea.
+    """
+    cc = con_cuota(partidos)
+    if not cc:
+        return None
+    if desde is None:
+        desde = max(p["fecha"] for p in cc).replace(month=1, day=1)
+    reciente = [p for p in cc if p["fecha"] >= desde]
+
+    def reparto(ps):
+        d = {}
+        for p in ps:
+            d[p.get("fuente")] = d.get(p.get("fuente"), 0) + 1
+        n = len(ps)
+        return {"n": n, "por_casa": d,
+                "pinnacle": d.get("pinnacle", 0) / n if n else 0.0}
+
+    tot, rec = reparto(cc), reparto(reciente) if reciente else None
+    return {"total": tot, "reciente": rec, "desde": desde,
+            "alerta": bool(rec and rec["pinnacle"] < PISO_PINNACLE)}
+
+
 def bajar(liga, refrescar=False):
     """Filas crudas del CSV, cacheadas en disco.
 
@@ -424,6 +474,15 @@ def main():
               f"({pin} de Pinnacle) · {len(eq)} equipos")
         if ps:
             print(f"     de {ps[0]['fecha']} a {ps[-1]['fecha']}")
+        cob = cobertura_fuente(ps)
+        if cob and cob["reciente"]:
+            r = cob["reciente"]
+            print(f"     desde {cob['desde']}: {r['pinnacle']:.0%} de Pinnacle "
+                  f"sobre {r['n']} partidos · {r['por_casa']}")
+            if cob["alerta"]:
+                print("     ! ATENCION: la ventana reciente NO se esta midiendo")
+                print("       contra Pinnacle sino contra el promedio del mercado,")
+                print("       que cobra mas margen. Ver cobertura_fuente().")
     print()
     return 0
 

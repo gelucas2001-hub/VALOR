@@ -5424,3 +5424,96 @@ Y sigue en pie el reparo peor de §22: **63 de las 96 líneas están
 clavadas** (66%), o sea que el número lo generan 33 apuestas. `pp` no
 arregla eso — arregla que las 33 se lean en una escala que no se deja
 mover por una sola.
+
+## 26. La cuota de cierre de Pinnacle se apagó y el respaldo lo tapó (2026-09-02)
+
+Salió contestando otra pregunta. Lucas preguntó de qué ligas tenemos
+más estadísticas, y al contar de dónde sale cada cuota apareció esto:
+
+```
+liga   Pinnacle en el total        Pinnacle desde 2026-01-01
+arg    5928 de 6310               0%   sobre 329 partidos
+bra    5275 de 5544               0%   sobre 225
+usa    5800 de 6115               0%   sobre 299
+mex    4437 de 4691               0%   sobre 203
+jpn    4503 de 4543               0%   sobre  20
+fra    3704 de 3857               6%   sobre 162
+spa    3987 de 4180               9%   sobre 209
+eng    4010 de 4180              12%   sobre 194
+```
+
+**football-data dejó de llenar la cuota de cierre de Pinnacle a mitad de
+la temporada 2025/26.** La columna sigue existiendo y viene vacía:
+
+```
+E0  2425:  380 de 380 filas con PSCH
+E0  2526:  210 de 380
+SP1 2526:  188 de 380
+```
+
+`AvgCH` y `B365CH` siguen completas, 380 de 380 en las cuatro.
+
+### Por qué no lo vimos
+
+`FUENTES` es una cadena de respaldo —Pinnacle, si no el promedio del
+mercado, si no Bet365— y **funcionó exactamente como fue diseñada**. Ahí
+está la diferencia con los dos casos que TRASPASO ya tenía anotados: el
+`except` que se comió 1521 partidos era un bug, y el formato de fecha de
+dos dígitos era un parser incompleto. Acá no hay error. Hay un respaldo
+haciendo su trabajo, en silencio, mientras el repo entero sigue diciendo
+"cuota de cierre real de Pinnacle" en los encabezados de `medir_roi.py`,
+`medir_historico.py` y `medir_apertura.py`.
+
+El total lo tapa y por eso duró meses: España tiene 3987 de 4180 con
+Pinnacle real, que es el 95%. Mirando ese número no hay nada que ver.
+Los partidos NUEVOS son los que cambiaron, y son el 0% al 12%.
+
+### Qué invalida y qué no
+
+**No invalida las mediciones grandes.** El walk-forward de `medir_roi.py`
+y `medir_historico.py` está dominado por 2015-2025, donde Pinnacle está
+completo. Los ROI de las seis ligas, el barrido de λ, el de umbrales de
+valor y las once vías cerradas siguen en pie.
+
+**Sí cambia dos cosas, y la segunda es la que importa.**
+
+La primera: los números de la ventana reciente están contra una vara más
+blanda de lo que decimos. El promedio del mercado cobra más margen que
+Pinnacle, así que lo reciente se ve **mejor** de lo que se vería contra
+el precio duro. Es el signo incómodo — el error nos favorece.
+
+La segunda: **de acá en adelante es el 100% de los partidos nuevos.**
+Esto no se estabiliza, empeora. Cada fecha que pasa, la proporción de
+"medido contra Pinnacle" baja, y el día que alguien mida algo sobre los
+últimos seis meses va a estar midiendo contra el promedio sin saberlo.
+
+### Lo que se hizo
+
+`cobertura_fuente()` en `historico.py` reparte las cuotas por casa, en
+el total y en la ventana reciente por separado, y levanta alerta cuando
+la reciente cae debajo de `PISO_PINNACLE` (0.50). `main()` la imprime
+para cada liga. Hoy las ocho dan alerta.
+
+Ocho tests nuevos en `test_historico.py`: que el total tape y la ventana
+muestre, que el caso sano no moleste, que la ventana se pueda pedir a
+mano, y que sin partidos con cuota no invente un reporte.
+
+El umbral 0.50 no está medido: es el punto donde la frase "medido contra
+Pinnacle" deja de ser cierta para la mayoría del tramo. Si alguien lo
+mueve, que sea por un motivo escrito.
+
+### Lo que queda abierto
+
+- **Los encabezados siguen diciendo Pinnacle.** No se tocaron:
+  cambiarlos pide decidir qué se quiere que digan, y decir "cierre de
+  Pinnacle cuando está, promedio del mercado cuando no" es exacto pero
+  invita a ignorarlo. La alerta al menos hace que se vea al correr.
+- **`medir_apertura.py` mide Pinnacle y Bet365 por separado** y su
+  resultado de eng (CLV −1.62% ±0.82, §20) es sobre datos con Pinnacle
+  presente. Habría que confirmar que su ventana no se corrió hacia el
+  tramo sin Pinnacle antes de volver a citar ese número.
+- **La regla general que sale de acá**, que es lo único que vale más
+  que el arreglo: *un respaldo que funciona es más difícil de ver que un
+  error que falla.* Si escribís una cadena de fuentes, contá cuál está
+  usando cada una — igual que se cuentan las filas que un `except`
+  saltea.

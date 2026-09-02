@@ -323,6 +323,43 @@ prueba("una apertura incompleta no se completa con el cierre",
        H.cuotas_apertura({"B365H": "2.3", "B365CD": "3.4", "B365CA": "3.2"},
                          "bet365") is None)
 
+print("\ncobertura_fuente() — que el respaldo silencioso se pueda contar\n")
+
+# football-data dejo de llenar la cuota de cierre de Pinnacle a mitad de
+# la 2025/26. La cadena de respaldo (Pinnacle -> promedio -> Bet365) hizo
+# su trabajo, y por eso durante meses se midio contra el promedio del
+# mercado mientras todo el repo decia "cierre real de Pinnacle".
+def _p(anio, mes, dia, fuente):
+    return {"fecha": datetime.date(anio, mes, dia), "cuotas": {"local": 2.0},
+            "fuente": fuente}
+
+VIEJOS = [_p(2024, 5, d % 28 + 1, "pinnacle") for d in range(40)]
+NUEVOS = [_p(2026, 3, d % 28 + 1, "promedio") for d in range(10)]
+
+cob = H.cobertura_fuente(VIEJOS + NUEVOS)
+prueba("el total lo tapa: 80% de Pinnacle sobre todo el historial",
+       abs(cob["total"]["pinnacle"] - 40 / 50) < 1e-9)
+prueba("pero la ventana reciente lo muestra: 0%",
+       cob["reciente"]["pinnacle"] == 0.0)
+prueba("y por eso levanta la alerta", cob["alerta"] is True)
+prueba("la ventana arranca en enero del ultimo anio con datos",
+       cob["desde"] == datetime.date(2026, 1, 1))
+prueba("reparte por casa, no solo cuenta",
+       cob["reciente"]["por_casa"] == {"promedio": 10})
+
+# Y el caso sano: si lo reciente sigue viniendo de Pinnacle, no molesta.
+SANO = VIEJOS + [_p(2026, 3, d % 28 + 1, "pinnacle") for d in range(10)]
+prueba("con la ventana reciente en Pinnacle no hay alerta",
+       H.cobertura_fuente(SANO)["alerta"] is False)
+prueba("sin partidos con cuota no inventa un reporte",
+       H.cobertura_fuente([{"fecha": datetime.date(2026, 1, 1)}]) is None)
+prueba("la ventana se puede pedir a mano",
+       H.cobertura_fuente(VIEJOS + NUEVOS,
+                          desde=datetime.date(2024, 1, 1))["reciente"]["n"] == 50)
+prueba("el piso esta declarado y es una fraccion",
+       0 < H.PISO_PINNACLE < 1)
+
+
 print("")
 print("")
 print(f"{ok} ok, {fallan} fallando")

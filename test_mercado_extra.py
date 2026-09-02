@@ -384,6 +384,24 @@ prueba("y si se leyera, el (Booked) quedaria pegado al nombre",
            [{"label": "Sasa Lukic (Booked)", "hdp": 0.5, "over": "2.600"}]))
 
 
+print("\nSIN_COBERTURA — mapeada no es lo mismo que cotizada\n")
+
+prueba("jpn.1 esta mapeada, o sea que el slug se conoce",
+       "jpn.1" in ME.LIGAS)
+prueba("pero se sabe que Bet365 no la cotiza",
+       "jpn.1" in ME.SIN_COBERTURA)
+_e = _io.StringIO()
+with _ctx.redirect_stderr(_e):
+    prueba("y por eso no se pide: si pidiera, la clave falsa daria 401",
+           ME.eventos_de("jpn.1", "clave-falsa") == [])
+prueba("y no se queja: no es un olvido, es un hecho verificado",
+       _e.getvalue() == "")
+prueba("una liga con cobertura no se saltea",
+       "arg.1" not in ME.SIN_COBERTURA and "eng.1" not in ME.SIN_COBERTURA)
+prueba("toda liga sin cobertura sigue estando mapeada",
+       all(s in ME.LIGAS for s in ME.SIN_COBERTURA))
+
+
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

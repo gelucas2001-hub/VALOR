@@ -88,6 +88,24 @@ LIGAS = {
         "international-clubs-conmebol-sudamericana-knockout-stage",
 }
 
+# Ligas que odds-api lista, cuyo fixture cruza, y que Bet365 NO cotiza.
+#
+# Estar en LIGAS y no tener cobertura son dos cosas distintas, y hasta
+# el 2026-09-02 se confundían: el pedido salía igual y volvía vacío.
+# Para `jpn.1` eso son 1 pedido de eventos + 10 de odds por corrida, dos
+# veces por día, más los de `foto_props.py` cada hora — cuota quemada
+# para recibir `{}`.
+#
+# `jpn.1` verificado de las dos puntas ese día: la API devuelve CERO
+# bloques en tres partidos distintos (05/09 y 06/09), y en la web de
+# Bet365 la J.League no figura — está la J.League 2, que es otra
+# competición y no la que publica la app.
+#
+# Esto NO es una opinión sobre la liga: el slug es correcto y el evento
+# vuelve rotulado "Japan - J.League". Es una casa que no la ofrece.
+# Sacar una entrada de acá es gratis y el pedido se reanuda solo.
+SIN_COBERTURA = {"jpn.1"}
+
 # Tokens que NO identifican a un club: tipo de sociedad y artículos.
 #
 # La lista es corta a propósito. La primera versión metía acá
@@ -383,6 +401,8 @@ def eventos_de(slug, key, avisar=True):
     descarte silencioso no se ve como un error, se ve como menos datos.
     Por eso ahora avisa.
     """
+    if slug in SIN_COBERTURA:
+        return []
     liga = LIGAS.get(slug)
     if not liga:
         if avisar:
@@ -482,7 +502,7 @@ def main():
             "CONMEBOL Libertadores": "conmebol.libertadores",
             "CONMEBOL Sudamericana": "conmebol.sudamericana"}
 
-    cache, ok, sin, sin_mapa = {}, 0, [], {}
+    cache, ok, sin, sin_mapa, sin_cobertura = {}, 0, [], {}, {}
     for p in ps:
         slug = COMP.get(p.get("comp"))
         if not slug:
@@ -491,6 +511,12 @@ def main():
             # que es como `jpn.1` estuvo sin Bet365 ni props el día que
             # entró, sin que nada lo dijera.
             sin_mapa[p.get("comp")] = sin_mapa.get(p.get("comp"), 0) + 1
+            continue
+        if slug in SIN_COBERTURA:
+            # No cruzan porque no se piden. Mezclarlos con los que
+            # fallaron el cruce hace ver un problema de nombres donde
+            # hay una casa que no ofrece la liga.
+            sin_cobertura[slug] = sin_cobertura.get(slug, 0) + 1
             continue
         if slug not in cache:
             cache[slug] = eventos_de(slug, key)
@@ -503,6 +529,11 @@ def main():
     print(f"\n  cruzan: {ok}   sin cruzar: {len(sin)}")
     for s in sin:
         print(f"    x {s}")
+    if sin_cobertura:
+        print("\n  no se piden — Bet365 no cotiza estas competiciones")
+        print("  (ver SIN_COBERTURA; el slug es correcto, la casa no la ofrece):")
+        for slug, n in sorted(sin_cobertura.items()):
+            print(f"    - {slug}  ({n} partidos)")
     if sin_mapa:
         print("\n  COMPETICIONES QUE LA APP PUBLICA Y ACÁ NO ESTÁN MAPEADAS:")
         print("  se quedan sin Bet365 y sin props, y los props no se")

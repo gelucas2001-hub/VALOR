@@ -1670,6 +1670,34 @@ const ALERTA_MIN = 0.10;
 const LIGAS_SIN_VALOR = [/profesional\s+argentina/i, /brasileir/i];
 const ligaSinValor = m => LIGAS_SIN_VALOR.some(re => re.test(m.comp || ""));
 
+/* Cuántos partidos lleva jugados el que menos jugó de los dos.
+
+   Al arranque de una temporada las fuerzas se ajustan sobre nada y
+   todos los equipos salen parecidos. Verificado el 2026-09-02 con
+   Manchester City vs Coventry: λ 1.35 contra 1.10 —casi iguales—
+   mientras el mercado pagaba 1.20 contra 11.00. Los dos equipos
+   llevaban 2 fechas. El número no estaba mal calculado: estaba
+   calculado sobre nada.
+
+   La tabla es la fuente buena (es el conteo oficial de la
+   competición); la forma general es el respaldo para las copas, donde
+   no hay tabla. */
+function partidosJugados(m){
+  const t = m.tabla || [];
+  const de = id => { const f = t.find(x=> String(x.id) === String(id));
+    return f && f.pj != null ? f.pj : null; };
+  const h = de(m.homeId), a = de(m.awayId);
+  if(h != null && a != null) return Math.min(h, a);
+  return Math.min((m.formH_general || []).length, (m.formA_general || []).length);
+}
+
+/* El mismo 4 que `MIN_SPLIT`, y por la misma razón medida: abajo de
+   eso el promedio se apoya en una muestra que el propio proyecto le
+   prohíbe al análisis. Acá el efecto es peor que un promedio flojo —
+   es un 1X2 publicado con cara de lectura. */
+const MIN_PARTIDOS = 4;
+const sinMuestra = m => partidosJugados(m) < MIN_PARTIDOS;
+
 /* Umbral de cuota, no cuota de referencia. Mostrar "@2.20 en DraftKings"
    es una trampa: el usuario va a Betsson, encuentra 2.05 y no sabe si
    sigue conviniendo. Y la justa pelada tampoco sirve: a la justa exacta
@@ -2304,7 +2332,7 @@ function escalera(m){
     temasUsados.add(temaDe(elegido));
     if(elegido.fam === "Goles") golesUsados++;
     const cuota = cuotaUsada(elegido, pq, mk, mx);
-    const valor = !ligaSinValor(m)
+    const valor = !ligaSinValor(m) && !sinMuestra(m)
                   && ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
                   && cuota!=null && cuota>=CUOTA_MIN_VAL;
     yaElegidos.push(elegido.id);
@@ -2414,7 +2442,7 @@ function otrosMercados(m){
        una probabilidad cercana a 100% (típico en líneas de gol lejos
        del promedio) se marca aunque pague centavos. */
     const cuota = cuotaUsada(o, pq, mk, mx);
-    const esVal = !ligaSinValor(m) && !!dir && !contradice(o, dir)
+    const esVal = !ligaSinValor(m) && !sinMuestra(m) && !!dir && !contradice(o, dir)
                   && ventaja!=null && ventaja>=VALOR_MIN && ventaja<=VALOR_MAX
                   && cuota!=null && cuota>=CUOTA_MIN_VAL;
     return {op:o, ventaja, esVal};
@@ -2451,6 +2479,14 @@ function combinada(m){
 function alerta(m){
   const lec = lectura(m), pq = devig(m.mercado);
   if(!pq) return null;
+  /* "El precio está en contra" es una afirmación sobre NUESTRO número:
+     dice que el mercado le da más que nosotros. Sin muestra no hay
+     nuestro número, así que tampoco hay alerta — publicarla sería
+     publicar la misma probabilidad por la puerta de atrás, y encima
+     con cara de aviso. Se vio en Manchester City vs Coventry: la
+     portada decía "el precio está en contra" en un partido donde ya
+     habíamos decidido no opinar. */
+  if(sinMuestra(m)) return null;
   const d = pq[lec.lean] - lec.p[lec.lean];
   return d >= ALERTA_MIN ? {lean:lec.lean, dif:d, nombre:lec.nombre} : null;
 }
@@ -2512,6 +2548,7 @@ const hayProsa = id => { const a=ANALISIS[id];
    que no hace. Una sola función, y sobre la lectura humana. */
 function marcaDeValor(m){
   if(ligaSinValor(m)) return null;   // medido que ahí resta — ver LIGAS_SIN_VALOR
+  if(sinMuestra(m)) return null;     // el número saldría de 2 fechas — ver MIN_PARTIDOS
   const dir = inclinacionDe(m.id);
   if(!dir) return null;
   const pq = devig(m.mercado || {});
@@ -2822,6 +2859,7 @@ function estadoDe(m){
      renglones. */
   if(!v.filas.some(f=> f.cuota != null)) return {clase:"", corto:["SIN","PRECIO"]};
   if(ligaSinValor(m)) return {clase:"", corto:["NO","OPINAMOS"]};
+  if(sinMuestra(m)) return {clase:"", corto:["SIN","MUESTRA"]};
   if(!v.dir) return {clase:"", corto:["SIN","LECTURA"]};
   return {clase:"", corto:["SIN","VENTAJA"]};
 }
@@ -3177,7 +3215,7 @@ function mercadosDeVeredicto(m){
   const mk = m.mercado || {}, mx = m.mercadoExtra || {};
   const pq = devig(mk);
   const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
-  const sinValor = ligaSinValor(m);
+  const sinValor = ligaSinValor(m), pocos = sinMuestra(m);
 
   /* Lo mejor de cada familia según NUESTRA lectura. La ventaja y la
      marca salen de otrosMercados(), no se recalculan acá: dos varas
@@ -3210,6 +3248,13 @@ function mercadosDeVeredicto(m){
        una sola vez, al pie de la escalera. */
     const lee = `${x.op.label} al ${pc(x.op.p)}`;
     if(x.esVal) return Object.assign(base, {estado:"OPORTUNIDAD"});
+    /* Antes que cualquier otro motivo: si la muestra no da, el
+       porcentaje no se publica. Decir "gana al 42%" y en el mismo
+       renglón que no lo sabemos es publicarlo igual — el número queda
+       en la cabeza del que lee. */
+    if(pocos) return Object.assign(base, {estado:"SIN MUESTRA",
+      motivo:`${partidosJugados(m)} fecha${partidosJugados(m)===1?"":"s"} jugadas: con eso las
+        fuerzas se ajustan sobre nada y todos los equipos salen parecidos.`, op:null});
     if(c == null) return Object.assign(base, {estado:"SIN PRECIO",
       motivo:`${lee} · nadie publica esta línea`});
     if(sinValor) return Object.assign(base, {estado:"NO OPINAMOS",
@@ -3500,9 +3545,18 @@ function loQueSabemos(m, filas){
      ser el precio leído en voz alta. Que coincidamos no es un
      fracaso: es información, y es honesto decir cuál de las dos
      cosas está pasando. */
+  /* Sin muestra no hay "lo más firme": el número saldría del mismo
+     ajuste sobre nada que hace que un gigante y un recién ascendido
+     salgan parecidos. Se dice qué falta, que es lo único cierto. */
+  if(sinMuestra(m)){
+    const n = partidosJugados(m);
+    puntos.push(`Todavía no publicamos probabilidades de este partido: se llevan jugadas
+      <b>${n} fecha${n===1?"":"s"}</b> y hacen falta ${MIN_PARTIDOS}. Con esa muestra las fuerzas
+      se ajustan sobre nada y un grande y un recién ascendido salen parecidos.`);
+  }
   const mk = m.mercado || {}, mx = m.mercadoExtra || {}, pq = devig(mk);
   const elegibles = [];
-  otrosMercados(m).forEach(x=>{
+  if(!sinMuestra(m)) otrosMercados(m).forEach(x=>{
     if(x.op.fam === "Goles" && !LINEAS_ESCALERA.has(x.op.linea)) return;
     const c = cuotaUsada(x.op, pq, mk, mx);
     /* El piso de cuota existe para matar "menos de 7.5 goles al 99%",

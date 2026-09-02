@@ -807,6 +807,62 @@ test("sin oportunidad, el Veredicto dice lo que sí sabemos", ()=>{
          "no dice qué mirar a la hora del partido, que es lo único que llega después de la línea");
 });
 
+/* ── 11quater. Sin muestra no se publica un numero ─────────────────
+   Manchester City vs Coventry, 2026-09-05: λ 1.35 contra 1.10 —casi
+   iguales— mientras el mercado pagaba 1.20 contra 11.00. Los dos
+   equipos llevaban 2 fechas. El número no estaba mal calculado:
+   estaba calculado sobre nada, y la app lo publicaba igual.
+
+   Decisión de Lucas: con menos de 4 fechas no se publica nada. El
+   mismo 4 que MIN_SPLIT, por la misma razón medida.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* La grilla de prueba tiene temporadas avanzadas, así que la muestra
+   corta se construye: se le fija la tabla en 2 fechas jugadas. */
+const POCA_MUESTRA = ()=> {
+  const m = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad");
+  return { ...m, formH_general:[{r:"W"},{r:"L"}], formA_general:[{r:"D"},{r:"L"}],
+    tabla: [{id:m.homeId, t:m.home, pj:2, pts:3, gf:2},
+            {id:m.awayId, t:m.away, pj:2, pts:1, gf:1}] };
+};
+
+test("con menos de 4 fechas no se publica ninguna probabilidad", ()=>{
+  /* El fixture se arma ANTES de `cargar`: `veredictoDe` memoiza por id
+     y POCA_MUESTRA() comparte el id del partido original, asi que sin
+     limpiar la cache el test leeria el veredicto del otro. */
+  const m = POCA_MUESTRA();
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.capaVeredicto(m);
+  cierto(/SIN MUESTRA/.test(html), "no declara que la muestra no alcanza");
+  cierto(/2 fechas jugadas/.test(html), "no dice cuántas fechas van");
+  cierto(!/ al \d+%/.test(html),
+         "publicó igual un porcentaje del modelo con 2 fechas de muestra");
+});
+
+test("y tampoco 'el precio esta en contra', que sale del mismo numero", ()=>{
+  /* La alerta es una afirmación sobre NUESTRO número: dice que el
+     mercado le da más. Sin muestra no hay nuestro número, y dejarla
+     pasar sería publicar la misma probabilidad por la puerta de atrás,
+     encima con cara de aviso. Pasó: la portada decía "el precio está
+     en contra" en el partido donde ya habíamos decidido no opinar. */
+  const m = POCA_MUESTRA();
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  cierto(!/en contra/i.test(L.estadoDe(m).corto.join(" ")),
+         "la portada sigue avisando del precio con un número que no publicamos");
+  cierto(!/puntos más que nosotros/.test(L.capaVeredicto(m)),
+         "el veredicto sigue comparando contra el mercado sin muestra");
+});
+
+test("con muestra suficiente vuelve a publicar", ()=>{
+  /* La otra mitad: si esto no se verifica, apagar todo siempre daría
+     verde arriba y la app no diría nunca nada. */
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const m = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad");
+  const html = L.capaVeredicto(m);
+  cierto(!/SIN MUESTRA/.test(html), "declaró muestra corta en un partido con temporada avanzada");
+  cierto(/ al \d+%/.test(html), "dejó de publicar probabilidades donde sí hay muestra");
+});
+
 test("'lo mas firme' es el 1X2, no una doble oportunidad", ()=>{
   /* La doble oportunidad gana el ranking por construcción: el empate
      ronda el 27%, así que "gana alguno (sin empate)" da ~73% en TODOS

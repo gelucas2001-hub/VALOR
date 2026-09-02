@@ -5101,3 +5101,42 @@ empuja a los dos al promedio de la liga"*.
 Queda como pregunta abierta si corresponde publicar probabilidades de
 1X2 con `pj < 4`, o declarar el partido sin lectura como ya se hace en
 Datos · Equipos con el split por sede.
+
+### 23bis · Con menos de 4 fechas no se publica nada (2026-09-02)
+
+Decisión de Lucas después de ver el caso City–Coventry. La regla nueva:
+
+    partidosJugados(m) < MIN_PARTIDOS (4)  →  no se publica probabilidad
+
+Es el mismo 4 de `MIN_SPLIT` y por la misma razón medida: abajo de eso
+el promedio se apoya en una muestra que el propio proyecto le prohíbe al
+análisis. Acá el efecto es peor que un promedio flojo — es un 1X2
+publicado con cara de lectura.
+
+`partidosJugados()` lee la **tabla** (el conteo oficial de la
+competición) y cae a `formH_general`/`formA_general` en las copas, donde
+no hay tabla.
+
+**Qué deja de publicarse:** la marca de oportunidad, los porcentajes de
+la escalera, "lo más firme del partido", y el estado de la portada, que
+pasa a `SIN MUESTRA`.
+
+**Qué se sigue publicando:** los datos observados. "Al arco es donde más
+se distinguen: Manchester City produce 7.5 contra 2.0" es un promedio de
+lo que pasó, no una salida del modelo. La regla apaga las
+probabilidades, no la pantalla.
+
+#### La fuga que hubo que tapar aparte
+
+`alerta()` —"el precio está en contra"— sobrevivía al corte, y se veía
+en la portada de un partido donde ya habíamos decidido no opinar. Es una
+afirmación sobre NUESTRO número (dice que el mercado le da más), así que
+sin muestra no hay alerta: dejarla pasar era publicar la misma
+probabilidad por la puerta de atrás, encima con cara de aviso.
+
+#### Nota para quien escriba tests acá
+
+`veredictoDe` memoiza por id de partido. Un fixture armado con
+`{...partido, tabla:[...]}` comparte el id, así que hay que construirlo
+**antes** de `cargar()` — que es lo que limpia la caché. Si no, el test
+lee el veredicto del partido original y da verde sin mirar nada.

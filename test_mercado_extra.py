@@ -311,18 +311,28 @@ print("\nla competicion sin mapear tiene que HACER RUIDO\n")
 
 # jpn.1 entro el 2026-09-02 y nadie la sumo a LIGAS: sus partidos
 # salieron con la cuota de DraftKings y no se guardo una sola linea de
-# jugador. Los props no se recuperan hacia atras.
+# jugador. Ya esta mapeada, asi que el test usa un slug que no existe —
+# si usara jpn.1 saldria a la red de verdad y daria 401.
+SIN_MAPA = "liga.que.no.existe"
+prueba("el caso del test no esta en LIGAS", SIN_MAPA not in ME.LIGAS)
 import io as _io, contextlib as _ctx
 _err = _io.StringIO()
 with _ctx.redirect_stderr(_err):
-    vacio = ME.eventos_de("jpn.1", "clave-falsa")
+    vacio = ME.eventos_de(SIN_MAPA, "clave-falsa")
 prueba("una liga que no esta en LIGAS no pide nada", vacio == [])
 prueba("pero AVISA por stderr en vez de callarse",
-       "jpn.1" in _err.getvalue() and "props" in _err.getvalue())
+       SIN_MAPA in _err.getvalue() and "props" in _err.getvalue())
 _err2 = _io.StringIO()
 with _ctx.redirect_stderr(_err2):
-    ME.eventos_de("jpn.1", "clave-falsa", avisar=False)
+    ME.eventos_de(SIN_MAPA, "clave-falsa", avisar=False)
 prueba("y el aviso se puede apagar para los tests", _err2.getvalue() == "")
+
+# Y la guarda contra el olvido que causo todo esto: cada competicion que
+# el pipeline publica tiene que estar mapeada.
+import actualizar as _A
+faltan = [s for s in _A.COMPETICIONES if s not in ME.LIGAS]
+prueba("toda competicion de COMPETICIONES esta en LIGAS: " + (str(faltan) or "-"),
+       not faltan)
 
 print("\nbloques_sin_usar() — que mas manda Bet365 en la MISMA respuesta\n")
 
@@ -339,10 +349,39 @@ prueba("lo que ya leemos no aparece como sin usar",
        "ML" not in libres and "Player Shots" not in libres
        and "Corners Totals" not in libres)
 prueba("y lo que descartamos si aparece",
-       libres == ["Player Cards", "Player Fouls Committed"])
+       libres == ["Player Cards"])
 prueba("sin bloques no inventa nada", ME.bloques_sin_usar([]) == [])
 prueba("un bloque sin nombre no rompe",
        ME.bloques_sin_usar([{"odds": []}, None]) == [])
+
+
+print("\nfaltas de jugador — misma forma que remates, verificada en la fuente\n")
+
+# Payload real de Ipswich-Liverpool (2026-09-02, Bet365 via odds-api):
+# el bloque de faltas trae exactamente la forma del de remates.
+FALTAS = [{"name": "Player Fouls Committed", "odds": [
+    {"label": "Wataru Endo (2)", "hdp": 0.5, "over": "1.083"},
+    {"label": "Wataru Endo (2)", "hdp": 1.5, "over": "2.100"},
+    {"label": "Sasa Lukic (1)", "hdp": 0.5, "over": "1.111"}]}]
+ex = ME.extraer(FALTAS)
+prueba("las faltas de jugador se extraen", "faltas" in ex)
+prueba("con el lado bien leido del sufijo",
+       ex["faltas"]["Wataru Endo"]["lado"] == "V"
+       and ex["faltas"]["Sasa Lukic"]["lado"] == "L")
+prueba("y la escalera entera, no una linea sola",
+       ex["faltas"]["Wataru Endo"]["lineas"] == {"0.5": 1.083, "1.5": 2.1})
+prueba("una liga sin ese bloque no escribe la clave",
+       "faltas" not in ME.extraer([{"name": "Player Shots", "odds": []}]))
+
+# Las dos que Bet365 manda y a proposito NO leemos.
+prueba("'Player Cards' sigue sin usarse: no trae hdp",
+       "Player Cards" in ME.bloques_sin_usar([{"name": "Player Cards", "odds": []}]))
+prueba("'Player to be Booked' tambien: su etiqueta no es (1)/(2)",
+       "Player to be Booked" in
+       ME.bloques_sin_usar([{"name": "Player to be Booked", "odds": []}]))
+prueba("y si se leyera, el (Booked) quedaria pegado al nombre",
+       "Sasa Lukic (Booked)" in ME._escalera(
+           [{"label": "Sasa Lukic (Booked)", "hdp": 0.5, "over": "2.600"}]))
 
 
 print("")

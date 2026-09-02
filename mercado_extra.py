@@ -64,12 +64,24 @@ BASE = "https://api.odds-api.io/v3"
 CASA = "Bet365"
 
 # Nuestro slug de competición -> el suyo. Verificados el 2026-08-26
-# contra su listado de 908 ligas de fútbol.
+# contra su listado de ligas de fútbol; `jpn.1` y `arg.copa` el
+# 2026-09-02, con `--ligas`, el día después de que entraran a la app.
+#
+# Que falte una entrada acá no es un detalle de cobertura: la
+# competición se queda sin Bet365 **y sin props**, y los props no se
+# recuperan hacia atrás. Ver `eventos_de()`.
+#
+# Ojo con los vecinos, que es donde se elige mal: Japón publica
+# `japan-jleague`, `japan-jleague-2` y `japan-j-league-3`, y la primera
+# es la de arriba. `argentina-copa-argentina` no es
+# `argentina-super-cup`.
 LIGAS = {
     "arg.1": "argentina-primera-lpf-clausura",
+    "arg.copa": "argentina-copa-argentina",
     "bra.1": "brazil-brasileiro-serie-a",
     "eng.1": "england-premier-league",
     "fra.1": "france-ligue-1",
+    "jpn.1": "japan-jleague",
     "conmebol.libertadores":
         "international-clubs-conmebol-libertadores-knockout-stage",
     "conmebol.sudamericana":
@@ -102,9 +114,31 @@ CORNERS = {
     "local": ("Team Corners Home", "Corners Totals Home"),
     "visita": ("Team Corners Away", "Corners Totals Away"),
 }
+# `faltas` entró el 2026-09-02, verificada contra la fuente: en
+# Ipswich-Liverpool el bloque trae 171 entradas con la forma IDÉNTICA a
+# la de remates —{"label": "Wataru Endo (2)", "hdp": 0.5, "over":
+# "1.083"}—, así que `_escalera()` la lee sin cambiar una línea.
+#
+# Las otras dos que Bet365 manda y NO entran, con el motivo:
+#
+#   "Player Cards"          no trae `hdp`: es otra forma, no una escalera.
+#   "Player to be Booked"   trae `hdp` 0.5, pero la etiqueta es "Nombre
+#                           (Booked)" en vez de "Nombre (1)". `_escalera()`
+#                           dejaría el "(Booked)" pegado al nombre y ese
+#                           jugador no cruzaría nunca contra ESPN, que
+#                           cruza por igualdad exacta. Entra el día que
+#                           se le enseñe a leer esa etiqueta.
+#   "Player To Be Fouled"   forma correcta, pero son las faltas RECIBIDAS
+#                           y el modelo no tiene esa métrica.
+#
+# Ojo con la cobertura: esto es de Premier. En un partido de arg.1 el
+# único bloque de jugador sin usar era "Player To Score or Assist", o
+# sea que faltas puede no existir en todas las ligas. Que no venga es
+# un estado normal — `extraer()` no escribe la clave y listo.
 JUGADOR = {
     "remates": ("Player Shots", "Player Shots O/U"),
     "al_arco": ("Player Shots on Target", "Player Shots on Target O/U"),
+    "faltas": ("Player Fouls Committed", "Player Fouls"),
 }
 
 
@@ -441,8 +475,10 @@ def main():
         (open("data/partidos.json", encoding="utf-8").read()))
     ps = partidos.get("partidos", partidos)
     COMP = {"Liga Profesional Argentina": "arg.1",
+            "Copa Argentina": "arg.copa",
             "Brasileirão Série A": "bra.1",
             "Premier League": "eng.1", "Ligue 1": "fra.1",
+            "J.League": "jpn.1",
             "CONMEBOL Libertadores": "conmebol.libertadores",
             "CONMEBOL Sudamericana": "conmebol.sudamericana"}
 

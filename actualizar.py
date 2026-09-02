@@ -1217,13 +1217,14 @@ def snapshot_cuotas(previas, partidos, ahora):
     return out
 
 
-CAMPOS_PROPS = ("remates", "al_arco")
+CAMPOS_PROPS = ("remates", "al_arco", "faltas")
 
 
 def snapshot_props(previas, partidos, ahora):
     """Agrega una foto de las líneas de jugador de Bet365 (remates, al
-    arco) por partido — igual idea que snapshot_cuotas(), y por el mismo
-    motivo: la fuente no guarda el precio una vez jugado el partido.
+    arco, faltas) por partido — igual idea que snapshot_cuotas(), y por
+    el mismo motivo: la fuente no guarda el precio una vez jugado el
+    partido.
 
     Acá es más grave que con la cuota de 1X2: `v3/events` de odds-api.io
     para ligas domésticas solo lista partidos PENDIENTES (150 de 150,

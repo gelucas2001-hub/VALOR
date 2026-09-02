@@ -307,6 +307,44 @@ prueba("una vacia cuenta como que no esta",
        ME.clave({"ODDS_API_KEY": "   "}) is None)
 
 
+print("\nla competicion sin mapear tiene que HACER RUIDO\n")
+
+# jpn.1 entro el 2026-09-02 y nadie la sumo a LIGAS: sus partidos
+# salieron con la cuota de DraftKings y no se guardo una sola linea de
+# jugador. Los props no se recuperan hacia atras.
+import io as _io, contextlib as _ctx
+_err = _io.StringIO()
+with _ctx.redirect_stderr(_err):
+    vacio = ME.eventos_de("jpn.1", "clave-falsa")
+prueba("una liga que no esta en LIGAS no pide nada", vacio == [])
+prueba("pero AVISA por stderr en vez de callarse",
+       "jpn.1" in _err.getvalue() and "props" in _err.getvalue())
+_err2 = _io.StringIO()
+with _ctx.redirect_stderr(_err2):
+    ME.eventos_de("jpn.1", "clave-falsa", avisar=False)
+prueba("y el aviso se puede apagar para los tests", _err2.getvalue() == "")
+
+print("\nbloques_sin_usar() — que mas manda Bet365 en la MISMA respuesta\n")
+
+# El pedido trae todos los mercados de la casa; extraer() consume los
+# que conoce y tira el resto. Con la señal del proyecto viviendo en los
+# props, saber que mas llega es la diferencia entre poder preguntar y no.
+BLOQUES = [{"name": "ML", "odds": []},
+           {"name": "Player Shots", "odds": []},
+           {"name": "Player Fouls Committed", "odds": []},
+           {"name": "Player Cards", "odds": []},
+           {"name": "Corners Totals", "odds": []}]
+libres = ME.bloques_sin_usar(BLOQUES)
+prueba("lo que ya leemos no aparece como sin usar",
+       "ML" not in libres and "Player Shots" not in libres
+       and "Corners Totals" not in libres)
+prueba("y lo que descartamos si aparece",
+       libres == ["Player Cards", "Player Fouls Committed"])
+prueba("sin bloques no inventa nada", ME.bloques_sin_usar([]) == [])
+prueba("un bloque sin nombre no rompe",
+       ME.bloques_sin_usar([{"odds": []}, None]) == [])
+
+
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

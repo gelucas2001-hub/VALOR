@@ -329,13 +329,82 @@ def _pedir(ruta, key, timeout=45):
         return json.loads(r.read()), r.headers.get("x-ratelimit-remaining")
 
 
-def eventos_de(slug, key):
-    """Los partidos que odds-api tiene para una de nuestras competiciones."""
+def eventos_de(slug, key, avisar=True):
+    """Los partidos que odds-api tiene para una de nuestras competiciones.
+
+    Una competición que la app publica y que no está en LIGAS se queda
+    sin Bet365 **y sin props**, que salen del mismo pedido. Hasta el
+    2026-09-02 eso pasaba callado: `LIGAS.get()` devolvía None y la
+    función `[]`, igual que si la red hubiera fallado.
+
+    Costó caro y no se vio. Cuando entró `jpn.1` —la única liga que pasa
+    todos los filtros del veredicto, agregada justamente para que la app
+    tuviera dónde hablar— nadie la sumó acá: sus partidos salieron con
+    la cuota de DraftKings (7.7% de margen contra 3.1%) y no se guardó
+    una sola línea de jugador. Esas líneas no se recuperan: para ligas
+    domésticas, una vez jugado el partido `v3/events` ni siquiera
+    devuelve el id del evento.
+
+    Es el mismo patrón que ya está anotado dos veces en TRASPASO: un
+    descarte silencioso no se ve como un error, se ve como menos datos.
+    Por eso ahora avisa.
+    """
     liga = LIGAS.get(slug)
     if not liga:
+        if avisar:
+            print(f"  ! {slug} no está en LIGAS: se queda sin Bet365 y sin "
+                  f"props. Verificá su slug con `python mercado_extra.py "
+                  f"--ligas` y agregalo.", file=sys.stderr)
         return []
     evs, _ = _pedir(f"events?sport=football&league={liga}", key)
     return evs or []
+
+
+def ligas_disponibles(key, filtro=""):
+    """El listado de ligas de odds-api, para sacar un slug de la fuente.
+
+    Los seis slugs de LIGAS se verificaron así el 2026-08-26, contra su
+    listado de 908 ligas. La regla del repo es mirar la fuente antes de
+    transcribir a mano; esto deja el paso a un comando en vez de a una
+    sesión que hay que recordar.
+    """
+    d, _ = _pedir("leagues?sport=football", key)
+    ligas = d if isinstance(d, list) else (d or {}).get("leagues") or []
+    f = filtro.lower()
+    out = []
+    for lg in ligas:
+        if isinstance(lg, str):
+            nombre, slug = lg, lg
+        else:
+            slug = lg.get("slug") or lg.get("id") or ""
+            nombre = lg.get("name") or slug
+        if not f or f in str(slug).lower() or f in str(nombre).lower():
+            out.append((str(slug), str(nombre)))
+    return sorted(set(out))
+
+
+def bloques_sin_usar(bloques):
+    """Los mercados que Bet365 manda en la MISMA respuesta y no leemos.
+
+    `odds_de()` pide `odds?eventId=...&bookmakers=Bet365` y recibe todos
+    los bloques de la casa de una vez. `extraer()` consume los nombres
+    de GOLES, CORNERS y JUGADOR y descarta el resto sin dejar rastro.
+
+    Eso importa desde que se midió que la única señal del proyecto está
+    en los props (TRASPASO §22, §22bis): el modelo tiene seis métricas de
+    jugador y acá se leen dos. Las otras cuatro puede que ya estén
+    llegando en cada respuesta. Antes de escribir nombres a mano —"Player
+    Fouls" o "Player Fouls Committed", quién sabe— conviene preguntarle
+    a la fuente cómo se llaman, que es gratis: el pedido ya se hizo.
+    """
+    usados = {"ML", "Double Chance", "Both Teams To Score"}
+    usados.update(GOLES)
+    for nombres in CORNERS.values():
+        usados.update(nombres)
+    for nombres in JUGADOR.values():
+        usados.update(nombres)
+    vistos = {(b or {}).get("name") for b in bloques or []}
+    return sorted(n for n in vistos if n and n not in usados)
 
 
 def odds_de(event_id, key):
@@ -352,6 +421,22 @@ def main():
         print("  FALTA ODDS_API_KEY. Sin ella la app anda igual que antes.\n")
         return 1
 
+    # `--ligas [filtro]`: el listado de la fuente, para sacar un slug sin
+    # adivinarlo. `python mercado_extra.py --ligas japan`
+    if "--ligas" in sys.argv:
+        i = sys.argv.index("--ligas")
+        filtro = sys.argv[i + 1] if len(sys.argv) > i + 1 else ""
+        try:
+            ligas = ligas_disponibles(key, filtro)
+        except Exception as e:
+            print(f"  no se pudo pedir el listado: {e}\n")
+            return 1
+        print(f"\n  {len(ligas)} ligas" + (f" que contienen '{filtro}'" if filtro else ""))
+        for slug, nombre in ligas:
+            print(f"    {slug:55} {nombre}")
+        print()
+        return 0
+
     partidos = json.loads(
         (open("data/partidos.json", encoding="utf-8").read()))
     ps = partidos.get("partidos", partidos)
@@ -361,10 +446,15 @@ def main():
             "CONMEBOL Libertadores": "conmebol.libertadores",
             "CONMEBOL Sudamericana": "conmebol.sudamericana"}
 
-    cache, ok, sin = {}, 0, []
+    cache, ok, sin, sin_mapa = {}, 0, [], {}
     for p in ps:
         slug = COMP.get(p.get("comp"))
         if not slug:
+            # Antes era `continue` a secas. Una competición que la app
+            # publica y que no está mapeada se saltaba sin dejar rastro,
+            # que es como `jpn.1` estuvo sin Bet365 ni props el día que
+            # entró, sin que nada lo dijera.
+            sin_mapa[p.get("comp")] = sin_mapa.get(p.get("comp"), 0) + 1
             continue
         if slug not in cache:
             cache[slug] = eventos_de(slug, key)
@@ -377,6 +467,14 @@ def main():
     print(f"\n  cruzan: {ok}   sin cruzar: {len(sin)}")
     for s in sin:
         print(f"    x {s}")
+    if sin_mapa:
+        print("\n  COMPETICIONES QUE LA APP PUBLICA Y ACÁ NO ESTÁN MAPEADAS:")
+        print("  se quedan sin Bet365 y sin props, y los props no se")
+        print("  recuperan hacia atrás.\n")
+        for comp, n in sorted(sin_mapa.items(), key=lambda x: -x[1]):
+            print(f"    ! {comp}  ({n} partidos)")
+        print("\n  Buscá su slug con `python mercado_extra.py --ligas <texto>`")
+        print("  y agregalo a LIGAS y al COMP de este main().")
     print("\n  (no se pidieron cuotas ni se escribió nada)\n")
     return 0
 

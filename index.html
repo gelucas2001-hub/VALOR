@@ -2793,8 +2793,14 @@ function crest(url, px){
 }
 /* ESPN devuelve "Group B" en inglés para todo. En la liga local eso es
    una zona del torneo; en copas es un grupo. */
+/* Los nombres genericos de ESPN no son una zona: "Regular Season" es
+   como llama a la tabla unica de una liga sin grupos (la J.League, por
+   ejemplo). Rotular con eso pone una palabra en ingles en pantalla que
+   ademas no informa — la tabla ya se sabe que es la de la liga. */
+const GRUPO_GENERICO = /^(regular season|overall|liga|league|table)$/i;
+
 function grupoEs(g, comp){
-  if(!g) return "";
+  if(!g || GRUPO_GENERICO.test(g.trim())) return "";
   const letra = (g.match(/Group\s+([A-Z])/i)||[])[1];
   if(!letra) return g;
   return (/profesional/i.test(comp) ? "Zona " : "Grupo ") + letra;
@@ -2825,10 +2831,10 @@ function diasDisponibles(){
    dos únicas ligas donde el mercado de estadísticas de JUGADOR existe y
    además el modelo anda mejor que en Argentina. */
 const COMPS_ORDEN = ["Liga Profesional Argentina", "Brasileirão Série A",
-  "Premier League", "Ligue 1",
+  "Premier League", "Ligue 1", "J.League",
   "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
 const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Brasileirão Série A":"Brasil",
-  "Premier League":"Premier", "Ligue 1":"Ligue 1",
+  "Premier League":"Premier", "Ligue 1":"Ligue 1", "J.League":"Japón",
   "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
 
 /* ══════════════════════════════════════════════════════════════════

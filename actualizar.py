@@ -453,6 +453,49 @@ COMPETICIONES = {
     "fra.1": {"nombre": "Ligue 1", "rho": -0.05, "conf": 80,
               "prior": 8, "escala": 0.60, "centro": 2.617,
               "corners": 9.47, "fouls": 24.22, "cards": 3.98},
+    # ── Japon, agregada el 2026-09-02 ───────────────────────────────
+    #
+    # Entra por una razon y una sola: es la liga con MEJOR punto
+    # estimado de ROI de las seis medidas, y era la unica de esas seis
+    # que estaba medida y no estaba en la app.
+    #
+    #     jpn  +2.78% ± 7.67   (ruido)   <- no estaba
+    #     eng  +1.01% ± 8.92   (ruido)
+    #     mex  -3.46% ± 7.50   (ruido)   <- medido el 2026-09-02, no entra
+    #     fra  -5.22% ± 8.71   (ruido)
+    #     bra  -9.13% ± 7.32   negativo de verdad
+    #     arg  -9.17% ± 6.44   negativo de verdad
+    #
+    # `historico.py` ya la traia "SOLO PARA MEDIR" desde el 2026-08-31 y
+    # decia textual que "estar en COMPETICIONES es otra decision". Se
+    # midio y la decision nunca se tomo: la app cubria cuatro ligas, dos
+    # de ellas medidas perdiendo, y ninguna donde la medicion no dijera
+    # que perdemos.
+    #
+    # OJO con como se leyo esto: primero se ranquearon las ligas por
+    # `aporte` (mejora de Brier sobre la tasa base) y Mexico salia
+    # primera con +5.5% contra +5.2% de Japon. Al medir su ROI dio
+    # -3.46%. Es la leccion de TRASPASO §5 otra vez: calibrar no es
+    # ganar plata, y el orden por Brier no es el orden por plata.
+    #
+    # `escala` 0.60 / `centro` 2.695: quinta liga, misma direccion que
+    # las otras cuatro. En el barrido (4499 partidos, train 3103 / test
+    # 1396) TODO k<1 le gana a produccion en test, y 1.00 es el peor de
+    # la grilla salvo 1.15. Train elige 0.60 y test 0.50 — no coinciden,
+    # asi que se toma el de train, que es el criterio conservador y el
+    # mismo que se uso en eng y fra.
+    #
+    # `conf` 70 y no 80: el ROI de jpn es RUIDO (+2.78% ±7.67), no una
+    # ventaja demostrada. 70 cae en el escalon de octavo de Kelly, no de
+    # cuarto. Es el mismo movimiento que se le hizo a arg.1 cuando su
+    # medicion no sostuvo el 75.
+    #
+    # corners/fouls/cards medidos sobre 60 partidos de ESPN el
+    # 2026-09-02: football-data trae Japon en formato "unico", que no
+    # publica estadisticas por partido, asi que no salen de ahi.
+    "jpn.1": {"nombre": "J.League", "rho": 0.00, "conf": 70,
+              "prior": 8, "escala": 0.60, "centro": 2.695,
+              "corners": 9.53, "fouls": 22.65, "cards": 2.77},
     # Copa Argentina salio el 2026-08-25, por decision de producto. Es
     # eliminacion directa: sin red de cruces no hay fuerzas que calibrar,
     # asi que sus lambdas salian de `promedio_condicion()` (promedio

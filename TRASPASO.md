@@ -5140,3 +5140,92 @@ probabilidad por la puerta de atrás, encima con cara de aviso.
 `{...partido, tabla:[...]}` comparte el id, así que hay que construirlo
 **antes** de `cargar()` — que es lo que limpia la caché. Si no, el test
 lee el veredicto del partido original y da verde sin mirar nada.
+
+## 24. La app miraba las ligas equivocadas (2026-09-02)
+
+Lucas, después de ver "16 partidos · 0 oportunidades": *"¿no te parece
+heavy eso? Siento que ponés más parches y no solucionás el problema de
+raíz"*. Tenía razón, y el número lo demuestra.
+
+### Por qué el contador decía cero
+
+    45 partidos por jugar
+    26 → ligaSinValor   (arg + bra)
+    19 → sinMuestra     (eng + fra, temporada de 2 fechas)
+    ───────────────────────────────
+     0 → llegan a evaluarse
+
+26 + 19 = 45. **Ningún partido podía ser considerado.** No era que no
+hubiera oportunidades: era que la app cubría cuatro ligas y en dos está
+medido que la regla pierde.
+
+### La liga que estaba medida y no estaba
+
+`historico.py` traía `jpn` y `mex` "SOLO PARA MEDIR" desde el
+2026-08-31, y decía textual: *"Estar en COMPETICIONES de actualizar.py
+es otra decisión: esto solo las hace medibles"*. Se midieron y la
+decisión nunca se tomó.
+
+    jpn  +2.78% ± 7.67   (ruido)   ← no estaba en la app
+    eng  +1.01% ± 8.92   (ruido)
+    mex  −3.46% ± 7.50   (ruido)   ← medido el 2026-09-02, NO entra
+    fra  −5.22% ± 8.71   (ruido)
+    bra  −9.13% ± 7.32   negativo de verdad
+    arg  −9.17% ± 6.44   negativo de verdad
+
+**Ninguna liga es rentable de forma demostrada.** Japón tiene el mejor
+punto estimado de las seis y el cero adentro del intervalo. Entra porque
+es la menos mala y porque sin ella la app no tiene dónde hablar, no
+porque prometa ganar.
+
+### El error que se cometió en el camino, y conviene que quede escrito
+
+Primero se ranquearon las ligas por **`aporte`** (mejora de Brier sobre
+la tasa base) y México salía primera: +5.5% contra +5.2% de Japón. Al
+medir su ROI dio **−3.46%**.
+
+Es la lección de §5 otra vez — calibrar no es ganar plata — cometida con
+el archivo abierto. **El orden por Brier no es el orden por plata**, y
+antes de agregar una liga se mide su ROI, no su aporte.
+
+### Las constantes de `jpn.1`, y de dónde sale cada una
+
+    escala 0.60 · centro 2.695
+      `barrido_escala_lambda.py jpn`, 4499 partidos, train 3103 / test
+      1396. TODO k<1 le gana a producción en test y 1.00 es el peor de
+      la grilla salvo 1.15. Train elige 0.60 y test 0.50: no coinciden,
+      así que se toma el de train — criterio conservador, el mismo que
+      se usó en eng y fra.
+
+    conf 70 (no 80)
+      El ROI es RUIDO, no una ventaja demostrada. 70 cae en el escalón
+      de OCTAVO de Kelly, no de cuarto. Mismo movimiento que se le hizo
+      a arg.1 cuando su medición no sostuvo el 75.
+
+    corners 9.53 · fouls 22.65 · cards 2.77
+      60 partidos de ESPN, medidos el 2026-09-02. No salen de
+      football-data: Japón viene en formato "unico", que no publica
+      estadísticas por partido.
+
+    rho 0.00
+      El neutro. Medirlo pide otro barrido y `barrido_lambda.py` ya dijo
+      que producción está en el óptimo en las ligas donde se midió.
+
+Verificado contra la API: 20 equipos, **5 partidos jugados cada uno** —
+pasa `MIN_PARTIDOS` — y 10 partidos en el scoreboard de hoy.
+
+### De paso: "Regular Season" en pantalla
+
+ESPN llama `Regular Season` a la tabla única de una liga sin grupos.
+`grupoEs()` devolvía ese string tal cual, así que el sello de Posiciones
+habría dicho "REGULAR SEASON · 20 EQUIPOS" en inglés. Ahora los nombres
+genéricos se descartan; los de verdad (Group A/B de Argentina) siguen
+traduciéndose a Zona.
+
+### Lo que esto NO resuelve
+
+Queda en pie el otro cuello, y es el más grande: la regla de alineación
+exige `!!dir` —un análisis cargado a mano— y hoy hay **0 de 45**. Japón
+puede llegar a evaluarse, pero se va a frenar ahí hasta que se decida
+qué hacer con esa regla, que es la única restricción del sistema sin una
+medición que la sostenga (4 divergencias, 1 a 1, inconcluso).

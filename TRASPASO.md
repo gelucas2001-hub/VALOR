@@ -5229,3 +5229,68 @@ exige `!!dir` —un análisis cargado a mano— y hoy hay **0 de 45**. Japón
 puede llegar a evaluarse, pero se va a frenar ahí hasta que se decida
 qué hacer con esa regla, que es la única restricción del sistema sin una
 medición que la sostenga (4 divergencias, 1 a 1, inconcluso).
+
+## 25. Las cuotas de Bet365 estaban bajadas y la app usaba otras (2026-09-02)
+
+Lucas: *"tampoco veo las cuotas o valores de Bet365 que antes estaban"*.
+No faltaban. Estaban en el dato desde hacía semanas y la app no las
+miraba. Tres defectos encadenados, y el tercero lo introduje yo veinte
+minutos antes de encontrarlo.
+
+### 1 · El precio se escondía en arg y bra
+
+    if(sinValor) motivo = `${lee} · en esta liga la regla de valor resta`;
+    else         motivo = `${lee} · pagan ${cuota}`;
+
+En las dos ligas donde vive el producto, el motivo REEMPLAZABA al
+precio. Que no recomendemos una apuesta no vuelve secreto lo que paga la
+casa: el precio es un hecho. Ahora van los dos.
+
+### 2 · `cuotaUsada()` no usaba Bet365
+
+    1X2                 leía `mk` → DraftKings, 7.7% de margen
+    doble oportunidad   devolvía `1/pMercado` → una cuenta NUESTRA,
+                        presentada al lector con la palabra "pagan"
+
+`mercado_extra.py` baja `mercadoExtra["1x2"]` y `mercadoExtra.dc` desde
+hace semanas — justamente para que hubiera un precio real contra el cual
+compararse. Nadie conectó esa fuente a la función que muestra el precio.
+
+Verificado en Flamengo–Mirassol: la app decía **1.07** para "Flamengo
+gana o empata" y Bet365 la paga **1.03**; decía 1.19 para "Gana
+Flamengo" y Bet365 paga 1.181. Ahora Bet365 primero y DraftKings como
+respaldo.
+
+### 3 · La escalera mostraba dónde más discrepamos, no lo que pensamos
+
+`mejor()` ordena por ventaja porque su trabajo es encontrar valor. Pero
+cuando no se marca nada, ese resultado se lee como nuestra opinión.
+Lucas lo vio: la Lectura decía *"Flamengo es favorito, le damos 66%"* y
+el renglón de Resultado decía *"Mirassol gana o empata al 34%"*. Las dos
+ciertas —el mercado sobrevalúa a Flamengo, así que la mayor ventaja cae
+del otro lado— y juntas se leen como que la app se desdice.
+
+Ahora: **con apuesta manda la ventaja, sin apuesta manda la
+probabilidad.** El renglón contesta una pregunta por vez.
+
+**Y el error que eso me hizo cometer, que vale más que el arreglo:**
+cambié el texto a la opción más probable y dejé el precio calculado
+sobre la otra. Durante veinte minutos el renglón mostró *"Flamengo gana
+o empata al 87% · pagan 5.35"* — la etiqueta de una opción con la cuota
+de la contraria. **Etiqueta y precio salen siempre del mismo objeto.**
+
+### 4 · La app se justificaba cuatro veces por pantalla
+
+Lucas: *"¿está bien que la app se justifique o se defienda todo el
+tiempo? Da a entender que no sabe un carajo"*.
+
+La misma brecha contra el mercado se decía cuatro veces en la misma
+pantalla: en "lo más firme", en "lo más cerca de encenderse", en la
+alerta, y otra vez en el renglón de Resultado. Cada una con su propio
+descargo. Eso no se lee como rigor.
+
+Ahora la dice **una sola**: cuando hay alerta, ella es la dueña de esa
+frase y las otras se callan. El renglón conserva el borde de terracota
+—el aviso visual— pero recupera su lectura y su precio.
+
+De cinco párrafos con tres repeticiones se pasó a cuatro sin ninguna.

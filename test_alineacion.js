@@ -893,7 +893,10 @@ test("'lo mas firme' es el 1X2, no una doble oportunidad", ()=>{
     const i = html.indexOf("Lo más firme del partido es");
     if(i < 0) return;
     vistos++;
-    const frase = html.slice(i, i + 260);
+    /* Solo la frase de "lo mas firme", no lo que viene despues: el
+       parrafo siguiente habla de la opcion con mas ventaja, que SI
+       puede ser una doble oportunidad y ahi es correcto. */
+    const frase = html.slice(i, html.indexOf("</p>", i));
     cierto(!/gana o empata|sin empate/i.test(frase),
            "eligió una doble oportunidad, que gana siempre por construcción");
   });
@@ -927,19 +930,28 @@ test("el favorito corto NO queda afuera por el piso de cuota", ()=>{
          "filtró al favorito por pagar menos de 1.30 y eligió otra cosa por descarte");
 });
 
-test("una diferencia enorme contra el precio no se llama ventaja", ()=>{
-  /* "Arriba de eso el sospechoso es el modelo, no el precio" es la
-     razón escrita de VALOR_MAX y vale igual acá. Un "+39 puntos sobre
-     la línea" no es una ventaja enorme: es un número roto, y
-     presentarlo como ventaja manda a apostar por un error nuestro. */
+test("la distancia contra el precio se dice UNA vez y nunca como ventaja", ()=>{
+  /* Se decia cuatro veces: en "lo mas firme", en "lo mas cerca de
+     encenderse", en la alerta y en el renglon de Resultado. El mismo
+     hecho, cada vez con su descargo — y eso no se lee como rigor, se
+     lee como una app que se justifica. Lucas: "da a entender que no
+     sabe un carajo".
+
+     Y nunca se llama ventaja: "arriba de eso el sospechoso es el
+     modelo, no el precio" es la razon escrita de VALOR_MAX. Un "+39
+     puntos" no es una ventaja enorme, es un numero roto, y presentarlo
+     como ventaja manda a apostar por un error nuestro. */
   L.cargar(PARTIDOS, {}, PL_DEMO);
   const html = L.capaVeredicto(FAVORITO_CORTO());
-  const frase = html.slice(html.indexOf("Lo más firme del partido es"));
-  const g = (frase.match(/Nos separan (\d+) puntos/) || [])[1];
-  cierto(!!g, "con el mercado al 85% y el modelo al 45% no avisó de la distancia");
-  cierto(Number(g) > 12, "dijo 'nos separan' con una diferencia que sí es creíble");
-  cierto(!/puntos más que la línea sin margen/.test(frase.slice(0, 420)),
-         "llamó ventaja a una diferencia que el propio proyecto considera error del modelo");
+  const i = html.indexOf('class="sabemos"');
+  const bloque = html.slice(i, i + 2500);
+  /* La cuenta va sobre el texto sin etiquetas: la frase real es
+     "<b>39 puntos más</b> que nosotros" y un regex contiguo no la ve. */
+  const plano = bloque.replace(/<[^>]+>/g, "");
+  const veces = (plano.match(/que nosotros|Nos separan/g) || []).length;
+  igual(veces, 1, "la misma brecha contra el mercado se cuenta mas de una vez");
+  cierto(!/puntos más que la línea sin margen/.test(bloque),
+         "llamo ventaja a una diferencia que el propio proyecto considera error del modelo");
 });
 
 test("y ese bloque no lleva una gota de mostaza", ()=>{

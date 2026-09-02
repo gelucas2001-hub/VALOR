@@ -2070,13 +2070,33 @@ function pMercado(op, pq, mk, mx){
    vías. Se aproxima con 1/pm (la implícita de esa combinación, sin
    margen propio): no es exacta, pero esos mercados casi nunca llegan
    a marcarse, así que la aproximación no pesa. */
+/* La doble oportunidad tal como la cotiza Bet365. Las claves son las
+   de la casa: 1X es local-o-empate, X2 visitante-o-empate, 12 gana
+   alguno. */
+const DC_CLAVE = {"L,E":"1X", "E,L":"1X", "V,E":"X2", "E,V":"X2",
+                  "L,V":"12", "V,L":"12"};
+
 function cuotaUsada(op, pq, mk, mx){
   if(op.req){
+    /* Bet365 PRIMERO, y DraftKings como respaldo.
+       Lucas: "tampoco veo las cuotas de Bet365 que antes estaban". No
+       era que faltaran: `mercado_extra.py` las baja hace rato y esta
+       función no las miraba. El 1X2 salía de `mk` —DraftKings, la única
+       casa que expone ESPN, con 7.7% de margen— y la doble oportunidad
+       ni siquiera era un precio: era `1/pMercado`, una cuenta nuestra
+       presentada con la palabra "pagan".
+       Verificado en Flamengo–Mirassol: la app decía 1.07 para "Flamengo
+       gana o empata" y Bet365 la paga 1.03. */
     if(op.req.length===1){
       const k = op.req[0];
+      const b = mx && mx["1x2"];
+      const cb = b && (k==="L" ? b.local : k==="E" ? b.empate : b.visitante);
+      if(cb > 1) return cb;
       const c = k==="L" ? mk.local : k==="E" ? mk.empate : mk.visitante;
       return c>1 ? c : null;
     }
+    const cd = mx && mx.dc && mx.dc[DC_CLAVE[op.req.slice(0,2).join(",")]];
+    if(cd > 1) return cd;
     const pm = pMercado(op, pq, mk, mx);
     return pm>0 ? 1/pm : null;
   }
@@ -3248,6 +3268,28 @@ function mercadosDeVeredicto(m){
      marca salen de otrosMercados(), no se recalculan acá: dos varas
      para lo mismo terminan diciendo cosas distintas el día que una de
      las dos cambie. */
+  /* Lo MÁS PROBABLE de la familia, que es distinto de lo que más
+     discrepa del precio.
+
+     `mejor()` ordena por ventaja porque su trabajo es encontrar valor.
+     Pero cuando no se marca nada, ese mismo resultado se lee como
+     nuestra opinión — y no lo es. Pasó, y Lucas lo vio: en
+     Flamengo–Mirassol la Lectura decía "Flamengo es favorito, le damos
+     66%" mientras el renglón de Resultado decía "Mirassol gana o
+     empata al 34%". Las dos frases eran ciertas y juntas se leían como
+     que la app se desdice: el mercado sobrevalúa a Flamengo, así que
+     la mayor ventaja cae del otro lado.
+
+     Cuando hay apuesta manda la ventaja; cuando no hay, manda la
+     probabilidad. El renglón contesta una sola pregunta a la vez:
+     "¿qué apostamos acá?" o "¿qué pensamos acá?". */
+  const masProbable = fam => {
+    const cands = otros.filter(x=> x.op.fam===fam
+      && (fam !== "Goles" || LINEAS_ESCALERA.has(x.op.linea)));
+    if(!cands.length) return null;
+    return cands.slice().sort((a,b)=> b.op.p - a.op.p)[0];
+  };
+
   const mejor = fam => {
     /* En Goles, solo las líneas de la escalera (1.5 · 2.5 · 3.5). Sin
        ese corte "lo mejor" era siempre la línea más lejana —"menos de
@@ -3266,14 +3308,24 @@ function mercadosDeVeredicto(m){
     const x = mejor(fam);
     if(!x) return {id, nombre, estado:"SIN DATO",
       motivo:"No tenemos lectura propia de este mercado en este partido."};
-    const c = cuotaUsada(x.op, pq, mk, mx);
+    /* `vista` se calcula ANTES que el precio: el renglón mostraba la
+       etiqueta de una opción con la cuota de otra. Se vio en
+       Flamengo–Mirassol — "Flamengo gana o empata al 87% · pagan 5.35"
+       cuando Bet365 la paga 1.03; el 5.35 era de la opción contraria.
+       Etiqueta y precio salen SIEMPRE del mismo objeto. */
+    const vista = x.esVal ? x : (masProbable(fam) || x);
+    const c = cuotaUsada(vista.op, pq, mk, mx);
     const base = {id, nombre, op:x.op, ventaja:x.ventaja, cuota:c};
     /* El motivo dice SIEMPRE la lectura del mercado, y el estado dice
        por qué no se recomienda. Antes el motivo repetía la misma frase
        ("todavía nadie escribió la lectura") en las tres familias, y
        tres renglones idénticos no informan: ocupan. El porqué común va
        una sola vez, al pie de la escalera. */
-    const lee = `${x.op.label} al ${pc(x.op.p)}`;
+    /* Lo que se LEE es nuestra lectura; lo que se APUESTA sigue siendo
+       `x`, el de más ventaja. Cambiar `x` entero rompía el resto —
+       "lo más cerca de encenderse" pasaba a reportar otra opción— así
+       que solo cambia el texto, no la maquinaria. */
+    const lee = `${vista.op.label} al ${pc(vista.op.p)}`;
     if(x.esVal) return Object.assign(base, {estado:"OPORTUNIDAD"});
     /* Antes que cualquier otro motivo: si la muestra no da, el
        porcentaje no se publica. Decir "gana al 42%" y en el mismo
@@ -3284,8 +3336,14 @@ function mercadosDeVeredicto(m){
         fuerzas se ajustan sobre nada y todos los equipos salen parecidos.`, op:null});
     if(c == null) return Object.assign(base, {estado:"SIN PRECIO",
       motivo:`${lee} · nadie publica esta línea`});
+    /* El precio va SIEMPRE, aunque no recomendemos nada. Antes el
+       motivo de arg/bra lo reemplazaba, así que en las dos ligas donde
+       vive el producto la cuota de Bet365 no se veía en ningún lado
+       —estaba en el dato, escondida por una decisión nuestra— y Lucas
+       preguntó dónde se habían ido. Que no apostemos no vuelve secreto
+       lo que paga la casa. */
     if(sinValor) return Object.assign(base, {estado:"NO OPINAMOS",
-      motivo:`${lee} · en esta liga la regla de valor resta`});
+      motivo:`${lee} · pagan ${c.toFixed(2)} · en esta liga la regla de valor resta`});
     /* El porqué es el mismo para las tres familias y se dice una vez al
        pie de la escalera: repetirlo en cada renglón no informa, ocupa. */
     if(!dir) return Object.assign(base, {estado:"NO OPINAMOS",
@@ -3307,9 +3365,13 @@ function mercadosDeVeredicto(m){
   if(al){
     const f = filas.find(x=> x.id === "resultado");
     if(f){
+      /* El borde de terracota se queda —es el aviso— pero el motivo NO
+         se pisa: el renglón sigue diciendo su lectura y su precio, que
+         es lo único que aporta ahí. La frase del mercado la dice una
+         sola vez el bloque "Lo que sí sabemos", arriba. Antes se decía
+         en los dos lugares, en la misma pantalla, con las mismas
+         palabras. */
       f.riesgo = true;
-      f.motivo = `El mercado le da ${Math.round(al.dif*100)} puntos más que nosotros a ${
-        al.nombre ? esc_(al.nombre) : "el empate"} — el precio ya está mejor de lo que vemos.`;
       if(f.estado !== "OPORTUNIDAD") f.estado = "";
     }
   }
@@ -3581,6 +3643,18 @@ function loQueSabemos(m, filas){
       <b>${n} fecha${n===1?"":"s"}</b> y hacen falta ${MIN_PARTIDOS}. Con esa muestra las fuerzas
       se ajustan sobre nada y un grande y un recién ascendido salen parecidos.`);
   }
+  /* La distancia contra el mercado se dice UNA sola vez.
+
+     Se decía cuatro: en "lo más firme" ("nos separan 15 puntos"), en
+     "lo más cerca de encenderse" ("tiene 15 puntos de ventaja"), en la
+     alerta ("el mercado le da 15 puntos más") y otra vez en el renglón
+     de Resultado. El mismo hecho, cuatro veces, cada una con su propio
+     descargo — y eso no se lee como rigor, se lee como una app que se
+     justifica. Lucas: "da a entender que no sabe un carajo".
+
+     Cuando hay alerta, ella es la dueña de esa frase y las otras dos
+     se callan. */
+  const al = alerta(m);
   const mk = m.mercado || {}, mx = m.mercadoExtra || {}, pq = devig(mk);
   const elegibles = [];
   if(!sinMuestra(m)) otrosMercados(m).forEach(x=>{
@@ -3618,7 +3692,7 @@ function loQueSabemos(m, filas){
        gana al mercado, así que un "+27 puntos" sobre Menos de 3.5 no
        es un hallazgo: es el error del modelo de goles dibujado como
        si fuera uno. Se muestra igual, con el nombre correcto. */
-    const dice = v == null ? ""
+    const dice = (v == null || al) ? ""
       : Math.abs(v) < 0.03
         ? ` El mercado dice ${pc(o.p - v)}: coincidimos, así que acá no estamos aportando una
             lectura propia — la estamos confirmando.`
@@ -3682,7 +3756,7 @@ function loQueSabemos(m, filas){
      restar de cabeza. */
   const conV = filas.filter(f=> f.ventaja != null && f.op && f.cuota)
     .sort((a,b)=> b.ventaja - a.ventaja);
-  if(conV.length && !(firme && conV[0].op && conV[0].op.label === firme.x.op.label)){
+  if(!al && conV.length && !(firme && conV[0].op && conV[0].op.label === firme.x.op.label)){
     const f = conV[0], v = Math.round(f.ventaja * 100);
     /* En una liga donde la regla está medida perdiendo, decir "le
        faltan N puntos" invita a esperar que los junte — y aunque los
@@ -3703,8 +3777,7 @@ function loQueSabemos(m, filas){
 
   /* 3 · Cuando el mercado nos gana de mano, decirlo es más útil que
      callarlo: es la única señal que tenemos de que el precio sabe algo
-     que nosotros no. */
-  const al = alerta(m);
+     que nosotros no. Y es la ÚNICA que menciona la brecha. */
   if(al) puntos.push(`El mercado le da <b>${Math.round(al.dif*100)} puntos más</b> que nosotros a
     ${esc_(al.nombre || "el empate")}. Cuando pasa eso, el que suele tener razón es el precio.`);
 

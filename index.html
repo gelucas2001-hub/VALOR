@@ -4360,7 +4360,20 @@ function datosReferencia(m){
   const grupos = {};
   tabla.forEach(f=> (grupos[f.grupo || ""] = grupos[f.grupo || ""] || []).push(f));
   const claves = Object.keys(grupos);
-  h += bloque("pos", "Posiciones", tabla.length ? `${tabla.length} EQUIPOS` : "SIN TABLA", ()=>{
+  /* La zona vive en el PARTIDO (`m.grupo`), no en las filas de la
+     tabla. `datosReferencia` agrupaba por `f.grupo`, que no existe, así
+     que las 15 filas caían todas en la clave "" y el selector de zonas
+     —que necesita más de una— no aparecía nunca.
+
+     El efecto no era cosmético: la Liga Profesional Argentina son DOS
+     zonas de 15, y la app mostraba una de las dos sin decirlo. Quien
+     mira ve "Argentinos Juniors 1º" y entiende que lidera la liga.
+     Encontrado el 2026-09-02 porque en Rosario Central vs Newell's
+     —clásico entre zonas— el visitante no aparecía en la tabla. */
+  const zona = grupoEs(m.grupo, m.comp);
+  h += bloque("pos", "Posiciones",
+    tabla.length ? `${zona ? zona.toUpperCase() + " · " : ""}${tabla.length} EQUIPOS` : "SIN TABLA",
+    ()=>{
     if(!tabla.length) return `<p class="notaref">En las llaves por eliminación no hay tabla que
       mostrar, y la fuente tampoco la devuelve.</p>`;
     const g = claves.includes(REF_TABLA) ? REF_TABLA : claves[0];
@@ -4372,10 +4385,14 @@ function datosReferencia(m){
     const cerca = new Set();
     idx.forEach(i=> [i-1, i, i+1].forEach(j=> { if(j>=0 && j<filas.length) cerca.add(j); }));
     if(!idx.length) filas.forEach((f,i)=> { if(i < 6) cerca.add(i); });
+
     let out = claves.length > 1
       ? `<div class="tablas">${claves.map(k=>
           `<button class="${k===g?"on":""}" data-reftabla="${esc_(k)}">${esc_(grupoEs(k, m.comp) || "Tabla")}</button>`).join("")}</div>`
       : "";
+    /* El equipo que falta ya lo explica `quienFalta()` al pie del
+       bloque, y mejor: dice en qué zona juega el otro y que ESTA tabla
+       está completa. No se repite acá. */
     out += `<div class="stdh"><span class="p">#</span><span class="e">Equipo</span>
       <span class="v">PJ</span><span class="v">GF</span><span class="pts">PTS</span></div>`;
     let saltados = 0;

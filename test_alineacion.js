@@ -826,6 +826,22 @@ const POCA_MUESTRA = ()=> {
             {id:m.awayId, t:m.away, pj:2, pts:1, gf:1}] };
 };
 
+test("la tabla dice de que ZONA es, cuando la liga tiene mas de una", ()=>{
+  /* La Liga Profesional Argentina son DOS zonas de 15. La zona viaja en
+     el PARTIDO (`m.grupo`), no en las filas, y `datosReferencia`
+     agrupaba por `f.grupo` —que no existe— así que las 15 filas caían
+     en la clave "" y el selector de zonas nunca aparecía. El efecto no
+     era cosmético: se mostraba media liga sin decirlo, y quien mira ve
+     al primero de la Zona B y entiende que lidera el torneo. */
+  const m = { ...PARTIDOS[0], comp:"Liga Profesional Argentina", grupo:"Group B",
+    tabla:[{id:PARTIDOS[0].homeId, t:PARTIDOS[0].home, pj:7, pts:11, gf:8},
+           {id:"999", t:"Otro", pj:7, pts:9, gf:6}] };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({ABIERTOS:["ref:pos"]});
+  const html = L.datosReferencia(m);
+  cierto(/ZONA B/i.test(html), "muestra media liga sin decir que es una zona");
+});
+
 test("con menos de 4 fechas no se publica ninguna probabilidad", ()=>{
   /* El fixture se arma ANTES de `cargar`: `veredictoDe` memoiza por id
      y POCA_MUESTRA() comparte el id del partido original, asi que sin

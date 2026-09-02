@@ -278,5 +278,21 @@
     "ambos_marcan": "incierto"
    }
   }
+ },
+ "espn401892190": {
+  "actualizado": "2026-09-02",
+  "inclinacion": null,
+  "local": "Vélez no pierde, pero tampoco gana: viene de cuatro empates seguidos y en tres de ellos terminó 1-1. Es un equipo que se hace difícil de romper y que convierte poco — seis goles en sus últimos cinco partidos —, con el gol repartido entre Manuel Lanzini y Diego Valdés, tres cada uno. Los últimos resultados: 1-1 con Deportivo Riestra el 29 de agosto, 2-2 con River el 23, 1-1 con Defensa y Justicia el 17, 1-1 con Boca el 8 y 1-0 a Independiente el 3. No trascendieron bajas del plantel de Barros Schelotto, aunque Valdés viene arrancando poco: fue titular en uno de sus últimos dos partidos.",
+  "visitante": "Boca vive del gol repartido y con dos referencias claras, y una de ellas juega por adentro: Santiago Ascacíbar lleva cinco goles, un tercio de los del equipo, y Miguel Merentiel cuatro. Que el máximo goleador sea un volante dice de dónde sale el juego. Llega con tres victorias y dos empates, pero el detalle importa: los marcadores abultados —4-0 y 3-1— fueron ante Deportivo Recoleta, y contra rivales de peso los partidos le salen cerrados (1-0 a Lanús el 29 de agosto, 1-1 con Racing el 24, 1-1 con Platense el 16). Pierde a Tomás Aranda por lesión, que había arrancado los cuatro partidos de su serie reciente, pero recupera a Leandro Lozano y a Marco Pellegrino, que se habían perdido los tres anteriores.",
+  "contexto": "Se juega en el estadio Mario Alberto Kempes de Córdoba: es cancha neutral y ninguno de los dos juega en casa, aunque el cuadro lo ponga a Vélez como local. Es eliminación directa por los octavos, y el que pase se cruza con Racing. Los dos ya se enfrentaron hace poco, el 8 de agosto, y empataron 1-1. En Copa Argentina el historial que tenemos es de un solo cruce, así que no dice nada.",
+  "veredicto": "Partido parejo entre dos equipos que vienen cerrando los partidos: Vélez encadena empates de pocos goles y a Boca los marcadores se le achican cuando el rival es de peso. Boca pierde a un titular del medio pero recupera dos, así que el saldo de ausencias no separa a ninguno, y la cancha neutral le quita a Vélez la ventaja de jugar en su casa. No hay nada acá que incline la balanza para un lado.",
+  "desarrollo": {
+   "texto": "Se espera un partido trabado y de pocas llegadas, con los dos equipos midiéndose antes que arriesgando: es eliminación directa, en cancha neutral, y ninguno de los dos viene de goleadas contra rivales parejos. Vélez cerró en 1-1 tres de sus últimos cuatro y Boca en 1-0 o 1-1 cuando enfrenta a alguien de su altura. El antecedente reciente entre ellos, el 8 de agosto, también terminó 1-1.",
+   "senal": {
+    "ritmo_goleador": "bajo",
+    "estructura": "trabado",
+    "ambos_marcan": "probable"
+   }
+  }
  }
 }

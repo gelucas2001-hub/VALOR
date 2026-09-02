@@ -4804,3 +4804,106 @@ esquema nunca contradiga al dibujo.
 - En `espn401913077`, "Pedro… en dos de esos llevó tres al arco": la
   serie al arco es 0, 3, 2, 0 — un partido con tres, no dos. No es un
   error de dirección y no se tocó.
+
+
+## 20. Cambiar de casa no es la palanca, y el +2.79% es la trampa (2026-09-02)
+
+Lucas preguntó si quedaba algo a mano para mejorar la certeza de la app.
+La respuesta corta es que no, y esta sección existe para que la
+propuesta que se hizo acá no se vuelva a hacer.
+
+### La hipótesis, y por qué era razonable
+
+El razonamiento fue: el ROI de la regla de valor da −9.17% en arg y
+−9.13% en bra, y la app marca contra DraftKings, que cobra **7.7% de
+margen**. Pinnacle cobra **3.13%**. Si el modelo tuviera habilidad
+cercana a cero, la diferencia de margen explicaría buena parte de la
+pérdida, y bajar el precio devolvería del orden de cuatro puntos **por
+aritmética, no por acertar más** — cinco veces más grande que cualquier
+cosa que se haya intentado del lado del modelo (`barrido_remates` daba
++0.8 errores estándar, `medir_encogimiento` daba ruido).
+
+Apoyaba la idea que `mercado_extra.py` pide **una sola casa**
+(`CASA = "Bet365"`) cuando odds-api.io devuelve `bookmakers[CASA]` y
+acepta varias, y que `probar_odds_api.py` existe justamente para esta
+pregunta y no tiene resultado registrado en ningún lado.
+
+### Por qué está mal
+
+**`medir_roi.py` ya mide a la cuota de cierre de Pinnacle.** Está
+escrito en su propio encabezado: "Reutiliza entero el arnés
+walk-forward de `medir_historico.evaluar()` — devig de Shin; cuota de
+cierre real de Pinnacle cuando está".
+
+O sea que el −9.17% **ya está medido al precio bueno**. No hay cuatro
+puntos tirados en el margen: no se están perdiendo ahí.
+
+Peor: la brecha corre en la dirección contraria a la que se supuso. La
+medición usa Pinnacle y la app apostaría contra DraftKings, así que el
+número real de la app es **por debajo** de −9.17%, no por encima. El
+−9.17% es optimista, no pesimista.
+
+### Y la medición que se propuso ya existía
+
+Se propuso medir el ROI a la apertura de la casa blanda, "que nadie
+midió". Falso: `medir_apertura.py` ya toma `casa` como parámetro y mide
+Pinnacle **y** Bet365, y §6 ya tenía anotado que contra Bet365 el CLV da
+cero. Antes de proponer una medición, buscar si el script ya la hace con
+otro argumento.
+
+### Lo que dio al correrlo (2026-09-02)
+
+```
+eng          ROI apertura      CLV
+Pinnacle     +2.79% ±14.82     −1.62% ±0.82
+Bet365       −4.27% ±13.57     −0.44% ±0.82   (ruido)
+
+fra          ROI apertura      CLV
+Pinnacle     −9.91% ±15.64     −0.56% ±1.07   (ruido)
+Bet365      −10.09% ±14.87     +0.05% ±1.03   (ruido)
+```
+
+**Sí hay diferencia entre casas, y es grande donde aparece:** 7 puntos
+de ROI en Inglaterra. Pero en Francia son 0.2 puntos. Un efecto que
+aparece en una liga y desaparece en la otra, con ±15 encima, no es un
+efecto — es la misma trampa que `barrido_valor.py` documentó con los
+umbrales.
+
+### El +2.79% es la trampa, y hay que decirlo con nombre
+
+Es el único número positivo del conjunto. **No perseguirlo.**
+
+Ese mismo set de 362 apuestas tiene un **CLV de −1.62% ±0.82**: dos
+errores estándar por debajo de cero, y el único número de toda la tabla
+que sale del ruido. La línea se mueve **en contra** el 60% de las veces.
+
+Es exactamente el caso que la regla del proyecto anticipa:
+
+> Si la línea se mueve hacia donde apostamos, hay información real en el
+> modelo aunque la muestra de resultados todavía no lo muestre. Si no se
+> mueve, no la hay aunque una racha diga que sí.
+
+Acá no es que no se mueve: se mueve para el otro lado. El +2.79% es la
+racha que la propia regla manda ignorar, y con ±14.82 ni siquiera hace
+falta el CLV para saberlo.
+
+### El agujero que queda abierto de verdad
+
+`arg` y `bra` —las dos ligas donde vive el producto— **no tienen cuota
+de apertura en football-data**. El precio real al que se apuesta ahí no
+se puede medir hacia atrás con la fuente que hay. Todo lo que sabemos de
+esas dos ligas es a cierre de Pinnacle, que no es el precio de la app.
+
+Eso no es un resultado negativo más: es un hueco de medición, y es
+distinto. Si algún día aparece una fuente con apertura para
+Sudamérica, esta es la primera pregunta que hay que volver a hacerle.
+
+### Lo que sigue cerrado
+
+Sumado a lo de §5 y §6, la lista de caminos medidos y cerrados para
+mejorar el rendimiento:
+
+λ · umbrales de valor · encogimiento · remates como fuerza · consenso
+sin modelo · goles condicionados · ajuste del jugador por rival ·
+bajas → goles · árbitro → tarjetas · córners por equipo · **cambiar de
+casa**.

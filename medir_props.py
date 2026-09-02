@@ -229,6 +229,43 @@ def roi(filas, umbral=UMBRAL_MIN, techo=UMBRAL_MAX):
             "aciertos": sum(f["paso"] for f in jugadas) / n * 100}
 
 
+def _dos_escalas(jugadas):
+    """El movimiento de precio medido en las dos escalas, y por qué hay dos.
+
+    La original es el cociente, `precio/cierre - 1`. Es la intuitiva
+    —"la cuota bajó un 10%"— y es **asimétrica**: hacia arriba no tiene
+    techo y hacia abajo está acotada en -100%. Con cuotas largas adentro
+    eso no es un detalle. El 2026-09-02, con 96 apuestas, una sola línea
+    que fue de 13.00 a 3.50 (+271%) movió el promedio de +3.32% a +6.11%
+    y cuadruplicó el error estándar: la significancia contra la deriva
+    CAYÓ de 2.6 a 1.5 errores estándar sin que la señal se hubiera
+    movido. Un número que empeora porque apareció un acierto grande no
+    está midiendo lo que dice medir.
+
+    La segunda es la diferencia de probabilidad implícita,
+    `1/cierre - 1/precio`, en puntos porcentuales. Dice lo mismo
+    —positivo es que la línea se movió hacia nosotros— pero es simétrica
+    y está acotada de los dos lados, así que ninguna cuota larga sola
+    puede dominarla.
+
+    Se devuelven las dos: `pp` es la buena y es la que manda en pantalla,
+    `clv` queda para poder comparar contra los números ya publicados en
+    TRASPASO §22.
+    """
+    ratios = [f["precio"] / f["cierre"] - 1 for f in jugadas]
+    pps = [1 / f["cierre"] - 1 / f["precio"] for f in jugadas]
+    n = len(ratios)
+
+    def resumen(vs):
+        media = sum(vs) / n
+        var = sum((v - media) ** 2 for v in vs) / n if n > 1 else 0.0
+        return media * 100, (var / n) ** 0.5 * 100
+
+    clv_r, ee_r = resumen(ratios)
+    clv_p, ee_p = resumen(pps)
+    return {"n": n, "clv": clv_r, "ee": ee_r, "pp": clv_p, "ee_pp": ee_p}
+
+
 def deriva(filas):
     """El CLV de TODOS los escalones, elijamos o no la apuesta.
 
@@ -241,14 +278,10 @@ def deriva(filas):
     Es la misma disciplina que el resto del repo: comparar contra la
     tasa base, no contra cero.
     """
-    vs = [f["precio"] / f["cierre"] - 1 for f in filas
-          if f.get("cierre") and f["cierre"] > 1]
-    if not vs:
+    con_cierre = [f for f in filas if f.get("cierre") and f["cierre"] > 1]
+    if not con_cierre:
         return None
-    n = len(vs)
-    media = sum(vs) / n
-    var = sum((v - media) ** 2 for v in vs) / n if n > 1 else 0.0
-    return {"n": n, "clv": media * 100, "ee": (var / n) ** 0.5 * 100}
+    return _dos_escalas(con_cierre)
 
 
 def dejar_uno_afuera(filas, umbral=UMBRAL_MIN, techo=UMBRAL_MAX):
@@ -267,9 +300,11 @@ def dejar_uno_afuera(filas, umbral=UMBRAL_MIN, techo=UMBRAL_MAX):
     evs = sorted({f["ev"] for f in filas})
     out = []
     for e in evs:
-        c = clv([f for f in filas if f["ev"] != e], umbral, techo)
+        resto = [f for f in filas if f["ev"] != e]
+        c, d = clv(resto, umbral, techo), deriva(resto)
         if c:
-            out.append({"sin": e, "n": c["n"], "clv": c["clv"]})
+            out.append({"sin": e, "n": c["n"], "clv": c["clv"], "pp": c["pp"],
+                        "dif": c["pp"] - d["pp"] if d else None})
     return out
 
 
@@ -304,11 +339,7 @@ def clv(filas, umbral=UMBRAL_MIN, techo=UMBRAL_MAX):
                and f.get("cierre") and f["cierre"] > 1]
     if not jugadas:
         return None
-    vs = [f["precio"] / f["cierre"] - 1 for f in jugadas]
-    n = len(vs)
-    media = sum(vs) / n
-    var = sum((v - media) ** 2 for v in vs) / n if n > 1 else 0.0
-    return {"n": n, "clv": media * 100, "ee": (var / n) ** 0.5 * 100}
+    return _dos_escalas(jugadas)
 
 
 def main(argv):
@@ -338,13 +369,13 @@ def main(argv):
     print(f"  {len(filas)} escalones evaluados en {len(evs)} partidos\n")
 
     print(f"  {'umbral':>7} {'apuestas':>9} {'aciertos':>9} {'ROI':>9} {'e.e.':>8} "
-          f"{'CLV':>9} {'e.e.':>8}")
+          f"{'CLV pp':>9} {'e.e.':>8}")
     print("  " + "-" * 64)
     for u in (0.02, 0.04, 0.06, 0.10, 0.15):
         r, c = roi(filas, u), clv(filas, u)
         if not r:
             continue
-        cs = f"{c['clv']:+8.2f}% {c['ee']:7.2f}" if c else "       —        "
+        cs = f"{c['pp']:+8.2f}  {c['ee_pp']:7.2f}" if c else "       —        "
         print(f"  {u*100:6.0f}% {r['n']:9d} {r['aciertos']:8.1f}% "
               f"{r['roi']:+8.2f}% {r['ee']:7.2f} {cs}")
 
@@ -355,21 +386,25 @@ def main(argv):
         if not r:
             print(f"    {m:10} sin apuestas en esta ventana")
             continue
-        cs = f"CLV {c['clv']:+.2f}% ±{c['ee']:.2f}" if c else "CLV sin dos fotos"
+        cs = (f"CLV {c['pp']:+.2f} pp ±{c['ee_pp']:.2f}" if c
+              else "CLV sin dos fotos")
         print(f"    {m:10} {r['n']:5d} apuestas · ROI {r['roi']:+7.2f}% "
               f"±{r['ee']:.2f} · {cs}")
 
     d, c = deriva(filas), clv(filas, umbral)
     if d:
         print("\n  la vara del CLV: la deriva de TODOS los escalones\n")
-        print(f"    {d['n']} escalones sin elegir · {d['clv']:+.2f}% ±{d['ee']:.2f}")
+        print(f"    {d['n']} escalones sin elegir · {d['pp']:+.2f} pp ±{d['ee_pp']:.2f}")
         if c:
-            dif = c["clv"] - d["clv"]
-            ee = (c["ee"] ** 2 + d["ee"] ** 2) ** 0.5
-            print(f"    los {c['n']} que apostaríamos  · {c['clv']:+.2f}% ±{c['ee']:.2f}")
+            dif = c["pp"] - d["pp"]
+            ee = (c["ee_pp"] ** 2 + d["ee_pp"] ** 2) ** 0.5
+            print(f"    los {c['n']} que apostaríamos  · {c['pp']:+.2f} pp ±{c['ee_pp']:.2f}")
             if ee:
-                print(f"\n    elegimos mejor por {dif:+.2f}% ±{ee:.2f} "
+                print(f"\n    elegimos mejor por {dif:+.2f} pp ±{ee:.2f} "
                       f"({abs(dif)/ee:.1f} e.e.)")
+            print("\n    en la escala vieja del cociente, para poder comparar")
+            print(f"    contra TRASPASO §22: elegidas {c['clv']:+.2f}% ±{c['ee']:.2f}"
+                  f" · deriva {d['clv']:+.2f}% ±{d['ee']:.2f}")
         print("\n    Si esa diferencia no se despega de cero, el CLV de arriba")
         print("    es la casa achicando el margen sobre la hora — no nosotros")
         print("    eligiendo bien.")
@@ -384,9 +419,12 @@ def main(argv):
     if len(fuera) > 2:
         print("\n  dejando UN partido afuera por vez:\n")
         for f in fuera:
-            print(f"    sin {f['sin']}: {f['n']:4d} apuestas · CLV {f['clv']:+.2f}%")
-        peor = min(fuera, key=lambda f: f["clv"])
-        print(f"\n    El peor caso deja el CLV en {peor['clv']:+.2f}%. Si ahí se")
+            ds = f"{f['dif']:+.2f} pp" if f["dif"] is not None else "—"
+            print(f"    sin {f['sin']}: {f['n']:4d} apuestas · "
+                  f"CLV {f['pp']:+.2f} pp · sobre su deriva {ds}")
+        peor = min(fuera, key=lambda f: f["dif"] if f["dif"] is not None else f["pp"])
+        peor_v = peor["dif"] if peor["dif"] is not None else peor["pp"]
+        print(f"\n    El peor caso deja la diferencia en {peor_v:+.2f} pp. Si ahí se")
         print("    desarma, no hay señal: hay un partido. El error estándar no")
         print("    lo ve porque asume apuestas independientes, y las de un")
         print("    mismo partido no lo son.")

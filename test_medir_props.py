@@ -178,6 +178,45 @@ prueba("sin apuestas no inventa un porcentaje",
        P.sin_movimiento([fila(0.001, 2.0, 0, cierre=2.0)], 0.04) is None)
 
 
+print("\nla escala del CLV — por qué hay dos, y cuál manda\n")
+
+# 2.20 -> 2.00 son +10% en cociente y +4.55 puntos de probabilidad
+# implícita (1/2.00 - 1/2.20). Las dos dicen lo mismo con signo positivo.
+esc = P.clv(JUGADAS, 0.04)
+prueba("la escala vieja del cociente sigue disponible", cerca(esc["clv"], 10.0))
+prueba("y la nueva está en puntos de probabilidad implícita",
+       cerca(esc["pp"], (1 / 2.00 - 1 / 2.20) * 100))
+prueba("si cierra más caro, las dos dan negativo",
+       P.clv([fila(0.10, 2.00, 1, cierre=2.20)], 0.04)["pp"] < 0)
+
+# El caso que motivó el cambio (2026-09-02): una sola línea de cuota
+# larga que se desploma. En cociente vale +271%; en probabilidad
+# implícita, +20.9 puntos. El cociente no tiene techo, la probabilidad sí.
+BASE = [fila(0.10, 2.20, 1, cierre=2.00)] * 20
+GORDA = fila(0.10, 13.00, 1, cierre=3.50)
+sin_o, con_o = P.clv(BASE, 0.04), P.clv(BASE + [GORDA], 0.04)
+
+prueba("una sola cuota larga MÁS QUE DUPLICA el promedio en cociente",
+       con_o["clv"] > 2 * sin_o["clv"])
+prueba("y en probabilidad implícita lo mueve menos del 20%",
+       abs(con_o["pp"] - sin_o["pp"]) < 0.20 * sin_o["pp"])
+prueba("por eso la escala simétrica concluye más con la misma muestra",
+       abs(con_o["pp"] / con_o["ee_pp"]) > abs(con_o["clv"] / con_o["ee"]))
+prueba("la probabilidad implícita está acotada de los dos lados",
+       all(abs(P.clv([f], 0.04)["pp"]) < 100
+           for f in (GORDA, fila(0.10, 1.01, 1, cierre=50.0))))
+
+prueba("la deriva se mide en las dos escalas también",
+       "pp" in P.deriva(TODOS) and "ee_pp" in P.deriva(TODOS))
+
+# El control de dejar uno afuera se lee contra SU propia deriva: sin eso,
+# un partido que arrastra a toda la pizarra parece elección nuestra.
+f_uno = P.dejar_uno_afuera(UNO, 0.04)
+prueba("dejar uno afuera reporta la escala nueva", all("pp" in f for f in f_uno))
+prueba("y la diferencia contra la deriva del resto",
+       all("dif" in f for f in f_uno))
+
+
 print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")

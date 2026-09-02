@@ -5325,3 +5325,102 @@ Campo **aditivo**: los partidos guardados antes de hoy no lo traen y se
 comportan como siempre. Hay test de las dos mitades.
 
 El slug es `arg.copa`, no `copa.argentina` — el segundo devuelve 400.
+
+## 22bis · El CLV de props se medía en una escala que una sola cuota larga podía mover (2026-09-02)
+
+Lucas pidió volver a correr `medir_props.py`. La primera lectura del
+resultado parecía mala noticia: la señal de §22 caía de 2.6 a 1.5
+errores estándar. No era eso. Lo que se rompió fue la escala con la que
+se la mide, y encontrarlo vale más que la corrida.
+
+### Primero, la advertencia de muestra
+
+§22 dijo "volver a correr esto cada 10 partidos nuevos". Van **uno**:
+25 → 26 partidos, 89 → 96 apuestas. Nada de lo de acá es muestra nueva,
+así que ningún número de esta sección confirma ni desmiente a §22 por
+haber juntado datos. Lo único nuevo es el instrumento.
+
+### El defecto
+
+`clv()` medía el movimiento de precio como `precio/cierre - 1`. Es la
+forma intuitiva —"la cuota bajó un 10%"— y es **asimétrica**: hacia
+arriba no tiene techo, hacia abajo está acotada en −100%. Con cuotas
+largas adentro de la muestra eso deja de ser un detalle de presentación.
+
+Entró **una** línea que fue de 13.00 a 3.50. Es la misma línea (el
+cruce es por `cierra.get(linea)`, así que no es un error de cruce: es un
+precio real que se desplomó). En esa escala vale **+271.43%**. Sola:
+
+    §22 (25 partidos)         ahora (26 partidos)
+    CLV        +3.32% ±0.86   +6.11% ±3.10
+    deriva     +0.99% ±0.29   +1.40% ±0.31
+    diferencia +2.33% ±0.91   +4.71% ±3.11
+               (2.6 e.e.)     (1.5 e.e.)
+
+El punto estimado casi se duplicó y el error estándar se cuadruplicó. La
+significancia **bajó porque apareció un acierto grande**. Un número que
+empeora cuando le va mejor no está midiendo lo que dice medir.
+
+### El arreglo
+
+La misma pregunta —¿la línea se movió hacia nosotros?— en diferencia de
+probabilidad implícita: `1/cierre - 1/precio`, en puntos porcentuales.
+Dice lo mismo con el mismo signo, es simétrica y está acotada de los dos
+lados, así que ninguna cuota larga sola puede dominarla.
+
+    mismo set de 96 apuestas        elegidas        deriva          diferencia
+    cociente (viejo)                +6.11% ±3.10    +1.27% ±0.30    +4.84% ±3.11  (1.6 e.e.)
+    logaritmo                       +3.88% ±1.78    −0.18% ±0.30    +4.06% ±1.81  (2.2 e.e.)
+    probabilidad implícita (nuevo)  +1.13 pp ±0.37  −0.02 pp ±0.07  +1.15 pp ±0.38 (3.0 e.e.)
+
+Dos cosas salen de ahí, y la segunda corrige a §22:
+
+- **La señal aguanta, y mejor de lo que decía §22**: 3.0 errores
+  estándar. Dejando un partido afuera por vez, el peor caso deja la
+  diferencia en **+0.74 pp** — en escala simétrica ningún partido la
+  carga, tampoco el del outlier. En la escala vieja ese mismo control
+  daba +2.84% contra +6.11%, o sea que parecía sostenida por un partido
+  cuando no lo estaba.
+- **La deriva de fondo es cero, no +1%.** En logaritmo da −0.18% y en
+  probabilidad implícita −0.02 pp. El positivo del cociente es
+  convexidad de `x/y`, no la casa achicando el margen sobre la hora.
+  Restar la deriva seguía siendo lo correcto —es la disciplina de
+  comparar contra la tasa base— pero por un motivo distinto del que
+  estaba escrito, y con una vara que traía adentro su propio sesgo.
+
+### Por métrica, que §22 no desglosaba
+
+    remates   70 apuestas · ROI −22.39% ±13.49 · CLV +1.09 pp ±0.47
+    al_arco   26 apuestas · ROI  +87.50% ±67.41 · CLV +1.25 pp ±0.51
+
+El CLV no distingue las dos métricas. El ROI sí, y remates —la métrica
+que `medir_jugadores.py` ya tenía marcada como la peor calibrada, 2.09
+veces el ruido— está 1.7 errores estándar en rojo. Con ±13.49 y ±67.41
+no concluye ninguna de las dos, pero si el día que haya muestra la
+diferencia se sostiene, el eje Jugadores no es un eje: son dos, y uno
+resta.
+
+### Qué se tocó
+
+`clv()` y `deriva()` devuelven las dos escalas: `pp`/`ee_pp` es la buena
+y manda en pantalla, `clv`/`ee` queda para poder comparar contra los
+números publicados en §22. `dejar_uno_afuera()` reporta además la
+diferencia contra la deriva **del resto** —antes daba el CLV crudo, que
+no es el número que decide nada—. `test_medir_props.py` pasa de 40 a 50
+pruebas; las 10 nuevas fijan la escala, el signo, la cota de los dos
+lados y la propiedad que motivó todo: que una sola cuota larga más que
+duplique el promedio en cociente y mueva menos del 20% el de
+probabilidad implícita.
+
+### Qué NO cambia
+
+**La app no se tocó y no se toca.** `index.html` no lee este script; el
+eje Jugadores sigue en NO OPINAMOS y la regla del proyecto sigue siendo
+que solo `con_plata` puede llevar apuesta. Esto es CLV, no plata: el ROI
+a umbral 4% es +7.37% ±21.33 y no va a decir nada hasta ~300 apuestas.
+Van 96.
+
+Y sigue en pie el reparo peor de §22: **63 de las 96 líneas están
+clavadas** (66%), o sea que el número lo generan 33 apuestas. `pp` no
+arregla eso — arregla que las 33 se lean en una escala que no se deja
+mover por una sola.

@@ -1,7 +1,12 @@
 # Herramientas locales
-.claude/
+# Git no puede re-incluir un archivo si su directorio padre esta
+# excluido, asi que `.claude/` + `!.claude/skills/**` NO trackeaba las
+# skills: dejo afuera a `valor-analisis-estadisticas` en silencio.
+.claude/*
 !.claude/skills/
-!.claude/skills/**
+.claude/skills/*
+!.claude/skills/valor-analisis-inclinacion/
+!.claude/skills/valor-analisis-estadisticas/
 .impeccable/
 
 # Python

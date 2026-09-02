@@ -797,6 +797,29 @@ test("el plantel muestra los jugadores cuando hay plantel cargado", ()=>{
      respuesta y un segundo bloque compite con ella.
    ══════════════════════════════════════════════════════════════════ */
 
+test("separa lo observado de lo estimado", ()=>{
+  /* Lucas: "que tenga seguridad en sus predicciones, que sus mediciones
+     esten respaldadas". La app le ponia el mismo descargo a todo y por
+     eso sonaba insegura hasta cuando decia un hecho. Lo que un equipo
+     produjo y el once que arranco PASARON: se afirman. La probabilidad
+     sale del modelo, y ese modelo todavia no le gana al precio: se dice
+     con reserva. */
+  const m = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad") || PARTIDOS[0];
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.capaVeredicto(m);
+  const i = html.indexOf('class="sabemos"');
+  cierto(i >= 0, "no hay bloque que separar");
+  const bloque = html.slice(i, i + 3000);
+  cierto(/Esto pasó/.test(bloque) || /Esto lo estimamos/.test(bloque),
+         "no rotula de qué tipo es cada afirmación");
+  /* Y el once, que es un hecho, no puede quedar del lado de lo
+     estimado: es el error que esta separacion existe para evitar. */
+  const est = bloque.indexOf("Esto lo estimamos");
+  if(est > 0 && /once confirmado/.test(bloque))
+    cierto(bloque.indexOf("once confirmado") < est,
+           "puso un dato observado del lado de las estimaciones");
+});
+
 test("sin oportunidad, el Veredicto dice lo que sí sabemos", ()=>{
   const m = PARTIDOS.find(x=> L.estadoDe(x).clase !== "oportunidad") || PARTIDOS[0];
   L.cargar(PARTIDOS, {}, PL_DEMO);
@@ -948,7 +971,7 @@ test("la distancia contra el precio se dice UNA vez y nunca como ventaja", ()=>{
   /* La cuenta va sobre el texto sin etiquetas: la frase real es
      "<b>39 puntos más</b> que nosotros" y un regex contiguo no la ve. */
   const plano = bloque.replace(/<[^>]+>/g, "");
-  const veces = (plano.match(/que nosotros|Nos separan/g) || []).length;
+  const veces = (plano.match(/que\s+nosotros|Nos\s+separan/g) || []).length;
   igual(veces, 1, "la misma brecha contra el mercado se cuenta mas de una vez");
   cierto(!/puntos más que la línea sin margen/.test(bloque),
          "llamo ventaja a una diferencia que el propio proyecto considera error del modelo");

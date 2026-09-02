@@ -1159,7 +1159,7 @@ a{color:inherit}
 /* El acordeón abría en seco: el bloque aparecía de golpe, sin puente.
    `sube` ya existe (la usan las filas de partido) — misma pieza, no
    una nueva. Al insertarse recién abierto, siempre arranca desde cero. */
-.metac .mc{padding:0 12px 13px;animation:sube .32s cubic-bezier(.22,1,.36,1) backwards}
+.metac .mc{padding:0 12px 13px;animation:sube .22s cubic-bezier(.22,1,.36,1)}
 .metac .par + .par{margin-top:11px}
 .metac .rot2{font-family:var(--mono);font-size:10px;line-height:1;letter-spacing:.09em;
   text-transform:uppercase;color:var(--gris3);margin-bottom:6px}
@@ -1689,6 +1689,10 @@ let REF_TABLA=null;       /* qué tabla de Referencia está a la vista */
 let PANTALLA="";          /* qué pantalla se dibujó la última vez, para
                              saber si el render es una navegación o la
                              misma pantalla actualizándose */
+let PANTALLA_NUEVA=false; /* mismo dato que "mismaPantalla" en render(),
+                             visible para viewPartido(): abrir un
+                             acordeón o cambiar un filtro no es cambiar
+                             de capa, y no debe re-disparar su entrada */
 /* Un elemento al que volver después de dibujar. Lo usa el acordeón de
    ligas de la portada, que es el único que CIERRA a los demás: guardar
    el scroll no alcanza ahí, porque al cerrarse la liga de arriba la
@@ -4174,8 +4178,13 @@ function viewPartido(){
                : capaVeredicto(m);
   /* Veredicto/Lectura/Datos cambiaban de golpe: el contenido nuevo
      reemplazaba al viejo sin puente. `.tabsec` ya existe (la usa el
-     panel de Herramientas) — es la misma pieza, no una nueva. */
-  return cabPartido(m) + conmutador() + `<div class="tabsec">${cuerpo}</div>` + aire(26);
+     panel de Herramientas) — es la misma pieza, no una nueva. Pero
+     `render()` se llama también por acordeones, orden de métricas y
+     filtros dentro de la MISMA capa — ahí PANTALLA_NUEVA es falso, y
+     envolver igual haría que esas acciones repitieran el desliz de
+     toda la capa en vez de cambiar solo lo que se tocó. */
+  const cuerpoEnvuelto = PANTALLA_NUEVA ? `<div class="tabsec">${cuerpo}</div>` : cuerpo;
+  return cabPartido(m) + conmutador() + cuerpoEnvuelto + aire(26);
 }
 
 /* El slug de la liga. `m.liga` lo escribe `actualizar.py` desde el
@@ -5400,6 +5409,7 @@ function render(){
   const mismaPantalla = pantalla === PANTALLA;
   const scrollAntes = window.scrollY;
   PANTALLA = pantalla;
+  PANTALLA_NUEVA = !mismaPantalla;
 
   app.innerHTML = VISTA==="partido" ? viewPartido()
     : VISTA==="registro" ? viewRegistro()

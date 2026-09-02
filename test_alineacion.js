@@ -848,6 +848,26 @@ test("los dorsales reales reemplazan a la letra del puesto", ()=>{
   L.setEstado({ONCES: {}});
 });
 
+test("SW es el volante que sostiene, no un quinto defensor", ()=>{
+  /* ESPN le pone `SW` al 1 de un 4-1-3-2. Con SW en la defensa el
+     dibujo daba 5-3-2: cinco defensores que el equipo no puso. Medido
+     sobre los 82 equipos con once del 2026-09-01, la tabla de
+     posiciones reproduce el esquema de ESPN en 79; con SW en defensa
+     eran 66. */
+  const m = { ...PARTIDOS[0], homeId:"99", awayId:"98" };
+  const cuatro132 = { "99": { fecha:"2026-08-31", rival:"Rival FC", local:true,
+    marcador:"1-0", esquema:"4-1-3-2", jugadores: [
+      ["G","1"],["CD-L","2"],["CD-R","6"],["LB","3"],["RB","4"],["SW","5"],
+      ["CM","8"],["LM","10"],["RM","7"],["CF-L","9"],["CF-R","11"],
+    ].map(([pos,dorsal],i)=> ({id:String(i), nombre:"J"+i, pos, dorsal})) } };
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  L.setEstado({ONCES: cuatro132});
+  const html = L.cancha(m, false);
+  cierto(html.includes("4-1-3-2"), "no reprodujo el esquema que publica ESPN");
+  cierto(!html.includes("5-3-2"), "dibujó al SW como quinto defensor");
+  L.setEstado({ONCES: {}});
+});
+
 test("el cartel del esquema nunca contradice al dibujo", ()=>{
   /* ESPN publica su propio "4-2-3-1" y nuestras filas salen de las
      posiciones. Casi siempre coinciden; cuando no, manda el DIBUJO. Una

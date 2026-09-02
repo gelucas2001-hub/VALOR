@@ -2398,13 +2398,22 @@ def main():
                     anclas[tid] = a
             if anclas:
                 print(f"    ancladas {len(anclas)} de {len(equipos)} fuerzas a la liga local")
-            # Quien quedo SIN ancla: en una copa que cruza divisiones, el
-            # que viene de una liga que no seguimos no tiene fuerza
-            # calibrada en ningun lado. Su lambda sale del promedio de la
-            # copa, o sea de nada. Se anota para que la app no publique
-            # una probabilidad construida sobre eso.
-            sin_ancla.setdefault(slug, set()).update(
-                t for t in equipos if t not in anclas)
+            # Quien quedo SIN ancla, y SOLO donde el ancla aplica.
+            #
+            # En una liga, `ancla_de` devuelve None a proposito: la liga
+            # local ES esta competicion, asi que la fuerza sale de aca
+            # mismo. Marcar eso como "sin ancla" apagaba Premier y Ligue
+            # 1 enteras — 19 partidos, la primera corrida con esto
+            # puesto. El hueco de verdad es el otro: una COPA donde un
+            # equipo viene de una division que no seguimos, y entonces no
+            # tiene fuerza calibrada en ningun lado.
+            for tid in equipos:
+                if tid in anclas:
+                    continue
+                propia = liga_domestica(tid, slug, cache_ligas)
+                if propia == slug:
+                    continue          # su liga es esta: la fuerza sale de aca
+                sin_ancla.setdefault(slug, set()).add(tid)
             cache_fuerzas[slug] = fuerzas_equipos(
                 resultados, hoy, anclas=anclas,
                 prior=COMPETICIONES[slug].get("prior"))

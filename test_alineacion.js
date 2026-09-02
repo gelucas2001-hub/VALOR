@@ -1661,7 +1661,10 @@ test("y el filtro lo DICE en vez de quedarse mudo", ()=>{
          "los filtros que no pueden hacer nada siguen clicables");
   cierto(/data-loc="cruce"/.test(html),
          "apagó también el default, que sí es la lectura correcta");
-  cierto(/2 PJ/.test(html), "no dice con cuántos partidos por sede cuenta");
+  /* "2 de 4", no "2 PJ": en la misma pantalla el sello dice "4 PJ"
+     —los partidos totales— y el botón hablaba de los de esa sede.
+     Dos números con la misma etiqueta y distinto significado. */
+  cierto(/2 de 4/.test(html), "no dice con cuántos partidos por sede cuenta, contra los que hacen falta");
   cierto(/avfiltro/.test(html), "no explica por qué los tres dan lo mismo");
 });
 

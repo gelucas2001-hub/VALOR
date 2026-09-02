@@ -4172,7 +4172,12 @@ function datosEquipos(m){
   h += `<div class="filtro3">${[["cruce","Este cruce"],["local","De local"],["visita","De visita"]]
     .map(([k,l])=>{
       if(k !== "cruce" && !alcance[k].cambia)
-        return `<button class="mudo" disabled>${l}<em>${alcance[k].pj} PJ</em></button>`;
+        /* "2 PJ" a secas no se entiende: en la misma pantalla el sello
+           dice "4 PJ" (los partidos totales de cada equipo) y el botón
+           decía "2 PJ" (los de ESA sede). Dos números con la misma
+           etiqueta y distinto significado. "2 de 4" se lee solo, y
+           engancha con la frase de abajo que dice que hacen falta 4. */
+        return `<button class="mudo" disabled>${l}<em>${alcance[k].pj} de ${MIN_SPLIT}</em></button>`;
       return `<button class="${locVista===k?"on":""}" data-loc="${k}">${l}</button>`;
     }).join("")}</div>`;
   /* Sin cifra en la frase: cada sede tiene la suya y el boton ya la

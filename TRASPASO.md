@@ -5030,3 +5030,74 @@ anotar la serie. Si el CLV sobre deriva se sostiene arriba de 2 errores
 estándar mientras la muestra crece, es el primer camino abierto que tuvo
 el proyecto. Si se desinfla, se cierra con evidencia y se documenta como
 los otros diez.
+
+## 23. "Lo más firme del partido" (2026-09-02)
+
+Lucas, mirando la escalera de un partido sin marca: *"¿no podemos hacer
+que aunque no haya apuesta ganadora diga la más cercana al acierto? Pero
+acierto en serio, no cualquier cosa — si me tira que hay menos de 7.5
+goles es cualquiera"*.
+
+El pedido es legítimo y él mismo nombró la trampa. Ordenar por
+probabilidad a secas pone arriba de todo lo que es verdad por
+construcción. Se resolvió con cuatro filtros, y **tres de los cuatro
+salieron de errores que se vieron en pantalla, no de pensarlo antes**.
+
+### Los cuatro filtros, en el orden en que hicieron falta
+
+**1 · Solo las líneas de la escalera en Goles.** Ya existía
+(`LINEAS_ESCALERA`), por la razón de siempre: "menos de 4.5 al 82%"
+tiene probabilidad alta por construcción y no dice nada del partido.
+
+**2 · Solo el eje Resultado.** Primer error visto: con todos los ejes
+mezclados salía *"Menos de 3.5 goles: le damos 27 puntos más que la
+línea"*. En goles está medido que el aporte va de −0.9% a +0.4%, o sea
+que esos 27 puntos no son un hallazgo — son el error del modelo de goles
+dibujado como si fuera uno. Misma regla que ya usa `escalera()`.
+
+**3 · Solo el 1X2, no la doble oportunidad.** Segundo error: cinco de
+seis partidos decían *"Gana alguno (sin empate)"*. El empate ronda el
+27%, así que esa opción da ~73% en **todos** los partidos. Es la misma
+trampa del punto 1 desde el otro lado del tablero: una frase que sale
+igual siempre no describe nada.
+
+**4 · Y el piso de cuota NO aplica al 1X2.** Tercer error, y el más
+instructivo porque Lucas lo había anticipado en el mismo mensaje: *"por
+ahí Flamengo paga poco pero es el candidato"*. `CUOTA_MIN_ESCALERA`
+(1.30) existe para matar líneas de gol triviales; aplicado al 1X2 hacía
+exactamente lo contrario de lo pedido. En **Manchester City vs
+Coventry**, City a 1.20 quedaba filtrado y "lo más firme" salía *Gana
+Coventry al 30%*, por descarte.
+
+### El número del mercado va SIEMPRE al lado
+
+Decir "Gana Flamengo al 62%" sin nada más se lee como opinión nuestra
+cuando puede ser el precio leído en voz alta. Ahora la frase dice las
+dos, y el veredicto sobre la diferencia:
+
+- **|dif| < 3pp** → "coincidimos: acá no estamos aportando una lectura
+  propia, la estamos confirmando". Coincidir no es un fracaso; es
+  información, y es lo que pasa en arg, donde el caché tiene muestra.
+- **dif > VALOR_MAX (12pp)** → *no se llama ventaja*. "Arriba de eso el
+  sospechoso es el modelo, no el precio" es la razón escrita de
+  `VALOR_MAX` y vale igual acá. Un "+39 puntos" no es una ventaja
+  enorme: es un número roto, y presentarlo como ventaja manda a apostar
+  una cuota larga por un error nuestro.
+
+### Lo que el bloque destapó, que estaba enterrado
+
+**Manchester City vs Coventry, 2026-09-05:** λ 1.35 contra 1.10 —casi
+iguales— mientras el mercado paga 1.20 contra 11.00. La causa es `pj 2`
+en los dos equipos: con dos partidos en el caché el modelo los empuja a
+los dos al promedio de la liga, y un gigante y un ascendido salen
+parecidos. El número no está mal calculado: **está calculado sobre
+nada**.
+
+Eso vivía adentro de "Otros mercados" sin nada al lado contra qué
+chequearlo. Ahora la app lo dice con el motivo, incluida la muestra:
+*"tenemos 2 partidos de uno de los dos, y con esa muestra el modelo los
+empuja a los dos al promedio de la liga"*.
+
+Queda como pregunta abierta si corresponde publicar probabilidades de
+1X2 con `pj < 4`, o declarar el partido sin lectura como ya se hace en
+Datos · Equipos con el split por sede.

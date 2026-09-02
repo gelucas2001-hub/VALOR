@@ -807,6 +807,69 @@ test("sin oportunidad, el Veredicto dice lo que sí sabemos", ()=>{
          "no dice qué mirar a la hora del partido, que es lo único que llega después de la línea");
 });
 
+test("'lo mas firme' es el 1X2, no una doble oportunidad", ()=>{
+  /* La doble oportunidad gana el ranking por construcción: el empate
+     ronda el 27%, así que "gana alguno (sin empate)" da ~73% en TODOS
+     los partidos. Una frase que sale igual siempre no describe nada —
+     es la misma trampa que "menos de 7.5 goles al 99%", del otro lado
+     del tablero. Lucas pidió el candidato, y el candidato es el 1X2. */
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  let vistos = 0;
+  PARTIDOS.forEach(m=>{
+    if(L.estadoDe(m).clase === "oportunidad") return;
+    const html = L.capaVeredicto(m);
+    const i = html.indexOf("Lo más firme del partido es");
+    if(i < 0) return;
+    vistos++;
+    const frase = html.slice(i, i + 260);
+    cierto(!/gana o empata|sin empate/i.test(frase),
+           "eligió una doble oportunidad, que gana siempre por construcción");
+  });
+  cierto(vistos > 0, "ningún partido de la grilla llegó a decir cuál es el más firme");
+});
+
+/* Un partido con un favorito CORTO de verdad. La grilla de prueba no
+   tiene ninguno, y esperar a que aparezca haría que estos dos tests
+   dieran verde sin mirar nada. Se fuerza el precio: local a 1.15 es un
+   favorito de ~85% para el mercado, muy lejos del ~45% que sale del
+   modelo con los lambda de la grilla. */
+const FAVORITO_CORTO = ()=> ({
+  ...PARTIDOS.find(m=> L.estadoDe(m).clase !== "oportunidad"),
+  mercado: {prov:"DraftKings", local:1.15, empate:8.0, visitante:13.0},
+  mercadoExtra: null,
+});
+
+test("el favorito corto NO queda afuera por el piso de cuota", ()=>{
+  /* Lucas lo anticipó: "por ahí Flamengo paga poco pero es el
+     candidato". El piso CUOTA_MIN_ESCALERA existe para matar las
+     líneas de gol triviales, y aplicado al 1X2 hacía justo lo
+     contrario de lo pedido — en Manchester City vs Coventry, City a
+     1.20 quedaba filtrado y "lo más firme" salía Gana Coventry al 30%,
+     por descarte. */
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.capaVeredicto(FAVORITO_CORTO());
+  const i = html.indexOf("Lo más firme del partido es");
+  cierto(i >= 0, "no dijo cuál es el más firme");
+  const frase = html.slice(i, i + 420);
+  cierto(/paga 1\.15/.test(frase),
+         "filtró al favorito por pagar menos de 1.30 y eligió otra cosa por descarte");
+});
+
+test("una diferencia enorme contra el precio no se llama ventaja", ()=>{
+  /* "Arriba de eso el sospechoso es el modelo, no el precio" es la
+     razón escrita de VALOR_MAX y vale igual acá. Un "+39 puntos sobre
+     la línea" no es una ventaja enorme: es un número roto, y
+     presentarlo como ventaja manda a apostar por un error nuestro. */
+  L.cargar(PARTIDOS, {}, PL_DEMO);
+  const html = L.capaVeredicto(FAVORITO_CORTO());
+  const frase = html.slice(html.indexOf("Lo más firme del partido es"));
+  const g = (frase.match(/Nos separan (\d+) puntos/) || [])[1];
+  cierto(!!g, "con el mercado al 85% y el modelo al 45% no avisó de la distancia");
+  cierto(Number(g) > 12, "dijo 'nos separan' con una diferencia que sí es creíble");
+  cierto(!/puntos más que la línea sin margen/.test(frase.slice(0, 420)),
+         "llamó ventaja a una diferencia que el propio proyecto considera error del modelo");
+});
+
 test("y ese bloque no lleva una gota de mostaza", ()=>{
   /* La regla más dura del rediseño. Un bloque que explica por qué NO
      apostamos, pintado del color de "apostá acá", sería el peor error

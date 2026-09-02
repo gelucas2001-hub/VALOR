@@ -3481,6 +3481,96 @@ function loQueSabemos(m, filas){
   const L = ESTADISTICAS[String(m.homeId)], V = ESTADISTICAS[String(m.awayId)];
   const puntos = [];
 
+  /* 0 · Lo más firme del partido.
+
+     Pedido de Lucas: "aunque no haya apuesta ganadora, decime la más
+     cercana al acierto — pero acierto en serio, no cualquier cosa". El
+     "no cualquier cosa" es la parte difícil y él mismo la nombró: si
+     ordenás por probabilidad a secas, arriba de todo queda siempre
+     "menos de 7.5 goles al 99%", que es verdad y no dice nada del
+     partido.
+
+     Dos filtros lo resuelven, y los dos ya existían con su razón
+     escrita: solo las líneas de la escalera (1.5·2.5·3.5), y cuota
+     mínima CUOTA_MIN_ESCALERA — abajo de 1.30 no es una afirmación
+     sobre el partido, es una obligación.
+
+     Y va SIEMPRE con el número del mercado al lado. Sin eso, decir
+     "Flamengo gana al 78%" se lee como opinión nuestra cuando puede
+     ser el precio leído en voz alta. Que coincidamos no es un
+     fracaso: es información, y es honesto decir cuál de las dos
+     cosas está pasando. */
+  const mk = m.mercado || {}, mx = m.mercadoExtra || {}, pq = devig(mk);
+  const elegibles = [];
+  otrosMercados(m).forEach(x=>{
+    if(x.op.fam === "Goles" && !LINEAS_ESCALERA.has(x.op.linea)) return;
+    const c = cuotaUsada(x.op, pq, mk, mx);
+    /* El piso de cuota existe para matar "menos de 7.5 goles al 99%",
+       que es verdad y no dice nada. NO aplica al 1X2: ahí una cuota
+       corta es el dato, no ruido. Lucas lo anticipó — "por ahí Flamengo
+       paga poco pero es el candidato"— y sin esta excepción pasaba
+       exactamente lo contrario de lo que pidió: en Manchester City vs
+       Coventry, City a 1.20 quedaba filtrado y "lo más firme" salía
+       Gana Coventry al 30%, por descarte. */
+    if(c == null || (!/^1x2_/.test(x.op.id) && c < CUOTA_MIN_ESCALERA)) return;
+    elegibles.push({x, c});
+  });
+  /* Resultado primero, igual que `escalera()`: es el único eje donde
+     `medir_ejes.py` midió aporte sobre la tasa base (+2.6% en arg,
+     +13.2% en eng) contra −0.9% a +0.4% en goles. Elegir por
+     probabilidad entre todos mezclados hace ganar a Goles casi
+     siempre, y termina destacando justo el eje donde no sabemos.
+
+     Y dentro de Resultado, solo el 1X2. La doble oportunidad gana el
+     ranking por construcción —el empate es ~27%, así que "gana
+     alguno" ronda el 73% en TODOS los partidos— y una frase que sale
+     igual siempre no describe nada. Es la misma trampa que "menos de
+     7.5 goles", del otro lado del tablero. El 1X2 es lo que Lucas
+     pidió: quién es el candidato. */
+  const res = elegibles.filter(e=> /^1x2_/.test(e.x.op.id));
+  const pool = res.length ? res : elegibles;
+  const firme = pool.reduce((a, b)=> !a || b.x.op.p > a.x.op.p ? b : a, null);
+  if(firme){
+    const o = firme.x.op, v = firme.x.ventaja, esRes = o.fam === "Resultado";
+    /* La diferencia contra el precio SOLO se llama ventaja en
+       Resultado. Afuera de ahí está medido que nuestro número no le
+       gana al mercado, así que un "+27 puntos" sobre Menos de 3.5 no
+       es un hallazgo: es el error del modelo de goles dibujado como
+       si fuera uno. Se muestra igual, con el nombre correcto. */
+    const dice = v == null ? ""
+      : Math.abs(v) < 0.03
+        ? ` El mercado dice ${pc(o.p - v)}: coincidimos, así que acá no estamos aportando una
+            lectura propia — la estamos confirmando.`
+      : !esRes
+        ? ` El mercado dice ${pc(o.p - v)}. La diferencia no es una ventaja: en este eje está
+            medido que nuestro número no le gana al precio.`
+      : Math.abs(v) > VALOR_MAX
+        /* "Arriba de eso el sospechoso es el modelo, no el precio" — es
+           la razón escrita de VALOR_MAX, y vale igual acá. Un "+39
+           puntos sobre la línea" no es una ventaja enorme: es un número
+           roto. Mostrarlo con nombre de ventaja seria mandar a apostar
+           una cuota de 5.19 por un error nuestro. */
+        /* Y cuando además la muestra es mínima, decimos POR QUÉ el
+           sospechoso somos nosotros. Man City vs Coventry, 2026-09-05:
+           λ 1.35 contra 1.10 —casi iguales— mientras el mercado paga
+           1.20 contra 11.00. Con 2 partidos por equipo el modelo
+           empuja a los dos al promedio de la liga y un gigante y un
+           ascendido salen parecidos. El número no está mal calculado:
+           está calculado sobre nada. */
+        ? ` El mercado dice ${pc(o.p - v)}. Nos separan ${Math.abs(Math.round(v*100))} puntos, y
+            arriba de ${Math.round(VALOR_MAX*100)} el sospechoso es nuestro número, no el precio:
+            no lo tomes como ventaja.${(L && V && Math.min(L.pj||0, V.pj||0) < 4)
+              ? ` Acá el motivo se ve: tenemos ${Math.min(L.pj||0, V.pj||0)} partido${
+                  Math.min(L.pj||0, V.pj||0)===1?"":"s"} de uno de los dos, y con esa muestra el
+                  modelo los empuja a los dos al promedio de la liga.` : ""}`
+      : v < 0
+        ? ` El mercado le da ${pc(o.p - v)}, ${Math.abs(Math.round(v*100))} puntos más que
+            nosotros: el precio ve algo que nuestro número no.`
+        : ` Le damos ${Math.round(v*100)} puntos más que la línea sin margen.`;
+    puntos.push(`Lo más firme del partido es <b>${esc_(o.label)}</b>: le damos ${pc(o.p)} y
+      paga ${firme.c.toFixed(2)}.${dice}`);
+  }
+
   /* 1 · La métrica en la que más se distinguen ESTOS dos equipos, de
      las que están medidas. No la más alta: la que más separa, que es
      la única que dice algo del cruce. Sin señal medida no se dice
@@ -3511,7 +3601,7 @@ function loQueSabemos(m, filas){
      restar de cabeza. */
   const conV = filas.filter(f=> f.ventaja != null && f.op && f.cuota)
     .sort((a,b)=> b.ventaja - a.ventaja);
-  if(conV.length){
+  if(conV.length && !(firme && conV[0].op && conV[0].op.label === firme.x.op.label)){
     const f = conV[0], v = Math.round(f.ventaja * 100);
     /* En una liga donde la regla está medida perdiendo, decir "le
        faltan N puntos" invita a esperar que los junte — y aunque los

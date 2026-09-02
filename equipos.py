@@ -76,6 +76,26 @@ ALIAS = {
     "paris sg": "Paris Saint-Germain",
     # ESPN le deja el "AC" hasta en el nombre corto; el CSV nunca.
     "le havre": "Le Havre AC",
+
+    # ── spa (2026-09-02) ────────────────────────────────────────────
+    # España es la liga donde el `shortDisplayName` NO rescata nada: el
+    # CSV usa sus propias abreviaturas y ESPN publica el nombre entero.
+    # Con 12 de 20 cruzando solo, estas siete entradas lo llevan a 19
+    # de 20 — el que falta es Racing Santander, ascendido sin historia
+    # en primera, igual que Coventry en eng y Le Mans en fra.
+    #
+    # Y es el mejor ejemplo que tiene el repo de por qué el cruce
+    # difuso está prohibido: "Ath Madrid" y "Ath Bilbao" comparten
+    # prefijo y son dos clubes distintos. Un match por parecido les
+    # funde once temporadas de historia y el resultado no se ve como un
+    # error, se ve como datos.
+    "ath madrid": "Atlético Madrid",
+    "ath bilbao": "Athletic Club",
+    "espanol": "Espanyol",
+    "sociedad": "Real Sociedad",
+    "celta": "Celta Vigo",
+    "vallecano": "Rayo Vallecano",
+    "la coruna": "Deportivo",
 }
 
 
@@ -215,7 +235,7 @@ def main():
     import historico
 
     print(__doc__)
-    for liga, slug in (("eng", "eng.1"), ("fra", "fra.1")):
+    for liga, slug in (("eng", "eng.1"), ("fra", "fra.1"), ("spa", "esp.1")):
         eq = equipos_espn(slug)
         idx = indice(eq)
         amb = ambiguos(eq)

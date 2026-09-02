@@ -105,7 +105,7 @@ RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
 # sus rivales, en vez de solo promediar los partidos propios. Copa
 # Argentina es eliminación directa desde el arranque — no hay red de
 # cruces repetidos, sigue con el promedio simple.
-CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1",
+CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1",
                "conmebol.libertadores", "conmebol.sudamericana"}
 TEMPORADAS_HISTORIA = 5    # cuántos años calendario de resultados se le dan
                             # a fuerzas_equipos(). Hasta el 2026-08-24 era 1
@@ -453,49 +453,81 @@ COMPETICIONES = {
     "fra.1": {"nombre": "Ligue 1", "rho": -0.05, "conf": 80,
               "prior": 8, "escala": 0.60, "centro": 2.617,
               "corners": 9.47, "fouls": 24.22, "cards": 3.98},
-    # ── Japon, agregada el 2026-09-02 ───────────────────────────────
+    # ── Espana, agregada el 2026-09-02 en lugar de Japon ─────────────
     #
-    # Entra por una razon y una sola: es la liga con MEJOR punto
-    # estimado de ROI de las seis medidas, y era la unica de esas seis
-    # que estaba medida y no estaba en la app.
+    # Reemplaza a jpn.1, que salio el mismo dia porque Bet365 no la
+    # cotiza. La regla de §24 era medir ROI antes de agregar; a esa se
+    # le sumo la que faltaba: verificar que la casa la ofrezca.
     #
-    #     jpn  +2.78% ± 7.67   (ruido)   <- no estaba
-    #     eng  +1.01% ± 8.92   (ruido)
-    #     mex  -3.46% ± 7.50   (ruido)   <- medido el 2026-09-02, no entra
-    #     fra  -5.22% ± 8.71   (ruido)
-    #     bra  -9.13% ± 7.32   negativo de verdad
-    #     arg  -9.17% ± 6.44   negativo de verdad
+    #     usa  -1.86% ± 6.81  (ruido)   medida el 2026-09-02
+    #     eng  +1.01% ± 8.92  (ruido)
+    #     fra  -5.22% ± 8.71  (ruido)
+    #     spa  -5.33% ± 8.52  (ruido)   <- esta
+    #     bra  -9.13% ± 7.32  negativo de verdad
+    #     arg  -9.17% ± 6.44  negativo de verdad
     #
-    # `historico.py` ya la traia "SOLO PARA MEDIR" desde el 2026-08-31 y
-    # decia textual que "estar en COMPETICIONES es otra decision". Se
-    # midio y la decision nunca se tomo: la app cubria cuatro ligas, dos
-    # de ellas medidas perdiendo, y ninguna donde la medicion no dijera
-    # que perdemos.
+    # NO entra por su ROI, que es el segundo peor de las que son ruido y
+    # apenas peor que el de Francia. Entra por el mercado: es la liga
+    # con la escalera de jugador mas profunda que ofrece Bet365, mas
+    # que Inglaterra —11 bloques contra 5 de Italia, Alemania y MLS, y
+    # 0 de Noruega—, con faltas, tarjetas, tackles y remates al arco
+    # fuera del area. El unico hilo con senal medida del proyecto son
+    # los props (§22bis), y esta es la fuente mas rica que existe para
+    # alimentarlo.
     #
-    # OJO con como se leyo esto: primero se ranquearon las ligas por
-    # `aporte` (mejora de Brier sobre la tasa base) y Mexico salia
-    # primera con +5.5% contra +5.2% de Japon. Al medir su ROI dio
-    # -3.46%. Es la leccion de TRASPASO §5 otra vez: calibrar no es
-    # ganar plata, y el orden por Brier no es el orden por plata.
+    # `escala` 0.70 / `centro` 2.625: el barrido sobre 4139 partidos
+    # (train 2421 / test 1718) elige 0.70 en TRAIN **y** en TEST, que es
+    # mejor evidencia que la de jpn, donde no coincidian. Produccion
+    # (1.00) queda superada en test por toda la grilla de 0.30 a 0.85.
     #
-    # `escala` 0.60 / `centro` 2.695: quinta liga, misma direccion que
-    # las otras cuatro. En el barrido (4499 partidos, train 3103 / test
-    # 1396) TODO k<1 le gana a produccion en test, y 1.00 es el peor de
-    # la grilla salvo 1.15. Train elige 0.60 y test 0.50 — no coinciden,
-    # asi que se toma el de train, que es el criterio conservador y el
-    # mismo que se uso en eng y fra.
+    # `conf` 70 y no 80: el ROI es ruido con punto estimado negativo,
+    # asi que octavo de Kelly, no cuarto. Francia tiene 80 y un numero
+    # parecido, pero se le puso antes de que §24 escribiera este
+    # criterio; ser mas conservador con la que llega ultima es lo
+    # correcto, no una inconsistencia.
     #
-    # `conf` 70 y no 80: el ROI de jpn es RUIDO (+2.78% ±7.67), no una
-    # ventaja demostrada. 70 cae en el escalon de octavo de Kelly, no de
-    # cuarto. Es el mismo movimiento que se le hizo a arg.1 cuando su
-    # medicion no sostuvo el 75.
+    # `rho` 0.00: el neutro. Medirlo pide otro barrido.
     #
-    # corners/fouls/cards medidos sobre 60 partidos de ESPN el
-    # 2026-09-02: football-data trae Japon en formato "unico", que no
-    # publica estadisticas por partido, asi que no salen de ahi.
-    "jpn.1": {"nombre": "J.League", "rho": 0.00, "conf": 70,
-              "prior": 8, "escala": 0.60, "centro": 2.695,
-              "corners": 9.53, "fouls": 22.65, "cards": 2.77},
+    # corners/fouls/cards de las ULTIMAS TRES TEMPORADAS de
+    # football-data (1370 partidos), no de todo el historial: entre las
+    # once temporadas y las tres ultimas, faltas cae de 26.53 a 25.29 y
+    # tarjetas de 4.90 a 4.59. Es la deriva por reglamento que
+    # `medir_dominio.py` ya habia encontrado, aplicada de entrada.
+    "esp.1": {"nombre": "Spanish LALIGA", "rho": 0.00, "conf": 70,
+              "prior": 8, "escala": 0.70, "centro": 2.625,
+              "corners": 9.54, "fouls": 25.29, "cards": 4.59},
+    # ── Japon: entro y salio el mismo dia (2026-09-02) ──────────────
+    #
+    # Entro porque era la liga con mejor punto estimado de ROI de las
+    # seis medidas (+2.78% ±7.67, ruido) y la unica de esas seis que
+    # estaba medida y no estaba en la app.
+    #
+    # Salio unas horas despues, a pedido de Lucas, por un motivo que
+    # ninguna medicion de ROI podia ver: **Bet365 no cotiza la
+    # J.League**. Lo vio el en la web de la casa —esta la J.League 2,
+    # que es otra competicion— y odds-api lo confirma del otro lado con
+    # cero bloques en tres partidos distintos. Ver `SIN_COBERTURA` en
+    # `mercado_extra.py`.
+    #
+    # "Si no puedo apostar ahi no tiene sentido": una liga que no se
+    # puede jugar al precio bueno no es una liga barata, es una liga que
+    # no esta. Sus partidos habrian salido con la cuota de DraftKings
+    # (7.7% de margen contra 3.1%) y no habrian aportado NUNCA una linea
+    # de jugador, que es el unico mercado donde el proyecto midio senal
+    # (TRASPASO §22bis).
+    #
+    # LA LECCION, que es lo unico que hay que llevarse de aca: antes de
+    # agregar una liga hay que medir su ROI **y** verificar que la casa
+    # la cotice. §24 dejo escrita la primera mitad de esa regla —el
+    # orden por Brier no es el orden por plata, que es como Mexico casi
+    # entra— y le faltaba la segunda.
+    #
+    # Sigue en `historico.py` "SOLO PARA MEDIR", que es una decision
+    # aparte y no molesta: ahi es una vara de comparacion, no una liga
+    # que se publica. Las constantes medidas quedan en git por si algun
+    # dia la casa la abre: escala 0.60, centro 2.695, conf 70, prior 8,
+    # rho 0.00, corners 9.53, fouls 22.65, cards 2.77.
+    #
     # Copa Argentina: salio el 2026-08-25 y VUELVE el 2026-09-02, a
     # pedido de Lucas y con la guarda que antes no existia.
     #
@@ -708,7 +740,7 @@ def roster(slug, team_id):
 # resto de COMPETICIONES son copas. slugs_plantel() usa esto para saber
 # si un partido YA es de liga (y entonces no hace falta, ni corresponde,
 # sumar otra liga encima).
-LIGAS_DOMESTICAS = {"arg.1", "bra.1", "eng.1", "fra.1"}
+LIGAS_DOMESTICAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1"}
 
 
 def slugs_plantel(slug_consulta, slug_liga):

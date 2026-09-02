@@ -386,20 +386,31 @@ prueba("y si se leyera, el (Booked) quedaria pegado al nombre",
 
 print("\nSIN_COBERTURA — mapeada no es lo mismo que cotizada\n")
 
-prueba("jpn.1 esta mapeada, o sea que el slug se conoce",
-       "jpn.1" in ME.LIGAS)
-prueba("pero se sabe que Bet365 no la cotiza",
-       "jpn.1" in ME.SIN_COBERTURA)
-_e = _io.StringIO()
-with _ctx.redirect_stderr(_e):
-    prueba("y por eso no se pide: si pidiera, la clave falsa daria 401",
-           ME.eventos_de("jpn.1", "clave-falsa") == [])
-prueba("y no se queja: no es un olvido, es un hecho verificado",
-       _e.getvalue() == "")
-prueba("una liga con cobertura no se saltea",
-       "arg.1" not in ME.SIN_COBERTURA and "eng.1" not in ME.SIN_COBERTURA)
-prueba("toda liga sin cobertura sigue estando mapeada",
+# El caso real fue jpn.1 el 2026-09-02: slug correcto, fixture que
+# cruzaba, y cero bloques porque Bet365 no cotiza esa liga. Salio de la
+# app entera unas horas despues, asi que el conjunto quedo vacio y el
+# test usa una entrada armada: lo que se protege es el MECANISMO, que
+# vale para la proxima liga, no aquel caso.
+_ANTES = set(ME.SIN_COBERTURA)
+ME.SIN_COBERTURA.add("eng.1")            # eng.1 SI esta en LIGAS
+try:
+    _e = _io.StringIO()
+    with _ctx.redirect_stderr(_e):
+        vacia = ME.eventos_de("eng.1", "clave-falsa")
+    prueba("una liga sin cobertura no se pide, aunque este mapeada",
+           vacia == [] and "eng.1" in ME.LIGAS)
+    prueba("y no se queja: no es un olvido, es un hecho verificado",
+           _e.getvalue() == "")
+    prueba("una liga con cobertura no se saltea",
+           "arg.1" not in ME.SIN_COBERTURA)
+finally:
+    ME.SIN_COBERTURA.clear()
+    ME.SIN_COBERTURA.update(_ANTES)
+
+prueba("toda liga sin cobertura sigue estando mapeada: el slug es dato",
        all(s in ME.LIGAS for s in ME.SIN_COBERTURA))
+prueba("y ninguna liga sin cobertura sigue publicandose en la app",
+       not (ME.SIN_COBERTURA & set(_A.COMPETICIONES)))
 
 
 print("")

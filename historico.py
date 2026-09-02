@@ -87,6 +87,26 @@ LIGAS = {
     #   arg.1    0.0147  (11o)          0             tope (200)
     "eng": {"archivo": "E0", "pais": "England", "formato": "temporadas"},
     "fra": {"archivo": "F1", "pais": "France", "formato": "temporadas"},
+    # Candidatas a reemplazar a jpn.1, que salio el 2026-09-02 porque
+    # Bet365 no la cotiza. SOLO PARA MEDIR, igual que jpn y mex: entrar a
+    # COMPETICIONES es otra decision y pide el ROI medido primero.
+    #
+    # La cobertura ya se verifico ese dia contra odds-api, que es el paso
+    # que le falto a Japon — mercados de Bet365 por partido:
+    #
+    #   spain-laliga         95 bloques · 11 de jugador (con faltas,
+    #                        tarjetas y tackles: la mas profunda de todas,
+    #                        Inglaterra incluida)
+    #   usa-mls              73 bloques ·  5 de jugador (remates, al arco)
+    #   italy-serie-a        82 bloques ·  5 de jugador
+    #   germany-bundesliga   88 bloques ·  5 de jugador
+    #   norway-eliteserien   62 bloques ·  0 de jugador  <- descartada
+    #
+    # `spa` viene en formato temporadas, o sea CON estadisticas por
+    # partido: sirve para `historia_equipos.py` y para el eje Dominio.
+    # `usa` viene en formato unico y no las trae, igual que arg y bra.
+    "spa": {"archivo": "SP1", "pais": "Spain", "formato": "temporadas"},
+    "usa": {"archivo": "USA", "pais": "USA", "formato": "unico"},
 }
 
 

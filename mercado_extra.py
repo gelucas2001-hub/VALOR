@@ -64,24 +64,24 @@ BASE = "https://api.odds-api.io/v3"
 CASA = "Bet365"
 
 # Nuestro slug de competición -> el suyo. Verificados el 2026-08-26
-# contra su listado de ligas de fútbol; `jpn.1` y `arg.copa` el
-# 2026-09-02, con `--ligas`, el día después de que entraran a la app.
+# contra su listado de ligas de fútbol; `arg.copa` el 2026-09-02 con
+# `--ligas`, el día que volvió a la app.
 #
 # Que falte una entrada acá no es un detalle de cobertura: la
 # competición se queda sin Bet365 **y sin props**, y los props no se
 # recuperan hacia atrás. Ver `eventos_de()`.
 #
-# Ojo con los vecinos, que es donde se elige mal: Japón publica
-# `japan-jleague`, `japan-jleague-2` y `japan-j-league-3`, y la primera
-# es la de arriba. `argentina-copa-argentina` no es
-# `argentina-super-cup`.
+# Ojo con los vecinos, que es donde se elige mal: `argentina-copa-
+# argentina` no es `argentina-super-cup`, y Japón publica tres divisiones
+# con nombres casi iguales (`japan-jleague`, `japan-jleague-2`,
+# `japan-j-league-3`) de las cuales Bet365 solo cotiza la segunda.
 LIGAS = {
     "arg.1": "argentina-primera-lpf-clausura",
     "arg.copa": "argentina-copa-argentina",
     "bra.1": "brazil-brasileiro-serie-a",
     "eng.1": "england-premier-league",
     "fra.1": "france-ligue-1",
-    "jpn.1": "japan-jleague",
+    "esp.1": "spain-laliga",
     "conmebol.libertadores":
         "international-clubs-conmebol-libertadores-knockout-stage",
     "conmebol.sudamericana":
@@ -96,15 +96,18 @@ LIGAS = {
 # veces por día, más los de `foto_props.py` cada hora — cuota quemada
 # para recibir `{}`.
 #
-# `jpn.1` verificado de las dos puntas ese día: la API devuelve CERO
-# bloques en tres partidos distintos (05/09 y 06/09), y en la web de
-# Bet365 la J.League no figura — está la J.League 2, que es otra
-# competición y no la que publica la app.
+# Hoy está vacío, y eso no significa que la idea no sirviera: `jpn.1`
+# vivió acá unas horas el 2026-09-02 y después salió de la app entera,
+# porque una liga que no se puede jugar al precio bueno no es una liga
+# barata — es una liga que no está. Su slug era `japan-jleague` y la
+# verificación fue de las dos puntas: cero bloques en tres partidos, y
+# la J.League ausente de la web de Bet365, donde sí está la J.League 2.
 #
-# Esto NO es una opinión sobre la liga: el slug es correcto y el evento
-# vuelve rotulado "Japan - J.League". Es una casa que no la ofrece.
-# Sacar una entrada de acá es gratis y el pedido se reanuda solo.
-SIN_COBERTURA = {"jpn.1"}
+# El conjunto queda porque la situación se repite: una liga puede estar
+# bien identificada, cruzar el fixture, y no ser ofrecida por la casa.
+# Eso es distinto de un slug mal puesto y hay que poder decirlo sin
+# borrar el slug, que es información correcta y cara de conseguir.
+SIN_COBERTURA = set()
 
 # Tokens que NO identifican a un club: tipo de sociedad y artículos.
 #
@@ -498,6 +501,7 @@ def main():
             "Copa Argentina": "arg.copa",
             "Brasileirão Série A": "bra.1",
             "Premier League": "eng.1", "Ligue 1": "fra.1",
+            "Spanish LALIGA": "esp.1",
             "J.League": "jpn.1",
             "CONMEBOL Libertadores": "conmebol.libertadores",
             "CONMEBOL Sudamericana": "conmebol.sudamericana"}

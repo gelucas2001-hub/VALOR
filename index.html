@@ -2867,14 +2867,23 @@ function diasDisponibles(){
 }
 
 /* El orden es de casa hacia afuera: primero lo local, después Europa,
-   después las copas. Premier y Ligue 1 entraron el 2026-08-25 — son las
-   dos únicas ligas donde el mercado de estadísticas de JUGADOR existe y
-   además el modelo anda mejor que en Argentina. */
+   después las copas. Premier y Ligue 1 entraron el 2026-08-25 porque son
+   ligas donde el mercado de estadísticas de JUGADOR existe y el modelo
+   anda mejor que en Argentina.
+
+   LaLiga entró el 2026-09-02 por la primera de esas dos razones llevada
+   al extremo: es la liga con la escalera de jugador más profunda que
+   ofrece Bet365, más que Inglaterra. Su ROI de 1X2 no la justifica
+   —−5.33% ±8.52, ruido— y el motivo está escrito en `actualizar.py`.
+
+   La J.League estuvo unas horas el mismo día y salió: Bet365 no la
+   cotiza, y una liga que no se puede jugar al precio bueno no es una
+   liga barata, es una liga que no está. */
 const COMPS_ORDEN = ["Liga Profesional Argentina", "Brasileirão Série A",
-  "Premier League", "Ligue 1", "J.League", "Copa Argentina",
+  "Premier League", "Spanish LALIGA", "Ligue 1", "Copa Argentina",
   "CONMEBOL Libertadores", "CONMEBOL Sudamericana"];
 const COMPS_CORTO = {"Liga Profesional Argentina":"Liga", "Brasileirão Série A":"Brasil",
-  "Premier League":"Premier", "Ligue 1":"Ligue 1", "J.League":"Japón",
+  "Premier League":"Premier", "Spanish LALIGA":"LaLiga", "Ligue 1":"Ligue 1",
   "Copa Argentina":"Copa Arg",
   "CONMEBOL Libertadores":"Libertadores", "CONMEBOL Sudamericana":"Sudamericana"};
 

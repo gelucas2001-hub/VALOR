@@ -6591,3 +6591,64 @@ aportan sobre el pronóstico numérico de la misma métrica. Para eso hace
 falta la tanda de evaluación, con el instrumento congelado como quedó
 acá — y con el caudal bajo que el umbral impone mientras los cachés de
 arg.1 y bra.1 no lleguen a seis partidos medidos.
+
+## 35. El instrumento queda congelado hasta tener muestra (2026-09-03)
+
+Cierre del bloque §33–§34. No hay nada que hacer hasta que entren fechas,
+y eso es una decisión, no una pausa por falta de ideas.
+
+### Estado, en una línea por cosa
+
+- **El umbral está calibrado** sobre 20.897 partidos europeos, con
+  train/test temporal (§34). Vive en `expediente.UMBRAL_SENAL`.
+- **La transferencia a arg/bra NO está validada.** `--transferencia` la
+  probó con la regla congelada sobre 121 partidos de arg.1 y 55 de
+  bra.1, y emitió **cero señales**: el corpus tiene ~2 partidos por
+  equipo (abarca dos torneos) y `n` casi nunca llega a 6. Es *no
+  concluyente*, ni fallo ni confirmación.
+- **El censo dice que hoy no hay material.** `faltas` y
+  `volumen_remates` —las dos dimensiones fuertes— no pueden producir una
+  sola afirmación en arg ni en bra. arg.1 necesita una fecha; bra.1, dos.
+- **No se toca nada.** Ni umbrales, ni criterios, ni el esquema.
+
+### Las tres preguntas de la tanda, y son tres
+
+Lucas pidió que no se mezclen, y el motivo es el mismo error de §33 con
+otro disfraz:
+
+1. **¿El instrumento consigue evidencia objetiva suficiente?** Es la
+   pregunta del censo, y hoy la respuesta es "casi no".
+2. **Cuando emite, ¿supera la tasa base?** Contra la tasa base de esa
+   misma métrica, nunca contra 50% — las cuatro dimensiones tienen base
+   entre 51% y 57% porque los recuentos son asimétricos.
+3. **¿Aporta información incremental sobre el modelo cuantitativo?** Es
+   la que importa y la única que justifica el instrumento.
+
+**Acertar no es aportar.** La ortogonalidad a λ solo habilita a
+investigar una dimensión; no prueba que sirva. Una señal puede acertar
+el 70% y ser inútil si el pronóstico numérico de la misma métrica ya
+acertaba el 70%. Eso es exactamente lo que pasó en §33 con el esquema
+viejo: la lectura acertaba 4 de 4 repitiendo a λ con otras palabras.
+
+### La regla de lenguaje, que no es cosmética
+
+Sin muestra suficiente se escribe **"no concluyente"**, nunca "no
+funciona". Son afirmaciones distintas y la segunda cierra un camino que
+la evidencia no cerró. Este repo ya tenía una de esas: el principio D
+decía que el árbitro "da cero" cuando lo medido era que con 54 partidos
+no se podía concluir (§34).
+
+Y si algún día la transferencia falla de verdad —señales emitidas, mal
+acierto—, **primero se diagnostica por qué y después se recalibra.**
+Recalibrar sin diagnóstico es ajustar hasta que el número guste.
+
+### Qué hacer cuando entre la fecha del 4 al 7
+
+```
+python calibrar_senal.py --censo            ¿ya hay material?
+python calibrar_senal.py --transferencia    ¿el corpus ya permite probarla?
+```
+
+Si el censo abre, correr la tanda con la regla **exactamente como está**.
+Los cuatro análisis del smoke test (§34) ya están cargados y conformes a
+la regla vigente, así que suman a la muestra.

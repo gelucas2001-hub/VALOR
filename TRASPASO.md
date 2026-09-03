@@ -6093,3 +6093,136 @@ cualquier explicación por camino.
 
 El simulador queda cerrado como camino catorce **antes de escribirlo**,
 que es exactamente para lo que servía el paso 0.
+
+## 32. Auditoría de §31, y la corrección al CLV de §22bis (2026-09-03)
+
+Lucas frenó §31 antes de que cerrara el simulador, con tres objeciones.
+Dos resultaron correctas y una no. Esta sección las audita y corrige lo
+que hay que corregir, incluida una relectura del hallazgo más importante
+que tenía el proyecto.
+
+### Las tres distinciones que faltaban, y que valen para todo el TRASPASO
+
+Lucas señaló un vicio real en cómo veníamos cerrando caminos: se pasa
+demasiado rápido de "esta implementación no funcionó" a "este concepto
+está cerrado". De acá en adelante se distinguen tres cosas:
+
+    hipótesis concreta refutada      →  cerrar
+    implementación concreta que falló →  cerrar ESA implementación
+    idea general poco investigada     →  no cerrar
+
+§31 escribió "no existe espacio matemático ni práctico para combinadas".
+Eso era del tercer tipo escrito como si fuera del primero.
+
+### Objeción 1 — ¿el sobreprecio es margen o es nuestra fuente de datos?
+
+**Descartada, y se puede medir.** Si ESPN contara menos remates que la
+fuente con la que Bet365 liquida, parte del +9.8 pp sería medición:
+
+```
+   remates por equipo por partido
+   eng   ESPN 13.70   football-data 13.04    105%
+   fra   ESPN 13.94   football-data 12.49    112%
+```
+
+ESPN cuenta **más**, no menos. Y 13.70 repartidos entre once titulares
+dan 1.25 por jugador, que es exactamente el promedio que mide
+`medir_margen_props.py`. El dato es internamente coherente y la
+hipótesis del proveedor no explica el sobreprecio.
+
+### Objeción 2 — ¿2596 escalones o 26 partidos?
+
+**Correcta como reflejo, no como hecho.** Los escalones de un mismo
+partido no son independientes. Remuestreando por PARTIDO:
+
+```
+   sobreprecio observado   +9.8 pp
+   IC 95% por partido      [+7.3, +12.0] pp
+   e.e. por partido        1.2 pp   (el ingenuo daba 0.8)
+```
+
+El intervalo no toca el cero. El sobreprecio sobrevive.
+
+### Objeción 3 — ¿el CLV es comparable con el sobreprecio?
+
+**Correcta, y es la más importante de las tres.** §31 escribió que
+"nuestra ventaja es un octavo del margen". Es un error conceptual: son
+magnitudes distintas y no compiten, **se suman**.
+
+```
+   sobreprecio =  implícita(nuestro precio) − verdad
+   CLV         =  implícita(cierre) − implícita(nuestro precio)
+
+   → el cierre está  9.8 − 1.15 = +8.65 pp por encima de la verdad
+```
+
+**LO QUE ESTO CORRIGE DE §22bis**
+
+§22bis presentó el CLV de props (+1.15 pp sobre la deriva, 3.0 e.e.)
+como "el primer lead que sobrevive a sus controles". Sigue siendo un
+hecho medido y los controles siguen valiendo. Lo que cambia es qué
+prueba:
+
+- **Prueba** que elegimos líneas que el mercado después mueve hacia
+  nosotros: conseguimos mejor precio que el precio posterior.
+- **NO prueba** que apostemos por encima de la probabilidad real.
+- Su valor como evidencia **depende del margen del mercado**. En uno
+  barato, ganarle al cierre por 1.15 pp es plata. En uno donde el cierre
+  ya está 8.65 pp arriba de la verdad, no alcanza.
+
+Esta corrección importa más allá de props, porque cambia cómo hay que
+leer cualquier señal futura de CLV: **el CLV es condición necesaria, no
+suficiente**, y su suficiencia se evalúa contra el margen del mercado
+donde se midió.
+
+### Lo que sí quedó medido: el margen por mercado
+
+Sobre precios reales de Bet365, de los dos lados donde los publica:
+
+```
+   goles                 4.39%  /  5.10%
+   1X2                   5.90%  /  6.56%
+   córners               7.4%   –  9.1%
+   ambos marcan          8.10%
+   props de jugador      ~33% relativo (+9.8 pp sobre base ~30%)
+```
+
+**Los props son 5 a 7 veces más caros que los mercados de equipo en la
+misma casa.** Bet365 no publica el "under" de la escalera de jugador —
+verificado en el bloque crudo—, que es coherente con un mercado que no
+pretende ser competitivo.
+
+Umbral mínimo para que una combinada tenga esperanza positiva:
+
+```
+   dos patas de goles (5% c/u)   →  estimar ~10% mejor que la casa
+   dos patas de props (33% c/u)  →  estimar ~77% mejor
+```
+
+### Las conclusiones, con el alcance que corresponde
+
+**Props de jugador.** Lo que se cierra es esto y solo esto:
+
+> Con los proveedores, precios y datos actuales, no hay evidencia
+> suficiente de que la señal de CLV en props supere el costo estructural
+> del mercado.
+
+Eso NO dice que ningún análisis de props pueda tener ventaja. Dice que
+el nuestro, contra estos precios, no está demostrado.
+
+**Combinadas de mercados de equipo.** No se cierran, y §31 se equivocó
+al hacerlo. El margen de dos patas baratas ronda el 10%: difícil, no
+absurdo. Lo que bloquea hoy no es el peaje sino nuestra capacidad
+predictiva, que en 1X2 medimos negativa (§29, §30). **Son dos
+diagnósticos distintos y llevan a trabajos distintos.**
+
+La pregunta queda abierta y formulada:
+
+> ¿Podemos desarrollar una lectura que encuentre ventaja suficiente en
+> mercados de equipo baratos Y estime bien las correlaciones entre ellos?
+
+Hoy la respuesta no es sí. Tampoco es un no demostrado.
+
+**El simulador.** No se construye: no hay evidencia que lo justifique.
+No se cierra: la razón por la que no se justifica es nuestra ventaja en
+los insumos, no la idea de modelar el partido como un todo.

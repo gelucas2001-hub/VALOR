@@ -130,7 +130,22 @@ const sinDefinir = [...usadas].filter(c => !definidas.has(c) && !NO_SON_CLASES.h
    Partirlo evita el peor final posible de una herramienta así: una lista
    larga de "candidatas" que nadie revisa porque revisarlas cuesta más
    que ignorarlas. */
+/* Se queda con la vara ANCHA —la palabra en cualquier lado del JS— y a
+   proposito. Se probo la estricta (solo strings sueltos) y reportaba
+   como muerta a `.alto`, que se aplica con `class="${may?"alto":""}"`:
+   el extractor de strings se pierde con las comillas anidadas. Decir
+   que una clase viva esta muerta es peor que no decir nada, porque el
+   que lea la lista borra estilos que se usan.
+
+   Lo que SI estaba roto era la legibilidad. 2bis juntaba 80 clases sin
+   orden, y las que de verdad sobran —restos de las siete pestanas, con
+   13 reglas colgando de `.paso` y 8 de `.h2h`— quedaban perdidas entre
+   nombres de una regla. Una lista que nadie puede leer es lo mismo que
+   no tener lista. Ahora van ordenadas por cuanto CSS arrastran. */
 const apareceEnJS = c => new RegExp("\\b" + c.replace(/-/g, "\\-") + "\\b").test(js);
+const reglasDe = c => (css.match(new RegExp("\\." + c.replace(/-/g, "\\-") + "(?![\\w-])", "g")) || []).length;
+const porPeso = lista => lista.slice().sort((a, b) => reglasDe(b) - reglasDe(a))
+  .map(c => `.${c}(${reglasDe(c)})`);
 const noAplicadas = [...definidas].filter(c => !usadas.has(c) && !NO_SON_CLASES.has(c));
 const sinUsar = noAplicadas.filter(c => !apareceEnJS(c));
 const dudosas = noAplicadas.filter(c => apareceEnJS(c));
@@ -142,11 +157,15 @@ if(sinDefinir.length){
 } else linea(true, "ninguna: todo lo que se aplica tiene estilo");
 
 titulo("2. Clases con CSS que no aparecen en ninguna parte del JS  (muertas)");
-if(sinUsar.length) console.log("  →    " + sinUsar.map(c => "." + c).join("  "));
+if(sinUsar.length) console.log("  →    " + porPeso(sinUsar).join("  "));
 else linea(true, "ninguna");
 
 titulo("2bis. Clases que no se aplican literal pero la palabra existe en el JS  (mirar)");
-if(dudosas.length) console.log("  →    " + dudosas.map(c => "." + c).join("  "));
+if(dudosas.length){
+  console.log("  →    " + porPeso(dudosas).join("  "));
+  console.log("       Entre parentesis, cuantas veces aparece en el CSS (peso aprox).");
+  console.log("       Las de arriba son las que mas pesan si resultan muertas.");
+}
 else linea(true, "ninguna");
 
 /* ── 3. Funciones y constantes muertas ────────────────────────────── */
@@ -155,16 +174,51 @@ titulo("3. Funciones y constantes definidas que nadie llama");
 const suites = fs.readdirSync(__dirname).filter(f => /^test_.*\.js$/.test(f))
   .map(f => fs.readFileSync(path.join(__dirname, f), "utf8")).join("\n");
 const defs = [...js.matchAll(/^(?:function|const|let)\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1]);
-const muertas = defs.filter(n => {
+/* Antes esto era UNA lista y una funcion mencionada en cualquier suite
+   quedaba exenta. Ese atajo escondio `senalDividida()` durante dos dias:
+   el commit que borro las siete pestanas se llevo su llamado, la funcion
+   y sus TRES tests siguieron dando verde, y la app quedo pudiendo dorar
+   "mas de 2.5" en un partido que su propio analisis llamaba trabado.
+
+   Ahora son dos listas. "Nadie la usa" es codigo muerto y se borra.
+   "Solo la usan los tests" es mas peligroso porque parece cubierta:
+   puede ser un contrato legitimo (CONTRATO, que sostiene test_ejes) o
+   una funcionalidad que se cayo de la pantalla sin que nada avise. Hay
+   que mirarla una por una, pero al menos ahora se ve. */
+const soloTests = [], sinNadie = [];
+for(const n of defs){
   const patron = "\\b" + n.replace(/\$/g, "\\$") + "\\b";
   const usos = (js.match(new RegExp(patron, "g")) || []).length;
-  /* Una función puede no llamarse desde index.html y aun así sostener
-     una suite: `CONTRATO` es el contrato de ejes que lee test_ejes.js.
-     Borrarla dejaría el test en verde probando otra cosa. */
-  return usos <= 1 && !new RegExp(patron).test(suites);
-});
-if(muertas.length) muertas.forEach(n => linea(false, `${n}() — definida y nunca usada`));
+  if(usos > 1) continue;                       // la app la usa
+  (new RegExp(patron).test(suites) ? soloTests : sinNadie).push(n);
+}
+if(sinNadie.length) sinNadie.forEach(n => linea(false, `${n}() — definida y nunca usada`));
 else linea(true, "ninguna: no quedó código muerto");
+
+titulo("3bis. Definidas que SOLO usan los tests  (mirar una por una)");
+if(soloTests.length){
+  console.log("  →    " + soloTests.join("  "));
+  console.log("       Un contrato de test es legítimo. Una funcionalidad que");
+  console.log("       la pantalla dejó de llamar, no: sus tests dan verde igual.");
+} else linea(true, "ninguna");
+
+/* ── 3ter. Dos declaraciones con el mismo nombre ──────────────────── */
+titulo("3ter. Funciones declaradas dos veces  (duro)");
+const porNombre = {};
+for(const m of js.matchAll(/^function\s+([A-Za-z_$][\w$]*)\s*\(/gm)){
+  const ln = js.slice(0, m.index).split("\n").length;
+  (porNombre[m[1]] = porNombre[m[1]] || []).push(ln);
+}
+const repetidas = Object.entries(porNombre).filter(([, v]) => v.length > 1);
+if(repetidas.length){
+  duros += repetidas.length;
+  /* La segunda gana y la primera no corre nunca. No falla, no avisa: se
+     tapa. `fechaCorta()` estuvo asi desde el 2026-09-01 y los talones
+     que pedian "02/09/26" mostraban "2 de sep". Mismo choque que `.mas`
+     en TRASPASO §19.6. */
+  repetidas.forEach(([n, v]) => linea(false,
+    `${n}() — declarada en las líneas ${v.join(" y ")} del <script>; gana la última`));
+} else linea(true, "ninguna: cada nombre se declara una sola vez");
 
 /* ── 4. Colores crudos fuera de los tokens ────────────────────────── */
 titulo("4. Colores escritos a mano fuera de :root");

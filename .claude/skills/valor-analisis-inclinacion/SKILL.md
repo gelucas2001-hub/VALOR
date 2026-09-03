@@ -485,11 +485,15 @@ El expediente trae **`liderazgoH`/`liderazgoA`** con la cuenta hecha:
 "liderazgoH": {
   "lider":   {"nombre": "Ángel Di María", "por_partido": 5.0, "apariciones": 4, "titular": 4},
   "segundo": {"nombre": "Enzo Copetti",   "por_partido": 2.5, "apariciones": 4, "titular": 3},
-  "ventaja": 1.0
+  "ventaja": 1.0,
+  "califica": true,
+  "por_que": "+100% sobre el segundo"
 }
 ```
 
 Tres reglas, y las tres se resolvieron el 2026-09-03 después del primer test:
+
+**0. No apliques el umbral a ojo: `califica` ya viene resuelto.** Desde el 2026-09-03 el expediente aplica el 50% y entrega `califica` (true/false) con su `por_que`, igual que `senal_base` entrega el `fallo` del volumen. Si `califica` es `false`, ese equipo no aporta generador — no lo discutas. Es lo que convierte el umbral en estructura en vez de disciplina.
 
 **1. Se mide por PROMEDIO POR PARTIDO, no por la suma.** Con apariciones
 desparejas las dos lecturas dan cosas distintas, y en la primera tanda ya
@@ -588,7 +592,7 @@ Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contr
 - [ ] `desarrollo`· ¿es una dirección camuflada? Si nombrás a un ganador, va en `veredicto`/`inclinacion`, no en `desarrollo`.
 - [ ] `desarrollo`· ¿estás vendiendo un guion cerrado inventado? Si no hay base para afirmar el desarrollo, decilo explícitamente — la narrativa convincente no reemplaza a la evidencia.
 - [ ] `senal`· las cuatro de volumen, ¿son **copia literal** del `fallo` de `senal_base`? Si en alguna pusiste algo distinto de lo que dice el expediente, está mal: esa cuenta no es tuya. `tarjetas` siempre `null`.
-- [ ] `senal`· `generador`, ¿es una **lista**? ¿Usaste `ventaja` (que ya viene por partido) y no la suma de remates? ¿Están los dos equipos que superan el 50%, o dejaste uno afuera?
+- [ ] `senal`· `generador`, ¿es una **lista**? ¿Copiaste `califica` en vez de aplicar el 50% a ojo? ¿Están los dos equipos cuyo `califica` es true, o dejaste uno afuera?
 - [ ] `senal`· ¿le atribuiste faltas o tarjetas al **árbitro**? No es evidencia admisible en ninguna skill de VALOR.
 
 Si alguna casilla falla, corregí antes de devolver — no lo dejes para que lo encuentre otra pasada.

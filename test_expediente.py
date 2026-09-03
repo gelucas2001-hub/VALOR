@@ -304,5 +304,22 @@ prueba("sin dos candidatos con muestra, no hay liderazgo",
        expediente.liderazgo_remates(POCAS[:1]) is None)
 
 
+prueba("el umbral de generador vive en el codigo, no en la prosa",
+       expediente.UMBRAL_GENERADOR == 0.50)
+
+# Antes el expediente daba `ventaja` y la skill aplicaba el 50% a ojo:
+# las cuatro dimensiones de volumen tenian su fallo calculado y esta no.
+prueba("entrega el veredicto ya tomado cuando califica",
+       ld["califica"] is True)
+AJUSTADO = [
+    jugador("Puntero", "1", pj=4, serie={"remates": [3, 3, 3, 3], "pj": 4, "tit": 4}),
+    jugador("Segundo", "2", pj=4, serie={"remates": [3, 2, 2, 3], "pj": 4, "tit": 4}),
+]
+ld3 = expediente.liderazgo_remates(AJUSTADO)
+prueba("y cuando no llega al umbral, no califica",
+       ld3["califica"] is False)
+prueba("  y dice cuanto le falto",
+       "hace falta" in ld3["por_que"])
+
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

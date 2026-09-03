@@ -1676,8 +1676,33 @@ const ALERTA_MIN = 0.10;
    evidencia, y agregarlas acá sería extrapolar, que es justo lo que
    este repo prohíbe. Si algún día hay datos, se miden.
    ══════════════════════════════════════════════════════════════════ */
-const LIGAS_SIN_VALOR = [/profesional\s+argentina/i, /brasileir/i];
-const ligaSinValor = m => LIGAS_SIN_VALOR.some(re => re.test(m.comp || ""));
+/* Por SLUG, no por el nombre que se muestra. Hasta el 2026-09-03 esto
+   cruzaba con /profesional\s+argentina/i y /brasileir/i sobre `m.comp`,
+   que es el texto que ve el usuario: el día que ESPN escriba
+   "Brasileirao" sin acento, la regla medida deja de aplicarse **en
+   silencio** y la app empieza a marcar valor donde midió que resta.
+   `m.liga` existe desde el 2026-08-31 justamente para eso.
+
+   Es un cambio de robustez, no de criterio: verificado contra la grilla
+   del 2026-09-03, el regex acertaba exactamente arg.1 y bra.1 y ninguna
+   otra de las ocho competiciones. Las mismas dos ligas antes y después.
+   La decisión de QUÉ ligas van acá sigue siendo la de §24/§38 y no se
+   tocó.
+
+   Y por eso el nombre NO se saca: se degrada a respaldo. `ligaDe()`
+   devuelve null cuando el archivo publicado todavía no trae `liga` —
+   pasa en la ventana entre dos corridas del cron, y lo dice su propio
+   comentario. Si en esa ventana la guarda se apagara, la app marcaría
+   valor en las dos ligas donde midió que resta, que es peor que la
+   fragilidad que este cambio viene a arreglar. Encontrado por
+   test_alineacion.js, cuyo snapshot no tiene `liga`. */
+const LIGAS_SIN_VALOR = ["arg.1", "bra.1"];
+const LIGAS_SIN_VALOR_NOMBRE = [/profesional\s+argentina/i, /brasileir/i];
+const ligaSinValor = m => {
+  const slug = ligaDe(m);
+  if (slug) return LIGAS_SIN_VALOR.includes(slug);
+  return LIGAS_SIN_VALOR_NOMBRE.some(re => re.test(m.comp || ""));
+};
 
 /* Cuántos partidos lleva jugados el que menos jugó de los dos.
 

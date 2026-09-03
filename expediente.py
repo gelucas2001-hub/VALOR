@@ -196,6 +196,21 @@ def metricas_medidas(est):
 # a quien jugó más, que es lo contrario de lo que la señal quiere decir.
 MIN_APARICIONES_GENERADOR = 3
 
+# Cuánto tiene que sacarle el líder al segundo, por partido, para que se
+# lo pueda nombrar. Vivía SOLO en la prosa de la skill hasta el
+# 2026-09-03: las cuatro dimensiones de volumen tenían su `fallo`
+# calculado y ésta no, así que era disciplina y no estructura — nada
+# impedía nombrar a alguien con +20%. Baja acá para que el expediente
+# entregue el veredicto ya tomado, igual que con `senal_base`.
+#
+# **El número no cambió y sigue siendo experimental.** Salió de mirar un
+# partido (§33bis) y no se pudo calibrar: las series por jugador no
+# están alineadas entre sí —cada una son las últimas N apariciones de
+# ESE jugador, no las últimas N del equipo— así que no hay forma de
+# reconstruir quién lideró un partido concreto y medirlo contra
+# historial. Ver §34.
+UMBRAL_GENERADOR = 0.50
+
 
 def liderazgo_remates(plantel):
     """Quién patea más por partido en su equipo, y por cuánto.
@@ -217,9 +232,17 @@ def liderazgo_remates(plantel):
     if len(filas) < 2 or filas[1]["por_partido"] <= 0:
         return None
     lider, segundo = filas[0], filas[1]
+    ventaja = round(lider["por_partido"] / segundo["por_partido"] - 1, 3)
+    califica = ventaja >= UMBRAL_GENERADOR
     return {
-        "lider": lider, "segundo": segundo,
-        "ventaja": round(lider["por_partido"] / segundo["por_partido"] - 1, 3),
+        "lider": lider, "segundo": segundo, "ventaja": ventaja,
+        # El veredicto ya tomado, para que la skill no aplique el umbral
+        # a ojo. Es lo mismo que `senal_base.fallo` hace con el volumen.
+        "califica": califica,
+        "por_que": (f"+{ventaja:.0%} sobre el segundo"
+                    if califica else
+                    f"solo +{ventaja:.0%}, hace falta "
+                    f"+{UMBRAL_GENERADOR:.0%}"),
     }
 
 

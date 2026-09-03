@@ -5620,3 +5620,129 @@ fuente se había apagado; acá un campo en `False` tapaba que nunca se
 computaba. En los dos casos no hay error, no hay excepción, y no hay
 nada raro en pantalla. Cuando agregues una guarda, escribí también el
 test de que puede dispararse.
+
+## 28. Auditoría completa del proyecto (2026-09-03)
+
+Lucas pidió una revisión de todo, no solo del funcionamiento. Se leyeron
+los 227 archivos trackeados y se midió lo que se podía medir. Lo que
+sigue es lo que se encontró, lo que se arregló y lo que quedó anotado.
+
+**El patrón, que vale más que la lista:** los seis hallazgos de fondo
+son todos de la misma forma. Nada falla, nada tira excepción, nada se ve
+raro en pantalla. Lo que falla ruidosamente ya está arreglado; lo que
+falla en silencio se venía acumulando.
+
+### Lo que se arregló
+
+**1 · `fechaCorta()` estaba declarada dos veces** (`index.html` 3203 y
+5073), con formatos distintos —"02/09/26" y "2 de sep"— y las dos como
+declaración de función, así que la segunda pisaba a la primera. Los tres
+talones que pedían el compacto (CERRADO, ESCRITO, CALIBRADO) mostraban
+el largo desde el 2026-09-01. La segunda pasó a `fechaEnPalabras()`.
+Mismo choque que §19.6 con `.mas`.
+
+**2 · `senalDividida()` se quedó sin llamador** en `41a6006`, el commit
+que borró las siete pestañas. La función, sus exports y sus **tres
+tests** sobrevivieron dando verde.
+
+No era decorativa: des-doraba los mercados que el análisis contradice, y
+`contradice()` no la reemplaza —esa mira la inclinación, que es sobre
+quién gana, y no ve una tensión de goles. Sin ella la app podía marcar
+"más de 2.5" en un partido cuyo propio análisis decía "trabado", y
+`deMercado("goles", ...)` sí puede llegar a OPORTUNIDAD: el hueco era
+real. El llamado vuelve en `otrosMercados()`, que es donde se decide
+`esVal`, y se separó `filasMercado()` para romper el ciclo.
+
+**3 · Los dos workflows escriben `data/` y sus crons coinciden** en el
+minuto cero de las 12:00 y 18:00 UTC. `foto_props.yml` se defendía con
+`concurrency` y `git pull --rebase`; `actualizar.yml` no tenía ninguna
+de las dos, y es el que más tiene para perder: un push rebotado son seis
+horas de datos. Ahora comparten el grupo `escribe-data`.
+
+**4 · Un scoreboard caído se commiteaba igual.** `api()` devuelve `{}`
+cuando fallan los dos hosts de ESPN. Para un roster suelto está bien;
+para un scoreboard significa que esa competición entera desaparece de
+`partidos.json` y el cron lo sube sin decir nada.
+`abortar_si_falto_una_liga()` corta antes de escribir. Un partidos.json
+viejo se nota porque dice cuándo se actualizó; uno incompleto no.
+
+**5 · La primera carga bajaba 2,1 MB.** Tres cosas, medidas:
+
+```
+                              antes      después
+indentación de dos JSON      +290 KB     compactos
+cache-buster ?t=Date.now()   sin cache   ?v=<sello del cron>
+planteles + estadisticas     bloqueaban  segunda tanda
+
+primera carga                2183 KB  ->  722 KB
+segunda visita entre corridas 2183 KB  ->  281 KB
+```
+
+El corte de la segunda tanda no es una corazonada: se renderizaron los
+59 renglones de la portada con y sin esos dos archivos y el HTML sale
+idéntico. `DETALLE_LISTO` cubre la ventana de ~2 segundos.
+
+**6 · `verificar_app.js` decía "sin problemas duros"** sobre los dos
+bugs de arriba. Tres puntos ciegos: exentaba a toda función mencionada
+en cualquier suite (así se escondió `senalDividida`), no miraba
+declaraciones repetidas, y volcaba 80 clases de CSS en una lista sin
+orden donde las que pesan quedaban invisibles. Corregido y **verificado
+corriendo la versión nueva contra el `index.html` anterior**: aparecen
+los dos.
+
+### Lo que se midió y quedó anotado sin tocar
+
+- **36 clases de CSS sin emisor**, 62 reglas, 5.663 bytes (5,9% del
+  CSS). Restos de las siete pestañas: el rediseño renombró con sufijo
+  (`paso2`, `h2hc`, `h2hr`, `cbar`) y las viejas quedaron. No se
+  borraron porque la vara automática no puede confirmarlas sin riesgo de
+  llevarse una viva —se probó y reportaba `.alto` como muerta— y
+  borrarlas de a una pide verificar cada una. La lista ordenada por peso
+  sale de `verificar_app.js`.
+- **Seis campos que el motor escribe y la app nunca lee** (17,7 KB):
+  `ciudad`, `estadio`, `compLogo`, `cornersH`, `preload` (siempre `{}`)
+  y `note`, que es una explicación en prosa de cómo se calculó λ,
+  generada en cada corrida y nunca mostrada.
+- **`lectura().corto`** se calcula en las cuatro ramas y no se
+  renderiza; sus tres reglas de CSS apuntan a un elemento que ya no
+  existe.
+- **`eval_fecha.js`** revienta con `ERR_INVALID_ARG_TYPE` si se corre
+  sin argumentos, en vez de imprimir su uso. Junto con `barrer_valor.js`
+  y `verificar_app.js`, no figura en la tabla de CLAUDE.md.
+- **El cron de `foto_props` cubre 07:00–20:00 ARG, no 07:00–21:00**:
+  `0 10-23` en UTC−3 termina a las 20:00, y el comentario dice "hasta
+  las 00:00 UTC", que `10-23` no incluye.
+- **§22 se apoya en que `foto_props.py` mejora la resolución del CLV
+  desde el 31/08.** Se miraron las 28 corridas: todas exitosas, 26
+  encontraron cero partidos y las otras tres fotografiaron el mismo
+  partido. No está roto —es el parate de selecciones— pero el
+  instrumento lleva fotografiado uno.
+- **`calibracion_lineas.json` y `calibracion_jugadores.json` son del
+  2026-08-24.** La app los usa para decirle al usuario de qué fiarse.
+- **`conf` 80 en fra.1 contra 70 en esp.1** con ROI indistinguible
+  (−5.22% ±8.71 contra −5.33% ±8.52). Francia lo tiene desde antes de
+  que §24 escribiera el criterio.
+
+### Lo que está bien, y conviene que quede escrito
+
+`doble_via.py` da 6,66e-16: el port a JavaScript no derivó. CI corre por
+glob y no por lista, porque una lista a mano ya dejó dos suites afuera.
+No hay un secreto en el repo. El parser de football-data descarta 1 fila
+de 39.421. La accesibilidad tiene las bases: `lang`, viewport, 38
+`<button>` reales y cero `<div onclick>`, `:focus-visible` global,
+`prefers-reduced-motion` respetado, `alt=""` correcto en los escudos.
+
+Y la densidad de comentarios que explican **por qué** y no **qué** es lo
+que hizo posible esta auditoría: casi todos los hallazgos salieron de
+leer un comentario que ya no coincidía con su código.
+
+### La regla que sale de todo esto
+
+Tres veces en dos días apareció la misma forma —§26 (un respaldo que
+funcionaba tapaba que la fuente se apagó), §27 (`sinAncla` no podía dar
+`True`), y hoy `senalDividida` con tests en verde— más una cuarta: la
+herramienta que debía detectarlas tenía el mismo defecto.
+
+**Cuando agregues una guarda, escribí el test de que puede dispararse.**
+Y cuando escribas una cadena de respaldos, contá cuál se está usando.
+Un camino de error que nunca se ejercita no es una red: es una decoración.

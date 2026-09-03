@@ -1,0 +1,42 @@
+
+==========================================================================
+  LA REGLA DE VALOR CONTRA PLATA — por liga, walk-forward
+==========================================================================
+
+  regla: ventaja en [6%, 12%] · cuota <= 4.5
+  precio: cuota de CIERRE (el más difícil que existe)
+  sin el filtro de análisis humano — no es simulable hacia atrás
+
+  arg: ajustando walk-forward (tarda ~8 min)...
+  arg 1X2     1442 ap.  ROI  -6.96% ± 7.46  acierto 31.9%  caída  124.4u ( 8.6%)  Sharpe -0.049  (ruido)
+  arg O/U    la fuente no publica línea de goles para esta liga
+  bra: ajustando walk-forward (tarda ~8 min)...
+  bra 1X2     1229 ap.  ROI  -4.99% ± 7.74  acierto 35.3%  caída   85.8u ( 7.0%)  Sharpe -0.037  (ruido)
+  bra O/U    la fuente no publica línea de goles para esta liga
+  eng: ajustando walk-forward (tarda ~8 min)...
+  eng 1X2      839 ap.  ROI  +2.21% ± 9.53  acierto 38.7%  caída   32.1u ( 3.8%)  Sharpe +0.016  (ruido)
+  eng O/U      721 ap.  ROI  -2.45% ± 8.98  acierto 40.9%  caída   41.3u ( 5.7%)  Sharpe -0.020  (ruido)
+  fra: ajustando walk-forward (tarda ~8 min)...
+  fra 1X2      809 ap.  ROI  -3.04% ± 9.83  acierto 35.6%  caída   48.9u ( 6.0%)  Sharpe -0.022  (ruido)
+  fra O/U      683 ap.  ROI -10.59% ± 8.74  acierto 38.8%  caída   82.4u (12.1%)  Sharpe -0.093
+  jpn: ajustando walk-forward (tarda ~8 min)...
+  jpn 1X2     1318 ap.  ROI  +2.78% ± 7.67  acierto 37.7%  caída   26.8u ( 2.0%)  Sharpe +0.020  (ruido)
+  jpn O/U    la fuente no publica línea de goles para esta liga
+  mex: ajustando walk-forward (tarda ~8 min)...
+  mex 1X2     1302 ap.  ROI  -3.46% ± 7.50  acierto 36.3%  caída   62.5u ( 4.8%)  Sharpe -0.026  (ruido)
+  mex O/U    la fuente no publica línea de goles para esta liga
+  spa: ajustando walk-forward (tarda ~8 min)...
+  spa 1X2      917 ap.  ROI  -6.95% ± 8.87  acierto 35.4%  caída   95.2u (10.4%)  Sharpe -0.052  (ruido)
+  spa O/U      790 ap.  ROI  -5.73% ± 8.54  acierto 39.6%  caída   57.1u ( 7.2%)  Sharpe -0.048  (ruido)
+  usa: ajustando walk-forward (tarda ~8 min)...
+  usa 1X2     1522 ap.  ROI  -1.86% ± 6.81  acierto 38.4%  caída   90.7u ( 6.0%)  Sharpe -0.014  (ruido)
+  usa O/U    la fuente no publica línea de goles para esta liga
+
+  ----------------------------------------------------------------------
+  La comparación es el punto: si una liga da distinto de otra,
+  el problema no es 'el modelo' sino dónde se lo aplica.
+  ----------------------------------------------------------------------
+
+  Recordá las dos salvedades: se apuesta al CIERRE (vara dura,
+  un cero acá es mejor de lo que parece) y sin filtro de análisis.
+

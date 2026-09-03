@@ -6793,3 +6793,115 @@ Quedan para decidir aparte, con su clasificación de la auditoría:
   Apertura y Clausura.
 - 🟡 cuatro clases CSS muertas y cuatro caches `esp.1-*.json` sin
   trackear.
+
+## 37. Los ROI, vueltos a medir con el arnés corregido (2026-09-03)
+
+Único recálculo de §36 C2. No se tocó nada más: mismo `VALOR_MIN`/
+`VALOR_MAX`, misma cuota máxima, mismo precio de cierre, mismas ligas.
+Lo único que cambió es que ahora el λ del arnés es el de producción.
+
+### Los controles salieron idénticos
+
+`jpn`, `mex` y `usa` no están en `COMPETICIONES`: son ligas solo-medición
+y `parametros_produccion()` les devuelve `None`, así que el arnés las
+mide igual que antes. Se usaron como control de que C2 no movió nada que
+no debía:
+
+```
+  jpn  +2.78% ± 7.67  ->  +2.78% ± 7.67   1318 ap.   idéntico
+  mex  −3.46% ± 7.50  ->  −3.46% ± 7.50   1302 ap.   idéntico
+  usa  −1.86% ± 6.81  ->  −1.86% ± 6.81   1522 ap.   idéntico
+```
+
+Al decimal. El cambio de C2 solo alcanza a las ligas que la app publica.
+
+### Las cinco que sí tienen modelo de producción
+
+```
+         antes              después            n      cambio
+  arg  −9.17% ±6.44 SIG   −6.96% ±7.46 ruido  1442   +2.21 pp
+  bra  −9.13% ±7.32 SIG   −4.99% ±7.74 ruido  1229   +4.14 pp
+  eng  +1.01% ±8.92       +2.21% ±9.53         839   +1.20 pp
+  fra  −5.22% ±8.71       −3.04% ±9.83         809   +2.18 pp
+  spa  −5.33% ±8.52       −6.95% ±8.87         917   −1.62 pp
+```
+
+El `±` son **dos errores estándar**, así que "significativo" es que el
+ROI en valor absoluto supere esa cifra.
+
+**El resultado que importa: arg y bra dejan de ser significativos.**
+Eran los dos únicos números del conjunto que salían del ruido, y eran
+justamente los que sostienen `LIGAS_SIN_VALOR`. Con el λ de producción,
+−6.96 contra ±7.46 y −4.99 contra ±7.74 caen los dos adentro del
+intervalo.
+
+`n` también se movió (arg de ? a 1442, bra a 1229) porque el λ corregido
+produce otras ventajas y por lo tanto califica otro conjunto de
+apuestas. Era esperable y no es un efecto aparte: es el mismo.
+
+### Lo que NO se puede concluir de esto
+
+Cuatro de cinco ligas mejoraron y una empeoró. **Eso no dice que el
+modelo de producción sea mejor**: dice que el arnés estaba midiendo otra
+cosa. Un ROI que pasa de −9.17% a −6.96% no es una mejora del producto —
+es la primera vez que se mide el producto.
+
+Y sobre todo: **ninguna liga pasó a ser rentable.** Siete de las ocho
+tienen punto estimado negativo o cero adentro del intervalo. Lo que
+cambió es la fuerza de la evidencia en contra de dos de ellas, no la
+aparición de evidencia a favor de ninguna.
+
+### Nuevo, y no estaba medido: over/under
+
+El arnés corregido también reporta O/U donde football-data publica la
+línea. Aparece un resultado que antes no figuraba en ningún lado:
+
+```
+  eng O/U   721 ap.   −2.45% ± 8.98   ruido
+  spa O/U   790 ap.   −5.73% ± 8.54   ruido
+  fra O/U   683 ap.  −10.59% ± 8.74   SIGNIFICATIVO
+```
+
+**Francia en goles es el único negativo significativo que queda en todo
+el conjunto.** No se hizo nada con esto: queda anotado.
+
+### `LIGAS_SIN_VALOR`: qué pasa con la regla
+
+El criterio con el que se armó la lista fue "medido que ahí la regla
+resta, significativo". Aplicado a los números nuevos **y solo a ellos**,
+la lista quedaría vacía: ninguna liga es significativamente negativa.
+
+**No se cambió.** Tres razones, y ninguna es cautela genérica:
+
+1. **Sacar una guarda no es lo mismo que ponerla.** La lista se puso
+   porque había evidencia de daño; sacarla ahora sería por *ausencia* de
+   evidencia, que no es lo mismo. Los dos puntos estimados siguen siendo
+   negativos (−6.96% y −4.99%).
+2. **La segunda pata del argumento no se volvió a medir.** La decisión
+   original se apoyaba también en `barrido_valor.py` — 39 ventanas de
+   ventaja, ninguna positiva fuera de muestra. Ese script llama a
+   `MH.evaluar()` **sin `liga`**, así que sigue midiendo el λ crudo. La
+   pata (a) se cayó; la (b) está sin recalcular.
+3. **Es un cambio de producto hacia afuera.** Vaciar la lista enciende
+   la marca dorada en las dos ligas que son la mitad de la grilla.
+
+Lo que corresponde antes de decidir: pasar `liga=` en `barrido_valor.py`
+y en `medir_apertura.py` —los dos consumidores que quedan del arnés
+crudo— y volver a correrlos. Recién ahí la regla tiene sus dos patas
+sobre el modelo que se publica.
+
+### Qué queda reemplazado y qué sigue en pie
+
+**Reemplazados** (los números viejos ya no se citan):
+
+- la tabla de ROI de §24, en las cinco ligas con modelo de producción;
+- la frase "arg y bra restan, significativo" — ya no lo es;
+- el argumento de §20 sobre el margen de DraftKings, que se apoyaba en
+  el −9.17% como piso.
+
+**En pie:**
+
+- los tres controles, que son los mismos números de antes;
+- el criterio de entrada de esp.1, que nunca fue el ROI sino la
+  profundidad de la escalera de props;
+- todo lo que no pasa por `medir_historico.evaluar` (§36).

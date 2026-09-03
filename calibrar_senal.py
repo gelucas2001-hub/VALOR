@@ -52,6 +52,7 @@ es un umbral, es una descripción del pasado.
 """
 
 import csv
+import json
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -274,6 +275,191 @@ def informe(tr, te, met=None):
     return mejor
 
 
+def transferencia():
+    """¿La regla calibrada en Europa se comporta razonable en arg/bra?
+
+    El umbral salió de 20.897 partidos de seis ligas europeas. Nada
+    garantiza que valga en Sudamérica, y tratarlo como si valiera sería
+    exactamente el tipo de supuesto que este repo ya pagó caro otras
+    veces. Acá se aplica la regla EXACTAMENTE como está congelada — sin
+    tocar un umbral para que arg/bra encajen mejor.
+
+    El corpus es `cache_disciplina.json`: los resúmenes por partido que
+    el cron ya venía guardando de ESPN, con remates, córners, faltas y
+    tarjetas de cada equipo. Son 321 partidos, 121 de arg.1 y 55 de
+    bra.1 — demasiado poco para ELEGIR un umbral y quizás suficiente
+    para ver si el que hay se rompe.
+
+    Dos supuestos, los dos verificados y los dos declarados:
+
+    · el orden de las claves de cada partido es local, visitante —
+      comprobado contra `historial_pronosticos.json`, 66 de 66;
+    · el id de ESPN ordena por fecha dentro de una liga — 5 inversiones
+      en 34 partidos con fecha conocida, y todas entre partidos de la
+      misma jornada, donde el orden no cambia nada.
+    """
+    disc = cargar_json(RAIZ / "data" / "cache_disciplina.json") or {}
+    grilla = cargar_json(RAIZ / "data" / "partidos.json") or {}
+    grilla = grilla.get("partidos") if isinstance(grilla, dict) else grilla
+
+    liga_de = {}
+    for p in grilla or []:
+        liga_de[str(p.get("homeId"))] = p.get("liga")
+        liga_de[str(p.get("awayId"))] = p.get("liga")
+
+    porliga = defaultdict(list)
+    for mid, v in sorted(disc.items()):
+        if mid.startswith("_"):
+            continue
+        tids = [t for t in v if not t.startswith("_")]
+        if len(tids) != 2:
+            continue
+        lg = {liga_de.get(t) for t in tids} - {None}
+        if len(lg) != 1:
+            continue
+        porliga[next(iter(lg))].append((int(mid), tids[0], tids[1],
+                                        v[tids[0]], v[tids[1]]))
+
+    print()
+    print("=" * 78)
+    print("  ¿LA REGLA EUROPEA SE TRANSFIERE A ARGENTINA Y BRASIL?")
+    print("=" * 78)
+    print()
+    print("  Regla CONGELADA, tal como quedó calibrada sobre 20.897 partidos")
+    print("  europeos. No se tocó ningún umbral para este corpus.")
+
+    todo = {}
+    for lg in ("arg.1", "bra.1"):
+        ps = sorted(porliga.get(lg, []))
+        # La vara de liga se calcula dejando AFUERA el partido que se está
+        # evaluando, no con una media corrida. Dos motivos: en producción
+        # la vara sale de `estadisticas.json`, que es la media de la
+        # temporada y no un acumulado walk-forward; y exigir 20 partidos
+        # de calentamiento sobre un corpus de 121 se comía justo los
+        # partidos donde los equipos llegan a n=6. Los promedios POR
+        # EQUIPO siguen siendo estrictamente causales — esos son los que
+        # tienen que serlo.
+        tot = {m: [0.0, 0] for m in METRICAS}
+        for _mid, _l, _v, sl, sv in ps:
+            for met in METRICAS:
+                gl, gv = sl.get(met), sv.get(met)
+                if gl is not None and gv is not None:
+                    tot[met][0] += gl + gv
+                    tot[met][1] += 1
+
+        filas = []
+        acc = {m: Acumulador() for m in METRICAS}
+        for _mid, loc, vis, sl, sv in ps:
+            for met in METRICAS:
+                gl, gv = sl.get(met), sv.get(met)
+                if gl is None or gv is None:
+                    continue
+                a = acc[met]
+                est = a.estimadores(loc, vis)
+                suma, cuenta = tot[met]
+                bar = (suma - (gl + gv)) / (cuenta - 1) if cuenta > 1 else None
+                if est and bar:
+                    e1, e2, e3, n = est
+                    m = (e1 + e2 + e3) / 3
+                    filas.append({
+                        "met": met, "gap": m / bar - 1,
+                        "spread": (max(e1, e2, e3) - min(e1, e2, e3)) / bar,
+                        "n": n, "arriba": (gl + gv) > bar,
+                    })
+                a.sumar(loc, vis, gl, gv)
+        todo[lg] = filas
+        informe_transferencia(lg, len(ps), filas)
+
+    juntos = todo.get("arg.1", []) + todo.get("bra.1", [])
+    informe_transferencia("arg.1 + bra.1", None, juntos)
+    print()
+    return 0
+
+
+def informe_transferencia(etiqueta, n_partidos, filas):
+    """Una tabla por liga, con el veredicto de las tres opciones."""
+    print()
+    cab = f"  {etiqueta}"
+    if n_partidos is not None:
+        cab += f"   {n_partidos} partidos en el corpus"
+    print(cab)
+    if not filas:
+        print("    sin casos evaluables (hace falta la ventana de 20 "
+              "partidos que fija la vara)")
+        return
+    # El embudo importa más que la tabla: si la regla no llega a emitir,
+    # hay que poder ver EN QUÉ CONDICIÓN se quedó, porque "cero señales"
+    # por falta de muestra y "cero señales" porque nada pasa el gap son
+    # dos diagnósticos distintos.
+    print(f"    {'dimensión':>16} {'evalu.':>7} {'n ok':>6} {'+disp':>6} "
+          f"{'+gap':>6} {'acierto':>8} {'base':>7} {'delta':>8} {'±ee':>7}")
+    print("    " + "-" * 82)
+    tot_o = tot_n = 0
+    for met in METRICAS:
+        um = UMBRAL_SENAL.get(met) if UMBRAL_SENAL else None
+        hay = [f for f in filas if f["met"] == met]
+        if not hay:
+            continue
+        if um is None:
+            print(f"    {met:>16} {len(hay):>7} {'—':>6} {'—':>6} {'—':>6} "
+                  f"{'no se afirma nunca':>32}")
+            continue
+        c_n = [f for f in hay if f["n"] >= um["n"]]
+        c_d = [f for f in c_n if f["spread"] <= um["spread"]]
+        us = [f for f in c_d if abs(f["gap"]) >= um["gap"]]
+        arr = sum(f["arriba"] for f in hay) / len(hay)
+        base = max(arr, 1 - arr)
+        if not us:
+            print(f"    {met:>16} {len(hay):>7} {len(c_n):>6} {len(c_d):>6} "
+                  f"{0:>6} {'—':>8} {base:>6.1%} {'—':>8} {'—':>7}")
+            continue
+        o = sum(1 for f in us if (f["gap"] > 0) == f["arriba"])
+        p = o / len(us)
+        e = ee(p, len(us))
+        tot_o += o
+        tot_n += len(us)
+        print(f"    {met:>16} {len(hay):>7} {len(c_n):>6} {len(c_d):>6} "
+              f"{len(us):>6} {p:>7.1%} {base:>6.1%} {p - base:>+7.1%} "
+              f"{e:>6.1%}")
+    if tot_n:
+        p = tot_o / tot_n
+        e = ee(p, tot_n)
+        print(f"    {'TOTAL':>16} {'':>7} {'':>6} {'':>6} {tot_n:>6} "
+              f"{p:>7.1%} {'':>6} {'':>8} {e:>6.1%}")
+    p = tot_o / tot_n if tot_n else 0.0
+    print()
+    print(f"    veredicto: {veredicto_transferencia(tot_n, p, ee(p, tot_n))}")
+
+
+def veredicto_transferencia(n, p, e):
+    """Una de las tres, y la tercera es la respuesta honesta casi siempre.
+
+    Con ~20 señales el error estándar ronda los 11 puntos: para separar
+    'compatible' de 'incompatible' harían falta unas 150. Este umbral
+    existe para que un resultado chico no se lea como conclusión.
+    """
+    if n == 0:
+        return ("MUESTRA INSUFICIENTE PARA CONCLUIR — la regla no llegó a "
+                "emitir ni una señal en este corpus. No es que falle: no "
+                "se la puede probar acá.")
+    if n < 60:
+        return (f"MUESTRA INSUFICIENTE PARA CONCLUIR — {n} señales, "
+                f"±{e:.1%}. Hacen falta ~150 para separar compatible de "
+                f"incompatible.")
+    if p - 1.96 * e > 0.50:
+        return "COMPATIBLE CON TRANSFERENCIA"
+    if p + 1.96 * e < 0.50:
+        return "INCOMPATIBLE CON TRANSFERENCIA — acierta por debajo del azar"
+    return "MUESTRA INSUFICIENTE PARA CONCLUIR — el intervalo cruza el 50%"
+
+
+def cargar_json(p):
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError, OSError):
+        return None
+
+
 def censo():
     """Cuánta evidencia hay HOY, liga por liga y dimensión por dimensión.
 
@@ -367,6 +553,8 @@ def main():
     args = sys.argv[1:]
     if "--censo" in args:
         return censo()
+    if "--transferencia" in args:
+        return transferencia()
     ligas = LIGAS
     if "--liga" in args:
         ligas = (args[args.index("--liga") + 1],)

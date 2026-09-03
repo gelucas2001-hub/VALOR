@@ -51,7 +51,13 @@ Recibís el expediente objetivo del partido — todo lo que un analista miraría
   "formA": [{"r":"D","rival":"Platense","local":false,"marcador":"1-1","d":"15/08/26"}],
   "h2h":   [{"d":"20/02/26","h":"Boca Juniors","a":"Racing Club","s":"0-0"}],
   "tabla": [{"t":"Racing Club","id":"15","pts":4,"pj":5,"g":1,"e":1,"p":3,"gf":4}],
-  "corners": 11.0, "cornersH": 5.3, "fouls": 25.3, "cards": 4.7,
+  "metricasH": {"partidos": 6,
+                "produce": {"remates":14.8,"al_arco":4.2,"corners":5.0,"faltas":14.6,"tarjetas":2.0},
+                "concede": {"remates":10.2,"al_arco":3.0,"corners":3.83,"faltas":12.2,"tarjetas":2.0},
+                "local":   {"corners":5.0,"faltas":14.33},
+                "visita":  {"corners":5.0,"faltas":15.0},
+                "n":       {"corners":6,"faltas":5},
+                "desvio":  {"corners":3.22,"faltas":1.67}},
   "plantelH": [{"nombre":"Gonzalo Montiel","pos":"D","pj":5,"goles":0,"asist":1,"peso_goles":0.0}],
   "pjMaxH": 5,
   "plantelA": [{"nombre":"Hugo Rodallega","pos":"F","pj":26,"goles":13,"asist":4,"peso_goles":0.56}],
@@ -69,7 +75,11 @@ Recibís el expediente objetivo del partido — todo lo que un analista miraría
 
 `h2h` puede venir con un solo cruce, o vacío. Un cruce no es historial, es una anécdota — aplicá el principio B (muestra chica) y no le des peso de patrón a un `h2h` de longitud 1. **Excepción: si ese único cruce es la ida de esta misma llave** (torneo de eliminación directa a dos partidos, típico de Sudamericana/Libertadores) — se reconoce porque la fecha es reciente y el contexto del expediente indica ronda de ida y vuelta — no es una anécdota histórica, es el resultado acumulado de la serie que se está jugando ahora mismo. Usalo como contexto de la llave (el marcador global, quién lleva ventaja) en `contexto`, pero no como base de `inclinacion` — la dirección tiene que apoyarse en algo más (bajas, forma, contexto), no solo en el resultado de la ida.
 
-`corners`, `fouls` y `cards` son totales esperados del partido entero (los dos equipos sumados), no promedios de un equipo. `cornersH` es la porción de `corners` que le corresponde al local. `cards` suma amarillas y rojas. No los leas como "estadística del equipo" — son un número de partido repartido. Y en un puñado de casos ese reparto es un valor sintético de respaldo (cuando falta el dato real, el pipeline usa una proporción fija) — no confíes en ellos para afirmar algo específico de un equipo ("se hace fuerte por las bandas"), y nunca los cites como cifra en la prosa (ya lo prohíbe la sección 5).
+`metricasH`/`metricasA` es lo **medido** por equipo, por partido: `produce` es lo que el equipo hace y `concede` lo que le hacen a él. Los dos hacen falta y el segundo es el que casi nadie mira: los córners de un partido los generan los dos lados, y un rival que se mete atrás los regala sin tener la pelota. `local`/`visita` es el split por sede, `n` dice sobre cuántos partidos está calculado cada número y `desvio` cuánto varía (4.0 ± 0.5 y 4.0 ± 3.0 no permiten la misma afirmación).
+
+**Es la única evidencia admisible para las cuatro dimensiones de volumen de `senal`** (sección 4). Si `metricasH`/`metricasA` no viene, esas cuatro van en `null`: no hay con qué afirmarlas, y deducirlas de los goles o de quién es mejor es exactamente lo prohibido.
+
+Hasta el 2026-09-03 este expediente traía en cambio `corners`/`cornersH`/`fouls`/`cards`: los córners, faltas y tarjetas que **esperábamos nosotros** para el partido. Salieron. Eran salida del modelo —un pronóstico de la misma métrica que `senal` afirma, y el mismo baseline contra el que `medir_senal.py` mide el aporte—, así que una señal apoyada en ellos habría sido el modelo dándose la razón. Nunca los cites como cifra en la prosa (ya lo prohíbe la sección 5), y si los ves en un expediente viejo, no son evidencia.
 
 `_avisos`, si viene, son límites duros — ver principio F (sección 2). `_leeme` es una nota de contexto sobre el expediente, no un dato para citar.
 
@@ -438,7 +448,7 @@ El reclamo que originó la v2.0 fue "¿cómo juega?", y es la pregunta más fác
 
 **Y de la localía, que es su propia pregunta.** "¿Es fuerte de local?" se contesta con `formH` filtrando por sede, no con una impresión. Lo mismo del otro lado: cómo rinde el visitante lejos de su cancha es contenido obligatorio de su bloque, no un extra.
 
-Lo que no vale: atribuirle un esquema o un estilo que no viste en ningún lado, y usar los `corners`/`fouls`/`cards` del input para deducir cómo juega — son un promedio de partido repartido y en varios casos un valor de respaldo de la liga, no de estos equipos (sección 1).
+Lo que no vale: atribuirle un esquema o un estilo que no viste en ningún lado. `metricasH`/`metricasA` sí describe cómo juega —un equipo que concede 5.2 córners y produce 4.1 se defiende mucho— pero mirá `n` y `desvio` antes de afirmarlo, y acordate de que un promedio de sede sale de la mitad de los partidos (sección 1).
 
 ## 5. Reglas de escritura para los campos de texto
 

@@ -35,6 +35,14 @@ for flujo in (sys.stdout, sys.stderr):
 RAIZ = Path(__file__).resolve().parent
 PARTIDOS = RAIZ / "data" / "partidos.json"
 PLANTELES = RAIZ / "data" / "planteles.json"
+ESTADISTICAS = RAIZ / "data" / "estadisticas.json"
+
+# Las métricas MEDIDAS que viajan por equipo. Son la evidencia admisible
+# de `desarrollo.senal`: la regla es que para afirmar una dimensión hace
+# falta una medición de esa misma métrica, y hasta el 2026-09-03 este
+# expediente no traía ninguna — solo el esperado del modelo, que es un
+# pronóstico de la métrica, no una medición de ella.
+METRICAS_SENAL = ("remates", "al_arco", "corners", "faltas", "tarjetas")
 
 # Cuántos jugadores por equipo viajan al análisis. Un roster completo son
 # 38-40, de los cuales un tercio no jugó nunca. Los 25 que más jugaron
@@ -59,7 +67,6 @@ VENTANA_DIAS = 1
 EXPEDIENTE = [
     "comp", "grupo", "fecha", "hora", "estadio", "ciudad",
     "formH", "formA", "formH_general", "formA_general", "h2h", "tabla",
-    "corners", "cornersH", "fouls", "cards",
 ]
 
 # Lo que queda afuera, y por qué. Está escrito para que se lea, no para que
@@ -69,6 +76,21 @@ EXCLUIDOS = {
     "la": "λ del visitante — salida del modelo",
     "rho": "corrección Dixon-Coles — salida del modelo",
     "conf": "confianza del modelo en sus propios λ",
+    # Salieron el 2026-09-03, con el esquema nuevo de `senal`. Son la
+    # expectativa DEL MODELO para esas mismas métricas (`esperados()` en
+    # actualizar.py), o una constante de liga cuando ESPN no trajo
+    # estadística propia. La regla de evidencia admisible pide una
+    # medición de la métrica que se afirma; esto es un pronóstico de la
+    # métrica que se afirma, que es otra cosa y es justo el baseline
+    # contra el que `medir_senal.py` mide el aporte. Dejarlos adentro
+    # convertía la capa 3 en una comparación del modelo contra sí mismo.
+    # `expediente_estadisticas.py` ya los excluía por este motivo; los
+    # dos expedientes decían cosas distintas sobre el mismo dato.
+    "corners": "córners esperados POR NOSOTROS — salida del modelo. Los "
+               "promedios crudos de cada equipo sí viajan, en `metricas`",
+    "cornersH": "la parte del local de ese esperado — mismo motivo",
+    "fouls": "faltas esperadas por nosotros — mismo motivo",
+    "cards": "tarjetas esperadas por nosotros — mismo motivo",
     "mercado": "cuotas de DraftKings. No son nuestras, pero la marca de "
                "valor es 'nuestra lectura contra el mercado': si el "
                "análisis ya vio la cuota, la comparación no mide nada",
@@ -86,6 +108,47 @@ def cargar():
     with open(PARTIDOS, encoding="utf-8") as f:
         d = json.load(f)
     return d["partidos"] if isinstance(d, dict) and "partidos" in d else d
+
+
+def cargar_estadisticas():
+    """{team_id: {métricas}}. Si el cron todavía no lo escribió, vacío."""
+    try:
+        with open(ESTADISTICAS, encoding="utf-8") as f:
+            return json.load(f).get("equipos", {})
+    except (FileNotFoundError, ValueError):
+        return {}
+
+
+def metricas_medidas(est):
+    """Lo que el equipo produce y lo que le conceden, los dos medidos.
+
+    `concede` hace tanta falta como `produce`: los córners de un partido
+    los generan los dos equipos, y un rival que defiende con bloque bajo
+    los produce sin tener la pelota. Viaja `n` porque con tres partidos
+    un promedio es una racha (principio E), y `desvio` porque un equipo
+    de 4.0 ± 0.5 y uno de 4.0 ± 3.0 no permiten la misma afirmación.
+    """
+    if not est:
+        return None
+    out = {"partidos": est.get("pj")}
+    for clave, origen in (("produce", est), ("concede", est.get("concede"))):
+        if not origen:
+            continue
+        d = {m: origen.get(m) for m in METRICAS_SENAL
+             if origen.get(m) is not None}
+        if d:
+            out[clave] = d
+    for lado in ("local", "visita"):
+        o = est.get(lado) or {}
+        d = {m: o.get(m) for m in METRICAS_SENAL if o.get(m) is not None}
+        if d:
+            out[lado] = d
+    for extra in ("n", "desvio"):
+        o = est.get(extra) or {}
+        d = {m: o.get(m) for m in METRICAS_SENAL if o.get(m) is not None}
+        if d:
+            out[extra] = d
+    return out if len(out) > 1 else None
 
 
 def cargar_planteles():
@@ -125,9 +188,10 @@ def recortar_plantel(plantel):
     return out
 
 
-def expediente(p, planteles=None):
+def expediente(p, planteles=None, estadisticas=None):
     """El objeto que recibe la skill. Los avisos son para el humano que revisa."""
     planteles = cargar_planteles() if planteles is None else planteles
+    estadisticas = cargar_estadisticas() if estadisticas is None else estadisticas
     e = {
         "espn_id": p["id"],
         "equipo_local": p["home"],
@@ -145,8 +209,14 @@ def expediente(p, planteles=None):
     # el análisis solo puede enumerar nombres, que es exactamente lo que
     # pasaba antes de que esto viajara.
     faltan_plantel = []
+    faltan_metricas = []
     for lado, tid, nombre in (("H", p.get("homeId"), p["home"]),
                               ("A", p.get("awayId"), p["away"])):
+        m = metricas_medidas(estadisticas.get(str(tid)))
+        if m:
+            e["metricas" + lado] = m
+        else:
+            faltan_metricas.append(nombre)
         js = recortar_plantel(planteles.get(str(tid)))
         if js:
             e["plantel" + lado] = js
@@ -251,18 +321,45 @@ def expediente(p, planteles=None):
                 f"La tabla es la del grupo/zona del local, y {' y '.join(fuera)} "
                 "no está en ella: juega en otro grupo o zona. No compares "
                 "posiciones ni puntos entre los dos equipos.")
-    # cornersH = corners * 0.56 es el respaldo por liga de actualizar.py, no un
-    # dato medido. Un análisis que lo interprete estaría leyendo una constante.
-    if p.get("corners") and abs(p.get("cornersH", 0) - round(p["corners"] * 0.56, 1)) < 1e-9:
+    # El aviso del respaldo por liga (corners * 0.56) se fue con los campos
+    # que lo motivaban: desde el 2026-09-03 el esperado del modelo no viaja.
+    # Lo que sí hace falta avisar es cuándo NO hay medición propia, porque
+    # sin ella las cuatro dimensiones de volumen de `senal` van a `null` por
+    # falta de evidencia admisible — y eso hay que poder distinguirlo de un
+    # `null` por criterio.
+    if faltan_metricas:
         avisos.append(
-            "Córners/faltas/tarjetas son el promedio de la liga, no de estos "
-            "equipos: ESPN no trajo estadística propia. No los interpretes.")
+            f"Sin estadística medida de {' ni de '.join(faltan_metricas)}: "
+            "no tenés evidencia admisible para corners_total, faltas, "
+            "tarjetas ni volumen_remates. Esas cuatro van en null — no las "
+            "deduzcas de goles, de la tabla ni de quién es mejor.")
+    else:
+        pocos = sorted({
+            m
+            for lado in ("H", "A")
+            for m, k in ((mm, (e.get("metricas" + lado) or {}).get("n", {}).get(mm))
+                         for mm in METRICAS_SENAL)
+            if isinstance(k, int) and k < 4
+        })
+        if pocos:
+            avisos.append(
+                f"Menos de 4 partidos medidos en: {', '.join(pocos)}. Con esa "
+                "muestra un promedio es una racha, no una tendencia "
+                "(principio E): null es la respuesta correcta salvo que la "
+                "diferencia sea enorme.")
     if avisos:
         e["_avisos"] = avisos
 
     e["_leeme"] = (
-        "corners/fouls/cards son totales del PARTIDO (los dos equipos sumados); "
-        "cornersH es la parte del local. cards suma amarillas y rojas. "
+        "metricasH/metricasA son lo MEDIDO por equipo, por partido: `produce` "
+        "es lo que hace el equipo y `concede` lo que le hacen a él — los dos "
+        "hacen falta, porque los córners de un partido los generan los dos "
+        "lados. `local`/`visita` es el split por sede, `n` cuántos partidos "
+        "hay detrás de cada número y `desvio` cuánto varía. Son la ÚNICA "
+        "evidencia admisible para las cuatro dimensiones de volumen de "
+        "`desarrollo.senal`. El esperado de córners/faltas/tarjetas que este "
+        "expediente traía hasta el 2026-09-03 ya no viaja: era salida del "
+        "modelo, no una medición. "
         "En formH/formA, 'local' dice si ese partido lo jugó de local. "
         "formH_general/formA_general son los últimos 5 del equipo cruzando TODAS "
         "las competencias que seguimos, ordenados por fecha real — a diferencia de "
@@ -288,9 +385,20 @@ def expediente(p, planteles=None):
         "se VA a jugar el partido (quién va a tener la pelota, abierto o trabado, "
         "ritmo, qué puede alterar el guion) — SIEMPRE desde el expediente (forma, "
         "sede, plantel, h2h), nunca desde el mercado. Y 'desarrollo.senal' usa el "
-        "léxico cerrado: ritmo_goleador alto|bajo|incierto, estructura "
-        "abierto|trabado|neutral|incierto, ambos_marcan probable|poco_probable|"
-        "incierto; cuando no haya base, 'incierto'."
+        "léxico cerrado, que cambió el 2026-09-03 y son CINCO campos: "
+        "corners_total muchos|pocos|null, faltas muchas|pocas|null, "
+        "tarjetas muchas|pocas|null, volumen_remates alto|bajo|null, y "
+        "generador {equipo, jugador}|null. No existe 'incierto' ni 'normal': "
+        "cuando no hay base la respuesta es null, y null es la respuesta "
+        "preferida — no hay que completar los cinco campos. Las viejas "
+        "(ritmo_goleador, estructura, ambos_marcan) están DEROGADAS: las tres "
+        "describían cuántos goles, que es lo que el modelo ya calcula. "
+        "La regla que las reemplaza, en una línea: la evidencia para afirmar "
+        "una dimensión tiene que ser una medición de esa misma métrica. Para "
+        "decir 'muchos córners' hace falta dato de córners (metricasH/"
+        "metricasA), no que un equipo sea mejor ni que venga haciendo goles. "
+        "`generador` sale de la serie de remates del plantel y solo se nombra "
+        "a alguien que lidere a su equipo por al menos 50% sobre el segundo."
     )
     return e
 

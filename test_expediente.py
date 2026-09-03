@@ -117,6 +117,47 @@ print("\nel recorte del modelo sigue en pie\n")
 for prohibido in ("lh", "la", "rho", "conf", "mercado", "note"):
     prueba(f"no filtra {prohibido}", prohibido not in e)
 
+# Los tres esperados de estadística salieron el 2026-09-03. Son un pronóstico
+# NUESTRO de córners/faltas/tarjetas, o sea la misma métrica que `senal`
+# afirma y el mismo baseline contra el que `medir_senal.py` mide el aporte.
+# Con ellos adentro, la capa 3 comparaba el modelo contra sí mismo.
+for prohibido in ("corners", "cornersH", "fouls", "cards"):
+    prueba(f"no filtra el esperado {prohibido}", prohibido not in e)
+
+print("\nla evidencia admisible de `senal` viaja medida\n")
+
+EST = {"16": {"pj": 6, "remates": 14.8, "corners": 5.0, "faltas": 14.6,
+              "tarjetas": 2.0, "al_arco": 4.2,
+              "concede": {"corners": 3.83, "faltas": 12.2},
+              "local": {"corners": 5.0}, "visita": {"corners": 5.0},
+              "n": {"corners": 6, "faltas": 3},
+              "desvio": {"corners": 3.22}},
+       "5488": {"pj": 6, "remates": 11.0, "corners": 4.1, "faltas": 16.0,
+                "tarjetas": 2.4, "al_arco": 3.1,
+                "concede": {"corners": 5.2, "faltas": 13.0},
+                "n": {"corners": 6, "faltas": 6}}}
+con_est = expediente.expediente(PARTIDO, PLANTELES, EST)
+m = con_est.get("metricasH") or {}
+prueba("metricasH viaja cuando hay medición", bool(m))
+prueba("trae lo que produce", (m.get("produce") or {}).get("corners") == 5.0)
+prueba("trae lo que concede", (m.get("concede") or {}).get("corners") == 3.83)
+prueba("trae el split por sede", "local" in m and "visita" in m)
+prueba("trae n, que es lo que permite callarse", (m.get("n") or {}).get("corners") == 6)
+prueba("trae el desvio", (m.get("desvio") or {}).get("corners") == 3.22)
+
+sin_est = expediente.expediente(PARTIDO, PLANTELES, {})
+prueba("sin medición no inventa metricas", "metricasH" not in sin_est)
+prueba("sin medición avisa que las cuatro van en null",
+       any("evidencia admisible" in a for a in sin_est.get("_avisos", [])))
+prueba("con n chico avisa que un promedio es una racha",
+       any("racha" in a for a in con_est.get("_avisos", [])))
+prueba("el leeme ya no describe el lexico derogado",
+       "ritmo_goleador" not in con_est["_leeme"]
+       or "DEROGADAS" in con_est["_leeme"])
+prueba("el leeme describe el lexico vigente",
+       "corners_total" in con_est["_leeme"]
+       and "generador" in con_est["_leeme"])
+
 print("\nel plantel llega ordenado y sin relleno\n")
 
 muchos = {"16": [jugador(f"J{i}", str(i), pj=i) for i in range(1, 40)]}

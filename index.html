@@ -5784,15 +5784,34 @@ function viewMetodo(){
 
   /* Los límites, dichos donde el usuario los puede usar. Son cuatro y
      ninguno es opinión: los tres primeros son propiedades de la fuente,
-     el cuarto es el tamaño de la muestra propia. */
+     el cuarto es el tamaño de la muestra propia.
+
+     El primero se CALCULA desde el 2026-09-03. Decía "Cinco partidos
+     por equipo" escrito a mano, y era falso para la mitad de la grilla:
+     con las europeas recién arrancadas la mediana real era 2, y esta es
+     justo la pantalla donde la app explica sus propios límites. Se
+     muestra la mediana y el mínimo, porque el promedio de una grilla
+     que mezcla un torneo por la fecha 8 con otro por la 2 no describe
+     a ninguno de los dos. */
+  const muestras = MATCHES.flatMap(m=> [m.homeId, m.awayId])
+    .map(id=> (ESTADISTICAS[String(id)] || {}).pj)
+    .filter(n=> typeof n === "number").sort((a, b)=> a - b);
+  const mediana = muestras.length ? muestras[Math.floor(muestras.length / 2)] : null;
+  const minimo = muestras.length ? muestras[0] : null;
+  const nMuestra = mediana == null
+    ? "El caché de estadísticas es corto"
+    : `Mediana de ${mediana} partido${mediana===1?"":"s"} por equipo en la grilla de hoy` +
+      (minimo != null && minimo < mediana ? `, y los que menos tienen llegan a ${minimo}` : "");
+
   h += `<div class="sepsec"><span>Límites</span><i></i></div>
     <div class="limites">
-      <div class="limite"><b>Cinco partidos por equipo</b><i>El caché de estadísticas es corto:
-        abajo de esa muestra el número es casi todo promedio de la liga.</i></div>
+      <div class="limite"><b>${esc_(nMuestra)}</b><i>El número de un equipo con poca muestra es
+        casi todo promedio de la liga: no lo distingue de sus rivales.</i></div>
       <div class="limite"><b>No hay partes médicos</b><i>La fuente devuelve a todos los jugadores
         como activos. Lesionados y suspendidos no vienen en el dato.</i></div>
-      <div class="limite"><b>Una sola casa de cuotas</b><i>La referencia es DraftKings, que ni
-        siquiera opera en Argentina. Por eso mostramos umbral y no cuota.</i></div>
+      <div class="limite"><b>Dos casas, ninguna de acá</b><i>El resultado y los goles salen de
+        DraftKings, y los mercados de jugador de Bet365. Ninguna de las dos opera en Argentina,
+        y por eso mostramos umbral y no cuota.</i></div>
       <div class="limite"><b>${cerradas} apuesta${cerradas===1?"":"s"} cerrada${cerradas===1?"":"s"}</b>
         <i>${cerradas
           ? "Con esta muestra el intervalo de tu ROI todavía es más ancho que cualquier ventaja real."

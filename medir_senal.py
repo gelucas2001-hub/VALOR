@@ -137,6 +137,221 @@ def esquema_de(senal):
     return None
 
 
+# La tasa base de cada dimensión, medida en Europa por
+# `calibrar_senal.py`. Viaja acá SOLO como referencia impresa: la vara
+# con la que se juzga la muestra sudamericana es la que se observa en
+# ella misma, y las dos se muestran juntas justamente porque pueden no
+# coincidir. Ver TRASPASO §37 y §39.
+BASE_EUROPA = {"faltas": 0.541, "volumen_remates": 0.512,
+               "corners_total": 0.520, "tarjetas": 0.569}
+
+# `_jugadores` de cache_disciplina.json es
+# [remates, al_arco, faltas, amarillas, goles, asist, titular] — el orden
+# lo fija `jugadores_partido()` en actualizar.py. `generador` afirma
+# sobre remates, que es la posición 0.
+IDX_REMATES = 0
+
+
+def resolver_volumen(ev, campo, real):
+    """¿La afirmación ocurrió? Contra la vara SELLADA, no una recalculada.
+
+    Esto es lo que C3 (§36) vino a habilitar. `estadisticas.json` se
+    sobrescribe, así que la vara con la que se afirmó ya no existe en
+    ningún lado salvo en `desarrollo.evidencia`. Recalcularla hoy usaría
+    un promedio que incluye el partido que estamos verificando.
+    """
+    base = (ev.get("senal_base") or {}).get(campo) or {}
+    vara, fallo = base.get("vara"), base.get("fallo")
+    if vara is None or fallo is None or real is None:
+        return None
+    arriba = fallo in ("muchos", "muchas", "alto")
+    return (real > vara) == arriba
+
+
+def equipo_de(pid, planteles, ids):
+    for tid in ids:
+        if any(str(j.get("id")) == str(pid) for j in planteles.get(tid) or []):
+            return tid
+    return None
+
+
+def resolver_generador(g, partido, planteles, ids_por_lado):
+    """¿El jugador nombrado lideró los remates de su equipo ESE partido?
+
+    Devuelve (acertó, motivo). El motivo importa tanto como el acierto:
+    un `None` por "no lo encontramos en el plantel" no es un fallo del
+    pronóstico y no puede contar como tal.
+    """
+    jug = (partido or {}).get("_jugadores") or {}
+    if not jug:
+        return None, "el partido no tiene estadística por jugador"
+    tid = ids_por_lado.get(g.get("equipo"))
+    if not tid:
+        return None, "no se pudo identificar el equipo"
+    plantel = planteles.get(tid) or []
+    ids = {str(j.get("id")): j.get("nombre") for j in plantel}
+    objetivo = next((i for i, n in ids.items()
+                     if n == g.get("jugador")), None)
+    if not objetivo:
+        return None, f"{g.get('jugador')} no está en el plantel cacheado"
+    propios = {i: v for i, v in jug.items() if i in ids}
+    if objetivo not in propios:
+        return False, "el jugador nombrado no jugó el partido"
+    tope = max(v[IDX_REMATES] for v in propios.values())
+    return propios[objetivo][IDX_REMATES] >= tope, ""
+
+
+def ee_prop(p, n):
+    return 0.0 if n <= 0 else (p * (1 - p) / n) ** 0.5
+
+
+def capa_dos(nuevos):
+    """¿Las afirmaciones ocurrieron? Nada más que eso.
+
+    No compara contra el modelo —eso sería la capa 3, y §39 midió que
+    con este diseño no se puede— ni recalibra nada. Resuelve cada señal
+    contra la fotografía que quedó sellada y contra lo que el cron
+    guardó del partido.
+    """
+    print(f"\n{'─'*74}\n  CAPA 2 — ¿ocurrió lo que la señal afirmó?\n{'─'*74}")
+
+    res = leer("resultados.json", {}) or {}
+    disc = leer("cache_disciplina.json", {}) or {}
+    planteles = (leer("planteles.json", {}) or {}).get("equipos") or {}
+
+    sin_sello, sin_jugar, sin_datos = [], [], []
+    por_dim = {c: {"ok": 0, "n": 0} for c in SENALES}
+    por_dim["generador"] = {"ok": 0, "n": 0}
+    por_liga = {}
+    base_obs = {c: {"arriba": 0, "n": 0} for c in SENALES}
+    notas = []
+
+    for pid, sen in nuevos:
+        ev = ((leer("analisis.json", {}) or {}).get(pid, {})
+              .get("desarrollo") or {}).get("evidencia")
+        if not ev:
+            sin_sello.append(pid)
+            continue
+        if pid not in res:
+            sin_jugar.append(pid)
+            continue
+        crudo = disc.get(pid.replace("espn", ""))
+        if not crudo:
+            sin_datos.append(pid)
+            continue
+        tids = [t for t in crudo if not t.startswith("_")]
+        if len(tids) != 2:
+            sin_datos.append(pid)
+            continue
+        # El orden de las claves es local, visitante — verificado 66/66
+        # contra historial_pronosticos.json (§38).
+        ids_por_lado = {"local": tids[0], "visitante": tids[1]}
+        liga = None
+        for t in tids:
+            for j in planteles.get(t) or []:
+                liga = liga or j.get("liga")
+
+        for campo, meta in SENALES.items():
+            m = meta["met"]
+            real = sum((crudo[t] or {}).get(m) or 0 for t in tids) \
+                if all((crudo[t] or {}).get(m) is not None for t in tids) else None
+            base = (ev.get("senal_base") or {}).get(campo) or {}
+            if real is not None and base.get("vara") is not None:
+                base_obs[campo]["n"] += 1
+                base_obs[campo]["arriba"] += 1 if real > base["vara"] else 0
+            if not sen.get(campo):
+                continue
+            ok = resolver_volumen(ev, campo, real)
+            if ok is None:
+                notas.append(f"{pid} {campo}: sin dato del partido")
+                continue
+            por_dim[campo]["n"] += 1
+            por_dim[campo]["ok"] += 1 if ok else 0
+            d = por_liga.setdefault(liga or "?", {"ok": 0, "n": 0})
+            d["n"] += 1
+            d["ok"] += 1 if ok else 0
+
+        for g in generadores(sen):
+            ok, motivo = resolver_generador(g, crudo, planteles, ids_por_lado)
+            if ok is None:
+                notas.append(f"{pid} generador: {motivo}")
+                continue
+            por_dim["generador"]["n"] += 1
+            por_dim["generador"]["ok"] += 1 if ok else 0
+            d = por_liga.setdefault(liga or "?", {"ok": 0, "n": 0})
+            d["n"] += 1
+            d["ok"] += 1 if ok else 0
+
+    emitidas = sum(1 for _k, s in nuevos
+                   for c in SENALES if s.get(c)) + \
+        sum(len(generadores(s)) for _k, s in nuevos)
+    resueltas = sum(d["n"] for d in por_dim.values())
+    print(f"\n  {emitidas} señales emitidas · {resueltas} resueltas")
+    if sin_sello:
+        print(f"  {len(sin_sello)} análisis SIN evidencia sellada — no se "
+              f"pueden resolver (ver `expediente.py --sellar`)")
+    if sin_jugar:
+        print(f"  {len(sin_jugar)} partidos todavía sin jugar")
+    if sin_datos:
+        print(f"  {len(sin_datos)} jugados pero sin estadística cacheada")
+
+    if not resueltas:
+        print("\n  Todavía no hay nada que resolver. El instrumento está")
+        print("  completo: cuando el cron cierre los partidos, esto los lee.\n")
+        return
+
+    print(f"\n  {'dimensión':>16} {'n':>4} {'ok':>4} {'fallos':>7} "
+          f"{'acierto':>8} {'base obs':>9} {'base eur':>9} {'delta':>7} {'±ee':>7}")
+    print("  " + "-" * 82)
+    for dim, d in por_dim.items():
+        if not d["n"]:
+            continue
+        p = d["ok"] / d["n"]
+        bo = base_obs.get(dim)
+        # La tasa base se muestra en el mismo sentido que el acierto: la
+        # frecuencia del lado más común entre los partidos con evidencia.
+        if bo and bo["n"]:
+            arr = bo["arriba"] / bo["n"]
+            b = max(arr, 1 - arr)
+            btxt = f"{b:>8.1%}"
+        else:
+            b, btxt = None, "       —"
+        be = BASE_EUROPA.get(dim)
+        betxt = f"{be:>8.1%}" if be else "       —"
+        dtxt = f"{p-b:>+6.1%}" if b is not None else "      —"
+        print(f"  {dim:>16} {d['n']:>4} {d['ok']:>4} {d['n']-d['ok']:>7} "
+              f"{p:>7.1%} {btxt} {betxt} {dtxt} {ee_prop(p, d['n'])*2:>6.1%}")
+
+    if len(por_liga) > 1:
+        print(f"\n  por liga")
+        for lg, d in sorted(por_liga.items()):
+            p = d["ok"] / d["n"]
+            print(f"    {lg:>10} {d['n']:>4} señales  {p:>6.1%} "
+                  f"±{ee_prop(p, d['n'])*200:.1f}")
+
+    print("\n  El ± son dos errores estándar. Con menos de ~60 señales por")
+    print("  dimensión esto NO concluye — ver la potencia en TRASPASO §39.")
+    for n in notas[:8]:
+        print(f"    - {n}")
+    print()
+
+
+def capa_tres():
+    print(f"{'─'*74}\n  CAPA 3 — el aporte incremental\n{'─'*74}\n")
+    print("  No se implementa, y no es por falta de muestra (§39).")
+    print()
+    print("  Desde §34 las cuatro dimensiones de volumen no las decide la")
+    print("  lectura: el expediente calcula `senal_base` desde")
+    print("  estadisticas.json, aplica el umbral y entrega el fallo, y la")
+    print("  skill lo copia. Señal y baseline salen del MISMO insumo, así")
+    print("  que el aporte incremental es cero por construcción. Ninguna")
+    print("  cantidad de datos lo cambia.")
+    print()
+    print("  Lo que la capa 2 sí contesta, y es una pregunta real: si el")
+    print("  umbral calibrado en Europa transfiere a Sudamérica.")
+    print()
+
+
 def main():
     an = leer("analisis.json", {}) or {}
     an.pop("_schema", None)
@@ -189,11 +404,8 @@ def main():
     print(f"\n  {afirmadas} afirmaciones sobre "
           f"{len(nuevos) * (len(SENALES) + 2)} casilleros posibles.")
 
-    # ── Capa 2 y 3 ───────────────────────────────────────────────────
-    print(f"\n{'─'*74}\n  CAPA 2 y 3 — ¿se verifica, y aporta sobre el modelo?"
-          f"\n{'─'*74}\n")
-    print("  Sin resultados cargados para estos partidos todavía no se")
-    print("  puede resolver. Volvé a correrlo cuando el cron los cierre.\n")
+    capa_dos(nuevos)
+    capa_tres()
     return 0
 
 

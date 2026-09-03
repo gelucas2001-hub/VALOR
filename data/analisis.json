@@ -1600,5 +1600,738 @@
         }
       }
     }
+  },
+  "espn401912518": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Fluminense es un equipo de producción alta que juega el partido en campo rival, y en Maracanã sube todavía más el caudal. En el Brasileirão viene sin perder — 3-3 con Athletico Paranaense el 30 de agosto, 2-1 a Remo el 22 y 3-2 a Palmeiras el 15 — con el gol repartido entre Canobbio y Hulk. Le falta su goleador de la temporada, John Kennedy, que hizo casi un cuarto de los goles del plantel y no aparece en la seguidilla reciente; pero el equipo ya lleva varios partidos armado sin él, así que es su estado actual y no una novedad de esta llave.",
+    "visitante": "Platense llega de una campaña despareja en Argentina: cayó 0-1 con Defensa y Justicia el 31 de agosto, empató 1-1 con Instituto el 28 y 0-0 con Coquimbo el 19, con un 2-1 a Barracas el 23 como única victoria. Es un equipo de goles repartidos —Nasif, Zapiola y Lotti rondan el 15% cada uno— sin una referencia que resuelva solo, y eso pesa más lejos de casa. Fuera de su cancha viene empatando o perdiendo por poco.",
+    "contexto": "Ida de los cuartos de la Libertadores en Maracanã; la vuelta se juega entre el 15 y el 17 de septiembre. No se cruzaron nunca antes, así que no hay antecedente al que agarrarse, y las formas de esta competencia abarcan casi cuatro meses porque la fase de grupos se jugó en mayo.",
+    "veredicto": "Un local que produce mucho más recibe a un visitante sin una referencia de gol clara, pero eso es exactamente lo que separa a los dos en cualquier medición; sin un factor propio de esta llave, la lectura no inclina.",
+    "desarrollo": {
+      "texto": "Guion previsible de ida de cuartos en casa del favorito: Fluminense con la pelota y campo, Platense replegado y esperando el momento. Lo que suele cambiar el trámite en una ida es cuánto arriesga el local sabiendo que hay noventa minutos más la semana siguiente.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "local",
+            "jugador": "Hulk"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 30.8,
+              "sede": 31.8,
+              "cruzado": 29.6
+            },
+            "estimado": 30.7,
+            "vara": 30.97,
+            "gap": -0.008,
+            "dispersion": 0.072,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 10.2,
+              "sede": 12.0,
+              "cruzado": 11.9
+            },
+            "estimado": 11.4,
+            "vara": 9.93,
+            "gap": 0.144,
+            "dispersion": 0.184,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 27.6,
+              "sede": 27.0,
+              "cruzado": 27.8
+            },
+            "estimado": 27.5,
+            "vara": 25.76,
+            "gap": 0.066,
+            "dispersion": 0.029,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.3,
+              "sede": 4.5,
+              "cruzado": 4.8
+            },
+            "estimado": 4.5,
+            "vara": 4.23,
+            "gap": 0.07,
+            "dispersion": 0.112,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Hulk",
+              "pos": "F",
+              "por_partido": 3.5,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Agustín Canobbio",
+              "pos": "F",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 0.556,
+            "califica": true,
+            "por_que": "+56% sobre el segundo"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Franco Zapiola",
+              "pos": "M",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Guido Mainero",
+              "pos": "F",
+              "por_partido": 1.75,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.286,
+            "califica": false,
+            "por_que": "solo +29%, hace falta +50%"
+          }
+        }
+      }
+    }
+  },
+  "espn401913960": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Independiente Santa Fe vive de Hugo Rodallega: casi el 30% de los goles del plantel, titular en los cuatro partidos de la serie y el que más patea por lejos. El equipo no pierde hace cinco —3-2 a Millonarios el 3 de septiembre, y antes empates con Atlético Junior, River y América— pero en cuatro de esos cinco no pasó del empate. Es sólido y le cuesta cerrar.",
+    "visitante": "Vasco alterna resultados extremos y no tiene término medio: ganó 3-1 a Cruzeiro el 30 de agosto y 4-1 a Olimpia el 20, y perdió 1-4 con Palmeiras el 23 y 0-3 con Santos el 16. El gol está muy repartido —Thiago Mendes es el máximo con 15%— y el volumen ofensivo lo está poniendo Facundo Colidio, que llegó hace poco y viene pateando mucho en sus primeros partidos. Es un equipo que gana o se cae, sin puntos intermedios.",
+    "contexto": "Ida de los cuartos de la Sudamericana en Bogotá, a 2.600 metros. La altura es el factor que distingue este cruce, pero el antecedente propio de Santa Fe lo relativiza: en esta misma competencia recibió a River —un equipo de llano— dos veces y empató las dos, 1-1 y 0-0. La altura le está sirviendo para no perder, no para ganar. La vuelta es en Río entre el 15 y el 17.",
+    "veredicto": "La altura de Bogotá es real pero el rastro dice que a Santa Fe le alcanza para empatar y no para ganar; con un visitante de resultados extremos, la lectura no puede sostener una dirección.",
+    "desarrollo": {
+      "texto": "Se espera que el local proponga y el visitante administre el desgaste, que es lo que suele pasar en Bogotá con un equipo que llega de afuera. Vasco tiene con qué lastimar en una contra, y Santa Fe con qué acumular llegadas sin resolverlas. El guion se rompe si Vasco convierte temprano y obliga al local a salir.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "local",
+            "jugador": "Hugo Rodallega"
+          },
+          {
+            "equipo": "visitante",
+            "jugador": "Facundo Colidio"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 28.2,
+              "sede": 24.0,
+              "cruzado": 25.0
+            },
+            "estimado": 25.8,
+            "vara": 31.31,
+            "gap": -0.178,
+            "dispersion": 0.136,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 8.5,
+              "sede": 8.5,
+              "cruzado": 8.2
+            },
+            "estimado": 8.4,
+            "vara": 10.42,
+            "gap": -0.192,
+            "dispersion": 0.024,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 24.8,
+              "sede": 25.5,
+              "cruzado": 24.2
+            },
+            "estimado": 24.8,
+            "vara": 24.97,
+            "gap": -0.005,
+            "dispersion": 0.05,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 3.0,
+              "sede": 3.0,
+              "cruzado": 2.6
+            },
+            "estimado": 2.9,
+            "vara": 3.67,
+            "gap": -0.217,
+            "dispersion": 0.102,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Hugo Rodallega",
+              "pos": "F",
+              "por_partido": 4.0,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Nahuel Bustos",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 1.0,
+            "califica": true,
+            "por_que": "+100% sobre el segundo"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Facundo Colidio",
+              "pos": "F",
+              "por_partido": 4.67,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Tchê Tchê",
+              "pos": "M",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 1.076,
+            "califica": true,
+            "por_que": "+108% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401912542": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Boca llega entero y sin ganar seguido: 0-0 con Vélez el 3 de septiembre, 1-0 a Lanús el 29 de agosto, 1-1 con Racing el 24 y 4-0 a Riestra el 18. El gol pasa por Ascacíbar, con un tercio del plantel, y por Merentiel. Las bajas que se publicaron a mediados de agosto —Paredes, Pellegrino y Lozano— ya volvieron: los tres tienen partidos recientes de arranque, así que no son un factor de esta llave.",
+    "visitante": "São Paulo tampoco encadena: ganó 2-1 a Red Bull Bragantino el 29 de agosto y 3-1 a Bolívar el 19, pero perdió 0-1 con Chapecoense el 23 y empató 1-1 con Coritiba y con Bolívar. Su ataque es el más concentrado del cruce: Luciano y Calleri suman la mitad de los goles del plantel entre los dos. Es un equipo que depende de que esos dos aparezcan.",
+    "contexto": "Ida de los cuartos de la Sudamericana en la Bombonera; la vuelta es en São Paulo el 15 de septiembre. No hay historial entre los dos en el registro que manejamos.",
+    "veredicto": "Dos equipos que vienen alternando y ninguno con una ausencia que mueva el partido; lo que los separa es la forma, que no es motivo para inclinar.",
+    "desarrollo": {
+      "texto": "Ida de cuartos en cancha del local, con los dos equipos sabiendo que hay revancha. Es el escenario donde menos se arriesga: Boca va a querer sacar diferencia sin exponerse y São Paulo puede darse por satisfecho con no recibir. Lo que puede abrirlo es que Luciano o Calleri encuentren una temprana.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 36.7,
+              "sede": 40.8,
+              "cruzado": 30.6
+            },
+            "estimado": 36.0,
+            "vara": 31.31,
+            "gap": 0.151,
+            "dispersion": 0.326,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 12.2,
+              "sede": 12.0,
+              "cruzado": 10.8
+            },
+            "estimado": 11.7,
+            "vara": 10.42,
+            "gap": 0.122,
+            "dispersion": 0.136,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 24.7,
+              "sede": 25.0,
+              "cruzado": 25.0
+            },
+            "estimado": 24.9,
+            "vara": 24.97,
+            "gap": -0.004,
+            "dispersion": 0.013,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.0,
+              "sede": 3.7,
+              "cruzado": 4.5
+            },
+            "estimado": 4.1,
+            "vara": 3.67,
+            "gap": 0.105,
+            "dispersion": 0.226,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Tomás Aranda",
+              "pos": "M",
+              "por_partido": 3.25,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Santiago Ascacibar",
+              "pos": "M",
+              "por_partido": 2.6,
+              "apariciones": 5,
+              "titular": 5
+            },
+            "ventaja": 0.25,
+            "califica": false,
+            "por_que": "solo +25%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Luciano",
+              "pos": "F",
+              "por_partido": 3.75,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Artur",
+              "pos": "F",
+              "por_partido": 3.33,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "ventaja": 0.126,
+            "califica": false,
+            "por_que": "solo +13%, hace falta +50%"
+          }
+        }
+      }
+    }
+  },
+  "espn401912527": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Palmeiras es de los que más peso ofensivo reparten: José Manuel López, Maurício y Jhon Arias andan todos entre el 15% y el 21% de los goles del plantel, así que no hay un solo jugador al que anular. Viene de empatar 1-1 con Mirassol el 30 de agosto y de golear 4-1 a Vasco el 23, con un tropiezo 2-3 ante Fluminense el 15. En esta competencia ya ganó 1-0 a Cerro Porteño el 19.",
+    "visitante": "Liga de Quito llega de un tramo flojo en su liga: empató 0-0 con Mushuc Runa el 2 de septiembre y perdió 1-2 con Guayaquil City el 29 de agosto, aunque antes había ganado a Emelec y a Aucas. El gol se reparte entre Deyverson, Quiñónez y Estrada, y es Michael Estrada el que está poniendo el volumen de remate, bastante por encima del resto del plantel.",
+    "contexto": "Ida de los cuartos de la Libertadores en el Allianz Parque, con la vuelta en Quito entre el 15 y el 17. Se cruzaron dos veces en el registro que tenemos, en octubre de 2025: 4-0 y 3-0, uno para cada lado. Son dos partidos y de otra edición, así que es una anécdota y no un patrón.",
+    "veredicto": "Palmeiras produce más y juega en casa, pero eso ya está en cualquier medición del partido; el visitante llega irregular sin una ausencia que lo explique, así que la lectura no inclina.",
+    "desarrollo": {
+      "texto": "Se espera un local con la pelota y un visitante que priorice llegar vivo a la vuelta en altura, que es su mejor carta de la llave. Palmeiras va a acumular llegadas y Liga de Quito a cerrar líneas y buscar alguna contra. El guion cambia si el local no convierte en el primer tiempo: ahí la ansiedad juega para el que visita.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "visitante",
+            "jugador": "Michael Estrada"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 32.0,
+              "sede": 31.5,
+              "cruzado": 29.0
+            },
+            "estimado": 30.8,
+            "vara": 30.97,
+            "gap": -0.004,
+            "dispersion": 0.097,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 9.3,
+              "sede": 8.5,
+              "cruzado": 9.1
+            },
+            "estimado": 9.0,
+            "vara": 9.93,
+            "gap": -0.096,
+            "dispersion": 0.086,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 25.0,
+              "sede": 27.0,
+              "cruzado": 25.9
+            },
+            "estimado": 26.0,
+            "vara": 25.76,
+            "gap": 0.008,
+            "dispersion": 0.078,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 3.5,
+              "sede": 2.0,
+              "cruzado": 3.6
+            },
+            "estimado": 3.0,
+            "vara": 4.23,
+            "gap": -0.281,
+            "dispersion": 0.384,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "José Manuel López",
+              "pos": "F",
+              "por_partido": 2.5,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Maurício",
+              "pos": "M",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 0.25,
+            "califica": false,
+            "por_que": "solo +25%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Michael Estrada",
+              "pos": "F",
+              "por_partido": 3.67,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Janner Corozo",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "ventaja": 0.835,
+            "califica": true,
+            "por_que": "+84% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401913073": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Santos viene en alza y con Neymar enchufado: 2, 7 y 5 remates en sus últimos tres, siempre de arranque. El equipo ganó 1-0 a Corinthians el 30 de agosto y 3-0 a Vasco el 16, con empates de por medio, y el gol lo lidera Gabriel Barbosa con más de un cuarto del plantel. Es de los pocos del cruce que combina una referencia de gol clara con un generador de juego en forma.",
+    "visitante": "Atlético Mineiro está invicto hace cinco y gana sin goleadas: 2-1 a Vitória el 29 de agosto, 3-0 a Grêmio el 16 y 1-0 a Red Bull Bragantino el 12, con dos empates sin recibir. Su ataque es el más repartido de los seis equipos que miramos: Cuello es el máximo con 15% y nadie más pasa del 12%. Gana por estructura y no por un nombre, y eso lo hace difícil de preparar.",
+    "contexto": "Ida de los cuartos de la Sudamericana en Vila Belmiro; la vuelta es en Belo Horizonte el 16 de septiembre. No hay historial entre los dos en el registro que manejamos.",
+    "veredicto": "Un local en levantada con sus dos referencias finas contra un visitante invicto que no depende de nadie; los dos llegan bien y por caminos opuestos, y nada de eso está fuera de lo que ya se ve en los resultados.",
+    "desarrollo": {
+      "texto": "Choque de dos equipos que llegan enteros, así que no hay que esperar un dominio marcado. Santos va a buscar que Neymar reciba entre líneas y Atlético Mineiro a sostener el orden que le viene dando resultado. Es de los cruces donde el primer gol define el resto del guion, porque ninguno de los dos necesita desesperarse en una ida.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 29.0,
+              "sede": 32.0,
+              "cruzado": 29.5
+            },
+            "estimado": 30.2,
+            "vara": 31.31,
+            "gap": -0.037,
+            "dispersion": 0.096,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 10.5,
+              "sede": 13.5,
+              "cruzado": 11.5
+            },
+            "estimado": 11.8,
+            "vara": 10.42,
+            "gap": 0.136,
+            "dispersion": 0.288,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 25.5,
+              "sede": 24.5,
+              "cruzado": 25.0
+            },
+            "estimado": 25.0,
+            "vara": 24.97,
+            "gap": 0.001,
+            "dispersion": 0.04,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.0,
+              "sede": 4.0,
+              "cruzado": 4.6
+            },
+            "estimado": 4.2,
+            "vara": 3.67,
+            "gap": 0.147,
+            "dispersion": 0.17,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Neymar",
+              "pos": "F",
+              "por_partido": 4.67,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Álvaro Barreal",
+              "pos": "M",
+              "por_partido": 3.5,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.334,
+            "califica": false,
+            "por_que": "solo +33%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Bernard",
+              "pos": "M",
+              "por_partido": 1.33,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Thiago Borbas",
+              "pos": "F",
+              "por_partido": 1.33,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "ventaja": 0.0,
+            "califica": false,
+            "por_que": "solo +0%, hace falta +50%"
+          }
+        }
+      }
+    }
+  },
+  "espn401912541": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Estudiantes tiene dos velocidades y nada en el medio: cuando gana, golea —3-1 a Barracas el 27 de agosto, 3-0 a Universidad el 19 y 4-0 a Gimnasia el 15— y cuando no, no convierte, como el 0-0 con Newell's el 31 y el 0-2 con Sarmiento el 23. El ataque pasa por Tiago Palacios, con un tercio de los goles del plantel. Llega además con calendario corto: jugó en Argentina el 5 de septiembre y vuelve a jugar el 9.",
+    "visitante": "Corinthians llega mal y con el gol muy repartido, que en su caso es falta de referencia y no virtud: nadie del plantel pasa del 12%. Perdió tres de sus últimos cinco —0-1 con Santos el 30 de agosto, 1-2 con Coritiba el 23 y 1-2 con Cruzeiro el 16— y lo único rescatable fue el 1-0 a Rosario Central el 21. Fuera de casa el problema se le agrava porque no tiene quién resuelva de arranque.",
+    "contexto": "Ida de los cuartos de la Libertadores en La Plata, con la vuelta en San Pablo entre el 15 y el 17. No se cruzaron nunca en el registro que manejamos.",
+    "veredicto": "El visitante llega peor y sin una referencia de gol, pero eso es forma y plantel, que es lo primero que cualquier medición del partido ya recoge; sin un factor exclusivo de esta llave, la lectura no inclina.",
+    "desarrollo": {
+      "texto": "Se espera un local que proponga y un visitante que intente no complicarse antes de la revancha en su cancha. Estudiantes es de los que necesitan que el partido se abra para hacer daño, y Corinthians viene justamente de partidos cerrados que pierde por poco. El desgaste del local, que jugó cuatro días antes, puede pesar en el tramo final.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 30.2,
+              "sede": 32.8,
+              "cruzado": 27.1
+            },
+            "estimado": 30.1,
+            "vara": 30.97,
+            "gap": -0.03,
+            "dispersion": 0.183,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 10.3,
+              "sede": 13.0,
+              "cruzado": 9.7
+            },
+            "estimado": 11.0,
+            "vara": 9.93,
+            "gap": 0.107,
+            "dispersion": 0.331,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 24.6,
+              "sede": 24.2,
+              "cruzado": 25.9
+            },
+            "estimado": 24.9,
+            "vara": 25.76,
+            "gap": -0.033,
+            "dispersion": 0.069,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.9,
+              "sede": 3.8,
+              "cruzado": 4.5
+            },
+            "estimado": 4.4,
+            "vara": 4.23,
+            "gap": 0.041,
+            "dispersion": 0.253,
+            "n": 5,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Guido Carrillo",
+              "pos": "F",
+              "por_partido": 3.25,
+              "apariciones": 4,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Alexis Castro",
+              "pos": "M",
+              "por_partido": 2.2,
+              "apariciones": 5,
+              "titular": 3
+            },
+            "ventaja": 0.477,
+            "califica": false,
+            "por_que": "solo +48%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Matheus Bidu",
+              "pos": "D",
+              "por_partido": 2.33,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Rodrigo Garro",
+              "pos": "M",
+              "por_partido": 1.75,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 0.331,
+            "califica": false,
+            "por_que": "solo +33%, hace falta +50%"
+          }
+        }
+      }
+    }
   }
 }

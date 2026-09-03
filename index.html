@@ -6130,10 +6130,24 @@ let VERSION_DATOS = "";
    portada no los usa; el partido sí. */
 let DETALLE_LISTO = false;
 
+/* Los que NO se cachean por versión, y el motivo es que no los escribe
+   el cron: `analisis.json` y `analisis_estadisticas.json` son CARGA
+   MANUAL. La versión compartida es el sello de `partidos.json`, así que
+   un análisis subido entre dos corridas quedaba invisible hasta la
+   siguiente — hasta doce horas. Encontrado el 2026-09-03 al cargar la
+   segunda skill: el archivo en disco tenía diez entradas, el servidor
+   servía diez, y la app seguía leyendo seis.
+
+   No se pierde casi nada por exceptuarlos: pesan 75 KB de los 2,1 MB.
+   Lo que la versión vino a cachear son `planteles` y `estadisticas`,
+   que son 1,17 MB y sí los escribe el cron. */
+const SIN_CACHE = ["data/analisis.json", "data/analisis_estadisticas.json"];
+
 async function traer(url, def){
   try{
-    const sufijo = VERSION_DATOS ? "?v=" + encodeURIComponent(VERSION_DATOS)
-                                 : "?t=" + Date.now();
+    const sufijo = (VERSION_DATOS && !SIN_CACHE.includes(url))
+                     ? "?v=" + encodeURIComponent(VERSION_DATOS)
+                     : "?t=" + Date.now();
     const r = await fetch(url + sufijo);
     if(!r.ok) throw new Error("HTTP "+r.status);
     return await r.json();

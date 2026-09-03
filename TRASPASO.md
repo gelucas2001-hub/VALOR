@@ -6001,3 +6001,95 @@ Lo que sigue vivo, y es donde apunta el proyecto:
 - **La arquitectura de escenarios**: dejar de precificar mercados
   aislados y modelar el partido como una trayectoria, que es lo único
   que permite ponerle precio propio a una combinada armada.
+
+## 31. Paso 0 del simulador: el margen deja ocho veces menos espacio del que hace falta (2026-09-03)
+
+Antes de construir el simulador de combinadas, Lucas pidió medir si el
+margen deja lugar. Fue la decisión correcta: no hay que construirlo.
+
+### Las precondiciones, y dos de tres fallan
+
+Antes del margen se midieron las tres cosas que el simulador asume:
+
+**Dinámica de estado — no existe.** El único dato temporal intra-partido
+que tenemos es el marcador al descanso (`HTHG`/`HTAG`, que `historico.py`
+ni siquiera parsea). Sobre 12.216 partidos:
+
+```
+    al descanso      n  local 2T  visita 2T  total 2T
+       local +1   2912     0.854      0.657     1.511
+         empate   5044     0.821      0.661     1.482
+      visita +1   2266     0.832      0.693     1.526
+```
+
+La narrativa "el que gana se echa atrás y el que pierde empuja" **no
+está**: el local que gana 1-0 marca MÁS en el segundo tiempo (0.854
+contra 0.821) y el que pierde no empuja. Un simulador minuto a minuto
+tendría que inventar esa dinámica, que es lo que Lucas pidió no hacer.
+
+**Correlación entre mercados — 5%.** El que gana saca 5.01 córners, el
+que pierde 4.77.
+
+**Condicionar props por el equipo — ya medido y hace daño**
+(`medir_ajuste_jugador.py`: −0.13 y −0.48).
+
+### El margen, que es lo que cierra el tema
+
+La escalera de jugador es de un solo lado, así que el margen se mide
+comparando la implícita del precio contra la frecuencia real.
+
+Primero hubo que arreglar el pool: **el 30% de los jugadores que Bet365
+cotiza no terminan siendo titulares** (729 titulares contra 310 no, sobre
+1039 cotizados). Apostar la escalera entera pierde 53%, y buena parte de
+eso es apostarle a gente que no juega. Solo titulares:
+
+```
+  metrica  linea     n   precio  implicita    real   sobreprecio
+  al_arco    0.5   361     3.11      40.8%   27.1%     +13.6 pp
+  remates    0.5   347     1.51      71.9%   60.2%     +11.7 pp
+  remates    1.5   361     3.36      45.7%   33.2%     +12.4 pp
+  remates    2.5   347     7.73      28.3%   16.7%     +11.6 pp
+
+  sobreprecio medio: +9.0 pp
+  nuestra ventaja medida (§22bis): +1.15 pp de CLV
+```
+
+**La casa cobra ocho veces lo que ganamos.** Y una combinada multiplica
+el margen: se verificó sobre boletas reales que la cuota combinada es el
+producto exacto de las patas (9.01 = 1.75×1.62×1.70×1.87), o sea que no
+hay descuento por juntar.
+
+### El reparo que podría salvarlo, y por qué no se puede resolver
+
+El "real" sale de los remates que cuenta ESPN. Si ESPN cuenta menos que
+la fuente con la que Bet365 liquida —Opta cuenta los bloqueados, por
+ejemplo— parte del sobreprecio es error de medición. Que el 0.5 de
+remates de un titular dé 60% y no ~72% empuja en esa dirección.
+
+No se puede separar sin datos de liquidación. La conclusión honesta es
+doble y las dos llevan al mismo lado: **el margen parece diez veces
+nuestra ventaja, y además no podemos medir nuestra ventaja real en este
+mercado con los datos que tenemos.**
+
+**El CLV de §22bis no depende de esto** —compara precio contra cierre y
+no mira resultados— así que sigue en pie. Lo que queda en duda son los
+ROI de `medir_props.py`.
+
+### La conclusión estructural de todo el bloque §29-§31
+
+Las dos condiciones nunca coinciden:
+
+```
+   mercado              margen        nuestra ventaja
+   1X2 (Pinnacle)        3.1%         negativa (§29, §30)
+   props de jugador     ~9 pp         +1.15 pp de CLV
+   combinadas armadas   multiplicado  sin medir, y sin espacio
+```
+
+**Donde el margen es bajo somos malos; donde podríamos ser buenos el
+margen es enorme.** Eso no es mala suerte: es lo que uno espera de un
+mercado eficiente, y explica los trece caminos cerrados mejor que
+cualquier explicación por camino.
+
+El simulador queda cerrado como camino catorce **antes de escribirlo**,
+que es exactamente para lo que servía el paso 0.

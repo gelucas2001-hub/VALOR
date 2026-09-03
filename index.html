@@ -3917,8 +3917,22 @@ function capaVeredicto(m){
      alinear, y entonces no se marca nada por más ventaja que muestre
      la cuenta. */
   if(ligaSinValor(m)){
-    h += `<p class="notacapa">En esta liga está medido que la regla de valor resta plata
-      (−9.2% de ROI walk-forward), así que acá no marcamos ninguna.</p>`;
+    /* Los números salen de `medir_roi.py` y se re-midieron el 2026-09-03
+       (§37): hasta entonces el arnés calculaba λ crudo mientras acá se
+       publica uno corregido, así que decía −9.2% y −9.1%. Con el modelo
+       que la app usa de verdad son −7.0% y −5.0%, y ninguno de los dos
+       sale del ruido.
+
+       Por eso la frase ya no dice "está medido que resta", que con esos
+       intervalos sería afirmar de más. Dice lo que sí se sostiene: nos
+       dio negativo, y `barrido_valor.py` probó 36 ventanas de ventaja en
+       Argentina y 38 en Brasil sin encontrar una sola positiva fuera de
+       muestra. La guarda se mantiene por eso, no por la significancia
+       que se cayó. Ver TRASPASO §37 y §38. */
+    h += `<p class="notacapa">En esta liga no marcamos valor: el ROI que medimos
+      hacia atrás nos dio negativo (−7,0% en Argentina y −5,0% en Brasil), y de
+      las decenas de ventanas de ventaja que probamos, ninguna dio positiva
+      fuera de la muestra con la que se eligió.</p>`;
   } else if(!v.dir){
     /* Dos huecos distintos, y decir el equivocado es peor que callarse:
        un partido puede tener la nota escrita y no declarar dirección,

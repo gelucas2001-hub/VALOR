@@ -322,7 +322,10 @@ test("y la app DICE por qué no marca en esa liga, en vez de dejar la escalera m
   const lean = L.lectura(argentino).lean;
   L.cargar(PARTIDOS, {[argentino.id]: {contexto:"x", inclinacion:lean}});
   const html = L.capaVeredicto(argentino);
-  cierto(/-9|−9/.test(html),
+  /* El número cambió el 2026-09-03 al corregir el arnés (§37): era
+     -9.2% y ahora es -7.0%. Se afloja a "menciona un ROI negativo" en vez
+     de atar el test a una cifra puntual, que es lo que lo rompió. */
+  cierto(/[-−]\d/.test(html) && /ROI/i.test(html),
     "no menciona el ROI medido que justifica apagar la marca");
   cierto(/no marcamos|dejamos de marcar/i.test(html),
     "no explica que en esta liga no se marcan oportunidades");

@@ -90,6 +90,14 @@ MIN_N = (3, 4, 5, 6, 8)
 CORTES_GAP = (0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30)
 CORTES_SPREAD = (0.10, 0.15, 0.20, 0.30, 0.50, 9.9)
 
+# El umbral ya elegido vive en `expediente.py`, que es quien lo aplica.
+# Acá se importa solo para el censo (`--censo`), que cuenta cuántos
+# partidos de la grilla actual lo superan.
+try:
+    from expediente import UMBRAL_SENAL
+except ImportError:                                          # noqa: BLE001
+    UMBRAL_SENAL = None
+
 
 def num(fila, col):
     v = (fila.get(col) or "").strip()
@@ -266,8 +274,99 @@ def informe(tr, te, met=None):
     return mejor
 
 
+def censo():
+    """Cuánta evidencia hay HOY, liga por liga y dimensión por dimensión.
+
+    La pregunta que contesta, y que Lucas hizo antes de gastar research:
+    ¿cuántos partidos de la grilla pueden producir algo distinto de
+    `null`? Si la respuesta es "casi ninguno", correr diez análisis no
+    junta información sobre la señal — junta `null`.
+
+    No mira ninguna salida de la skill. Solo el expediente, que es quien
+    aplica el umbral, y `estadisticas.json`, de donde sale `n`.
+
+    Ojo con la lectura: el umbral está calibrado sobre ligas europeas.
+    Que arg.1 y bra.1 tengan material suficiente NO significa que el
+    10%/20% funcione igual ahí — eso es una hipótesis de transferencia
+    y hay que validarla aparte.
+    """
+    import expediente as X
+
+    partidos = X.cargar()
+    ligas = sorted({p.get("liga") for p in partidos if p.get("liga")})
+    dims = ("corners_total", "faltas", "volumen_remates", "tarjetas")
+    de_dim = {"corners_total": "corners", "faltas": "faltas",
+              "volumen_remates": "remates", "tarjetas": "tarjetas"}
+
+    print()
+    print("=" * 78)
+    print("  CENSO DE EVIDENCIA — qué puede producir el instrumento hoy")
+    print("=" * 78)
+    print()
+    print("  El umbral se calibró sobre ligas europeas. Su transferencia a")
+    print("  arg/bra es una HIPÓTESIS, no una regla demostrada.")
+
+    for liga in ligas:
+        ps = [p for p in partidos if p.get("liga") == liga]
+        filas = []
+        for p in ps:
+            try:
+                e = X.expediente(p, grilla=partidos)
+            except Exception:                                # noqa: BLE001
+                continue
+            if e.get("senal_base"):
+                filas.append((p, e["senal_base"], e))
+        print()
+        if not filas:
+            print(f"  {liga:<24} {len(ps):>3} partidos · sin métricas medidas "
+                  f"de los dos equipos")
+            continue
+
+        print(f"  {liga}   {len(ps)} partidos en la grilla, "
+              f"{len(filas)} con métricas de los dos")
+        print(f"    {'dimensión':>16} {'n>=6':>6} {'+disp':>6} {'+gap':>6} "
+              f"{'AFIRMA':>8}   {'n mediano':>10}")
+        print("    " + "-" * 62)
+        for d in dims:
+            um = UMBRAL_SENAL.get(de_dim[d]) if UMBRAL_SENAL else None
+            hay = [f[1][d] for f in filas if d in f[1]]
+            if not hay:
+                continue
+            ns = sorted(h["n"] for h in hay)
+            tip = ns[len(ns) // 2]
+            if um is None:
+                print(f"    {d:>16} {'-':>6} {'-':>6} {'-':>6} {'nunca':>8}"
+                      f"   {tip:>10}")
+                continue
+            c_n = [h for h in hay if h["n"] >= um["n"]]
+            c_d = [h for h in c_n if h["dispersion"] <= um["spread"]]
+            c_g = [h for h in c_d if abs(h["gap"]) >= um["gap"]]
+            print(f"    {d:>16} {len(c_n):>6} {len(c_d):>6} {len(c_g):>6} "
+                  f"{len(c_g):>8}   {tip:>10}")
+
+        # `generador` es otro eje: no pasa por estadisticas.json ni por el
+        # umbral de volumen, así que se cuenta aparte.
+        g = sum(1 for _p, _sb, e in filas for l in ("H", "A")
+                if (e.get("liderazgo" + l) or {}).get("ventaja", 0) >= 0.50)
+        print(f"    {'generador':>16} {'':>6} {'':>6} {'':>6} {g:>8}"
+              f"   (de {len(filas) * 2} equipos)")
+
+        vivos = 0
+        for _p, sb, e in filas:
+            vol = any((sb.get(d) or {}).get("fallo") for d in dims)
+            gen = any((e.get("liderazgo" + l) or {}).get("ventaja", 0) >= 0.50
+                      for l in ("H", "A"))
+            vivos += 1 if (vol or gen) else 0
+        print(f"    -> {vivos} de {len(filas)} partidos pueden producir al "
+              f"menos una afirmación")
+    print()
+    return 0
+
+
 def main():
     args = sys.argv[1:]
+    if "--censo" in args:
+        return censo()
     ligas = LIGAS
     if "--liga" in args:
         ligas = (args[args.index("--liga") + 1],)

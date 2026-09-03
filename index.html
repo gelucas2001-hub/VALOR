@@ -4640,6 +4640,15 @@ function capaDatos(m){
 function viewPartido(){
   const m = MATCHES.find(x=>x.id===MATCH_ID);
   if(!m) return `<div class="aviso"><b>Ese partido ya no está</b>Puede que el cron lo haya movido. Volvé a la fecha.</div>`;
+  /* Planteles y estadísticas se bajan DESPUÉS de pintar la portada:
+     entre los dos son 1,17 MB y la portada sale idéntica sin ellos
+     (verificado renderizando los 59 renglones con y sin). Pero el
+     partido sí los necesita, así que si alguien entra en esos ~2
+     segundos se le dice que falta, en vez de dibujarle un partido sin
+     jugadores y sin ejes como si esos datos no existieran. */
+  if(!DETALLE_LISTO) return cabPartido(m) +
+    `<div class="aviso"><b>Trayendo el detalle</b>Los planteles y las
+      estadísticas se bajan después de la portada. Un segundo.</div>`;
   const cuerpo = CAPA === "lectura" ? capaLectura(m)
                : CAPA === "datos"   ? capaDatos(m)
                : capaVeredicto(m);
@@ -6102,6 +6111,9 @@ window.addEventListener("hashchange", ()=>{ desdeHash(); render(); });
    es el que trae el sello, y pesa una fraccion de lo que habilita a
    cachear. */
 let VERSION_DATOS = "";
+/* En false hasta que llegan planteles.json y estadisticas.json. La
+   portada no los usa; el partido sí. */
+let DETALLE_LISTO = false;
 
 async function traer(url, def){
   try{
@@ -6123,10 +6135,18 @@ async function traer(url, def){
   VERSION_DATOS = ACTUALIZADO;
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
-  const [an, rs, pl, es, cal, calj, anEst] = await Promise.all([
+  /* Dos tandas, y el corte no es arbitrario: se verificó que los 59
+     renglones de la portada salen byte por byte iguales sin PLANTELES y
+     sin ESTADISTICAS. Esos dos pesan 1,17 MB de los 1,9 MB totales, o
+     sea que bloqueaban el primer dibujo con el 62% de la descarga para
+     una pantalla que no los mira.
+
+     Los livianos siguen bloqueando porque la portada SÍ los usa:
+     `analisis` decide la marca de valor, `resultados` cierra el
+     Registro, y las dos calibraciones entran en el veredicto. */
+  const [an, rs, cal, calj, anEst] = await Promise.all([
     traer("data/analisis.json", {}),
-    traer("data/resultados.json", {}), traer("data/planteles.json", {}),
-    traer("data/estadisticas.json", {}),
+    traer("data/resultados.json", {}),
     traer("data/calibracion_lineas.json", {}),
     traer("data/calibracion_jugadores.json", {}),
     traer("data/analisis_estadisticas.json", {}),
@@ -6134,15 +6154,6 @@ async function traer(url, def){
   RESULTADOS = rs || {};
   /* la clave _schema es documentación del formato, no un partido */
   ANALISIS = an || {}; delete ANALISIS._schema;
-  PLANTELES = (pl && pl.equipos) || {};
-  /* El once del ultimo partido, si el cron lo trajo. Si no esta, la
-     cancha se comporta exactamente como antes: dibuja el inferido. */
-  ONCES = (pl && pl.once) || {};
-  ESTADISTICAS = (es && es.equipos) || {};
-  PARAMETROS = (es && es.parametros) || {};
-  PARAM_LIGA = (es && es.parametros_liga) || {};
-  PARAM_JUG = (es && es.jugadores) || {};
-  PARAMJUG_LIGA = (es && es.jugadores_liga) || {};
   CALIBRACION = (cal && cal.metricas) || {};
   CALIBRADO = (cal && cal.actualizado) || "";
   CAL_JUG = (calj && calj.metricas) || {};
@@ -6159,6 +6170,27 @@ async function traer(url, def){
   _veredictos.clear();
 
   desdeHash();
+  render();
+
+  /* La segunda tanda: 1,17 MB que la portada no mira. Cuando llegan se
+     limpia la memo y se vuelve a dibujar — si el usuario está en la
+     portada no ve nada distinto, y si entró a un partido pasa del aviso
+     al contenido. */
+  const [pl, es] = await Promise.all([
+    traer("data/planteles.json", {}),
+    traer("data/estadisticas.json", {}),
+  ]);
+  PLANTELES = (pl && pl.equipos) || {};
+  /* El once del ultimo partido, si el cron lo trajo. Si no esta, la
+     cancha se comporta exactamente como antes: dibuja el inferido. */
+  ONCES = (pl && pl.once) || {};
+  ESTADISTICAS = (es && es.equipos) || {};
+  PARAMETROS = (es && es.parametros) || {};
+  PARAM_LIGA = (es && es.parametros_liga) || {};
+  PARAM_JUG = (es && es.jugadores) || {};
+  PARAMJUG_LIGA = (es && es.jugadores_liga) || {};
+  DETALLE_LISTO = true;
+  _veredictos.clear();
   render();
 })();
 </script>

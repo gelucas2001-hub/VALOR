@@ -584,6 +584,87 @@ def expediente(p, planteles=None, estadisticas=None, grilla=None):
     return e
 
 
+ANALISIS = RAIZ / "data" / "analisis.json"
+RESULTADOS = RAIZ / "data" / "resultados.json"
+
+
+def sellar(espn_id, ps=None):
+    """Guarda dentro del análisis la evidencia con la que se emitió `senal`.
+
+    Por qué existe (auditoría del 2026-09-03, §36 C3). `estadisticas.json`
+    se sobrescribe en cada corrida y es una ventana móvil de ocho
+    partidos: la vara y los promedios con los que se decidió una señal
+    dejan de existir apenas el cron vuelve a correr. El análisis guardaba
+    solo el fallo ("muchos"), no contra qué. Así, cuando la capa 2 fuera
+    a verificar, iba a recomputar la vara desde un `estadisticas.json`
+    posterior —que ya incluye el partido que está verificando— y la
+    verificación arrancaba contaminada.
+
+    Es el mismo problema que `cuotas.json` y `props_jugadores.json` ya
+    resuelven acumulando fotos, y por el mismo motivo.
+
+    **Se niega a sellar un partido que ya tiene resultado.** Un sello
+    puesto después del partido no es una fotografía de la evidencia: es
+    una reconstrucción, y no se distingue de la buena mirando el archivo.
+    """
+    if not espn_id:
+        print("uso: python expediente.py --sellar <espn_id>|--todos")
+        return 2
+    ps = cargar() if ps is None else ps
+    por_id = {p["id"]: p for p in ps}
+    an = json.loads(ANALISIS.read_text(encoding="utf-8"))
+    try:
+        res = json.loads(RESULTADOS.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        res = {}
+
+    objetivo = ([k for k in an if not k.startswith("_")]
+                if espn_id == "--todos" else [espn_id])
+    planteles, estadisticas = cargar_planteles(), cargar_estadisticas()
+    sellados, saltados = [], []
+    for pid in objetivo:
+        a = an.get(pid)
+        des = (a or {}).get("desarrollo")
+        if not isinstance(des, dict) or not isinstance(des.get("senal"), dict):
+            saltados.append((pid, "sin desarrollo.senal"))
+            continue
+        nuevos = {c for c, _a, _b in CAMPO_SENAL.values()} | {"generador"}
+        if not set(des["senal"]) & nuevos:
+            saltados.append((pid, "esquema viejo: no hay evidencia que sellar"))
+            continue
+        if pid in res:
+            saltados.append((pid, "el partido ya se jugó — sellar ahora sería "
+                                  "reconstruir, no fotografiar"))
+            continue
+        if "evidencia" in des:
+            saltados.append((pid, "ya sellado"))
+            continue
+        p = por_id.get(pid)
+        if not p:
+            saltados.append((pid, "no está en la grilla"))
+            continue
+        e = expediente(p, planteles, estadisticas, ps)
+        foto = {"sellado": date.today().isoformat()}
+        if e.get("senal_base"):
+            foto["senal_base"] = e["senal_base"]
+        for lado, etq in (("H", "local"), ("A", "visitante")):
+            if e.get("liderazgo" + lado):
+                foto.setdefault("liderazgo", {})[etq] = e["liderazgo" + lado]
+        des["evidencia"] = foto
+        sellados.append(pid)
+
+    if sellados:
+        ANALISIS.write_text(json.dumps(an, ensure_ascii=False, indent=2) + "\n",
+                            encoding="utf-8")
+    print(f"\n  sellados: {len(sellados)}")
+    for pid in sellados:
+        print(f"    {pid}")
+    for pid, por in saltados:
+        print(f"    - {pid}: {por}")
+    print()
+    return 0
+
+
 def main():
     args = sys.argv[1:]
     ps = cargar()
@@ -591,6 +672,9 @@ def main():
     if not args or args[0] in ("-h", "--help"):
         print(__doc__)
         return 0
+
+    if args[0] == "--sellar":
+        return sellar(args[1] if len(args) > 1 else None, ps)
 
     if args[0] == "--lista":
         recorte = "--todos" not in args

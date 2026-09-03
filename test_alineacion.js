@@ -31,7 +31,7 @@ function cargarLogica(){
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, VALOR_MIN, VALOR_MAX,
-              mercados, otrosMercados, filasMercado, divergen, senalDividida, tabHerramientas,
+              mercados, otrosMercados, filasMercado, divergen, tabHerramientas,
               fechaCorta, fechaEnPalabras,
               CUOTA_MIN_ESCALERA, cuotaUsada2:cuotaUsada,
               onceProbable, aQuien, jugadores, METRICAS, incompatibles,
@@ -646,87 +646,16 @@ test("divergen() no marca nada cuando el análisis coincide con el modelo, o no 
   });
 });
 
-test("senalDividida() sin senal (o sin analisis) devuelve null", ()=>{
-  L.cargar(PARTIDOS, {});
-  cierto(!L.senalDividida(claro), "sin analisis:");
-  L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L", desarrollo:{texto:"t.", senal:{ritmo_goleador:"incierto", estructura:"neutral", ambos_marcan:"incierto"}}}});
-  igual(L.senalDividida(claro), null, "senal incierto:");
-});
+/* Los cuatro tests de `senalDividida()` se retiraron el 2026-09-03
+   junto con la función (auditoría §36 C1). Miraba las tres señales
+   derogadas por §33 —ritmo_goleador, estructura, ambos_marcan— y con
+   ellas apagaba marcas doradas de goles y de ambos marcan.
 
-/* Desde el 2026-08-31 `senalDividida()` mira "Otros mercados" y no la
-   escalera: la escalera es solo de Resultado y ahí no hay goles que
-   contradecir. Y exige que el mercado en conflicto esté MARCADO EN
-   VALOR — declarar tensión sobre algo que no recomendamos sería ruido.
-   Por eso los fixtures ahora construyen ventaja real. */
-function conVentajaEn(m, id, pp){
-  const o = L.mercados(L.lectura(m).M, m).find(x=> x.id===id);
-  const t = o.p - 0.08;
-  const ex = {...(m.mercadoExtra||{})};
-  if(id === "btts_si") ex.btts = {si: 1/t, no: 1/(1-t)};
-  else ex.goles = {...(ex.goles||{}), [String(o.linea)]:
-        o.lado==="over" ? [1/t, 1/(1-t)] : [1/(1-t), 1/t]};
-  /* Premier: el fixture del snapshot es de Liga Profesional, y ahí el
-     gate de LIGAS_SIN_VALOR apaga toda marca por medición. Este test
-     prueba senalDividida, no el gate — que tiene los suyos. */
-  return {...m, comp: "Premier League", mercadoExtra: ex};
-}
-
-test("senalDividida() con ritmo bajo detecta opciones de goles altos", ()=>{
-  const claro2 = conVentajaEn(claro, "ov2.5");
-  L.cargar([claro2], {[claro2.id]: {contexto:"x", inclinacion:"L",
-    desarrollo:{texto:"trabado", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"incierto"}}}});
-  const sd = L.senalDividida(claro2);
-  cierto(sd && sd.fenom==="goles", "deberia marcar senal de goles");
-  cierto(sd.opciones.length >= 1, "deberia haber al menos una opcion de goles altos en conflicto");
-});
-
-test("senalDividida() con ambos poco probable detecta btts_si", ()=>{
-  const c2 = conVentajaEn(claro, "btts_si");
-  L.cargar([c2], {[c2.id]: {contexto:"x", inclinacion:"L",
-    desarrollo:{texto:"cerrado", senal:{ritmo_goleador:"incierto", estructura:"neutral", ambos_marcan:"poco_probable"}}}});
-  const sd = L.senalDividida(c2);
-  cierto(sd && sd.fenom==="ambos", "deberia marcar senal de ambos");
-  cierto(sd.opciones.includes("btts_si"), "la opcion en conflicto es ambos marcan");
-});
-
-test("senalDividida() con ambas señales acumula las opciones en conflicto", ()=>{
-  const c3 = conVentajaEn(conVentajaEn(claro, "ov2.5"), "btts_si");
-  L.cargar([c3], {[c3.id]: {contexto:"x", inclinacion:"L",
-    desarrollo:{texto:"x", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"poco_probable"}}}});
-  const sd = L.senalDividida(c3);
-  cierto(sd && sd.opciones.includes("ov2.5"), "no incluye la opcion de goles altos en conflicto");
-  cierto(sd && sd.opciones.includes("btts_si"), "no incluye ambos marcan en conflicto");
-});
-
-/* La guarda que no se podia encender.
-
-   `senalDividida()` quedo sin llamador el 2026-09-01, cuando el commit
-   41a6006 borro las siete pestanas. La funcion, sus exports y sus tres
-   tests sobrevivieron dando verde, asi que durante dos dias la app pudo
-   dorar "mas de 2.5" en un partido cuyo propio analisis decia "trabado".
-
-   Los tests de arriba probaban que la funcion DETECTA la tension. Nadie
-   probaba que la tension APAGUE la marca, que es para lo unico que
-   sirve. Es la misma leccion que TRASPASO §27: cuando agregues una
-   guarda, escribi tambien el test de que puede dispararse. */
-test("la senal dividida des-dora el mercado en conflicto", ()=>{
-  const c = conVentajaEn(claro, "ov2.5");
-  L.cargar([c], {[c.id]: {contexto:"x", inclinacion:"L",
-    desarrollo:{texto:"trabado", senal:{ritmo_goleador:"bajo", estructura:"trabado",
-                                        ambos_marcan:"incierto"}}}});
-  const crudo = L.filasMercado(c).find(x=> x.op.id === "ov2.5");
-  cierto(crudo && crudo.esVal, "el fixture tiene que llegar marcado, si no el test no prueba nada:");
-  const final = L.otrosMercados(c).find(x=> x.op.id === "ov2.5");
-  cierto(final && !final.esVal, "otrosMercados() tiene que apagarlo:");
-});
-
-test("sin senal dividida, otrosMercados no apaga nada", ()=>{
-  const c = conVentajaEn(claro, "ov2.5");
-  L.cargar([c], {[c.id]: {contexto:"x", inclinacion:"L", desarrollo:{texto:"abierto",
-    senal:{ritmo_goleador:"alto", estructura:"abierto", ambos_marcan:"probable"}}}});
-  const final = L.otrosMercados(c).find(x=> x.op.id === "ov2.5");
-  cierto(final && final.esVal, "sin tension la marca se mantiene:");
-});
+   Los tests pasaban en verde porque construían fixtures con el esquema
+   viejo a mano. Es el caso exacto que CLAUDE.md advierte: un test que
+   mira una función muerta da verde sin proteger nada — solo que acá la
+   función no estaba muerta, estaba viva y aplicando una regla que el
+   proyecto ya había descartado por medición. */
 
 /* Dos funciones distintas con el mismo nombre no fallan: la segunda
    pisa a la primera y los talones que pedian el formato compacto
@@ -737,7 +666,7 @@ test("fechaCorta y fechaEnPalabras son dos formatos distintos", ()=>{
   igual(L.fechaCorta("cualquiera"), "—", "una fecha rota no se imprime cruda:");
 });
 
-test("senalDividida() nunca toca marcaDeValor (sigue dependiendo solo de inclinacion)", ()=>{
+test("marcaDeValor depende solo de inclinacion, nunca de `senal`", ()=>{
   L.cargar(PARTIDOS, {[claro.id]: {contexto:"x", inclinacion:"L",
     desarrollo:{texto:"x", senal:{ritmo_goleador:"bajo", estructura:"trabado", ambos_marcan:"poco_probable"}}}});
   const m = L.marcaDeValor(claro);

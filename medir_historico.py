@@ -118,11 +118,68 @@ def brier(p, real):
     return sum((p[i] - real[i]) ** 2 for i in range(3))
 
 
-def _probs_modelo(previos, hoy, home, away, rho):
-    """1X2 del modelo ajustado solo con `previos`."""
+# Del código de liga de `historico.py` al slug de `actualizar.py`. Casi
+# todos coinciden salvo España, que acá es `spa` y allá `esp.1`. Las que
+# no están (jpn, mex, usa) son ligas SOLO PARA MEDIR: no las publica la
+# app, así que no hay parámetros de producción que reproducir.
+SLUG_PRODUCCION = {"arg": "arg.1", "bra": "bra.1", "eng": "eng.1",
+                   "fra": "fra.1", "spa": "esp.1"}
+
+
+def parametros_produccion(liga):
+    """Los parámetros con los que la app publica esa liga, o None.
+
+    Existe por la auditoría del 2026-09-03 (TRASPASO §36 C2): este arnés
+    calculaba λ crudo —`mu * a * d`— mientras `actualizar.py` le aplica
+    después `corregir_escala()` y `encoger_diferencia()`, y usaba un
+    `rho` fijo de 0.05 cuando ninguna liga lo tiene (arg y fra están en
+    −0.05, eng en −0.02, bra en 0.00). O sea que medíamos un modelo y
+    publicábamos otro, y de ahí salieron los ROI que deciden en qué
+    ligas la app marca valor.
+
+    Sin liga —o con una que la app no publica— devuelve None y el arnés
+    se comporta exactamente como antes. Eso es a propósito: las ligas
+    solo-medición no tienen un modelo de producción que reproducir.
+    """
+    slug = SLUG_PRODUCCION.get(liga)
+    if not slug:
+        return None
+    meta = A.COMPETICIONES.get(slug)
+    if not meta:
+        return None
+    return {
+        "slug": slug,
+        "rho": meta.get("rho", 0.05),
+        "escala": meta.get("escala", A.ESCALA_DEFECTO),
+        "centro": meta.get("centro"),
+        "diferencia": meta.get("diferencia", 1.0),
+    }
+
+
+def _probs_modelo(previos, hoy, home, away, rho, prod=None):
+    """1X2 del modelo ajustado solo con `previos`.
+
+    Con `prod` reproduce el λ de producción paso por paso, en el mismo
+    orden que `actualizar.py`: escala primero (toca el total), diferencia
+    después (lo redistribuye), y recién ahí el recorte y el redondeo a
+    tres decimales. El orden y el momento del recorte importan — recortar
+    antes de corregir da otro número.
+    """
     fuerzas, mu_l, mu_v, _pj = A.fuerzas_equipos(previos, hoy)
     a_l, d_l = fuerzas.get(home, (1.0, 1.0))
     a_v, d_v = fuerzas.get(away, (1.0, 1.0))
+    if prod:
+        lh = mu_l * a_l * d_v
+        la = mu_v * a_v * d_l
+        lh, la = A.corregir_escala(lh, la, prod["centro"], prod["escala"])
+        lh, la = A.encoger_diferencia(lh, la, prod["diferencia"])
+        lh = round(max(0.35, min(3.20, lh)), 3)
+        la = round(max(0.30, min(3.00, la)), 3)
+        rho = prod["rho"]
+        m = backtest.matriz(lh, la, rho)
+        return [backtest.suma_si(m, lambda i, j: i > j),
+                backtest.suma_si(m, lambda i, j: i == j),
+                backtest.suma_si(m, lambda i, j: i < j)], lh, la, m
     lh = max(0.35, min(3.20, mu_l * a_l * d_v))
     la = max(0.30, min(3.00, mu_v * a_v * d_l))
     m = backtest.matriz(lh, la, rho)
@@ -132,12 +189,19 @@ def _probs_modelo(previos, hoy, home, away, rho):
 
 
 def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
-            progreso=None):
+            progreso=None, liga=None):
     """Una fila por partido evaluado: modelo, mercado, tasa base y qué pasó.
 
     Los partidos sin cuota igual alimentan el ajuste — están en la
     historia — pero no se evalúan, porque no hay contra qué compararlos.
+
+    `liga` es el código de `historico.py` (`arg`, `bra`, …). Cuando la app
+    publica esa liga, el λ se calcula **igual que en producción**: con su
+    `rho`, su `escala` y su `diferencia`. Sin `liga` el arnés queda como
+    estaba — λ crudo y rho 0.05 — que es lo correcto para las ligas que
+    solo se miden y no se publican. Ver `parametros_produccion()`.
     """
+    prod = parametros_produccion(liga)
     filas = []
     cache = {}
     for i, p in enumerate(partidos or []):
@@ -150,7 +214,7 @@ def evaluar(partidos, min_previos=MIN_PREVIOS, ventana=VENTANA, rho=0.05,
         if clave not in cache:
             cache[clave] = prev
         pm, lh, la, matriz = _probs_modelo(prev, p["fecha"], p["home"],
-                                           p["away"], rho)
+                                           p["away"], rho, prod)
         pq = medir_clv.devig_shin(p["cuotas"])
         if pq is None:
             continue

@@ -226,7 +226,11 @@ def medir_liga(liga, progreso=None):
     ps = H.partidos(liga)
     if not ps:
         return None, []
-    filas = MH.evaluar(ps, progreso=progreso)
+    # `liga` viaja para que el λ salga con los parámetros de PRODUCCIÓN
+    # (rho, escala, diferencia) y no crudo. Hasta el 2026-09-03 no
+    # viajaba, así que este ROI —el que decide en qué ligas la app marca
+    # valor— medía un modelo distinto del que se publica. Ver §36 C2.
+    filas = MH.evaluar(ps, progreso=progreso, liga=liga)
     return roi(apuestas(filas)), filas
 
 

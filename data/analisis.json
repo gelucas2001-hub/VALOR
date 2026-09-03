@@ -315,6 +315,103 @@
             "jugador": "Ángel Di María"
           }
         ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 26.6,
+              "sede": 28.5,
+              "cruzado": 29.2
+            },
+            "estimado": 28.1,
+            "vara": 26.95,
+            "gap": 0.042,
+            "dispersion": 0.095,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 10.8,
+              "sede": 12.0,
+              "cruzado": 10.6
+            },
+            "estimado": 11.1,
+            "vara": 9.25,
+            "gap": 0.204,
+            "dispersion": 0.154,
+            "n": 6,
+            "fallo": "muchos",
+            "por_que": "+20% contra la media de la liga"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 22.8,
+              "sede": 21.0,
+              "cruzado": 23.6
+            },
+            "estimado": 22.5,
+            "vara": 24.11,
+            "gap": -0.068,
+            "dispersion": 0.108,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.2,
+              "sede": 2.5,
+              "cruzado": 3.5
+            },
+            "estimado": 3.4,
+            "vara": 4.63,
+            "gap": -0.262,
+            "dispersion": 0.367,
+            "n": 5,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Ángel Di María",
+              "pos": "M",
+              "por_partido": 5.0,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Enzo Copetti",
+              "pos": "F",
+              "por_partido": 2.5,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 1.0
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Walter Mazzantti",
+              "pos": "F",
+              "por_partido": 1.5,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Facundo Gauch",
+              "pos": "F",
+              "por_partido": 1.25,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.2
+          }
+        }
       }
     }
   },
@@ -333,6 +430,103 @@
         "tarjetas": null,
         "volumen_remates": null,
         "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 25.0,
+              "sede": 23.0,
+              "cruzado": 26.9
+            },
+            "estimado": 25.0,
+            "vara": 26.95,
+            "gap": -0.074,
+            "dispersion": 0.145,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 12.2,
+              "sede": 8.2,
+              "cruzado": 9.0
+            },
+            "estimado": 9.8,
+            "vara": 9.25,
+            "gap": 0.057,
+            "dispersion": 0.431,
+            "n": 6,
+            "fallo": null,
+            "por_que": "los tres estimadores se contradicen (43% > 20%)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 22.0,
+              "sede": 26.5,
+              "cruzado": 26.9
+            },
+            "estimado": 25.1,
+            "vara": 24.11,
+            "gap": 0.042,
+            "dispersion": 0.201,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.6,
+              "sede": 5.5,
+              "cruzado": 5.2
+            },
+            "estimado": 5.1,
+            "vara": 4.63,
+            "gap": 0.098,
+            "dispersion": 0.194,
+            "n": 5,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Michael Santos",
+              "pos": "F",
+              "por_partido": 2.5,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Diego Barrera",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 5,
+              "titular": 5
+            },
+            "ventaja": 0.25
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Iván Marcone",
+              "pos": "M",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Lautaro Millán",
+              "pos": "M",
+              "por_partido": 1.75,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 0.143
+          }
+        }
       }
     }
   },
@@ -360,6 +554,103 @@
             "jugador": "Facundo Colidio"
           }
         ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 32.2,
+              "sede": 31.5,
+              "cruzado": 29.0
+            },
+            "estimado": 30.9,
+            "vara": 30.07,
+            "gap": 0.028,
+            "dispersion": 0.108,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 12.5,
+              "sede": 12.5,
+              "cruzado": 10.8
+            },
+            "estimado": 11.9,
+            "vara": 10.35,
+            "gap": 0.151,
+            "dispersion": 0.169,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 29.2,
+              "sede": 28.5,
+              "cruzado": 27.0
+            },
+            "estimado": 28.2,
+            "vara": 25.24,
+            "gap": 0.119,
+            "dispersion": 0.089,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.8,
+              "sede": 5.0,
+              "cruzado": 4.0
+            },
+            "estimado": 4.6,
+            "vara": 4.37,
+            "gap": 0.049,
+            "dispersion": 0.229,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Hulk",
+              "pos": "F",
+              "por_partido": 3.5,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Agustín Canobbio",
+              "pos": "F",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 0.556
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Facundo Colidio",
+              "pos": "F",
+              "por_partido": 4.67,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Tchê Tchê",
+              "pos": "M",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 1.076
+          }
+        }
       }
     }
   },
@@ -378,6 +669,67 @@
         "tarjetas": null,
         "volumen_remates": null,
         "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 31.0,
+              "sede": 38.0,
+              "cruzado": 29.0
+            },
+            "estimado": 32.7,
+            "vara": 27.4,
+            "gap": 0.192,
+            "dispersion": 0.328,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 10.0,
+              "sede": 12.0,
+              "cruzado": 10.2
+            },
+            "estimado": 10.8,
+            "vara": 9.2,
+            "gap": 0.168,
+            "dispersion": 0.217,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 14.5,
+              "sede": 17.0,
+              "cruzado": 22.0
+            },
+            "estimado": 17.8,
+            "vara": 22.65,
+            "gap": -0.213,
+            "dispersion": 0.331,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 3.0,
+              "sede": 4.0,
+              "cruzado": 4.2
+            },
+            "estimado": 3.8,
+            "vara": 3.8,
+            "gap": -0.013,
+            "dispersion": 0.329,
+            "n": 2,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        }
       }
     }
   }

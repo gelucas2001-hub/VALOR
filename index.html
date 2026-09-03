@@ -2433,40 +2433,23 @@ function divergen(m){
   return dirHumana === dirModelo ? null : {dirHumana, dirModelo};
 }
 
-/* Cuándo la lectura del DESARROLLO (cómo se va a jugar el partido)
-   contradice a los mercados de goles/ambos que la escalera considera.
-   A diferencia de divergen(), esto no es dirección: es la señal
-   estructural del desarrollo (senal) contra las LÍNEAS de goles y de
-   ambos marcan. Devuelve null cuando no hay tensión (sin desarrollo,
-   senal incierto/ausente, o senales coherentes). La contradicción NO
-   se oculta: el frontend la muestra etiquetada y solo deja de marcar en
-   dorado la opción en conflicto. */
-function senalDividida(m, filas){
-  const a = ANALISIS[m.id];
-  const s = a && a.desarrollo && a.desarrollo.senal;
-  if(!s) return null;
-  let fenom = null, opciones = [];
-  /* Mira "Otros mercados", no la escalera: desde el 2026-08-31 la
-     escalera es solo de Resultado y ahí no hay goles que contradecir.
-     La tensión que esta función detecta sigue existiendo — el análisis
-     dice "partido trabado" y el modelo ve valor en goles altos — solo
-     que ahora vive en la lista de abajo. */
-  /* `filas` viene de `otrosMercados()` cuando ES `otrosMercados()` quien
-     llama — sin eso la llamada seria recursiva. Sin argumento se calcula
-     sola, que es como la usan los tests y como la usaba la pantalla
-     vieja. */
-  const base = filas || filasMercado(m);
-  const ops = base.filter(x=> x.esVal).map(x=> x.op);
-  if(s.ritmo_goleador === "bajo" || s.estructura === "trabado"){
-    const ops2 = ops.filter(o=> o.fam==="Goles" && o.lado==="over" && o.linea>=2.5);
-    if(ops2.length){ if(!fenom) fenom = "goles"; opciones.push(...ops2.map(o=>o.id)); }
-  }
-  if(s.ambos_marcan === "poco_probable"){
-    const ops3 = ops.filter(o=> o.id==="btts_si");
-    if(ops3.length){ if(!fenom) fenom = "ambos"; opciones.push(...ops3.map(o=>o.id)); }
-  }
-  return fenom ? {fenom, dir: fenom==="goles" ? "pocos" : "no", opciones} : null;
-}
+/* `senalDividida()` se retiró el 2026-09-03 (auditoría §36 C1).
+
+   Leía `senal.ritmo_goleador`, `senal.estructura` y
+   `senal.ambos_marcan`: las tres dimensiones que §33 derogó por medir
+   cuántos goles va a haber, que es literalmente lo que λ calcula. Con
+   ellas apagaba la marca dorada de goles y de ambos marcan.
+
+   O sea que un proxy medido de λ estaba vetando marcas de valor. Y
+   como el esquema nuevo no tiene esos campos, la función solo
+   disparaba en los nueve análisis viejos: el mismo partido marcaba
+   distinto según con qué esquema se lo hubiera analizado, sin que
+   nada lo dijera.
+
+   No se reemplaza por otra cosa. Las cinco dimensiones del esquema
+   nuevo hablan de córners, faltas, remates y jugadores — ninguna
+   contradice una línea de goles, así que no hay tensión que detectar.
+   Si algún día vuelve a haberla, se diseña entonces y se mide. */
 
 /* Antes esta función solo repetía el pick de escalera() con otro
    nombre: marcaba UNA fila, la que ya había ganado su franja, y nada
@@ -2479,12 +2462,10 @@ function senalDividida(m, filas){
    código no cumplía. Ahora cada fila se evalúa con el mismo criterio
    que usa escalera() (ventana [VENTAJA_MIN, VALOR_MAX], regla de
    alineación, análisis cargado), no solo la que ganó su franja. */
-/* Las filas de "Otros mercados" ANTES de que la señal dividida las
-   toque. Existe para romper un ciclo: `senalDividida()` necesita saber
-   qué está marcado, y `otrosMercados()` necesita a `senalDividida()`
-   para des-marcarlo. Si las dos se llamaran entre sí, la función suelta
-   leería un tablero ya des-dorado y nunca encontraría conflicto — que
-   es justo lo que pasó al reponer el llamado el 2026-09-03. */
+/* Las filas de "Otros mercados". Se llamaba así porque existía un
+   segundo paso que las des-doraba (`senalDividida()`, retirada el
+   2026-09-03); hoy `otrosMercados()` no le agrega nada y las dos
+   devuelven lo mismo. Se conservan las dos por sus llamadores. */
 function filasMercado(m){
   const lec = lectura(m);
   const todos = mercados(lec.M, m);
@@ -2537,12 +2518,7 @@ function filasMercado(m){
 
 
 function otrosMercados(m){
-  const filas = filasMercado(m);
-  const sd = senalDividida(m, filas);
-  if(sd && sd.opciones.length){
-    for(const f of filas) if(sd.opciones.includes(f.op.id)) f.esVal = false;
-  }
-  return filas;
+  return filasMercado(m);
 }
 
 /* Combinada del partido: dos patas de familias distintas, con la

@@ -6652,3 +6652,144 @@ python calibrar_senal.py --transferencia    ¿el corpus ya permite probarla?
 Si el censo abre, correr la tanda con la regla **exactamente como está**.
 Los cuatro análisis del smoke test (§34) ya están cargados y conformes a
 la regla vigente, así que suman a la muestra.
+
+## 36. Auditoría completa, y los tres arreglos de infraestructura (2026-09-03)
+
+Se auditó el proyecto entero mientras esperamos muestra: pipeline,
+leakage temporal, separación evidencia/expectativa, la regla congelada,
+consistencia entre módulos, el LLM, los mercados, los arneses de
+medición, los caches y el código muerto.
+
+**Lo que NO encontró, y vale decirlo:** ningún leakage temporal en
+producción ni en los arneses principales. `backtest.py` filtra con
+`fecha < f` estricto y su línea base también es walk-forward;
+`historia_reciente()` está bien guardada (`pasada = s < hoy.year`);
+`historial()` filtra `completed`; `parametros_por_liga()` calcula dentro
+de cada liga; el devig es Shin en los 13 módulos de producción; y
+`doble_via.py` da 6.66e-16 entre Python y JavaScript. El motor está bien.
+
+Se arreglaron tres cosas, en el orden que pidió Lucas. **Ninguna toca
+parámetros, umbrales ni calibraciones**: las tres son infraestructura de
+medición.
+
+### C2 — medíamos un modelo y publicábamos otro
+
+`medir_roi.py` → `medir_historico.evaluar` → `_probs_modelo` calculaba
+`lh = mu_l * a_l * d_v` **crudo**, con `rho` fijo en 0.05. Producción
+aplica después `corregir_escala()` y `encoger_diferencia()`, y usa el
+`rho` de cada liga:
+
+```
+          rho prod   rho arnés   escala   diferencia
+  arg.1     -0.05       0.05      0.50       0.95
+  bra.1      0.00       0.05      0.50        —
+  eng.1     -0.02       0.05      0.60        —
+  fra.1     -0.05       0.05      0.60        —
+  esp.1      0.00       0.05      0.70        —
+```
+
+`escala = 0.50` corta a la mitad la desviación de λ respecto del centro
+de la liga. El `rho` está con el signo cambiado en cuatro de cinco. Con
+λ 1.80/0.90 en arg, producción publica 1.635/0.848.
+
+Entra `parametros_produccion(liga)` y `evaluar(..., liga=...)`. Reproduce
+el orden exacto de `actualizar.py`: escala, diferencia, y recién después
+recorte y redondeo a tres decimales — recortar antes da otro número, y
+así estaba.
+
+**Sin `liga` el arnés queda como estaba.** Es a propósito: `jpn`, `mex` y
+`usa` son ligas solo-medición y no tienen modelo de producción que
+reproducir.
+
+### C3 — la evidencia de cada señal no sobrevivía a la corrida siguiente
+
+`estadisticas.json` se sobrescribe y es una ventana móvil de ocho
+partidos. El análisis guardaba el fallo ("muchos") y no contra qué. Así,
+cuando la capa 2 fuera a verificar, iba a recomputar la vara desde un
+`estadisticas.json` posterior **que ya incluye el partido que está
+verificando**.
+
+Es el mismo problema que `cuotas.json` y `props_jugadores.json` ya
+resuelven acumulando fotos, por el mismo motivo, y que acá nadie había
+visto.
+
+Entra `python expediente.py --sellar <id>|--todos`, que escribe
+`desarrollo.evidencia` con `senal_base` entero (los tres estimadores, la
+vara, el gap, la dispersión, `n` y el motivo) más `liderazgo` de los dos
+equipos. **Se niega a sellar un partido que ya tiene resultado**: un
+sello puesto después no es una fotografía, es una reconstrucción, y no
+se distingue de la buena mirando el archivo.
+
+Los cuatro análisis del esquema nuevo quedaron sellados el 2026-09-03,
+antes de que se jugaran.
+
+### C1 — un proxy derogado de λ estaba apagando marcas doradas
+
+`senalDividida()` leía `senal.ritmo_goleador`, `senal.estructura` y
+`senal.ambos_marcan`: las tres que §33 derogó por describir cuántos
+goles va a haber, que es lo que λ calcula. Con ellas ponía `esVal =
+false` sobre goles y ambos marcan.
+
+Dos cosas a la vez, y la segunda es la peor. Un proxy **medido** de λ
+vetaba marcas de valor; y como el esquema nuevo no tiene esos campos,
+solo disparaba en los nueve análisis viejos — el mismo partido marcaba
+distinto según con qué esquema se lo hubiera analizado, sin que nada lo
+dijera.
+
+Se retiró la función, su llamado, sus exports y sus seis tests. **No se
+reemplaza por otra cosa**: las cinco dimensiones del esquema nuevo hablan
+de córners, faltas, remates y jugadores, y ninguna contradice una línea
+de goles. Si algún día vuelve a haber tensión, se diseña y se mide
+entonces.
+
+Los nueve análisis viejos conservan su texto y su `senal`. Ya no tienen
+efecto, y `medir_senal.py` los sigue contando aparte como "esquema
+viejo" — eso es contabilidad explícita, no convivencia silenciosa.
+
+### Qué queda invalidado, y qué no
+
+**Hay que volver a medir** (nadie lo hizo todavía, y no se hace en el
+mismo movimiento que se arregla el instrumento):
+
+- los ROI de `medir_roi.py` — arg −9.17%, bra −9.13%, eng +1.01%, fra
+  −5.22%, spa −5.33%, usa −1.86%, jpn +2.78%;
+- y con ellos, **la regla `LIGAS_SIN_VALOR`**, que sale de esos números;
+- todo lo que pase por `medir_historico.evaluar`: `medir_apertura.py` y
+  las mediciones de atraso contra el cierre.
+
+**Sigue en pie** todo lo que no pasa por ese arnés: `medir_props.py` y el
+CLV de §22bis (precio real de Bet365, sin λ), `medir_margen_props.py`
+(§31), `medir_bandas.py` y `medir_metamodelo.py` (arneses propios),
+`calibrar_senal.py` (football-data, sin λ), `medir_devig.py`,
+`medir_corners.py`, `medir_jugadores.py`, `medir_arbitros.py` y
+`backtest.py` como medida de calibración.
+
+**Lo que NO se puede concluir todavía**, y conviene escribirlo antes de
+que la tentación aparezca: que los ROI viejos estuvieran mal *hacia
+abajo* o *hacia arriba*. No sabemos el signo del sesgo. Arreglamos la
+infraestructura; medir es el paso siguiente y es aparte.
+
+### Hallazgos documentados y NO tocados
+
+Quedan para decidir aparte, con su clasificación de la auditoría:
+
+- 🟠 **capas 2 y 3 de `medir_senal.py` son un stub** — imprimen "sin
+  resultados cargados" sin consultar `resultados.json`. De las tres
+  preguntas separadas, solo la 1 existe como código.
+- 🟠 **el umbral 50% de `generador` vive solo en prosa.** Las cuatro de
+  volumen tienen `fallo` calculado; esta no. Es disciplina, no
+  estructura.
+- 🟠 **`LIGAS_SIN_VALOR` cruza por regex sobre el nombre visible**
+  (`m.comp`) aunque `m.liga` existe y se agregó para evitar justamente
+  eso.
+- 🟠 **esp.1 marca valor con ROI −5.33% ±8.52** y no está en
+  `LIGAS_SIN_VALOR`; arg (−9.17) y bra (−9.13) sí. El corte entre esos
+  números no está medido. (Y este hallazgo ahora depende de C2.)
+- 🟠 **`CLAUDE.md` está desactualizado**: dice seis competiciones con
+  jpn.1 y no menciona esp.1; el código tiene esp.1 y no jpn.1 desde el
+  commit `80a7dea`. `partidos.json` todavía trae jpn.1 — es una foto
+  anterior al cambio.
+- 🟡 la ventana de ocho partidos de `estadisticas.json` puede mezclar
+  Apertura y Clausura.
+- 🟡 cuatro clases CSS muertas y cuatro caches `esp.1-*.json` sin
+  trackear.

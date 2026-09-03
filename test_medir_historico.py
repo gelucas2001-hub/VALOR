@@ -159,6 +159,48 @@ prueba("y no es tan larga que mida algo que la app nunca ve",
 
 
 print("")
+print("el arnés reproduce el λ de PRODUCCIÓN, no uno crudo (§36 C2)")
+print("")
+
+# La auditoría del 2026-09-03 encontró que este arnés calculaba
+# `mu * a * d` pelado y con rho 0.05, mientras la app aplica escala,
+# diferencia y el rho de cada liga. De acá salían los ROI que deciden
+# dónde se marca valor.
+for _lg, _slug in M.SLUG_PRODUCCION.items():
+    _p = M.parametros_produccion(_lg)
+    _meta = A.COMPETICIONES.get(_slug) or {}
+    prueba(f"{_lg} resuelve a {_slug}", _p and _p["slug"] == _slug)
+    prueba(f"  y toma el rho de producción ({_meta.get('rho')})",
+           _p["rho"] == _meta.get("rho"))
+    prueba("  y su escala medida",
+           _p["escala"] == _meta.get("escala", A.ESCALA_DEFECTO))
+
+prueba("una liga que la app NO publica no inventa parámetros",
+       M.parametros_produccion("jpn") is None
+       and M.parametros_produccion("mex") is None)
+prueba("sin liga tampoco", M.parametros_produccion(None) is None)
+
+# El orden importa: escala primero (mueve el total), diferencia después
+# (lo redistribuye), recorte y redondeo al final. Recortar antes de
+# corregir da otro número, y así estaba.
+_p = M.parametros_produccion("arg")
+_lh, _la = A.corregir_escala(1.80, 0.90, _p["centro"], _p["escala"])
+_lh, _la = A.encoger_diferencia(_lh, _la, _p["diferencia"])
+prueba("en arg la corrección mueve λ de verdad",
+       abs(round(_lh, 3) - 1.80) > 0.10)
+prueba("la escala conserva el reparto antes de la diferencia",
+       abs((lambda a, b: a / b)(*A.corregir_escala(1.80, 0.90,
+                                                   _p["centro"],
+                                                   _p["escala"])) - 2.0) < 1e-9)
+prueba("y la diferencia conserva el total",
+       abs(sum(A.encoger_diferencia(1.80, 0.90, 0.95)) - 2.70) < 1e-9)
+
+# El defecto sin el cual todo esto sería opcional: si `evaluar` no
+# recibe liga, tiene que comportarse igual que antes del cambio.
+prueba("`evaluar` acepta liga y sin ella queda como estaba",
+       "liga" in M.evaluar.__code__.co_varnames)
+
+print("")
 print(f"{ok} ok, {fallan} fallando")
 print("")
 sys.exit(1 if fallan else 0)

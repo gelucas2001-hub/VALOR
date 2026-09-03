@@ -22,3 +22,4 @@ skills-lock.json
 # solo, y crece con cada fecha. No tiene sentido versionarlo.
 data/cache_historico/
 scratch/
+data/bandas_filas.json

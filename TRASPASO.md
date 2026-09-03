@@ -5746,3 +5746,150 @@ herramienta que debía detectarlas tenía el mismo defecto.
 **Cuando agregues una guarda, escribí el test de que puede dispararse.**
 Y cuando escribas una cadena de respaldos, contá cuál se está usando.
 Un camino de error que nunca se ejercita no es una red: es una decoración.
+
+## 29. La banda de cuota 4 a 10: la hipótesis se investigó y dio que no (2026-09-03)
+
+Lucas hizo la mejor pregunta del proyecto:
+
+> "Si determinadas situaciones se dan en el fútbol, entonces pueden
+> existir condiciones o contextos que aumenten considerablemente su
+> probabilidad en partidos específicos. No hablo de cuotas de 30 o 60.
+> Hablo de cuotas de 5, 8 o 10."
+
+Y puso la condición correcta: *"no quiero que forcemos los datos para
+confirmar mi hipótesis"*, recordando que "en un momento le dábamos mucho
+papel a las lesiones o a los viajes, que nos distorsionaban los
+partidos".
+
+`medir_bandas.py` la contesta sobre **23.870 partidos** de cinco ligas,
+walk-forward. La respuesta es no.
+
+### El indicio que la motivó era malo, y lo puse yo
+
+La hipótesis salió de `medir_calibracion.py`: banda 10-20%, decimos
+16.4% y pasa 24.6%, con IC 95% [+4.7, +13.8]. O sea "subestimamos lo
+improbable", y la banda 10-20% es la cuota 5 a 10.
+
+Eran **85 partidos, sobre 12 mercados del mismo partido que están
+correlacionados entre sí**, con el modelo anterior a la corrección de
+escala. Sobre 23.870 partidos y solo 1X2, el efecto no existe — y va al
+revés.
+
+### El resultado
+
+```
+TEST     cuota      n  decimos  mercado     pasó  nos-merc  real-merc
+         4.0-6   5377    23.2%    20.3%    20.0%     +2.9      -0.2
+        6.0-10   2006    17.0%    12.8%    12.0%     +4.2      -0.8
+           10+    572    10.5%     6.7%     6.5%     +3.8      -0.3
+```
+
+`real − mercado` es negativo en las tres bandas largas: el mercado paga
+apenas de MENOS, no de más. El sesgo favorito-perdedor existe, es chico
+y corre **en contra** de la hipótesis.
+
+Contra plata, en test, apostar solo donde le ganamos al mercado da
+**−7.38% ±2.82** — más de dos errores estándar negativo. No es "no hay
+ventaja": es que **cuando discrepamos ahí, discrepamos para el lado
+equivocado**.
+
+Por liga: eng −2.33%, fra −5.28%, arg −8.44%, bra −10.26%, spa −10.99%.
+Somos menos malos donde el mercado es más eficiente, que es lo contrario
+de la intuición de "en Sudamérica miran menos, ahí está la grieta". Es
+cierto sobre la casa y cierto sobre nosotros, y perdemos más de lo que
+ellos aflojan.
+
+### El bolsillo que murió, y por qué estaba la guarda
+
+El local perdedor a 4-10 era el único subconjunto cerca de cero (ROI
+−1.91%, pasa 18.7% contra 18.1% del mercado). Mirado en serio:
+
+```
+   train   1001   ROI +5.52% ±6.95
+    test    807   ROI -7.85% ±7.14
+   por liga:  eng +7.32%  ·  arg -5.61%  ·  bra -10.03%  ·  spa -2.12%
+```
+
+Cambio de signo, los dos dentro del ruido, sin consistencia entre ligas.
+Sin el corte train/test se reportaba como hallazgo — que es exactamente
+el error que Lucas pidió no cometer, y el motivo de que la guarda
+estuviera puesta **antes** de mirar.
+
+### Lo que se aprendió del modelo, que es lo que queda
+
+Se probaron dos correcciones y ninguna sobrevive:
+
+- **Potencia global `p^k`.** Óptimo en train `k = 0.90` —aplanar, no
+  afilar— y en test no mejora nada. Con `k = 1.3` las colas se arreglan
+  (favoritos de −6.6 a +1.3, largas de +5.0 a +1.2) y se rompe la banda
+  3.0-4, que tiene 10.653 selecciones.
+- **Recalibración isotónica contra nuestra propia p.** Mejora el Brier
+  de test en **0.00006**.
+
+La segunda explica por qué: **agrupado por nuestra propia p, el modelo
+está bien calibrado.** Decimos 22% y pasa 24%; decimos 75% y pasa 71%.
+
+Las dos cosas son ciertas a la vez:
+
+    agrupado por nuestra p     calibrado
+    agrupado por la cuota      +3 a +5 en las largas
+
+Eso solo puede pasar si nuestro error está **correlacionado con el
+precio**: cuando el mercado pone a alguien a 6.00 y nosotros le damos
+17%, el mercado sabe algo que nosotros no. **No estamos descalibrados,
+estamos menos informados** — y eso no se arregla reformando nuestros
+propios números. Las dos salidas son conseguir el dato, o encogerse
+hacia el mercado, que `medir_encogimiento.py` ya midió que mejora el
+Brier sin dar plata.
+
+Es la razón más clara que encontró el proyecto de por qué el 1X2 está
+cerrado, y es distinta de la que se creía.
+
+### Lo accionable
+
+La regla de valor pierde en TODAS las bandas y la pérdida crece
+monótona con la cuota, en train y en test:
+
+```
+   1.0-2.0   -4.77%      3.0-3.5   -1.76%
+   2.0-2.5   -2.30%      3.5-4.0   -9.40%
+   2.5-3.0   -7.83%      4.0-4.5  -16.59% ±6.34
+```
+
+`MAX_ODDS = 4.5` admite el tramo donde pierde tres veces más. Recortarlo
+no la vuelve positiva —`barrido_valor.py` se volvió a correr y sigue
+dando 39 ventanas, ninguna positiva en train Y test— pero deja de firmar
+las peores. **No se tocó**: es una decisión de producto y hoy la app no
+marca nada de todos modos.
+
+Y la hipótesis con la que se abrió esto —que las ventajas falsas de la
+banda larga explicaran el resultado de `barrido_valor.py`— **no se
+confirma**: la banda larga es la peor, pero todas son negativas, así que
+sacarla no habría hecho positiva ninguna ventana.
+
+### El rho del arnés, que es un hallazgo aparte
+
+`medir_historico.evaluar()` mide con `rho = 0.05` fijo y **ninguna liga
+usa ese valor** (arg −0.05, bra 0.00, eng −0.02, fra −0.05, esp 0.00).
+Afecta a `medir_roi.py` y `medir_apertura.py`, que son los que deciden
+qué liga entra a la app. Sobre la regla de valor:
+
+```
+   rho 0.05 (arnés)     6050 marcas   -6.29% ±1.74
+   rho de producción    5386 marcas   -4.78% ±1.88
+```
+
+Ninguna conclusión se da vuelta —la diferencia es menor que el error
+estándar y los dos son claramente negativos— pero el arnés genera 12%
+más marcas de las que produciría producción y sobreestima la pérdida en
+1,5 puntos. **No se arregló acá**: tocarlo invalida la comparación con
+todos los números ya publicados en TRASPASO, y eso pide su propia
+sesión.
+
+### Lo que este resultado NO cierra
+
+Mide **1X2 a cuota de cierre**, el mercado más trabajado que existe. No
+dice nada de props —donde el proyecto sí tiene señal medida (§22bis)—,
+ni de las combinadas armadas y su correlación, ni del en vivo, ni de
+contextos que football-data no trae. Que no haya ventaja en el precio no
+es lo mismo que que no haya nada que saber.

@@ -271,6 +271,24 @@ Tres estados posibles, y los tres son resultados válidos:
   verificable puede sostener una `inclinacion`, no puede sostener una
   frase terminante.
 
+**P NO ES UN VETO, y hay que decirlo aparte porque ya se leyó mal.**
+De los tres estados, **solo "verificado en contra" invalida una
+dirección**. "No verificable" no la invalida: la sostiene como hipótesis
+y le baja el tono. Un factor sin rastro es una razón para escribir más
+blando y para investigar más — nunca, por sí solo, una razón para poner
+`null`.
+
+Esto se midió el 2026-09-03 (TRASPASO §40). Aplicados a las 15
+direcciones históricas, K, O y P habrían dejado pasar **12**: K filtra
+el 20% y es el único con veto real, O filtra 0% y **P filtra 0%**. Pero
+en las tandas de ese mismo día P se venía leyendo como veto, y entre eso
+y una aplicación de K más estricta que su propio texto, la tasa de
+dirección cayó de 54% a 6%. El reglamento no lo explica; la lectura sí.
+
+Entonces: aplicá el texto de K, O y P, no una versión endurecida de
+ellos. No agregues filtros propios por encima, y no conviertas
+"no verificable" en `null` de forma automática.
+
 **La prueba, corta:** por cada factor que uses para inclinar,
 preguntate *¿cuántas veces ya pasó esto, y qué salió?* Si no podés
 contestar ni con un número ni con un "es la primera vez", todavía no

@@ -2942,11 +2942,16 @@ def main():
 
     partidos.sort(key=lambda p: (p["date"], p["hora"]))
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    # Compacto, por el mismo motivo que planteles.json: el telefono lo
+    # baja entero en cada carga y CLAUDE.md dice que no se edita a mano.
+    # La indentacion eran 156 KB de espacios — mas que todo analisis.json
+    # y resultados.json juntos. El razonamiento ya estaba escrito abajo
+    # para planteles y nunca se habia aplicado aca.
     OUT.write_text(json.dumps({
         "actualizado": datetime.datetime.now().isoformat(timespec="minutes"),
         "requests": _req_count,
         "partidos": partidos,
-    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     # Compacto y no indentado: este archivo no se lee a mano (CLAUDE.md
     # dice "no editar") y el telefono lo baja entero en cada carga. La
@@ -2969,7 +2974,7 @@ def main():
         "jugadores": par_jug,
         "jugadores_liga": par_jug_liga,
         "equipos": estadisticas,
-    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"· estadísticas: {len(estadisticas)} equipos "
           f"(promedio de hasta {ESTADISTICAS_N} partidos, sin pedidos extra)")
 

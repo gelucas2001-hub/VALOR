@@ -6091,9 +6091,23 @@ window.addEventListener("hashchange", ()=>{ desdeHash(); render(); });
 /* ══════════════════════════════════════════════════════════════════
    ARRANQUE
    ══════════════════════════════════════════════════════════════════ */
+/* El sufijo existe para que el telefono no se quede con datos viejos.
+   Era `?t=Date.now()`, que cambia en CADA carga: eso no evita datos
+   viejos, evita el cache ENTERO — 2,1 MB re-descargados en cada visita
+   de archivos que cambian dos veces por dia.
+
+   Ahora la version es el sello de `partidos.json`. Cambia cuando el
+   cron escribe y no antes, asi que una segunda visita entre corridas no
+   baja nada. `partidos.json` es el unico que sigue con marca de tiempo:
+   es el que trae el sello, y pesa una fraccion de lo que habilita a
+   cachear. */
+let VERSION_DATOS = "";
+
 async function traer(url, def){
   try{
-    const r = await fetch(url+"?t="+Date.now());
+    const sufijo = VERSION_DATOS ? "?v=" + encodeURIComponent(VERSION_DATOS)
+                                 : "?t=" + Date.now();
+    const r = await fetch(url + sufijo);
     if(!r.ok) throw new Error("HTTP "+r.status);
     return await r.json();
   }catch(e){ return def; }
@@ -6106,6 +6120,7 @@ async function traer(url, def){
   if(!p){ BOOT_ERROR = "No respondió data/partidos.json. Si estás abriendo el archivo directo desde el disco, hace falta un servidor local."; render(); return; }
   MATCHES = (p.partidos||p||[]).filter(m=> m.lh!=null && m.la!=null);
   ACTUALIZADO = p.actualizado || "";
+  VERSION_DATOS = ACTUALIZADO;
   if(!MATCHES.length){ BOOT_ERROR = "El archivo de partidos vino vacío."; render(); return; }
 
   const [an, rs, pl, es, cal, calj, anEst] = await Promise.all([

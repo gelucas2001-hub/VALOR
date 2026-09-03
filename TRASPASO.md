@@ -6428,3 +6428,166 @@ y faltan las capas 2 y 3. Contesta una pregunta anterior y necesaria:
 
 Si la respuesta es que sí, recién ahí se mide acierto. Y después, valor
 incremental.
+
+## 34. El smoke test, y el umbral que salió de calibrar contra historial (2026-09-03)
+
+Se corrieron cuatro partidos con el esquema de §33 —tres de arg/bra y
+Arsenal–Chelsea como control de muestra corta— con el objetivo explícito
+de **auditar el instrumento, no de generar muestra**. Encontró cinco
+defectos, cuatro de ellos estructurales, y ninguno se habría visto
+generando quince análisis de una.
+
+### Defecto 0 — el expediente no traía la evidencia que el esquema exige
+
+Anterior a la tanda y el más grave. La regla de §33bis dice que para
+afirmar una dimensión hace falta una medición de esa misma métrica.
+`expediente.py` no traía **ninguna**: sus `corners`/`fouls`/`cards` son
+la expectativa del MODELO (`esperados()` de `actualizar.py`) o una
+constante de liga.
+
+Con eso, las cuatro dimensiones de volumen solo podían salir de
+evidencia prohibida, o irse a `null` por falta de input — y un `null`
+así no dice nada sobre el fútbol. Peor: ese esperado es el baseline
+contra el que `medir_senal.py` mide el aporte en la capa 3, así que
+dejarlo adentro hacía que el instrumento comparara al modelo consigo
+mismo. `expediente_estadisticas.py` ya los excluía por este motivo con
+el mismo argumento escrito: los dos expedientes se contradecían.
+
+Salieron. Entró `metricasH`/`metricasA` desde `estadisticas.json`, con
+`produce`, `concede`, split por sede, `n` y `desvio`.
+
+### La tanda
+
+```
+  Rosario Central–Newell's   n=6   generador (Di María +100%)
+  Central Córdoba–Indep.     n=6   todo null
+  Fluminense–Vasco           n=4   faltas "muchas" + generador (Hulk)
+  Arsenal–Chelsea            n=2   todo null      <- control
+```
+
+**El control funcionó.** Con n=2, la suma cruda de faltas daba 14.5
+contra una vara de 22.6 (−19%): una señal "pocas" gritada. Cruzada
+contra lo que cada equipo concede daba 22.0, o sea nada. Un instrumento
+menos cuidadoso la afirmaba.
+
+### Defecto 1 — las cuatro dimensiones de volumen no tenían umbral
+
+`generador` tenía uno explícito (50%). Las otras cuatro, ninguno. Y eso
+se rompió solo dentro de la misma tanda:
+
+```
+  córners de Rosario Central   +16% sobre la vara,  ee 2.0  ->  null
+  faltas de Fluminense         +11% sobre la vara,  ee 3.0  ->  "muchas"
+```
+
+Se le aplicó la vara más dura a la señal más significativa. Sin umbral
+el corte lo pone el criterio del momento y no es reproducible.
+
+### Cómo se eligió el umbral, que es la parte que importa
+
+Lucas puso la condición: **no elegirlo mirando estos cuatro partidos.**
+Un umbral ajustado sobre la muestra que después se evalúa no es un
+umbral, es una descripción del pasado. Por eso entra
+`calibrar_senal.py`: **20.897 partidos de seis ligas europeas (2015/16 a
+2025/26), walk-forward, con train/test temporal.** Los partidos de la
+tanda son de septiembre de 2026 y no entran en el corpus.
+
+La pregunta operativa: con los promedios que la app tiene ANTES del
+partido, ¿desde qué distancia de la media de liga acertamos el lado más
+seguido que tirando una moneda? Resultado en test:
+
+```
+  dimensión         gap   dispersión   n     test    tasa base   margen
+  faltas            10%       15%      6    71.2%      54.1%     10.9 ee
+  volumen_remates   10%       15%      6    63.6%      51.2%      6.2 ee
+  corners_total     20%       20%      6    65.7%      52.0%      3.0 ee
+  tarjetas           —         —       —      no supera su tasa base
+```
+
+**`tarjetas` no se afirma nunca.** En la grilla entera de umbrales nunca
+le sacó más de 1.8 errores estándar a su propia tasa base. El recuento
+de tarjetas varía tanto de partido a partido, contra lo poco que separa
+a un equipo de otro, que el promedio previo no dice de qué lado va a
+caer. El campo sigue existiendo y su único valor válido es `null`.
+
+Y aparece la mitad de la regla que no existía: **el tope de dispersión**.
+Los tres estimadores (`produce`, `sede`, `cruzado`) son tres formas de
+mirar el mismo total, y cuando se contradicen esa contradicción ES la
+información. Poner tope al gap sin ponerle tope a la discrepancia deja
+pasar señales donde el promedio general dice una cosa y lo que concede
+el rival dice otra.
+
+### La cuenta la hace el expediente, no la skill
+
+`senal_base` viene con el fallo ya calculado y el motivo (`muestra
+corta`, `los tres estimadores se contradicen`, `demasiado cerca de la
+media`). La skill copia `fallo` y no lo discute. Es lo que hace que dos
+corridas sobre el mismo expediente den la misma `senal` — la aritmética
+no es trabajo de criterio, y cuando lo fue salió inconsistente.
+
+**Aplicada a la tanda, la regla dio vuelta tres de las cuatro lecturas:**
+
+```
+  Rosario córners        null    ->  muchos   (+20%)
+  Fluminense faltas      muchas  ->  null     (n=4 < 6)
+  Fluminense generador   Hulk    ->  Hulk + Colidio
+```
+
+La más instructiva es la segunda: era la afirmación más fuerte de la
+tanda y el umbral la mata por muestra. Costo a tener presente: con
+`n ≥ 6`, **arg.1 (n=5-6) y bra.1 (n=4-5) van a producir muy poco hasta
+que los cachés se llenen.** Es el precio de la regla y es correcto
+pagarlo.
+
+### Defecto 2 — `generador`: por suma o por partido, sin definir
+
+Colidio llevaba 14 remates en 3 partidos y su segundo 9 en 4. Por suma
+es +56%; por partido, +107%. **La suma premia a quien jugó más**, que es
+lo contrario de lo que la señal quiere decir. Pasa a medirse por
+promedio por partido, con mínimo de 3 apariciones — una tasa sacada de
+un partido no es una tasa. El expediente lo entrega calculado en
+`liderazgoH`/`liderazgoA`.
+
+**El 50% no se movió y sigue siendo experimental.** No se puede calibrar
+todavía, y el motivo es concreto: las series por jugador **no están
+alineadas entre sí** —cada una son las últimas N apariciones de ESE
+jugador, no las últimas N del equipo— así que no hay forma de
+reconstruir quién lideró un partido concreto y medirlo contra historial.
+
+### Defecto 3 — un solo lugar para dos generadores
+
+En Fluminense–Vasco los dos equipos tenían un líder que superaba el
+umbral, y `generador` era un objeto único: había que elegir uno a dedo,
+que es el mismo volado que el umbral existe para evitar. Pasa a ser una
+**lista** de hasta uno por equipo. `medir_senal.py` sigue leyendo el
+objeto viejo.
+
+### Defecto 4 — el árbitro estaba en las dos skills diciendo cosas distintas
+
+La tabla de evidencia admisible de la skill de inclinación listaba al
+árbitro para `faltas` y `tarjetas`. La de estadísticas lo prohíbe. Ahora
+hay **una sola regla para todo VALOR: el árbitro no es evidencia.**
+
+Y de paso se corrigió una afirmación de más que este repo venía
+repitiendo. El principio D decía que el efecto del árbitro **"da cero"**.
+`medir_arbitros.py` no midió eso: midió que con 54 partidos y ~2 por
+árbitro el azar igualaba lo observado el 33% de las veces en tarjetas y
+el 19% en faltas. Eso es *no podemos medirlo con esta muestra*, que no
+es lo mismo que *está probado que no existe*. Para la escritura el
+resultado práctico es idéntico —no hay con qué sostenerlo, no se
+escribe— pero la diferencia importa el día que haya muestra.
+
+### Qué contestó la primera tanda
+
+> Cuando tiene información suficiente, ¿la skill produce señales nuevas,
+> concretas, verificables y distintas de lo que λ ya sabe?
+
+**Sí, y ahora además de forma reproducible.** Las afirmaciones son
+concretas, se resuelven sin criterio humano, ninguna es proxy de λ, y el
+control no fabricó nada donde no había información.
+
+Lo que **no** está contestado, y es lo que sigue: si aciertan, y si
+aportan sobre el pronóstico numérico de la misma métrica. Para eso hace
+falta la tanda de evaluación, con el instrumento congelado como quedó
+acá — y con el caudal bajo que el umbral impone mientras los cachés de
+arg.1 y bra.1 no lleguen a seis partidos medidos.

@@ -131,12 +131,25 @@ Sobre una métrica marcada `mal`, **está prohibido escribir una cifra
 como si fuera un pronóstico**. Podés decir "es el que más patea del
 equipo"; no podés decir "va a rematar 3 veces".
 
-### D. El árbitro no mueve las tarjetas
+### D. El árbitro no es evidencia — en ninguna skill de VALOR
 
-Está medido con prueba de permutación y **da cero**. Si escribís "es un
-árbitro de gatillo fácil" estás inventando, y es un invento que este
-proyecto ya midió y descartó. El árbitro puede aparecer como dato de
-color; nunca como causa.
+Regla única para todo el proyecto: **el árbitro no se usa como evidencia
+de faltas ni de tarjetas**, ni acá ni en `valor-analisis-inclinacion`.
+Puede aparecer como dato de color; nunca como causa.
+
+El motivo, con la precisión que corresponde. `medir_arbitros.py` lo midió
+con prueba de permutación y **no encontró efecto usable**: con 54
+partidos y unos 2 por árbitro, el azar igualaba la separación observada
+el 33% de las veces en tarjetas y el 19% en faltas. Eso es *no podemos
+medirlo con esta muestra*, que no es lo mismo que *está probado que no
+existe* — hasta el 2026-09-03 esta sección decía "da cero", que afirmaba
+de más. Para la escritura el resultado práctico es idéntico: no tenemos
+con qué sostenerlo, así que no se escribe. Si algún día hay muestra y el
+efecto aparece, se vuelve a mirar.
+
+Del mismo lado empuja `calibrar_senal.py` (2026-09-03): sobre 20.897
+partidos, las tarjetas totales no se predicen ni siquiera con el promedio
+de los dos equipos. Si el dato duro no alcanza, el árbitro tampoco.
 
 ### D-bis. Un candidato que no juega no es un candidato
 

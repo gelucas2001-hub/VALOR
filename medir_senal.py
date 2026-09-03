@@ -89,6 +89,31 @@ SENALES = {
     "volumen_remates": {"met": "remates",  "valores": ("alto", "bajo")},
 }
 
+# El umbral de cada dimensión sale de `calibrar_senal.py` y vive en
+# `expediente.py`, que es quien lo aplica. Acá se importa para poder
+# AUDITAR: una afirmación que no cumplía su propio umbral es un error
+# del instrumento, no un fallo de pronóstico, y hay que poder separarlos
+# antes de medir acierto. Sin esto la regla es disciplina; con esto es
+# estructura — el mismo argumento que sostiene a `test_ejes.js`.
+try:
+    from expediente import UMBRAL_SENAL, CAMPO_SENAL
+except ImportError:                                          # noqa: BLE001
+    UMBRAL_SENAL = CAMPO_SENAL = None
+
+
+def generadores(senal):
+    """La lista de generadores, tolerando el objeto único de la v1.
+
+    `generador` nació como un objeto y pasó a lista el 2026-09-03: con
+    un solo lugar, dos jugadores que superaban el umbral obligaban a
+    elegir uno a dedo, que es el volado que el umbral existe para
+    evitar. Los análisis viejos siguen leyéndose.
+    """
+    g = senal.get("generador")
+    if not g:
+        return []
+    return list(g) if isinstance(g, list) else [g]
+
 
 def leer(nombre, defecto=None):
     p = RAIZ / "data" / nombre
@@ -143,14 +168,26 @@ def main():
 
     # ── Capa 1: ¿cuántas afirmaciones concretas hay? ─────────────────
     print(f"\n{'─'*74}\n  CAPA 1 — ¿hace afirmaciones concretas?\n{'─'*74}\n")
-    tot = {c: 0 for c in list(SENALES) + ["generador"]}
+    tot = {c: 0 for c in SENALES}
+    gen = 0
     for _k, s in nuevos:
         for c in tot:
             if s.get(c) not in (None, "", {}):
                 tot[c] += 1
+        gen += len(generadores(s))
     for c, n in tot.items():
-        print(f"  {c:>18}  {n:>3}/{len(nuevos)}   "
-              f"{'(null es respuesta válida)' if n < len(nuevos) else ''}")
+        nota = ""
+        if UMBRAL_SENAL and UMBRAL_SENAL.get(SENALES[c]["met"]) is None:
+            nota = "(no se afirma nunca — no supera su tasa base)"
+        elif n < len(nuevos):
+            nota = "(null es respuesta válida)"
+        print(f"  {c:>18}  {n:>3}/{len(nuevos)}   {nota}")
+    print(f"  {'generador':>18}  {gen:>3}      "
+          f"(hasta uno por equipo, o sea hasta {len(nuevos) * 2})")
+
+    afirmadas = sum(tot.values()) + gen
+    print(f"\n  {afirmadas} afirmaciones sobre "
+          f"{len(nuevos) * (len(SENALES) + 2)} casilleros posibles.")
 
     # ── Capa 2 y 3 ───────────────────────────────────────────────────
     print(f"\n{'─'*74}\n  CAPA 2 y 3 — ¿se verifica, y aporta sobre el modelo?"

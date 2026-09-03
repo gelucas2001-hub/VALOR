@@ -305,14 +305,16 @@
     "desarrollo": {
       "texto": "Se espera un partido de dominio territorial claro de Central, que va a tener la pelota y va a llegar seguido al área rival, contra un Newell's que va a esperar y salir en pocos toques. El detalle es que el volumen de Central es muy inestable de partido a partido, así que puede ser un asedio o una tarde espesa. Ninguno de los dos corta mucho el juego, lo que sugiere que el clásico se puede jugar más de lo que su nombre haría pensar.",
       "senal": {
-        "corners_total": null,
+        "corners_total": "muchos",
         "faltas": null,
         "tarjetas": null,
         "volumen_remates": null,
-        "generador": {
-          "equipo": "local",
-          "jugador": "Ángel Di María"
-        }
+        "generador": [
+          {
+            "equipo": "local",
+            "jugador": "Ángel Di María"
+          }
+        ]
       }
     }
   },
@@ -330,7 +332,7 @@
         "faltas": null,
         "tarjetas": null,
         "volumen_remates": null,
-        "generador": null
+        "generador": []
       }
     }
   },
@@ -342,16 +344,22 @@
     "contexto": "Clássico dos Gigantes en el Brasileirão, y con los dos equipos jugando cosas opuestas: Fluminense es cuarto con 42 puntos y pelea el cupo de Libertadores, Vasco es decimoséptimo con 25 y está metido en la lucha por no descender. Es el partido en el que más se le nota a Vasco lo que se juega.",
     "veredicto": "Fluminense llega mejor y con más producción, pero eso ya está en su campaña; lo único distinto es lo que se juega Vasco abajo, y eso empuja para el otro lado, así que la lectura no inclina.",
     "desarrollo": {
-      "texto": "Se espera un clásico de ida y vuelta y con mucho roce: los dos equipos cortan bastante el juego y a Vasco le pasa todavía más cuando visita. Fluminense va a llevar el partido al área rival con volumen, y Vasco no es de meterse atrás sino de responder, lo que hace pensar en un partido de fricción constante más que en un dominio cómodo. Lo que sí puede alterar el guion es la ansiedad de Vasco por sumar en la pelea de abajo.",
+      "texto": "Se espera un clásico de ida y vuelta: los dos equipos cortan bastante el juego, aunque con cuatro fechas medidas eso todavía no alcanza para afirmarlo. Fluminense va a llevar el partido al área rival con volumen, y Vasco no es de meterse atrás sino de responder, lo que hace pensar en fricción constante más que en un dominio cómodo. Lo que puede alterar el guion es la ansiedad de Vasco por sumar en la pelea de abajo.",
       "senal": {
         "corners_total": null,
-        "faltas": "muchas",
+        "faltas": null,
         "tarjetas": null,
         "volumen_remates": null,
-        "generador": {
-          "equipo": "local",
-          "jugador": "Hulk"
-        }
+        "generador": [
+          {
+            "equipo": "local",
+            "jugador": "Hulk"
+          },
+          {
+            "equipo": "visitante",
+            "jugador": "Facundo Colidio"
+          }
+        ]
       }
     }
   },
@@ -369,7 +377,7 @@
         "faltas": null,
         "tarjetas": null,
         "volumen_remates": null,
-        "generador": null
+        "generador": []
       }
     }
   }

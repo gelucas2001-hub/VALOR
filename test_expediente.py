@@ -35,11 +35,15 @@ def prueba(nombre, cond):
         print(f"  FALLA {nombre}")
 
 
-def jugador(nombre, ident, pos="F", pj=0, goles=0, asist=0, peso=0.0):
-    return {"id": ident, "nombre": nombre, "pos": pos, "pj": float(pj),
-            "goles": float(goles), "asist": float(asist), "remates": 0.0,
-            "al_arco": 0.0, "faltas": 0.0, "amarillas": 0.0, "rojas": 0.0,
-            "peso_goles": peso}
+def jugador(nombre, ident, pos="F", pj=0, goles=0, asist=0, peso=0.0,
+            serie=None):
+    j = {"id": ident, "nombre": nombre, "pos": pos, "pj": float(pj),
+         "goles": float(goles), "asist": float(asist), "remates": 0.0,
+         "al_arco": 0.0, "faltas": 0.0, "amarillas": 0.0, "rojas": 0.0,
+         "peso_goles": peso}
+    if serie:
+        j["serie"] = serie
+    return j
 
 
 PARTIDO = {
@@ -198,6 +202,107 @@ prueba("no arrastra el esperado del modelo de lineas",
        "esp" not in r[0]["serie"])
 prueba("un plantel sin series no rompe",
        expediente.recortar_plantel([{"nombre": "X", "pos": "M", "pj": 1}]) is not None)
+
+
+print("\nel umbral de `senal` lo aplica el expediente, no el criterio\n")
+
+# El defecto que originó esto (TRASPASO §34): la skill promediaba tres
+# estimadores a ojo y declaró null una señal a +16% mientras afirmaba
+# otra a +11%, en la misma tanda. La cuenta no es trabajo de criterio.
+VARA = {"corners": 9.3, "faltas": 24.1, "tarjetas": 4.6, "remates": 26.9}
+
+
+def met(**kw):
+    """Un bloque metricas* armado a mano, con los mismos valores en las
+    tres vistas salvo que se pida lo contrario."""
+    base = {"corners": 4.6, "faltas": 12.0, "tarjetas": 2.3, "remates": 13.4}
+    base.update(kw.pop("produce", {}))
+    o = {"produce": dict(base), "concede": dict(base),
+         "local": dict(base), "visita": dict(base),
+         "n": {m: 6 for m in base}}
+    for k, v in kw.items():
+        o.setdefault(k, {}).update(v)
+    return o
+
+
+plano = expediente.veredicto_senal(met(), met(), VARA)
+prueba("en la media de la liga no afirma nada",
+       all(f["fallo"] is None for f in plano.values()))
+prueba("y dice que fue por estar cerca de la media",
+       "cerca de la media" in plano["faltas"]["por_que"])
+
+# faltas: umbral 10% de gap. 13.4+13.4 = 26.8 contra una vara de 24.1
+# es +11%, o sea justo del lado de adentro.
+arriba = expediente.veredicto_senal(
+    met(produce={"faltas": 13.4}, local={"faltas": 13.4}, concede={"faltas": 13.4}),
+    met(produce={"faltas": 13.4}, visita={"faltas": 13.4}, concede={"faltas": 13.4}),
+    VARA)
+prueba("por encima del umbral afirma 'muchas'", arriba["faltas"]["fallo"] == "muchas")
+abajo = expediente.veredicto_senal(
+    met(produce={"faltas": 10.0}, local={"faltas": 10.0}, concede={"faltas": 10.0}),
+    met(produce={"faltas": 10.0}, visita={"faltas": 10.0}, concede={"faltas": 10.0}),
+    VARA)
+prueba("por debajo afirma 'pocas'", abajo["faltas"]["fallo"] == "pocas")
+
+# tarjetas: no se afirma NUNCA. Medido — no supera su tasa base en
+# ningun umbral de la grilla de calibrar_senal.py.
+extremo = expediente.veredicto_senal(
+    met(produce={"tarjetas": 6.0}, local={"tarjetas": 6.0}, concede={"tarjetas": 6.0}),
+    met(produce={"tarjetas": 6.0}, visita={"tarjetas": 6.0}, concede={"tarjetas": 6.0}),
+    VARA)
+prueba("tarjetas no se afirma ni con el doble de la vara",
+       extremo["tarjetas"]["fallo"] is None)
+prueba("y explica que no se afirma nunca",
+       "nunca" in extremo["tarjetas"]["por_que"])
+
+# muestra corta: gana sobre el gap, aunque el gap sea enorme
+corta = expediente.veredicto_senal(
+    met(produce={"faltas": 20.0}, local={"faltas": 20.0}, concede={"faltas": 20.0},
+        n={"faltas": 3}),
+    met(produce={"faltas": 20.0}, visita={"faltas": 20.0}, concede={"faltas": 20.0},
+        n={"faltas": 3}),
+    VARA)
+prueba("con muestra corta no afirma aunque el gap sea grande",
+       corta["faltas"]["fallo"] is None)
+prueba("y dice que fue por la muestra", "muestra corta" in corta["faltas"]["por_que"])
+
+# estimadores que se contradicen: tambien gana sobre el gap. Es la mitad
+# de la regla que no existia antes de §34.
+disc = expediente.veredicto_senal(
+    met(produce={"faltas": 20.0}, local={"faltas": 8.0}, concede={"faltas": 20.0}),
+    met(produce={"faltas": 20.0}, visita={"faltas": 8.0}, concede={"faltas": 20.0}),
+    VARA)
+prueba("si los estimadores se contradicen, no afirma",
+       disc["faltas"]["fallo"] is None)
+prueba("y lo dice", "contradicen" in disc["faltas"]["por_que"])
+
+print("\n`generador` se mide por partido, no por la suma\n")
+
+# El caso real de la primera tanda: Colidio, 14 remates en 3 partidos,
+# contra un segundo de 9 en 4. Por suma es +56%; por partido, +107%.
+# La suma premia a quien jugo mas, que es lo contrario de la señal.
+PLANTEL_DESPAREJO = [
+    jugador("Colidio", "1", pj=3, serie={"remates": [7, 3, 4], "pj": 3, "tit": 2}),
+    jugador("Tche Tche", "2", pj=4, serie={"remates": [1, 2, 2, 4], "pj": 4, "tit": 4}),
+]
+ld = expediente.liderazgo_remates(PLANTEL_DESPAREJO)
+prueba("elige al lider por promedio por partido", ld["lider"]["nombre"] == "Colidio")
+prueba("y la ventaja es la de por partido, no la de la suma",
+       abs(ld["ventaja"] - 1.074) < 0.01)
+prueba("la suma habria dado +56%, que es otra cosa",
+       abs((14 / 9 - 1) - 0.556) < 0.01)
+
+POCAS = [
+    jugador("Debutante", "1", pj=1, serie={"remates": [9], "pj": 1, "tit": 1}),
+    jugador("Regular", "2", pj=4, serie={"remates": [2, 2, 2, 2], "pj": 4, "tit": 4}),
+    jugador("Otro", "3", pj=4, serie={"remates": [1, 1, 1, 1], "pj": 4, "tit": 4}),
+]
+ld2 = expediente.liderazgo_remates(POCAS)
+prueba("una tasa de un solo partido no es una tasa: queda afuera",
+       ld2["lider"]["nombre"] == "Regular")
+prueba("sin dos candidatos con muestra, no hay liderazgo",
+       expediente.liderazgo_remates(POCAS[:1]) is None)
+
 
 print(f"\n{ok} ok, {fallan} fallando\n")
 sys.exit(1 if fallan else 0)

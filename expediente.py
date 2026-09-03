@@ -44,6 +44,44 @@ ESTADISTICAS = RAIZ / "data" / "estadisticas.json"
 # pronóstico de la métrica, no una medición de ella.
 METRICAS_SENAL = ("remates", "al_arco", "corners", "faltas", "tarjetas")
 
+# ── El umbral de las cuatro dimensiones de volumen de `senal` ────────
+#
+# Calibrado el 2026-09-03 por `calibrar_senal.py` sobre 20.897 partidos
+# de seis ligas europeas (2015/16 a 2025/26), walk-forward y con
+# train/test temporal. NO se eligió mirando la primera tanda: esos
+# partidos son de septiembre de 2026 y no entran en el corpus. La
+# condición la puso Lucas y es la que hace que el umbral signifique
+# algo — un umbral elegido sobre la muestra que después se evalúa no
+# es un umbral, es una descripción.
+#
+#   (gap mínimo, dispersión máxima, partidos mínimos)  → acierto en test
+#
+#   faltas    10% · 15% · 6   71.2% contra una tasa base de 54.1%  (10.9 ee)
+#   remates   10% · 15% · 6   63.6% contra 51.2%                   ( 6.2 ee)
+#   corners   20% · 20% · 6   65.7% contra 52.0%                   ( 3.0 ee)
+#   tarjetas  —                     no supera su tasa base en NINGÚN
+#                                   umbral de la grilla: máximo 1.8 ee
+#
+# Por eso `tarjetas` no se afirma nunca. No es que sea difícil: es que
+# el recuento de tarjetas por partido varía tanto contra lo que separa
+# a un equipo de otro que el promedio previo no dice de qué lado va a
+# caer. Coincide con `medir_arbitros.py`, que tampoco encuentra señal
+# usable del lado del árbitro.
+UMBRAL_SENAL = {
+    "faltas":   {"gap": 0.10, "spread": 0.15, "n": 6},
+    "remates":  {"gap": 0.10, "spread": 0.15, "n": 6},
+    "corners":  {"gap": 0.20, "spread": 0.20, "n": 6},
+    "tarjetas": None,
+}
+
+# Qué campo de `senal` afirma cada métrica, y con qué palabras.
+CAMPO_SENAL = {
+    "corners": ("corners_total", "muchos", "pocos"),
+    "faltas":  ("faltas", "muchas", "pocas"),
+    "tarjetas": ("tarjetas", "muchas", "pocas"),
+    "remates": ("volumen_remates", "alto", "bajo"),
+}
+
 # Cuántos jugadores por equipo viajan al análisis. Un roster completo son
 # 38-40, de los cuales un tercio no jugó nunca. Los 25 que más jugaron
 # cubren a cualquiera que pueda ser noticia; el resto es ruido que compite
@@ -151,6 +189,118 @@ def metricas_medidas(est):
     return out if len(out) > 1 else None
 
 
+# `generador` se decide por PROMEDIO POR PARTIDO, no por la suma. Con
+# `pj` desparejo las dos lecturas dan cosas distintas y en la primera
+# tanda ya pasó: Colidio tenía 14 remates en 3 partidos y su segundo 9
+# en 4 — por suma es +56%, por partido es +107%. La suma le da ventaja
+# a quien jugó más, que es lo contrario de lo que la señal quiere decir.
+MIN_APARICIONES_GENERADOR = 3
+
+
+def liderazgo_remates(plantel):
+    """Quién patea más por partido en su equipo, y por cuánto.
+
+    Devuelve el candidato y su ventaja sobre el segundo, sin decidir: el
+    umbral vive en la skill. Pide un mínimo de apariciones porque una
+    tasa sacada de un partido no es una tasa.
+    """
+    filas = []
+    for j in plantel or []:
+        s = j.get("serie") or {}
+        r = s.get("remates") or []
+        if len(r) < MIN_APARICIONES_GENERADOR:
+            continue
+        filas.append({"nombre": j.get("nombre"), "pos": j.get("pos"),
+                      "por_partido": round(sum(r) / len(r), 2),
+                      "apariciones": len(r), "titular": s.get("tit", 0)})
+    filas.sort(key=lambda f: -f["por_partido"])
+    if len(filas) < 2 or filas[1]["por_partido"] <= 0:
+        return None
+    lider, segundo = filas[0], filas[1]
+    return {
+        "lider": lider, "segundo": segundo,
+        "ventaja": round(lider["por_partido"] / segundo["por_partido"] - 1, 3),
+    }
+
+
+def vara_liga(estadisticas, ids_liga):
+    """La media de la liga para el TOTAL del partido, por métrica.
+
+    Es la vara contra la que `medir_senal.py` resuelve la afirmación, así
+    que tiene que salir del mismo lado: el promedio por equipo de la
+    competición, por dos.
+    """
+    out = {}
+    for m in METRICAS_SENAL:
+        vs = [estadisticas[i][m] for i in ids_liga
+              if i in estadisticas and estadisticas[i].get(m) is not None]
+        if vs:
+            out[m] = round(sum(vs) / len(vs) * 2, 2)
+    return out
+
+
+def veredicto_senal(mh, ma, vara):
+    """Los tres estimadores del total, el gap contra la vara, y el fallo.
+
+    Existe porque en la primera tanda (§34) la skill hacía esta cuenta a
+    ojo y salió inconsistente consigo misma: declaró `null` una señal a
+    +16% de la vara y afirmó otra a +11%. La aritmética no es trabajo de
+    criterio, así que la hace el expediente y la skill recibe el fallo.
+
+    Los tres estimadores son distintas formas de mirar el mismo total, y
+    cuando se contradicen entre sí eso ES la información: significa que
+    el promedio general, el de sede y lo que concede el rival no cuentan
+    la misma historia, y ahí la respuesta correcta es callarse.
+    """
+    out = {}
+    for m in METRICAS_SENAL:
+        campo = CAMPO_SENAL.get(m)
+        if not campo or m not in vara or not vara[m]:
+            continue
+        nombre, arriba, abajo = campo
+        um = UMBRAL_SENAL.get(m)
+        ph, pa = (mh.get("produce") or {}).get(m), (ma.get("produce") or {}).get(m)
+        ch, ca = (mh.get("concede") or {}).get(m), (ma.get("concede") or {}).get(m)
+        if None in (ph, pa, ch, ca):
+            continue
+        sh = (mh.get("local") or {}).get(m, ph)
+        sa = (ma.get("visita") or {}).get(m, pa)
+        e1 = ph + pa
+        e2 = sh + sa
+        e3 = (sh + ca) / 2 + (sa + ch) / 2
+        est = (e1 + e2 + e3) / 3
+        v = vara[m]
+        n = min((mh.get("n") or {}).get(m, 0), (ma.get("n") or {}).get(m, 0))
+        gap = est / v - 1
+        spread = (max(e1, e2, e3) - min(e1, e2, e3)) / v
+        fila = {
+            "estimadores": {"produce": round(e1, 1), "sede": round(e2, 1),
+                            "cruzado": round(e3, 1)},
+            "estimado": round(est, 1), "vara": v,
+            "gap": round(gap, 3), "dispersion": round(spread, 3), "n": n,
+        }
+        if um is None:
+            fila["fallo"] = None
+            fila["por_que"] = ("esta dimensión no se afirma nunca: no supera "
+                               "su tasa base en ningún umbral medido")
+        elif n < um["n"]:
+            fila["fallo"] = None
+            fila["por_que"] = f"muestra corta ({n} < {um['n']} partidos)"
+        elif spread > um["spread"]:
+            fila["fallo"] = None
+            fila["por_que"] = (f"los tres estimadores se contradicen "
+                               f"({spread:.0%} > {um['spread']:.0%})")
+        elif abs(gap) < um["gap"]:
+            fila["fallo"] = None
+            fila["por_que"] = (f"demasiado cerca de la media de la liga "
+                               f"({gap:+.0%}, hace falta {um['gap']:.0%})")
+        else:
+            fila["fallo"] = arriba if gap > 0 else abajo
+            fila["por_que"] = f"{gap:+.0%} contra la media de la liga"
+        out[nombre] = fila
+    return out
+
+
 def cargar_planteles():
     """{team_id: [jugadores]}. Si el cron todavía no lo escribió, vacío."""
     try:
@@ -188,10 +338,17 @@ def recortar_plantel(plantel):
     return out
 
 
-def expediente(p, planteles=None, estadisticas=None):
+def expediente(p, planteles=None, estadisticas=None, grilla=None):
     """El objeto que recibe la skill. Los avisos son para el humano que revisa."""
     planteles = cargar_planteles() if planteles is None else planteles
     estadisticas = cargar_estadisticas() if estadisticas is None else estadisticas
+    # La vara de `senal` es la media de la competición, así que hace falta
+    # saber qué equipos la juegan. Un parámetro y no una lectura global:
+    # los tests le pasan una grilla chica.
+    try:
+        _todos = cargar() if grilla is None else grilla
+    except (FileNotFoundError, ValueError, KeyError):
+        _todos = []
     e = {
         "espn_id": p["id"],
         "equipo_local": p["home"],
@@ -217,6 +374,9 @@ def expediente(p, planteles=None, estadisticas=None):
             e["metricas" + lado] = m
         else:
             faltan_metricas.append(nombre)
+        ld = liderazgo_remates(planteles.get(str(tid)))
+        if ld:
+            e["liderazgo" + lado] = ld
         js = recortar_plantel(planteles.get(str(tid)))
         if js:
             e["plantel" + lado] = js
@@ -226,6 +386,16 @@ def expediente(p, planteles=None, estadisticas=None):
             e["pjMax" + lado] = max(j["pj"] for j in js)
         else:
             faltan_plantel.append(nombre)
+
+    # El fallo de cada dimensión de volumen, ya calculado. La skill no
+    # hace aritmética: recibe "muchas / pocas / null" y el motivo.
+    mh, ma = e.get("metricasH"), e.get("metricasA")
+    if mh and ma:
+        ids = {str(q.get("homeId")) for q in _todos if q.get("liga") == p.get("liga")}
+        ids |= {str(q.get("awayId")) for q in _todos if q.get("liga") == p.get("liga")}
+        vara = vara_liga(estadisticas, ids)
+        if vara:
+            e["senal_base"] = veredicto_senal(mh, ma, vara)
 
     # Avisos de calidad del expediente. Sin esto la skill trata cualquier dato
     # como firme, y hay campos que a veces vienen flacos o directamente son un
@@ -387,18 +557,29 @@ def expediente(p, planteles=None, estadisticas=None):
         "sede, plantel, h2h), nunca desde el mercado. Y 'desarrollo.senal' usa el "
         "léxico cerrado, que cambió el 2026-09-03 y son CINCO campos: "
         "corners_total muchos|pocos|null, faltas muchas|pocas|null, "
-        "tarjetas muchas|pocas|null, volumen_remates alto|bajo|null, y "
-        "generador {equipo, jugador}|null. No existe 'incierto' ni 'normal': "
-        "cuando no hay base la respuesta es null, y null es la respuesta "
-        "preferida — no hay que completar los cinco campos. Las viejas "
+        "tarjetas SIEMPRE null, volumen_remates alto|bajo|null, y generador "
+        "una LISTA de {equipo, jugador} con hasta uno por equipo (o []). "
+        "No existe 'incierto' ni 'normal': cuando no hay base la respuesta "
+        "es null, y null es la respuesta preferida. Las viejas "
         "(ritmo_goleador, estructura, ambos_marcan) están DEROGADAS: las tres "
         "describían cuántos goles, que es lo que el modelo ya calcula. "
-        "La regla que las reemplaza, en una línea: la evidencia para afirmar "
-        "una dimensión tiene que ser una medición de esa misma métrica. Para "
-        "decir 'muchos córners' hace falta dato de córners (metricasH/"
-        "metricasA), no que un equipo sea mejor ni que venga haciendo goles. "
-        "`generador` sale de la serie de remates del plantel y solo se nombra "
-        "a alguien que lidere a su equipo por al menos 50% sobre el segundo."
+        "LAS CUATRO DE VOLUMEN NO LAS DECIDE LA SKILL: vienen resueltas en "
+        "`senal_base`, con el fallo ya calculado y el motivo. Copiá `fallo` "
+        "tal cual; si es null, va null. `senal_base` trae los tres "
+        "estimadores del total (produce, sede, cruzado), el gap contra la "
+        "media de la liga, la dispersión entre ellos y los partidos medidos, "
+        "y aplica el umbral calibrado por calibrar_senal.py sobre 20.897 "
+        "partidos europeos con train/test temporal: faltas y remates piden "
+        "10% de gap, 15% de dispersión y 6 partidos; corners pide 20/20/6; "
+        "tarjetas no se afirma nunca porque no supera su tasa base en ningún "
+        "umbral. La aritmética la hace el expediente porque cuando la hacía "
+        "la skill salía inconsistente consigo misma. "
+        "`generador` sale de liderazgoH/liderazgoA, que ya trae la ventaja "
+        "del que más patea sobre el segundo medida POR PARTIDO (no por la "
+        "suma: con apariciones desparejas la suma premia a quien jugó más). "
+        "El umbral sigue siendo 50% y sigue siendo experimental. "
+        "El ARBITRO no es evidencia admisible de faltas ni de tarjetas, "
+        "en ninguna skill de VALOR."
     )
     return e
 

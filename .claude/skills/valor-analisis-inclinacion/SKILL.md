@@ -330,7 +330,7 @@ Devolvé únicamente un JSON con esta forma, sin texto antes ni después. Una co
         "faltas": "muchas",
         "tarjetas": null,
         "volumen_remates": null,
-        "generador": {"equipo": "local", "jugador": "Cristian Tarragona"}
+        "generador": [{"equipo": "local", "jugador": "Cristian Tarragona"}]
       }
     }
   }
@@ -361,7 +361,7 @@ Si de un equipo sabés poco, escribí lo que tenés (forma, sede, plantel) y no 
 
 **`desarrollo` es OBLIGATORIO, en todos los análisis.** Medido el 2026-08-31: estaba presente en **1 de 20** análisis escritos. El campo existe desde el 2026-08-30 y quedó prácticamente sin usar.
 
-Que sea obligatorio no significa afirmar un guion cuando no lo hay: `senal` acepta `incierto` en las tres dimensiones, y `texto` puede decir que no hay base para sostener un desarrollo. Lo que no puede es faltar. Es el único campo que describe **cómo se va a jugar el partido** en vez de quién gana, y sin él el análisis queda siendo tres párrafos sobre lo mismo — el resultado — que es justo lo que el modelo ya calcula.
+Que sea obligatorio no significa afirmar un guion cuando no lo hay: `senal` acepta `null` en todas sus dimensiones, y `texto` puede decir que no hay base para sostener un desarrollo. Lo que no puede es faltar. Es el único campo que describe **cómo se va a jugar el partido** en vez de quién gana, y sin él el análisis queda siendo tres párrafos sobre lo mismo — el resultado — que es justo lo que el modelo ya calcula.
 
 Y es lo que la app muestra como narrativa. Un análisis sin `desarrollo` deja la pestaña Análisis con dos lecturas del resultado y nada sobre el partido.
 
@@ -394,9 +394,68 @@ Las cuatro de abajo son las únicas que pasan las dos pruebas: **ortogonales a �
 |---|---|---|
 | `corners_total` | muchos / pocos / null | córners del partido vs. media de la liga |
 | `faltas` | muchas / pocas / null | faltas del partido vs. media de la liga |
-| `tarjetas` | muchas / pocas / null | amarillas + rojas vs. media de la liga |
+| `tarjetas` | **siempre null** | — (ver abajo) |
 | `volumen_remates` | alto / bajo / null | remates del partido vs. media de la liga |
-| `generador` | `{equipo, jugador}` o null | ¿ese jugador lideró los remates de su equipo? |
+| `generador` | **lista** de `{equipo, jugador}`, hasta uno por equipo, o `[]` | ¿ese jugador lideró los remates de su equipo? |
+
+### Las cuatro de volumen: NO las decidís vos, las decide `senal_base`
+
+Esto cambió el 2026-09-03 y es el cambio más importante del esquema.
+Hasta entonces no había umbral: "muchos" o "pocos" quedaba a criterio, y
+en la primera tanda eso se rompió solo — se declaró `null` una señal a
++16% de la media de liga y se afirmó otra a +11%, en la misma corrida.
+
+Ahora el expediente trae **`senal_base`**, con el fallo ya calculado:
+
+```json
+"senal_base": {
+  "corners_total": {
+    "estimadores": {"produce": 10.8, "sede": 12.0, "cruzado": 10.6},
+    "estimado": 11.1, "vara": 9.25,
+    "gap": 0.204, "dispersion": 0.154, "n": 6,
+    "fallo": "muchos",
+    "por_que": "+20% contra la media de la liga"
+  }
+}
+```
+
+**Copiá `fallo` tal cual en `senal`.** No lo discutas, no lo ajustes con
+tu lectura, no lo pises porque el partido "se ve" de otra manera. Si
+`fallo` es `null`, va `null` — `por_que` te dice si fue por muestra
+corta, por estimadores que se contradicen, o por estar demasiado cerca
+de la media. Esa es toda la regla, y es lo que la hace reproducible: dos
+corridas sobre el mismo expediente tienen que dar la misma `senal`.
+
+Si `senal_base` no viene (sin estadística medida de alguno de los dos),
+las cuatro van en `null`.
+
+Lo que sí es tuyo: la prosa de `texto`, y `generador`.
+
+**De dónde salen los números**, para que se entienda qué estás copiando
+y no sea una caja negra. Se calibró con `calibrar_senal.py` sobre 20.897
+partidos de seis ligas europeas (2015/16 a 2025/26), walk-forward y con
+train/test temporal:
+
+| dimensión | gap mínimo | dispersión máx. | partidos mín. | acierto en test | tasa base |
+|---|---|---|---|---|---|
+| `faltas` | 10% | 15% | 6 | **71.2%** ±1.6 | 54.1% |
+| `volumen_remates` | 10% | 15% | 6 | **63.6%** ±2.0 | 51.2% |
+| `corners_total` | 20% | 20% | 6 | **65.7%** ±4.6 | 52.0% |
+| `tarjetas` | — | — | — | no supera su tasa base | 56.9% |
+
+Los tres estimadores (`produce`, `sede`, `cruzado`) son tres formas de
+mirar el mismo total. Cuando se contradicen entre sí, esa contradicción
+**es** la información: significa que el promedio general, el de sede y
+lo que concede el rival no cuentan la misma historia, y ahí la respuesta
+correcta es callarse. Por eso hay tope de dispersión y no solo de gap.
+
+**`tarjetas` va siempre en `null`.** No es que sea difícil de afirmar: es
+que no se puede. En la grilla entera de umbrales nunca le sacó más de
+1.8 errores estándar a su propia tasa base — el recuento de tarjetas
+varía tanto de partido a partido, contra lo poco que separa a un equipo
+de otro, que el promedio previo no dice de qué lado va a caer. El campo
+sigue existiendo para no romper el esquema, y su único valor válido es
+`null`.
 
 **`faltas` y `tarjetas` van separadas y no son la misma cosa.** Estuvieron juntas como `fisico` durante unas horas el 2026-09-03 y se partieron en el primer test: un partido puede tener 25 faltas y 2 amarillas —roce constante que el árbitro deja seguir— o 15 faltas y 5 amarillas. Con un solo campo no había forma de decir cuál de las dos se estaba afirmando, ni qué hacer al verificar si una subía y la otra bajaba.
 
@@ -411,18 +470,60 @@ Para decir "muchos córners" hace falta dato de córners. No alcanza con que un 
 | campo | evidencia ADMISIBLE | evidencia PROHIBIDA |
 |---|---|---|
 | `corners_total` | córners que generan y conceden los dos equipos; dependencia de pelota parada; un bloque bajo que invita a centrar | goles, resultados, posición en la tabla, "es muy superior", cualquier cosa que hable de quién gana |
-| `faltas` | faltas de los dos equipos; el árbitro; clásico o rivalidad con antecedente | goles, superioridad, "va a tener que correr atrás de la pelota" |
-| `tarjetas` | amarillas y rojas de los dos; el árbitro; expulsados recientes | las faltas por sí solas (son otra métrica), goles, superioridad |
+| `faltas` | faltas de los dos equipos; clásico o rivalidad **con antecedente medido** | goles, superioridad, "va a tener que correr atrás de la pelota", **el árbitro** |
+| `tarjetas` | — no se afirma nunca | todo |
 | `volumen_remates` | remates de los dos equipos en partidos anteriores | **goles y resultados** — son el insumo de λ; "es muy superior"; que los partidos previos hayan tenido muchos goles |
 | `generador` | la `serie` de remates por jugador del expediente, con el umbral de abajo | el puesto ("es el nueve" no es evidencia), la fama, los goles del jugador |
 
 El caso real que originó esto, del primer test (Ipswich–Liverpool, 2026-09-03): el impulso fue poner `corners_total: "muchos"` porque Liverpool ataca mucho, y `volumen_remates: "alto"` porque los cuatro partidos previos habían tenido muchos goles. **Las dos son inferencias desde la asimetría o desde los goles, que es exactamente lo que λ ya sabe** (r = 0.35 a 0.46). Las dos fueron a `null`, y esa era la respuesta correcta.
 
-### El umbral de `generador`, que es experimental
+### `generador`: promedio por partido, hasta uno por equipo
 
-Solo se nombra a un jugador si **lidera los remates de su equipo por al menos 50% sobre el segundo**. En el primer test: Enciso tenía 6 remates contra 3 del siguiente de Ipswich (100% de ventaja) — se nombra. En Liverpool, cuatro jugadores estaban entre 6 y 7 — ahí va `null`, porque nombrar al de 7 sobre el de 6 es tirar una moneda con cara de análisis.
+El expediente trae **`liderazgoH`/`liderazgoA`** con la cuenta hecha:
 
-**El 50% es un punto de partida, no una verdad estadística.** Se eligió mirando un solo partido y se va a validar cuando haya muestra. Si resulta demasiado laxo o demasiado duro, se cambia.
+```json
+"liderazgoH": {
+  "lider":   {"nombre": "Ángel Di María", "por_partido": 5.0, "apariciones": 4, "titular": 4},
+  "segundo": {"nombre": "Enzo Copetti",   "por_partido": 2.5, "apariciones": 4, "titular": 3},
+  "ventaja": 1.0
+}
+```
+
+Tres reglas, y las tres se resolvieron el 2026-09-03 después del primer test:
+
+**1. Se mide por PROMEDIO POR PARTIDO, no por la suma.** Con apariciones
+desparejas las dos lecturas dan cosas distintas, y en la primera tanda ya
+pasó: Colidio llevaba 14 remates en 3 partidos y su segundo 9 en 4 — por
+suma es +56%, por partido es +107%. La suma premia a quien jugó más, que
+es lo contrario de lo que la señal quiere decir. `ventaja` ya viene
+calculada por partido; usá ese número.
+
+**2. Hace falta un mínimo de 3 apariciones**, del líder y del segundo. Una
+tasa sacada de un partido no es una tasa. El expediente ya descarta a
+quien no llega.
+
+**3. Puede haber DOS generadores, uno por equipo.** `generador` es una
+**lista**, no un objeto. Era un objeto único hasta el primer test, y ahí
+se vio el problema: en Fluminense–Vasco los dos equipos tenían un líder
+que superaba el umbral con la misma ventaja, y con un solo lugar había
+que elegir uno a dedo — el mismo volado que el umbral existe para evitar.
+Si los dos califican, van los dos. Si no califica ninguno, va `[]`.
+
+```json
+"generador": [
+  {"equipo": "local", "jugador": "Ángel Di María"},
+  {"equipo": "visitante", "jugador": "Facundo Colidio"}
+]
+```
+
+**El umbral sigue siendo 50% de ventaja sobre el segundo, y sigue siendo
+experimental.** No se movió, y no se puede validar todavía: las series
+por jugador del expediente no están alineadas entre sí —cada una son las
+últimas N apariciones de ESE jugador, no las últimas N del equipo— así
+que no hay forma de reconstruir quién lideró en un partido concreto y
+calibrarlo contra historial. Lo que sí se arregló son las tres
+definiciones de arriba, que no son umbrales sino ambigüedades: por suma
+o por partido, con cuántas apariciones, y qué pasa si califican dos.
 
 `generador` es ortogonal **por construcción**: λ es un número por equipo y no tiene eje de jugador. Es la dimensión donde la lectura puede aportar más y la única que ningún ajuste del modelo puede replicar.
 
@@ -485,6 +586,9 @@ Antes de escribir el JSON final, releé tu propio `contexto` y `veredicto` contr
 - [ ] ¿Inventaste algo — un nombre, un patrón, una cifra — que no esté literalmente en el input o en una fuente de research con fecha propia?
 - [ ] `contexto` y `veredicto`: ¿uno explica y el otro concluye, o están diciendo lo mismo dos veces?
 - [ ] `desarrollo`· ¿es una dirección camuflada? Si nombrás a un ganador, va en `veredicto`/`inclinacion`, no en `desarrollo`.
-- [ ] `desarrollo`· ¿estás vendiendo un guion cerrado inventado? Si no hay base para afirmar el desarrollo, decilo con incertidumbre — `incierto`/explicitarlo es correcto, la narrativa convincente no.
+- [ ] `desarrollo`· ¿estás vendiendo un guion cerrado inventado? Si no hay base para afirmar el desarrollo, decilo explícitamente — la narrativa convincente no reemplaza a la evidencia.
+- [ ] `senal`· las cuatro de volumen, ¿son **copia literal** del `fallo` de `senal_base`? Si en alguna pusiste algo distinto de lo que dice el expediente, está mal: esa cuenta no es tuya. `tarjetas` siempre `null`.
+- [ ] `senal`· `generador`, ¿es una **lista**? ¿Usaste `ventaja` (que ya viene por partido) y no la suma de remates? ¿Están los dos equipos que superan el 50%, o dejaste uno afuera?
+- [ ] `senal`· ¿le atribuiste faltas o tarjetas al **árbitro**? No es evidencia admisible en ninguna skill de VALOR.
 
 Si alguna casilla falla, corregí antes de devolver — no lo dejes para que lo encuentre otra pasada.

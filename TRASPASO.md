@@ -7149,3 +7149,129 @@ Lucas cerró §39 fijando la interpretación por adelantado, que es la
 Y la capa 3 **no se rediseña ahora**. La pregunta todavía no está bien
 definida, y hacer ingeniería sobre una pregunta mal definida es cómo se
 llegó al esquema viejo de §33.
+
+## 40. El veto de `inclinacion`, y por qué la culpa no era del reglamento (2026-09-03)
+
+Sale de un hallazgo del recorrido por la app: **0 oportunidades en 62
+partidos**. El diagnóstico tardó tres pasos y cada uno corrigió al
+anterior.
+
+### Paso 1 — la cadena de guardas, y quién bloquea de verdad
+
+`marcaDeValor()` aplica cinco guardas conjuntivas. Contadas sobre la
+grilla del 2026-09-03:
+
+```
+                bloquea en total   bloquea SOLA
+  inclinacion         61 / 62            6
+  sinMuestra          30                 0
+  ligaSinValor        25                 1
+  sin cuota            4                 0
+```
+
+`sinMuestra` y `ligaSinValor` **no bloquean nada por sí solas**: todo lo
+que atrapan ya estaba atrapado por falta de dirección. Y se reparten la
+grilla sin pisarse — `sinMuestra` cubre las 30 europeas,
+`ligaSinValor` las 25 de arg/bra.
+
+El primer diagnóstico fue "desalineación operativa": las ligas donde se
+carga análisis y las ligas donde se puede marcar valor eran conjuntos
+disjuntos.
+
+### Paso 2 — se cargaron los 6 que sí llegan, y siguieron siendo 0
+
+Se analizaron los seis de CONMEBOL, que hoy son los únicos que pasan
+`ligaSinValor`, `sinMuestra` y `devig`. Los SEIS, no los dos que una
+simulación decía que podían marcar: elegir mirando el cálculo habría
+sido seleccionar por el resultado.
+
+`inclinacion` salió `null` en los seis. **El primer diagnóstico estaba
+incompleto**: no faltaban análisis, faltaban direcciones.
+
+Dos que estuvieron cerca y por qué no:
+
+- **Santa Fe–Vasco**: la altura de Bogotá es un factor válido y listado
+  (principio N). El rastro la desarma — Santa Fe recibió a River, un
+  equipo de llano, dos veces en esta misma copa y empató las dos.
+- **Boca–São Paulo**: las bajas de agosto (Paredes, Pellegrino, Lozano)
+  estaban VENCIDAS; los tres tienen partidos recientes de arranque.
+
+Contaminación declarada: quien escribió esos análisis ya había visto la
+simulación y sabía qué direcciones habrían marcado. Los dos casos
+salieron `null` —o sea que no se reprodujo ninguna— pero **no cuentan
+como evidencia independiente**.
+
+### Paso 3 — la auditoría retrospectiva, y acá cambia todo
+
+Se reconstruyó qué habría pasado con las 15 direcciones históricas si se
+les aplicaran K, O y P:
+
+```
+  28 análisis  →  15 direcciones (54%)
+                      ↓ K    12 sobreviven   (−3, −20%)
+                      ↓ O    12              (−0)
+                      ↓ P    12              (−0)
+```
+
+**Los tres principios, como están escritos, habrían dejado pasar 12 de
+15.** La tasa habría caído de 54% a 43%. Cayó a 6%.
+
+**K filtra el 20%** y es el único con veto real. Las tres que mata caen
+por su prueba dura —tapá la frase de la baja y fijate si la dirección
+sigue en pie—: en River–Santa Fe queda "racha floja", en
+Tigre–Montevideo queda "líder invicto", y en el empate de espn401841522
+el argumento se sostiene entero con forma.
+
+**O filtra 0%.** En las 15, la localía aparece como acompañamiento y no
+como argumento: se tapa "de local" y el desbalance de bajas queda en
+pie. O corrige hacia DÓNDE apuntan las direcciones, no cuántas hay.
+
+**P filtra 0%, y acá estaba el error de lectura.** P dice textualmente
+que *"un factor no verificable puede sostener una `inclinacion`, no
+puede sostener una frase terminante"*. **P no es un veto: es una
+restricción de tono.** Solo mata una dirección en el estado "verificado
+en contra" —el factor ya ocurrió y no pasó nada—, y ninguna de las 15
+está en ese estado.
+
+### La conclusión, y es sobre quién aplica, no sobre qué dice
+
+El desplome de 54% a 6% **no lo explica el reglamento**. Lo explica cómo
+se aplicó en las tandas nuevas: leyendo P como veto cuando es de tono, y
+aplicando la prueba dura de K a veredictos que la habrían sobrevivido.
+
+Queda fijado, para las próximas tandas:
+
+- **P no se lee como veto automático.** Si un factor no es verificable
+  pero sostiene razonablemente una dirección, la dirección existe; lo
+  que cambia es el nivel de afirmación del texto.
+- **K sigue siendo un filtro duro y real, y no se aplica más estricto de
+  lo que dice.** Mencionar la forma no es sostenerse en la forma.
+- **No se agregan filtros personales** por encima del texto de K, O y P.
+
+Y una salvedad que no se puede omitir: **las 12 que sobreviven NO son
+evidencia de que esas direcciones fueran buenas.** Solo significa que
+esos principios no las descartarían. El propio K nació de medir que 5 de
+6 direcciones coincidían con el modelo.
+
+### Lo que queda abierto, y no se tocó
+
+La pregunta conceptual sigue sin decidir: **¿`inclinacion` debe ser una
+llave obligatoria con poder de veto, o una capa de contexto sin él?**
+
+Un dato técnico que hay que tener presente antes de decidirlo, porque
+vuelve asimétricas a las dos opciones: en `marcaDeValor()` la dirección
+hace DOS trabajos. Es compuerta (`if(!dir) return null`) y es
+**selector** (`dif = lectura(m).p[dir] - pq[dir]`) — elige sobre qué
+resultado se calcula la ventaja. Quitarle el veto no es borrar una
+llave: es trasladarle la elección al modelo, que pasaría a marcar valor
+sobre su propia opinión. Eso es exactamente la circularidad que la regla
+existe para impedir.
+
+Y el costo medido del veto hoy es bajo: las marcas que suprime están en
+arg/bra, donde el ROI medido es negativo, o en CONMEBOL, donde no hay
+ROI medido. **No hay ninguna liga con evidencia positiva medida que el
+veto esté bloqueando.**
+
+El costo real es otro, y es el mismo patrón de §39: con 1 dirección cada
+62 partidos, `medir_analisis.py` nunca junta muestra para evaluar si
+`inclinacion` sirve. La regla impide su propia evaluación.

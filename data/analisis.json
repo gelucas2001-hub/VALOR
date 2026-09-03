@@ -2333,5 +2333,1005 @@
         }
       }
     }
+  },
+  "espn401882894": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Real Betis arrancó bien y se cayó de golpe: ganó 1-0 a Real Sociedad el 21 de agosto y 1-0 a Valencia el 25, y después perdió 2-5 con Levante el 29, que es un marcador que no describe a ninguno de los dos partidos anteriores. El gol está muy concentrado en Rodrigo Riquelme, con dos tercios de los del equipo. Se publicaron cuatro ausencias —Ruibal, William Carvalho, Fekir y Bravo— y tres dudas, pero con tres fechas jugadas ninguno figura en el plantel con partidos, así que no se les puede pesar.",
+    "visitante": "Real Madrid viene de tres victorias seguidas y con goleada: 2-1 a Espanyol el 22 de agosto, 4-1 a Real Sociedad el 26 y 4-0 a Málaga el 30. Mbappé hace casi la mitad de los goles del equipo y es de lejos el que más remata del plantel. También llega con una lista larga de ausencias publicadas —siete nombres— pero pasa lo mismo: con tres partidos de temporada ninguno aparece en el plantel con minutos, y sin eso no hay con qué medir cuánto pesan.",
+    "contexto": "Cuarta fecha en el Benito Villamarín. Real Madrid es segundo con 9 puntos y Betis séptimo con 6. Con tres partidos jugados, cualquier lectura de forma se apoya en muy poco.",
+    "veredicto": "Los dos llegan con listas largas de ausencias y ninguna se puede pesar con tres fechas de temporada; lo que queda son tres partidos de forma, que no alcanzan para inclinar.",
+    "desarrollo": {
+      "texto": "Se espera un visitante con la pelota y un local buscando el momento, que es el molde natural del cruce. Lo que puede alterarlo son justamente las ausencias: si son tantas como se publicó, los dos equipos van a salir con formaciones que nadie vio todavía este año.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "local",
+            "jugador": "Antony"
+          },
+          {
+            "equipo": "visitante",
+            "jugador": "Kylian Mbappé"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 37.7,
+              "sede": 39.0,
+              "cruzado": 32.2
+            },
+            "estimado": 36.3,
+            "vara": 25.4,
+            "gap": 0.428,
+            "dispersion": 0.269,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 11.7,
+              "sede": 12.0,
+              "cruzado": 11.3
+            },
+            "estimado": 11.7,
+            "vara": 10.13,
+            "gap": 0.152,
+            "dispersion": 0.066,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 16.7,
+              "sede": 16.0,
+              "cruzado": 19.2
+            },
+            "estimado": 17.3,
+            "vara": 25.5,
+            "gap": -0.322,
+            "dispersion": 0.124,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 3.0,
+              "sede": 4.0,
+              "cruzado": 4.7
+            },
+            "estimado": 3.9,
+            "vara": 4.47,
+            "gap": -0.13,
+            "dispersion": 0.372,
+            "n": 3,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Antony",
+              "pos": "F",
+              "por_partido": 5.0,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Pablo Fornals",
+              "pos": "M",
+              "por_partido": 2.0,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "ventaja": 1.5,
+            "califica": true,
+            "por_que": "+150% sobre el segundo"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Kylian Mbappé",
+              "pos": "F",
+              "por_partido": 8.0,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Jude Bellingham",
+              "pos": "M",
+              "por_partido": 2.67,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "ventaja": 1.996,
+            "califica": true,
+            "por_que": "+200% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401882895": {
+    "actualizado": "2026-09-03",
+    "inclinacion": "E",
+    "local": "Athletic Club está último entre los que miramos y con un arranque duro: perdió 1-3 con Sevilla el 22 de agosto y 0-2 con Barcelona el 27, y recién enderezó con un 2-0 a Celta el 30. El gol se reparte entre Berenguer y Aitor Paredes, sin una referencia que resuelva sola, y a eso se le suman las ausencias de Egiluz, Vivian y Prados, que tampoco figuran en el plantel con partidos.",
+    "visitante": "Atlético Madrid llega mejor —3-1 a Sevilla el 29 de agosto, 2-2 con Villarreal el 23 y 2-0 a Málaga el 19— pero con un problema concreto: Álex Baena, que hizo el 43% de los goles del equipo, está reportado como lesionado. Es la única ausencia de las publicadas hoy que el plantel permite pesar, y pesa: sin él, el ataque queda repartido entre nombres que todavía no convirtieron. Giménez también está afuera.",
+    "contexto": "Cuarta fecha en San Mamés. Atlético es tercero con 7 puntos y Athletic duodécimo con 3, pero la distancia es de tres partidos y no dice tanto como parece.",
+    "veredicto": "Al visitante, que llegaba mejor, le falta el jugador que hizo casi la mitad de sus goles, y eso empareja un cruce que la tabla mostraba desnivelado: el reparto de puntos aparece como el desenlace más consistente.",
+    "desarrollo": {
+      "texto": "Se espera un partido más trabado de lo que la diferencia de puntos sugiere. Athletic va a apoyarse en su cancha y en la disputa, y Atlético tiene que resolver de dónde va a salir el gol. Es el tipo de cruce donde el primer error define, porque ninguno de los dos está creando en volumen.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "local",
+            "jugador": "Oihan Sancet"
+          },
+          {
+            "equipo": "visitante",
+            "jugador": "Lee Kang-In"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 28.7,
+              "sede": 30.0,
+              "cruzado": 27.5
+            },
+            "estimado": 28.7,
+            "vara": 25.4,
+            "gap": 0.131,
+            "dispersion": 0.098,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 11.7,
+              "sede": 12.0,
+              "cruzado": 10.5
+            },
+            "estimado": 11.4,
+            "vara": 10.13,
+            "gap": 0.124,
+            "dispersion": 0.148,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 26.3,
+              "sede": 27.0,
+              "cruzado": 27.0
+            },
+            "estimado": 26.8,
+            "vara": 25.5,
+            "gap": 0.05,
+            "dispersion": 0.026,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 5.3,
+              "sede": 5.0,
+              "cruzado": 4.7
+            },
+            "estimado": 5.0,
+            "vara": 4.47,
+            "gap": 0.119,
+            "dispersion": 0.151,
+            "n": 3,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Oihan Sancet",
+              "pos": "M",
+              "por_partido": 2.67,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Álex Berenguer",
+              "pos": "F",
+              "por_partido": 1.67,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "ventaja": 0.599,
+            "califica": true,
+            "por_que": "+60% sobre el segundo"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Lee Kang-In",
+              "pos": "M",
+              "por_partido": 3.0,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Ademola Lookman",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "ventaja": 0.5,
+            "califica": true,
+            "por_que": "+50% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401841221": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Botafogo está en caída libre: perdió cuatro de sus últimos cinco, incluido un 1-6 con Cienciano el 14 de agosto y un 0-3 con Flamengo el 30. El único triunfo del tramo fue 1-0, también a Cienciano. El gol se reparte entre Arthur Cabral y Danilo Santos, con algo menos de un cuarto cada uno, y Cabral es además el que más patea del plantel por bastante.",
+    "visitante": "Palmeiras es el puntero del Brasileirão con 52 puntos y llega estable: empató 1-1 con Mirassol el 30 de agosto, goleó 4-1 a Vasco el 23 y ganó 1-0 a Cerro Porteño el 19. Su ataque es de los más repartidos —López con 21%, Maurício con 15%— así que no hay un solo jugador al que anular. Fuera de casa mantiene el mismo perfil de control.",
+    "contexto": "Rodada 26 en el Nilton Santos. Palmeiras primero con 52 puntos, Botafogo undécimo con 30. No trascendieron bajas confirmadas de ninguno de los dos.",
+    "veredicto": "El puntero visita al que peor viene de la mitad de tabla, y eso es exactamente lo que muestran los resultados y la posición; sin un factor propio de este partido, la lectura no inclina.",
+    "desarrollo": {
+      "texto": "Palmeiras va a controlar y Botafogo tiene que decidir si se para atrás o intenta salir, que últimamente le viene saliendo mal en las dos versiones. El guion más probable es de dominio del visitante sin necesidad de excesos. Lo que puede cambiarlo es la urgencia del local por cortar la racha en su cancha.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "local",
+            "jugador": "Arthur Cabral"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 34.6,
+              "sede": 41.5,
+              "cruzado": 34.6
+            },
+            "estimado": 36.9,
+            "vara": 29.96,
+            "gap": 0.232,
+            "dispersion": 0.231,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 10.3,
+              "sede": 14.5,
+              "cruzado": 12.0
+            },
+            "estimado": 12.3,
+            "vara": 10.53,
+            "gap": 0.166,
+            "dispersion": 0.394,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 26.6,
+              "sede": 28.0,
+              "cruzado": 29.5
+            },
+            "estimado": 28.0,
+            "vara": 25.16,
+            "gap": 0.115,
+            "dispersion": 0.116,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 5.0,
+              "sede": 5.0,
+              "cruzado": 5.0
+            },
+            "estimado": 5.0,
+            "vara": 4.35,
+            "gap": 0.146,
+            "dispersion": 0.011,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Arthur Cabral",
+              "pos": "F",
+              "por_partido": 3.5,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Matheus Martins",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 2
+            },
+            "ventaja": 0.75,
+            "califica": true,
+            "por_que": "+75% sobre el segundo"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "José Manuel López",
+              "pos": "F",
+              "por_partido": 2.5,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Maurício",
+              "pos": "M",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 0.25,
+            "califica": false,
+            "por_que": "solo +25%, hace falta +50%"
+          }
+        }
+      }
+    }
+  },
+  "espn401841220": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Corinthians no encuentra el gol y no tiene referencia: nadie del plantel pasa del 12% de los goles del equipo. Perdió tres de sus últimos cinco —0-1 con Santos el 30 de agosto, 1-2 con Coritiba el 23 y 1-2 con Cruzeiro el 16— y lo único rescatable fue el 1-0 a Rosario Central el 21. Es un equipo que pierde por poco y de forma repetida.",
+    "visitante": "Chapecoense es último con 14 puntos y llega irregular: perdió 1-3 con Grêmio el 30 de agosto pero antes había ganado 1-0 a São Paulo el 23 y empatado 3-3 con Bahia el 16. Marcinho es el máximo goleador con 18%, y Túlio Eduardo Silva es el que más remata del plantel, bastante por encima del resto. Es un equipo que puede lastimar cuando le dejan espacio.",
+    "contexto": "Rodada 26 en Itaquera. Corinthians décimo con 32 puntos y Chapecoense vigésimo con 14, en zona de descenso. No trascendieron bajas confirmadas.",
+    "veredicto": "Un local sin referencia de gol contra el último de la tabla que igual gana partidos sueltos; la diferencia está en la campaña, que ya está incorporada en cualquier medición del cruce.",
+    "desarrollo": {
+      "texto": "Corinthians va a tener la pelota y le va a costar convertirla en situaciones, que es su problema del último mes. Chapecoense se juega mucho abajo y es probable que priorice no recibir. Es el escenario donde un 0-0 o un 1-0 aparecen como los desenlaces más frecuentes.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "visitante",
+            "jugador": "Túlio Eduardo Silva De Oliveira"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 31.2,
+              "sede": 37.0,
+              "cruzado": 31.9
+            },
+            "estimado": 33.4,
+            "vara": 29.96,
+            "gap": 0.114,
+            "dispersion": 0.192,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 12.3,
+              "sede": 12.2,
+              "cruzado": 10.1
+            },
+            "estimado": 11.6,
+            "vara": 10.53,
+            "gap": 0.097,
+            "dispersion": 0.21,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 26.3,
+              "sede": 24.2,
+              "cruzado": 23.8
+            },
+            "estimado": 24.8,
+            "vara": 25.16,
+            "gap": -0.016,
+            "dispersion": 0.099,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.2,
+              "sede": 3.8,
+              "cruzado": 4.2
+            },
+            "estimado": 4.1,
+            "vara": 4.35,
+            "gap": -0.067,
+            "dispersion": 0.083,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Matheus Bidu",
+              "pos": "D",
+              "por_partido": 2.33,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Rodrigo Garro",
+              "pos": "M",
+              "por_partido": 1.75,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "ventaja": 0.331,
+            "califica": false,
+            "por_que": "solo +33%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Túlio Eduardo Silva De Oliveira",
+              "pos": "F",
+              "por_partido": 3.0,
+              "apariciones": 4,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Giovanni Augusto",
+              "pos": "M",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.5,
+            "califica": true,
+            "por_que": "+50% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401841218": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Cruzeiro es sexto con 39 puntos y viene de un tramo intenso: jugó tres veces contra Flamengo en agosto —1-1 el 13, 1-2 el 20 y 2-1 el 22— además de ganarle 2-1 a Corinthians el 16 y caer 1-3 con Vasco el 30. Kaio Jorge es su goleador con algo más de un cuarto de los goles. Es un equipo que compite todos los partidos y no golea a nadie.",
+    "visitante": "Athletico Paranaense depende de Kevin Viveros de una manera poco común: hizo la mitad de los goles del equipo y es también el que más remata. Viene sin perder en cinco —3-3 con Fluminense el 30 de agosto, 3-2 a Botafogo el 24, 1-1 con Bragantino el 15 y 2-0 a Santos el 9— así que llega en el mejor momento del tramo. Esa dependencia de un solo nombre es su fortaleza y su fragilidad a la vez.",
+    "contexto": "Rodada 26 en el Mineirão. Cruzeiro sexto con 39 puntos; el visitante no figura en la tabla del grupo que trae el expediente, así que no se comparan posiciones. No trascendieron bajas confirmadas.",
+    "veredicto": "Dos equipos que llegan enteros y por caminos distintos —uno compitiendo parejo, el otro apoyado en un solo goleador—, y nada de eso está fuera de lo que ya se ve en los resultados.",
+    "desarrollo": {
+      "texto": "Se espera un partido parejo y de pocas concesiones: Cruzeiro viene de partidos cerrados contra rivales duros y Athletico no arriesga de más cuando está bien. El guion se define en si Viveros encuentra el espacio; si lo anulan, el visitante no tiene otro por dónde.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "visitante",
+            "jugador": "Kevin Viveros"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 26.6,
+              "sede": 23.3,
+              "cruzado": 28.3
+            },
+            "estimado": 26.1,
+            "vara": 29.96,
+            "gap": -0.13,
+            "dispersion": 0.165,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 9.8,
+              "sede": 7.3,
+              "cruzado": 9.3
+            },
+            "estimado": 8.8,
+            "vara": 10.53,
+            "gap": -0.164,
+            "dispersion": 0.235,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 25.0,
+              "sede": 25.7,
+              "cruzado": 26.2
+            },
+            "estimado": 25.6,
+            "vara": 25.16,
+            "gap": 0.019,
+            "dispersion": 0.049,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.6,
+              "sede": 5.3,
+              "cruzado": 4.7
+            },
+            "estimado": 4.9,
+            "vara": 4.35,
+            "gap": 0.118,
+            "dispersion": 0.168,
+            "n": 5,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Fagner",
+              "pos": "D",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Keny Arroyo",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 2
+            },
+            "ventaja": 0.125,
+            "califica": false,
+            "por_que": "solo +12%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Kevin Viveros",
+              "pos": "F",
+              "por_partido": 3.0,
+              "apariciones": 5,
+              "titular": 5
+            },
+            "segundo": {
+              "nombre": "Leozinho",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 5,
+              "titular": 5
+            },
+            "ventaja": 0.5,
+            "califica": true,
+            "por_que": "+50% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401841222": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Vitória viene mal y con marcadores duros: perdió cuatro de sus últimos cinco, incluido un 0-4 con Palmeiras el 30 de julio y un 0-2 con Bahia el 23 de agosto, con un 1-0 a Botafogo el 16 como única alegría. El gol se reparte entre Renê y Renato Kayzer sin que ninguno pase del 22%, así que no hay a quién buscar cuando el partido se complica.",
+    "visitante": "Grêmio alterna sin término medio: ganó 3-1 a Chapecoense el 30 de agosto y 2-1 a São Paulo el 8, y perdió 0-3 con Atlético Mineiro el 16 y 0-1 con Bragantino el 23. Casi la mitad de sus goles los hace Carlos Vinícius, y el que más remata del plantel es Krovinovic, que juega por detrás. Fuera de casa arrastra el mismo problema de regularidad.",
+    "contexto": "Rodada 26 en el Barradão, y cierra la fecha. Los dos están al borde de la zona baja y separados por un punto: Vitória decimocuarto con 29, Grêmio decimoquinto con 28. No trascendieron bajas confirmadas.",
+    "veredicto": "Dos equipos igual de irregulares y separados por un punto, jugándose lo mismo; no hay nada por fuera de la campaña de cada uno que permita inclinar la lectura.",
+    "desarrollo": {
+      "texto": "Partido de necesidad de los dos lados, que suele traducirse en más disputa que juego. Vitória necesita ganar en su cancha y Grêmio no puede permitirse otra derrota. Con dos ataques que dependen de pocos nombres, lo más probable es un trámite espeso y definido por un detalle.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "visitante",
+            "jugador": "Filip Krovinovic"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 26.0,
+              "sede": 29.5,
+              "cruzado": 36.8
+            },
+            "estimado": 30.8,
+            "vara": 29.96,
+            "gap": 0.026,
+            "dispersion": 0.359,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 11.0,
+              "sede": 13.0,
+              "cruzado": 13.1
+            },
+            "estimado": 12.4,
+            "vara": 10.53,
+            "gap": 0.175,
+            "dispersion": 0.202,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 24.8,
+              "sede": 27.5,
+              "cruzado": 26.9
+            },
+            "estimado": 26.4,
+            "vara": 25.16,
+            "gap": 0.048,
+            "dispersion": 0.109,
+            "n": 4,
+            "fallo": null,
+            "por_que": "muestra corta (4 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 5.0,
+              "sede": 5.5,
+              "cruzado": 5.2
+            },
+            "estimado": 5.2,
+            "vara": 4.35,
+            "gap": 0.207,
+            "dispersion": 0.115,
+            "n": 4,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Renê",
+              "pos": "F",
+              "por_partido": 2.0,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Zé Vitor",
+              "pos": "M",
+              "por_partido": 2.0,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "ventaja": 0.0,
+            "califica": false,
+            "por_que": "solo +0%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Filip Krovinovic",
+              "pos": "M",
+              "por_partido": 2.33,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Mateus Tetê",
+              "pos": "F",
+              "por_partido": 1.33,
+              "apariciones": 3,
+              "titular": 1
+            },
+            "ventaja": 0.752,
+            "califica": true,
+            "por_que": "+75% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401882888": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Valencia es último con un punto y no arrancó: empató 0-0 con Celta el 22 de agosto y después perdió 0-1 con Betis el 25 y 1-3 con Deportivo el 30. Todos los goles del equipo los hizo Umar Sadiq, que además arrancó solo uno de los tres partidos, así que ni siquiera esa referencia es estable. Es un equipo sin producción y sin quién la sostenga.",
+    "visitante": "Barcelona ganó los tres y goleando: 5-0 a Elche el 23 de agosto, 2-0 a Athletic el 27 y 5-2 a Rayo el 31. Raphinha hace casi la mitad de los goles y Fermín López más de un cuarto, y Lamine Yamal es el que más remata del plantel por bastante. Se publicó la baja de larga duración de Frenkie de Jong, pero con tres fechas jugadas no figura en el plantel con partidos y no se le puede pesar.",
+    "contexto": "Cuarta fecha en Mestalla. Barcelona es puntero con 9 puntos y Valencia último con 1. Tres partidos son muy poca base para leer cualquiera de las dos campañas.",
+    "veredicto": "El puntero visita al último y la diferencia salta en cada marcador de las tres fechas; eso es campaña y plantel, que es lo primero que cualquier medición recoge, así que la lectura no inclina.",
+    "desarrollo": {
+      "texto": "Se espera dominio claro del visitante y un local que necesita cerrar espacios sin tener con qué salir. Barcelona viene convirtiendo mucho y Valencia recibiendo, así que el guion natural es de asedio. Lo que puede cambiarlo es que Mestalla empuje un arranque distinto.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "visitante",
+            "jugador": "Lamine Yamal"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 31.7,
+              "sede": 23.0,
+              "cruzado": 20.8
+            },
+            "estimado": 25.2,
+            "vara": 25.4,
+            "gap": -0.009,
+            "dispersion": 0.427,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 12.0,
+              "sede": 5.5,
+              "cruzado": 6.4
+            },
+            "estimado": 8.0,
+            "vara": 10.13,
+            "gap": -0.213,
+            "dispersion": 0.642,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 20.3,
+              "sede": 25.5,
+              "cruzado": 24.8
+            },
+            "estimado": 23.5,
+            "vara": 25.5,
+            "gap": -0.077,
+            "dispersion": 0.202,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 2.0,
+              "sede": 2.0,
+              "cruzado": 2.5
+            },
+            "estimado": 2.2,
+            "vara": 4.47,
+            "gap": -0.515,
+            "dispersion": 0.112,
+            "n": 3,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Arnaut Danjuma",
+              "pos": "F",
+              "por_partido": 2.33,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Filip Ugrinic",
+              "pos": "M",
+              "por_partido": 2.0,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "ventaja": 0.165,
+            "califica": false,
+            "por_que": "solo +16%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Lamine Yamal",
+              "pos": "F",
+              "por_partido": 5.0,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Raphinha",
+              "pos": "F",
+              "por_partido": 3.33,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "ventaja": 0.502,
+            "califica": true,
+            "por_que": "+50% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401882887": {
+    "actualizado": "2026-09-03",
+    "inclinacion": null,
+    "local": "Villarreal no ganó todavía: empató 2-2 con Racing el 16 de agosto y 2-2 con Atlético el 23, y perdió 0-1 con Alavés el 28. El gol se reparte entre Pape Gueye y Gerard Moreno con un cuarto cada uno, y Moreno —que además está reportado como lesionado— venía arrancando solo uno de los tres partidos, así que su ausencia pesa menos de lo que el nombre sugiere. También están afuera Cabanes, Logan Costa y Kambwala.",
+    "visitante": "Deportivo llega mejor y con una dependencia total: Aubameyang hizo todos los goles del equipo en las tres fechas y es también el que más remata, muy por encima del resto. Ganó 3-1 a Valencia el 30 de agosto y empató 1-1 con Málaga el 24 y con Elche el 17. Es un equipo que puntúa siempre pero que se apaga entero si su nueve no aparece.",
+    "contexto": "Cuarta fecha en La Cerámica. Deportivo es octavo con 5 puntos y Villarreal decimoquinto con 2, pero con tres partidos jugados esa diferencia es de un solo resultado.",
+    "veredicto": "El local no arrancó y el visitante depende por completo de un jugador; la baja de Gerard Moreno es real pero venía siendo suplente, así que no alcanza para mover la lectura.",
+    "desarrollo": {
+      "texto": "Villarreal va a tener que proponer en su cancha sin haber ganado todavía, y Deportivo llega cómodo jugando a esperar y buscar a Aubameyang. El guion más probable es de local con la pelota y visitante golpeando de a poco. Si el local convierte temprano, el partido se le hace muy distinto al que viene jugando.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": [
+          {
+            "equipo": "visitante",
+            "jugador": "Pierre-Emerick Aubameyang"
+          }
+        ]
+      },
+      "evidencia": {
+        "sellado": "2026-09-03",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 23.0,
+              "sede": 20.7,
+              "cruzado": 23.8
+            },
+            "estimado": 22.5,
+            "vara": 25.4,
+            "gap": -0.114,
+            "dispersion": 0.125,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 11.0,
+              "sede": 11.3,
+              "cruzado": 11.7
+            },
+            "estimado": 11.3,
+            "vara": 10.13,
+            "gap": 0.119,
+            "dispersion": 0.066,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 26.0,
+              "sede": 23.7,
+              "cruzado": 23.5
+            },
+            "estimado": 24.4,
+            "vara": 25.5,
+            "gap": -0.043,
+            "dispersion": 0.098,
+            "n": 3,
+            "fallo": null,
+            "por_que": "muestra corta (3 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 5.0,
+              "sede": 6.7,
+              "cruzado": 5.5
+            },
+            "estimado": 5.7,
+            "vara": 4.47,
+            "gap": 0.28,
+            "dispersion": 0.374,
+            "n": 3,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Georges Mikautadze",
+              "pos": "F",
+              "por_partido": 3.33,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Nicolas Pépé",
+              "pos": "F",
+              "por_partido": 2.33,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "ventaja": 0.429,
+            "califica": false,
+            "por_que": "solo +43%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Pierre-Emerick Aubameyang",
+              "pos": "F",
+              "por_partido": 3.33,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Mario Soriano Carreno",
+              "pos": "M",
+              "por_partido": 1.0,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "ventaja": 2.33,
+            "califica": true,
+            "por_que": "+233% sobre el segundo"
+          }
+        }
+      }
+    }
   }
 }

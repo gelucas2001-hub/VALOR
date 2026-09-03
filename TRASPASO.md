@@ -7024,3 +7024,106 @@ significativo — es evidencia positiva. Hoy no la hay en ninguna liga.
 - **`medir_apertura` en fra**: solo se rehizo eng.
 - **Cualquier liga con evidencia positiva**: no hay ninguna. Siete de
   ocho tienen punto estimado negativo o el cero adentro.
+
+## 39. Potencia: cuánta muestra hace falta, y qué no se puede medir (2026-09-03)
+
+Aritmética sobre lo ya medido — las tasas de acierto, las tasas base y
+las coberturas de `calibrar_senal.py`. No se recalibró nada, no se tocó
+ninguna regla, no se usaron los partidos nuevos. `potencia_senal.py`.
+
+### Capa 2 — se puede, y depende brutalmente de la cobertura
+
+Prueba de una proporción contra la tasa base de cada métrica (no contra
+50%), dos colas, α = 0.05:
+
+```
+  dimensión          base   esperado    delta   n 80%   n 90%
+  faltas            54.1%     71.2%    +17.1%      64      83
+  volumen_remates   51.2%     63.6%    +12.4%     125     166
+  corners_total     52.0%     65.7%    +13.7%     102     135
+```
+
+Los `n` son razonables. El problema no está ahí — está en **cuántos
+partidos cuesta juntar esas señales**, porque cada dimensión acumula su
+propia muestra y la cobertura medida es muy distinta entre ellas:
+
+```
+  dimensión         cobertura   1 señal cada   partidos p/80%   ≈ tiempo
+  faltas               14.8%      7 partidos            433     17 semanas
+  volumen_remates      10.3%     10 partidos           1214     47 semanas
+  corners_total         1.9%     53 partidos           5369      4.0 años
+```
+
+(a 26 partidos por fecha, que es arg.1 + bra.1 de la grilla de hoy.)
+
+**Córners queda afuera por cobertura, no por tamaño de efecto.** Su
+delta (+13.7%) es mayor que el de remates (+12.4%), pero su umbral es
+20/20/6 contra 10/15/6, y emite en 1 de cada 53 partidos. Cuatro años.
+
+Y si en Sudamérica la señal resulta más chica que en Europa, el `n` crece
+con el cuadrado inverso del delta: a la mitad de señal, faltas pasa de 64
+a 262 y remates de 125 a 507.
+
+### Capa 3 — no es cuestión de muestra
+
+Esto es lo importante del cálculo, y es incómodo.
+
+Desde §34 las cuatro dimensiones de volumen **no las decide la lectura**.
+El expediente calcula `senal_base` desde `estadisticas.json`, le aplica
+el umbral, y entrega el `fallo`; la skill lo copia y tiene prohibido
+discutirlo. Entonces:
+
+```
+  señal  =  f(estadisticas.json)
+  base   =  g(estadisticas.json)
+```
+
+Las dos salen del mismo insumo y la primera es la segunda pasada por un
+umbral. **El aporte incremental de una función determinista de su propio
+baseline es cero por construcción.** Ninguna cantidad de datos lo cambia.
+
+`generador` está igual: `liderazgo_remates()` calcula la ventaja y el
+umbral es fijo. Queda un canal angosto —la lectura podría no nombrar a
+un jugador que su research dice que no juega— pero no alcanza para
+sostener una medición.
+
+**Esto no es un defecto de §34.** Es el precio que se pagó a propósito:
+sacar la aritmética de la cabeza del modelo arregló la inconsistencia
+del smoke test (null a +16% y "muchas" a +11% en la misma tanda) y, en
+el mismo movimiento, dejó a la lectura sin lugar donde aportar en esas
+cuatro dimensiones.
+
+### Lo que esto cambia sobre qué mide el instrumento
+
+La capa 2 sigue siendo una pregunta legítima, pero **cambia de dueño**:
+mide si el umbral calibrado en Europa transfiere a Sudamérica. Es la
+validación de `calibrar_senal.py`, no de la lectura futbolística.
+
+La lectura sí decide en `inclinacion` y en la prosa — y eso lo mide
+`medir_analisis.py`, que es otro instrumento y ya existe.
+
+### Qué haría falta para una capa 3 de verdad
+
+Que la señal tuviera un insumo que el estimador no tiene. Dos caminos, y
+los dos son decisiones de diseño **que hoy no están tomadas**:
+
+- dejar que la lectura se aparte del `fallo` cuando tiene research que el
+  número no ve (una cancha embarrada, un clásico con antecedente) — lo
+  que §34 prohíbe hoy, y por buenos motivos;
+- o medir contra un baseline más fuerte que el estimador que genera la
+  señal, que es otra pregunta.
+
+Sin una de las dos no hay qué medir. Con cualquiera de las dos, el
+tamaño de muestra depende de un efecto que todavía no existe y no se
+puede estimar honestamente. Lo único que se puede afirmar: detectar
+aporte incremental es **siempre** más caro que detectar acierto — se
+mide sobre pares discordantes, que son una fracción del total.
+
+### Veredicto
+
+```
+  🟢 faltas            64 señales ·   433 partidos ·  0.3 años
+  🟢 volumen_remates  125 señales ·  1214 partidos ·  0.9 años
+  🔴 corners_total    102 señales ·  5369 partidos ·  4.0 años
+  🔴 CAPA 3           no es cuestión de muestra
+```

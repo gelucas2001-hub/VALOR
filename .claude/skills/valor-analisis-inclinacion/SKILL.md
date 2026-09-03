@@ -316,9 +316,10 @@ Devolvé únicamente un JSON con esta forma, sin texto antes ni después. Una co
     "desarrollo": {
       "texto": "Se espera un partido trabado de pocas llegadas; el local va a esperar tener la pelota y el visitante a salir de contra.",
       "senal": {
-        "ritmo_goleador": "bajo",
-        "estructura": "trabado",
-        "ambos_marcan": "incierto"
+        "corners_total": "pocos",
+        "fisico": "alto",
+        "volumen_remates": null,
+        "generador": {"equipo": "local", "jugador": "Cristian Tarragona"}
       }
     }
   }
@@ -361,13 +362,35 @@ Para armarlo, pensá en guiones internos (estructura interna de pensamiento, no 
 
 `senal` es un objeto con léxico cerrado, y sale de la misma lectura que el `texto` (forma, sede, plantel, h2h) — **nunca** de cuotas ni de λ: violar eso rompe la independencia de la marca dorada.
 
-| campo | valores | para qué sirve |
-|---|---|---|
-| `ritmo_goleador` | alto / bajo / incierto | señal de cuántos goles esperar |
-| `estructura` | abierto / trabado / neutral / incierto | carácter del partido |
-| `ambos_marcan` | probable / poco_probable / incierto | si van a convertir los dos |
+**Las cuatro dimensiones salen de una medición, no de una intuición.** El 2026-09-03 se midió sobre 12.095 partidos qué correlación tiene λ con cada cosa que la lectura podría afirmar:
 
-`incierto` es la salida por omisión y es correcta: sin base, no se fuerza. `bajo` y `trabado` tienen hoy el mismo efecto (solo tensión con mercados de goles altos); no extrapolés `trabado` a remates, córners o llegadas — esa relación no es equivalencia, se validaría empíricamente en el futuro.
+```
+   diferencia de remates    +0.459    λ YA LO SABE
+   diferencia de al arco    +0.462    λ YA LO SABE
+   diferencia de córners    +0.345    λ YA LO SABE
+
+   TOTAL de córners         +0.077    ortogonal
+   TOTAL de tarjetas        -0.110    ortogonal
+   TOTAL de faltas          -0.199    parcial
+   TOTAL de remates         +0.177    parcial
+```
+
+**λ encoda la asimetría del partido, no su volumen.** Por eso las señales viejas —`ritmo_goleador`, `estructura`, `ambos_marcan`— no servían: las tres describen cuántos goles, que es literalmente lo que λ calcula. Medido sobre los 9 análisis que las traían: los dos partidos que la lectura llamó "de pocos goles" eran exactamente los dos de λ más bajo. La lectura acertaba y no aportaba.
+
+Las cuatro de abajo son las únicas que pasan las dos pruebas: **ortogonales a λ** y **verificables automáticamente** con datos que el cron ya guarda.
+
+| campo | valores | se verifica contra |
+|---|---|---|
+| `corners_total` | muchos / pocos / null | córners del partido vs. media de la liga |
+| `fisico` | alto / bajo / null | faltas + tarjetas vs. media de la liga |
+| `volumen_remates` | alto / bajo / null | remates del partido vs. media de la liga |
+| `generador` | `{equipo, jugador}` o null | ¿ese jugador lideró los remates de su equipo? |
+
+`generador` es ortogonal **por construcción**: λ es un número por equipo y no tiene eje de jugador. Es la dimensión donde la lectura puede aportar más y la única que ningún ajuste del modelo puede replicar.
+
+**`null` es una respuesta correcta y preferida.** No hay que completar los cuatro campos. Si no tenés base para afirmar que el partido va a ser físico, poné `null` — no `normal`, que es una afirmación disfrazada de neutralidad. Cincuenta afirmaciones verificables valen más que quinientas inventadas para llenar casilleros, y el instrumento se rompe si se llena por obligación.
+
+**Lo que NO va acá.** Nada sobre quién gana, cuántos goles, o quién domina: las tres cosas están adentro de λ (r = 0.35 a 0.46) y afirmarlas es repetir al modelo con otras palabras. Si querés decir que un equipo es mejor, eso es `inclinacion`.
 
 Todos los campos de texto van en tono de analista deportivo, sin jerga cuantitativa — ver sección 5.
 

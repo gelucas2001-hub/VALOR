@@ -6226,3 +6226,132 @@ Hoy la respuesta no es sí. Tampoco es un no demostrado.
 **El simulador.** No se construye: no hay evidencia que lo justifique.
 No se cierra: la razón por la que no se justifica es nuestra ventaja en
 los insumos, no la idea de modelar el partido como un todo.
+
+## 33. La lectura acertaba repitiendo al modelo (2026-09-03)
+
+Se auditaron los 28 análisis cargados buscando qué contienen de
+verificable. Lucas pidió que no se forzaran categorías: solo mirar qué
+hay.
+
+### De qué hablan realmente
+
+```
+      bajas/suspensiones   28/28    ya medido: r = -0.06 ± 0.14, sin señal
+             forma/racha   19/28    ES el insumo de fuerzas_equipos()
+       descanso/desgaste   16/28    ya medido: al nivel del placebo (§30)
+         tipo de partido   11/28    no medido
+         jugador puntual   11/28    no medido
+```
+
+**Los tres temas dominantes están medidos como no predictivos o ya viven
+dentro del modelo.** El análisis dedica su volumen a lo que el motor ya
+sabe. Tres veredictos lo dicen con todas las letras: *"eso ya lo ve el
+modelo en la forma de cada uno"*.
+
+### Las señales estructuradas aciertan, y no aportan
+
+De los 9 análisis con `senal`, 7 resueltos:
+
+```
+   ritmo=alto  n=1  ->  5.00 goles      (base 1.86)
+   ritmo=bajo  n=2  ->  0.50 goles
+   ambos=probable      n=1  -> 100% BTTS  (base 29%)
+   ambos=poco_probable n=3  ->   0% BTTS
+```
+
+Cuatro de cuatro. Con n=7 eso no prueba capacidad predictiva — prueba
+que el instrumento **puede existir**: las afirmaciones son concretas,
+resolubles, y se resolvieron.
+
+Pero al cruzarlas contra λ:
+
+```
+                 senal   λ total  goles
+    bajo/poco_probable      1.67      1
+    bajo/poco_probable      1.88      0
+```
+
+**Los dos partidos que la lectura llamó "de pocos goles" son exactamente
+los dos de λ más bajo del conjunto.** La lectura acertaba diciendo en
+palabras lo que λ ya decía en números.
+
+El diagnóstico no es que la lectura sea mala. Es que está construida con
+los mismos hechos que λ —goles recientes, forma, sede— así que
+reproduce λ. `expediente.py` esconde λ de la skill, y eso no alcanza:
+la contaminación no es de datos, es de pregunta.
+
+### Qué es ortogonal a λ, medido
+
+Sobre 12.095 partidos con λ y estadísticas:
+
+```
+   diferencia de remates   +0.459   λ YA LO SABE
+   diferencia de al arco   +0.462   λ YA LO SABE
+   diferencia de córners   +0.345   λ YA LO SABE
+
+   TOTAL de córners        +0.077   ortogonal
+   TOTAL de tarjetas       -0.110   ortogonal
+   TOTAL de faltas         -0.199   parcial
+   TOTAL de remates        +0.177   parcial
+```
+
+**λ encoda la asimetría del partido, no su volumen.**
+
+Eso corrige la propuesta que se había hecho veinte minutos antes en esta
+misma sesión: se iban a pedir señales de "dominio" y "quién genera más
+llegadas", y las dos son diferencias que λ ya sabe con r ≈ 0.46. La
+medición cambió el diseño.
+
+### El esquema nuevo
+
+`senal` pasa de tres campos sobre goles a cuatro sobre volumen y
+jugadores:
+
+| campo | se verifica contra |
+|---|---|
+| `corners_total` | córners del partido vs. media de liga |
+| `fisico` | faltas + tarjetas vs. media de liga |
+| `volumen_remates` | remates del partido vs. media de liga |
+| `generador` | ¿ese jugador lideró los remates de su equipo? |
+
+`generador` es ortogonal **por construcción**: λ es un número por equipo
+y no tiene eje de jugador. Ningún ajuste del modelo puede replicarlo.
+
+**`null` es respuesta válida y preferida.** No hay que llenar los cuatro
+campos: cincuenta afirmaciones verificables valen más que quinientas
+inventadas, y el instrumento se rompe si se completa por obligación. Por
+eso tampoco hay valor "normal" — sería una afirmación disfrazada de
+neutralidad.
+
+Lo que queda prohibido: afirmar quién gana, cuántos goles o quién
+domina. Las tres están adentro de λ.
+
+### Las tres capas, separadas
+
+`medir_senal.py` mide las tres por separado, porque son preguntas
+distintas y una puede dar que sí y las otras que no:
+
+    1. LECTURA            ¿hace afirmaciones concretas?
+    2. VERIFICACIÓN       ¿se puede comprobar si ocurrió?
+    3. VALOR INCREMENTAL  ¿aporta sobre lo que el modelo ya predice?
+
+La tercera compara contra **el pronóstico numérico de esa misma
+métrica** —`estadisticas.json` tiene el promedio de córners por equipo—
+y no contra λ. Comparar contra λ sería tramposo: λ no predice córners y
+cualquier cosa le ganaría.
+
+### Por qué esto va primero
+
+Hoy `medir_senal.py` no reporta nada: cero análisis tienen el esquema
+nuevo. Ese es exactamente el punto.
+
+De los tres caminos abiertos —estructura conjunta entre mercados,
+movimiento de línea, y lectura verificable— los dos primeros usan datos
+históricos que ya están en disco y pueden esperar seis meses. **Este
+solo acumula si se enciende.** Con 29 análisis y dos por semana, empezar
+hoy son ~80 en seis meses; no empezar son 29 y la misma frase de
+siempre.
+
+Lo que este instrumento va a poder contestar, y ningún otro: **qué tipos
+de lectura futbolística aporta VALOR que los modelos numéricos no
+capturan.**

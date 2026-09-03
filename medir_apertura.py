@@ -151,7 +151,10 @@ def main(argv):
             continue
         print(f"  {liga}: {con_ap} de {len(ps)} partidos con apertura. "
               f"Ajustando walk-forward...", flush=True)
-        filas = MH.evaluar(ps, progreso=None)
+        # Con `liga`, el λ es el de producción. Sin él este arnés medía
+        # el CLV de un modelo que la app no publica, que es justo lo que
+        # §36 C2 vino a arreglar.
+        filas = MH.evaluar(ps, progreso=None, liga=liga)
         te = [f for f in filas if f["fecha"] >= CORTE]
 
         for casa in ("pinnacle", "bet365"):

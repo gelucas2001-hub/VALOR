@@ -1,0 +1,29 @@
+
+==============================================================================
+  EL PRECIO AL QUE SÍ APOSTAMOS — apertura contra cierre, y CLV
+==============================================================================
+
+  Todo el ROI del proyecto se midió contra el CIERRE, que es el
+  precio más difícil que existe. La app apuesta antes.
+
+  eng: 4180 de 4180 partidos con apertura. Ajustando walk-forward...
+
+    pinnacle  (299 apuestas en test)
+      ROI a la APERTURA :  +9.42% ±16.72   caída  23.1u
+      ROI al CIERRE     : +10.70% ±17.01   caída  23.8u
+      diferencia        :  -1.27 puntos de ROI por entrar antes
+      CLV               :  -1.62% ± 0.92   la línea vino hacia nosotros el 40.1% de las veces
+
+    bet365  (359 apuestas en test)
+      ROI a la APERTURA :  -1.99% ±14.90   caída  31.6u
+      ROI al CIERRE     :  -2.25% ±14.92   caída  32.9u
+      diferencia        :  +0.26 puntos de ROI por entrar antes
+      CLV               :  -0.44% ± 0.91   la línea vino hacia nosotros el 42.9% de las veces  (ruido)
+
+  ==========================================================================
+  El CLV es lo que contesta rápido: si la línea se mueve hacia
+  donde apostamos, hay información real en el modelo aunque la
+  muestra de resultados todavía no lo muestre. Si no se mueve,
+  no la hay aunque una racha diga que sí.
+  ==========================================================================
+

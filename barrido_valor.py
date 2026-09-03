@@ -93,7 +93,11 @@ def main(argv):
     print(f"  producción hoy: piso 0.06, techo 0.12")
     print("\n  ajustando walk-forward (una sola vez, tarda ~8 min)...", flush=True)
 
-    filas = MH.evaluar(H.partidos(liga), progreso=2000)
+    # `liga` viaja para que el λ sea el de PRODUCCIÓN (escala, diferencia
+    # y el rho de la liga) y no el crudo. Hasta el 2026-09-03 no viajaba,
+    # y este barrido es la segunda pata del argumento que sostiene
+    # LIGAS_SIN_VALOR — la primera, el ROI, ya se rehizo en §37.
+    filas = MH.evaluar(H.partidos(liga), progreso=2000, liga=liga)
     tr, te = partir(filas)
     print(f"  {len(filas)} partidos · train {len(tr)} · test {len(te)}\n")
 

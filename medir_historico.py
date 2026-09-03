@@ -140,6 +140,38 @@ def parametros_produccion(liga):
     Sin liga —o con una que la app no publica— devuelve None y el arnés
     se comporta exactamente como antes. Eso es a propósito: las ligas
     solo-medición no tienen un modelo de producción que reproducir.
+
+    QUIÉN DEBE PASAR `liga` Y QUIÉN NO — revisado el 2026-09-03
+
+    No todos los consumidores de `evaluar()` deberían reproducir
+    producción, y confundirlos hace daño en las dos direcciones.
+
+    LO PASAN (afirman algo sobre el modelo que la app publica):
+        medir_roi.py          el ROI que sostiene LIGAS_SIN_VALOR
+        barrido_valor.py      la segunda pata de ese mismo argumento
+        medir_apertura.py     CLV al precio al que se apuesta de verdad
+
+    NO DEBEN PASARLO (son circulares si lo hacen):
+        barrido_escala_lambda.py   DERIVA `escala`. Con el λ ya
+                                   corregido mediría la corrección
+                                   encima de sí misma.
+        barrido_diferencia.py      lo mismo con `diferencia`.
+        medir_compresion.py        DIAGNOSTICA el defecto que motivó
+                                   `escala`. Sobre λ corregido diría
+                                   que no hay defecto — cierto, y otra
+                                   pregunta.
+
+    PENDIENTES DE DECISIÓN, y no se tocaron acá porque cambiarlos es
+    volver a medir, no arreglar el arnés:
+        medir_ejes.py         "en qué eje sabemos más" es una afirmación
+                              sobre la app, así que debería pasarlo.
+        medir_condicional.py  idem.
+        medir_encogimiento.py idem, pero BARRE `rho` por su cuenta y
+                              `prod` lo pisaría. Hay que resolver ese
+                              choque antes.
+        medir_bandas.py       idem, y ya tiene escrito en su cabecera
+                              que mide con rho 0.05 cuando ninguna liga
+                              lo usa.
     """
     slug = SLUG_PRODUCCION.get(liga)
     if not slug:

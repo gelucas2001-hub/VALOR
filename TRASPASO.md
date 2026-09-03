@@ -6905,3 +6905,122 @@ sobre el modelo que se publica.
 - el criterio de entrada de esp.1, que nunca fue el ROI sino la
   profundidad de la escalera de props;
 - todo lo que no pasa por `medir_historico.evaluar` (§36).
+
+## 38. C2 cerrado: los dos consumidores que faltaban (2026-09-03)
+
+Se completó §36 C2 pasando `liga=` a los dos arneses que quedaban
+tomando el λ crudo, y se revisó consumidor por consumidor cuál debe
+hacerlo y cuál no.
+
+### El barrido de consumidores
+
+`evaluar()` tiene doce llamadores. No todos deben reproducir producción,
+y confundirlos hace daño en las dos direcciones. La clasificación quedó
+escrita en el docstring de `parametros_produccion()`:
+
+```
+  LO PASAN            medir_roi · barrido_valor · medir_apertura
+  NO DEBEN PASARLO    barrido_escala_lambda · barrido_diferencia
+                      medir_compresion
+  PENDIENTES          medir_ejes · medir_condicional
+                      medir_encogimiento · medir_bandas
+```
+
+Los tres del medio son **circulares** si lo pasan: los dos barridos
+*derivan* `escala` y `diferencia`, y `medir_compresion` *diagnostica* el
+defecto que motivó `escala`. Con el λ ya corregido medirían la
+corrección encima de sí misma.
+
+Los cuatro pendientes afirman cosas sobre la app y deberían pasarlo,
+pero cambiarlos es volver a medir, no arreglar el arnés. Y hay un
+choque real que resolver antes: **`prod["rho"]` pisa el `rho` del
+llamador**, y `medir_encogimiento` y `medir_bandas` barren `rho` por su
+cuenta.
+
+### `barrido_valor.py` — la segunda pata aguanta
+
+Es la otra mitad del argumento de `LIGAS_SIN_VALOR`: si la regla resta,
+¿no habrá una ventana de ventaja donde sí dé? Rehecho con el λ de
+producción, train/test temporal:
+
+```
+  arg   6270 partidos · train 3687 · test 2583
+        36 ventanas con muestra suficiente
+        NINGUNA da ROI positivo en train Y en test
+        ventana de producción (6-12%): train −7.72%  test −5.90%
+
+  bra   38 ventanas con muestra suficiente
+        1 positiva en las dos mitades, y no se despega del ruido
+          (piso 0.12 techo 0.16: test +2.35% ±36.08 sobre 68 apuestas)
+        ventana de producción (6-12%): train −1.76%  test −11.84%
+```
+
+**El resultado no cambió.** Con el modelo crudo eran 39 ventanas y
+ninguna positiva; con el de producción son 36 en arg y ninguna, y 38 en
+bra con una que es ruido puro (±36 sobre 68 apuestas). Mover los
+umbrales sigue sin convertir la regla en rentable.
+
+### `medir_apertura.py` — el CLV no se movió, el ROI sí
+
+```
+  eng, Pinnacle        antes            después
+    n en test           362              299
+    ROI apertura      +2.79% ±14.82    +9.42% ±16.72
+    CLV               −1.62% ± 0.82    −1.62% ± 0.92   sigue significativo
+
+  eng, Bet365
+    ROI apertura      −4.27% ±13.57    −1.99% ±14.90
+    CLV               −0.44% ± 0.82    −0.44% ± 0.91   ruido
+```
+
+El λ corregido elige otro conjunto de apuestas —299 contra 362— y el
+ROI se mueve seis puntos. **El CLV cae en el mismo número a dos
+decimales en las dos casas.** No es identidad ni un arnés que ignore el
+modelo (`apuestas_apertura` selecciona con `f["modelo"][i]`): es que el
+CLV por apuesta está dominado por la deriva del mercado y es robusto a
+qué subconjunto de apuestas de valor se elija. Eso lo hace la medida
+estable que §20 decía que era, y ahora con evidencia de que la
+estabilidad es real.
+
+**Sigue en pie el hallazgo de §20**: contra Pinnacle en eng el CLV es
+−1.62% con ±0.92 de dos errores estándar, o sea **negativo de verdad**.
+La línea se mueve en contra el 60% de las veces. Y sigue en pie la
+advertencia sobre el ROI positivo: ahora es +9.42% en vez de +2.79%, con
+±16.72 encima y un CLV negativo abajo. Es más tentador y no más real.
+
+### `LIGAS_SIN_VALOR`: la conclusión queda abierta, y se mantiene la guarda
+
+Las dos patas del argumento original están ahora medidas sobre el modelo
+que se publica, y dicen cosas distintas:
+
+```
+  (a) el ROI resta, significativo   →  CAYÓ.   arg −6.96% ±7.46,
+                                       bra −4.99% ±7.74: los dos ruido
+  (b) ninguna ventana lo arregla    →  AGUANTA. 36 y 38 ventanas,
+                                       ninguna positiva fuera de ruido
+```
+
+No se cambió la lista. La evidencia de daño se debilitó, pero **no
+apareció ninguna evidencia de que la regla funcione**: los dos puntos
+estimados siguen negativos, y la pata que decía "no se arregla moviendo
+umbrales" quedó intacta con el modelo bueno.
+
+Lo que haría falta para sacar la guarda no es que el daño deje de ser
+significativo — es evidencia positiva. Hoy no la hay en ninguna liga.
+
+### Qué queda definitivamente reemplazado
+
+- El ROI de las cinco ligas con producción (§37).
+- "arg y bra restan, **significativo**" — la palabra se cae; el signo no.
+- Los ROI de apertura de §20 en eng (Pinnacle +2.79% → +9.42%, Bet365
+  −4.27% → −1.99%).
+- El conteo de `barrido_valor`: eran 39 ventanas, ahora 36 en arg.
+
+### Qué sigue necesitando evidencia
+
+- **`fra` en over/under**: −10.59% ±8.74, el único negativo
+  significativo que queda en todo el conjunto (§37). Nadie lo miró.
+- **Los cuatro consumidores pendientes**, y antes el choque de `rho`.
+- **`medir_apertura` en fra**: solo se rehizo eng.
+- **Cualquier liga con evidencia positiva**: no hay ninguna. Siete de
+  ocho tienen punto estimado negativo o el cero adentro.

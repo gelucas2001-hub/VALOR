@@ -31,7 +31,8 @@ function cargarLogica(){
   new Function("localStorage", "exportar", src + `
     exportar({escalera, lectura, alerta, analizado, inclinacionDe, contradice, devig,
               marcaDeValor, hayProsa, VALOR_MIN, VALOR_MAX,
-              mercados, otrosMercados, divergen, senalDividida, tabHerramientas,
+              mercados, otrosMercados, filasMercado, divergen, senalDividida, tabHerramientas,
+              fechaCorta, fechaEnPalabras,
               CUOTA_MIN_ESCALERA, cuotaUsada2:cuotaUsada,
               onceProbable, aQuien, jugadores, METRICAS, incompatibles,
               fiabilidadJugador, devigShin, pMercado, cuotaReal, cuotaUsada, CUOTA_MIN_VAL, combinada,
@@ -695,6 +696,45 @@ test("senalDividida() con ambas señales acumula las opciones en conflicto", ()=
   const sd = L.senalDividida(c3);
   cierto(sd && sd.opciones.includes("ov2.5"), "no incluye la opcion de goles altos en conflicto");
   cierto(sd && sd.opciones.includes("btts_si"), "no incluye ambos marcan en conflicto");
+});
+
+/* La guarda que no se podia encender.
+
+   `senalDividida()` quedo sin llamador el 2026-09-01, cuando el commit
+   41a6006 borro las siete pestanas. La funcion, sus exports y sus tres
+   tests sobrevivieron dando verde, asi que durante dos dias la app pudo
+   dorar "mas de 2.5" en un partido cuyo propio analisis decia "trabado".
+
+   Los tests de arriba probaban que la funcion DETECTA la tension. Nadie
+   probaba que la tension APAGUE la marca, que es para lo unico que
+   sirve. Es la misma leccion que TRASPASO §27: cuando agregues una
+   guarda, escribi tambien el test de que puede dispararse. */
+test("la senal dividida des-dora el mercado en conflicto", ()=>{
+  const c = conVentajaEn(claro, "ov2.5");
+  L.cargar([c], {[c.id]: {contexto:"x", inclinacion:"L",
+    desarrollo:{texto:"trabado", senal:{ritmo_goleador:"bajo", estructura:"trabado",
+                                        ambos_marcan:"incierto"}}}});
+  const crudo = L.filasMercado(c).find(x=> x.op.id === "ov2.5");
+  cierto(crudo && crudo.esVal, "el fixture tiene que llegar marcado, si no el test no prueba nada:");
+  const final = L.otrosMercados(c).find(x=> x.op.id === "ov2.5");
+  cierto(final && !final.esVal, "otrosMercados() tiene que apagarlo:");
+});
+
+test("sin senal dividida, otrosMercados no apaga nada", ()=>{
+  const c = conVentajaEn(claro, "ov2.5");
+  L.cargar([c], {[c.id]: {contexto:"x", inclinacion:"L", desarrollo:{texto:"abierto",
+    senal:{ritmo_goleador:"alto", estructura:"abierto", ambos_marcan:"probable"}}}});
+  const final = L.otrosMercados(c).find(x=> x.op.id === "ov2.5");
+  cierto(final && final.esVal, "sin tension la marca se mantiene:");
+});
+
+/* Dos funciones distintas con el mismo nombre no fallan: la segunda
+   pisa a la primera y los talones que pedian el formato compacto
+   venian mostrando el largo. Mismo choque que `.mas` en §19.6. */
+test("fechaCorta y fechaEnPalabras son dos formatos distintos", ()=>{
+  igual(L.fechaCorta("2026-09-02"), "02/09/26", "el talon pide compacto:");
+  igual(L.fechaEnPalabras("2026-09-02"), "2 de sep", "la frase pide palabras:");
+  igual(L.fechaCorta("cualquiera"), "—", "una fecha rota no se imprime cruda:");
 });
 
 test("senalDividida() nunca toca marcaDeValor (sigue dependiendo solo de inclinacion)", ()=>{

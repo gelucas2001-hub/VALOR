@@ -2441,7 +2441,7 @@ function divergen(m){
    senal incierto/ausente, o senales coherentes). La contradicción NO
    se oculta: el frontend la muestra etiquetada y solo deja de marcar en
    dorado la opción en conflicto. */
-function senalDividida(m){
+function senalDividida(m, filas){
   const a = ANALISIS[m.id];
   const s = a && a.desarrollo && a.desarrollo.senal;
   if(!s) return null;
@@ -2451,14 +2451,19 @@ function senalDividida(m){
      La tensión que esta función detecta sigue existiendo — el análisis
      dice "partido trabado" y el modelo ve valor en goles altos — solo
      que ahora vive en la lista de abajo. */
-  const filas = otrosMercados(m).filter(x=> x.esVal).map(x=> x.op);
+  /* `filas` viene de `otrosMercados()` cuando ES `otrosMercados()` quien
+     llama — sin eso la llamada seria recursiva. Sin argumento se calcula
+     sola, que es como la usan los tests y como la usaba la pantalla
+     vieja. */
+  const base = filas || filasMercado(m);
+  const ops = base.filter(x=> x.esVal).map(x=> x.op);
   if(s.ritmo_goleador === "bajo" || s.estructura === "trabado"){
-    const ops = filas.filter(o=> o.fam==="Goles" && o.lado==="over" && o.linea>=2.5);
-    if(ops.length){ if(!fenom) fenom = "goles"; opciones.push(...ops.map(o=>o.id)); }
+    const ops2 = ops.filter(o=> o.fam==="Goles" && o.lado==="over" && o.linea>=2.5);
+    if(ops2.length){ if(!fenom) fenom = "goles"; opciones.push(...ops2.map(o=>o.id)); }
   }
   if(s.ambos_marcan === "poco_probable"){
-    const ops = filas.filter(o=> o.id==="btts_si");
-    if(ops.length){ if(!fenom) fenom = "ambos"; opciones.push(...ops.map(o=>o.id)); }
+    const ops3 = ops.filter(o=> o.id==="btts_si");
+    if(ops3.length){ if(!fenom) fenom = "ambos"; opciones.push(...ops3.map(o=>o.id)); }
   }
   return fenom ? {fenom, dir: fenom==="goles" ? "pocos" : "no", opciones} : null;
 }
@@ -2474,7 +2479,13 @@ function senalDividida(m){
    código no cumplía. Ahora cada fila se evalúa con el mismo criterio
    que usa escalera() (ventana [VENTAJA_MIN, VALOR_MAX], regla de
    alineación, análisis cargado), no solo la que ganó su franja. */
-function otrosMercados(m){
+/* Las filas de "Otros mercados" ANTES de que la señal dividida las
+   toque. Existe para romper un ciclo: `senalDividida()` necesita saber
+   qué está marcado, y `otrosMercados()` necesita a `senalDividida()`
+   para des-marcarlo. Si las dos se llamaran entre sí, la función suelta
+   leería un tablero ya des-dorado y nunca encontraría conflicto — que
+   es justo lo que pasó al reponer el llamado el 2026-09-03. */
+function filasMercado(m){
   const lec = lectura(m);
   const todos = mercados(lec.M, m);
   const mk  = m.mercado || {};
@@ -2491,7 +2502,7 @@ function otrosMercados(m){
          .map(o=> o.linea)
   );
   const ops = todos.filter(o=> o.fam!=="Goles" || !lineasRuido.has(o.linea));
-  return ops.map(o=>{
+  const filas = ops.map(o=>{
     const pm = pMercado(o, pq, mk, mx);
     const ventaja = pm==null ? null : o.p - pm;
     /* VALOR_MIN, no VENTAJA_MIN: acá se decide si SE MARCA en dorado,
@@ -2506,6 +2517,32 @@ function otrosMercados(m){
                   && cuota!=null && cuota>=CUOTA_MIN_VAL;
     return {op:o, ventaja, esVal};
   });
+
+  /* La señal dividida des-dora lo que el análisis contradice.
+     `contradice()` mira la INCLINACIÓN, que es sobre quién gana, y por
+     eso no ve una tensión de goles: el análisis puede decir "trabado,
+     ritmo bajo" y el modelo marcar "más de 2.5" sin que nada lo frene.
+
+     Esto vivía en `tabPronosticos()` y se perdió el 2026-09-01, cuando
+     el commit 41a6006 borró las siete pestañas y se llevó el llamado
+     puesto. La función, sus exports y sus tres tests sobrevivieron —
+     dando verde— así que la pérdida no se vio: es exactamente lo que
+     CLAUDE.md advierte sobre un test que mira una función muerta.
+
+     Va acá y no en el consumidor porque `esVal` se decide en un solo
+     lugar. Con el llamado en la pantalla, cada pantalla nueva tenía que
+     acordarse de repetirlo. */
+  return filas;
+}
+
+
+function otrosMercados(m){
+  const filas = filasMercado(m);
+  const sd = senalDividida(m, filas);
+  if(sd && sd.opciones.length){
+    for(const f of filas) if(sd.opciones.includes(f.op.id)) f.esVal = false;
+  }
+  return filas;
 }
 
 /* Combinada del partido: dos patas de familias distintas, con la
@@ -5058,7 +5095,7 @@ function cancha(m, conLista = true){
       ? "ESQUEMA REAL" : "ESQUEMA INFERIDO"}</span><span>ATACA HACIA ARRIBA</span></div>`;
   h += real
     ? `<p class="blurb pie">Es el once que ${esc_(nombre)} puso de arranque el
-        ${esc_(fechaCorta(ult.fecha))} ${ult.local ? "contra" : "de visita a"}
+        ${esc_(fechaEnPalabras(ult.fecha))} ${ult.local ? "contra" : "de visita a"}
         ${esc_(ult.rival || "su rival")}${ult.marcador ? ` (${esc_(ult.marcador)})` : ""},
         con los dorsales de ese día. <b>No es la formación de hoy</b>: nadie publica el equipo
         titular antes del partido. Es el mejor punto de partida que hay, no una confirmación.</p>`
@@ -5070,7 +5107,15 @@ function cancha(m, conLista = true){
 }
 
 /* "2026-08-31" adentro de una frase se lee como un número de serie. */
-function fechaCorta(iso){
+/* "2 de sep", para una frase que se lee corrido ("2 de sep contra
+   Boca"). Se llamaba `fechaCorta`, igual que la de arriba, y como las
+   dos son declaraciones de funcion la segunda pisaba a la primera: los
+   tres talones que pedian el formato compacto —CERRADO, ESCRITO,
+   CALIBRADO— venian mostrando este desde el 2026-09-01.
+
+   Es el mismo choque que §19.6 documento con `.mas`: dos nombres
+   iguales para dos cosas distintas no fallan, se tapan. */
+function fechaEnPalabras(iso){
   const p = String(iso || "").slice(0, 10).split("-");
   if(p.length !== 3) return String(iso || "");
   return `${Number(p[2])} de ${MESES[Number(p[1]) - 1] || ""}`;

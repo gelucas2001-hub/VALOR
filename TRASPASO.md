@@ -6355,3 +6355,76 @@ siempre.
 Lo que este instrumento va a poder contestar, y ningún otro: **qué tipos
 de lectura futbolística aporta VALOR que los modelos numéricos no
 capturan.**
+
+## 33bis. El primer test del esquema, y los cuatro arreglos que produjo (2026-09-03)
+
+Se corrió la skill con el esquema nuevo sobre **Ipswich–Liverpool**, y a
+propósito como validación del instrumento, no del partido. Salió lo que
+tenía que salir: tres de cuatro dimensiones en `null`, y cuatro defectos
+de diseño encontrados antes de generar veinte análisis con ellos.
+
+### Lo que pasó
+
+`pjMax = 2`: la temporada europea lleva dos fechas. Con dos partidos por
+equipo, ninguna señal de volumen tiene base. La única que produjo algo
+fue `generador` — Enciso con 6 remates contra 3 del siguiente de Ipswich.
+
+### Defecto 1 — el esquema no protegía contra los proxies de λ
+
+El impulso al escribirlo fue poner `corners_total: "muchos"` porque
+Liverpool ataca mucho, y `volumen_remates: "alto"` porque los cuatro
+partidos previos habían tenido muchos goles. **Las dos son inferencias
+desde la asimetría o desde los goles, que es exactamente lo que λ ya
+sabe** (r = 0.35 a 0.46). Decir "no uses λ" no alcanza: λ tiene proxies
+y se cuelan sin sentirse una violación.
+
+La regla que entra, en una línea:
+
+> **La evidencia para afirmar una dimensión tiene que ser una medición
+> de esa misma métrica.**
+
+Para decir "muchos córners" hace falta dato de córners. Y cada dimensión
+tiene ahora su tabla de evidencia admisible y prohibida en la skill. La
+prohibición más importante es la de `volumen_remates`: **goles y
+resultados**, que es el insumo directo de λ.
+
+### Defecto 2 — `fisico` juntaba dos cosas distintas
+
+Un partido puede tener 25 faltas y 2 amarillas, o 15 faltas y 5. Con un
+solo campo no se sabía cuál se estaba afirmando ni qué hacer al
+verificar si una subía y la otra bajaba. Se parte en `faltas` y
+`tarjetas`, que además se verifican por separado con datos que ya
+guardamos.
+
+### Defecto 3 — `generador` no tenía umbral
+
+Sin umbral, la próxima corrida nombra al que tiene 7 remates sobre uno
+de 6 y lo llama hallazgo. En Liverpool había cuatro jugadores entre 6 y
+7: ahí la respuesta es `null`, porque elegir es tirar una moneda con
+cara de análisis.
+
+Entra el umbral: se nombra solo si lidera por **al menos 50% sobre el
+segundo de su equipo**. Es experimental, salió de mirar un partido, y se
+valida cuando haya muestra.
+
+### Defecto 4 — el calendario, que no es del esquema pero manda
+
+El instrumento va a producir casi puros `null` en Europa hasta octubre.
+Argentina va por la fecha 7 y Brasil por la 24: **ahí sí hay muestra**.
+La primera tanda va sobre esas dos.
+
+Y se conservan algunos partidos europeos de muestra corta **como
+control**: si el instrumento fabrica señales cuando la información no
+alcanza, se tiene que ver ahí. `null` en Europa es el resultado
+esperado, no una falla.
+
+### Qué contesta la primera tanda, y qué no
+
+No contesta si la lectura mejora el pronóstico — para eso falta muestra
+y faltan las capas 2 y 3. Contesta una pregunta anterior y necesaria:
+
+> **Cuando tiene información suficiente, ¿la skill produce señales
+> nuevas, concretas, verificables y distintas de lo que λ ya sabe?**
+
+Si la respuesta es que sí, recién ahí se mide acierto. Y después, valor
+incremental.

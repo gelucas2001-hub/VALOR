@@ -317,7 +317,8 @@ Devolvé únicamente un JSON con esta forma, sin texto antes ni después. Una co
       "texto": "Se espera un partido trabado de pocas llegadas; el local va a esperar tener la pelota y el visitante a salir de contra.",
       "senal": {
         "corners_total": "pocos",
-        "fisico": "alto",
+        "faltas": "muchas",
+        "tarjetas": null,
         "volumen_remates": null,
         "generador": {"equipo": "local", "jugador": "Cristian Tarragona"}
       }
@@ -382,9 +383,36 @@ Las cuatro de abajo son las únicas que pasan las dos pruebas: **ortogonales a �
 | campo | valores | se verifica contra |
 |---|---|---|
 | `corners_total` | muchos / pocos / null | córners del partido vs. media de la liga |
-| `fisico` | alto / bajo / null | faltas + tarjetas vs. media de la liga |
+| `faltas` | muchas / pocas / null | faltas del partido vs. media de la liga |
+| `tarjetas` | muchas / pocas / null | amarillas + rojas vs. media de la liga |
 | `volumen_remates` | alto / bajo / null | remates del partido vs. media de la liga |
 | `generador` | `{equipo, jugador}` o null | ¿ese jugador lideró los remates de su equipo? |
+
+**`faltas` y `tarjetas` van separadas y no son la misma cosa.** Estuvieron juntas como `fisico` durante unas horas el 2026-09-03 y se partieron en el primer test: un partido puede tener 25 faltas y 2 amarillas —roce constante que el árbitro deja seguir— o 15 faltas y 5 amarillas. Con un solo campo no había forma de decir cuál de las dos se estaba afirmando, ni qué hacer al verificar si una subía y la otra bajaba.
+
+### La regla que impide que esto se degrade: evidencia admisible y prohibida
+
+No alcanza con decir "no uses λ". λ tiene proxies, y un proxy se cuela sin que se sienta una violación. La regla corta, y es la que hay que recordar:
+
+> **La evidencia para afirmar una dimensión tiene que ser una medición de esa misma métrica.**
+
+Para decir "muchos córners" hace falta dato de córners. No alcanza con que un equipo sea mejor, ni con que venga haciendo goles.
+
+| campo | evidencia ADMISIBLE | evidencia PROHIBIDA |
+|---|---|---|
+| `corners_total` | córners que generan y conceden los dos equipos; dependencia de pelota parada; un bloque bajo que invita a centrar | goles, resultados, posición en la tabla, "es muy superior", cualquier cosa que hable de quién gana |
+| `faltas` | faltas de los dos equipos; el árbitro; clásico o rivalidad con antecedente | goles, superioridad, "va a tener que correr atrás de la pelota" |
+| `tarjetas` | amarillas y rojas de los dos; el árbitro; expulsados recientes | las faltas por sí solas (son otra métrica), goles, superioridad |
+| `volumen_remates` | remates de los dos equipos en partidos anteriores | **goles y resultados** — son el insumo de λ; "es muy superior"; que los partidos previos hayan tenido muchos goles |
+| `generador` | la `serie` de remates por jugador del expediente, con el umbral de abajo | el puesto ("es el nueve" no es evidencia), la fama, los goles del jugador |
+
+El caso real que originó esto, del primer test (Ipswich–Liverpool, 2026-09-03): el impulso fue poner `corners_total: "muchos"` porque Liverpool ataca mucho, y `volumen_remates: "alto"` porque los cuatro partidos previos habían tenido muchos goles. **Las dos son inferencias desde la asimetría o desde los goles, que es exactamente lo que λ ya sabe** (r = 0.35 a 0.46). Las dos fueron a `null`, y esa era la respuesta correcta.
+
+### El umbral de `generador`, que es experimental
+
+Solo se nombra a un jugador si **lidera los remates de su equipo por al menos 50% sobre el segundo**. En el primer test: Enciso tenía 6 remates contra 3 del siguiente de Ipswich (100% de ventaja) — se nombra. En Liverpool, cuatro jugadores estaban entre 6 y 7 — ahí va `null`, porque nombrar al de 7 sobre el de 6 es tirar una moneda con cara de análisis.
+
+**El 50% es un punto de partida, no una verdad estadística.** Se eligió mirando un solo partido y se va a validar cuando haya muestra. Si resulta demasiado laxo o demasiado duro, se cambia.
 
 `generador` es ortogonal **por construcción**: λ es un número por equipo y no tiene eje de jugador. Es la dimensión donde la lectura puede aportar más y la única que ningún ajuste del modelo puede replicar.
 

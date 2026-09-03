@@ -84,7 +84,8 @@ RAIZ = Path(__file__).resolve().parent
 # predice córners y cualquier cosa le ganaría.
 SENALES = {
     "corners_total":   {"met": "corners",  "valores": ("muchos", "pocos")},
-    "fisico":          {"met": "faltas",   "valores": ("alto", "bajo")},
+    "faltas":          {"met": "faltas",   "valores": ("muchas", "pocas")},
+    "tarjetas":        {"met": "tarjetas", "valores": ("muchas", "pocas")},
     "volumen_remates": {"met": "remates",  "valores": ("alto", "bajo")},
 }
 
@@ -103,7 +104,8 @@ def esquema_de(senal):
     """'nuevo', 'viejo' o None. Sirve para no mezclar dos instrumentos."""
     if not isinstance(senal, dict):
         return None
-    if set(senal) & {"corners_total", "fisico", "volumen_remates", "generador"}:
+    if set(senal) & {"corners_total", "faltas", "tarjetas",
+                     "volumen_remates", "generador"}:
         return "nuevo"
     if set(senal) & {"ritmo_goleador", "estructura", "ambos_marcan"}:
         return "viejo"

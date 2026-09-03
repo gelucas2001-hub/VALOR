@@ -5517,3 +5517,106 @@ mueve, que sea por un motivo escrito.
   error que falla.* Si escribís una cadena de fuentes, contá cuál está
   usando cada una — igual que se cuentan las filas que un `except`
   saltea.
+
+## 27. La Copa volvió por un motivo que el código no hacía (2026-09-02)
+
+Salió de una pregunta de Lucas: "¿está todo configurado correctamente?".
+Auditando las constantes por liga apareció que no, y el hallazgo es de
+la misma familia que los otros cinco del día: algo que *parecía* hecho.
+
+### Lo que decía §24bis y lo que pasaba
+
+§24bis (de esta misma jornada) trajo de vuelta `arg.copa` con este
+argumento: *"vuelve porque el motivo dejó de aplicar del todo:
+`ancla_de()` ancla a cada equipo de copa a su fuerza en SU liga local"*.
+Y agregó una guarda, el campo `sinAncla`, para el equipo de Federal A o
+Primera B que no tiene fuerza medida en ninguna parte.
+
+Ninguna de las dos cosas ocurría. `arg.copa` no estaba en
+`CON_FUERZAS`, y ese conjunto es lo único que dispara `get_fuerzas()`,
+que es donde se calcula el ancla **y** donde se llena `sin_ancla`.
+
+El daño era doble, y el segundo peor que el primero:
+
+1. La λ de la Copa seguía saliendo de `promedio_condicion()` — que es
+   exactamente el motivo por el que la competición se había sacado el
+   2026-08-25.
+2. **`sinAncla` no podía dar `True` nunca** en la única competición para
+   la que fue escrita. Se guardaba `False` en los 59 partidos.
+
+### Cómo se vio
+
+Cuatro partidos compartían la misma λ, 1.35/1.10, que es el valor por
+defecto cuando no hay fuerza calibrada:
+
+```
+liga      partido                        estado        publica prob.
+arg.copa  Vélez Sarsfield vs Boca        SIN LECTURA   SÍ
+eng.1     Manchester City vs Coventry    SIN MUESTRA   no
+eng.1     Hull City vs Aston Villa       SIN MUESTRA   no
+fra.1     Nice vs Le Mans                SIN MUESTRA   no
+```
+
+A los tres de liga los tapa `sinMuestra` (pj=2). Al de Copa no lo tapaba
+nadie: `partidosJugados()` lee la **tabla**, una copa no tiene, y cae a
+la forma general — donde Vélez y Boca tienen partidos de sobra. La otra
+guarda, la escrita para este caso, estaba muerta.
+
+### El arreglo, y por qué el comentario que lo impedía estaba viejo
+
+`arg.copa` entra a `CON_FUERZAS`. El comentario que la excluía decía
+*"eliminación directa desde el arranque — no hay red de cruces
+repetidos"*, y era cierto cuando se escribió. Dejó de serlo el día que
+apareció `ancla_de()`: Libertadores y Sudamericana también son
+eliminación directa y están en el conjunto desde entonces, justamente
+porque la fuerza no sale de la copa sino de la liga local de cada
+equipo. El comentario sobrevivió a su propio dato, igual que el de `rho`
+y el de la ventana de 365 días.
+
+Verificado sin salir a la red, sobre las 4 temporadas ya cacheadas:
+
+```
+252 partidos de Copa · 109 equipos · 62 superan MIN_PARTIDOS_FUERZA (3)
+
+Vélez  ataque 1.164  defensa 1.003  pj 13
+Boca   ataque 1.239  defensa 1.122  pj 17
+
+λ con la red + ancla:  1.752 / 1.205
+λ que publicaba hoy:   1.350 / 1.100   (promedio_condicion)
+```
+
+Los equipos que no llegan a 3 partidos siguen cayendo al promedio, pero
+ahora quedan marcados con `sinAncla` y la app corta ahí — que es el
+comportamiento que §24bis describía.
+
+### Lo que NO se arregló, y está dicho en el código
+
+La Copa no tiene `escala` ni `centro`. `barrido_escala_lambda.py` se
+apoya en football-data, que no publica copas, así que la corrección de
+rango de goles de §14 no se puede medir ahí. Cae a `ESCALA_DEFECTO`
+(1.0): no se corrige. Es la elección conservadora —usar el número de
+arg.1 sería extrapolar— pero conviene no leerlo como "la copa no tiene
+el defecto". No lo sabemos.
+
+### El test que faltaba
+
+```
+set(COMPETICIONES) - CON_FUERZAS  ==  set()
+```
+
+Una línea. Habría atrapado esto el mismo día que se agregó la Copa, y
+habría atrapado también el caso simétrico (ajustar fuerzas de algo que
+no se publica). Si alguna competición tiene que quedar afuera, el test
+se cambia a propósito y con el motivo escrito.
+
+### La lección
+
+**Una guarda que no puede encenderse se lee igual que una guarda que no
+hizo falta.** `sinAncla` estuvo en `False` en los 59 partidos y eso se
+leía como "no hay ningún caso", cuando era "nadie lo calculó".
+
+Es la misma forma que §26: ahí un respaldo que funcionaba tapaba que la
+fuente se había apagado; acá un campo en `False` tapaba que nunca se
+computaba. En los dos casos no hay error, no hay excepción, y no hay
+nada raro en pantalla. Cuando agregues una guarda, escribí también el
+test de que puede dispararse.

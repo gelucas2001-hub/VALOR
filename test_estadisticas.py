@@ -774,6 +774,26 @@ prueba("las ligas domésticas también",
 prueba("toda liga doméstica ajusta fuerzas",
        actualizar.LIGAS_DOMESTICAS <= actualizar.CON_FUERZAS)
 
+# Y la que faltaba, que costó cara. `arg.copa` se publicaba sin estar en
+# CON_FUERZAS, y eso hacía DOS daños a la vez:
+#
+#   - su λ salía de promedio_condicion(), que es el motivo exacto por el
+#     que la competición se había sacado el 2026-08-25;
+#   - `sin_ancla` se llena dentro de get_fuerzas(), que solo corre para
+#     estos slugs, así que el campo `sinAncla` —la guarda escrita en
+#     TRASPASO §24bis para esa misma competición— no podía dar True
+#     nunca. Vélez vs Boca publicaba probabilidad con λ 1.35/1.10, el
+#     valor por defecto, y ninguna guarda lo veía.
+#
+# Si alguna competición tiene que quedar afuera algún día, este test se
+# cambia A PROPÓSITO y con el motivo escrito. Una guarda que no puede
+# encenderse se lee igual que una guarda que no hizo falta.
+_sin_fuerzas = set(actualizar.COMPETICIONES) - actualizar.CON_FUERZAS
+prueba("toda competición publicada ajusta fuerzas: " + (str(sorted(_sin_fuerzas)) or "-"),
+       not _sin_fuerzas)
+prueba("y no se ajustan fuerzas de algo que no se publica",
+       not (actualizar.CON_FUERZAS - set(actualizar.COMPETICIONES)))
+
 _html = (actualizar.Path(__file__).resolve().parent / "index.html").read_text(
     encoding="utf-8")
 prueba("el frontend conoce todas las competiciones",

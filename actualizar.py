@@ -102,10 +102,38 @@ RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
 
 # Competiciones con red de cruces suficiente (todos-contra-varios) como
 # para calibrar la fuerza de ataque/defensa de cada equipo contra la de
-# sus rivales, en vez de solo promediar los partidos propios. Copa
-# Argentina es eliminación directa desde el arranque — no hay red de
-# cruces repetidos, sigue con el promedio simple.
-CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1",
+# sus rivales, en vez de solo promediar los partidos propios.
+#
+# `arg.copa` estuvo AFUERA hasta el 2026-09-02, con este motivo escrito:
+# "eliminación directa desde el arranque — no hay red de cruces
+# repetidos, sigue con el promedio simple". Ese comentario quedó viejo el
+# día que se escribió `ancla_de()`, y no lo notamos: Libertadores y
+# Sudamericana también son eliminación directa y están acá desde
+# entonces, precisamente porque el ancla resuelve eso — la fuerza no sale
+# de la copa, sale de la liga local de cada equipo.
+#
+# El costo de la omisión fue doble, y el segundo peor que el primero:
+#
+#   1. La λ de la Copa seguía saliendo de `promedio_condicion()`, que es
+#      EXACTAMENTE el motivo por el que la competición se había sacado el
+#      2026-08-25. Volvió el 2026-09-02 (TRASPASO §24bis) argumentando
+#      que el ancla lo arreglaba, y el ancla nunca corrió.
+#   2. `sin_ancla` se llena DENTRO de `get_fuerzas()`, que solo se llama
+#      para los slugs de este conjunto. O sea que el campo `sinAncla` —la
+#      guarda escrita en §24bis para tapar el hueco que quedaba— no podía
+#      dar True en la única competición para la que fue escrita. Vélez
+#      vs Boca publicaba probabilidad con λ 1.35/1.10, el valor por
+#      defecto, y ninguna de las dos guardas lo veía: `sinMuestra` mira
+#      la tabla, y una copa no tiene.
+#
+# Con 252 partidos de Copa en el caché de 4 temporadas, 62 de 109 equipos
+# superan MIN_PARTIDOS_FUERZA. Los que no, ahora caen al promedio Y
+# quedan marcados con `sinAncla`, que es el comportamiento que §24bis
+# describía.
+#
+# La lección, que vale más que el arreglo: una guarda que no puede
+# encenderse se lee igual que una guarda que no hizo falta.
+CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1", "arg.copa",
                "conmebol.libertadores", "conmebol.sudamericana"}
 TEMPORADAS_HISTORIA = 5    # cuántos años calendario de resultados se le dan
                             # a fuerzas_equipos(). Hasta el 2026-08-24 era 1
@@ -549,6 +577,12 @@ COMPETICIONES = {
     # criterio que MIN_PARTIDOS, aplicado a un hueco que el conteo de
     # fechas no ve: el equipo TIENE partidos jugados, lo que no tiene es
     # una liga donde hayamos medido su fuerza.
+    # Sin `escala` ni `centro` a proposito: `barrido_escala_lambda.py` se
+    # apoya en football-data, que no publica copas, asi que la correccion
+    # de rango de goles de §14 no se puede medir aca. Cae a
+    # ESCALA_DEFECTO (1.0), o sea que no se corrige. Es la eleccion
+    # conservadora — aplicar el numero de arg.1 seria extrapolar — pero
+    # no es que la copa no tenga el defecto: es que no lo sabemos.
     "arg.copa": {"nombre": "Copa Argentina", "rho": -0.05, "conf": 65,
               "prior": 8,
               "corners": 9.6, "fouls": 26.4, "cards": 4.8},

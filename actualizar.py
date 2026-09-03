@@ -590,6 +590,14 @@ COMPETICIONES = {
 
 _req_count = 0
 
+# Los pedidos que fallaron en los DOS hosts. `api()` devuelve {} y el
+# pipeline sigue, que es lo correcto para un roster suelto y lo peor
+# posible para un scoreboard: una liga entera desaparece de
+# partidos.json y el archivo se commitea igual, sin que nada lo diga.
+# Ver `abortar_si_falto_una_liga()`.
+_fallos = []
+
+
 def api(path):
     """GET a la API de ESPN. Prueba site.api.espn.com y si falla cae a
     site.web.api.espn.com."""
@@ -607,7 +615,37 @@ def api(path):
             last_err = e
             continue
     print(f"  ! error en {path}: {last_err}", file=sys.stderr)
+    _fallos.append(path)
     return {}
+
+
+def abortar_si_falto_una_liga():
+    """Corta la corrida si se cayo el scoreboard de alguna competicion.
+
+    `api()` devuelve {} cuando fallan los dos hosts. Para un roster
+    suelto eso esta bien: falta un plantel y todo lo demas anda. Para un
+    scoreboard es otra cosa — esa liga entera se va de `partidos.json`,
+    el archivo se escribe igual, el cron lo commitea igual, y en la app
+    los partidos simplemente no estan. No hay error, no hay excepcion y
+    no hay nada raro en pantalla: es la misma forma que TRASPASO §26 y
+    §27, un fallo que no hace ruido.
+
+    Se aborta ANTES de escribir. Un `partidos.json` viejo es mucho mejor
+    que uno incompleto: el viejo se nota (dice cuando se actualizo), el
+    incompleto no.
+
+    Solo mira scoreboards. Los demas pedidos ya tienen su propio
+    respaldo y fallar en uno no justifica tirar la corrida entera.
+    """
+    caidos = sorted({p.split("?")[0] for p in _fallos if "/scoreboard" in p})
+    if not caidos:
+        return
+    print("\n  ! SE CAYO EL SCOREBOARD DE UNA O MAS COMPETICIONES:", file=sys.stderr)
+    for c in caidos:
+        print(f"      {c}", file=sys.stderr)
+    print("  No se escribe nada. Un partidos.json viejo se nota; uno", file=sys.stderr)
+    print("  incompleto no. Volve a correrlo.\n", file=sys.stderr)
+    raise SystemExit(1)
 
 
 def fecha_hora_arg(iso_utc):
@@ -2899,6 +2937,8 @@ def main():
         encoding="utf-8")
     print(f"· marcadores guardados: {len(resultados_previos)} "
           f"(+{len(resultados_previos) - antes_res} nuevos)")
+
+    abortar_si_falto_una_liga()
 
     partidos.sort(key=lambda p: (p["date"], p["hora"]))
     OUT.parent.mkdir(parents=True, exist_ok=True)

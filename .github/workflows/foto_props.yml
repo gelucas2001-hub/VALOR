@@ -36,8 +36,11 @@ permissions:
 
 # Dos corridas a la vez escribirían el mismo archivo y la última
 # ganaría, perdiendo la foto de la otra. Con esto la segunda espera.
+# Mismo grupo que `actualizar.yml`: no solo dos fotos entre si, tambien
+# una foto contra el cron grande. Los dos escriben data/ y sus horarios
+# se cruzan a las 12:00 y 18:00 UTC.
 concurrency:
-  group: foto-props
+  group: escribe-data
   cancel-in-progress: false
 
 jobs:

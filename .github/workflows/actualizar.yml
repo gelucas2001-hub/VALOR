@@ -11,6 +11,16 @@ on:
 permissions:
   contents: write
 
+# Los dos workflows escriben data/ y sus crons coinciden en el minuto
+# cero de las 12:00 y las 18:00 UTC. `foto_props.yml` ya se defendia;
+# este no, y era el que mas tiene para perder: si la foto pushea entre
+# el checkout y el push de aca, este `git push` rebota por
+# non-fast-forward y se pierde la corrida entera — seis horas de datos
+# hasta la siguiente.
+concurrency:
+  group: escribe-data
+  cancel-in-progress: false
+
 jobs:
   actualizar:
     runs-on: ubuntu-latest
@@ -31,5 +41,8 @@ jobs:
           git config user.name  "valor-bot"
           git config user.email "bot@users.noreply.github.com"
           git add data/
-          git diff --staged --quiet || git commit -m "datos: $(date -u '+%Y-%m-%d %H:%M')"
+          git diff --staged --quiet && echo "sin cambios" && exit 0
+          git commit -m "datos: $(date -u '+%Y-%m-%d %H:%M')"
+          # La foto horaria puede haber pusheado mientras corriamos.
+          git pull --rebase --autostash
           git push

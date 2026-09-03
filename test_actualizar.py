@@ -214,5 +214,36 @@ prueba("eng tampoco", A.diferencia_de("eng.1") == 1.0)
 _lx, _vx = A.encoger_diferencia(0.4, 0.35, 0.0)
 prueba("nunca devuelve un lambda que rompa la matriz", _lx > 0 and _vx > 0)
 
+print("\nabortar_si_falto_una_liga() — un scoreboard caido no se commitea\n")
+
+# `api()` devuelve {} cuando fallan los DOS hosts de ESPN. Para un roster
+# suelto esta bien: falta un plantel y todo lo demas anda. Para un
+# scoreboard es otra cosa — esa liga entera se va de partidos.json, el
+# archivo se escribe igual y el cron lo commitea igual. No hay error, no
+# hay excepcion, y en la app los partidos simplemente no estan.
+_previos = list(A._fallos)
+try:
+    A._fallos[:] = ["soccer/arg.1/scoreboard?dates=20260901-20260908",
+                    "soccer/eng.1/teams/359/roster"]
+    corto = False
+    try:
+        A.abortar_si_falto_una_liga()
+    except SystemExit as e:
+        corto = (e.code == 1)
+    prueba("con un scoreboard caido, corta antes de escribir", corto)
+
+    A._fallos[:] = ["soccer/eng.1/teams/359/roster",
+                    "soccer/arg.1/teams/1/schedule"]
+    A.abortar_si_falto_una_liga()
+    prueba("un roster o un schedule sueltos NO tiran la corrida", True)
+
+    A._fallos[:] = []
+    A.abortar_si_falto_una_liga()
+    prueba("sin fallos no molesta", True)
+finally:
+    A._fallos[:] = _previos
+
+prueba("api() tiene donde anotar los fallos", isinstance(A._fallos, list))
+
 print(f"\n{ok} ok, {fallan} fallan")
 sys.exit(1 if fallan else 0)

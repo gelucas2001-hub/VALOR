@@ -7127,3 +7127,25 @@ mide sobre pares discordantes, que son una fracción del total.
   🔴 corners_total    102 señales ·  5369 partidos ·  4.0 años
   🔴 CAPA 3           no es cuestión de muestra
 ```
+
+### 39bis. Cómo se lee la próxima tanda, decidido antes de verla
+
+Lucas cerró §39 fijando la interpretación por adelantado, que es la
+única forma de que después no se acomode a lo que salga:
+
+- **faltas, remates y córners**: la tanda valida la **transferencia de
+  la regla calibrada** a Sudamérica. No demuestra aporte incremental de
+  la lectura, y no hay que reportarla como si lo hiciera.
+- **`inclinacion` y la prosa**: ahí sigue viviendo la lectura
+  futbolística que sí queremos evaluar. Su instrumento es
+  `medir_analisis.py`, no `medir_senal.py`.
+- **La lectura NO puede apartarse de `senal_base`**, y esto es una
+  decisión, no una omisión. Permitirlo abriría la capa 3, pero
+  reintroduciría exactamente la inconsistencia que §34 eliminó — dos
+  corridas sobre el mismo expediente dando señales distintas. Si algún
+  día se abre, se abre con un diseño y una medición, no aflojando la
+  regla.
+
+Y la capa 3 **no se rediseña ahora**. La pregunta todavía no está bien
+definida, y hacer ingeniería sobre una pregunta mal definida es cómo se
+llegó al esquema viejo de §33.

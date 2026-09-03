@@ -2284,7 +2284,10 @@
    5.5,
    9.5
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -3052,7 +3055,10 @@
    3.35,
    1.87
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -3363,6 +3369,390 @@
    2.45,
    3.05,
    2.95
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
+ },
+ "espn401882867": {
+  "fecha": "2026-09-03",
+  "comp": "Spanish LALIGA",
+  "home": "Real Sociedad",
+  "away": "Celta Vigo",
+  "lh": 1.54,
+  "la": 1.182,
+  "rho": 0.0,
+  "mercado": [
+   0.5256,
+   0.2531,
+   0.2214
+  ],
+  "cuotas": [
+   1.83,
+   3.7,
+   4.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882894": {
+  "fecha": "2026-09-04",
+  "comp": "Spanish LALIGA",
+  "home": "Real Betis",
+  "away": "Real Madrid",
+  "lh": 1.204,
+  "la": 1.581,
+  "rho": 0.0,
+  "mercado": [
+   0.1266,
+   0.1734,
+   0.7001
+  ],
+  "cuotas": [
+   7.0,
+   5.25,
+   1.38
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882895": {
+  "fecha": "2026-09-05",
+  "comp": "Spanish LALIGA",
+  "home": "Athletic Club",
+  "away": "Atlético Madrid",
+  "lh": 1.217,
+  "la": 1.335,
+  "rho": 0.0,
+  "mercado": [
+   0.3278,
+   0.2735,
+   0.3987
+  ],
+  "cuotas": [
+   2.9,
+   3.45,
+   2.4
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882889": {
+  "fecha": "2026-09-05",
+  "comp": "Spanish LALIGA",
+  "home": "Rayo Vallecano",
+  "away": "Racing Santander",
+  "lh": 1.517,
+  "la": 1.375,
+  "rho": 0.0,
+  "mercado": [
+   0.4275,
+   0.2706,
+   0.302
+  ],
+  "cuotas": [
+   2.25,
+   3.5,
+   3.15
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882887": {
+  "fecha": "2026-09-05",
+  "comp": "Spanish LALIGA",
+  "home": "Villarreal",
+  "away": "Deportivo",
+  "lh": 1.904,
+  "la": 1.05,
+  "rho": 0.0,
+  "mercado": [
+   0.6477,
+   0.1989,
+   0.1534
+  ],
+  "cuotas": [
+   1.5,
+   4.7,
+   6.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841219": {
+  "fecha": "2026-09-06",
+  "comp": "Brasileirão Série A",
+  "home": "Coritiba",
+  "away": "Mirassol",
+  "lh": 1.42,
+  "la": 1.078,
+  "rho": 0.0,
+  "mercado": [
+   0.3966,
+   0.2859,
+   0.3175
+  ],
+  "cuotas": [
+   2.35,
+   3.2,
+   2.9
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882888": {
+  "fecha": "2026-09-06",
+  "comp": "Spanish LALIGA",
+  "home": "Valencia",
+  "away": "Barcelona",
+  "lh": 0.98,
+  "la": 1.906,
+  "rho": 0.0,
+  "mercado": [
+   0.1013,
+   0.1494,
+   0.7493
+  ],
+  "cuotas": [
+   8.5,
+   6.0,
+   1.29
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882896": {
+  "fecha": "2026-09-06",
+  "comp": "Spanish LALIGA",
+  "home": "Alavés",
+  "away": "Osasuna",
+  "lh": 1.355,
+  "la": 1.029,
+  "rho": 0.0,
+  "mercado": [
+   0.4238,
+   0.3089,
+   0.2673
+  ],
+  "cuotas": [
+   2.25,
+   3.05,
+   3.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882890": {
+  "fecha": "2026-09-06",
+  "comp": "Spanish LALIGA",
+  "home": "Málaga",
+  "away": "Levante",
+  "lh": 1.587,
+  "la": 1.18,
+  "rho": 0.0,
+  "mercado": [
+   0.3949,
+   0.2923,
+   0.3128
+  ],
+  "cuotas": [
+   2.4,
+   3.2,
+   3.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841225": {
+  "fecha": "2026-09-06",
+  "comp": "Brasileirão Série A",
+  "home": "Remo",
+  "away": "Flamengo",
+  "lh": 0.996,
+  "la": 1.688,
+  "rho": 0.0,
+  "mercado": [
+   0.144,
+   0.2084,
+   0.6476
+  ],
+  "cuotas": [
+   6.0,
+   4.3,
+   1.47
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882892": {
+  "fecha": "2026-09-06",
+  "comp": "Spanish LALIGA",
+  "home": "Espanyol",
+  "away": "Sevilla",
+  "lh": 1.499,
+  "la": 1.097,
+  "rho": 0.0,
+  "mercado": [
+   0.4232,
+   0.2884,
+   0.2884
+  ],
+  "cuotas": [
+   2.25,
+   3.25,
+   3.25
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882891": {
+  "fecha": "2026-09-07",
+  "comp": "Spanish LALIGA",
+  "home": "Getafe",
+  "away": "Celta Vigo",
+  "lh": 1.143,
+  "la": 1.002,
+  "rho": 0.0,
+  "mercado": [
+   0.3747,
+   0.334,
+   0.2913
+  ],
+  "cuotas": [
+   2.55,
+   2.85,
+   3.25
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882893": {
+  "fecha": "2026-09-07",
+  "comp": "Spanish LALIGA",
+  "home": "Elche",
+  "away": "Real Sociedad",
+  "lh": 1.505,
+  "la": 1.292,
+  "rho": 0.0,
+  "mercado": [
+   0.3318,
+   0.2716,
+   0.3966
+  ],
+  "cuotas": [
+   2.85,
+   3.45,
+   2.4
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401912527": {
+  "fecha": "2026-09-09",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Palmeiras",
+  "away": "Liga de Quito",
+  "lh": 1.485,
+  "la": 0.728,
+  "rho": 0.0,
+  "mercado": [
+   0.781,
+   0.1641,
+   0.0549
+  ],
+  "cuotas": [
+   1.22,
+   5.25,
+   13.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
+ },
+ "espn401913073": {
+  "fecha": "2026-09-09",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Santos",
+  "away": "Atlético-MG",
+  "lh": 1.146,
+  "la": 1.122,
+  "rho": 0.0,
+  "mercado": [
+   0.4349,
+   0.3058,
+   0.2592
+  ],
+  "cuotas": [
+   2.15,
+   3.0,
+   3.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
+ },
+ "espn401912541": {
+  "fecha": "2026-09-09",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Estudiantes de La Plata",
+  "away": "Corinthians",
+  "lh": 0.988,
+  "la": 0.632,
+  "rho": 0.0,
+  "mercado": [
+   0.4357,
+   0.3121,
+   0.2522
+  ],
+  "cuotas": [
+   2.15,
+   2.95,
+   3.6
   ],
   "resultado": null,
   "modelo": {

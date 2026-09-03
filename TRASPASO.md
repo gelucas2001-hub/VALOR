@@ -5893,3 +5893,111 @@ dice nada de props —donde el proyecto sí tiene señal medida (§22bis)—,
 ni de las combinadas armadas y su correlación, ni del en vivo, ni de
 contextos que football-data no trae. Que no haya ventaja en el precio no
 es lo mismo que que no haya nada que saber.
+
+## 30. El meta-modelo: sabemos cuánto NO sabemos, pero no cuándo erramos (2026-09-03)
+
+§29 dejó un hallazgo con signo: sobre 11.570 partidos, cuando le damos
+más probabilidad que la apertura, la línea se mueve hacia abajo
+(−0.108 ±0.034); cuando le damos menos, sube (+0.099 ±0.023). Monótono
+en cinco tramos.
+
+Algo con signo predecible se puede evitar. La pregunta de `medir_metamodelo.py`
+no es "¿qué va a pasar?" sino **"¿cuánto hay que creerle a nuestro
+número acá?"** — que es lo que separa a un experto de una calculadora.
+
+Lucas puso el encuadre: investigador, no vendedor. Walk-forward, sin
+leakage, buscando refutar. Y agregó la restricción que decide todo:
+*"no quiero convertirnos en un modelo que simplemente copie al mercado"*.
+
+### La guarda que hizo falta poner en el código
+
+Las variables se partieron en dos grupos **antes** de mirar resultados:
+
+    PROPIAS   descanso, asimetría de descanso, congestión, historia del
+              modelo, momento de la temporada, λ total, volatilidad
+    MERCADO   cuánto discrepamos del cierre
+
+Más una **placebo**: ruido puro, en la misma tabla. Cualquier efecto que
+no supere al placebo es el efecto de no haber medido nada.
+
+### El resultado: la hipótesis murió
+
+```
+            variable        train      test    Q5-Q1 (test)
+          congestion      -0.0016   +0.0018       +0.0001
+        descanso_dif      -0.0021   +0.0027       +0.0005
+        descanso_min      -0.0021   +0.0074       +0.0030
+             jornada      -0.0244   -0.0013       -0.0031
+        lambda_total      -0.0008   +0.0153       +0.0040
+           n_previos      -0.0224   -0.0155       -0.0036
+         volatilidad      -0.0103   -0.0137       -0.0010
+-->        PLACEBO        -0.0070   -0.0033       -0.0025
+        discrepancia $    +0.1777   +0.1319       +0.0412
+```
+
+**Todas las propias están en el orden de magnitud del placebo**, y la
+mayoría cambia de signo entre train y test. El calendario —descanso,
+congestión, partido a mitad de semana— no predice nada. Es la misma
+familia de variables que en su momento "distorsionaban los partidos", y
+ahora está medido que no.
+
+Se probaron las dos formas de que la medición estuviera equivocada:
+
+- **Contra el error ABSOLUTO**, por si el calendario nos afectara a
+  nosotros y al mercado por igual y la resta lo borrara. No aparece.
+- **Por liga**, por si existiera solo donde el mercado es más blando. El
+  placebo solo, entre ligas, va de −0.0348 a +0.0196, y ninguna variable
+  real sale de esa envolvente en varias a la vez.
+
+### Lo único que predice nuestro error, y por qué no sirve
+
+`discrepancia` da +0.1319 en test, monótona en los cinco quintiles
+(+0.0008 → +0.0420), diez veces el placebo. Es de mercado, y lo único
+accionable que se deduce es "discrepá menos" — copiar.
+
+Pero dice algo más fuerte de lo que parece, y conviene leerlo entero:
+**si nuestras discrepancias fueran a veces buenas, discrepar mucho daría
+a veces ganancia grande.** Que prediga pérdida de forma monótona en toda
+la escala significa que nuestro desacuerdo con el mercado **no tiene
+contenido informativo a ninguna magnitud**. Es más duro que §29 y lo
+explica.
+
+### Lo que SÍ salió, y es una pieza de producto
+
+Contra el error **absoluto**, dos variables propias son grandes y
+estables en train y en test:
+
+```
+    volatilidad    -0.2371 / -0.2454      (qué tan desparejo es el cruce)
+    lambda_total   -0.1312 / -0.1479      (goles esperados)
+```
+
+Eso no es ventaja: un cruce que damos 70-10 es más fácil **para todos**,
+y por eso se borra al restarle el mercado. Pero es una medida honesta de
+la **incertidumbre intrínseca del partido**, y la app hoy no la tiene:
+publica el 45% de un partido parejo con la misma cara que el 78% de uno
+desparejo.
+
+La distinción, que es la que pidió Lucas:
+
+    error ABSOLUTO   predecible      -> sirve para decir cuánto confiar
+    error RELATIVO   no predecible   -> no hay ventaja que rescatar
+
+### Dónde queda el proyecto
+
+Camino cerrado número trece. Y con §29 forman un par que vale como
+diagnóstico único: en el 1X2 no solo no tenemos ventaja — nuestro
+desacuerdo con el mercado apunta sistemáticamente al lado equivocado, y
+no hay variable observable que nos avise cuándo.
+
+Eso descarta también el simulador **como modelo de 1X2**: sería una
+estructura más rica sobre una λ que apunta mal, y produciría más
+mercados equivocados, ahora correlacionados entre sí.
+
+Lo que sigue vivo, y es donde apunta el proyecto:
+
+- **El simulador para props y combinadas**, que se apoyaría en la serie
+  por jugador —el único insumo con señal medida (§22bis)— y no en λ.
+- **La arquitectura de escenarios**: dejar de precificar mercados
+  aislados y modelar el partido como una trayectoria, que es lo único
+  que permite ponerle precio propio a una combinada armada.

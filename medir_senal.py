@@ -32,6 +32,28 @@ tiene λ con cada cosa que la lectura podría afirmar:
 λ encoda la ASIMETRÍA del partido, no su VOLUMEN. Por eso las señales
 nuevas son sobre totales y sobre jugadores, no sobre quién domina.
 
+OJO CON LO QUE LA ORTOGONALIDAD **NO** PRUEBA
+
+Que una dimensión sea independiente de λ es condición NECESARIA para que
+pueda aportar información nueva. No es prueba de que la aporte: una
+señal puede ser perfectamente ortogonal y ser ruido perfecto. La
+ortogonalidad dice que el modelo no lo sabe, no que la lectura sí.
+
+`generador` es el caso más claro. Es ortogonal por construcción —λ no
+tiene eje de jugador— y eso no le da ninguna ventaja: puede terminar
+acertando al nivel de tirar una moneda entre los tres delanteros. La
+capa 3 existe para eso, y ninguna dimensión entra al motor sin pasarla.
+
+LO QUE EL INFORME TIENE QUE PODER CONTESTAR, con muestra
+
+  · qué dimensiones usa la IA y cuáles evita (y `null` es válido)
+  · cuántas afirmaciones resultaron verificables
+  · tasa de acierto POR DIMENSIÓN, con su n al lado
+  · si ese acierto supera al pronóstico numérico de la misma métrica
+
+Si una dimensión no tiene sentido, es redundante o está mal definida,
+se cambia. El diseño no se defiende por haberlo implementado.
+
 QUÉ ESPERAR HOY
 
 Nada. Cero análisis tienen el esquema nuevo, porque se estrenó el

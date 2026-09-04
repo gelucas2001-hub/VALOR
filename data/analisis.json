@@ -2339,7 +2339,7 @@
     "inclinacion": null,
     "local": "Real Betis arrancó bien y se cayó de golpe: ganó 1-0 a Real Sociedad el 21 de agosto y 1-0 a Valencia el 25, y después perdió 2-5 con Levante el 29, que es un marcador que no describe a ninguno de los dos partidos anteriores. El gol está muy concentrado en Rodrigo Riquelme, con dos tercios de los del equipo. Se publicaron cuatro ausencias —Ruibal, William Carvalho, Fekir y Bravo— y tres dudas, pero con tres fechas jugadas ninguno figura en el plantel con partidos, así que no se les puede pesar.",
     "visitante": "Real Madrid viene de tres victorias seguidas y con goleada: 2-1 a Espanyol el 22 de agosto, 4-1 a Real Sociedad el 26 y 4-0 a Málaga el 30. Mbappé hace casi la mitad de los goles del equipo y es de lejos el que más remata del plantel. También llega con una lista larga de ausencias publicadas —siete nombres— pero pasa lo mismo: con tres partidos de temporada ninguno aparece en el plantel con minutos, y sin eso no hay con qué medir cuánto pesan.",
-    "contexto": "Cuarta fecha en el Benito Villamarín. Real Madrid es segundo con 9 puntos y Betis séptimo con 6. Con tres partidos jugados, cualquier lectura de forma se apoya en muy poco.",
+    "contexto": "Cuarta fecha en La Cartuja, la sede que Betis usa como local. Real Madrid es segundo con 9 puntos y Betis séptimo con 6. Con tres partidos jugados, cualquier lectura de forma se apoya en muy poco.",
     "veredicto": "Los dos llegan con listas largas de ausencias y ninguna se puede pesar con tres fechas de temporada; lo que queda son tres partidos de forma, que no alcanzan para inclinar.",
     "desarrollo": {
       "texto": "Se espera un visitante con la pelota y un local buscando el momento, que es el molde natural del cruce. Lo que puede alterarlo son justamente las ausencias: si son tantas como se publicó, los dos equipos van a salir con formaciones que nadie vio todavía este año.",
@@ -3329,6 +3329,481 @@
             "ventaja": 2.33,
             "califica": true,
             "por_que": "+233% sobre el segundo"
+          }
+        }
+      }
+    }
+  },
+  "espn401876472": {
+    "actualizado": "2026-09-04",
+    "inclinacion": null,
+    "local": "Lyon vive de tener la pelota y de la velocidad de sus puntas, pero todavía no le encuentra la puntería: tres goles en dos fechas, sin un goleador de referencia y con el gol repartido. En su cancha no ganó: empató 1-1 con Le Havre el 29 de agosto y perdió 1-2 con Fenerbahce el 26, el partido que lo dejó afuera de la Liga de Campeones. Su única victoria fue de visitante, 2-0 en Toulouse el 22 de agosto. En las dos fechas de Ligue 1 recibió más remates de los que generó, aunque con dos partidos medidos eso es una foto y no una tendencia. Las cuatro ausencias que trascendieron son de jugadores con un partido jugado o ninguno: no le cambian el equipo.",
+    "visitante": "Auxerre empezó una etapa nueva con Will Still en el banco, que llegó este verano europeo en lugar de Christophe Pélissier con la idea de un equipo vertical y de presión alta en 4-3-3. Por ahora la idea le sale cara atrás: perdió los dos partidos, 2-5 en Lens el 22 de agosto y 1-3 en su casa con Angers el 29, y es el más goleado del torneo con ocho en contra. El gol lo reparten tres jugadores distintos, uno cada uno, sin un nueve de referencia. Comete bastantes más faltas de las que le hacen, que es lo que se espera de un equipo que presiona arriba, aunque con dos partidos medidos es un indicio y no un dato. Las bajas anunciadas —tres lesionados de larga data, Sékou Fofana en recuperación y Axel Tuanzebe, el refuerzo más caro del mercado, todavía sin poner a punto— son de jugadores que tampoco estuvieron en esas dos derrotas: describen cómo viene armado el equipo, no una novedad de esta fecha.",
+    "contexto": "Es la tercera fecha, así que todo lo que se diga de cualquiera de los dos sale de dos partidos. Los cuatro cruces recientes los domina Lyon —dos triunfos y dos empates, Auxerre no ganó ninguno—, pero en esta cancha se jugaron solo dos de esos cuatro y los dos terminaron parejos y con goles de los dos lados: 3-2 el 25 de abril y 2-2 el 27 de octubre. Lyon queda sin compromiso europeo por delante tras la eliminación del 26 de agosto, aunque eso no le da ventaja de descanso acá: los dos jugaron el 29 y llegan con los mismos días.",
+    "veredicto": "La diferencia entre los dos es grande, pero está toda a la vista en la tabla y en cómo llegan: no aparece un factor propio de este partido que empuje para ningún lado. Las ausencias de Auxerre son de jugadores que tampoco jugaron sus dos derrotas, las de Lyon son de suplentes, y ninguno de los dos trae una novedad que cambie el cuadro.",
+    "desarrollo": {
+      "texto": "El guion más probable es un Auxerre que sale a presionar arriba, como viene planteando su entrenador nuevo, contra un Lyon que va a tener la pelota en su cancha y buscar la espalda de esa línea adelantada con sus puntas. Si la presión de Auxerre aguanta, el partido se traba en el medio; si se rompe, se abre en transiciones largas hacia los dos arcos. Con dos fechas jugadas no hay base para afirmar un ritmo ni un volumen: los promedios de los dos salen de dos partidos cada uno.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-04",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 28.0,
+              "sede": 25.0,
+              "cruzado": 26.5
+            },
+            "estimado": 26.5,
+            "vara": 27.89,
+            "gap": -0.05,
+            "dispersion": 0.108,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 12.0,
+              "sede": 12.0,
+              "cruzado": 12.2
+            },
+            "estimado": 12.1,
+            "vara": 10.06,
+            "gap": 0.201,
+            "dispersion": 0.025,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 29.5,
+              "sede": 28.0,
+              "cruzado": 24.8
+            },
+            "estimado": 27.4,
+            "vara": 22.89,
+            "gap": 0.198,
+            "dispersion": 0.208,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 3.5,
+              "sede": 2.0,
+              "cruzado": 2.5
+            },
+            "estimado": 2.7,
+            "vara": 3.28,
+            "gap": -0.187,
+            "dispersion": 0.457,
+            "n": 2,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        }
+      }
+    }
+  },
+  "espn401879288": {
+    "actualizado": "2026-09-04",
+    "inclinacion": null,
+    "local": "Ipswich vuelve a primera con un entrenador nuevo: Gary O'Neil llegó el 23 de junio desde Strasbourg después de que Kieran McKenna renunciara recién ascendido. Juega a resistir y a salir rápido, y los números de las dos primeras fechas lo muestran crudo: remató poco y casi igual en los dos partidos, y recibió más del doble de remates de los que generó. El gol lo reparte del todo — cuatro goles, cuatro autores distintos, sin un nueve que concentre. Ganó 2-1 a Sunderland en Portman Road el 22 de agosto y perdió 2-5 en Manchester el 30. De los tres lesionados que se anunciaron, ninguno había jugado esta temporada; la que sí importaría es la duda de Emersonn, titular en los dos partidos y uno de los cuatro que convirtieron, aunque no está confirmada y las versiones no coinciden.",
+    "visitante": "Liverpool también empezó una etapa nueva, con Andoni Iraola en el banco. Domina y no termina de resolver: es de los que más rematan del torneo y de visitante llegó a veintisiete remates en un partido, pero recibió cuatro goles en dos fechas y todavía no ganó. Empató 2-2 en Newcastle el 23 de agosto y 2-2 con Nottingham Forest en Anfield el 29. Como Ipswich, tiene el gol repartido entre cuatro: Szoboszlai, Isak, Gakpo y Víctor Muñoz, uno cada uno. Las cinco ausencias que se anunciaron —Gomez, Bradley, Chiesa, Ekitike y Leoni— son de jugadores que tampoco estuvieron en esos dos empates: Bradley viene de una operación de rodilla de enero y Ekitike se rompió el tendón de Aquiles en abril. Bradley Barcola, que llegó del Paris Saint-Germain por 123 millones de libras, podría debutar, pero difícilmente desde el arranque.",
+    "contexto": "Es la tercera fecha y todo lo que se diga de cualquiera de los dos sale de dos partidos. Lo que los cruza es que los dos estrenaron entrenador esta temporada y los dos llegan con dos fechas de rodaje nada más: ninguno de los dos proyectos está todavía asentado. En la tabla están pegados, Ipswich con tres puntos y Liverpool con dos, que es una foto rara y de tres partidos. Se enfrentaron solo dos veces en el historial reciente, las dos en la temporada 2024/25 y las dos con triunfo de Liverpool, pero con dos cruces eso es una anécdota y no un patrón.",
+    "veredicto": "Liverpool llega sin ganar y con menos puntos que su rival, y eso invita a leer el partido al revés de lo que dice el papel; pero tanto la diferencia de plantel como el arranque de los dos ya están a la vista en la tabla y en la forma. Lo único que podría agregar algo propio de esta fecha es la duda de Emersonn, y como es duda y no ausencia confirmada —y el equipo todavía no jugó sin él—, no alcanza para inclinar.",
+    "desarrollo": {
+      "texto": "El reparto de la pelota parece claro: Liverpool va a tenerla y a jugar casi todo el partido en campo de Ipswich, que en sus dos primeras fechas defendió lejos del arco rival y remató muy poco, con una producción llamativamente pareja entre un partido y otro. Lo que va a definir el guion es dónde ponga Ipswich el bloque: si aguanta bajo y junto, el partido se juega en un solo campo y Liverpool tiene que buscar por afuera; si se le estira, pasa a ser de ida y vuelta, que es lo que le pasó en Manchester. Con dos fechas jugadas los promedios de los dos salen de dos partidos cada uno, así que no hay base para afirmar un ritmo ni un volumen.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-04",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 29.5,
+              "sede": 37.0,
+              "cruzado": 35.8
+            },
+            "estimado": 34.1,
+            "vara": 27.4,
+            "gap": 0.244,
+            "dispersion": 0.274,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 8.0,
+              "sede": 9.0,
+              "cruzado": 9.5
+            },
+            "estimado": 8.8,
+            "vara": 9.2,
+            "gap": -0.04,
+            "dispersion": 0.163,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 26.0,
+              "sede": 27.0,
+              "cruzado": 25.2
+            },
+            "estimado": 26.1,
+            "vara": 22.65,
+            "gap": 0.152,
+            "dispersion": 0.077,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 5.0,
+              "sede": 3.0,
+              "cruzado": 4.2
+            },
+            "estimado": 4.1,
+            "vara": 3.8,
+            "gap": 0.075,
+            "dispersion": 0.526,
+            "n": 2,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        }
+      }
+    }
+  },
+  "espn401876469": {
+    "actualizado": "2026-09-04",
+    "inclinacion": null,
+    "local": "PSG juega a tener la pelota y a encerrar: en las dos primeras fechas remató casi el doble que sus rivales y les concedió muy poco. El gol, en cambio, no está repartido — Ferran Torres hizo dos de los cuatro, la mitad del total, con Marquinhos y Vitinha completando. Empató los dos partidos 2-2, en Rennes el 23 de agosto y en Lille el 28, y los dos fueron de visitante: este es su debut en el Parc des Princes, así que de cómo le va en su cancha esta temporada no hay nada medido todavía. Nuno Mendes está suspendido pero no aparece entre los que sumaron minutos en las dos fechas; en cambio vuelven Ousmane Dembélé y João Neves, que se habían perdido el partido de Lille.",
+    "visitante": "Monaco estrenó entrenador: Filipe Luís llegó en lugar de Sébastien Pocognoli después de salir campeón del Brasileirão y de la Libertadores con Flamengo, con contrato hasta junio de 2028. Su equipo es el único que ganó los dos partidos y el único que todavía no recibió un gol — 2-0 a Marseille en el Louis II el 30 de agosto y 1-0 en Le Havre el 23. No vive del volumen sino de la puntería: remata menos que su rival promedio y sin embargo pone seis pelotas al arco por partido, siete cuando juega afuera. El gol lo concentra Paris Brunner, que hizo dos de los tres del equipo. Las cuatro ausencias que se anunciaron —Minamino con el cruzado roto desde diciembre, Salisu y Balogun con problemas de rodilla y Ansu Fati recién volviendo a entrenar— son de jugadores que tampoco estuvieron en esos dos triunfos, y el once probable repite exactamente a los once que vienen arrancando.",
+    "contexto": "Es la tercera fecha y todo lo que se diga de cualquiera de los dos sale de dos partidos. En la tabla están en los extremos: Monaco puntero con seis puntos, PSG duodécimo con dos y sin ganar. Monaco viene de quedarse con los dos últimos cruces, incluido un 3-1 en el Parc des Princes el 6 de marzo, aunque en esta cancha el historial reciente son dos partidos y están repartidos — el otro fue 4-1 de PSG el 7 de febrero de 2025. Con dos cruces en la sede eso es una anécdota y no un antecedente.",
+    "veredicto": "Monaco llega puntero y sin recibir goles mientras PSG todavía no ganó, pero eso ya está a la vista en la tabla y en la forma. Las ausencias de los dos son de jugadores que no venían jugando, y las vueltas de Dembélé y João Neves no tienen con qué pesarse: PSG empató 2-2 tanto el partido que jugaron como el que se perdieron. Sin un factor propio de esta fecha, la lectura no inclina para ningún lado.",
+    "desarrollo": {
+      "texto": "El reparto es el previsible: PSG va a tener la pelota y a atacar contra un bloque armado, y Monaco a esperar junto y salir de contra, que es de lo que vivió en sus dos triunfos. La pregunta del guion es dónde se para Monaco: si defiende tan cerca de su arco como en las dos primeras fechas, el partido se juega en un solo campo y PSG tiene que romperlo por afuera; si sale a disputarle el medio, se abre. Con dos fechas jugadas y sin un solo partido de PSG en su cancha, no hay base para afirmar un ritmo ni un volumen.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-04",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 31.5,
+              "sede": 33.5,
+              "cruzado": 28.0
+            },
+            "estimado": 31.0,
+            "vara": 27.89,
+            "gap": 0.112,
+            "dispersion": 0.197,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 12.0,
+              "sede": 11.5,
+              "cruzado": 9.2
+            },
+            "estimado": 10.9,
+            "vara": 10.06,
+            "gap": 0.085,
+            "dispersion": 0.273,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 17.0,
+              "sede": 18.5,
+              "cruzado": 19.5
+            },
+            "estimado": 18.3,
+            "vara": 22.89,
+            "gap": -0.199,
+            "dispersion": 0.109,
+            "n": 2,
+            "fallo": null,
+            "por_que": "muestra corta (2 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.5,
+              "sede": 3.5,
+              "cruzado": 3.5
+            },
+            "estimado": 3.8,
+            "vara": 3.28,
+            "gap": 0.169,
+            "dispersion": 0.305,
+            "n": 2,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        }
+      }
+    }
+  },
+  "espn401841541": {
+    "actualizado": "2026-09-04",
+    "inclinacion": null,
+    "local": "Estudiantes de Río Cuarto es el equipo que menos ataca del torneo y no lo disimula: apenas tres goles en siete fechas y una producción de menos de ocho remates por partido, de los cuales uno y medio va al arco. Vive de romper el juego — más de treinta quites por partido en su cancha — y de que el partido termine en pocos goles. En el Antonio Candini todavía no convirtió: 0-0 con Banfield el 1 de agosto, 0-1 con Atlético Tucumán el 17 y 0-0 con San Lorenzo el 21, y su último partido fue un 1-1 en cancha de Huracán el 29. El gol, cuando llega, viene de cualquier lado: tres jugadores distintos hicieron uno cada uno. No se encontraron bajas confirmadas con fecha, lo que no quiere decir que no las haya — de los clubes chicos trasciende menos.",
+    "visitante": "Sarmiento es el equipo más goleador del torneo con trece, y llega ahí sin tener la pelota: es de los que menos la tienen, apenas 28% en su propia cancha, y convierte igual porque remata mejor de lo que su volumen sugiere, cinco al arco de doce intentos. Ganó cuatro seguidos —Independiente Rivadavia el 3 de agosto, Atlético Tucumán el 8, Huracán el 16 y Estudiantes de La Plata el 23— y después cayó 1-4 en Santa Fe con Unión el 28, que es el único partido que se le fue de las manos. El gol lo reparte entre varios pero con dos referencias claras, Junior Marabel con cuatro y Julián Mavilla con tres. Tampoco se encontraron bajas confirmadas con fecha.",
+    "contexto": "Octava fecha, con los dos en veredas opuestas de la tabla: Sarmiento segundo con doce puntos y Estudiantes de Río Cuarto decimotercero con seis. Solo se cruzaron una vez en el historial reciente, 1-0 para Sarmiento en Junín el 3 de marzo, y con un solo antecedente eso es una anécdota y no un patrón. Es además un choque de estilos poco frecuente: los dos son equipos que prefieren no tener la pelota, así que ninguno de los dos está cómodo teniéndola.",
+    "veredicto": "Sarmiento llega mucho mejor y con un ataque que funciona contra un local que no convierte en su cancha, pero todo eso está en la tabla y en la forma, que es lo que ya se ve sin analizar nada. No apareció una ausencia con fecha de ninguno de los dos lados, ni un cambio de entrenador que pudiera confirmar, ni nada propio de esta fecha: la lectura no agrega una dirección propia.",
+    "desarrollo": {
+      "texto": "Es un partido con dos equipos que prefieren no tener la pelota, así que lo más probable es que ninguno la quiera y el juego se corte seguido. Estudiantes de Río Cuarto juega a eso explícitamente: quita mucho, falta mucho y remata poquísimo, sobre todo en su cancha. Sarmiento no lo va a obligar a salir, porque tampoco vive de la posesión; llega por caminos cortos y con dos o tres nombres. El guion que se sostiene es de partido trabado y de pocas llegadas, aunque los promedios de las faltas salen de cinco partidos medidos y no de los siete jugados.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-04",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 19.8,
+              "sede": 20.3,
+              "cruzado": 24.7
+            },
+            "estimado": 21.6,
+            "vara": 26.95,
+            "gap": -0.199,
+            "dispersion": 0.181,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 7.8,
+              "sede": 7.7,
+              "cruzado": 9.3
+            },
+            "estimado": 8.3,
+            "vara": 9.25,
+            "gap": -0.105,
+            "dispersion": 0.18,
+            "n": 6,
+            "fallo": null,
+            "por_que": "demasiado cerca de la media de la liga (-11%, hace falta 20%)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 29.2,
+              "sede": 27.3,
+              "cruzado": 24.8
+            },
+            "estimado": 27.1,
+            "vara": 24.11,
+            "gap": 0.124,
+            "dispersion": 0.184,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.4,
+              "sede": 4.0,
+              "cruzado": 3.9
+            },
+            "estimado": 4.1,
+            "vara": 4.63,
+            "gap": -0.114,
+            "dispersion": 0.108,
+            "n": 5,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Tomás González",
+              "pos": "M",
+              "por_partido": 1.67,
+              "apariciones": 3,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Gabriel Alanís",
+              "pos": "M",
+              "por_partido": 1.5,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.113,
+            "califica": false,
+            "por_que": "solo +11%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Junior Marabel",
+              "pos": "F",
+              "por_partido": 2.75,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "segundo": {
+              "nombre": "Julián Mavilla",
+              "pos": "M",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.222,
+            "califica": false,
+            "por_que": "solo +22%, hace falta +50%"
+          }
+        }
+      }
+    }
+  },
+  "espn401841547": {
+    "actualizado": "2026-09-04",
+    "inclinacion": "E",
+    "local": "Platense es un equipo que no necesita la pelota para llegar: tiene 43% de promedio y sin embargo remata quince veces por partido, y en Vicente López sube a 17.5 con ocho al arco, su mejor versión con diferencia. El gol lo reparte y no depende de nadie: cuatro jugadores empatados en tres y dos goles, ninguno por encima del 15% del total. Viene de perder 0-1 con Defensa y Justicia el 31 de agosto después de ganarle a Barracas el 23 y empatarle a Boca el 16 en su cancha, y su calendario reciente es denso: cinco partidos en dieciséis días entre liga, Copa Argentina y Libertadores. Pablo Ferreira está suspendido por la expulsión ante Defensa y Justicia — es titular habitual pero no hace goles, así que la pérdida es de rodaje, no de ataque.",
+    "visitante": "Deportivo Riestra juega al fútbol que anuncia: es el equipo con menos pelota del torneo, 31% de promedio, y su método es no dejar jugar y esperar. Concede poco —diez remates y tres al arco por partido— y ataca menos todavía. El gol está repartido entre cuatro nombres, con Antony Alonso y Tomás González en dos cada uno, y ninguno llega a un tercio del total. Su racha es de partidos cerrados: 1-1 con Vélez en su cancha el 29 de agosto, 0-0 en cancha de Huracán el 23 y 1-1 con Gimnasia La Plata el 18, con una sola derrota en ese tramo. Viaja sin lesionados ni suspendidos, así que llega con todo lo que tiene.",
+    "contexto": "Octava fecha, con los dos empatados en ocho puntos y separados por un puesto, noveno y décimo. Lo que cruza al partido está fuera de él: Platense juega el martes siguiente contra Fluminense en el Maracaná por los cuartos de final de la Copa Libertadores, y se espera que su entrenador reparta minutos pensando en eso. Los cuatro cruces recientes entre ambos terminaron 0-0, 1-1, 1-0 y 0-0 — tres de cuatro con un gol o menos en total, y Platense no le ganó ninguno. Dos de esos cuatro se jugaron en Vicente López y los dos terminaron sin que Platense ganara.",
+    "veredicto": "El factor que no está en los números es que Platense llega a este partido con un cuarto de final de Libertadores a cuatro días y con una rotación esperada, contra el equipo que menos concede y menos ataca del torneo, con el que empató o perdió los cuatro cruces recientes. Un local con el equipo repartido y un visitante que juega a que no pase nada empujan hacia un partido trabado antes que hacia el triunfo de alguno. La rotación está anunciada como probable y no confirmada, así que la lectura se apoya en una expectativa razonable y no en un hecho cerrado.",
+    "desarrollo": {
+      "texto": "Riestra va a cederle la pelota a Platense sin discutirla, que es lo que hace siempre, y el partido va a depender de si Platense encuentra el camino con el equipo que ponga. En Vicente López es donde Platense mejor llega al arco, así que el guion más probable es de ataque contra bloque bajo, con el juego cortándose seguido en la mitad de la cancha. Los antecedentes entre los dos empujan a un partido de pocas situaciones claras, pero eso es historia y no evidencia de este partido; las faltas y los córners de los dos están medidos sobre cinco y seis partidos, así que no alcanzan para afirmar un volumen.",
+      "senal": {
+        "corners_total": null,
+        "faltas": null,
+        "tarjetas": null,
+        "volumen_remates": null,
+        "generador": []
+      },
+      "evidencia": {
+        "sellado": "2026-09-04",
+        "senal_base": {
+          "volumen_remates": {
+            "estimadores": {
+              "produce": 25.6,
+              "sede": 29.5,
+              "cruzado": 26.2
+            },
+            "estimado": 27.1,
+            "vara": 26.95,
+            "gap": 0.006,
+            "dispersion": 0.145,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "corners_total": {
+            "estimadores": {
+              "produce": 6.8,
+              "sede": 6.3,
+              "cruzado": 8.2
+            },
+            "estimado": 7.1,
+            "vara": 9.25,
+            "gap": -0.228,
+            "dispersion": 0.207,
+            "n": 6,
+            "fallo": null,
+            "por_que": "los tres estimadores se contradicen (21% > 20%)"
+          },
+          "faltas": {
+            "estimadores": {
+              "produce": 29.6,
+              "sede": 31.0,
+              "cruzado": 28.3
+            },
+            "estimado": 29.6,
+            "vara": 24.11,
+            "gap": 0.229,
+            "dispersion": 0.112,
+            "n": 5,
+            "fallo": null,
+            "por_que": "muestra corta (5 < 6 partidos)"
+          },
+          "tarjetas": {
+            "estimadores": {
+              "produce": 4.2,
+              "sede": 4.5,
+              "cruzado": 4.5
+            },
+            "estimado": 4.4,
+            "vara": 4.63,
+            "gap": -0.046,
+            "dispersion": 0.076,
+            "n": 5,
+            "fallo": null,
+            "por_que": "esta dimensión no se afirma nunca: no supera su tasa base en ningún umbral medido"
+          }
+        },
+        "liderazgo": {
+          "local": {
+            "lider": {
+              "nombre": "Franco Zapiola",
+              "pos": "M",
+              "por_partido": 2.25,
+              "apariciones": 4,
+              "titular": 3
+            },
+            "segundo": {
+              "nombre": "Guido Mainero",
+              "pos": "F",
+              "por_partido": 1.75,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.286,
+            "califica": false,
+            "por_que": "solo +29%, hace falta +50%"
+          },
+          "visitante": {
+            "lider": {
+              "nombre": "Nicolás Benegas",
+              "pos": "F",
+              "por_partido": 2.67,
+              "apariciones": 3,
+              "titular": 2
+            },
+            "segundo": {
+              "nombre": "Milton Céliz",
+              "pos": "M",
+              "por_partido": 2.5,
+              "apariciones": 4,
+              "titular": 4
+            },
+            "ventaja": 0.068,
+            "califica": false,
+            "por_que": "solo +7%, hace falta +50%"
           }
         }
       }

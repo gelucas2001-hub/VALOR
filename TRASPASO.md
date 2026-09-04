@@ -7358,3 +7358,137 @@ muestra en ninguno**. No es un bug: el bloque Fricción exige que el peso
 propio de cada equipo supere 0.25 y en arg.1 el encogimiento no llega,
 así que la app se calla con razón. Pero significa que un campo se puede
 escribir y no llegar nunca a pantalla, sin que nada lo avise.
+
+## 42. La tanda del 4/9, dos bugs de datos y el censo que abrió (2026-09-04)
+
+Se analizaron los **7 partidos de la fecha con las dos skills** — 5 de
+inclinación nuevos más los 2 que ya la tenían del 3/9, y los 7 de
+estadísticas, que no tenía ninguno. Todos sellados antes de jugarse.
+
+### El resultado de la tanda
+
+```
+  hora   liga     partido                            inclinacion
+  14:00  fra.1    Lyon – Auxerre                     null
+  16:00  eng.1    Ipswich – Liverpool                null
+  16:00  esp.1    Betis – Real Madrid                null   (3/9)
+  16:05  fra.1    PSG – Monaco                       null
+  16:45  arg.1    Estudiantes RC – Sarmiento         null
+  19:00  arg.1    Belgrano – Huracán                 null   (3/9)
+  19:00  arg.1    Platense – Riestra                 "E"
+```
+
+**1 dirección de 7**, y la única sale de un factor que el modelo no
+puede ver: Platense juega el martes siguiente contra Fluminense en el
+Maracaná por los cuartos de la Libertadores y su entrenador reparte
+minutos. La prueba dura de K la pasa — tapada esa frase, los dos
+empatan en ocho puntos y no queda razón para elegir nada. Se escribió
+en tono de expectativa, no de hecho, porque la rotación está anunciada
+como probable: es el estado "no verificable" de P, que **baja el tono y
+no pone `null`** (§40).
+
+### Lo que la tanda dice sobre por qué Europa da puros `null`
+
+No es el reglamento: es el calendario. Con `pjMax = 2`, la maquinaria
+de pesaje del principio J no tiene con qué trabajar. Las ausencias de
+los cuatro partidos europeos eran **todas** de una de dos clases:
+
+- **de larga data** — Bradley operado en enero, Ekitike con el Aquiles
+  en abril, Minamino con el cruzado en diciembre, los tres de Auxerre.
+  Ninguno jugó los partidos que el modelo ya vio, así que están dentro
+  del precio;
+- **impesables** — jugadores con `pj = 1` y `peso_goles = 0`, o que ni
+  figuran en el plantel.
+
+En los cuatro europeos hubo además **cuatro entrenadores nuevos** —
+O'Neil en Ipswich, Iraola en Liverpool, Still en Auxerre, Filipe Luís en
+Monaco. Los cuatro son factores exclusivos por definición y los cuatro
+tienen dos fechas de rastro, que son exactamente los resultados que el
+modelo ya tiene. **Un factor exclusivo cuyo rastro completo ya está
+dentro de λ no agrega dirección.**
+
+### Bug 1 — la serie del jugador viene al revés en `expediente.py`
+
+`planteles.json` guarda la serie del más nuevo al más viejo.
+`expediente_estadisticas.py` la da vuelta y lo declara en un aviso
+(verificado contra ESPN partido por partido, §19.5).
+**`expediente.py` la pasa cruda y no dice en qué orden viene.**
+
+Caso: Kail Boudache aparece con remates `[0, 6]` en el expediente de
+inclinación y `[6, 0]` en el de estadísticas. El correcto es `[6, 0]` —
+seis remates el 22/08 en Toulouse, ninguno el 29/08 contra Le Havre.
+
+Una skill que lee de izquierda a derecha como se lee el tiempo la lee al
+revés. Es la misma pérdida silenciosa de §19.5, viva en el otro archivo.
+No contaminó esta tanda porque no se afirmó ninguna tendencia por serie
+en los campos de inclinación. **No se tocó** — queda como tarea aparte,
+con test que fije la dirección.
+
+### Bug 2 — un córner faltante entra como cero y apaga la señal por el motivo equivocado
+
+PSG figura con `concede.corners = 0.0` sobre `n = 2`: **el único de los
+110 equipos del caché**. Y `concede.remates` (9.0), `concede.pases`
+(250.0) y `concede.tarjetas` (2.0) le dan **desvío 0.0** en dos partidos
+contra rivales distintos y en canchas distintas. No es una medición, es
+un faltante leído como cero.
+
+Lo que lo hace grave no es el dato sino a dónde llega. `veredicto_senal()`
+calcula `e3 = (sh + ca)/2 + (sa + ch)/2`, y `ch` es ese cero. En
+PSG–Monaco el estimador cruzado de córners cae a **9.2** contra 12.0 de
+`produce` y 11.5 de `sede`, y eso empuja la dispersión a **0.273**, por
+encima del tope de 0.20. Con muestra suficiente, un dato que falta
+habría apagado la señal reportando *"los tres estimadores se
+contradicen"* cuando lo cierto es *"falta un dato"*.
+
+Es la regla de CLAUDE.md sobre descartes silenciosos, en otra forma: no
+se ve como un error, se ve como datos. **No se tocó**; queda como tarea
+aparte. En el análisis publicado no se usó el bloque `concede` de PSG.
+
+### Bug 3 — la sede escrita a mano contra la sede del expediente
+
+El análisis de Betis–Real Madrid del 3/9 decía "en el Benito Villamarín"
+cuando `partidos.json` trae `Estadio La Cartuja`. El dato correcto
+estaba en el expediente y se escribió otro. Corregido en la prosa; no
+toca `inclinacion` ni el sello, que cubre `desarrollo.evidencia`.
+
+### El censo abrió, y la transferencia sigue sin poder probarse
+
+Las dos corridas que §35 dejó agendadas para esta ventana. Salidas
+completas en `data/censo_2026-09-04.txt` y
+`data/transferencia_2026-09-04.txt`.
+
+**Censo** — qué puede producir el instrumento sobre la grilla de hoy:
+
+```
+                     partidos con      corners      generador
+                     al menos una      AFIRMA       (equipos)
+  arg.1                8 de 15            1           8 / 30
+  esp.1                8 de 11            0          10 / 22
+  bra.1                5 de 10            0           6 / 20
+  conmebol.lib         2 de 3             0           2 / 6
+  conmebol.sud         1 de 3             0           2 / 6
+  eng.1                0 de 10            0           0 / 20
+  fra.1                0 de 9             0           0 / 18
+```
+
+**arg.1 produjo la primera afirmación de volumen posible del proyecto**:
+las quince tienen `n >= 6` en córners, siete pasan dispersión y una pasa
+el gap. `faltas` y `volumen_remates` siguen con `n` mediano de 5 y piden
+6 — **falta exactamente una fecha**, que es lo que §35 anticipó.
+
+El caso más cerca, medido en esta tanda: en Platense–Riestra, `faltas`
+tiene gap **+22.9%** (pide 10%) y dispersión **0.112** (tope 0.15) — las
+dos condiciones cumplidas — y muere solo por `n = 5 < 6`. Y su
+`corners_total` tiene gap **−22.8%**, que pasa el 20%, y muere por
+dispersión 0.207 contra el tope de 0.20.
+
+**Transferencia** — sigue **no concluyente**, igual que en §35: sobre 95
+partidos de arg.1 y 30 de bra.1 la regla congelada **no emitió una sola
+señal**, porque el corpus tiene ~2 partidos por equipo. No es que falle:
+no se la puede probar ahí. La regla de lenguaje de §35 sigue en pie.
+
+### Lo que hay que hacer cuando entre la fecha siguiente
+
+Volver a correr `--censo`. Si `faltas` en arg.1 llega a `n >= 6`, ahí
+empieza a haber muestra de verdad para la capa 2 — y conviene correrla
+con la regla exactamente como está, sin tocar un umbral.

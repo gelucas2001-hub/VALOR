@@ -1,0 +1,88 @@
+
+==============================================================================
+  CENSO DE EVIDENCIA — qué puede producir el instrumento hoy
+==============================================================================
+
+  El umbral se calibró sobre ligas europeas. Su transferencia a
+  arg/bra es una HIPÓTESIS, no una regla demostrada.
+
+  arg.1   15 partidos en la grilla, 15 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total     15      7      1        1            6
+              faltas      0      0      0        0            5
+     volumen_remates      0      0      0        0            5
+            tarjetas      -      -      -    nunca            5
+           generador                             8   (de 30 equipos)
+    -> 8 de 15 partidos pueden producir al menos una afirmación
+
+  arg.copa   1 partidos en la grilla, 1 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total      1      1      0        0            6
+              faltas      0      0      0        0            5
+     volumen_remates      0      0      0        0            5
+            tarjetas      -      -      -    nunca            5
+           generador                             0   (de 2 equipos)
+    -> 0 de 1 partidos pueden producir al menos una afirmación
+
+  bra.1   10 partidos en la grilla, 10 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total      0      0      0        0            4
+              faltas      0      0      0        0            4
+     volumen_remates      0      0      0        0            4
+            tarjetas      -      -      -    nunca            4
+           generador                             6   (de 20 equipos)
+    -> 5 de 10 partidos pueden producir al menos una afirmación
+
+  conmebol.libertadores   3 partidos en la grilla, 3 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total      0      0      0        0            4
+              faltas      0      0      0        0            4
+     volumen_remates      0      0      0        0            4
+            tarjetas      -      -      -    nunca            4
+           generador                             2   (de 6 equipos)
+    -> 2 de 3 partidos pueden producir al menos una afirmación
+
+  conmebol.sudamericana   3 partidos en la grilla, 3 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total      0      0      0        0            4
+              faltas      0      0      0        0            4
+     volumen_remates      0      0      0        0            4
+            tarjetas      -      -      -    nunca            4
+           generador                             2   (de 6 equipos)
+    -> 1 de 3 partidos pueden producir al menos una afirmación
+
+  eng.1   10 partidos en la grilla, 10 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total      0      0      0        0            2
+              faltas      0      0      0        0            2
+     volumen_remates      0      0      0        0            2
+            tarjetas      -      -      -    nunca            2
+           generador                             0   (de 20 equipos)
+    -> 0 de 10 partidos pueden producir al menos una afirmación
+
+  esp.1   11 partidos en la grilla, 11 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total      0      0      0        0            3
+              faltas      0      0      0        0            3
+     volumen_remates      0      0      0        0            3
+            tarjetas      -      -      -    nunca            3
+           generador                            10   (de 22 equipos)
+    -> 8 de 11 partidos pueden producir al menos una afirmación
+
+  fra.1   9 partidos en la grilla, 9 con métricas de los dos
+           dimensión   n>=6  +disp   +gap   AFIRMA    n mediano
+    --------------------------------------------------------------
+       corners_total      0      0      0        0            2
+              faltas      0      0      0        0            2
+     volumen_remates      0      0      0        0            2
+            tarjetas      -      -      -    nunca            2
+           generador                             0   (de 18 equipos)
+    -> 0 de 9 partidos pueden producir al menos una afirmación
+

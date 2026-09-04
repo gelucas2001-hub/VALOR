@@ -1,0 +1,38 @@
+
+==============================================================================
+  ¿LA REGLA EUROPEA SE TRANSFIERE A ARGENTINA Y BRASIL?
+==============================================================================
+
+  Regla CONGELADA, tal como quedó calibrada sobre 20.897 partidos
+  europeos. No se tocó ningún umbral para este corpus.
+
+  arg.1   95 partidos en el corpus
+           dimensión  evalu.   n ok  +disp   +gap  acierto    base    delta     ±ee
+    ----------------------------------------------------------------------------------
+             corners      53      0      0      0        —  52.8%        —       —
+              faltas      41      0      0      0        —  51.2%        —       —
+            tarjetas      41      —      —      —               no se afirma nunca
+             remates      41      0      0      0        —  51.2%        —       —
+
+    veredicto: MUESTRA INSUFICIENTE PARA CONCLUIR — la regla no llegó a emitir ni una señal en este corpus. No es que falle: no se la puede probar acá.
+
+  bra.1   30 partidos en el corpus
+           dimensión  evalu.   n ok  +disp   +gap  acierto    base    delta     ±ee
+    ----------------------------------------------------------------------------------
+             corners      13      0      0      0        —  61.5%        —       —
+              faltas      10      0      0      0        —  70.0%        —       —
+            tarjetas      10      —      —      —               no se afirma nunca
+             remates      10      0      0      0        —  60.0%        —       —
+
+    veredicto: MUESTRA INSUFICIENTE PARA CONCLUIR — la regla no llegó a emitir ni una señal en este corpus. No es que falle: no se la puede probar acá.
+
+  arg.1 + bra.1
+           dimensión  evalu.   n ok  +disp   +gap  acierto    base    delta     ±ee
+    ----------------------------------------------------------------------------------
+             corners      66      0      0      0        —  50.0%        —       —
+              faltas      51      0      0      0        —  54.9%        —       —
+            tarjetas      51      —      —      —               no se afirma nunca
+             remates      51      0      0      0        —  51.0%        —       —
+
+    veredicto: MUESTRA INSUFICIENTE PARA CONCLUIR — la regla no llegó a emitir ni una señal en este corpus. No es que falle: no se la puede probar acá.
+

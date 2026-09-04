@@ -7275,3 +7275,86 @@ veto esté bloqueando.**
 El costo real es otro, y es el mismo patrón de §39: con 1 dirección cada
 62 partidos, `medir_analisis.py` nunca junta muestra para evaluar si
 `inclinacion` sirve. La regla impide su propia evaluación.
+
+## 41. Lo que se hizo mirando la app corriendo (2026-09-03)
+
+Se levantó `index.html` en un servidor local y se recorrió pantalla por
+pantalla: Portada, Veredicto, Lectura, Datos, Registro, Método y móvil.
+**La auditoría de código de §36 no había visto ninguno de los tres bugs
+que aparecieron acá.** Vale como método: mirar la app encontró en veinte
+minutos lo que leer el código no encontró en horas.
+
+### Tres bugs de cara al usuario
+
+**1. La app citaba un ROI que nosotros mismos habíamos dejado viejo.**
+Decía *"está medido que la regla de valor resta plata (−9.2% de ROI
+walk-forward)"*. Ese número murió con §37. Ahora dice −7.0% y −5.0%, y
+—más importante— se sacó **"está medido que resta"**: con intervalos de
+±7.46 era afirmar de más. Queda lo que sí se sostiene, que es el punto
+estimado negativo más las 74 ventanas de `barrido_valor` sin una sola
+positiva. `LIGAS_SIN_VALOR` no se tocó.
+
+**2. El caché hacía invisible toda carga manual.** `traer()` cachea con
+`?v=VERSION_DATOS`, y esa versión es el sello de `partidos.json`. Pero
+`analisis.json` y `analisis_estadisticas.json` son **carga manual**:
+cambian sin que `partidos.json` cambie. Consecuencia: se sube un
+análisis y el usuario no lo ve **hasta doce horas después**, cuando el
+cron vuelve a correr.
+
+No es teoría — es lo que pasó al cargar la segunda skill: el archivo en
+disco tenía diez entradas, el servidor servía diez, un `fetch` a mano
+traía diez, y la app leía seis. Los dos archivos quedan exceptuados de
+la versión compartida; pesan 75 KB de 2,1 MB.
+
+**3. Las dos afirmaciones de la pantalla de límites eran falsas**, y es
+la pantalla donde la app explica de qué NO se fía. *"Cinco partidos por
+equipo"* estaba escrito a mano cuando los números reales eran mediana 4,
+mínimo 2 — falso para las tres ligas europeas enteras. Ahora se calcula.
+Y *"Una sola casa de cuotas — DraftKings"* dejó de ser cierto cuando
+entró `mercadoExtra`: Bet365 alimenta 59 de 62 partidos y el usuario la
+ve por nombre.
+
+### Lo que se revisó y estaba bien
+
+Registro (empty state correcto), el resto de Método, móvil 375×812 sin
+scroll horizontal, y la capa **Datos** — que resultó ser la pantalla más
+honesta de la app: avisa que abajo de 4 partidos por sede el split no
+dice nada, marca `SEÑAL BAJA/ALTA/SIN MEDIR` por métrica, muestra el
+2.09× de remates, y dice que el plantel no revela lesionados **donde se
+mira el plantel**. Las tres capas renderizan en los 62 partidos sin una
+sola excepción.
+
+### Las dos tandas de análisis que no están en §40
+
+§40 documenta la tanda de CONMEBOL. Faltan las otras dos:
+
+- **7 de arg.1** con candidato a `generador`, elegidos por eso y no por
+  si podían marcar. Los 7 emitieron `generador`; volumen todo en `null`
+  por muestra. Una sola `inclinacion`, San Lorenzo–Talleres en `"E"`,
+  por el debut de Omar De Felippe.
+- **8 más** (4 de esp.1, 4 de bra.1), la última antes de que se corte la
+  disponibilidad de escribir análisis. Subieron `generador` de 14 a 24
+  señales. Una `inclinacion`: Athletic–Atlético en `"E"`, por Álex Baena
+  —43% de los goles del Atlético— reportado lesionado y **la única
+  ausencia de todas las publicadas que el plantel permitía pesar**.
+
+Total: **25 análisis con esquema nuevo, los 25 sellados antes de
+jugarse**, con 25 afirmaciones de las cuales 24 son `generador`.
+
+### El control de merge atajó un error que se habría perdido en silencio
+
+En la última tanda, el chequeo contra `califica` **abortó el merge**: se
+había escrito "Túlio Eduardo Silva" y el plantel dice "Túlio Eduardo
+Silva De Oliveira". La capa 2 cruza por nombre EXACTO, así que esa señal
+se habría resuelto como "no está en el plantel cacheado" —o sea, no
+resoluble— y **habría desaparecido de la muestra sin que nadie lo
+notara**. Es la misma familia que `senalDividida()`: la pérdida
+silenciosa no se ve como un error, se ve como menos datos.
+
+### Un hallazgo anotado y NO tocado
+
+`friccion` se escribió en los cuatro análisis de estadísticas y **no se
+muestra en ninguno**. No es un bug: el bloque Fricción exige que el peso
+propio de cada equipo supere 0.25 y en arg.1 el encogimiento no llega,
+así que la app se calla con razón. Pero significa que un campo se puede
+escribir y no llegar nunca a pantalla, sin que nada lo avise.

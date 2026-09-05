@@ -1,3 +1,70 @@
+# Cómo trabajar con Antigravity, de acá en adelante
+
+**Hay dos tipos de sesión y no se mezclan nunca.** Un agente que edita
+código y hace de asesor al mismo tiempo se confunde de rol: te contesta
+sobre fútbol y de paso te toca un archivo, o al revés.
+
+| | Para qué | Qué hacés ahí |
+|---|---|---|
+| **Sesión de USO** | Hablar de fútbol | Le preguntás por los partidos, le pedís informes, le pasás tus combinadas |
+| **Sesión de OBRA** | Tocar código | Le pedís que construya o arregle algo de `experto/` |
+
+## Lo primero, siempre, en cualquiera de las dos
+
+```
+git pull
+```
+
+El cron escribe los datos en `main` y vos trabajás en `pronostic`, así
+que cuando quieras datos frescos: `git pull origin main`.
+
+## Sesión de USO — el prompt
+
+> Leé `GEMINI.md` y después `experto/SIN_CLAVE.md`. Vas a hacer de
+> Pronóstic: leé `experto/voz.md` completo, son tus instrucciones. Los
+> datos salen de correr `python experto/datos.py fecha` y
+> `python experto/datos.py <id_partido>`, nunca de tu memoria. Arrancá
+> diciéndome qué partidos hay para mañana.
+
+Después le hablás normal.
+
+## Sesión de OBRA — el prompt
+
+> Leé `GEMINI.md` entero antes de nada. Estamos en la rama `pronostic`:
+> no te vayas a `main` y no toques nada de lo que `GEMINI.md` marca como
+> "quedó de lado". Corré `python experto/probar.py` antes de empezar.
+> Lo que hay que hacer es: [lo que sea].
+
+Y al final de esa sesión, pedile siempre:
+
+> Commiteá lo que cambiaste y decime en una línea qué tocaste.
+
+## Cuando algo de la voz no te guste
+
+**Anotalo y arreglalo en una sesión de OBRA, no en la de uso.**
+
+Si en medio de una charla le decís *"no me gusta cómo dijiste eso"*, se
+va a corregir en ese momento y **el cambio se pierde al cerrar** —
+`voz.md` no cambió. Lo que hacés es guardarte el ejemplo y después:
+
+> En `experto/voz.md`, [el cambio]. Ejemplo de lo que hizo mal: "[pegás
+> lo que te dijo]". No toques ningún otro archivo.
+
+`voz.md` es texto. Corregirlo no es programar.
+
+## Las tres cosas que no hay que hacer
+
+- **Dos sesiones de obra a la vez** sobre `experto/`. Es lo que hizo
+  perder trabajo tres veces en este proyecto.
+- **Seguir usando una sesión vieja** después de que otra tocó los mismos
+  archivos: trabaja sobre una foto vieja y pisa lo nuevo. Sesión nueva y
+  `git pull`.
+- **Pedirle cosas del producto anterior.** Si te propone tocar
+  `index.html` o las skills de análisis, cortalo: eso quedó de lado y
+  `GEMINI.md` lo dice.
+
+---
+
 # Cómo poner a andar Pronóstic
 
 Todo lo que se podía dejar hecho está hecho. **Quedan dos cosas que solo

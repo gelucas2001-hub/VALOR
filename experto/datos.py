@@ -442,21 +442,65 @@ def historial(id_partido):
     }
 
 
+def _predicado(nombre):
+    """Traduce el nombre de un mercado a una condición sobre el marcador.
+
+    Es lo que permite calcular una combinada de DOS PATAS DEL MISMO
+    PARTIDO de verdad: se suman las casillas de la matriz donde pasan las
+    dos a la vez, en vez de multiplicar dos probabilidades que no son
+    independientes. "Gana el local" y "menos de 2.5 goles" se pisan —
+    multiplicarlas da un número que no existe.
+    """
+    n = nombre.strip().lower()
+    fijos = {
+        "1x2 local": lambda i, j: i > j,
+        "1x2 empate": lambda i, j: i == j,
+        "1x2 visitante": lambda i, j: i < j,
+        "ambos marcan": lambda i, j: i > 0 and j > 0,
+        "no marcan los dos": lambda i, j: not (i > 0 and j > 0),
+    }
+    if n in fijos:
+        return fijos[n]
+    for prefijo, cmp in (("más de ", lambda t, l: t > l),
+                         ("menos de ", lambda t, l: t < l)):
+        if n.startswith(prefijo):
+            try:
+                linea = float(n[len(prefijo):])
+            except ValueError:
+                return None
+            return lambda i, j, l=linea, c=cmp: c(i + j, l)
+    return None
+
+
+def _conjunta(id_partido, mercados):
+    """Probabilidad de que pasen TODOS estos mercados en el mismo partido."""
+    m, _ = _buscar_partido(id_partido)
+    if not m or not m.get("lh"):
+        return None
+    conds = [_predicado(x) for x in mercados]
+    if any(c is None for c in conds):
+        return None
+    M = _B.matriz(m["lh"], m["la"], m.get("rho", 0.0))
+    return sum(M[i][j] for i in range(len(M)) for j in range(len(M))
+               if all(c(i, j) for c in conds))
+
+
 def revisar_boleta(patas):
     """La probabilidad real de una combinada, y qué pata la está hundiendo.
 
     `patas` es una lista de {"id_partido", "mercado", "cuota"}, donde
     `mercado` es una clave de `nuestro_numero_de_cada_cien`.
 
-    Dos patas del MISMO partido no se multiplican: se piden sobre la
-    matriz. Eso todavía no está implementado, así que se avisa en vez de
-    dar un número mal — un número mal acá no se ve como un error, se ve
-    como datos.
+    **Dos patas del MISMO partido no se multiplican.** Se resuelven sobre
+    la matriz de marcadores, sumando las casillas donde pasan todas a la
+    vez. "Gana el local" y "menos de 2.5" se pisan: multiplicarlas da un
+    número que no existe, y un número mal acá no se ve como un error — se
+    ve como datos.
     """
     if not patas:
         return {"error": "no me pasaste ninguna pata"}
 
-    detalle, prob, cuota_total = [], 1.0, 1.0
+    detalle, cuota_total = [], 1.0
     por_partido = {}
     for p in patas:
         d = datos_partido(p.get("id_partido"))
@@ -467,16 +511,47 @@ def revisar_boleta(patas):
         if n is None:
             return {"error": "no conozco el mercado '%s'. Los que tengo: %s"
                              % (nombre, ", ".join(d["nuestro_numero_de_cada_cien"]))}
-        pp = n / 100.0
-        prob *= pp
         c = p.get("cuota")
         if c:
             cuota_total *= c
         por_partido.setdefault(p["id_partido"], []).append(nombre)
-        detalle.append({"partido": d["partido"], "mercado": nombre,
+        detalle.append({"partido": d["partido"], "id": p["id_partido"],
+                        "mercado": nombre,
                         "nuestro_numero_de_cada_cien": n, "cuota": c})
 
+    # Partido por partido: si hay más de una pata, va sobre la matriz.
+    prob, avisos, mismo = 1.0, [], []
+    for pid, mercados in por_partido.items():
+        if len(mercados) == 1:
+            prob *= next(d["nuestro_numero_de_cada_cien"] for d in detalle
+                         if d["id"] == pid and d["mercado"] == mercados[0]) / 100.0
+            continue
+        c = _conjunta(pid, mercados)
+        nombre = next(d["partido"] for d in detalle if d["id"] == pid)
+        if c is None:
+            avisos.append("En %s hay %d patas y no puedo resolver la "
+                          "combinación exacta de esos mercados. NO le des "
+                          "un número a esa parte." % (nombre, len(mercados)))
+            prob = None
+            break
+        ingenua = 1.0
+        for m in mercados:
+            ingenua *= next(d["nuestro_numero_de_cada_cien"] for d in detalle
+                            if d["id"] == pid and d["mercado"] == m) / 100.0
+        mismo.append({
+            "partido": nombre, "mercados": mercados,
+            "juntas_de_cada_cien": _de_cada_cien(c),
+            "multiplicando_daria": _de_cada_cien(ingenua),
+            "por_que": ("Son del mismo partido: se resuelven sobre la matriz "
+                        "de marcadores. Multiplicarlas da %d de cada cien y el "
+                        "número real es %d."
+                        % (_de_cada_cien(ingenua), _de_cada_cien(c)))})
+        prob *= c
+
     repetidos = {k: v for k, v in por_partido.items() if len(v) > 1}
+    if prob is None:
+        return {"patas": detalle, "error_parcial": avisos,
+                "cuota_que_te_pagan": round(cuota_total, 2) if cuota_total > 1 else None}
 
     # Cuál pata aporta más a la probabilidad de fallar.
     fallo_total = 1 - prob
@@ -499,12 +574,8 @@ def revisar_boleta(patas):
     }
     if cuota_total > 1 and justa:
         salida["comision_total_de_la_casa"] = _pct((justa - cuota_total) / justa)
-    if repetidos:
-        salida["cuidado"] = (
-            "Hay patas del MISMO partido (%s). Esas no son independientes y la "
-            "multiplicación de arriba las cuenta mal: el número real es distinto. "
-            "Avisale a Lucas y no le des ese número como bueno."
-            % ", ".join(repetidos))
+    if mismo:
+        salida["patas_del_mismo_partido"] = mismo
     if len(detalle) >= 4:
         salida["nota"] = (
             "Son %d patas. La comisión de la casa se multiplica, no se reparte."

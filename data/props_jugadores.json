@@ -140607,6 +140607,21 @@
     "3.5": 6.5,
     "4.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Aldosivi",
+   "away": "Banfield",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.25,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
   }
  ],
  "espn401841545__remates__Matias Godoy": [
@@ -141515,6 +141530,20 @@
    "lado": "V",
    "lineas": {
     "4.5": 21.0,
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 5.5,
+    "3.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Aldosivi",
+   "away": "Banfield",
+   "lado": "V",
+   "lineas": {
     "0.5": 1.333,
     "1.5": 2.5,
     "2.5": 5.5,
@@ -143022,6 +143051,18 @@
    "lado": "V",
    "lineas": {
     "2.5": 21.0,
+    "0.5": 2.25,
+    "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Aldosivi",
+   "away": "Banfield",
+   "lado": "V",
+   "lineas": {
     "0.5": 2.25,
     "1.5": 9.0
    }
@@ -144567,6 +144608,22 @@
     "4.5": 11.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.25,
+    "3.5": 7.0,
+    "4.5": 15.0,
+    "5.5": 21.0
+   }
   }
  ],
  "espn401841553__remates__Nicolas Barros Schelotto": [
@@ -144725,6 +144782,22 @@
     "4.5": 13.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.833,
+    "2.5": 3.5,
+    "3.5": 7.0,
+    "4.5": 17.0,
+    "5.5": 21.0
+   }
   }
  ],
  "espn401841553__remates__Santiago Lopez": [
@@ -144801,6 +144874,21 @@
     "2.5": 3.4,
     "3.5": 7.0,
     "4.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.222,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 19.0
    }
   }
  ],
@@ -144986,6 +145074,21 @@
     "3.5": 10.0,
     "4.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "4.5": 21.0,
+    "0.5": 1.3,
+    "1.5": 2.375,
+    "2.5": 5.0,
+    "3.5": 13.0
+   }
   }
  ],
  "espn401841553__remates__Marco Rivas": [
@@ -145060,6 +145163,21 @@
     "2.5": 4.333,
     "3.5": 10.0,
     "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "4.5": 21.0,
+    "0.5": 1.3,
+    "1.5": 2.375,
+    "2.5": 5.0,
+    "3.5": 13.0
    }
   }
  ],
@@ -145384,6 +145502,19 @@
     "1.5": 4.333,
     "2.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
   }
  ],
  "espn401841553__remates__Pedro Torrejon": [
@@ -145639,6 +145770,19 @@
     "1.5": 6.0,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 17.0
+   }
   }
  ],
  "espn401841553__remates__Enzo Martinez": [
@@ -145666,6 +145810,19 @@
     "0.5": 2.0,
     "1.5": 6.0,
     "2.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 17.0
    }
   }
  ],
@@ -145695,6 +145852,19 @@
     "1.5": 6.0,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 17.0
+   }
   }
  ],
  "espn401841553__remates__German Conti": [
@@ -145722,6 +145892,19 @@
     "0.5": 2.0,
     "1.5": 6.0,
     "2.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 17.0
    }
   }
  ],
@@ -145751,6 +145934,19 @@
     "1.5": 6.0,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 17.0
+   }
   }
  ],
  "espn401841553__remates__Renzo Giampaoli": [
@@ -145779,6 +145975,19 @@
     "1.5": 6.0,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 17.0
+   }
   }
  ],
  "espn401841553__remates__Bautista Barros Schelotto": [
@@ -145806,6 +146015,19 @@
     "0.5": 2.25,
     "1.5": 8.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.0,
+    "1.5": 6.0,
+    "2.5": 19.0
    }
   }
  ],
@@ -145935,6 +146157,19 @@
     "1.5": 8.0,
     "2.5": 21.0,
     "0.5": 2.375
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "1.5": 8.0,
+    "2.5": 21.0,
+    "0.5": 2.25
    }
   }
  ],
@@ -146676,6 +146911,19 @@
     "0.5": 1.909,
     "1.5": 6.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.1,
+    "1.5": 7.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401841553__al_arco__Santiago Lopez": [
@@ -146741,6 +146989,19 @@
     "1.5": 7.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.2,
+    "1.5": 8.0
+   }
   }
  ],
  "espn401841553__al_arco__Sebastian Medina": [
@@ -146805,6 +147066,19 @@
     "0.5": 2.0,
     "1.5": 7.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.2,
+    "1.5": 8.0
    }
   }
  ],
@@ -147008,6 +147282,18 @@
     "0.5": 2.25,
     "1.5": 9.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
+   }
   }
  ],
  "espn401841553__al_arco__Marco Rivas": [
@@ -147069,6 +147355,18 @@
    "lineas": {
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
    }
   }
  ],
@@ -147133,6 +147431,18 @@
    "lineas": {
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
    }
   }
  ],
@@ -147323,6 +147633,18 @@
    "lineas": {
     "0.5": 3.75,
     "1.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.75,
+    "1.5": 19.0
    }
   }
  ],
@@ -147617,6 +147939,17 @@
    "lineas": {
     "0.5": 5.5
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.0
+   }
   }
  ],
  "espn401841553__al_arco__Diego Mastrangelo": [
@@ -147640,6 +147973,17 @@
    "lado": "L",
    "lineas": {
     "0.5": 5.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
    }
   }
  ],
@@ -147665,6 +148009,17 @@
    "lineas": {
     "0.5": 5.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
+   }
   }
  ],
  "espn401841553__al_arco__Fabricio Corbalan": [
@@ -147689,6 +148044,17 @@
    "lineas": {
     "0.5": 5.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
+   }
   }
  ],
  "espn401841553__al_arco__German Conti": [
@@ -147712,6 +148078,17 @@
    "lado": "L",
    "lineas": {
     "0.5": 5.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
    }
   }
  ],
@@ -147811,6 +148188,17 @@
    "lineas": {
     "0.5": 5.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
+   }
   }
  ],
  "espn401841553__al_arco__Juan Villalba": [
@@ -147860,6 +148248,17 @@
    "lado": "L",
    "lineas": {
     "0.5": 5.5
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 6.0
    }
   }
  ],
@@ -147919,6 +148318,17 @@
    "lado": "L",
    "lineas": {
     "0.5": 5.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Liga Profesional Argentina",
+   "home": "Gimnasia La Plata",
+   "away": "Tigre",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
    }
   }
  ],
@@ -286502,6 +286912,23 @@
     "4.5": 6.0,
     "5.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.062,
+    "2.5": 1.909,
+    "4.5": 6.0,
+    "5.5": 13.0,
+    "6.5": 21.0,
+    "1.5": 1.4,
+    "3.5": 3.75
+   }
   }
  ],
  "espn401878781__remates__Nicolas Jackson": [
@@ -286854,6 +287281,22 @@
     "4.5": 8.0,
     "5.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.1,
+    "3.5": 3.75,
+    "4.5": 8.0,
+    "5.5": 15.0
+   }
   }
  ],
  "espn401878781__remates__Joe Gelhardt": [
@@ -287005,6 +287448,22 @@
     "2.5": 3.4,
     "3.5": 7.0,
     "4.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "4.5": 13.0,
+    "5.5": 21.0
    }
   }
  ],
@@ -287206,6 +287665,21 @@
     "2.5": 4.333,
     "3.5": 10.0,
     "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0,
+    "4.5": 19.0
    }
   }
  ],
@@ -287422,6 +287896,20 @@
     "2.5": 6.0,
     "3.5": 15.0,
     "0.5": 1.363
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.0,
+    "3.5": 15.0
    }
   }
  ],
@@ -288602,6 +289090,19 @@
     "1.5": 6.5,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 19.0
+   }
   }
  ],
  "espn401878781__al_arco__Liam Millar": [
@@ -288719,6 +289220,18 @@
     "2.5": 21.0,
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
    }
   }
  ],
@@ -293933,6 +294446,21 @@
     "3.5": 10.0,
     "4.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0,
+    "4.5": 19.0
+   }
   }
  ],
  "espn401878781__remates__Brooke Norton-Cuffy": [
@@ -294005,6 +294533,20 @@
     "0.5": 1.615,
     "1.5": 3.75,
     "2.5": 11.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.666,
+    "2.5": 11.0,
+    "3.5": 21.0,
+    "1.5": 4.0
    }
   }
  ],
@@ -294091,6 +294633,18 @@
     "2.5": 21.0,
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Hull City",
+   "away": "Aston Villa",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
    }
   }
  ],
@@ -307928,6 +308482,23 @@
     "1.5": 1.4,
     "4.5": 8.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "L",
+   "lineas": {
+    "2.5": 2.1,
+    "3.5": 3.75,
+    "5.5": 15.0,
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "4.5": 8.0,
+    "6.5": 21.0
+   }
   }
  ],
  "espn401882889__remates__Diego Diaz": [
@@ -308133,6 +308704,24 @@
     "4.5": 3.75,
     "5.5": 6.5,
     "6.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.03,
+    "1.5": 1.181,
+    "2.5": 1.571,
+    "3.5": 2.375,
+    "4.5": 4.0,
+    "5.5": 7.0,
+    "6.5": 15.0,
+    "7.5": 21.0
    }
   }
  ],
@@ -308363,6 +308952,23 @@
     "5.5": 15.0,
     "6.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.071,
+    "1.5": 1.363,
+    "3.5": 3.5,
+    "4.5": 7.0,
+    "5.5": 15.0,
+    "6.5": 21.0,
+    "2.5": 2.1
+   }
   }
  ],
  "espn401882889__remates__Giorgi Tsitaishvili": [
@@ -308427,6 +309033,21 @@
     "3.5": 7.0,
     "4.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 10.0,
+    "4.5": 21.0
+   }
   }
  ],
  "espn401882889__remates__Jorge Castellanos": [
@@ -308458,6 +309079,21 @@
     "2.5": 3.25,
     "3.5": 7.0,
     "4.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 10.0,
+    "4.5": 21.0
    }
   }
  ],
@@ -308523,6 +309159,21 @@
     "3.5": 9.0,
     "4.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.25,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
   }
  ],
  "espn401882889__remates__Cabrera Unai Lopez": [
@@ -308554,6 +309205,21 @@
     "2.5": 4.333,
     "3.5": 10.0,
     "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.833,
+    "2.5": 3.75,
+    "3.5": 8.0,
+    "4.5": 19.0
    }
   }
  ],
@@ -309370,6 +310036,20 @@
     "3.5": 15.0,
     "1.5": 2.375
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401882889__al_arco__Alexandre Alemao": [
@@ -309639,6 +310319,19 @@
     "2.5": 10.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 10.0
+   }
   }
  ],
  "espn401882889__al_arco__Florian Lejeune": [
@@ -309666,6 +310359,19 @@
     "0.5": 2.0,
     "1.5": 6.5,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 19.0
    }
   }
  ],
@@ -309723,6 +310429,19 @@
     "1.5": 6.5,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 9.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401882889__al_arco__Jorge Castellanos": [
@@ -309749,6 +310468,19 @@
    "lineas": {
     "0.5": 2.0,
     "1.5": 6.5,
+    "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 9.0,
     "2.5": 21.0
    }
   }
@@ -309817,6 +310549,19 @@
     "2.5": 21.0,
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T13:10",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Rayo Vallecano",
+   "away": "Racing Santander",
+   "lado": "L",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.1,
+    "1.5": 7.0
    }
   }
  ],

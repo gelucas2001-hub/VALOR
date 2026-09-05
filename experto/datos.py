@@ -539,11 +539,152 @@ def stake(de_cada_cien, cuota, banca=None):
 
 # ------------------------------------------------- memoria de Lucas
 
+MEMORIA = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                       "memoria.json")
+VACIA = {"banca": None, "preferencias": {}, "apuestas": []}
+
+
 def _memoria():
-    m = _cargar("../experto/memoria.json")
-    if m is None:
-        return {"banca": None, "apuestas": [], "preferencias": {}}
+    if not os.path.exists(MEMORIA):
+        return dict(VACIA)
+    try:
+        with open(MEMORIA, encoding="utf-8") as f:
+            m = json.load(f)
+    except (ValueError, OSError):
+        return dict(VACIA)
+    for k, v in VACIA.items():
+        m.setdefault(k, v if not isinstance(v, (dict, list)) else type(v)())
     return m
+
+
+def _guardar_memoria(m):
+    """Escribe a un temporal y reemplaza. Si se corta a la mitad, el
+    registro viejo sigue entero — es la plata de Lucas, no un caché."""
+    tmp = MEMORIA + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(m, f, ensure_ascii=False, indent=1)
+    os.replace(tmp, MEMORIA)
+
+
+def recordar_chat(chat_id):
+    """Guarda a qué chat de Telegram escribirle.
+
+    `informe.py` y `vigilante.py` corren solos, sin que nadie les hable:
+    sin esto no saben a dónde mandar el mensaje. Lo escribe `bot.py` la
+    primera vez que Lucas dice algo.
+    """
+    m = _memoria()
+    if m.get("chat_id") == chat_id:
+        return
+    m["chat_id"] = chat_id
+    _guardar_memoria(m)
+
+
+def chat_guardado():
+    return _memoria().get("chat_id")
+
+
+def poner_banca(monto):
+    """Cuánta plata tiene Lucas para apostar. Sin esto no se puede decir
+    cuánto poner."""
+    m = _memoria()
+    anterior = m.get("banca")
+    m["banca"] = monto
+    _guardar_memoria(m)
+    return {"banca": monto, "antes": anterior, "guardado": True}
+
+
+def anotar(id_partido, mercado, cuota, monto, quien="lucas", nota=None):
+    """Deja anotada una apuesta.
+
+    `quien` es "pronostic" si la propuso el asesor y "lucas" si fue idea
+    de él. Esa distinción es la que después permite medir a cada uno por
+    separado, que es la razón de ser del espejo. No la saques.
+    """
+    if quien not in ("lucas", "pronostic"):
+        return {"error": "quien tiene que ser 'lucas' o 'pronostic'"}
+    m, _ = _buscar_partido(id_partido)
+    if not m:
+        return {"error": "no tengo ese partido cargado, no la anoto"}
+
+    mem = _memoria()
+    ap = {
+        "anotada": datetime.datetime.now().isoformat(timespec="minutes"),
+        "id_partido": id_partido,
+        "partido": "%s vs %s" % (m.get("home"), m.get("away")),
+        "fecha_partido": m.get("date"),
+        "mercado": mercado, "cuota": cuota, "monto": monto,
+        "quien": quien, "nota": nota, "resultado": None,
+    }
+    mem["apuestas"].append(ap)
+    _guardar_memoria(mem)
+
+    exp = sum(a.get("monto", 0) for a in mem["apuestas"] if not a.get("resultado"))
+    salida = {"anotada": True, "apuesta": ap, "expuesto_ahora": exp}
+    if mem.get("banca"):
+        pct = exp / mem["banca"] * 100
+        salida["porcentaje_de_la_banca_expuesto"] = round(pct, 1)
+        if pct > 15:
+            salida["aviso"] = ("Con esta quedan %.0f%% de la banca en juego. "
+                               "Decíselo." % pct)
+    return salida
+
+
+def resolver(id_partido=None):
+    """Cierra las apuestas que ya se pueden cerrar con el marcador final.
+
+    Solo resuelve lo que se deduce del marcador. Las de jugador quedan
+    abiertas a propósito: se liquidan con los remates del partido, que
+    no están en `resultados.json`.
+    """
+    mem = _memoria()
+    res = _cargar("resultados.json") or {}
+    cerradas, pendientes = [], []
+    for a in mem["apuestas"]:
+        if a.get("resultado"):
+            continue
+        if id_partido and a["id_partido"] != id_partido:
+            continue
+        marcador = res.get(a["id_partido"])
+        if not marcador:
+            pendientes.append({**a, "por_que": "todavía no hay marcador"})
+            continue
+        r = _desenlace(a["mercado"], marcador)
+        if r is None:
+            pendientes.append({**a, "por_que": "no lo puedo resolver del "
+                                              "marcador; pedí los remates"})
+            continue
+        a["resultado"] = r
+        a["marcador_final"] = marcador
+        a["devolucion"] = (round(a["monto"] * a["cuota"] - a["monto"])
+                           if r == "ganada" else -a["monto"])
+        cerradas.append(a)
+    if cerradas:
+        _guardar_memoria(mem)
+    return {"cerradas": cerradas, "siguen_abiertas": pendientes}
+
+
+def _desenlace(mercado, marcador):
+    """Gana o pierde, según el marcador. None si no se deduce de ahí."""
+    try:
+        gl, gv = (int(x) for x in marcador.split("-"))
+    except (ValueError, AttributeError):
+        return None
+    t, m = gl + gv, mercado.strip().lower()
+    reglas = {
+        "1x2 local": gl > gv, "1x2 empate": gl == gv, "1x2 visitante": gl < gv,
+        "ambos marcan": gl > 0 and gv > 0,
+        "no marcan los dos": not (gl > 0 and gv > 0),
+    }
+    if m in reglas:
+        return "ganada" if reglas[m] else "perdida"
+    for prefijo, cmp in (("más de ", lambda l: t > l), ("menos de ", lambda l: t < l)):
+        if m.startswith(prefijo):
+            try:
+                return "ganada" if cmp(float(m[len(prefijo):])) else "perdida"
+            except ValueError:
+                return None
+    return None
 
 
 def banca():

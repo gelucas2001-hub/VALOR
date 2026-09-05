@@ -13,12 +13,12 @@ agarra entero — no dos a la vez.
 | Archivo | Estado |
 |---|---|
 | `voz.md` | ✅ Listo. **Se ajusta usándolo, no leyéndolo** |
-| `datos.py` | ✅ Listo, 9 herramientas, 14 casos probados incluidos los de error |
+| `datos.py` | ✅ Listo, 12 herramientas, todas probadas incluidos los de error |
 | `bot.py` | ✅ Listo. Falta correrlo contra la API de verdad |
-| `informe.py` | ⬜ Abajo |
-| `vigilante.py` | ⬜ Abajo — **es el que lo hace humano** |
-| `memoria.json` + `anotar` | ⬜ Abajo |
-| `cierre.py` | ⬜ Abajo |
+| `informe.py` | ✅ Listo. Arma el expediente del día (~31 mil tokens, 20 centavos) y lo manda |
+| `vigilante.py` | ✅ Listo. Detecta movimiento de precio, cambio de once y cambio de número; probado que no repite y que no avisa de lo que pasó antes de la apuesta |
+| `memoria.json` + `anotar` | ✅ Listo. `anotar`, `poner_banca`, `resolver`, `recordar_chat`, escritura atómica |
+| `cierre.py` | ⬜ **Lo único de programa que falta.** Abajo |
 | El goleador | ⬜ Una línea, abajo |
 
 ## Para arrancar
@@ -34,11 +34,12 @@ python experto/bot.py
 
 ---
 
-## 1 · `memoria.json` y el verbo `anotar` — hacer esto primero
+## 1 · `memoria.json` — ✅ HECHO, así quedó
 
-Todo lo demás lo necesita. Hoy `datos.banca()` y `datos.registro()` leen
-`experto/memoria.json`, que **todavía no existe**; devuelven vacío y
-avisan, que es el comportamiento correcto mientras tanto.
+`memoria.json` se crea solo la primera vez que se escribe algo. Las
+funciones son `anotar`, `poner_banca`, `resolver`, `recordar_chat` y
+`chat_guardado`, todas en `datos.py` y expuestas como herramientas.
+Escribe con temporal y `os.replace`.
 
 ```json
 {
@@ -66,7 +67,7 @@ se pierde el registro.
 
 ---
 
-## 2 · `informe.py` — el parte de la fecha
+## 2 · `informe.py` — ✅ HECHO
 
 Un mensaje de Telegram, no una página. Corre por cron los días con
 partidos, a las 09:00 ARG.
@@ -84,7 +85,7 @@ el mismo `voz.md`, con una instrucción extra de formato al final.
 
 ---
 
-## 3 · `vigilante.py` — el que escribe sin que le pregunten
+## 3 · `vigilante.py` — ✅ HECHO
 
 **Es el campo 19 y el que separa esto de un informe.** Corre cada hora
 entre las 07:00 y las 22:00.

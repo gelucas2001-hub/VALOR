@@ -23,3 +23,7 @@ skills-lock.json
 data/cache_historico/
 scratch/
 data/bandas_filas.json
+
+.tmp
+experto/memoria.json
+experto/visto.json

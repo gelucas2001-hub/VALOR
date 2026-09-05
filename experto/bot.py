@@ -198,6 +198,46 @@ HERRAMIENTAS = [
             "properties": {"limite": {"type": "integer"}},
         },
     },
+    {
+        "name": "anotar",
+        "description": ("Deja anotada una apuesta que Lucas jugó. Usala cuando "
+                        "te diga que la puso, no cuando se la proponés. `quien` "
+                        "es 'pronostic' si la idea fue tuya y 'lucas' si fue de "
+                        "él — sirve para después medir a cada uno por separado, "
+                        "así que ponelo bien."),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "id_partido": {"type": "string"},
+                "mercado": {"type": "string",
+                            "description": "Como se lo diría a una persona."},
+                "cuota": {"type": "number"},
+                "monto": {"type": "number"},
+                "quien": {"type": "string", "enum": ["lucas", "pronostic"]},
+                "nota": {"type": "string"},
+            },
+            "required": ["id_partido", "mercado", "cuota", "monto", "quien"],
+        },
+    },
+    {
+        "name": "poner_banca",
+        "description": ("Guarda cuánta plata tiene Lucas para apostar. Sin esto "
+                        "no le podés decir cuánto poner en pesos."),
+        "input_schema": {
+            "type": "object",
+            "properties": {"monto": {"type": "number"}},
+            "required": ["monto"],
+        },
+    },
+    {
+        "name": "resolver",
+        "description": ("Cierra las apuestas que ya tienen marcador. Las de "
+                        "jugador quedan abiertas: no se deducen del marcador."),
+        "input_schema": {
+            "type": "object",
+            "properties": {"id_partido": {"type": "string"}},
+        },
+    },
 ]
 
 # Búsqueda web del lado del servidor: lesiones, técnico, clima, noticias.
@@ -216,6 +256,10 @@ EJECUTAR = {
     "stake": lambda a: D.stake(a["de_cada_cien"], a["cuota"], a.get("banca")),
     "banca": lambda a: D.banca(),
     "registro": lambda a: D.registro(a.get("limite", 30)),
+    "anotar": lambda a: D.anotar(a["id_partido"], a["mercado"], a["cuota"],
+                                 a["monto"], a["quien"], a.get("nota")),
+    "poner_banca": lambda a: D.poner_banca(a["monto"]),
+    "resolver": lambda a: D.resolver(a.get("id_partido")),
 }
 
 
@@ -329,6 +373,10 @@ def main():
                 continue
 
             print("<<", texto)
+            # El parte y el vigilante escriben sin que nadie les hable;
+            # de acá sacan a dónde.
+            D.recordar_chat(chat)
+
             if texto in ("/start", "/reset"):
                 charlas.pop(chat, None)
                 responder(chat, "Listo, arrancamos de cero. ¿Qué querés ver?")

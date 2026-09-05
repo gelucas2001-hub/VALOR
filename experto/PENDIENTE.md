@@ -20,7 +20,7 @@ agarra entero — no dos a la vez.
 | `vigilante.py` | ✅ Listo. Detecta movimiento de precio, cambio de once y cambio de número; probado que no repite y que no avisa de lo que pasó antes de la apuesta |
 | `memoria.json` + `anotar` | ✅ Listo. `anotar`, `poner_banca`, `resolver`, `recordar_chat`, escritura atómica |
 | `probar.py` | ✅ Listo. Chequeo de instalación sin gastar API — corrélo antes de diagnosticar nada |
-| `cierre.py` | ⬜ **Lo único de programa que falta.** Abajo |
+| `cierre.py` | ✅ Listo. Liquida 1X2, goles y jugador (cache local), mide CLV y balance Lucas vs Pronóstic con error estándar |
 | El goleador | ⬜ Una línea, abajo |
 
 ## Para arrancar

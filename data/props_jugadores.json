@@ -269142,6 +269142,22 @@
     "2.5": 2.75,
     "3.5": 5.5
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.2,
+    "3.5": 4.0,
+    "4.5": 8.0,
+    "5.5": 17.0
+   }
   }
  ],
  "espn401879286__remates__Evanilson": [
@@ -269197,6 +269213,24 @@
     "5.5": 6.0,
     "6.5": 11.0,
     "7.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.025,
+    "1.5": 1.142,
+    "3.5": 2.1,
+    "5.5": 6.0,
+    "6.5": 11.0,
+    "7.5": 21.0,
+    "2.5": 1.444,
+    "4.5": 3.4
    }
   }
  ],
@@ -269419,6 +269453,23 @@
     "5.5": 13.0,
     "6.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.062,
+    "2.5": 1.909,
+    "4.5": 6.0,
+    "1.5": 1.3,
+    "3.5": 3.25,
+    "5.5": 13.0,
+    "6.5": 21.0
+   }
   }
  ],
  "espn401879286__remates__Amine Adli": [
@@ -269538,6 +269589,23 @@
     "4.5": 8.0,
     "5.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.071,
+    "4.5": 7.0,
+    "6.5": 21.0,
+    "1.5": 1.363,
+    "2.5": 2.0,
+    "3.5": 3.5,
+    "5.5": 13.0
+   }
   }
  ],
  "espn401879286__remates__Marcus Tavernier": [
@@ -269603,6 +269671,22 @@
     "3.5": 4.0,
     "4.5": 9.0,
     "5.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.125,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "4.5": 11.0,
+    "5.5": 21.0
    }
   }
  ],
@@ -269672,6 +269756,22 @@
     "4.5": 13.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "3.5": 4.333,
+    "4.5": 9.0,
+    "0.5": 1.1,
+    "1.5": 1.5,
+    "2.5": 2.375,
+    "5.5": 19.0
+   }
   }
  ],
  "espn401879286__remates__Ben Doak": [
@@ -269720,6 +269820,21 @@
     "3.5": 6.0,
     "4.5": 13.0,
     "5.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.833,
+    "2.5": 3.75,
+    "3.5": 8.0,
+    "4.5": 19.0
    }
   }
  ],
@@ -269787,6 +269902,21 @@
     "3.5": 6.0,
     "4.5": 13.0,
     "5.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.833,
+    "2.5": 3.75,
+    "3.5": 8.0,
+    "4.5": 19.0
    }
   }
  ],
@@ -269962,6 +270092,20 @@
     "2.5": 7.0,
     "3.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.0,
+    "3.5": 15.0
+   }
   }
  ],
  "espn401879286__remates__Malick Thiaw": [
@@ -270036,6 +270180,20 @@
     "2.5": 9.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 7.0,
+    "3.5": 19.0
+   }
   }
  ],
  "espn401879286__remates__Nico Gonzalez": [
@@ -270093,6 +270251,20 @@
     "1.5": 3.4,
     "2.5": 9.0,
     "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 7.0,
+    "3.5": 19.0
    }
   }
  ],
@@ -270397,6 +270569,20 @@
     "2.5": 7.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "1.5": 2.75,
+    "2.5": 7.0,
+    "3.5": 21.0,
+    "0.5": 1.363
+   }
   }
  ],
  "espn401879286__al_arco__Harvey Barnes": [
@@ -270440,6 +270626,20 @@
    "lineas": {
     "0.5": 1.4,
     "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "1.5": 2.75,
+    "0.5": 1.4,
     "2.5": 8.0,
     "3.5": 21.0
    }
@@ -270499,6 +270699,19 @@
     "0.5": 1.533,
     "2.5": 11.0,
     "1.5": 3.5
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "1.5": 3.5,
+    "0.5": 1.5,
+    "2.5": 10.0
    }
   }
  ],
@@ -270568,6 +270781,19 @@
     "0.5": 1.615,
     "1.5": 4.0,
     "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.75,
+    "2.5": 11.0
    }
   }
  ],
@@ -270707,6 +270933,19 @@
     "1.5": 5.5,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 13.0
+   }
   }
  ],
  "espn401879286__al_arco__Ben Doak": [
@@ -270747,6 +270986,19 @@
     "0.5": 1.833,
     "1.5": 6.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.1,
+    "1.5": 7.0
    }
   }
  ],
@@ -270804,6 +271056,19 @@
     "1.5": 6.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.1,
+    "1.5": 7.0
+   }
   }
  ],
  "espn401879286__al_arco__Marcus Tavernier": [
@@ -270842,6 +271107,19 @@
    "lado": "V",
    "lineas": {
     "0.5": 1.833,
+    "1.5": 6.0,
+    "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.909,
     "1.5": 6.0,
     "2.5": 21.0
    }
@@ -271009,6 +271287,18 @@
     "0.5": 2.75,
     "1.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.625,
+    "1.5": 11.0
+   }
   }
  ],
  "espn401879286__al_arco__Aladji Bamba": [
@@ -271058,6 +271348,18 @@
    "lineas": {
     "0.5": 3.25,
     "1.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 13.0
    }
   }
  ],
@@ -271122,6 +271424,18 @@
    "lineas": {
     "0.5": 3.25,
     "1.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T07:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Newcastle United",
+   "away": "AFC Bournemouth",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 13.0
    }
   }
  ],

@@ -7492,3 +7492,93 @@ no se la puede probar ahí. La regla de lenguaje de §35 sigue en pie.
 Volver a correr `--censo`. Si `faltas` en arg.1 llega a `n >= 6`, ahí
 empieza a haber muestra de verdad para la capa 2 — y conviene correrla
 con la regla exactamente como está, sin tocar un umbral.
+
+## 43. Pronóstic: el producto se replantea desde arriba (2026-09-05)
+
+Sale de una sesión entera de diseño con Lucas, no de una medición nueva.
+La frase que la abrió: *"tenemos mucho análisis, muchos datos y muchas
+herramientas, pero falta convertir eso en criterio, orientación y una
+respuesta útil"*.
+
+Vive en la rama **`pronostic`**. **No toca `actualizar.py`, el motor, ni
+el contrato de `data/partidos.json`.** Detalle completo en
+`docs/superpowers/specs/2026-09-05-pronostic-diseno.md`; en `CLAUDE.md`
+está la tabla de archivos.
+
+### El diagnóstico, y no era la interfaz
+
+De los 32 análisis cargados entre el 1 y el 4 de septiembre, **29 tienen
+`inclinacion: null`**; los otros 3 son `E`. Cero `L`, cero `V`. Como
+`inclinacion` es la llave de `marcaDeValor()`, la app no marcó nada en
+ninguno de los 32.
+
+No es un bug: es el principio K de la skill, que prohíbe inclinar por
+forma, tabla, localía o fuerza — el 90% de lo que hace legible un
+partido. El caso que lo muestra entero es el veredicto de Estudiantes de
+Río Cuarto–Sarmiento del 4/9, que **describe un partido desparejo y se
+niega a concluirlo porque la conclusión es obvia**.
+
+**La causa raíz: un solo campo hace dos trabajos incompatibles.** Es el
+instrumento de medición (ortogonal a λ, para poder medir si la capa
+cualitativa aporta) y es la opinión del producto. La regla que lo hace
+bueno como instrumento es la que lo deja mudo como producto. §40 llegó al
+mismo lugar desde el otro lado y dejó la pregunta abierta.
+
+**La solución no toca el experimento.** `inclinacion` queda exactamente
+igual. La opinión pasa a una capa nueva que puede coincidir con el
+modelo — coincidir es confirmar, y confirmar es información.
+
+### Tres decisiones de producto, tomadas por Lucas
+
+1. **Arma boleta siempre, con la etiqueta puesta.** No espera a tener
+   ventaja demostrada: dice qué jugaría, a qué precio, cuánto y qué la
+   rompe, y dice con todas las letras cuándo no le gana al mercado.
+   *La honestidad va en la etiqueta, no en el silencio.*
+2. **Las dos superficies**: da la jugada **y** audita las ideas de Lucas.
+3. **Cobertura completa**: populares y de estadística. No se achica a un
+   nicho — un intento intermedio de hacerlo fue rechazado y con razón.
+
+### Lo verificado de paso, que cambia cosas de acá
+
+- **`medir_metamodelo.py:201` no calcula lo que dice.** La variable
+  `volatilidad` computa `abs(p_local − p_visitante)` —desbalance— y el
+  diccionario de la línea 149 la documenta como *"varianza reciente"*.
+  La correlación −0.245 con el error absoluto es real, pero es en buena
+  parte una propiedad de la escala, no un hallazgo. **§30 se lee mal si
+  uno confía en el nombre.**
+- **`cuotas.json` tiene el movimiento de la línea y nadie lo miraba.**
+  123 partidos con fotos con hora. En Platense–Riestra el local abrió
+  2.25 y cerró 2.65, el visitante 3.65 → 3.10: el mercado se movió fuerte
+  hacia Riestra en tres días, coincidiendo con la rotación por
+  Libertadores. Lo mismo en `props_jugadores.json`, con 12.221 líneas.
+- **El goleador está a una línea.** `mercado_extra.py:159` baja solo
+  remates, al arco y faltas de jugador; el comentario del propio archivo
+  dice que en arg.1 queda `"Player To Score or Assist"` sin usar.
+- **Bet365 le gana al modelo en las ocho líneas de gol** de los dos
+  partidos del 4/9 que se revisaron: el mercado está por encima de
+  nuestro número en todas, sistemáticamente.
+
+### Estado al cierre
+
+Construido y probado sin gastar API: `voz.md`, `datos.py` (12
+herramientas), `motor.py`, `bot.py`, `informe.py`, `vigilante.py`,
+`memoria.json`. **Nunca se corrió contra un modelo real** — no había
+clave. Es lo primero que puede fallar.
+
+Falta `cierre.py` (el que mide a Lucas contra el asesor), el goleador, y
+mudarlo a un servidor.
+
+### Lo que queda abierto, y es lo único que importa ahora
+
+**Si la voz suena a experto.** Todo lo demás es ingeniería resuelta; eso
+no se sabe hasta usarlo. Y no se cierra con otra auditoría: este diseño
+encontró 10 huecos en dos pasadas y después 4 más en una tercera, lo que
+prueba que auditar desde la silla no converge. **Lo cierra una fecha
+real**, y cada vez que Lucas quede con ganas de algo que el asesor no
+hizo, eso es un campo 23.
+
+Nota de contexto que condiciona todo: **Lucas no paga API.** La ruta por
+defecto es el nivel gratuito de Gemini, y su suscripción Gemini Pro
+**no** da acceso a la API (es de interfaz de chat) — pero sí funciona
+dentro de Antigravity, así que el modo de `experto/SIN_CLAVE.md` corre
+con mejor modelo que el bot.

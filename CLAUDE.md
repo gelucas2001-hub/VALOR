@@ -83,6 +83,47 @@ tarea: leé las secciones que aplican a lo que vas a tocar.
 | `data/analisis.json` | Análisis cualitativo, carga manual. El cron **nunca** lo toca | A mano |
 | `data/analisis_estadisticas.json` | El **segundo mercado** del partido: córners, remates, al arco, faltas, tarjetas y que jugador las produce. Lo escribe la skill `valor-analisis-estadisticas` y llena la `lectura` de los ejes Dominio y Jugadores. Carga manual; el cron **nunca** lo toca | A mano |
 
+## `experto/` — Pronóstic, el asesor conversacional (2026-09-05)
+
+**Rama `pronostic`, no `main`.** Es la dirección nueva del producto y no
+toca nada de lo de arriba: `actualizar.py`, el motor y el contrato de
+`partidos.json` quedan igual. Pronóstic **lee**.
+
+**Por qué existe.** VALOR no orientaba, y la causa no era la interfaz:
+`inclinacion` hacía dos trabajos incompatibles —el instrumento de
+medición ortogonal a λ, y la opinión del producto—, y la regla que lo
+hace bueno como instrumento (principio K: *"si el modelo ya lo sabe, es
+`null`"*) lo deja mudo como producto. Medido: **29 de 32 análisis del 1
+al 4 de septiembre salieron `null`** y la app no marcó nada en ninguno.
+Pronóstic separa las dos cosas **sin tocar el experimento**.
+
+| Archivo | Qué hace | Quién lo toca |
+|---|---|---|
+| `docs/superpowers/specs/2026-09-05-pronostic-diseno.md` | **La carta.** El diagnóstico con evidencia, la licencia de qué puede afirmar (cada fila trazada a una medición), los **22 campos** contra los que se audita, y la arquitectura. **Leelo antes de tocar `experto/`** | A mano |
+| `experto/voz.md` | El prompt del asesor: las cuatro reglas madre, el idioma, el formato del informe. **Se ajusta usándolo, no leyéndolo** | A mano |
+| `experto/datos.py` | Las 12 herramientas sobre los JSON que ya escribe el cron. **Biblioteca estándar y sin IA adentro** — por eso lo puede importar cualquiera. Importa la matriz de `backtest.py` y el devig de `medir_clv.py` en vez de reimplementarlos | Con cuidado |
+| `experto/motor.py` | **El único archivo que sabe de un proveedor.** Elige Gemini (nivel gratuito) o Claude según la clave del entorno, y no hardcodea el modelo: se lo pregunta a la API | Con cuidado |
+| `experto/bot.py` | Telegram ↔ motor. Declara las herramientas y las ejecuta; no sabe con qué modelo habla | A mano |
+| `experto/informe.py` | El parte de la fecha, empujado solo | A mano |
+| `experto/vigilante.py` | Corre cada hora y **escribe sin que le pregunten**: se movió el precio, cambió el once, cambió el número. Solo en partidos con plata puesta | A mano |
+| `experto/memoria.json` | Banca, apuestas y preferencias de Lucas. **No versionado** (`.gitignore`). El campo `quien` (`lucas`/`pronostic`) es lo que después deja medir a cada uno por separado — no sacarlo | Lo escribe el bot |
+| `experto/PENDIENTE.md` | Qué falta y en qué orden | A mano |
+| `experto/ARRANCAR.md` | Cómo se pone a andar | A mano |
+| `experto/SIN_CLAVE.md` | Cómo hacer de asesor desde Antigravity/OpenCode/Hermes **sin ninguna clave de API** | A mano |
+
+**Tres reglas propias de esta carpeta:**
+
+- **Los datos salen de las herramientas; el razonamiento es propio.** El
+  modelo nunca escribe una cuota de memoria ni rehace una cuenta. Pero
+  el conocimiento futbolístico general sí es suyo — la línea exacta está
+  en la regla 1 de `voz.md`.
+- **Ningún archivo nuevo se ata a un proveedor.** Si hace falta hablarle
+  a un modelo, se hace por `motor.py`. Lucas **no paga API**: la ruta por
+  defecto es el nivel gratuito de Gemini.
+- **No sacar los avisos que devuelve `datos.py`** (córners por equipo
+  medidos peor que la casa, el 30% de cotizados que no arranca, la
+  frescura del precio). Son mediciones del repo, no adornos.
+
 ## Las DOS skills del partido, y cuál escribe qué
 
 Desde el 2026-08-31 un partido tiene **dos mercados** y una skill para

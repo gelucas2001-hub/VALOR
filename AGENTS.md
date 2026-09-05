@@ -51,6 +51,20 @@ si contradice, gana `TRASPASO.md`).
 Detalle, ejemplos y números de cada una de estas: `CLAUDE.md` y
 `TRASPASO.md`.
 
+## Trabajo en curso: Pronóstic (rama `pronostic`)
+
+`experto/` es la dirección nueva del producto — un asesor conversacional
+sobre los mismos datos. **No toca `actualizar.py`, el motor ni el
+contrato de `partidos.json`.**
+
+Antes de tocar nada ahí, leé en este orden:
+`docs/superpowers/specs/2026-09-05-pronostic-diseno.md` (la carta, con
+los 22 campos contra los que se audita) → `experto/PENDIENTE.md` (qué
+falta) → `experto/ARRANCAR.md` (cómo se corre).
+
+Para **usarlo** sin ninguna clave de API desde tu propia herramienta:
+`experto/SIN_CLAVE.md`.
+
 ## Para evitar el problema que originó este archivo
 
 **Una herramienta por área.** Si vas a usar otra IA en paralelo, que sea

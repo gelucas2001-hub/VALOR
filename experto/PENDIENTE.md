@@ -21,7 +21,7 @@ agarra entero — no dos a la vez.
 | `memoria.json` + `anotar` | ✅ Listo. `anotar`, `poner_banca`, `resolver`, `recordar_chat`, escritura atómica |
 | `probar.py` | ✅ Listo. Chequeo de instalación sin gastar API — corrélo antes de diagnosticar nada |
 | `cierre.py` | ✅ Listo. Liquida 1X2, goles y jugador (cache local), mide CLV y balance Lucas vs Pronóstic con error estándar |
-| El goleador | ⬜ Una línea, abajo |
+| El goleador | ⬜ **NO es una línea** — hay que verificar la forma primero. Abajo |
 
 ## Para arrancar
 
@@ -115,41 +115,74 @@ pierde el canal entero.
 
 ---
 
-## 4 · `cierre.py` — cómo salió, y quién acierta
+## 4 · `cierre.py` — ✅ HECHO, y cómo quedó
 
-Corre a la mañana siguiente.
+Lo escribió Antigravity el 2026-09-05. **La liquidación no sale a la red**:
+`data/cache_disciplina.json` ya trae las estadísticas por jugador y por
+partido, escritas por `jugadores_partido()` de `actualizar.py`.
 
-1. Cruza `memoria.json → apuestas` abiertas contra `data/resultados.json`.
-2. Resuelve las de resultado y goles solas. **Las de jugador NO se pueden
-   resolver del marcador** — hay que pedir los remates del `/summary` de
-   ESPN, que ya baja `actualizar.py`.
-3. Manda un mensaje corto con qué salió, y **una vez por semana** el
-   corte que importa: cómo viene lo que propuso el asesor contra lo que
-   propuso Lucas, separado por `quien`.
+```
+clave  = id del partido SIN el prefijo "espn"
+_jugadores[id_jugador] = [remates, al_arco, faltas, amarillas, goles, asist, titular]
+```
 
-**Cuidado con el lenguaje.** Con menos de ~50 apuestas cerradas no se
-dice "acertás más en X": se dice "vamos por acá, todavía es poca
-muestra". Es la misma regla de §35 del `TRASPASO` — sin muestra se
-escribe *no concluyente*, nunca *no funciona*.
+Y solo entran los que jugaron: **si un jugador no está en ese
+diccionario, no jugó** → apuesta nula, devolución 0. No hay que
+inferirlo.
+
+**"Mala apuesta vs mala suerte" se resuelve con CLV, no con opinión.**
+Con un modelo calibrado, una apuesta al 30% que pierde no es evidencia
+de nada. Se compara el precio de entrada contra la última foto de
+`cuotas.json` / `props_jugadores.json`, en **puntos de probabilidad
+implícita** (`1/cierre − 1/entrada`), nunca en cociente — `medir_props.py`
+documenta por qué.
+
+Tres cosas que se arreglaron después y conviene no volver a romper:
+
+- **Los nombres cruzan solo por igualdad exacta.** Había un `in` que
+  hacía cruzar "Celiz" con "Milton Celiz".
+- **Un mercado de jugador termina el flujo ahí.** Si cae al bloque de
+  `cuotas.json`, "más de 1.5 remates" matchea contra la línea de GOLES y
+  devuelve el precio del over como si fuera del jugador.
+- **Una línea que no se movió no es un CLV de cero.** `linea_clavada()`
+  lo distingue; sin eso se informa 0 como si midiera algo.
+
+Verificado contra `espn401841485` (2-1): 1X2 ganado, under perdido,
+jugador con 0 remates perdido, y nula al que no jugó.
+
+**Lo que le falta:** el corte semanal Lucas vs Pronóstic no se probó
+nunca con apuestas cerradas de verdad — hasta hoy siempre dio 0.
 
 ---
 
 ## 5 · El goleador — una línea
 
-`mercado_extra.py:159` baja solo tres mercados de jugador. El comentario
-de arriba dice que en arg.1 queda un bloque sin usar. Agregar:
+**Corrección del 2026-09-05: dije tres veces que era una línea y no lo
+verifiqué. Probablemente no lo sea.**
 
-```python
-JUGADOR = {
-    "remates": ("Player Shots", "Player Shots O/U"),
-    "al_arco": ("Player Shots on Target", "Player Shots on Target O/U"),
-    "faltas": ("Player Fouls Committed", "Player Fouls"),
-    "gol_o_asistencia": ("Player To Score or Assist",),   # ← nuevo
-}
+`mercado_extra.py:159` baja tres mercados de jugador y el comentario de
+arriba dice que en arg.1 queda `"Player To Score or Assist"` sin usar.
+Agregarlo al dict `JUGADOR` es una línea, sí — pero `_escalera()` exige
+una forma concreta y ese mercado probablemente no la tenga:
+
+```
+label  tiene que terminar en "(1)" o "(2)"     ← el lado
+hdp    tiene que traer un número                ← la línea
+over   tiene que traer una cuota
 ```
 
-Correr `test_mercado_extra.py` después. Que un mercado no venga en una
-liga es estado normal: `extraer()` no escribe la clave y listo.
+Hacer un gol o dar una asistencia es **sí o no, no una escalera**. Si
+falta `hdp`, `_escalera()` **descarta cada entrada en silencio** y la
+clave sale vacía: no falla, no avisa, simplemente no hay goleador. Es el
+mismo motivo por el que ya están excluidos `"Player Cards"` (no trae
+`hdp`) y `"Player to be Booked"` (la etiqueta es "Nombre (Booked)" y el
+nombre nunca cruzaría contra ESPN).
+
+**Antes de tocar nada, pedile el bloque a la fuente y mirá una entrada.**
+Si viene con `hdp` y `(1)/(2)`, es una línea. Si no, hay que enseñarle a
+`_escalera()` otra forma, y eso ya no es una línea.
+
+Y no es urgente: el goleador es un mercado más, no un hueco del producto.
 
 ---
 

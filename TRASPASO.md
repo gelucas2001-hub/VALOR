@@ -7551,9 +7551,15 @@ modelo — coincidir es confirmar, y confirmar es información.
   2.25 y cerró 2.65, el visitante 3.65 → 3.10: el mercado se movió fuerte
   hacia Riestra en tres días, coincidiendo con la rotación por
   Libertadores. Lo mismo en `props_jugadores.json`, con 12.221 líneas.
-- **El goleador está a una línea.** `mercado_extra.py:159` baja solo
-  remates, al arco y faltas de jugador; el comentario del propio archivo
-  dice que en arg.1 queda `"Player To Score or Assist"` sin usar.
+- **El goleador NO está a una línea, y esa afirmación se hizo tres veces
+  sin verificarla.** `mercado_extra.py:159` baja remates, al arco y
+  faltas, y el comentario del archivo dice que en arg.1 queda
+  `"Player To Score or Assist"` sin usar. Pero `_escalera()` exige
+  `label` terminado en "(1)"/"(2)" y un `hdp` numérico, y hacer un gol es
+  sí o no, no una escalera. Sin `hdp`, `_escalera()` **descarta cada
+  entrada en silencio** y la clave sale vacía — el mismo motivo por el
+  que ya están excluidos `"Player Cards"` y `"Player to be Booked"`. Hay
+  que mirar el bloque en la fuente antes de asumir.
 - **Bet365 le gana al modelo en las ocho líneas de gol** de los dos
   partidos del 4/9 que se revisaron: el mercado está por encima de
   nuestro número en todas, sistemáticamente.

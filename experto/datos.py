@@ -584,11 +584,15 @@ def revisar_boleta(patas):
 
 
 def stake(de_cada_cien, cuota, banca=None):
-    """Cuánto poner. Kelly fraccional con tope, copiado de index.html:1569.
+    """Cuánto poner, como fracción de la banca.
 
-    Se usa un cuarto de Kelly porque la ventaja del modelo NO está
-    demostrada: Kelly pleno supone que la probabilidad propia es
-    correcta, y eso es justo lo que las mediciones no sostienen.
+        f = (p·b − (1−p)) / b,  con b = cuota − 1
+
+    Es Kelly, y la fórmula está acá entera a propósito: no depende de
+    ningún archivo del producto anterior. Se usa **un cuarto** de lo que
+    da, con tope, porque Kelly pleno supone que la probabilidad propia es
+    correcta — y eso es justo lo que las mediciones de este repo no
+    sostienen.
     """
     p = de_cada_cien / 100.0 if de_cada_cien > 1 else de_cada_cien
     b = cuota - 1

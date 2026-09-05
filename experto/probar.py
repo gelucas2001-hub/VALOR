@@ -7,7 +7,6 @@ No gasta un solo pedido de API. Sirve para saber si el problema es la
 instalación o es otra cosa, antes de empezar a culpar al código.
 """
 
-import json
 import os
 import sys
 

@@ -216769,6 +216769,23 @@
     "6.5": 21.0,
     "2.5": 1.833
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "3.5": 3.0,
+    "4.5": 5.5,
+    "5.5": 11.0,
+    "6.5": 21.0,
+    "2.5": 1.8
+   }
   }
  ],
  "espn401879289__remates__Eddie Nketiah": [
@@ -216822,6 +216839,23 @@
     "4.5": 6.0,
     "5.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "6.5": 21.0,
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "2.5": 1.833,
+    "3.5": 3.0,
+    "4.5": 5.5,
+    "5.5": 11.0
+   }
   }
  ],
  "espn401879289__remates__Gonzalo Garcia": [
@@ -216858,6 +216892,23 @@
     "6.5": 21.0,
     "2.5": 1.8
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "3.5": 3.0,
+    "4.5": 5.5,
+    "5.5": 11.0,
+    "6.5": 21.0,
+    "2.5": 1.833
+   }
   }
  ],
  "espn401879289__remates__Jonah Kusi-Asare": [
@@ -216893,6 +216944,23 @@
     "5.5": 11.0,
     "6.5": 21.0,
     "2.5": 1.8
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "3.5": 3.0,
+    "4.5": 5.5,
+    "5.5": 11.0,
+    "6.5": 21.0,
+    "2.5": 1.833
    }
   }
  ],
@@ -217528,6 +217596,20 @@
     "2.5": 9.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.25,
+    "2.5": 8.0,
+    "3.5": 19.0
+   }
   }
  ],
  "espn401879289__remates__Timothy Castagne": [
@@ -217587,6 +217669,20 @@
     "0.5": 1.666,
     "1.5": 3.75,
     "2.5": 11.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0
    }
   }
  ],
@@ -217748,6 +217844,19 @@
     "1.5": 5.0,
     "2.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
   }
  ],
  "espn401879289__remates__Sander Berge": [
@@ -217791,6 +217900,19 @@
     "1.5": 5.0,
     "2.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
   }
  ],
  "espn401879289__remates__Will Hughes": [
@@ -217818,6 +217940,19 @@
     "0.5": 1.833,
     "1.5": 5.0,
     "2.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.333,
+    "2.5": 13.0
    }
   }
  ],
@@ -218255,6 +218390,20 @@
     "1.5": 2.625,
     "3.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "L",
+   "lineas": {
+    "2.5": 7.0,
+    "0.5": 1.4,
+    "1.5": 2.75,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401879289__al_arco__Jorgen Larsen": [
@@ -218284,6 +218433,20 @@
     "0.5": 1.5,
     "1.5": 3.4,
     "2.5": 10.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.444,
+    "1.5": 3.25,
+    "2.5": 9.0
    }
   }
  ],
@@ -218328,6 +218491,20 @@
     "1.5": 3.5,
     "2.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 10.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401879289__al_arco__Jonah Kusi-Asare": [
@@ -218357,6 +218534,20 @@
     "0.5": 1.444,
     "1.5": 3.25,
     "2.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "L",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 10.0
    }
   }
  ],
@@ -218854,6 +219045,18 @@
     "0.5": 3.4,
     "1.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 15.0
+   }
   }
  ],
  "espn401879289__al_arco__Cheick Doucoure": [
@@ -218905,6 +219108,18 @@
    "lineas": {
     "0.5": 3.5,
     "1.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.4,
+    "1.5": 17.0
    }
   }
  ],
@@ -219010,6 +219225,18 @@
     "0.5": 3.75,
     "1.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.75,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401879289__al_arco__Oscar Mingueza": [
@@ -219035,6 +219262,18 @@
    "lineas": {
     "0.5": 3.75,
     "1.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.75,
+    "1.5": 19.0
    }
   }
  ],
@@ -219062,6 +219301,18 @@
     "0.5": 3.75,
     "1.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401879289__al_arco__Will Hughes": [
@@ -219087,6 +219338,18 @@
    "lineas": {
     "0.5": 3.75,
     "1.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.75,
+    "1.5": 19.0
    }
   }
  ],
@@ -219454,6 +219717,25 @@
     "7.5": 11.0,
     "8.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.083,
+    "2.5": 1.285,
+    "3.5": 1.727,
+    "4.5": 2.5,
+    "5.5": 4.0,
+    "6.5": 7.0,
+    "7.5": 13.0,
+    "8.5": 21.0,
+    "0.5": 1.01
+   }
   }
  ],
  "espn401879287__remates__Claudio Echeverri": [
@@ -219531,6 +219813,25 @@
     "7.5": 17.0,
     "5.5": 5.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.02,
+    "1.5": 1.125,
+    "2.5": 1.4,
+    "3.5": 1.909,
+    "4.5": 3.25,
+    "5.5": 5.5,
+    "6.5": 10.0,
+    "8.5": 21.0,
+    "7.5": 17.0
+   }
   }
  ],
  "espn401879287__remates__Jeremy Monga": [
@@ -219571,6 +219872,24 @@
     "6.5": 11.0,
     "7.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.03,
+    "1.5": 1.2,
+    "2.5": 1.571,
+    "3.5": 2.375,
+    "4.5": 4.0,
+    "5.5": 8.0,
+    "6.5": 15.0,
+    "7.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Ryan McAidoo": [
@@ -219589,6 +219908,24 @@
     "4.5": 3.5,
     "5.5": 6.0,
     "6.5": 11.0,
+    "7.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.03,
+    "1.5": 1.2,
+    "2.5": 1.571,
+    "3.5": 2.375,
+    "4.5": 4.0,
+    "5.5": 8.0,
+    "6.5": 15.0,
     "7.5": 21.0
    }
   }
@@ -219667,6 +220004,24 @@
     "5.5": 6.5,
     "6.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.181,
+    "2.5": 1.571,
+    "3.5": 2.375,
+    "5.5": 7.0,
+    "0.5": 1.03,
+    "4.5": 3.75,
+    "6.5": 13.0,
+    "7.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Allan Andrade": [
@@ -219740,6 +220095,24 @@
     "0.5": 1.04,
     "4.5": 4.333
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.222,
+    "2.5": 1.666,
+    "3.5": 2.625,
+    "4.5": 4.5,
+    "5.5": 9.0,
+    "6.5": 17.0,
+    "7.5": 21.0,
+    "0.5": 1.04
+   }
   }
  ],
  "espn401879287__remates__Jeremy Doku": [
@@ -219796,6 +220169,23 @@
     "5.5": 11.0,
     "6.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.062,
+    "1.5": 1.333,
+    "2.5": 1.909,
+    "3.5": 3.4,
+    "4.5": 6.5,
+    "5.5": 13.0,
+    "6.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Ayyoub Bouaddi": [
@@ -219812,6 +220202,22 @@
     "2.5": 2.5,
     "3.5": 4.5,
     "4.5": 10.0,
+    "5.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "4.5": 13.0,
     "5.5": 21.0
    }
   }
@@ -219894,6 +220300,22 @@
     "4.5": 13.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 10.0,
+    "4.5": 21.0,
+    "5.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Elliot Anderson": [
@@ -219910,6 +220332,22 @@
     "2.5": 3.25,
     "3.5": 6.5,
     "4.5": 15.0,
+    "5.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.833,
+    "2.5": 3.75,
+    "3.5": 8.0,
+    "4.5": 19.0,
     "5.5": 21.0
    }
   }
@@ -219929,6 +220367,21 @@
     "3.5": 6.5,
     "4.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.222,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 8.0,
+    "4.5": 19.0
+   }
   }
  ],
  "espn401879287__remates__Mateo Kovacic": [
@@ -219945,6 +220398,21 @@
     "2.5": 3.75,
     "3.5": 8.0,
     "4.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 10.0,
+    "4.5": 21.0
    }
   }
  ],
@@ -220023,6 +220491,21 @@
     "3.5": 8.0,
     "4.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0,
+    "4.5": 19.0
+   }
   }
  ],
  "espn401879287__remates__Marc Guehi": [
@@ -220039,6 +220522,21 @@
     "2.5": 3.75,
     "3.5": 8.0,
     "4.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.285,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 21.0
    }
   }
  ],
@@ -220126,6 +220624,21 @@
     "1.5": 2.1,
     "2.5": 4.333,
     "3.5": 10.0,
+    "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.0,
+    "3.5": 15.0,
     "4.5": 21.0
    }
   }
@@ -220452,6 +220965,20 @@
     "2.5": 9.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Jack Rudoni": [
@@ -220495,6 +221022,20 @@
     "1.5": 3.0,
     "2.5": 7.0,
     "3.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
    }
   }
  ],
@@ -220554,6 +221095,20 @@
     "0.5": 1.533,
     "1.5": 3.4,
     "2.5": 9.0,
+    "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
     "3.5": 21.0
    }
   }
@@ -220706,6 +221261,20 @@
     "2.5": 9.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Tatsuhiro Sakamoto": [
@@ -220750,6 +221319,20 @@
     "2.5": 9.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.0,
+    "2.5": 11.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Abduqodir Khusanov": [
@@ -220766,6 +221349,20 @@
     "2.5": 11.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.0,
+    "3.5": 21.0,
+    "2.5": 11.0
+   }
   }
  ],
  "espn401879287__remates__Rico Lewis": [
@@ -220781,6 +221378,20 @@
     "1.5": 3.75,
     "2.5": 11.0,
     "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.0,
+    "3.5": 21.0,
+    "2.5": 11.0
    }
   }
  ],
@@ -220940,6 +221551,19 @@
     "1.5": 8.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 11.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401879287__remates__Aurele Amenda": [
@@ -220954,6 +221578,18 @@
     "0.5": 2.75,
     "1.5": 10.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 11.0
+   }
   }
  ],
  "espn401879287__remates__Ethan Pinnock": [
@@ -220967,6 +221603,18 @@
    "lineas": {
     "0.5": 2.75,
     "1.5": 10.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 11.0
    }
   }
  ],
@@ -220995,6 +221643,18 @@
    "lineas": {
     "0.5": 2.75,
     "1.5": 10.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 11.0
    }
   }
  ],
@@ -221185,6 +221845,27 @@
     "10.5": 15.0,
     "11.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.012,
+    "2.5": 1.062,
+    "3.5": 1.181,
+    "4.5": 1.4,
+    "5.5": 1.833,
+    "6.5": 2.5,
+    "7.5": 3.75,
+    "8.5": 6.0,
+    "9.5": 10.0,
+    "10.5": 17.0,
+    "11.5": 21.0
+   }
   }
  ],
  "espn401879287__al_arco__Erling Haaland": [
@@ -221203,6 +221884,22 @@
     "4.5": 8.0,
     "5.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.363,
+    "2.5": 2.1,
+    "5.5": 19.0,
+    "0.5": 1.062,
+    "3.5": 3.75,
+    "4.5": 8.0
+   }
   }
  ],
  "espn401879287__al_arco__Antoine Semenyo": [
@@ -221220,6 +221917,21 @@
     "3.5": 9.0,
     "4.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.181,
+    "3.5": 10.0,
+    "4.5": 21.0,
+    "1.5": 1.833,
+    "2.5": 3.75
+   }
   }
  ],
  "espn401879287__al_arco__Phil Foden": [
@@ -221236,6 +221948,20 @@
     "2.5": 5.5,
     "3.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 7.0,
+    "3.5": 19.0
+   }
   }
  ],
  "espn401879287__al_arco__Ryan McAidoo": [
@@ -221251,6 +221977,20 @@
     "1.5": 2.375,
     "2.5": 5.5,
     "3.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 7.0,
+    "3.5": 19.0
    }
   }
  ],
@@ -221309,6 +222049,20 @@
     "2.5": 5.5,
     "3.5": 15.0,
     "0.5": 1.3
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 17.0
    }
   }
  ],
@@ -221400,6 +222154,20 @@
     "0.5": 1.4,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "0.5": 1.4,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401879287__al_arco__Rayan Cherki": [
@@ -221443,6 +222211,20 @@
     "2.5": 8.0,
     "3.5": 21.0,
     "1.5": 3.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.25,
+    "2.5": 9.0,
+    "3.5": 21.0
    }
   }
  ],
@@ -221489,6 +222271,19 @@
     "1.5": 3.75,
     "2.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 13.0
+   }
   }
  ],
  "espn401879287__al_arco__Ayyoub Bouaddi": [
@@ -221503,6 +222298,19 @@
     "0.5": 1.727,
     "1.5": 4.5,
     "2.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 19.0
    }
   }
  ],
@@ -221571,6 +222379,19 @@
     "1.5": 6.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 9.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401879287__al_arco__Ellis Simms": [
@@ -221584,6 +222405,19 @@
    "lineas": {
     "0.5": 1.909,
     "1.5": 6.0,
+    "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.1,
+    "1.5": 7.0,
     "2.5": 21.0
    }
   }
@@ -221662,6 +222496,19 @@
     "1.5": 7.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401879287__al_arco__Mateo Kovacic": [
@@ -221675,6 +222522,19 @@
    "lineas": {
     "0.5": 2.1,
     "1.5": 7.0,
+    "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 9.0,
     "2.5": 21.0
    }
   }
@@ -221767,6 +222627,19 @@
     "1.5": 7.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401879287__al_arco__Elliot Anderson": [
@@ -221781,6 +222654,18 @@
     "0.5": 2.2,
     "1.5": 8.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.375,
+    "1.5": 10.0
+   }
   }
  ],
  "espn401879287__al_arco__Marc Guehi": [
@@ -221794,6 +222679,18 @@
    "lineas": {
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
    }
   }
  ],
@@ -222069,6 +222966,18 @@
     "0.5": 3.25,
     "1.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "1.5": 17.0,
+    "0.5": 3.25
+   }
   }
  ],
  "espn401879287__al_arco__Victor Torp": [
@@ -222094,6 +223003,18 @@
    "lineas": {
     "0.5": 3.25,
     "1.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "1.5": 17.0,
+    "0.5": 3.25
    }
   }
  ],
@@ -222132,6 +223053,18 @@
    "lineas": {
     "0.5": 3.25,
     "1.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
    }
   }
  ],
@@ -222249,6 +223182,18 @@
     "0.5": 3.25,
     "1.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401879287__al_arco__Abduqodir Khusanov": [
@@ -222262,6 +223207,18 @@
    "lineas": {
     "0.5": 3.4,
     "1.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
    }
   }
  ],
@@ -222277,6 +223234,18 @@
     "0.5": 3.4,
     "1.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401879287__al_arco__Ruben Dias": [
@@ -222290,6 +223259,18 @@
    "lineas": {
     "0.5": 3.4,
     "1.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
    }
   }
  ],
@@ -222386,6 +223367,17 @@
    "lineas": {
     "0.5": 6.5
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 7.0
+   }
   }
  ],
  "espn401879287__al_arco__Bobby Thomas": [
@@ -222411,6 +223403,17 @@
    "lado": "V",
    "lineas": {
     "0.5": 6.5
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 7.0
    }
   }
  ],
@@ -222556,6 +223559,17 @@
    "lineas": {
     "0.5": 5.5
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 7.0
+   }
   }
  ],
  "espn401879287__al_arco__Miguel Brau": [
@@ -222603,6 +223617,17 @@
    "lado": "V",
    "lineas": {
     "0.5": 6.5
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "V",
+   "lineas": {
+    "0.5": 7.0
    }
   }
  ],
@@ -223559,6 +224584,20 @@
     "2.5": 5.5,
     "3.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Nottingham Forest",
+   "away": "Tottenham Hotspur",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 5.5,
+    "3.5": 15.0
+   }
   }
  ],
  "espn401878780__remates__Callum Hudson-Odoi": [
@@ -223798,6 +224837,21 @@
     "3.5": 8.0,
     "4.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Nottingham Forest",
+   "away": "Tottenham Hotspur",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.8,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 15.0
+   }
   }
  ],
  "espn401878780__remates__Luca Williams-Barnet": [
@@ -223829,6 +224883,21 @@
     "2.5": 3.75,
     "3.5": 8.0,
     "4.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Nottingham Forest",
+   "away": "Tottenham Hotspur",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.8,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 15.0
    }
   }
  ],
@@ -224162,6 +225231,24 @@
     "5.5": 6.0,
     "6.5": 11.0,
     "0.5": 1.04
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Nottingham Forest",
+   "away": "Tottenham Hotspur",
+   "lado": "V",
+   "lineas": {
+    "7.5": 19.0,
+    "1.5": 1.142,
+    "2.5": 1.444,
+    "3.5": 2.1,
+    "4.5": 3.4,
+    "5.5": 6.0,
+    "6.5": 11.0,
+    "0.5": 1.02
    }
   }
  ],
@@ -225411,6 +226498,19 @@
     "1.5": 7.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Nottingham Forest",
+   "away": "Tottenham Hotspur",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.0,
+    "1.5": 6.5
+   }
   }
  ],
  "espn401878780__al_arco__Jan Paul van Hecke": [
@@ -225560,6 +226660,19 @@
     "0.5": 2.1,
     "1.5": 7.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Nottingham Forest",
+   "away": "Tottenham Hotspur",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.0,
+    "1.5": 6.5
    }
   }
  ],
@@ -290974,6 +292087,19 @@
     "1.5": 4.0,
     "2.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
   }
  ],
  "espn401879289__al_arco__Dario Osorio": [
@@ -291121,6 +292247,18 @@
     "0.5": 3.5,
     "1.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Fulham",
+   "away": "Crystal Palace",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.75,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401879287__remates__Iliman-Cheikh Ndiaye": [
@@ -291139,6 +292277,24 @@
     "4.5": 3.5,
     "5.5": 6.0,
     "6.5": 11.0,
+    "7.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.03,
+    "1.5": 1.2,
+    "2.5": 1.571,
+    "3.5": 2.375,
+    "4.5": 4.0,
+    "5.5": 8.0,
+    "6.5": 15.0,
     "7.5": 21.0
    }
   }
@@ -291228,6 +292384,23 @@
     "2.5": 1.833,
     "3.5": 3.25
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.333,
+    "2.5": 1.909,
+    "4.5": 6.0,
+    "5.5": 13.0,
+    "6.5": 21.0,
+    "0.5": 1.062,
+    "3.5": 3.25
+   }
   }
  ],
  "espn401879287__al_arco__Iliman-Cheikh Ndiaye": [
@@ -291243,6 +292416,21 @@
     "1.5": 2.0,
     "2.5": 4.333,
     "3.5": 11.0,
+    "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.285,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 15.0,
     "4.5": 21.0
    }
   }
@@ -291310,6 +292498,19 @@
    "lineas": {
     "0.5": 1.571,
     "1.5": 3.75,
+    "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Premier League",
+   "home": "Manchester City",
+   "away": "Coventry City",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
     "2.5": 13.0
    }
   }
@@ -302470,6 +303671,20 @@
     "2.5": 4.0,
     "3.5": 10.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
   }
  ],
  "espn401882895__remates__Alex Baena": [
@@ -302981,6 +304196,24 @@
     "5.5": 6.5,
     "6.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "L",
+   "lineas": {
+    "7.5": 21.0,
+    "0.5": 1.02,
+    "1.5": 1.142,
+    "2.5": 1.444,
+    "3.5": 2.1,
+    "4.5": 3.4,
+    "5.5": 6.0,
+    "6.5": 11.0
+   }
   }
  ],
  "espn401882895__remates__Inaki Williams": [
@@ -303037,6 +304270,20 @@
     "3.5": 13.0,
     "4.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401882895__remates__Jorge Castillo": [
@@ -303052,6 +304299,20 @@
     "1.5": 3.0,
     "2.5": 7.0,
     "3.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
    }
   }
  ],
@@ -303069,6 +304330,20 @@
     "2.5": 7.0,
     "3.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401882895__remates__Pablo Barrios": [
@@ -303084,6 +304359,20 @@
     "1.5": 3.0,
     "2.5": 7.0,
     "3.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
    }
   }
  ],
@@ -303212,6 +304501,22 @@
     "3.5": 6.5,
     "4.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "4.5": 13.0,
+    "5.5": 21.0
+   }
   }
  ],
  "espn401882895__remates__Jorge Koke": [
@@ -303291,6 +304596,20 @@
     "1.5": 2.625,
     "2.5": 6.5,
     "3.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 17.0
    }
   }
  ],
@@ -303797,6 +305116,18 @@
     "0.5": 2.5,
     "1.5": 10.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.625,
+    "1.5": 13.0
+   }
   }
  ],
  "espn401882895__al_arco__Morten Hjulmand": [
@@ -303810,6 +305141,18 @@
    "lineas": {
     "0.5": 2.5,
     "1.5": 11.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.75,
+    "1.5": 13.0
    }
   }
  ],
@@ -303825,6 +305168,18 @@
     "0.5": 3.0,
     "1.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
+   }
   }
  ],
  "espn401882895__al_arco__Obed Vargas": [
@@ -303839,6 +305194,18 @@
     "0.5": 3.0,
     "1.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
+   }
   }
  ],
  "espn401882895__al_arco__Pablo Barrios": [
@@ -303852,6 +305219,18 @@
    "lineas": {
     "0.5": 3.0,
     "1.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
    }
   }
  ],
@@ -303955,6 +305334,19 @@
     "0.5": 1.909,
     "1.5": 6.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-05T10:09",
+   "fecha": "2026-09-05",
+   "comp": "Spanish LALIGA",
+   "home": "Athletic Club",
+   "away": "Atlético Madrid",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 19.0
    }
   }
  ],

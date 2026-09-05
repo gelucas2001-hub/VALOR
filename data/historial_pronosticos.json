@@ -2092,7 +2092,10 @@
    4.5,
    1.59
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2338,7 +2341,10 @@
    4.3,
    5.75
   ],
-  "resultado": null,
+  "resultado": [
+   3,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -2362,7 +2368,10 @@
    5.25,
    6.5
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -2386,7 +2395,10 @@
    2.85,
    2.9
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -2818,7 +2830,10 @@
    2.9,
    4.5
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -2842,7 +2857,10 @@
    2.75,
    3.65
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -3424,7 +3442,10 @@
    5.25,
    1.38
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -3836,6 +3857,54 @@
   "modelo": {
    "vida_media": 300,
    "prior": 12
+  }
+ },
+ "espn401876459": {
+  "fecha": "2026-09-11",
+  "comp": "Ligue 1",
+  "home": "Stade Rennais",
+  "away": "Marseille",
+  "lh": 1.593,
+  "la": 1.514,
+  "rho": -0.05,
+  "mercado": [
+   0.4107,
+   0.242,
+   0.3473
+  ],
+  "cuotas": [
+   2.3,
+   3.8,
+   2.7
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882878": {
+  "fecha": "2026-09-11",
+  "comp": "Spanish LALIGA",
+  "home": "Sevilla",
+  "away": "Valencia",
+  "lh": 1.464,
+  "la": 1.095,
+  "rho": 0.0,
+  "mercado": [
+   0.406,
+   0.2994,
+   0.2945
+  ],
+  "cuotas": [
+   2.35,
+   3.15,
+   3.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
   }
  }
 }

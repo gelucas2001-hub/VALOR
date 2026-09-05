@@ -9,6 +9,18 @@ podés hacer vos**, porque son cuentas tuyas: sacar dos claves.
 
 ### La de Gemini — **gratis, sin tarjeta**
 
+> ⚠️ **Tener Gemini Pro no alcanza, y no es lo mismo.** Google AI Pro y
+> Ultra son suscripciones de **interfaz de chat** —gemini.google.com,
+> Gmail, Docs, Antigravity— y **no incluyen acceso a la API**. La API se
+> factura aparte.
+>
+> **Tener Pro tampoco te quita el nivel gratuito**: son cosas
+> independientes. La clave de abajo la podés sacar igual, gratis, tengas
+> la suscripción que tengas.
+>
+> (Si vivieras en Europa o el Reino Unido, Google obliga a activar
+> facturación aunque uses modelos gratis. En Argentina no.)
+
 1. Entrá a **aistudio.google.com/apikey** con tu cuenta de Google.
 2. **Create API key** → copiala.
 

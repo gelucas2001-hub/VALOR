@@ -68,10 +68,22 @@ que anotes acá lo ve el bot cuando lo enchufes, y al revés.**
 
 ## Cuál conviene
 
-**Empezá por acá.** Es gratis, es hoy, y sirve para lo único que
-importa ahora: **ver si la voz suena a experto**. Si con esto te
-convence, sacás la clave de Gemini y ganás el teléfono y los avisos. Si
-no te convence, arreglás `voz.md` sin haber sacado ninguna clave.
+**Empezá por acá**, y hay un motivo mejor que "es gratis".
+
+Lucas tiene **Gemini Pro**, y esa suscripción **no da acceso a la API**
+—es de interfaz de chat, no de programas—, pero **sí funciona dentro de
+Antigravity**. Google puso `gemini-3.8-flash` en Antigravity desde el
+día que salió.
+
+O sea: **en este modo estás usando el modelo bueno, ya pago, sin sacar
+ninguna clave.** El bot con la clave gratuita va a correr con un Flash
+del nivel gratuito, que es menos.
+
+Así que para la única pregunta que importa hoy —**si la voz suena a
+experto**— este modo no es el plan B: es el mejor banco de pruebas que
+hay. Si acá convence, sacás la clave gratis y ganás el teléfono, el
+parte de la mañana y el vigilante. Si no convence, arreglás `voz.md` sin
+haber sacado nada.
 
 ---
 

@@ -247,6 +247,52 @@ class TestCierre(unittest.TestCase):
         self.assertIn("BALANCE Y CORTE (LUCAS vs PRONÓSTIC)", msg)
 
 
+    def test_una_sola_regla_de_liquidacion(self):
+        """`cierre.liquidar_marcador` y `datos.desenlace` no pueden divergir.
+
+        Vivían duplicadas y coincidían por casualidad; la de `datos.py` no
+        conocía doble oportunidad ni DNB, y `resolver()` es una herramienta
+        del bot — o sea que pedirle "resolvé mis apuestas" dejaba esas dos
+        abiertas para siempre. Una regla que decide plata se escribe una
+        sola vez, y este test lo fija.
+        """
+        import datos as D
+        mercados = [
+            "1X2 local", "1X2 empate", "1X2 visitante",
+            "Ambos marcan", "No marcan los dos",
+            "Más de 0.5", "Más de 1.5", "Más de 2.5", "Más de 3.5",
+            "Menos de 0.5", "Menos de 1.5", "Menos de 2.5", "Menos de 3.5",
+            "Doble oportunidad 1X", "Doble oportunidad X2",
+            "Doble oportunidad 12", "DNB local", "DNB visitante",
+            "gana local", "btts", "1X", "local o empate",
+        ]
+        for gl in range(6):
+            for gv in range(6):
+                marcador = "%d-%d" % (gl, gv)
+                for m in mercados:
+                    self.assertEqual(
+                        C.liquidar_marcador(m, marcador),
+                        D.desenlace(m, marcador),
+                        "divergen en '%s' con %s" % (m, marcador))
+
+    def test_dnb_devuelve_la_plata_en_el_empate(self):
+        """El empate en DNB es nula, no perdida. Es plata que vuelve."""
+        import datos as D
+        self.assertEqual(D.desenlace("DNB local", "1-1"), "nula")
+        self.assertEqual(D.desenlace("DNB visitante", "0-0"), "nula")
+        self.assertEqual(D.desenlace("DNB local", "2-1"), "ganada")
+        self.assertEqual(D.desenlace("DNB local", "1-2"), "perdida")
+
+    def test_no_adivina_un_jugador_ambiguo(self):
+        """Dos jugadores con el mismo apellido: no elige ninguno."""
+        plantel = [("1", "Pablo Ferreira"), ("2", "Clever Ferreira")]
+        self.assertEqual(C.buscar_jugador_en_plantel("Ferreira", plantel),
+                         (None, None))
+        self.assertEqual(
+            C.buscar_jugador_en_plantel("Pablo Ferreira", plantel)[1],
+            "Pablo Ferreira")
+
+
 if __name__ == "__main__":
     unittest.main()
 

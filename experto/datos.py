@@ -739,27 +739,65 @@ def resolver(id_partido=None):
     return {"cerradas": cerradas, "siguen_abiertas": pendientes}
 
 
-def _desenlace(mercado, marcador):
-    """Gana o pierde, según el marcador. None si no se deduce de ahí."""
+def desenlace(mercado, marcador):
+    """Gana, pierde o nula según el marcador. None si no se deduce de ahí.
+
+    **Es la ÚNICA implementación de esta regla en el proyecto.** Vivía
+    duplicada en `cierre.py` y las dos coincidían por casualidad, pero la
+    de acá no conocía doble oportunidad ni DNB: como `resolver()` es una
+    herramienta del bot, pedirle "resolvé mis apuestas" dejaba esas dos
+    abiertas para siempre mientras `cierre.py` sí las cerraba. Dos
+    caminos y dos resultados sobre la misma plata.
+
+    Acepta los alias con los que el asesor puede escribir un mercado
+    ("gana local", "btts", "1X"), porque el nombre lo redacta un modelo.
+    """
+    if not marcador or "-" not in str(marcador):
+        return None
     try:
-        gl, gv = (int(x) for x in marcador.split("-"))
+        gl, gv = (int(x) for x in str(marcador).split("-"))
     except (ValueError, AttributeError):
         return None
-    t, m = gl + gv, mercado.strip().lower()
-    reglas = {
-        "1x2 local": gl > gv, "1x2 empate": gl == gv, "1x2 visitante": gl < gv,
-        "ambos marcan": gl > 0 and gv > 0,
-        "no marcan los dos": not (gl > 0 and gv > 0),
+
+    t = gl + gv
+    m = " ".join(str(mercado).lower().replace("á", "a").replace("é", "e")
+                 .replace("í", "i").replace("ó", "o").replace("ú", "u").split())
+
+    def _sn(cond):
+        return "ganada" if cond else "perdida"
+
+    directos = {
+        ("1x2 local", "local", "gana local"): _sn(gl > gv),
+        ("1x2 empate", "empate", "x"): _sn(gl == gv),
+        ("1x2 visitante", "visitante", "gana visitante"): _sn(gl < gv),
+        ("doble oportunidad 1x", "1x", "local o empate"): _sn(gl >= gv),
+        ("doble oportunidad x2", "x2", "empate o visitante"): _sn(gv >= gl),
+        ("doble oportunidad 12", "12", "local o visitante"): _sn(gl != gv),
+        ("ambos marcan", "btts", "gol de ambos"): _sn(gl > 0 and gv > 0),
+        ("no marcan los dos", "no ambos marcan"): _sn(not (gl > 0 and gv > 0)),
     }
-    if m in reglas:
-        return "ganada" if reglas[m] else "perdida"
-    for prefijo, cmp in (("más de ", lambda l: t > l), ("menos de ", lambda l: t < l)):
+    for claves, res in directos.items():
+        if m in claves:
+            return res
+
+    # DNB: el empate devuelve la plata, no la pierde.
+    if m in ("dnb local", "empate no cuenta local", "local sin empate"):
+        return "nula" if gl == gv else _sn(gl > gv)
+    if m in ("dnb visitante", "empate no cuenta visitante", "visitante sin empate"):
+        return "nula" if gl == gv else _sn(gv > gl)
+
+    for prefijo, cmp in (("mas de ", lambda l: t > l),
+                         ("menos de ", lambda l: t < l)):
         if m.startswith(prefijo):
             try:
-                return "ganada" if cmp(float(m[len(prefijo):])) else "perdida"
-            except ValueError:
+                return _sn(cmp(float(m[len(prefijo):].split()[0])))
+            except (ValueError, IndexError):
                 return None
     return None
+
+
+# Nombre viejo, por si algo externo lo usaba.
+_desenlace = desenlace
 
 
 def banca():

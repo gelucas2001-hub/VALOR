@@ -247,64 +247,15 @@ def obtener_clv(id_partido, mercado, cuota_entrada, cuotas_data, props_data):
 
 
 def liquidar_marcador(mercado, marcador):
-    """Gana, pierde o nula según el marcador final. None si no se deduce de ahí."""
-    if not marcador or "-" not in marcador:
-        return None
-    try:
-        gl, gv = (int(x) for x in marcador.split("-"))
-    except (ValueError, AttributeError):
-        return None
+    """Gana, pierde o nula según el marcador. None si no se deduce de ahí.
 
-    m = norma(mercado)
-    t = gl + gv
-
-    # 1X2 y ganador
-    if m in ("1x2 local", "local", "gana local"):
-        return "ganada" if gl > gv else "perdida"
-    if m in ("1x2 empate", "empate", "x"):
-        return "ganada" if gl == gv else "perdida"
-    if m in ("1x2 visitante", "visitante", "gana visitante"):
-        return "ganada" if gl < gv else "perdida"
-
-    # Doble oportunidad
-    if m in ("doble oportunidad 1x", "1x", "local o empate"):
-        return "ganada" if gl >= gv else "perdida"
-    if m in ("doble oportunidad x2", "x2", "empate o visitante"):
-        return "ganada" if gv >= gl else "perdida"
-    if m in ("doble oportunidad 12", "12", "local o visitante"):
-        return "ganada" if gl != gv else "perdida"
-
-    # Empate no acción / DNB
-    if m in ("dnb local", "empate no cuenta local", "local sin empate"):
-        if gl > gv:
-            return "ganada"
-        if gl < gv:
-            return "perdida"
-        return "nula"
-    if m in ("dnb visitante", "empate no cuenta visitante", "visitante sin empate"):
-        if gv > gl:
-            return "ganada"
-        if gv < gl:
-            return "perdida"
-        return "nula"
-
-    # Ambos marcan
-    if m in ("ambos marcan", "btts", "gol de ambos"):
-        return "ganada" if gl > 0 and gv > 0 else "perdida"
-    if m in ("no marcan los dos", "no ambos marcan"):
-        return "ganada" if not (gl > 0 and gv > 0) else "perdida"
-
-    # Totales de goles
-    for prefijo, cmp in (("mas de ", lambda l: t > l),
-                         ("menos de ", lambda l: t < l)):
-        if m.startswith(prefijo):
-            try:
-                linea = float(m[len(prefijo):].replace("goles", "").strip())
-                return "ganada" if cmp(linea) else "perdida"
-            except ValueError:
-                return None
-
-    return None
+    Delega en `datos.desenlace()`. Antes había acá una segunda
+    implementación de la misma regla: coincidían en las 468
+    combinaciones probadas, pero nada las mantenía sincronizadas y la de
+    `datos.py` no conocía doble oportunidad ni DNB. Una regla que decide
+    plata se escribe una sola vez.
+    """
+    return D.desenlace(mercado, marcador)
 
 
 def liquidar_jugador(apuesta, cache_disciplina, planteles):

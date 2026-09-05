@@ -61,10 +61,23 @@ def responder(chat_id, texto):
 
 
 def _partir(texto, tope):
+    """Parte por párrafo, y si un párrafo solo ya pasa el tope, lo corta igual.
+
+    Sin lo segundo, un párrafo largo sin saltos de línea viajaba entero y
+    Telegram lo rechazaba: el mensaje se perdía sin que nadie se enterara.
+    """
     if len(texto) <= tope:
         return [texto]
     partes, actual = [], ""
     for parrafo in texto.split("\n\n"):
+        while len(parrafo) > tope:            # el párrafo solo no entra
+            corte = parrafo.rfind(" ", 0, tope)
+            corte = corte if corte > tope // 2 else tope
+            if actual:
+                partes.append(actual)
+                actual = ""
+            partes.append(parrafo[:corte])
+            parrafo = parrafo[corte:].lstrip()
         if len(actual) + len(parrafo) + 2 > tope and actual:
             partes.append(actual)
             actual = parrafo

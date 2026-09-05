@@ -39,6 +39,27 @@ PREFERIDOS_GEMINI = ["gemini-3.8-flash", "gemini-3-flash", "gemini-3.1-flash",
                      "gemini-2.0-flash"]
 MODELO_CLAUDE = "claude-opus-5"
 MAX_VUELTAS = 12          # tope de idas y vueltas de herramientas por turno
+# Cuántos bloques de conversación se guardan. Importa más de lo que
+# parece: un resultado de `jugadores_partido` son 30 KB, y una charla de
+# un sábado entero sin recortar se come el límite de tokens por minuto
+# del nivel gratuito.
+MEMORIA = 40
+
+
+def _recortar(historia, es_usuario_limpio):
+    """Deja los últimos bloques, sin dejar una llamada a herramienta huérfana.
+
+    Cortar en cualquier lado rompe la conversación: si el corte cae entre
+    el pedido de una herramienta y su resultado, el modelo recibe una
+    respuesta sin pregunta y la API la rechaza. Por eso se avanza hasta
+    el primer mensaje de usuario que sea texto de verdad.
+    """
+    if len(historia) <= MEMORIA:
+        return historia
+    corte = len(historia) - MEMORIA
+    while corte < len(historia) and not es_usuario_limpio(historia[corte]):
+        corte += 1
+    return historia[corte:] if corte < len(historia) else historia
 
 
 def cual():
@@ -146,6 +167,7 @@ class _Gemini:
 
             llamadas = r.function_calls or []
             if not llamadas:
+                self.historia = _recortar(self.historia, self._limpio)
                 return (r.text or "").strip() or "No me salió nada, probá de nuevo."
 
             partes = []
@@ -159,6 +181,14 @@ class _Gemini:
 
         return ("Me quedé dando vueltas pidiendo datos y no llegué a una "
                 "respuesta. Probá preguntándome algo más puntual.")
+
+    @staticmethod
+    def _limpio(c):
+        """Un turno de usuario que NO es respuesta de herramienta."""
+        if getattr(c, "role", None) != "user":
+            return False
+        return not any(getattr(p, "function_response", None)
+                       for p in (getattr(c, "parts", None) or []))
 
     def una_vez(self, prompt):
         """Un pedido suelto, sin memoria — para el parte y el vigilante."""
@@ -204,6 +234,7 @@ class _Claude:
             if r.stop_reason == "pause_turn":
                 continue
             if r.stop_reason != "tool_use":
+                self.historia = _recortar(self.historia, self._limpio)
                 return "".join(b.text for b in r.content
                                if b.type == "text").strip()
 
@@ -224,6 +255,17 @@ class _Claude:
 
         return ("Me quedé dando vueltas pidiendo datos y no llegué a una "
                 "respuesta. Probá preguntándome algo más puntual.")
+
+    @staticmethod
+    def _limpio(m):
+        if m.get("role") != "user":
+            return False
+        c = m.get("content")
+        if isinstance(c, str):
+            return True
+        return not any((b.get("type") if isinstance(b, dict)
+                        else getattr(b, "type", None)) == "tool_result"
+                       for b in (c or []))
 
     def una_vez(self, prompt):
         viejo, self.historia = self.historia, []

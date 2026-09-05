@@ -2119,7 +2119,10 @@
    3.7,
    2.9
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2143,7 +2146,10 @@
    3.85,
    5.0
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2167,7 +2173,10 @@
    3.75,
    4.3
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2191,7 +2200,10 @@
    3.4,
    3.1
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   3
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2215,7 +2227,10 @@
    7.0,
    11.0
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2239,7 +2254,10 @@
    3.4,
    2.7
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2422,7 +2440,10 @@
    4.6,
    6.0
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -3469,7 +3490,10 @@
    3.45,
    2.4
   ],
-  "resultado": null,
+  "resultado": [
+   3,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8

@@ -18,8 +18,6 @@ import json
 import os
 import sys
 
-import anthropic
-
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 import datos as D
@@ -77,20 +75,18 @@ def juntar(fecha):
 
 
 def escribir(expediente, dia):
-    cliente = anthropic.Anthropic()
-    r = cliente.messages.create(
-        model=B.MODELO,
-        max_tokens=B.MAX_TOKENS,
-        system=[{"type": "text", "text": B.voz(),
-                 "cache_control": {"type": "ephemeral"}}],
-        thinking={"type": "adaptive"},
-        messages=[{"role": "user", "content": "%s\n\nBANCA Y REGISTRO:\n%s\n\n"
-                                              "LOS PARTIDOS:\n%s" % (
+    """Le pasa el expediente ya armado y le pide el parte.
+
+    Va con las herramientas igual: si el asesor quiere mirar algo que no
+    le mandamos —el movimiento de una línea, el registro de Lucas— que lo
+    pida, en vez de arreglarse con lo que hay.
+    """
+    asesor = B.experto()
+    return asesor.una_vez(
+        "%s\n\nBANCA Y REGISTRO:\n%s\n\nLOS PARTIDOS:\n%s" % (
             FORMATO,
             json.dumps(D.banca(), ensure_ascii=False),
-            json.dumps(expediente, ensure_ascii=False))}],
-    )
-    return "".join(b.text for b in r.content if b.type == "text").strip()
+            json.dumps(expediente, ensure_ascii=False)))
 
 
 def main():

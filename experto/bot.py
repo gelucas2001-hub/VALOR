@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Pronóstic — el bot de Telegram.
 
-Escucha Telegram, le pasa la pregunta a Claude con las herramientas de
-`datos.py`, y devuelve la respuesta. La voz vive en `voz.md`.
+Escucha Telegram, le pasa la pregunta al motor de IA con las
+herramientas de `datos.py`, y devuelve la respuesta. La voz vive en
+`voz.md`; qué modelo contesta lo decide `motor.py`.
 
-    pip install anthropic
-    set ANTHROPIC_API_KEY=...
+    pip install google-genai
+    set GEMINI_API_KEY=...            (gratis - aistudio.google.com/apikey)
     set TELEGRAM_BOT_TOKEN=...
     python experto/bot.py
 
@@ -13,12 +14,10 @@ Dos decisiones que conviene tener presentes:
 
 * **`datos.py` es biblioteca estándar; este archivo no.** La regla de
   `CLAUDE.md` es sobre `actualizar.py`, que corre en GitHub Actions sin
-  `pip install`. El bot corre en la máquina de Lucas, así que usa el SDK
-  oficial de Anthropic, que es lo correcto para hablar con la API.
-* **El bucle de herramientas está escrito a mano** en vez de usar el
-  `tool_runner` del SDK. Es más código, pero es explícito: se ve dónde se
-  ejecuta cada herramienta, no depende de una beta, y quien lo mantenga
-  después no tiene que conocer el helper.
+  `pip install`. El bot corre en la máquina de Lucas.
+* **El modelo vive en `motor.py`, no acá.** Este archivo no sabe con qué
+  IA está hablando: declara las herramientas y las ejecuta. Cambiar de
+  Gemini a Claude no toca una línea de acá.
 
 Telegram se llama con `urllib` — no hace falta una dependencia para
 cuatro pedidos HTTP.
@@ -32,17 +31,10 @@ import traceback
 import urllib.parse
 import urllib.request
 
-import anthropic
-
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 import datos as D
-
-MODELO = "claude-opus-5"
-MAX_TOKENS = 16000
-# Cuántos turnos de ida y vuelta se guardan por conversación. El sistema
-# y las herramientas quedan cacheados; esto es lo que crece.
-MEMORIA_TURNOS = 40
+import motor as M
 
 
 # ------------------------------------------------------------ Telegram
@@ -240,12 +232,6 @@ HERRAMIENTAS = [
     },
 ]
 
-# Búsqueda web del lado del servidor: lesiones, técnico, clima, noticias.
-# No se ejecuta acá — la corre la API.
-HERRAMIENTAS_SERVIDOR = [
-    {"type": "web_search_20260209", "name": "web_search", "max_uses": 6},
-]
-
 EJECUTAR = {
     "partidos_del_dia": lambda a: D.partidos_del_dia(a.get("fecha")),
     "datos_partido": lambda a: D.datos_partido(a["id_partido"]),
@@ -279,80 +265,24 @@ def voz():
         return f.read()
 
 
-class Experto:
-    """Una conversación. El bucle de herramientas está a la vista."""
+def experto():
+    """Un asesor nuevo, con la voz de `voz.md` y las herramientas de arriba.
 
-    def __init__(self):
-        self.cliente = anthropic.Anthropic()
-        # El sistema y las herramientas son estables, así que se cachean:
-        # se renderizan antes que los mensajes y no cambian entre turnos.
-        self.sistema = [{"type": "text", "text": voz(),
-                         "cache_control": {"type": "ephemeral"}}]
-        self.historia = []
-
-    def preguntar(self, texto):
-        D.recargar()          # el cron pudo haber reescrito los datos
-        self.historia.append({"role": "user", "content": texto})
-
-        while True:
-            r = self.cliente.messages.create(
-                model=MODELO,
-                max_tokens=MAX_TOKENS,
-                system=self.sistema,
-                thinking={"type": "adaptive"},
-                tools=HERRAMIENTAS + HERRAMIENTAS_SERVIDOR,
-                messages=self.historia,
-            )
-            # Se guardan los bloques enteros, no solo el texto: los de
-            # pensamiento y los de herramienta tienen que volver tal cual.
-            self.historia.append({"role": "assistant", "content": r.content})
-
-            if r.stop_reason == "refusal":
-                return "No puedo contestar eso."
-
-            if r.stop_reason == "pause_turn":
-                continue      # el servidor pausó; se retoma con la misma historia
-
-            if r.stop_reason != "tool_use":
-                self._recortar()
-                return "".join(b.text for b in r.content if b.type == "text").strip()
-
-            # Todos los tool_result van en UN solo mensaje de usuario. Si se
-            # parten en varios, el modelo deja de pedir herramientas en paralelo.
-            resultados = []
-            for b in r.content:
-                if b.type == "tool_use":
-                    salida = _correr(b.name, b.input or {})
-                    resultados.append({
-                        "type": "tool_result", "tool_use_id": b.id,
-                        "content": json.dumps(salida, ensure_ascii=False),
-                        "is_error": "error" in salida,
-                    })
-            self.historia.append({"role": "user", "content": resultados})
-
-    def _recortar(self):
-        """Deja los últimos turnos. Nunca corta dejando un tool_use huérfano."""
-        if len(self.historia) <= MEMORIA_TURNOS:
-            return
-        corte = len(self.historia) - MEMORIA_TURNOS
-        while corte < len(self.historia):
-            m = self.historia[corte]
-            suelto = isinstance(m.get("content"), list) and any(
-                getattr(b, "type", None) == "tool_result"
-                or (isinstance(b, dict) and b.get("type") == "tool_result")
-                for b in m["content"])
-            if m["role"] == "user" and not suelto:
-                break
-            corte += 1
-        self.historia = self.historia[corte:]
+    Quién contesta —Gemini o Claude— lo decide `motor.py` según la clave
+    que haya en el entorno. Acá no se sabe ni hace falta.
+    """
+    return M.crear(voz(), HERRAMIENTAS, EJECUTAR)
 
 
 # ------------------------------------------------------------- el bucle
 
 def main():
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("Falta ANTHROPIC_API_KEY (console.anthropic.com).")
-    print("Pronóstic escuchando. Ctrl+C para cortar.\n")
+    if not M.cual():
+        raise SystemExit(
+            "No hay motor de IA. Poné GEMINI_API_KEY (gratis, "
+            "aistudio.google.com/apikey) o ANTHROPIC_API_KEY (se paga).\n"
+            "Ver experto/ARRANCAR.md.")
+    print("Pronóstic escuchando (motor: %s). Ctrl+C para cortar.\n" % M.cual())
 
     charlas = {}
     offset = None
@@ -383,7 +313,7 @@ def main():
                 continue
 
             if chat not in charlas:
-                charlas[chat] = Experto()
+                charlas[chat] = experto()
             _tg("sendChatAction", chat_id=chat, action="typing")
             try:
                 salida = charlas[chat].preguntar(texto)
@@ -397,7 +327,7 @@ def main():
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--consola":
         # Para probar la voz sin Telegram: python experto/bot.py --consola
-        e = Experto()
+        e = experto()
         while True:
             try:
                 q = input("\nvos> ").strip()

@@ -22,8 +22,6 @@ import json
 import os
 import sys
 
-import anthropic
-
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 import datos as D
@@ -132,17 +130,9 @@ def revisar():
 
 
 def redactar(novedades):
-    cliente = anthropic.Anthropic()
-    r = cliente.messages.create(
-        model=B.MODELO,
-        max_tokens=2000,
-        system=[{"type": "text", "text": B.voz(),
-                 "cache_control": {"type": "ephemeral"}}],
-        thinking={"type": "adaptive"},
-        messages=[{"role": "user", "content": "%s\n\nLO QUE ENCONTRÉ:\n%s" % (
-            INSTRUCCION, json.dumps(novedades, ensure_ascii=False))}],
-    )
-    return "".join(b.text for b in r.content if b.type == "text").strip()
+    asesor = B.experto()
+    return asesor.una_vez("%s\n\nLO QUE ENCONTRÉ:\n%s" % (
+        INSTRUCCION, json.dumps(novedades, ensure_ascii=False)))
 
 
 def main():

@@ -5,14 +5,23 @@ podés hacer vos**, porque son cuentas tuyas: sacar dos claves.
 
 ---
 
-## Paso 1 — Las dos claves (15 minutos, una sola vez)
+## Paso 1 — Las dos claves (10 minutos, una sola vez)
 
-### La de Claude
+### La de Gemini — **gratis, sin tarjeta**
 
-1. Entrá a **console.anthropic.com** y creá la cuenta.
-2. **Billing** → cargá crédito. Con 20 dólares tenés para meses: cada
-   parte de la fecha cuesta unos 20 centavos y una charla, centavos.
-3. **API Keys** → *Create Key* → copiala. **Se muestra una sola vez.**
+1. Entrá a **aistudio.google.com/apikey** con tu cuenta de Google.
+2. **Create API key** → copiala.
+
+Eso es todo. No pide tarjeta ni facturación.
+
+**Lo que entra en el nivel gratuito** (a mayo de 2026): Gemini 3 Flash da
+**1.500 pedidos por día** y 10 por minuto. Una fecha de 25 partidos usa
+un puñado, así que te sobra de lejos.
+
+**El costo honesto de ser gratis:** es un modelo Flash, no un Pro —
+Google los sacó del nivel gratuito en abril. Va a razonar peor que Opus.
+Si algún día querés probar la diferencia, poné `ANTHROPIC_API_KEY` en vez
+de la de Gemini y el sistema cambia solo, sin tocar una línea de código.
 
 ### La de Telegram
 
@@ -29,7 +38,7 @@ podés hacer vos**, porque son cuentas tuyas: sacar dos claves.
 Abrí PowerShell y pegá esto, reemplazando por las tuyas:
 
 ```
-setx ANTHROPIC_API_KEY "sk-ant-loquetedio"
+setx GEMINI_API_KEY "AIza-loquetedio"
 setx TELEGRAM_BOT_TOKEN "123456:loquetedio"
 ```
 
@@ -37,7 +46,7 @@ setx TELEGRAM_BOT_TOKEN "123456:loquetedio"
 siguiente. Para chequear que quedaron:
 
 ```
-echo $env:ANTHROPIC_API_KEY
+echo $env:GEMINI_API_KEY
 ```
 
 Van al entorno de Windows, **nunca al repo**. Es la misma regla que
@@ -51,6 +60,14 @@ Es lo más rápido para ver si suena a experto o a máquina:
 
 ```
 git pull
+pip install google-genai
+python experto/motor.py
+```
+
+Eso te dice qué motor encontró y **qué modelos tiene tu cuenta**, sin
+gastar nada. Si lista modelos, está todo bien. Después:
+
+```
 python experto/bot.py --consola
 ```
 
@@ -126,9 +143,12 @@ ayer.
 
 | Qué ves | Qué pasa |
 |---|---|
-| `ModuleNotFoundError: anthropic` | `pip install anthropic` |
-| `Falta TELEGRAM_BOT_TOKEN` | No abriste una ventana nueva después del `setx` |
-| `authentication_error` | La clave de Claude está mal copiada o sin crédito |
+| `ModuleNotFoundError: google` | `pip install google-genai` |
+| `No hay motor de IA` | No abriste una ventana nueva después del `setx` |
+| `Falta TELEGRAM_BOT_TOKEN` | Lo mismo: ventana nueva |
+| Error de autenticación | La clave está mal copiada. Sacá otra en aistudio.google.com/apikey |
+| `429` o "quota" | Te pasaste de 10 pedidos por minuto. Esperá un minuto |
+| No encuentra modelo | `python experto/motor.py` te lista los que tenés; fijá uno con `setx PRONOSTIC_MODELO "..."` |
 | El bot no contesta en Telegram | ¿Está corriendo `python experto/bot.py`? Se corta si cerrás la ventana |
 | Dice que los datos son viejos | `git pull` |
 | "no tengo ese partido cargado" | El partido no está en `partidos.json` — o ya se jugó, o es de una liga que no seguimos |
@@ -141,6 +161,11 @@ ayer.
 Lo que queda es: `cierre.py` (el que te mide a vos), el goleador en
 `mercado_extra.py`, y mudarlo a un servidor para que ande con la PC
 apagada.
+
+**Y una nota para el que siga:** el modelo vive **solo** en `motor.py`.
+`datos.py` no tiene IA adentro, `voz.md` es texto, y `bot.py`,
+`informe.py` y `vigilante.py` no saben con qué modelo hablan. Si mañana
+aparece uno mejor o más barato, se cambia ahí y nada más.
 
 **La regla de `CLAUDE.md` sigue en pie: una herramienta por área.**
 Mientras alguien esté en `experto/`, que no entre otra.

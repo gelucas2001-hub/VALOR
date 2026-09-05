@@ -82,7 +82,7 @@ Van al entorno de Windows, **nunca al repo**. Es la misma regla que
 Es lo más rápido para ver si suena a experto o a máquina:
 
 ```
-git pull
+git pull origin main
 pip install google-genai
 python experto/motor.py
 ```
@@ -153,8 +153,16 @@ tareas de Windows.
 
 ## Lo que hay que hacer cada vez
 
-**`git pull` antes de usarlo.** El robot de GitHub baja los datos dos
-veces por día, pero eso queda en GitHub — tu PC no se entera sola.
+**Antes de usarlo, siempre esto:**
+
+```
+git pull origin main
+```
+
+**Ojo con el `origin main`, no alcanza `git pull` a secas.** El robot de
+GitHub escribe los datos en la rama `main`, y vos estás trabajando en
+`pronostic`: un `git pull` pelado te trae la rama tuya, que no cambió, y
+te quedás con los precios de antes creyendo que actualizaste.
 
 Si te olvidás, no te miente: las herramientas le avisan al asesor que los
 datos son viejos y él te lo dice. Pero vas a estar mirando precios de
@@ -183,7 +191,7 @@ bien y lo que falta es una clave.
 | `429` o "quota" | Te pasaste de 10 pedidos por minuto. Esperá un minuto |
 | No encuentra modelo | `python experto/motor.py` te lista los que tenés; fijá uno con `setx PRONOSTIC_MODELO "..."` |
 | El bot no contesta en Telegram | ¿Está corriendo `python experto/bot.py`? Se corta si cerrás la ventana |
-| Dice que los datos son viejos | `git pull` |
+| Dice que los datos son viejos | `git pull origin main` — con `origin main`, no `git pull` a secas |
 | "no tengo ese partido cargado" | El partido no está en `partidos.json` — o ya se jugó, o es de una liga que no seguimos |
 
 ---

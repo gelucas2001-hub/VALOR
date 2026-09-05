@@ -717,11 +717,44 @@ def registro(limite=30):
             "nota": "todavía no hay nada anotado" if not ap else None}
 
 
+def expediente(id_partido):
+    """Todo lo que sabemos de un partido, en un solo diccionario.
+
+    Existe para el modo sin clave: cualquier agente que corra en esta
+    carpeta —Antigravity, OpenCode, Hermes— puede pedir esto, leer
+    `voz.md`, y hacer de Pronóstic sin que haya ninguna API de por medio.
+    """
+    return {
+        "numeros": datos_partido(id_partido),
+        "historial": historial(id_partido),
+        "jugadores": jugadores_partido(id_partido),
+        "movimiento": movimiento(id_partido),
+        "banca_y_registro": banca(),
+    }
+
+
+AYUDA = """\
+Pronóstic — los datos, sin IA de por medio.
+
+  python experto/datos.py fecha [AAAA-MM-DD]   qué se juega
+  python experto/datos.py <id_partido>         el expediente completo
+  python experto/datos.py banca                banca y apuestas abiertas
+
+Sirve para dos cosas: mirar los datos a mano, y para el modo sin clave
+—le pasás el expediente a Antigravity, OpenCode o Hermes junto con
+`experto/voz.md` y hacen de asesor. Ver experto/SIN_CLAVE.md.
+"""
+
 if __name__ == "__main__":
-    import pprint
     arg = sys.argv[1] if len(sys.argv) > 1 else None
-    if not arg:
-        pprint.pprint(partidos_del_dia())
+    salida = None
+    if arg in (None, "-h", "--help", "ayuda"):
+        print(AYUDA)
+    elif arg == "fecha":
+        salida = partidos_del_dia(sys.argv[2] if len(sys.argv) > 2 else None)
+    elif arg == "banca":
+        salida = {"banca": banca(), "registro": registro()}
     else:
-        pprint.pprint(datos_partido(arg))
-        pprint.pprint(jugadores_partido(arg))
+        salida = expediente(arg)
+    if salida is not None:
+        print(json.dumps(salida, ensure_ascii=False, indent=1))

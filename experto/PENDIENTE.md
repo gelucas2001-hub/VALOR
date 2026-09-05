@@ -14,7 +14,8 @@ agarra entero — no dos a la vez.
 |---|---|
 | `voz.md` | ✅ Listo. **Se ajusta usándolo, no leyéndolo** |
 | `datos.py` | ✅ Listo, 12 herramientas, todas probadas incluidos los de error |
-| `bot.py` | ✅ Listo. Falta correrlo contra la API de verdad |
+| `motor.py` | ✅ Listo. Elige Gemini (gratis) o Claude según la clave del entorno. **Es el único archivo que sabe de un proveedor** |
+| `bot.py` | ✅ Listo. Falta correrlo contra una API de verdad |
 | `informe.py` | ✅ Listo. Arma el expediente del día (~31 mil tokens, 20 centavos) y lo manda |
 | `vigilante.py` | ✅ Listo. Detecta movimiento de precio, cambio de once y cambio de número; probado que no repite y que no avisa de lo que pasó antes de la apuesta |
 | `memoria.json` + `anotar` | ✅ Listo. `anotar`, `poner_banca`, `resolver`, `recordar_chat`, escritura atómica |
@@ -24,13 +25,18 @@ agarra entero — no dos a la vez.
 ## Para arrancar
 
 ```
-pip install anthropic
-set ANTHROPIC_API_KEY=...        (console.anthropic.com)
+pip install google-genai
+set GEMINI_API_KEY=...           (gratis - aistudio.google.com/apikey)
 set TELEGRAM_BOT_TOKEN=...       (@BotFather → /newbot)
 python experto/bot.py
 ```
 
-`python experto/bot.py --consola` prueba la voz sin Telegram.
+`python experto/bot.py --consola` prueba la voz sin Telegram, y
+`python experto/motor.py` dice qué motor y qué modelos hay.
+
+**Y sin ninguna clave también se puede**: ver `experto/SIN_CLAVE.md` —
+Antigravity, OpenCode o Hermes leen `voz.md`, corren `datos.py` y hacen
+de asesor. Es la forma más rápida de probar si la voz sirve.
 
 ---
 
@@ -162,8 +168,11 @@ rápido.
 - **No meter números en `voz.md`.** Los números vienen de las
   herramientas. Un precio escrito en el prompt queda viejo el mismo día.
 - **No tocar `actualizar.py`** ni el contrato de `data/partidos.json`.
-- **No agregar dependencias a `datos.py`** — lo puede importar el cron.
-  `bot.py` sí usa el SDK de Anthropic; corre en la máquina de Lucas.
+- **No agregar dependencias a `datos.py`** — lo puede importar el cron, y
+  es lo que hace posible el modo sin clave. Los SDK viven en `motor.py`.
+- **No atar ningún archivo nuevo a un proveedor.** Si hace falta hablarle
+  a un modelo, se hace por `motor.py`. Lucas no paga API: la ruta por
+  defecto es el nivel gratuito de Gemini.
 - **No sacar los avisos de `datos.py`** (córners por equipo, el 30% que
   no arranca, la frescura del precio). Son mediciones del repo, no
   adornos: sin ellos el asesor recomienda cosas que están medidas como

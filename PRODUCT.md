@@ -1,3 +1,17 @@
+> ## ⚠️ Este documento describe el producto ANTERIOR
+>
+> Desde el **2026-09-05** la dirección es **Pronóstic**: un asesor
+> conversacional que vive en `experto/`, rama `pronostic`. Lo de acá
+> abajo —la PWA de `index.html`, el lenguaje de EV y Kelly, la promesa de
+> "encontrar valor"— **quedó de lado**, y la última en concreto porque
+> las mediciones del repo no la sostienen.
+>
+> **Empezá por `GEMINI.md`.** El diseño nuevo está en
+> `docs/superpowers/specs/2026-09-05-pronostic-diseno.md`.
+>
+> Este archivo se conserva porque su historia y sus mediciones valen. No
+> se toma como especificación de lo que se construye hoy.
+
 # Product
 
 <!-- impeccable:product-schema 1 -->

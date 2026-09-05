@@ -3813,5 +3813,29 @@
    "vida_media": 300,
    "prior": null
   }
+ },
+ "espn401841552": {
+  "fecha": "2026-09-07",
+  "comp": "Liga Profesional Argentina",
+  "home": "Unión (Santa Fe)",
+  "away": "Instituto (Córdoba)",
+  "lh": 1.331,
+  "la": 0.941,
+  "rho": -0.05,
+  "mercado": [
+   0.3732,
+   0.3078,
+   0.3191
+  ],
+  "cuotas": [
+   2.5,
+   3.0,
+   2.9
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
  }
 }

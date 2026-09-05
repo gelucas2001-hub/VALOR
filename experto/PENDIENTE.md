@@ -19,6 +19,7 @@ agarra entero — no dos a la vez.
 | `informe.py` | ✅ Listo. Arma el expediente del día (~31 mil tokens, 20 centavos) y lo manda |
 | `vigilante.py` | ✅ Listo. Detecta movimiento de precio, cambio de once y cambio de número; probado que no repite y que no avisa de lo que pasó antes de la apuesta |
 | `memoria.json` + `anotar` | ✅ Listo. `anotar`, `poner_banca`, `resolver`, `recordar_chat`, escritura atómica |
+| `probar.py` | ✅ Listo. Chequeo de instalación sin gastar API — corrélo antes de diagnosticar nada |
 | `cierre.py` | ⬜ **Lo único de programa que falta.** Abajo |
 | El goleador | ⬜ Una línea, abajo |
 

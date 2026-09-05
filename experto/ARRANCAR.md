@@ -164,6 +164,16 @@ ayer.
 
 ## Si algo falla
 
+**Primero corré esto**, que te dice si el problema es el código o es algo
+que no configuraste todavía:
+
+```
+python experto/probar.py
+```
+
+No gasta ni un pedido de API. Si todo sale `OK` o `ojo`, el código está
+bien y lo que falta es una clave.
+
 | Qué ves | Qué pasa |
 |---|---|
 | `ModuleNotFoundError: google` | `pip install google-genai` |

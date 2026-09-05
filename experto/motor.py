@@ -7,9 +7,12 @@ llamada al modelo y el bucle de herramientas. Todo lo demás —`datos.py`,
 
 Elige solo, en este orden:
 
-1. **Gemini** si está `GEMINI_API_KEY`. Es el que anda **gratis**:
-   Gemini 3 Flash da 1.500 pedidos por día y 10 por minuto en el nivel
-   gratuito, sin tarjeta. Para 20-25 partidos sobra.
+1. **Gemini** si está `GEMINI_API_KEY`. Es el que puede andar **gratis**:
+   el nivel gratuito quedó solo con modelos Flash, y ahí entran de 10 a
+   15 pedidos por minuto y ~1.500 por día. Para 20-25 partidos sobra.
+   `gemini-3.8-flash` (2026-09-02) es el mejor Flash que hay y soporta
+   herramientas; si tu cuenta no lo tiene gratis, `_elegir()` baja solo
+   al siguiente de la lista.
 2. **Claude** si está `ANTHROPIC_API_KEY`. Es mejor para esta tarea,
    pero la API se paga.
 
@@ -27,9 +30,13 @@ import json
 import os
 import sys
 
-# Los nombres cambian; se prueban en orden contra lo que la cuenta tiene.
-PREFERIDOS_GEMINI = ["gemini-3-flash", "gemini-3.1-flash", "gemini-2.5-flash",
-                     "gemini-3.1-flash-lite", "gemini-2.0-flash"]
+# Los nombres cambian rápido —Google sacó tres Flash en seis semanas—, así
+# que esto es una preferencia, no una verdad: se prueban en orden contra
+# lo que la cuenta tenga de verdad, y si no está ninguno se agarra el
+# Flash más nuevo que aparezca.
+PREFERIDOS_GEMINI = ["gemini-3.8-flash", "gemini-3-flash", "gemini-3.1-flash",
+                     "gemini-2.5-flash", "gemini-3.1-flash-lite",
+                     "gemini-2.0-flash"]
 MODELO_CLAUDE = "claude-opus-5"
 MAX_VUELTAS = 12          # tope de idas y vueltas de herramientas por turno
 

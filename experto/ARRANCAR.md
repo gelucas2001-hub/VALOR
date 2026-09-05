@@ -14,14 +14,25 @@ podés hacer vos**, porque son cuentas tuyas: sacar dos claves.
 
 Eso es todo. No pide tarjeta ni facturación.
 
-**Lo que entra en el nivel gratuito** (a mayo de 2026): Gemini 3 Flash da
-**1.500 pedidos por día** y 10 por minuto. Una fecha de 25 partidos usa
-un puñado, así que te sobra de lejos.
+**Qué modelo va a usar.** El código no lo tiene escrito a mano: le
+pregunta a la API qué tenés y elige el mejor de la lista. Hoy la
+encabeza **`gemini-3.8-flash`**, que salió el 2 de septiembre de 2026 —
+1M de contexto, herramientas, y el Flash más capaz que hay. Si tu cuenta
+no lo tiene, baja solo al siguiente.
 
-**El costo honesto de ser gratis:** es un modelo Flash, no un Pro —
-Google los sacó del nivel gratuito en abril. Va a razonar peor que Opus.
-Si algún día querés probar la diferencia, poné `ANTHROPIC_API_KEY` en vez
-de la de Gemini y el sistema cambia solo, sin tocar una línea de código.
+**Lo que entra en el nivel gratuito:** el free tier quedó **solo con
+modelos Flash** (Google sacó los Pro en abril de 2026), con 10 a 15
+pedidos por minuto y ~1.500 por día. Una fecha de 25 partidos usa un
+puñado, así que te sobra.
+
+**El único dato que no te puedo confirmar de acá:** si `gemini-3.8-flash`
+entra en tu free tier o pide facturación. Salió hace tres días y los
+límites por modelo se ven en el panel de AI Studio, no en la
+documentación. **Corré `python experto/motor.py` y te lo dice tu propia
+cuenta** — para eso el código pregunta en vez de adivinar.
+
+Si algún día querés comparar contra Claude, poné `ANTHROPIC_API_KEY` en
+vez de la de Gemini y cambia solo, sin tocar una línea.
 
 ### La de Telegram
 

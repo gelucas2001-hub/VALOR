@@ -23,6 +23,56 @@ agarra entero — no dos a la vez.
 | `cierre.py` | ✅ Listo. Liquida 1X2, goles y jugador (cache local), mide CLV y balance Lucas vs Pronóstic con error estándar |
 | El goleador | ⬜ **NO es una línea** — hay que verificar la forma primero. Abajo |
 
+## En qué orden seguir — leer esto antes de elegir tarea
+
+**El orden importa más que la lista.** Este proyecto ya cometió una vez
+el error de construir infraestructura antes de comprobar si servía: se
+pasaron tres semanas midiendo calibración y ninguna midiendo si daba
+plata (`TRASPASO`). No repetirlo.
+
+### 1. Primero: correrlo de verdad. No es una tarea de código.
+
+**El circuito completo nunca se ejecutó con un modelo del otro lado.**
+Todo lo construido se probó función por función contra datos reales,
+pero el asesor pidiendo herramientas, recibiendo, y decidiendo qué
+preguntar después **no pasó nunca**. Ahí están los errores que quedan.
+
+Correr `python experto/bot.py --consola` (o el modo de
+`experto/SIN_CLAVE.md`) y hablarle como Lucas le hablaría: qué partidos
+hay, cómo ve tal partido, quién gana, el mercado de jugadores, armá una
+combinada, proponeme algo. **Anotar qué se rompe y qué suena mal.**
+
+Lo que salga de ahí manda sobre todo lo de abajo.
+
+### 2. Después: lo que la voz pida
+
+Si el asesor no suena a experto, el arreglo está en `experto/voz.md` y
+**probablemente sea acortarlo, no agregarle** — son 450 líneas y el
+nivel gratuito de Gemini es un modelo Flash. El instinto va a ser lo
+contrario.
+
+### 3. El campo 16 — la fecha como cartera
+
+Es el único de los 22 que quedó como prosa sin herramienta. `voz.md` le
+dice al asesor que seis unders en seis partidos son **una** apuesta, no
+seis, pero nada lo calcula: lo hace a ojo, o sea inconsistente.
+
+Falta una herramienta en `datos.py` que, dada la lista de apuestas
+abiertas de `memoria.json`, devuelva cuánto de la banca está expuesto,
+cuántas van al mismo lado (todas unders, todos favoritos) y qué pasa si
+la fecha sale para el otro lado. `revisar_boleta` resuelve UNA boleta;
+esto es la jornada entera.
+
+### 4. El goleador — ojo, no es una línea (ver §5)
+
+### 5. Al final: mudarlo a un servidor
+
+Para que conteste con la PC apagada. Media hora, y **no antes de que la
+voz esté afinada**: mientras se ajusta `voz.md`, tenerlo local es más
+rápido.
+
+---
+
 ## Para arrancar
 
 ```

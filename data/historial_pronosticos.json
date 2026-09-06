@@ -2578,7 +2578,10 @@
    3.5,
    2.25
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -2602,7 +2605,10 @@
    3.3,
    2.3
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   6
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -2626,7 +2632,10 @@
    3.75,
    1.83
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -2650,7 +2659,10 @@
    3.6,
    5.0
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -3601,7 +3613,10 @@
    3.2,
    2.9
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -3625,7 +3640,10 @@
    6.0,
    1.29
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   5
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8

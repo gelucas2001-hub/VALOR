@@ -165906,6 +165906,25 @@
     "6.5": 8.0,
     "7.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "8.5": 21.0,
+    "0.5": 1.01,
+    "1.5": 1.071,
+    "2.5": 1.25,
+    "3.5": 1.615,
+    "4.5": 2.375,
+    "5.5": 3.75,
+    "6.5": 6.5,
+    "7.5": 11.0
+   }
   }
  ],
  "espn401841550__remates__Enzo Copetti": [
@@ -166016,6 +166035,24 @@
     "5.5": 10.0,
     "6.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.03,
+    "1.5": 1.2,
+    "2.5": 1.615,
+    "3.5": 2.375,
+    "4.5": 4.0,
+    "5.5": 8.0,
+    "6.5": 15.0,
+    "7.5": 21.0
+   }
   }
  ],
  "espn401841550__remates__Fabricio Oviedo": [
@@ -166051,6 +166088,23 @@
     "3.5": 3.25,
     "4.5": 5.5,
     "5.5": 11.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.222,
+    "2.5": 1.666,
+    "3.5": 2.625,
+    "4.5": 4.333,
+    "5.5": 9.0,
+    "6.5": 17.0,
+    "0.5": 1.04
    }
   }
  ],
@@ -166113,6 +166167,22 @@
     "3.5": 6.5,
     "4.5": 15.0,
     "0.5": 1.166
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "5.5": 21.0,
+    "0.5": 1.111,
+    "1.5": 1.533,
+    "2.5": 2.625,
+    "3.5": 5.0,
+    "4.5": 11.0
    }
   }
  ],
@@ -166211,6 +166281,22 @@
     "3.5": 6.0,
     "4.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "5.5": 21.0,
+    "0.5": 1.125,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "4.5": 13.0
+   }
   }
  ],
  "espn401841550__remates__Alan Rodriguez": [
@@ -166275,6 +166361,22 @@
     "3.5": 6.0,
     "4.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "5.5": 21.0,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "0.5": 1.142,
+    "4.5": 13.0
+   }
   }
  ],
  "espn401841550__remates__Gaspar Duarte": [
@@ -166337,6 +166439,22 @@
     "1.5": 1.666,
     "2.5": 3.0,
     "3.5": 6.0,
+    "4.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "5.5": 21.0,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "0.5": 1.142,
     "4.5": 13.0
    }
   }
@@ -166465,6 +166583,21 @@
     "3.5": 11.0,
     "4.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 19.0
+   }
   }
  ],
  "espn401841550__remates__Franco Cervi": [
@@ -166574,6 +166707,21 @@
     "3.5": 8.0,
     "4.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "4.5": 17.0,
+    "0.5": 1.2,
+    "1.5": 1.833,
+    "2.5": 3.5,
+    "3.5": 8.0
+   }
   }
  ],
  "espn401841550__remates__Valentino Felici": [
@@ -166606,6 +166754,21 @@
     "3.5": 8.0,
     "4.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "4.5": 17.0,
+    "0.5": 1.2,
+    "1.5": 1.833,
+    "2.5": 3.5,
+    "3.5": 8.0
+   }
   }
  ],
  "espn401841550__remates__Valentino Acuna": [
@@ -166635,6 +166798,20 @@
     "1.5": 3.25,
     "2.5": 9.0,
     "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
    }
   }
  ],
@@ -166694,6 +166871,20 @@
     "2.5": 7.0,
     "3.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401841550__remates__Juan Gimenez": [
@@ -166752,6 +166943,20 @@
     "2.5": 7.0,
     "3.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401841550__remates__David Sotelo": [
@@ -166794,6 +166999,20 @@
     "0.5": 1.727,
     "1.5": 4.333,
     "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.533,
+    "1.5": 3.4,
+    "2.5": 9.0,
+    "3.5": 21.0
    }
   }
  ],
@@ -166884,6 +167103,20 @@
     "1.5": 4.333,
     "2.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401841550__remates__Ulises Ciccioli": [
@@ -166943,6 +167176,20 @@
     "1.5": 4.0,
     "2.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401841550__remates__Jeronimo Russo": [
@@ -166983,6 +167230,19 @@
     "0.5": 2.25,
     "1.5": 8.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.0,
+    "1.5": 6.0,
+    "2.5": 19.0
    }
   }
  ],
@@ -167128,6 +167388,25 @@
     "7.5": 8.0,
     "8.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "2.5": 1.142,
+    "5.5": 2.625,
+    "6.5": 4.0,
+    "7.5": 7.0,
+    "9.5": 21.0,
+    "1.5": 1.04,
+    "3.5": 1.4,
+    "4.5": 1.833,
+    "8.5": 13.0
+   }
   }
  ],
  "espn401841550__remates__Julian Fernandez": [
@@ -167161,6 +167440,22 @@
     "2.5": 2.5,
     "3.5": 4.5,
     "4.5": 10.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.2,
+    "3.5": 3.75,
+    "4.5": 8.0,
+    "5.5": 17.0
    }
   }
  ],
@@ -167273,6 +167568,20 @@
     "1.5": 2.75,
     "2.5": 6.5,
     "3.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 6.0,
+    "3.5": 15.0
    }
   }
  ],
@@ -167389,6 +167698,20 @@
     "1.5": 3.75,
     "2.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401841550__remates__Santiago Segovia": [
@@ -167443,6 +167766,20 @@
     "0.5": 1.615,
     "1.5": 3.75,
     "2.5": 11.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 21.0
    }
   }
  ],
@@ -167714,6 +168051,25 @@
     "4.5": 2.75,
     "5.5": 4.5,
     "6.5": 9.0,
+    "7.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "8.5": 21.0,
+    "0.5": 1.015,
+    "1.5": 1.111,
+    "6.5": 8.0,
+    "2.5": 1.333,
+    "3.5": 1.833,
+    "4.5": 2.75,
+    "5.5": 4.5,
     "7.5": 15.0
    }
   }
@@ -168086,6 +168442,20 @@
     "1.5": 3.75,
     "2.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0
+   }
   }
  ],
  "espn401841550__remates__Walter Nunez": [
@@ -168129,6 +168499,20 @@
     "0.5": 1.615,
     "1.5": 3.75,
     "2.5": 11.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0
    }
   }
  ],
@@ -168667,6 +169051,20 @@
     "3.5": 17.0,
     "2.5": 7.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "2.5": 6.5,
+    "0.5": 1.4,
+    "1.5": 2.75,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401841550__remates__Luca Regiardo": [
@@ -169023,6 +169421,18 @@
     "0.5": 2.75,
     "1.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.625,
+    "1.5": 13.0
+   }
   }
  ],
  "espn401841550__al_arco__Gaston Avila": [
@@ -169071,6 +169481,18 @@
    "lado": "L",
    "lineas": {
     "0.5": 3.25,
+    "1.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.0,
     "1.5": 15.0
    }
   }
@@ -169261,6 +169683,18 @@
     "1.5": 15.0,
     "0.5": 3.25
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.75,
+    "1.5": 13.0
+   }
   }
  ],
  "espn401841550__al_arco__Ignacio Ovando": [
@@ -169325,6 +169759,18 @@
     "0.5": 3.4,
     "1.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
+   }
   }
  ],
  "espn401841550__al_arco__Santiago Segovia": [
@@ -169349,6 +169795,18 @@
    "lado": "L",
    "lineas": {
     "0.5": 3.4,
+    "1.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.25,
     "1.5": 17.0
    }
   }
@@ -169405,6 +169863,19 @@
     "0.5": 1.833,
     "1.5": 6.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "1.5": 5.5,
+    "2.5": 19.0,
+    "0.5": 1.833
+   }
   }
  ],
  "espn401841550__al_arco__Gaspar Duarte": [
@@ -169458,6 +169929,19 @@
     "2.5": 21.0,
     "0.5": 1.833,
     "1.5": 6.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "1.5": 5.5,
+    "2.5": 19.0,
+    "0.5": 1.833
    }
   }
  ],
@@ -169564,6 +170048,21 @@
     "3.5": 6.0,
     "4.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.111,
+    "3.5": 5.5,
+    "4.5": 13.0,
+    "1.5": 1.571,
+    "2.5": 2.75
+   }
   }
  ],
  "espn401841550__al_arco__Tomas Badaloni": [
@@ -169593,6 +170092,20 @@
     "2.5": 10.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.75,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401841550__al_arco__Fabricio Oviedo": [
@@ -169620,6 +170133,20 @@
     "0.5": 1.571,
     "1.5": 3.75,
     "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 10.0,
+    "3.5": 21.0
    }
   }
  ],
@@ -169716,6 +170243,19 @@
     "1.5": 7.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 1.833,
+    "1.5": 6.0
+   }
   }
  ],
  "espn401841550__al_arco__Matias Coccaro": [
@@ -169742,6 +170282,19 @@
    "lineas": {
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.1,
+    "1.5": 7.0,
+    "2.5": 21.0
    }
   }
  ],
@@ -169850,6 +170403,18 @@
     "1.5": 15.0,
     "0.5": 3.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.75,
+    "1.5": 13.0
+   }
   }
  ],
  "espn401841550__al_arco__Alvaro Guich": [
@@ -169928,6 +170493,18 @@
     "0.5": 3.5,
     "1.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
+   }
   }
  ],
  "espn401841550__al_arco__Ulises Ciccioli": [
@@ -169980,6 +170557,18 @@
     "0.5": 3.5,
     "1.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
+   }
   }
  ],
  "espn401841550__al_arco__David Sotelo": [
@@ -170017,6 +170606,18 @@
    "lineas": {
     "0.5": 4.5
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401841550__al_arco__Jeronimo Russo": [
@@ -170053,6 +170654,18 @@
    "lado": "V",
    "lineas": {
     "0.5": 6.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 4.333,
+    "1.5": 21.0
    }
   }
  ],
@@ -170163,6 +170776,20 @@
     "1.5": 2.75,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401841550__al_arco__Julian Fernandez": [
@@ -170190,6 +170817,19 @@
     "0.5": 1.727,
     "1.5": 4.5,
     "2.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 13.0
    }
   }
  ],
@@ -170611,6 +171251,18 @@
     "0.5": 3.4,
     "1.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
+   }
   }
  ],
  "espn401841550__al_arco__Walter Nunez": [
@@ -170647,6 +171299,18 @@
    "lado": "V",
    "lineas": {
     "0.5": 3.4,
+    "1.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
     "1.5": 17.0
    }
   }
@@ -171005,6 +171669,18 @@
    "lineas": {
     "0.5": 3.5,
     "1.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Liga Profesional Argentina",
+   "home": "Rosario Central",
+   "away": "Newell's Old Boys",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
    }
   }
  ],
@@ -336957,6 +337633,25 @@
     "8.5": 21.0,
     "3.5": 1.833
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Spanish LALIGA",
+   "home": "Alavés",
+   "away": "Osasuna",
+   "lado": "L",
+   "lineas": {
+    "7.5": 15.0,
+    "8.5": 21.0,
+    "0.5": 1.012,
+    "1.5": 1.1,
+    "2.5": 1.333,
+    "3.5": 1.8,
+    "4.5": 2.625,
+    "5.5": 4.333,
+    "6.5": 8.0
+   }
   }
  ],
  "espn401882896__remates__Ante Budimir": [
@@ -336975,6 +337670,24 @@
     "5.5": 9.0,
     "6.5": 17.0,
     "2.5": 1.666
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Spanish LALIGA",
+   "home": "Alavés",
+   "away": "Osasuna",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.03,
+    "1.5": 1.2,
+    "2.5": 1.615,
+    "3.5": 2.5,
+    "4.5": 4.333,
+    "5.5": 8.0,
+    "6.5": 15.0,
+    "7.5": 21.0
    }
   }
  ],
@@ -337806,6 +338519,21 @@
     "3.5": 13.0,
     "1.5": 2.2
    }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Spanish LALIGA",
+   "home": "Alavés",
+   "away": "Osasuna",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.222,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 21.0
+   }
   }
  ],
  "espn401882896__al_arco__Ante Budimir": [
@@ -337820,6 +338548,20 @@
     "1.5": 3.0,
     "2.5": 8.0,
     "3.5": 21.0,
+    "0.5": 1.4
+   }
+  },
+  {
+   "t": "2026-09-06T13:11",
+   "fecha": "2026-09-06",
+   "comp": "Spanish LALIGA",
+   "home": "Alavés",
+   "away": "Osasuna",
+   "lado": "V",
+   "lineas": {
+    "3.5": 21.0,
+    "1.5": 2.75,
+    "2.5": 7.0,
     "0.5": 1.4
    }
   }

@@ -29,14 +29,14 @@ inventado falla recién en producción.
 import json
 import os
 import sys
+import time
 
 # Los nombres cambian rápido —Google sacó tres Flash en seis semanas—, así
 # que esto es una preferencia, no una verdad: se prueban en orden contra
 # lo que la cuenta tenga de verdad, y si no está ninguno se agarra el
 # Flash más nuevo que aparezca.
-PREFERIDOS_GEMINI = ["gemini-3.8-flash", "gemini-3-flash", "gemini-3.1-flash",
-                     "gemini-2.5-flash", "gemini-3.1-flash-lite",
-                     "gemini-2.0-flash"]
+PREFERIDOS_GEMINI = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.8-flash",
+                     "gemini-3.7-flash", "gemini-3.1-flash-lite", "gemini-3-flash"]
 MODELO_CLAUDE = "claude-opus-5"
 MAX_VUELTAS = 12          # tope de idas y vueltas de herramientas por turno
 # Cuántos bloques de conversación se guardan. Importa más de lo que
@@ -108,11 +108,24 @@ class _Gemini:
                 name=h["name"], description=h["description"],
                 parameters_json_schema=h["input_schema"])
             for h in herramientas])
-        # La búsqueda se pide aparte porque no todos los modelos la
-        # aceptan junto con funciones propias. Si la rechazan, se sigue
-        # sin ella en vez de morirse.
-        self.busqueda = types.Tool(google_search=types.GoogleSearch())
-        self.con_busqueda = True
+        if "buscar" in [h["name"] for h in herramientas]:
+            self.ejecutar["buscar"] = self._buscar_web
+
+    def _buscar_web(self, args):
+        consulta = (args or {}).get("consulta", "")
+        if not consulta:
+            return {"error": "falta consulta"}
+        try:
+            cfg = self.types.GenerateContentConfig(
+                tools=[self.types.Tool(google_search=self.types.GoogleSearch())]
+            )
+            r = self.cliente.models.generate_content(
+                model=self.modelo, contents="Novedades y actualidad sobre: " + consulta,
+                config=cfg
+            )
+            return {"resultado": (r.text or "").strip() or "Sin resultados recientes."}
+        except Exception as e:
+            return {"error": "Error en búsqueda web: %s" % e}
 
     def modelos(self):
         try:
@@ -133,54 +146,71 @@ class _Gemini:
                          "Corré `python experto/motor.py` para ver cuáles hay.")
 
     def _config(self):
-        tools = [self.tool] + ([self.busqueda] if self.con_busqueda else [])
         return self.types.GenerateContentConfig(
-            system_instruction=self.sistema, tools=tools,
+            system_instruction=self.sistema, tools=[self.tool],
             automatic_function_calling=self.types
             .AutomaticFunctionCallingConfig(disable=True))
 
     def _pedir(self, contenidos):
-        try:
-            return self.cliente.models.generate_content(
-                model=self.modelo, contents=contenidos, config=self._config())
-        except Exception as e:
-            # Mezclar búsqueda con funciones propias no siempre se puede.
-            if self.con_busqueda and "search" in str(e).lower():
-                print("  (este modelo no acepta búsqueda junto con las "
-                      "herramientas; sigo sin búsqueda)")
-                self.con_busqueda = False
+        reintentos = 3
+        for intento in range(reintentos):
+            try:
                 return self.cliente.models.generate_content(
-                    model=self.modelo, contents=contenidos,
-                    config=self._config())
-            raise
+                    model=self.modelo, contents=contenidos, config=self._config())
+            except Exception as e:
+                msg = str(e).lower()
+                es_cuota_modelo = "429" in msg and ("perday" in msg or "freetier" in msg or "limit: 20" in msg)
+                if not es_cuota_modelo:
+                    es_transitorio = any(x in msg for x in ("429", "quota", "resource_exhausted", "503", "unavailable", "high demand"))
+                    if es_transitorio and intento < reintentos - 1:
+                        time.sleep(2 * (intento + 1))
+                        continue
+                # Fallback transparente a modelos de respaldo
+                for alt in ("gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.1-flash-lite"):
+                    if alt != self.modelo:
+                        try:
+                            res = self.cliente.models.generate_content(
+                                model=alt, contents=contenidos, config=self._config())
+                            print("  (cambiando a modelo de respaldo: %s)" % alt)
+                            self.modelo = alt
+                            return res
+                        except Exception:
+                            continue
+                raise
 
     def preguntar(self, texto):
         t = self.types
+        historia_previa = list(self.historia)
         self.historia.append(
             t.Content(role="user", parts=[t.Part.from_text(text=texto)]))
 
-        for _ in range(MAX_VUELTAS):
-            r = self._pedir(self.historia)
-            cand = r.candidates[0].content if r.candidates else None
-            if cand:
-                self.historia.append(cand)
+        try:
+            for _ in range(MAX_VUELTAS):
+                r = self._pedir(self.historia)
+                cand = r.candidates[0].content if r.candidates else None
+                if cand:
+                    self.historia.append(cand)
 
-            llamadas = r.function_calls or []
-            if not llamadas:
-                self.historia = _recortar(self.historia, self._limpio)
-                return (r.text or "").strip() or "No me salió nada, probá de nuevo."
+                llamadas = r.function_calls or []
+                if not llamadas:
+                    self.historia = _recortar(self.historia, self._limpio)
+                    return (r.text or "").strip() or "No me salió nada, probá de nuevo."
 
-            partes = []
-            for c in llamadas:
-                fn = self.ejecutar.get(c.name)
-                salida = (fn(dict(c.args or {})) if fn
-                          else {"error": "no tengo esa herramienta"})
-                partes.append(t.Part.from_function_response(
-                    name=c.name, response={"resultado": salida}))
-            self.historia.append(t.Content(role="tool", parts=partes))
+                partes = []
+                for c in llamadas:
+                    print("  [tool]", c.name, dict(c.args or {}))
+                    fn = self.ejecutar.get(c.name)
+                    salida = (fn(dict(c.args or {})) if fn
+                              else {"error": "no tengo esa herramienta"})
+                    partes.append(t.Part.from_function_response(
+                        name=c.name, response={"resultado": salida}))
+                self.historia.append(t.Content(role="user", parts=partes))
 
-        return ("Me quedé dando vueltas pidiendo datos y no llegué a una "
-                "respuesta. Probá preguntándome algo más puntual.")
+            return ("Me quedé dando vueltas pidiendo datos y no llegué a una "
+                    "respuesta. Probá preguntándome algo más puntual.")
+        except Exception:
+            self.historia = historia_previa
+            raise
 
     @staticmethod
     def _limpio(c):

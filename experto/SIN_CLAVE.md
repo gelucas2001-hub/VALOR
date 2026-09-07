@@ -19,10 +19,17 @@ Abrí Antigravity, OpenCode o Hermes **en la carpeta VALOR** y pegale esto:
 > Los datos salen de correr comandos, nunca de tu memoria:
 > - `python experto/datos.py fecha` — qué se juega
 > - `python experto/datos.py <id_partido>` — el expediente completo de un
->   partido: nuestros números, los precios de Bet365, la comisión, la
->   forma, los cruces anteriores, las escaleras de remates con la serie
->   de cada jugador, el movimiento de la línea y el once anterior
+>   partido: nuestros números, comparativa con Bet365 y stakes sugeridos,
+>   avisos de tensión entre modelo y goles recientes, forma, escaleras de
+>   remates con la serie de cada jugador, movimiento y el once anterior
 > - `python experto/datos.py banca` — mi banca y lo que tengo abierto
+> - `python experto/datos.py stake <de_cada_cien> <cuota> [banca]` — cálculo exacto de stake
+> - `python experto/datos.py boleta <id_partido> <mercado> <cuota> ...` — cálculo de combinada y margen real
+> - `python experto/datos.py cartera [json_simuladas]` — riesgo conjunto de la fecha, concentración y escenarios de estrés
+> - `python experto/datos.py anotar <id_partido> <mercado> <cuota> <monto> <quien> [nota]` — registrar apuesta (SOLO cuando Lucas te diga explícitamente que la jugó o te pida anotarla; NUNCA al proponerla)
+>
+> Si necesitás buscar noticias, lesiones, alineaciones probables o clima,
+> usá tus herramientas de búsqueda web directamente.
 >
 > Corré lo que necesites y contestame como dice `voz.md`. Arrancá
 > diciéndome qué partidos hay.
@@ -31,7 +38,8 @@ A partir de ahí le hablás normal: *"¿cómo ves River?"*, *"¿quién gana?"*,
 *"¿el mercado de jugadores?"*, *"proponeme algo"*.
 
 **Las reglas de `voz.md` valen igual**: no inventa cifras, toma posición,
-te dice qué jugar con precio y monto, y te avisa cuando no hay nada.
+te dice qué jugar con precio y monto exacto de la herramienta, y te avisa
+cuando no hay nada.
 
 ---
 
@@ -52,13 +60,16 @@ Todo lo demás lo tenés.
 
 ---
 
-## Anotar una apuesta en este modo
+## Operaciones útiles por comando
 
-El agente puede llamar a las mismas funciones:
+El agente (o vos) puede correr directamente desde la terminal:
 
-```
-python -c "import sys;sys.path.insert(0,'experto');import datos as D;print(D.poner_banca(100000))"
-python -c "import sys;sys.path.insert(0,'experto');import datos as D;print(D.anotar('espn401841546','Fernández más de 2.5 remates',2.10,3000,'pronostic'))"
+```bash
+python experto/datos.py poner_banca 100000
+python experto/datos.py stake 65 1.571
+python experto/datos.py boleta espn401882888 "1X" 1.35 espn401882885 "Menos de 3.5" 1.45
+python experto/datos.py anotar espn401841546 "Fernández más de 2.5 remates" 2.10 3000 pronostic
+python experto/datos.py resolver
 ```
 
 Se guarda en `experto/memoria.json`, que es el mismo que usa el bot. **Lo

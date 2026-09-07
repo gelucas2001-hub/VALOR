@@ -243,6 +243,48 @@ HERRAMIENTAS = [
             "properties": {"id_partido": {"type": "string"}},
         },
     },
+    {
+        "name": "buscar",
+        "description": ("Busca en internet información reciente: lesiones, "
+                        "once probable, bajas de último momento, declaraciones "
+                        "o clima. Usala ante resultados anómalos o para confirmar "
+                        "si un jugador va de arranque antes de recomendarlo."),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "consulta": {"type": "string", "description": "Texto a buscar en la web."},
+            },
+            "required": ["consulta"],
+        },
+    },
+    {
+        "name": "cartera",
+        "description": ("Evalúa el riesgo conjunto de la fecha: cuánto de la banca "
+                        "está expuesto, si hay concentración en un mismo partido, "
+                        "sesgo direccional de goles (Unders u Overs), dependencia "
+                        "de favoritos y escenarios de estrés. Acepta `apuestas_simuladas` "
+                        "opcionales para evaluar el impacto antes de confirmar una nueva jugada."),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "apuestas_simuladas": {
+                    "type": "array",
+                    "description": "Lista opcional de jugadas en evaluación para proyectar el riesgo conjunto.",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id_partido": {"type": "string"},
+                            "partido": {"type": "string"},
+                            "mercado": {"type": "string"},
+                            "cuota": {"type": "number"},
+                            "monto": {"type": "number"},
+                        },
+                        "required": ["id_partido", "mercado", "cuota", "monto"],
+                    },
+                },
+            },
+        },
+    },
 ]
 
 EJECUTAR = {
@@ -259,6 +301,8 @@ EJECUTAR = {
                                  a["monto"], a["quien"], a.get("nota")),
     "poner_banca": lambda a: D.poner_banca(a["monto"]),
     "resolver": lambda a: D.resolver(a.get("id_partido")),
+    "buscar": lambda a: "Búsqueda web no configurada en EJECUTAR",
+    "cartera": lambda a: D.cartera(a.get("apuestas_simuladas")),
 }
 
 

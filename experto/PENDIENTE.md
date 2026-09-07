@@ -13,7 +13,7 @@ agarra entero — no dos a la vez.
 | Archivo | Estado |
 |---|---|
 | `voz.md` | ✅ Listo. **Se ajusta usándolo, no leyéndolo** |
-| `datos.py` | ✅ Listo, 12 herramientas, todas probadas incluidos los de error |
+| `datos.py` | ✅ Listo, 14 herramientas (incluye `cartera`), todas probadas incluidos los de error |
 | `motor.py` | ✅ Listo. Elige Gemini (gratis) o Claude según la clave del entorno. **Es el único archivo que sabe de un proveedor** |
 | `bot.py` | ✅ Listo. Falta correrlo contra una API de verdad |
 | `informe.py` | ✅ Listo. Arma el expediente del día (~31 mil tokens, 20 centavos) y lo manda |
@@ -30,38 +30,37 @@ el error de construir infraestructura antes de comprobar si servía: se
 pasaron tres semanas midiendo calibración y ninguna midiendo si daba
 plata (`TRASPASO`). No repetirlo.
 
-### 1. Primero: correrlo de verdad. No es una tarea de código.
+### 1. Primero: correrlo de verdad — ✅ HECHO (2026-09-05)
 
-**El circuito completo nunca se ejecutó con un modelo del otro lado.**
-Todo lo construido se probó función por función contra datos reales,
-pero el asesor pidiendo herramientas, recibiendo, y decidiendo qué
-preguntar después **no pasó nunca**. Ahí están los errores que quedan.
+El circuito completo se corrió de punta a punta con un modelo del otro lado en
+conversaciones reales de 6 turnos. Se corrigieron los 4 problemas detectados:
+1. **Stake por diseño:** precalculado en `comparativa` con Kelly fraccional topado a 4%,
+   eliminando cualquier estimación a ojo.
+2. **Tensión fútbol vs modelo:** detección bidireccional en `_analisis_goles_recientes()`
+   sin sesgo dogmático pro-Over ni proscripción ciega del Under.
+3. **Búsqueda web (`buscar`):** desacoplada de function declarations en `motor.py`
+   para evitar el error 400 de Gemini, con 4 disparadores obligatorios en `voz.md`.
+4. **Combinadas y jugadores:** `revisar_boleta()` soporta Doble Oportunidad, calcula el
+   peaje acumulado real de la casa y se abstiene honestamente de inventar probabilidades
+   conjuntas en mercados de jugador.
+5. **Cobertura:** suite de tests unitarios completa en `test_experto_datos.py` (12/12) +
+   `test_cierre.py` (11/11). Total: 23/23 tests pasando.
 
-Correr `python experto/bot.py --consola` (o el modo de
-`experto/SIN_CLAVE.md`) y hablarle como Lucas le hablaría: qué partidos
-hay, cómo ve tal partido, quién gana, el mercado de jugadores, armá una
-combinada, proponeme algo. **Anotar qué se rompe y qué suena mal.**
+### 2. Después: lo que la voz pida — ✅ HECHO (2026-09-06)
 
-Lo que salga de ahí manda sobre todo lo de abajo.
+Se afinó `experto/voz.md` sin inflar el prompt ni crear burocracia:
+- **Titularidad sin parálisis:** La falta del once oficial nunca frena el análisis. En mercados de equipo (1X2, goles, doble oportunidad) no se mete ruido de alineaciones. En mercados de jugador individual, se incluye la condición simple y directa: *"confirmá que arranque titular; si va al banco, no va"*.
+- **Tono y disciplina:** Preserva el registro directo de bar, la disciplina de Kelly por diseño y la advertencia metodológica en tensiones sin sesgo automático.
 
-### 2. Después: lo que la voz pida
+### 3. El campo 16 — la fecha como cartera — ✅ HECHO (2026-09-06)
 
-Si el asesor no suena a experto, el arreglo está en `experto/voz.md` y
-**probablemente sea acortarlo, no agregarle** — son 450 líneas y el
-nivel gratuito de Gemini es un modelo Flash. El instinto va a ser lo
-contrario.
-
-### 3. El campo 16 — la fecha como cartera
-
-Es el único de los 22 que quedó como prosa sin herramienta. `voz.md` le
-dice al asesor que seis unders en seis partidos son **una** apuesta, no
-seis, pero nada lo calcula: lo hace a ojo, o sea inconsistente.
-
-Falta una herramienta en `datos.py` que, dada la lista de apuestas
-abiertas de `memoria.json`, devuelva cuánto de la banca está expuesto,
-cuántas van al mismo lado (todas unders, todos favoritos) y qué pasa si
-la fecha sale para el otro lado. `revisar_boleta` resuelve UNA boleta;
-esto es la jornada entera.
+Era el único de los 22 campos que había quedado como prosa sin herramienta.
+Se implementó `cartera(apuestas_simuladas=None)` en `experto/datos.py` con las siguientes características:
+1. **Factores compartidos sin fórmulas ficticias:** Clasificación conservadora por dimensiones observables de riesgo: concentración en el mismo partido/evento (mismo libreto), sesgo macro de goles (Unders vs Overs), perfil de cuotas (favoritos $\le 1.75$ vs sorpresas) y props individuales de jugadores. Sin copulas abstractas ni correlaciones inventadas.
+2. **Separación Real vs. Simulado:** Desglose estricto entre lo abierto en `memoria.json` (`expuesto_real`) y lo proyectado en evaluación (`expuesto_simulado` y `expuesto_total_proyectado`), con sus porcentajes de banca.
+3. **Pautas operativas de banca:** Umbrales tratados como disciplina de gestión y preservación de capital ($\le 10\%$ normal, $10-20\%$ moderado, $> 20\%$ alerta), no como dogmas absolutos.
+4. **Escenarios de estrés concretos:** Modela en pesos y \% de banca el impacto ante fecha abierta (goles tempranos), fecha cerrada, caída de favoritos o trámite adverso en el partido más concentrado.
+5. **Integración completa:** Expuesto en `bot.py` (`HERRAMIENTAS` y `EJECUTAR`), CLI `python experto/datos.py cartera [simuladas]`, instrucciones con disparadores obligatorios en `voz.md`, y 6 tests unitarios nuevos en `test_experto_datos.py` (18/18 tests pasando). Total suite: 29/29 tests.
 
 ### 4. El goleador — ojo, no es una línea (ver §5)
 

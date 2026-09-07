@@ -309072,6 +309072,25 @@
     "7.5": 17.0,
     "8.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.012,
+    "1.5": 1.1,
+    "2.5": 1.333,
+    "3.5": 1.8,
+    "4.5": 2.625,
+    "5.5": 4.333,
+    "6.5": 8.0,
+    "7.5": 15.0,
+    "8.5": 21.0
+   }
   }
  ],
  "espn401841552__remates__Facundo Suarez": [
@@ -309109,6 +309128,24 @@
     "1.5": 1.166,
     "2.5": 1.5,
     "4.5": 3.5
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.02,
+    "1.5": 1.125,
+    "2.5": 1.4,
+    "3.5": 2.0,
+    "4.5": 3.25,
+    "5.5": 5.5,
+    "6.5": 10.0,
+    "7.5": 19.0
    }
   }
  ],
@@ -309257,6 +309294,22 @@
     "4.5": 10.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.444,
+    "2.5": 2.25,
+    "3.5": 4.0,
+    "4.5": 8.0,
+    "5.5": 17.0
+   }
   }
  ],
  "espn401841552__remates__Erik Ramirez": [
@@ -309326,6 +309379,23 @@
     "2.5": 2.2,
     "4.5": 8.0,
     "5.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.071,
+    "1.5": 1.363,
+    "2.5": 2.0,
+    "3.5": 3.5,
+    "4.5": 7.0,
+    "5.5": 15.0,
+    "6.5": 21.0
    }
   }
  ],
@@ -309735,6 +309805,20 @@
     "2.5": 5.5,
     "3.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401841552__remates__Emilio Giaccone": [
@@ -309764,6 +309848,20 @@
     "2.5": 5.5,
     "3.5": 15.0,
     "0.5": 1.333
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 7.0,
+    "3.5": 19.0
    }
   }
  ],
@@ -309854,6 +309952,20 @@
     "2.5": 5.5,
     "3.5": 15.0,
     "0.5": 1.333
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 7.0,
+    "3.5": 19.0
    }
   }
  ],
@@ -309946,6 +310058,20 @@
     "1.5": 2.625,
     "2.5": 6.0,
     "3.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 19.0
    }
   }
  ],
@@ -310159,6 +310285,20 @@
     "2.5": 8.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 11.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401841552__remates__Mateo Peresutti": [
@@ -310173,6 +310313,20 @@
     "0.5": 1.5,
     "1.5": 3.4,
     "2.5": 9.0,
+    "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 11.0,
     "3.5": 21.0
    }
   }
@@ -310585,6 +310739,19 @@
     "1.5": 3.75,
     "2.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.533,
+    "1.5": 3.5,
+    "2.5": 11.0
+   }
   }
  ],
  "espn401841552__al_arco__Alex Luna": [
@@ -310615,6 +310782,20 @@
     "2.5": 7.0,
     "3.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401841552__al_arco__Facundo Suarez": [
@@ -310629,6 +310810,20 @@
     "0.5": 1.444,
     "1.5": 3.25,
     "2.5": 9.0,
+    "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 3.0,
+    "2.5": 8.0,
     "3.5": 21.0
    }
   }
@@ -310743,6 +310938,19 @@
     "2.5": 13.0,
     "0.5": 1.615,
     "1.5": 4.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.75,
+    "2.5": 11.0
    }
   }
  ],
@@ -311035,6 +311243,18 @@
     "0.5": 2.5,
     "1.5": 10.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.625,
+    "1.5": 11.0
+   }
   }
  ],
  "espn401841552__al_arco__Franco Moyano": [
@@ -311125,6 +311345,18 @@
     "0.5": 2.625,
     "1.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 13.0
+   }
   }
  ],
  "espn401841552__al_arco__Emilio Giaccone": [
@@ -311138,6 +311370,18 @@
    "lineas": {
     "0.5": 2.75,
     "1.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 15.0
    }
   }
  ],
@@ -311319,6 +311563,18 @@
     "0.5": 3.0,
     "1.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.25,
+    "1.5": 17.0
+   }
   }
  ],
  "espn401841552__al_arco__Lautaro Vargas": [
@@ -311346,6 +311602,18 @@
    "lineas": {
     "0.5": 3.0,
     "1.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.4,
+    "1.5": 17.0
    }
   }
  ],
@@ -311386,6 +311654,18 @@
    "lineas": {
     "0.5": 3.25,
     "1.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-07T20:10",
+   "fecha": "2026-09-07",
+   "comp": "Liga Profesional Argentina",
+   "home": "Unión (Santa Fe)",
+   "away": "Instituto (Córdoba)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.4,
+    "1.5": 17.0
    }
   }
  ],

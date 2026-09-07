@@ -119,10 +119,12 @@ class TestStakeKelly(unittest.TestCase):
 class TestRevisarBoleta(unittest.TestCase):
 
     def test_boleta_equipos_independientes(self):
-        # 2 patas de partidos distintos
+        # 2 patas de partidos distintos activos
+        partidos = D.partidos_del_dia()["partidos"]
+        p1, p2 = partidos[0]["id"], partidos[1]["id"]
         patas = [
-            {"id_partido": "espn401841227", "mercado": "Doble oportunidad 1X", "cuota": 1.30},
-            {"id_partido": "espn401841224", "mercado": "Menos de 3.5", "cuota": 1.444},
+            {"id_partido": p1, "mercado": "Menos de 3.5", "cuota": 1.30},
+            {"id_partido": p2, "mercado": "Menos de 3.5", "cuota": 1.444},
         ]
         res = D.revisar_boleta(patas)
         self.assertTrue(res["probabilidad_conjunta_calculable"])

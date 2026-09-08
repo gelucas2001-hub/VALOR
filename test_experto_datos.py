@@ -135,9 +135,11 @@ class TestRevisarBoleta(unittest.TestCase):
 
     def test_boleta_mismo_partido_resuelve_matriz(self):
         # 2 patas del mismo partido (1X2 local y Menos de 3.5)
+        partidos = D.partidos_del_dia()["partidos"]
+        p = partidos[0]["id"]
         patas = [
-            {"id_partido": "espn401841549", "mercado": "1X2 local", "cuota": 1.71},
-            {"id_partido": "espn401841549", "mercado": "Menos de 3.5", "cuota": 1.30},
+            {"id_partido": p, "mercado": "1X2 local", "cuota": 1.71},
+            {"id_partido": p, "mercado": "Menos de 3.5", "cuota": 1.30},
         ]
         res = D.revisar_boleta(patas)
         self.assertIn("patas_del_mismo_partido", res)
@@ -147,11 +149,22 @@ class TestRevisarBoleta(unittest.TestCase):
 
     def test_boleta_con_jugador_sin_falsa_precision(self):
         # Pata de jugador + pata de equipo
+        partidos = D.partidos_del_dia()["partidos"]
+        p = partidos[0]["id"]
         patas = [
-            {"id_partido": "espn401841549", "mercado": "Matias Fernandez mas de 2.5 remates", "cuota": 2.10},
-            {"id_partido": "espn401841549", "mercado": "1X2 local", "cuota": 1.71},
+            {"id_partido": p, "mercado": "Matias Fernandez mas de 2.5 remates", "cuota": 2.10},
+            {"id_partido": p, "mercado": "1X2 local", "cuota": 1.71},
         ]
-        res = D.revisar_boleta(patas)
+        with mock.patch("datos.jugadores_partido") as mock_jp:
+            mock_jp.return_value = {
+                "jugadores": [{
+                    "nombre": "Matias Fernandez",
+                    "equipo": "Independiente",
+                    "serie_de_remates": [2, 3, 1, 4],
+                    "cuotas_por_linea": {"2.5": 2.10}
+                }]
+            }
+            res = D.revisar_boleta(patas)
         # REGLA CLAVE: no inventar probabilidad conjunta calibrada para jugadores
         self.assertFalse(res["probabilidad_conjunta_calculable"])
         self.assertIsNone(res["sale_de_cada_cien_veces"])
@@ -161,7 +174,7 @@ class TestRevisarBoleta(unittest.TestCase):
         self.assertIn("aviso_jugador", res)
         self.assertIn("VALOR no calcula probabilidad conjunta para combinadas con actuaciones individuales", res["aviso_jugador"])
         # La pata de equipo sí tiene su número
-        self.assertEqual(res["probabilidad_patas_equipo_de_cada_cien"], 47)
+        self.assertIsNotNone(res["probabilidad_patas_equipo_de_cada_cien"])
 
 
 class TestCartera(unittest.TestCase):

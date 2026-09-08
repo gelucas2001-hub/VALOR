@@ -5094,5 +5094,965 @@
    "vida_media": 300,
    "prior": 8
   }
+ },
+ "espn401915449": {
+  "fecha": "2026-09-08",
+  "comp": "UEFA Champions League",
+  "home": "Borussia Dortmund",
+  "away": "Villarreal",
+  "lh": 2.659,
+  "la": 1.06,
+  "rho": 0.0,
+  "mercado": [
+   0.5366,
+   0.2347,
+   0.2287
+  ],
+  "cuotas": [
+   1.8,
+   4.0,
+   4.1
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915425": {
+  "fecha": "2026-09-08",
+  "comp": "UEFA Champions League",
+  "home": "FC Porto",
+  "away": "Manchester City",
+  "lh": 1.402,
+  "la": 1.7,
+  "rho": 0.0,
+  "mercado": [
+   0.1873,
+   0.2307,
+   0.5819
+  ],
+  "cuotas": [
+   5.0,
+   4.1,
+   1.67
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915450": {
+  "fecha": "2026-09-08",
+  "comp": "UEFA Champions League",
+  "home": "Lille",
+  "away": "Real Betis",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.4356,
+   0.269,
+   0.2954
+  ],
+  "cuotas": [
+   2.2,
+   3.5,
+   3.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915451": {
+  "fecha": "2026-09-08",
+  "comp": "UEFA Champions League",
+  "home": "Real Madrid",
+  "away": "Internazionale",
+  "lh": 1.898,
+  "la": 1.319,
+  "rho": 0.0,
+  "mercado": [
+   0.6018,
+   0.2126,
+   0.1857
+  ],
+  "cuotas": [
+   1.61,
+   4.4,
+   5.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915424": {
+  "fecha": "2026-09-09",
+  "comp": "UEFA Champions League",
+  "home": "Barcelona",
+  "away": "Feyenoord Rotterdam",
+  "lh": 3.2,
+  "la": 1.189,
+  "rho": 0.0,
+  "mercado": [
+   0.8965,
+   0.0648,
+   0.0387
+  ],
+  "cuotas": [
+   1.09,
+   13.0,
+   20.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915448": {
+  "fecha": "2026-09-09",
+  "comp": "UEFA Champions League",
+  "home": "VfB Stuttgart",
+  "away": "Viking FK",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.7866,
+   0.1301,
+   0.0832
+  ],
+  "cuotas": [
+   1.24,
+   7.0,
+   10.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915446": {
+  "fecha": "2026-09-09",
+  "comp": "UEFA Champions League",
+  "home": "Liverpool",
+  "away": "Atlético Madrid",
+  "lh": 1.86,
+  "la": 1.156,
+  "rho": 0.0,
+  "mercado": [
+   0.5649,
+   0.2282,
+   0.2069
+  ],
+  "cuotas": [
+   1.71,
+   4.1,
+   4.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915423": {
+  "fecha": "2026-09-09",
+  "comp": "UEFA Champions League",
+  "home": "Napoli",
+  "away": "Arsenal",
+  "lh": 0.612,
+  "la": 1.615,
+  "rho": 0.0,
+  "mercado": [
+   0.1935,
+   0.2511,
+   0.5554
+  ],
+  "cuotas": [
+   4.8,
+   3.75,
+   1.74
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915445": {
+  "fecha": "2026-09-09",
+  "comp": "UEFA Champions League",
+  "home": "Paris Saint-Germain",
+  "away": "Slovan Bratislava",
+  "lh": 3.2,
+  "la": 0.748,
+  "rho": 0.0,
+  "mercado": [
+   0.9366,
+   0.0477,
+   0.0157
+  ],
+  "cuotas": [
+   1.04,
+   16.0,
+   36.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915447": {
+  "fecha": "2026-09-09",
+  "comp": "UEFA Champions League",
+  "home": "Sporting CP",
+  "away": "Galatasaray",
+  "lh": 2.268,
+  "la": 1.203,
+  "rho": 0.0,
+  "mercado": [
+   0.5286,
+   0.2419,
+   0.2295
+  ],
+  "cuotas": [
+   1.83,
+   3.9,
+   4.1
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915444": {
+  "fecha": "2026-09-10",
+  "comp": "UEFA Champions League",
+  "home": "Fenerbahce",
+  "away": "AS Roma",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.287,
+   0.2659,
+   0.4471
+  ],
+  "cuotas": [
+   3.3,
+   3.55,
+   2.15
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915422": {
+  "fecha": "2026-09-10",
+  "comp": "UEFA Champions League",
+  "home": "PSV Eindhoven",
+  "away": "Shakhtar Donetsk",
+  "lh": 3.197,
+  "la": 1.194,
+  "rho": 0.0,
+  "mercado": [
+   0.6771,
+   0.1842,
+   0.1387
+  ],
+  "cuotas": [
+   1.43,
+   5.0,
+   6.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915443": {
+  "fecha": "2026-09-10",
+  "comp": "UEFA Champions League",
+  "home": "Bayern Munich",
+  "away": "Bodo/Glimt",
+  "lh": 2.819,
+  "la": 1.434,
+  "rho": 0.0,
+  "mercado": [
+   0.8851,
+   0.0693,
+   0.0456
+  ],
+  "cuotas": [
+   1.1,
+   12.0,
+   17.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915441": {
+  "fecha": "2026-09-10",
+  "comp": "UEFA Champions League",
+  "home": "Como",
+  "away": "RB Leipzig",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.5167,
+   0.2384,
+   0.2449
+  ],
+  "cuotas": [
+   1.87,
+   3.95,
+   3.85
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915442": {
+  "fecha": "2026-09-10",
+  "comp": "UEFA Champions League",
+  "home": "Manchester United",
+  "away": "Sabah FK",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.8716,
+   0.0873,
+   0.0411
+  ],
+  "cuotas": [
+   1.12,
+   10.0,
+   19.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401915440": {
+  "fecha": "2026-09-10",
+  "comp": "UEFA Champions League",
+  "home": "Slavia Prague",
+  "away": "Lens",
+  "lh": 1.502,
+  "la": 1.539,
+  "rho": 0.0,
+  "mercado": [
+   0.3837,
+   0.2749,
+   0.3414
+  ],
+  "cuotas": [
+   2.5,
+   3.45,
+   2.8
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884793": {
+  "fecha": "2026-09-11",
+  "comp": "German Bundesliga",
+  "home": "1. FC Union Berlin",
+  "away": "Schalke 04",
+  "lh": 1.548,
+  "la": 1.241,
+  "rho": 0.0,
+  "mercado": [
+   0.4222,
+   0.2571,
+   0.3208
+  ],
+  "cuotas": [
+   2.2,
+   3.5,
+   2.85
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874759": {
+  "fecha": "2026-09-11",
+  "comp": "Italian Serie A",
+  "home": "Venezia",
+  "away": "Fiorentina",
+  "lh": 1.058,
+  "la": 1.443,
+  "rho": 0.0,
+  "mercado": [
+   0.3184,
+   0.2718,
+   0.4098
+  ],
+  "cuotas": [
+   2.85,
+   3.3,
+   2.25
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874991": {
+  "fecha": "2026-09-12",
+  "comp": "Italian Serie A",
+  "home": "Genoa",
+  "away": "Frosinone",
+  "lh": 1.224,
+  "la": 1.335,
+  "rho": 0.0,
+  "mercado": [
+   0.4521,
+   0.2762,
+   0.2717
+  ],
+  "cuotas": [
+   2.05,
+   3.25,
+   3.3
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884799": {
+  "fecha": "2026-09-12",
+  "comp": "German Bundesliga",
+  "home": "Borussia Dortmund",
+  "away": "SC Paderborn 07",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.7767,
+   0.1383,
+   0.085
+  ],
+  "cuotas": [
+   1.22,
+   6.0,
+   9.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884795": {
+  "fecha": "2026-09-12",
+  "comp": "German Bundesliga",
+  "home": "FC Augsburg",
+  "away": "Bayer Leverkusen",
+  "lh": 1.299,
+  "la": 1.87,
+  "rho": 0.0,
+  "mercado": [
+   0.235,
+   0.2252,
+   0.5398
+  ],
+  "cuotas": [
+   3.8,
+   3.95,
+   1.74
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884794": {
+  "fecha": "2026-09-12",
+  "comp": "German Bundesliga",
+  "home": "Mainz",
+  "away": "Eintracht Frankfurt",
+  "lh": 1.819,
+  "la": 1.4,
+  "rho": 0.0,
+  "mercado": [
+   0.4789,
+   0.2382,
+   0.2829
+  ],
+  "cuotas": [
+   1.95,
+   3.75,
+   3.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884796": {
+  "fecha": "2026-09-12",
+  "comp": "German Bundesliga",
+  "home": "SC Freiburg",
+  "away": "Borussia Mönchengladbach",
+  "lh": 1.812,
+  "la": 1.313,
+  "rho": 0.0,
+  "mercado": [
+   0.5649,
+   0.2234,
+   0.2117
+  ],
+  "cuotas": [
+   1.67,
+   4.0,
+   4.2
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884797": {
+  "fecha": "2026-09-12",
+  "comp": "German Bundesliga",
+  "home": "TSG Hoffenheim",
+  "away": "VfB Stuttgart",
+  "lh": 1.709,
+  "la": 1.888,
+  "rho": 0.0,
+  "mercado": [
+   0.4107,
+   0.2371,
+   0.3522
+  ],
+  "cuotas": [
+   2.25,
+   3.75,
+   2.6
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874941": {
+  "fecha": "2026-09-12",
+  "comp": "Italian Serie A",
+  "home": "Lazio",
+  "away": "AC Milan",
+  "lh": 1.149,
+  "la": 1.26,
+  "rho": 0.0,
+  "mercado": [
+   0.2902,
+   0.2952,
+   0.4146
+  ],
+  "cuotas": [
+   3.15,
+   3.1,
+   2.25
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884792": {
+  "fecha": "2026-09-12",
+  "comp": "German Bundesliga",
+  "home": "FC Cologne",
+  "away": "Werder Bremen",
+  "lh": 1.707,
+  "la": 1.425,
+  "rho": 0.0,
+  "mercado": [
+   0.4557,
+   0.2502,
+   0.294
+  ],
+  "cuotas": [
+   2.05,
+   3.6,
+   3.1
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874979": {
+  "fecha": "2026-09-12",
+  "comp": "Italian Serie A",
+  "home": "Atalanta",
+  "away": "Cagliari",
+  "lh": 1.707,
+  "la": 0.836,
+  "rho": 0.0,
+  "mercado": [
+   0.6153,
+   0.2302,
+   0.1545
+  ],
+  "cuotas": [
+   1.53,
+   3.85,
+   5.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841236": {
+  "fecha": "2026-09-12",
+  "comp": "Brasileirão Série A",
+  "home": "Grêmio",
+  "away": "Vasco da Gama",
+  "lh": 1.554,
+  "la": 1.001,
+  "rho": 0.0,
+  "mercado": [
+   0.4078,
+   0.2785,
+   0.3137
+  ],
+  "cuotas": [
+   2.3,
+   3.3,
+   2.95
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841563": {
+  "fecha": "2026-09-12",
+  "comp": "Liga Profesional Argentina",
+  "home": "Talleres (Córdoba)",
+  "away": "Unión (Santa Fe)",
+  "lh": 1.222,
+  "la": 1.057,
+  "rho": -0.05,
+  "mercado": [
+   0.427,
+   0.3194,
+   0.2536
+  ],
+  "cuotas": [
+   2.2,
+   2.9,
+   3.6
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401874936": {
+  "fecha": "2026-09-13",
+  "comp": "Italian Serie A",
+  "home": "Lecce",
+  "away": "Monza",
+  "lh": 1.215,
+  "la": 1.115,
+  "rho": 0.0,
+  "mercado": [
+   0.3687,
+   0.2982,
+   0.3331
+  ],
+  "cuotas": [
+   2.5,
+   3.05,
+   2.75
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401884791": {
+  "fecha": "2026-09-13",
+  "comp": "German Bundesliga",
+  "home": "SV Elversberg",
+  "away": "Bayern Munich",
+  "lh": 1.35,
+  "la": 1.1,
+  "rho": 0.0,
+  "mercado": [
+   0.0708,
+   0.1163,
+   0.8129
+  ],
+  "cuotas": [
+   10.5,
+   7.0,
+   1.17
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874792": {
+  "fecha": "2026-09-13",
+  "comp": "Italian Serie A",
+  "home": "Napoli",
+  "away": "Bologna",
+  "lh": 1.525,
+  "la": 0.992,
+  "rho": 0.0,
+  "mercado": [
+   0.5549,
+   0.2558,
+   0.1892
+  ],
+  "cuotas": [
+   1.69,
+   3.5,
+   4.6
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874750": {
+  "fecha": "2026-09-13",
+  "comp": "Italian Serie A",
+  "home": "Sassuolo",
+  "away": "Juventus",
+  "lh": 0.966,
+  "la": 1.587,
+  "rho": 0.0,
+  "mercado": [
+   0.1791,
+   0.2334,
+   0.5875
+  ],
+  "cuotas": [
+   4.9,
+   3.85,
+   1.61
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841560": {
+  "fecha": "2026-09-13",
+  "comp": "Liga Profesional Argentina",
+  "home": "Argentinos Juniors",
+  "away": "Gimnasia La Plata",
+  "lh": 1.415,
+  "la": 0.799,
+  "rho": -0.05,
+  "mercado": [
+   0.5525,
+   0.2594,
+   0.1881
+  ],
+  "cuotas": [
+   1.71,
+   3.5,
+   4.7
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401874933": {
+  "fecha": "2026-09-14",
+  "comp": "Italian Serie A",
+  "home": "Como",
+  "away": "Parma",
+  "lh": 1.752,
+  "la": 0.687,
+  "rho": 0.0,
+  "mercado": [
+   0.7769,
+   0.1531,
+   0.07
+  ],
+  "cuotas": [
+   1.22,
+   5.5,
+   10.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874950": {
+  "fecha": "2026-09-14",
+  "comp": "Italian Serie A",
+  "home": "Torino",
+  "away": "AS Roma",
+  "lh": 0.877,
+  "la": 1.718,
+  "rho": 0.0,
+  "mercado": [
+   0.1547,
+   0.2338,
+   0.6115
+  ],
+  "cuotas": [
+   5.5,
+   3.8,
+   1.54
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401874966": {
+  "fecha": "2026-09-14",
+  "comp": "Italian Serie A",
+  "home": "Internazionale",
+  "away": "Udinese",
+  "lh": 2.11,
+  "la": 0.816,
+  "rho": 0.0,
+  "mercado": [
+   0.7522,
+   0.1622,
+   0.0857
+  ],
+  "cuotas": [
+   1.26,
+   5.25,
+   9.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841558": {
+  "fecha": "2026-09-14",
+  "comp": "Liga Profesional Argentina",
+  "home": "Banfield",
+  "away": "Barracas Central",
+  "lh": 1.134,
+  "la": 1.017,
+  "rho": -0.05,
+  "mercado": [
+   0.3969,
+   0.3121,
+   0.291
+  ],
+  "cuotas": [
+   2.35,
+   2.95,
+   3.15
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841555": {
+  "fecha": "2026-09-14",
+  "comp": "Liga Profesional Argentina",
+  "home": "Deportivo Riestra",
+  "away": "Lanús",
+  "lh": 1.066,
+  "la": 0.893,
+  "rho": -0.05,
+  "mercado": [
+   0.3188,
+   0.3373,
+   0.3439
+  ],
+  "cuotas": [
+   2.9,
+   2.75,
+   2.7
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841230": {
+  "fecha": "2026-09-14",
+  "comp": "Brasileirão Série A",
+  "home": "Bahia",
+  "away": "Remo",
+  "lh": 1.759,
+  "la": 0.906,
+  "rho": 0.0,
+  "mercado": [
+   0.6757,
+   0.1932,
+   0.1312
+  ],
+  "cuotas": [
+   1.41,
+   4.6,
+   6.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
  }
 }

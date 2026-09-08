@@ -3460,7 +3460,10 @@
    2.95,
    2.05
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -3805,7 +3808,10 @@
    2.85,
    3.25
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -3829,7 +3835,10 @@
    3.45,
    2.4
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   3
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -3973,7 +3982,10 @@
    3.0,
    2.9
   ],
-  "resultado": null,
+  "resultado": [
+   3,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -5033,6 +5045,54 @@
   "modelo": {
    "vida_media": 300,
    "prior": 12
+  }
+ },
+ "espn401879280": {
+  "fecha": "2026-09-14",
+  "comp": "Premier League",
+  "home": "Leeds United",
+  "away": "Newcastle United",
+  "lh": 1.394,
+  "la": 1.439,
+  "rho": -0.02,
+  "mercado": [
+   0.3952,
+   0.2745,
+   0.3304
+  ],
+  "cuotas": [
+   2.4,
+   3.4,
+   2.85
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 5
+  }
+ },
+ "espn401882877": {
+  "fecha": "2026-09-14",
+  "comp": "Spanish LALIGA",
+  "home": "Villarreal",
+  "away": "Real Betis",
+  "lh": 1.814,
+  "la": 1.17,
+  "rho": 0.0,
+  "mercado": [
+   0.5035,
+   0.2465,
+   0.25
+  ],
+  "cuotas": [
+   1.91,
+   3.8,
+   3.75
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
   }
  }
 }

@@ -88,6 +88,8 @@ LIGAS = {
         "international-clubs-conmebol-libertadores-knockout-stage",
     "conmebol.sudamericana":
         "international-clubs-conmebol-sudamericana-knockout-stage",
+    "uefa.champions": ("uefa-champions-league",
+                       "international-clubs-uefa-champions-league"),
 }
 
 # Ligas que odds-api lista, cuyo fixture cruza, y que Bet365 NO cotiza.
@@ -415,8 +417,13 @@ def eventos_de(slug, key, avisar=True):
                   f"props. Verificá su slug con `python mercado_extra.py "
                   f"--ligas` y agregalo.", file=sys.stderr)
         return []
-    evs, _ = _pedir(f"events?sport=football&league={liga}", key)
-    return evs or []
+    ligas_slugs = (liga,) if isinstance(liga, str) else tuple(liga)
+    evs = []
+    for l in ligas_slugs:
+        sub, _ = _pedir(f"events?sport=football&league={l}", key)
+        if sub and isinstance(sub, list):
+            evs.extend(sub)
+    return evs
 
 
 def ligas_disponibles(key, filtro=""):
@@ -506,6 +513,7 @@ def main():
             "Spanish LALIGA": "esp.1",
             "German Bundesliga": "ger.1",
             "Italian Serie A": "ita.1",
+            "UEFA Champions League": "uefa.champions",
             "J.League": "jpn.1",
             "CONMEBOL Libertadores": "conmebol.libertadores",
             "CONMEBOL Sudamericana": "conmebol.sudamericana"}

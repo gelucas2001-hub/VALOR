@@ -134,7 +134,8 @@ RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
 # La lección, que vale más que el arreglo: una guarda que no puede
 # encenderse se lee igual que una guarda que no hizo falta.
 CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1", "ger.1", "ita.1",
-               "arg.copa", "conmebol.libertadores", "conmebol.sudamericana"}
+               "arg.copa", "conmebol.libertadores", "conmebol.sudamericana",
+               "uefa.champions"}
 TEMPORADAS_HISTORIA = 5    # cuántos años calendario de resultados se le dan
                             # a fuerzas_equipos(). Hasta el 2026-08-24 era 1
                             # de hecho, porque resultados_temporada() pide del
@@ -560,6 +561,22 @@ COMPETICIONES = {
     "ita.1": {"nombre": "Italian Serie A", "rho": 0.00, "conf": 70,
               "prior": 8, "escala": 0.60, "centro": 2.55,
               "corners": 9.35, "fouls": 24.68, "cards": 4.08},
+    # ── UEFA Champions League, agregada el 2026-09-08 ─────────────────
+    #
+    # Copa internacional europea. Los equipos de las cinco grandes ligas
+    # (eng.1, esp.1, fra.1, ger.1, ita.1) se anclan a sus fuerzas
+    # domésticas mediante ancla_de(). Los equipos de ligas que no
+    # seguimos se marcan con `sinAncla: True`.
+    #
+    # Baselines medidos sobre partidos reales de Champions League (2025-2026):
+    #   corners 10.20, fouls 20.84, cards 3.64: medidos de resúmenes ESPN.
+    #   conf 70: escalón conservador de octavo de Kelly.
+    #   prior 8: regularización bayesiana hacia el ancla doméstica.
+    #   rho 0.00: el neutro de Dixon-Coles.
+    #   Sin `escala` ni `centro`: al ser copa no tiene corrección de rango.
+    "uefa.champions": {"nombre": "UEFA Champions League", "rho": 0.00, "conf": 70,
+              "prior": 8,
+              "corners": 10.20, "fouls": 20.84, "cards": 3.64},
     # ── Japon: entro y salio el mismo dia (2026-09-02) ──────────────
     #
     # Entro porque era la liga con mejor punto estimado de ROI de las
@@ -2468,7 +2485,7 @@ def main():
         # domésticas los dos equipos ya son de la misma, que ya está en
         # COMPETICIONES -- preguntar igual sería un pedido nuevo (resolver
         # la liga del equipo vía /teams/{id}) que no suma nada.
-        if slug_consulta in ("conmebol.libertadores", "conmebol.sudamericana"):
+        if slug_consulta in ("conmebol.libertadores", "conmebol.sudamericana", "uefa.champions"):
             # cache_dom_resultados ya lo llenó get_fuerzas() al calibrar la
             # fuerza de este mismo partido -- acá no se pide nada de más.
             slug_liga = liga_domestica(tid, slug_consulta, cache_ligas)

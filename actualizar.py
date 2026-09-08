@@ -2514,29 +2514,27 @@ def main():
             equipos = ({p["home"] for p in actuales}
                        | {p["away"] for p in actuales})
             anclas = {}
-            for tid in equipos:
-                a = ancla_de(tid, slug, season, hoy, cache_ligas, cache_dom, factores,
-                             cache_dom_resultados=cache_dom_resultados)
-                if a:
-                    anclas[tid] = a
-            if anclas:
-                print(f"    ancladas {len(anclas)} de {len(equipos)} fuerzas a la liga local")
-            # Quien quedo SIN ancla, y SOLO donde el ancla aplica.
-            #
-            # En una liga, `ancla_de` devuelve None a proposito: la liga
-            # local ES esta competicion, asi que la fuerza sale de aca
-            # mismo. Marcar eso como "sin ancla" apagaba Premier y Ligue
-            # 1 enteras — 19 partidos, la primera corrida con esto
-            # puesto. El hueco de verdad es el otro: una COPA donde un
-            # equipo viene de una division que no seguimos, y entonces no
-            # tiene fuerza calibrada en ningun lado.
-            for tid in equipos:
-                if tid in anclas:
-                    continue
-                propia = liga_domestica(tid, slug, cache_ligas)
-                if propia == slug:
-                    continue          # su liga es esta: la fuerza sale de aca
-                sin_ancla.setdefault(slug, set()).add(tid)
+            # Ancla: cada equipo se regulariza hacia lo que vale en su liga
+            # local, no hacia el promedio de esta copa. En una liga doméstica
+            # no aplica (la liga local ES esta competición) y la fuerza sale de
+            # acá mismo. El hueco de verdad es una COPA donde un equipo viene de
+            # una división que no seguimos, y entonces no tiene fuerza calibrada
+            # en ningún lado.
+            if slug not in LIGAS_DOMESTICAS:
+                for tid in equipos:
+                    a = ancla_de(tid, slug, season, hoy, cache_ligas, cache_dom, factores,
+                                 cache_dom_resultados=cache_dom_resultados)
+                    if a:
+                        anclas[tid] = a
+                if anclas:
+                    print(f"    ancladas {len(anclas)} de {len(equipos)} fuerzas a la liga local")
+                for tid in equipos:
+                    if tid in anclas:
+                        continue
+                    propia = liga_domestica(tid, slug, cache_ligas)
+                    if propia == slug:
+                        continue          # su liga es esta: la fuerza sale de aca
+                    sin_ancla.setdefault(slug, set()).add(tid)
             cache_fuerzas[slug] = fuerzas_equipos(
                 resultados, hoy, anclas=anclas,
                 prior=COMPETICIONES[slug].get("prior"))

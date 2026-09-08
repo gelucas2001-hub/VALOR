@@ -362485,6 +362485,21 @@
     "3.5": 5.5,
     "4.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.8,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 15.0
+   }
   }
  ],
  "espn401912518__remates__Nicolas Lopez": [
@@ -362674,6 +362689,21 @@
     "3.5": 8.0,
     "4.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 21.0
+   }
   }
  ],
  "espn401912518__remates__Franco Zapiola": [
@@ -362814,6 +362844,20 @@
     "2.5": 5.5,
     "3.5": 13.0,
     "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0
    }
   }
  ],
@@ -363099,6 +363143,20 @@
     "2.5": 5.5,
     "3.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "3.5": 15.0,
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 6.0
+   }
   }
  ],
  "espn401912518__remates__Tomas Nasif": [
@@ -363204,6 +363262,20 @@
     "3.5": 17.0,
     "4.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401912518__remates__Alisson Castro": [
@@ -363264,6 +363336,20 @@
     "2.5": 6.5,
     "3.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.25,
+    "2.5": 8.0,
+    "3.5": 19.0
+   }
   }
  ],
  "espn401912518__remates__Kevin Retamar": [
@@ -363308,6 +363394,21 @@
     "1.5": 2.5,
     "2.5": 5.5
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "4.5": 21.0,
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 10.0
+   }
   }
  ],
  "espn401912518__remates__Juan Gauto": [
@@ -363351,6 +363452,20 @@
     "1.5": 3.25,
     "2.5": 9.0,
     "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "2.5": 9.0,
+    "3.5": 21.0,
+    "0.5": 1.533,
+    "1.5": 3.4
    }
   }
  ],
@@ -363438,6 +363553,20 @@
     "1.5": 4.333,
     "2.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 10.0
+   }
   }
  ],
  "espn401912518__remates__Thiago Silva": [
@@ -363466,6 +363595,20 @@
     "0.5": 1.727,
     "1.5": 4.333,
     "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 10.0
    }
   }
  ],
@@ -363607,6 +363750,20 @@
     "2.5": 9.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.75,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
   }
  ],
  "espn401912518__remates__Ivan Gomez": [
@@ -363718,6 +363875,19 @@
     "1.5": 6.0,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.0,
+    "2.5": 15.0
+   }
   }
  ],
  "espn401912518__remates__Manuel Tucker": [
@@ -363774,6 +363944,19 @@
     "1.5": 6.0,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.0,
+    "2.5": 15.0
+   }
   }
  ],
  "espn401912518__remates__Ignacio Oliveira": [
@@ -363801,6 +363984,19 @@
     "0.5": 2.0,
     "1.5": 6.0,
     "2.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.0,
+    "2.5": 15.0
    }
   }
  ],
@@ -363856,6 +364052,19 @@
     "0.5": 1.8,
     "1.5": 4.5,
     "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "2.5": 15.0,
+    "0.5": 1.8,
+    "1.5": 4.5
    }
   }
  ],
@@ -364067,6 +364276,19 @@
     "1.5": 4.333,
     "2.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
   }
  ],
  "espn401912518__remates__Santiago Dalmasso": [
@@ -364134,6 +364356,19 @@
    "lado": "V",
    "lineas": {
     "3.5": 21.0,
+    "0.5": 1.727,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
     "0.5": 1.727,
     "1.5": 4.333,
     "2.5": 13.0
@@ -364618,6 +364853,24 @@
     "7.5": 11.0,
     "8.5": 19.0,
     "0.5": 1.01
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "2.5": 1.25,
+    "1.5": 1.071,
+    "3.5": 1.571,
+    "4.5": 2.25,
+    "5.5": 3.5,
+    "6.5": 6.0,
+    "7.5": 11.0,
+    "8.5": 19.0
    }
   }
  ],
@@ -365112,6 +365365,18 @@
     "0.5": 2.1,
     "1.5": 7.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 9.0
+   }
   }
  ],
  "espn401912518__al_arco__Hercules": [
@@ -365151,6 +365416,18 @@
     "0.5": 2.1,
     "1.5": 7.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 9.0
    }
   }
  ],
@@ -365218,6 +365495,18 @@
     "0.5": 2.5,
     "1.5": 10.0,
     "2.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
    }
   }
  ],
@@ -365551,6 +365840,18 @@
     "0.5": 2.625,
     "1.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "1.5": 13.0,
+    "0.5": 3.0
+   }
   }
  ],
  "espn401912518__al_arco__Juan Pablo Freytes": [
@@ -365717,6 +366018,18 @@
     "0.5": 3.0,
     "1.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "V",
+   "lineas": {
+    "1.5": 15.0,
+    "0.5": 3.25
+   }
   }
  ],
  "espn401912518__al_arco__Martin Barrios": [
@@ -365857,6 +366170,18 @@
     "0.5": 4.0,
     "1.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401912518__al_arco__Matheus Martinelli": [
@@ -365920,6 +366245,18 @@
    "lineas": {
     "0.5": 4.0,
     "1.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
    }
   }
  ],
@@ -366049,6 +366386,18 @@
     "0.5": 4.333,
     "1.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "1.5": 21.0,
+    "0.5": 3.75
+   }
   }
  ],
  "espn401912518__al_arco__Rene": [
@@ -366075,6 +366424,18 @@
     "0.5": 4.333,
     "1.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "1.5": 21.0,
+    "0.5": 3.75
+   }
   }
  ],
  "espn401912518__al_arco__Ignacio Oliveira": [
@@ -366100,6 +366461,18 @@
    "lineas": {
     "0.5": 4.333,
     "1.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Fluminense",
+   "away": "Platense",
+   "lado": "L",
+   "lineas": {
+    "1.5": 21.0,
+    "0.5": 3.75
    }
   }
  ],
@@ -371440,6 +371813,23 @@
     "5.5": 11.0,
     "6.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.3,
+    "2.5": 1.833,
+    "3.5": 3.25,
+    "0.5": 1.05,
+    "4.5": 5.5,
+    "5.5": 11.0,
+    "6.5": 21.0
+   }
   }
  ],
  "espn401913960__remates__Alexis Zapata": [
@@ -371509,6 +371899,23 @@
     "3.5": 3.5,
     "4.5": 7.0,
     "5.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.2,
+    "3.5": 4.0,
+    "4.5": 8.0,
+    "5.5": 17.0,
+    "6.5": 21.0
    }
   }
  ],
@@ -371869,6 +372276,22 @@
     "4.5": 13.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.666,
+    "2.5": 3.0,
+    "3.5": 6.0,
+    "0.5": 1.142,
+    "4.5": 13.0,
+    "5.5": 21.0
+   }
   }
  ],
  "espn401913960__remates__Luis Palacios": [
@@ -372088,6 +372511,22 @@
     "2.5": 3.0,
     "3.5": 6.0,
     "4.5": 13.0,
+    "5.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.1,
+    "1.5": 1.444,
+    "2.5": 2.25,
+    "3.5": 4.0,
+    "4.5": 9.0,
     "5.5": 21.0
    }
   }
@@ -372498,6 +372937,20 @@
     "2.5": 9.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 9.0,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401913960__remates__Jhojan Torres": [
@@ -372552,6 +373005,20 @@
    "lado": "L",
    "lineas": {
     "0.5": 1.533,
+    "1.5": 3.4,
+    "2.5": 9.0,
+    "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.5,
     "1.5": 3.4,
     "2.5": 9.0,
     "3.5": 21.0
@@ -373433,6 +373900,19 @@
     "1.5": 4.0,
     "2.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "1.5": 4.333,
+    "0.5": 1.727,
+    "2.5": 13.0
+   }
   }
  ],
  "espn401913960__remates__Santiago Sosa": [
@@ -373923,6 +374403,18 @@
     "0.5": 2.75,
     "1.5": 10.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 11.0
+   }
   }
  ],
  "espn401913960__remates__Lucas Freitas": [
@@ -373963,6 +374455,18 @@
     "0.5": 2.75,
     "1.5": 10.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 11.0
+   }
   }
  ],
  "espn401913960__remates__Alan Saldivia": [
@@ -373989,6 +374493,18 @@
    "lineas": {
     "0.5": 2.75,
     "1.5": 10.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.0,
+    "1.5": 11.0
    }
   }
  ],
@@ -374070,6 +374586,25 @@
     "9.5": 21.0,
     "8.5": 11.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "4.5": 2.0,
+    "9.5": 21.0,
+    "2.5": 1.181,
+    "3.5": 1.5,
+    "5.5": 3.0,
+    "6.5": 5.0,
+    "7.5": 9.0,
+    "8.5": 15.0,
+    "1.5": 1.04
+   }
   }
  ],
  "espn401913960__al_arco__Hugo Rodallega": [
@@ -374116,6 +374651,21 @@
     "3.5": 11.0,
     "2.5": 4.0,
     "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "1.5": 2.2,
+    "2.5": 4.5,
+    "4.5": 21.0,
+    "0.5": 1.222,
+    "3.5": 11.0
    }
   }
  ],
@@ -374357,6 +374907,20 @@
     "2.5": 10.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "1.5": 3.5,
+    "3.5": 21.0,
+    "0.5": 1.5,
+    "2.5": 10.0
+   }
   }
  ],
  "espn401913960__al_arco__Andres Gomez": [
@@ -374492,6 +375056,19 @@
     "0.5": 1.666,
     "1.5": 4.0,
     "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "1.5": 4.333,
+    "2.5": 15.0,
+    "0.5": 1.666
    }
   }
  ],
@@ -374654,6 +375231,19 @@
     "1.5": 6.5,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.1,
+    "1.5": 7.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401913960__al_arco__Adson": [
@@ -374801,6 +375391,19 @@
     "0.5": 1.833,
     "1.5": 5.5,
     "2.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "L",
+   "lineas": {
+    "1.5": 6.0,
+    "2.5": 21.0,
+    "0.5": 1.833
    }
   }
  ],
@@ -376137,6 +376740,17 @@
    "lineas": {
     "0.5": 6.5
    }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "V",
+   "lineas": {
+    "0.5": 7.0
+   }
   }
  ],
  "espn401913960__al_arco__Bruno Andre": [
@@ -376195,6 +376809,17 @@
    "lado": "V",
    "lineas": {
     "0.5": 6.5
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "V",
+   "lineas": {
+    "0.5": 7.0
    }
   }
  ],
@@ -376338,6 +376963,17 @@
    "lado": "V",
    "lineas": {
     "0.5": 6.5
+   }
+  },
+  {
+   "t": "2026-09-08T18:10",
+   "fecha": "2026-09-08",
+   "comp": "CONMEBOL Sudamericana",
+   "home": "Independiente Santa Fe",
+   "away": "Vasco da Gama",
+   "lado": "V",
+   "lineas": {
+    "0.5": 7.0
    }
   }
  ],

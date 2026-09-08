@@ -82,6 +82,7 @@ LIGAS = {
     "eng.1": "england-premier-league",
     "fra.1": "france-ligue-1",
     "esp.1": "spain-laliga",
+    "ger.1": "germany-bundesliga",
     "conmebol.libertadores":
         "international-clubs-conmebol-libertadores-knockout-stage",
     "conmebol.sudamericana":
@@ -502,6 +503,7 @@ def main():
             "Brasileirão Série A": "bra.1",
             "Premier League": "eng.1", "Ligue 1": "fra.1",
             "Spanish LALIGA": "esp.1",
+            "German Bundesliga": "ger.1",
             "J.League": "jpn.1",
             "CONMEBOL Libertadores": "conmebol.libertadores",
             "CONMEBOL Sudamericana": "conmebol.sudamericana"}

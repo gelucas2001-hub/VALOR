@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-09-02",
+ "actualizado": "2026-09-08",
  "fuente": "football-data.co.uk vía historico.py, cruzado con equipos.py contra los ids de ESPN",
  "ligas": {
   "eng.1": {
@@ -1645,6 +1645,517 @@
     "Cadiz",
     "Almeria",
     "Oviedo"
+   ]
+  },
+  "ger.1": {
+   "partidos": 3366,
+   "parametros": {
+    "remates": {
+     "media": 13.29,
+     "disp": 1.8,
+     "k": 8.6,
+     "equipos": 17
+    },
+    "al_arco": {
+     "media": 4.91,
+     "disp": 1.25,
+     "k": 7.3,
+     "equipos": 17
+    },
+    "corners": {
+     "media": 4.97,
+     "disp": 1.51,
+     "k": 18.4,
+     "equipos": 17
+    },
+    "faltas": {
+     "media": 11.97,
+     "disp": 1.29,
+     "k": 9.3,
+     "equipos": 17
+    },
+    "tarjetas": {
+     "media": 1.87,
+     "disp": 0.94,
+     "k": 26.2,
+     "equipos": 17
+    }
+   },
+   "equipos": {
+    "132": {
+     "remates": {
+      "n": 374,
+      "suma": 6903.0,
+      "suma2": 139343.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 2817.0,
+      "suma2": 25151.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 2564.0,
+      "suma2": 21240.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 3503.0,
+      "suma2": 36709.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 514.0,
+      "suma2": 1266.0
+     }
+    },
+    "127": {
+     "remates": {
+      "n": 136,
+      "suma": 1548.0,
+      "suma2": 20782.0
+     },
+     "al_arco": {
+      "n": 136,
+      "suma": 541.0,
+      "suma2": 2879.0
+     },
+     "corners": {
+      "n": 136,
+      "suma": 614.0,
+      "suma2": 3622.0
+     },
+     "faltas": {
+      "n": 136,
+      "suma": 2015.0,
+      "suma2": 32331.0
+     },
+     "tarjetas": {
+      "n": 136,
+      "suma": 283.0,
+      "suma2": 863.0
+     }
+    },
+    "3841": {
+     "remates": {
+      "n": 374,
+      "suma": 4432.0,
+      "suma2": 61056.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 1511.0,
+      "suma2": 7999.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 1592.0,
+      "suma2": 9278.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 4743.0,
+      "suma2": 66047.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 809.0,
+      "suma2": 2455.0
+     }
+    },
+    "124": {
+     "remates": {
+      "n": 374,
+      "suma": 5376.0,
+      "suma2": 87618.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 2108.0,
+      "suma2": 14562.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 2049.0,
+      "suma2": 14689.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 3862.0,
+      "suma2": 44672.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 586.0,
+      "suma2": 1542.0
+     }
+    },
+    "268": {
+     "remates": {
+      "n": 374,
+      "suma": 4852.0,
+      "suma2": 72286.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 1858.0,
+      "suma2": 11574.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 1759.0,
+      "suma2": 11077.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 4108.0,
+      "suma2": 50004.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 629.0,
+      "suma2": 1569.0
+     }
+    },
+    "131": {
+     "remates": {
+      "n": 374,
+      "suma": 5409.0,
+      "suma2": 88913.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 2085.0,
+      "suma2": 14243.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 2101.0,
+      "suma2": 15261.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 4261.0,
+      "suma2": 54045.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 673.0,
+      "suma2": 1879.0
+     }
+    },
+    "7911": {
+     "remates": {
+      "n": 374,
+      "suma": 5075.0,
+      "suma2": 78721.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 1862.0,
+      "suma2": 11362.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 1806.0,
+      "suma2": 11440.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 4831.0,
+      "suma2": 68643.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 766.0,
+      "suma2": 2200.0
+     }
+    },
+    "2950": {
+     "remates": {
+      "n": 374,
+      "suma": 4714.0,
+      "suma2": 67216.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 1648.0,
+      "suma2": 9348.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 1787.0,
+      "suma2": 11167.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 5104.0,
+      "suma2": 75878.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 752.0,
+      "suma2": 2128.0
+     }
+    },
+    "137": {
+     "remates": {
+      "n": 340,
+      "suma": 4135.0,
+      "suma2": 56857.0
+     },
+     "al_arco": {
+      "n": 340,
+      "suma": 1478.0,
+      "suma2": 8148.0
+     },
+     "corners": {
+      "n": 340,
+      "suma": 1445.0,
+      "suma2": 8345.0
+     },
+     "faltas": {
+      "n": 340,
+      "suma": 4231.0,
+      "suma2": 59069.0
+     },
+     "tarjetas": {
+      "n": 340,
+      "suma": 710.0,
+      "suma2": 2102.0
+     }
+    },
+    "133": {
+     "remates": {
+      "n": 238,
+      "suma": 2847.0,
+      "suma2": 39723.0
+     },
+     "al_arco": {
+      "n": 238,
+      "suma": 949.0,
+      "suma2": 4985.0
+     },
+     "corners": {
+      "n": 238,
+      "suma": 1070.0,
+      "suma2": 6154.0
+     },
+     "faltas": {
+      "n": 238,
+      "suma": 3189.0,
+      "suma2": 46271.0
+     },
+     "tarjetas": {
+      "n": 238,
+      "suma": 475.0,
+      "suma2": 1373.0
+     }
+    },
+    "134": {
+     "remates": {
+      "n": 306,
+      "suma": 4138.0,
+      "suma2": 64346.0
+     },
+     "al_arco": {
+      "n": 306,
+      "suma": 1519.0,
+      "suma2": 9973.0
+     },
+     "corners": {
+      "n": 306,
+      "suma": 1534.0,
+      "suma2": 10186.0
+     },
+     "faltas": {
+      "n": 306,
+      "suma": 3444.0,
+      "suma2": 42828.0
+     },
+     "tarjetas": {
+      "n": 306,
+      "suma": 581.0,
+      "suma2": 1611.0
+     }
+    },
+    "122": {
+     "remates": {
+      "n": 306,
+      "suma": 3689.0,
+      "suma2": 51475.0
+     },
+     "al_arco": {
+      "n": 306,
+      "suma": 1288.0,
+      "suma2": 7476.0
+     },
+     "corners": {
+      "n": 306,
+      "suma": 1500.0,
+      "suma2": 9602.0
+     },
+     "faltas": {
+      "n": 306,
+      "suma": 3794.0,
+      "suma2": 52084.0
+     },
+     "tarjetas": {
+      "n": 306,
+      "suma": 610.0,
+      "suma2": 1738.0
+     }
+    },
+    "125": {
+     "remates": {
+      "n": 374,
+      "suma": 4645.0,
+      "suma2": 65973.0
+     },
+     "al_arco": {
+      "n": 374,
+      "suma": 1692.0,
+      "suma2": 9796.0
+     },
+     "corners": {
+      "n": 374,
+      "suma": 1934.0,
+      "suma2": 13312.0
+     },
+     "faltas": {
+      "n": 374,
+      "suma": 4717.0,
+      "suma2": 66117.0
+     },
+     "tarjetas": {
+      "n": 374,
+      "suma": 781.0,
+      "suma2": 2357.0
+     }
+    },
+    "126": {
+     "remates": {
+      "n": 340,
+      "suma": 4112.0,
+      "suma2": 57902.0
+     },
+     "al_arco": {
+      "n": 340,
+      "suma": 1503.0,
+      "suma2": 8525.0
+     },
+     "corners": {
+      "n": 340,
+      "suma": 1414.0,
+      "suma2": 7734.0
+     },
+     "faltas": {
+      "n": 340,
+      "suma": 3816.0,
+      "suma2": 47340.0
+     },
+     "tarjetas": {
+      "n": 340,
+      "suma": 541.0,
+      "suma2": 1419.0
+     }
+    },
+    "11420": {
+     "remates": {
+      "n": 340,
+      "suma": 4914.0,
+      "suma2": 79664.0
+     },
+     "al_arco": {
+      "n": 340,
+      "suma": 1923.0,
+      "suma2": 13279.0
+     },
+     "corners": {
+      "n": 340,
+      "suma": 1779.0,
+      "suma2": 11939.0
+     },
+     "faltas": {
+      "n": 340,
+      "suma": 3973.0,
+      "suma2": 50975.0
+     },
+     "tarjetas": {
+      "n": 340,
+      "suma": 582.0,
+      "suma2": 1494.0
+     }
+    },
+    "3307": {
+     "remates": {
+      "n": 34,
+      "suma": 432.0,
+      "suma2": 6002.0
+     },
+     "al_arco": {
+      "n": 34,
+      "suma": 132.0,
+      "suma2": 654.0
+     },
+     "corners": {
+      "n": 34,
+      "suma": 176.0,
+      "suma2": 1192.0
+     },
+     "faltas": {
+      "n": 34,
+      "suma": 410.0,
+      "suma2": 5610.0
+     },
+     "tarjetas": {
+      "n": 34,
+      "suma": 85.0,
+      "suma2": 283.0
+     }
+    },
+    "598": {
+     "remates": {
+      "n": 237,
+      "suma": 2809.0,
+      "suma2": 37627.0
+     },
+     "al_arco": {
+      "n": 237,
+      "suma": 970.0,
+      "suma2": 4976.0
+     },
+     "corners": {
+      "n": 237,
+      "suma": 1052.0,
+      "suma2": 6028.0
+     },
+     "faltas": {
+      "n": 237,
+      "suma": 3043.0,
+      "suma2": 42687.0
+     },
+     "tarjetas": {
+      "n": 237,
+      "suma": 463.0,
+      "suma2": 1367.0
+     }
+    }
+   },
+   "sin_cruzar": [
+    "Hertha",
+    "Darmstadt",
+    "Hannover",
+    "Ingolstadt",
+    "Wolfsburg",
+    "Fortuna Dusseldorf",
+    "Nurnberg",
+    "Bielefeld",
+    "Greuther Furth",
+    "Bochum",
+    "Heidenheim",
+    "Holstein Kiel",
+    "St Pauli"
    ]
   }
  },

@@ -96,6 +96,16 @@ ALIAS = {
     "celta": "Celta Vigo",
     "vallecano": "Rayo Vallecano",
     "la coruna": "Deportivo",
+
+    # ── ger (2026-09-08) ────────────────────────────────────────────
+    # De los 18 equipos de la Bundesliga en ESPN, 14 cruzan directo con
+    # su displayName o shortDisplayName. Estas tres entradas resuelven
+    # las abreviaturas alemanas del CSV ("M'gladbach", "Ein Frankfurt"
+    # y "FC Koln"). El 18 es SV Elversberg, ascendido sin historia en
+    # primera división, idéntico a Racing Santander en España.
+    "mgladbach": "Borussia Mönchengladbach",
+    "ein frankfurt": "Eintracht Frankfurt",
+    "fc koln": "FC Cologne",
 }
 
 
@@ -235,7 +245,8 @@ def main():
     import historico
 
     print(__doc__)
-    for liga, slug in (("eng", "eng.1"), ("fra", "fra.1"), ("spa", "esp.1")):
+    for liga, slug in (("eng", "eng.1"), ("fra", "fra.1"), ("spa", "esp.1"),
+                       ("ger", "ger.1")):
         eq = equipos_espn(slug)
         idx = indice(eq)
         amb = ambiguos(eq)

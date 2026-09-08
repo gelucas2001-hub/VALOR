@@ -64,7 +64,7 @@ DESTINO = RAIZ / "data" / "historia_equipos.json"
 # que no traen estadísticas por partido quedan registradas en
 # `sin_estadisticas` en vez de generar una entrada vacía.
 LIGAS = {"arg": "arg.1", "bra": "bra.1", "eng": "eng.1", "fra": "fra.1",
-         "spa": "esp.1"}
+         "spa": "esp.1", "ger": "ger.1"}
 
 
 def media(d):

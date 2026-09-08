@@ -107,6 +107,7 @@ LIGAS = {
     # `usa` viene en formato unico y no las trae, igual que arg y bra.
     "spa": {"archivo": "SP1", "pais": "Spain", "formato": "temporadas"},
     "usa": {"archivo": "USA", "pais": "USA", "formato": "unico"},
+    "ger": {"archivo": "D1", "pais": "Germany", "formato": "temporadas"},
 }
 
 

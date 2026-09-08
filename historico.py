@@ -108,6 +108,7 @@ LIGAS = {
     "spa": {"archivo": "SP1", "pais": "Spain", "formato": "temporadas"},
     "usa": {"archivo": "USA", "pais": "USA", "formato": "unico"},
     "ger": {"archivo": "D1", "pais": "Germany", "formato": "temporadas"},
+    "ita": {"archivo": "I1", "pais": "Italy", "formato": "temporadas"},
 }
 
 

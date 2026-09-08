@@ -106,6 +106,13 @@ ALIAS = {
     "mgladbach": "Borussia Mönchengladbach",
     "ein frankfurt": "Eintracht Frankfurt",
     "fc koln": "FC Cologne",
+
+    # ── ita (2026-09-08) ────────────────────────────────────────────
+    # De los 20 equipos de la Serie A en ESPN, 18 cruzan directo por
+    # displayName o shortDisplayName. Estas dos entradas resuelven
+    # Roma ("AS Roma") e Inter ("Internazionale"). Cobertura: 20 de 20 (100%).
+    "roma": "AS Roma",
+    "inter": "Internazionale",
 }
 
 
@@ -246,7 +253,7 @@ def main():
 
     print(__doc__)
     for liga, slug in (("eng", "eng.1"), ("fra", "fra.1"), ("spa", "esp.1"),
-                       ("ger", "ger.1")):
+                       ("ger", "ger.1"), ("ita", "ita.1")):
         eq = equipos_espn(slug)
         idx = indice(eq)
         amb = ambiguos(eq)

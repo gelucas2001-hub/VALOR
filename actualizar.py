@@ -133,8 +133,8 @@ RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
 #
 # La lección, que vale más que el arreglo: una guarda que no puede
 # encenderse se lee igual que una guarda que no hizo falta.
-CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1", "ger.1", "arg.copa",
-               "conmebol.libertadores", "conmebol.sudamericana"}
+CON_FUERZAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1", "ger.1", "ita.1",
+               "arg.copa", "conmebol.libertadores", "conmebol.sudamericana"}
 TEMPORADAS_HISTORIA = 5    # cuántos años calendario de resultados se le dan
                             # a fuerzas_equipos(). Hasta el 2026-08-24 era 1
                             # de hecho, porque resultados_temporada() pide del
@@ -542,6 +542,24 @@ COMPETICIONES = {
     "ger.1": {"nombre": "German Bundesliga", "rho": 0.00, "conf": 70,
               "prior": 8, "escala": 0.60, "centro": 3.20,
               "corners": 9.75, "fouls": 21.54, "cards": 3.93},
+    # ── Italia, agregada el 2026-09-08 ──────────────────────────────
+    #
+    # Calibración walk-forward sobre 4140 partidos de football-data
+    # (I1, 11 temporadas) y baselines sobre 1140 partidos de las últimas
+    # 3 temporadas:
+    #
+    #   centro 2.55: promedio de gol de las últimas temporadas.
+    #   escala 0.60: elegido en test por barrido_escala_lambda (+1.75% ROI O/U).
+    #   conf 70: escalón conservador de octavo de Kelly.
+    #   prior 8: regularización bayesiana para 20 equipos ida y vuelta.
+    #   rho 0.00: el neutro de Dixon-Coles.
+    #   corners 9.35, fouls 24.68, cards 4.08: promedios de 3 temporadas.
+    #
+    # Cobertura de Bet365 verificada contra odds-api: 82 bloques por
+    # partido, incluidos 5 bloques de jugador (remates y al arco).
+    "ita.1": {"nombre": "Italian Serie A", "rho": 0.00, "conf": 70,
+              "prior": 8, "escala": 0.60, "centro": 2.55,
+              "corners": 9.35, "fouls": 24.68, "cards": 4.08},
     # ── Japon: entro y salio el mismo dia (2026-09-02) ──────────────
     #
     # Entro porque era la liga con mejor punto estimado de ROI de las
@@ -830,7 +848,7 @@ def roster(slug, team_id):
 # resto de COMPETICIONES son copas. slugs_plantel() usa esto para saber
 # si un partido YA es de liga (y entonces no hace falta, ni corresponde,
 # sumar otra liga encima).
-LIGAS_DOMESTICAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1", "ger.1"}
+LIGAS_DOMESTICAS = {"arg.1", "bra.1", "eng.1", "fra.1", "esp.1", "ger.1", "ita.1"}
 
 
 def slugs_plantel(slug_consulta, slug_liga):

@@ -464,7 +464,7 @@ def atleta(pid, titular=True, **st):
 ROSTERS = {"rosters": [
     {"team": {"id": "9739"}, "roster": [
         atleta("1", True,  totalShots=4, shotsOnTarget=2, foulsCommitted=1,
-               yellowCards=1, totalGoals=1, goalAssists=0),
+               yellowCards=1, totalGoals=1, goalAssists=0, foulsSuffered=2),
         atleta("2", False, totalShots=0, shotsOnTarget=0, foulsCommitted=3,
                yellowCards=0, totalGoals=0, goalAssists=1),
         atleta("3", False, appearances=0, totalShots=0),   # no jugo
@@ -487,6 +487,7 @@ prueba("faltas", f[i("faltas")] == 1)
 prueba("amarillas", f[i("amarillas")] == 1)
 prueba("goles", f[i("goles")] == 1)
 prueba("asistencias", jp["2"][i("asist")] == 1)
+prueba("faltas recibidas", f[i("faltas_recibidas")] == 2)
 prueba("marca si fue titular", f[i("titular")] == 1)
 prueba("y si entro desde el banco", jp["2"][i("titular")] == 0)
 

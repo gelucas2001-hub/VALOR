@@ -131,6 +131,30 @@ prueba("la línea se movió: agrega una foto nueva",
 prueba("sin mercadoExtra, no rompe y no agrega nada",
        A.snapshot_props({}, [{"id": "espn2"}], "t1") == {})
 
+PARTIDO_CON_FALTAS_REC = {
+    "id": "espn3", "date": "2026-08-26", "comp": "Premier League",
+    "home": "Arsenal", "away": "Chelsea",
+    "mercadoExtra": {
+        "faltas_recibidas": {"Bukayo Saka": {"lado": "L", "lineas": {"1.5": 1.65}}},
+    },
+}
+_foto_rec = A.snapshot_props({}, [PARTIDO_CON_FALTAS_REC], "t1")
+prueba("snapshot_props guarda faltas_recibidas",
+       "espn3__faltas_recibidas__Bukayo Saka" in _foto_rec)
+
+# Compatibilidad de serie_jugadores: fila vieja de 7 items vs nueva de 8 items
+_cache_compat = {
+    "m_viejo": {"_jugadores": {"p1": [2, 1, 3, 0, 1, 0, 1]}},  # 7 items
+    "m_nuevo": {"_jugadores": {"p1": [1, 0, 0, 1, 0, 1, 4, 1]}},  # 8 items (faltas_recibidas = 4)
+}
+_serie_compat = A.serie_jugadores([{"id": "m_nuevo"}, {"id": "m_viejo"}], _cache_compat)
+prueba("serie_jugadores desempaca fila vieja y nueva sin error",
+       "p1" in _serie_compat and _serie_compat["p1"]["pj"] == 2)
+prueba("serie_jugadores asigna 0 a faltas_recibidas en fila vieja",
+       _serie_compat["p1"]["faltas_recibidas"] == [4, 0])
+prueba("serie_jugadores preserva titular en fila vieja y nueva",
+       _serie_compat["p1"]["tit"] == 2)
+
 
 print("")
 print("corregir_escala() — el modelo exageraba su rango de goles")

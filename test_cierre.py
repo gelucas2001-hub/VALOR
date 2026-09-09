@@ -50,6 +50,20 @@ class TestCierre(unittest.TestCase):
         self.assertEqual(p4["direccion"], "mas")
         self.assertEqual(p4["linea"], 0.5)
 
+        # 5. Faltas recibidas
+        p5 = C.parsear_mercado_jugador("Jack Grealish más de 2.5 faltas recibidas")
+        self.assertEqual(p5["jugador"], "jack grealish")
+        self.assertEqual(p5["metrica"], "faltas_recibidas")
+        self.assertEqual(p5["direccion"], "mas")
+        self.assertEqual(p5["linea"], 2.5)
+
+        # 6. Faltas recibidas en criollo ("le haran falta")
+        p6 = C.parsear_mercado_jugador("Bukayo Saka más de 1.5 le haran falta")
+        self.assertEqual(p6["jugador"], "bukayo saka")
+        self.assertEqual(p6["metrica"], "faltas_recibidas")
+        self.assertEqual(p6["direccion"], "mas")
+        self.assertEqual(p6["linea"], 1.5)
+
     def test_buscar_jugador_en_plantel(self):
         candidatos = [
             ("101", "Franco Vázquez"),
@@ -157,6 +171,32 @@ class TestCierre(unittest.TestCase):
         self.assertEqual(res3["resultado"], "nula")
         self.assertEqual(res3["devolucion"], 0)
         self.assertIn("no jugó (apuesta nula)", res3["marcador_final"])
+
+        # 4. Jugador con faltas recibidas (formato nuevo de 8 campos)
+        cache_disc_rec = {
+            "12345": {
+                "1": {}, "2": {},
+                "_jugadores": {
+                    # remates, al_arco, faltas, amarillas, goles, asist, faltas_recibidas, titular
+                    "105": [1, 0, 0, 0, 0, 0, 3, 1],
+                }
+            }
+        }
+        planteles_rec = {
+            "equipos": {
+                "1": [{"id": "105", "nombre": "Jack Grealish"}],
+            }
+        }
+        ap4 = {
+            "id_partido": "espn12345",
+            "mercado": "Jack Grealish más de 2.5 faltas recibidas",
+            "cuota": 1.85, "monto": 1000,
+        }
+        res4 = C.liquidar_jugador(ap4, cache_disc_rec, planteles_rec)
+        self.assertIsNotNone(res4)
+        self.assertEqual(res4["resultado"], "ganada")
+        self.assertEqual(res4["devolucion"], 850)
+        self.assertIn("3 faltas_recibidas", res4["marcador_final"])
 
     def test_obtener_clv(self):
         # 1X2 CLV

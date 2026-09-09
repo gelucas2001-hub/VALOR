@@ -153,10 +153,12 @@ CORNERS = {
 #                           jugador no cruzaría nunca contra ESPN, que
 #                           cruza por igualdad exacta. Entra el día que
 #                           se le enseñe a leer esa etiqueta.
-#   "Player To Be Fouled"   forma correcta, pero son las faltas RECIBIDAS
-#                           y el modelo no tiene esa métrica.
 #
-# Ojo con la cobertura: esto es de Premier. En un partido de arg.1 el
+# `faltas_recibidas` ("Player To Be Fouled") entró el 2026-09-09:
+# ESPN informa `foulsSuffered` por jugador en /summary y Bet365 cotiza
+# la escalera con la misma forma que remates y faltas cometidas.
+#
+# Ojo con la cobertura: esto es de Premier y ligas top. En un partido de arg.1 el
 # único bloque de jugador sin usar era "Player To Score or Assist", o
 # sea que faltas puede no existir en todas las ligas. Que no venga es
 # un estado normal — `extraer()` no escribe la clave y listo.
@@ -164,6 +166,7 @@ JUGADOR = {
     "remates": ("Player Shots", "Player Shots O/U"),
     "al_arco": ("Player Shots on Target", "Player Shots on Target O/U"),
     "faltas": ("Player Fouls Committed", "Player Fouls"),
+    "faltas_recibidas": ("Player To Be Fouled",),
 }
 
 

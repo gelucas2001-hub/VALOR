@@ -373,6 +373,21 @@ prueba("y la escalera entera, no una linea sola",
 prueba("una liga sin ese bloque no escribe la clave",
        "faltas" not in ME.extraer([{"name": "Player Shots", "odds": []}]))
 
+# faltas_recibidas ("Player To Be Fouled")
+FALTAS_REC = [{"name": "Player To Be Fouled", "odds": [
+    {"label": "Jack Grealish (1)", "hdp": 2.5, "over": "1.800"},
+    {"label": "Jack Grealish (1)", "hdp": 3.5, "over": "3.250"},
+    {"label": "Bukayo Saka (2)", "hdp": 1.5, "over": "1.500"}]}]
+ex_rec = ME.extraer(FALTAS_REC)
+prueba("las faltas recibidas de jugador se extraen", "faltas_recibidas" in ex_rec)
+prueba("con el lado bien leído del sufijo en faltas recibidas",
+       ex_rec["faltas_recibidas"]["Jack Grealish"]["lado"] == "L"
+       and ex_rec["faltas_recibidas"]["Bukayo Saka"]["lado"] == "V")
+prueba("y la escalera entera de faltas recibidas",
+       ex_rec["faltas_recibidas"]["Jack Grealish"]["lineas"] == {"2.5": 1.8, "3.5": 3.25})
+prueba("'Player To Be Fouled' ya no aparece como sin usar",
+       "Player To Be Fouled" not in ME.bloques_sin_usar([{"name": "Player To Be Fouled", "odds": []}]))
+
 # Las dos que Bet365 manda y a proposito NO leemos.
 prueba("'Player Cards' sigue sin usarse: no trae hdp",
        "Player Cards" in ME.bloques_sin_usar([{"name": "Player Cards", "odds": []}]))

@@ -1202,15 +1202,16 @@ def estadisticas_equipo(crudo):
 # por 179 partidos, y repetir once nombres de clave por fila multiplica
 # por seis lo que ocupa el cache.
 CAMPOS_JUGADOR_PARTIDO = ("remates", "al_arco", "faltas", "amarillas",
-                          "goles", "asist", "titular")
+                          "goles", "asist", "faltas_recibidas", "titular")
 
 _STAT_JUGADOR = {
-    "remates":   "totalShots",
-    "al_arco":   "shotsOnTarget",
-    "faltas":    "foulsCommitted",
-    "amarillas": "yellowCards",
-    "goles":     "totalGoals",
-    "asist":     "goalAssists",
+    "remates":          "totalShots",
+    "al_arco":          "shotsOnTarget",
+    "faltas":           "foulsCommitted",
+    "amarillas":        "yellowCards",
+    "goles":            "totalGoals",
+    "asist":            "goalAssists",
+    "faltas_recibidas": "foulsSuffered",
 }
 
 # Cuantos partidos hacia atras se guarda la serie de un jugador. Es la
@@ -1329,10 +1330,18 @@ def serie_jugadores(jugados, cache_resumen, tope=SERIE_N, minimo=1):
         filas = (cache_resumen.get(p.get("id")) or {}).get("_jugadores") or {}
         for pid, fila in filas.items():
             d = out.setdefault(pid, {"pj": 0, "tit": 0})
+            es_viejo = len(fila) == len(metricas)  # fila previa de 7 items (6 métricas + titular)
             for n, met in enumerate(metricas):
-                d.setdefault(met, []).append(fila[n])
+                if es_viejo and met == "faltas_recibidas":
+                    val = 0
+                elif n < len(fila):
+                    val = fila[n]
+                else:
+                    val = 0
+                d.setdefault(met, []).append(val)
             d["pj"] += 1
-            d["tit"] += fila[len(metricas)]
+            tit = fila[-1] if fila else 0
+            d["tit"] += tit
     # Una serie de un solo partido no distingue al regular del explosivo,
     # que es para lo unico que existe. Y son peso: planteles.json lo baja
     # el telefono entero en cada carga.
@@ -1374,7 +1383,7 @@ def snapshot_cuotas(previas, partidos, ahora):
     return out
 
 
-CAMPOS_PROPS = ("remates", "al_arco", "faltas")
+CAMPOS_PROPS = ("remates", "al_arco", "faltas", "faltas_recibidas")
 
 
 def snapshot_props(previas, partidos, ahora):
@@ -1593,7 +1602,7 @@ MIN_TOTALES = 20
 
 
 # Las metricas de jugador que tienen mercado por linea.
-METRICAS_JUGADOR = ("remates", "al_arco", "faltas", "amarillas", "goles", "asist")
+METRICAS_JUGADOR = ("remates", "al_arco", "faltas", "amarillas", "goles", "asist", "faltas_recibidas")
 
 
 def parametros_jugadores_por_liga(planteles, liga_de_equipo):

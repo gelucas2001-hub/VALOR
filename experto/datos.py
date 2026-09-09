@@ -445,10 +445,11 @@ def jugadores_partido(id_partido):
     for tid in (m.get("homeId"), m.get("awayId")):
         for j in equipos.get(str(tid), []):
             s = j.get("serie") or {}
-            if s.get("remates"):
+            if s.get("remates") or s.get("faltas") or s.get("faltas_recibidas"):
                 series[j["nombre"]] = {
-                    "remates": s["remates"], "al_arco": s.get("al_arco"),
-                    "partidos_medidos": len(s["remates"]),
+                    "remates": s.get("remates"), "al_arco": s.get("al_arco"),
+                    "faltas": s.get("faltas"), "faltas_recibidas": s.get("faltas_recibidas"),
+                    "partidos_medidos": len(s.get("remates") or s.get("faltas") or s.get("faltas_recibidas") or []),
                     "titular_en": s.get("tit"), "puesto": j.get("pos"),
                 }
 
@@ -460,22 +461,32 @@ def jugadores_partido(id_partido):
 
     idx = {_norm(k): k for k in series}
 
+    mx = m.get("mercadoExtra") or {}
     jugadores = []
     for nombre, d in escaleras.items():
         real = idx.get(_norm(nombre))
         s = series.get(real) if real else None
         lineas = {k: v for k, v in sorted(d.get("lineas", {}).items(),
                                           key=lambda x: float(x[0]))}
-        jugadores.append({
+        item_j = {
             "nombre": nombre,
             "equipo": m.get("home") if d.get("lado") == "L" else m.get("away"),
             "cuotas_por_linea": lineas,
-            "serie_de_remates": s["remates"] if s else None,
-            "promedio": round(sum(s["remates"]) / len(s["remates"]), 1) if s else None,
+            "serie_de_remates": s.get("remates") if s else None,
+            "serie_de_faltas": s.get("faltas") if s else None,
+            "serie_de_faltas_recibidas": s.get("faltas_recibidas") if s else None,
+            "promedio": round(sum(s["remates"]) / len(s["remates"]), 1) if s and s.get("remates") else None,
             "partidos_medidos": s["partidos_medidos"] if s else None,
             "puesto": s["puesto"] if s else None,
             "cruzo_con_nuestra_serie": bool(s),
-        })
+        }
+        lineas_faltas = (mx.get("faltas") or {}).get(nombre, {}).get("lineas")
+        lineas_rec = (mx.get("faltas_recibidas") or {}).get(nombre, {}).get("lineas")
+        if lineas_faltas:
+            item_j["cuotas_faltas"] = lineas_faltas
+        if lineas_rec:
+            item_j["cuotas_faltas_recibidas"] = lineas_rec
+        jugadores.append(item_j)
     jugadores.sort(key=lambda j: -(j["promedio"] or -1))
 
     once = {}
@@ -1184,7 +1195,7 @@ def _clasificar_factor_apuesta(apuesta):
 
     # 2. Prop de jugador individual
     es_jugador = False
-    if any(k in m for k in ("remate", "remates", "tiro", "tiros", "asistencia", "pase", "pases", "tarjeta", "gol de")):
+    if any(k in m for k in ("remate", "remates", "tiro", "tiros", "asistencia", "pase", "pases", "tarjeta", "gol de", "falta", "faltas")):
         es_jugador = True
     elif "jugador" in apuesta:
         es_jugador = True

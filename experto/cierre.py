@@ -27,7 +27,7 @@ sys.path.insert(0, AQUI)
 import datos as D
 import bot as B
 
-CAMPOS_JUGADOR = ("remates", "al_arco", "faltas", "amarillas", "goles", "asist", "titular")
+CAMPOS_JUGADOR = ("remates", "al_arco", "faltas", "amarillas", "goles", "asist", "faltas_recibidas", "titular")
 
 
 def norma(s):
@@ -47,7 +47,7 @@ def parsear_mercado_jugador(mercado):
     Ejemplos:
         "Matías Fernández más de 2.5 remates"
         "Fernández más de 1.5 al arco"
-        "Francisco Álvarez más de 3.5 faltas"
+        "Francisco Álvarez menos de 3.5 faltas"
         "Franco Vázquez gol"
     """
     m = norma(mercado)
@@ -55,6 +55,9 @@ def parsear_mercado_jugador(mercado):
         "al_arco": ["al arco", "al_arco", "tiros al arco", "remates al arco",
                     "shots on target", "a puerta", "a arco"],
         "remates": ["remates", "tiros", "shots", "disparos"],
+        "faltas_recibidas": ["faltas recibidas", "le haran falta", "le hacen falta",
+                             "recibe faltas", "recibira falta", "recibira faltas",
+                             "to be fouled", "fouled"],
         "faltas": ["faltas", "fouls"],
         "amarillas": ["amarillas", "tarjetas", "yellow cards", "cards"],
         "gol_o_asist": ["gol o asistencia", "marcar o asistir", "score or assist"],
@@ -296,13 +299,19 @@ def liquidar_jugador(apuesta, cache_disciplina, planteles):
         }
 
     stats = jugadores_en_cancha[pid]
-    # ("remates", "al_arco", "faltas", "amarillas", "goles", "asist", "titular")
+    # ("remates", "al_arco", "faltas", "amarillas", "goles", "asist", "faltas_recibidas", "titular")
     val = 0
     met = info_j["metrica"]
     if met == "gol_o_asist":
-        val = stats[4] + stats[5]
+        val = (stats[4] if len(stats) > 4 else 0) + (stats[5] if len(stats) > 5 else 0)
     elif met in CAMPOS_JUGADOR:
-        val = stats[CAMPOS_JUGADOR.index(met)]
+        idx = CAMPOS_JUGADOR.index(met)
+        if len(stats) == 7 and met == "faltas_recibidas":
+            val = 0
+        elif idx < len(stats):
+            val = stats[idx]
+        else:
+            val = 0
     else:
         return None
 

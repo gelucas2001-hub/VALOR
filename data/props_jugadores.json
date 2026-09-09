@@ -369886,6 +369886,19 @@
     "0.5": 2.5,
     "1.5": 9.0
    }
+  },
+  {
+   "t": "2026-09-09T18:09",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Palmeiras",
+   "away": "Liga de Quito",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 9.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401912527__remates__Jesus Pretell": [

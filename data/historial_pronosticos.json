@@ -5295,5 +5295,101 @@
    "vida_media": 300,
    "prior": 8
   }
+ },
+ "espn401882872": {
+  "fecha": "2026-09-15",
+  "comp": "Spanish LALIGA",
+  "home": "Elche",
+  "away": "Real Madrid",
+  "lh": 1.019,
+  "la": 1.886,
+  "rho": 0.0,
+  "mercado": [
+   0.0942,
+   0.1635,
+   0.7423
+  ],
+  "cuotas": [
+   9.0,
+   5.5,
+   1.3
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401912517": {
+  "fecha": "2026-09-15",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Platense",
+  "away": "Fluminense",
+  "lh": 0.863,
+  "la": 0.882,
+  "rho": 0.0,
+  "mercado": [
+   0.3439,
+   0.3188,
+   0.3373
+  ],
+  "cuotas": [
+   2.7,
+   2.9,
+   2.75
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
+ },
+ "espn401913959": {
+  "fecha": "2026-09-15",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Vasco da Gama",
+  "away": "Independiente Santa Fe",
+  "lh": 0.715,
+  "la": 0.865,
+  "rho": 0.0,
+  "mercado": [
+   0.6418,
+   0.2275,
+   0.1306
+  ],
+  "cuotas": [
+   1.48,
+   3.95,
+   6.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
+ },
+ "espn401912524": {
+  "fecha": "2026-09-15",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "São Paulo",
+  "away": "Boca Juniors",
+  "lh": 0.776,
+  "la": 0.599,
+  "rho": 0.0,
+  "mercado": [
+   0.4349,
+   0.3058,
+   0.2592
+  ],
+  "cuotas": [
+   2.15,
+   3.0,
+   3.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
  }
 }

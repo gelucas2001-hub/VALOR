@@ -385158,6 +385158,23 @@
     "5.5": 11.0,
     "6.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "6.5": 21.0,
+    "0.5": 1.071,
+    "1.5": 1.363,
+    "2.5": 2.1,
+    "3.5": 3.75,
+    "4.5": 7.0,
+    "5.5": 15.0
+   }
   }
  ],
  "espn401912541__remates__Lucas Alario": [
@@ -385208,6 +385225,22 @@
     "2.5": 2.375,
     "3.5": 4.333,
     "4.5": 9.0,
+    "5.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "4.5": 10.0,
+    "0.5": 1.1,
+    "1.5": 1.444,
+    "2.5": 2.375,
+    "3.5": 4.333,
     "5.5": 19.0
    }
   }
@@ -385261,6 +385294,22 @@
     "4.5": 10.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.111,
+    "1.5": 1.533,
+    "2.5": 2.625,
+    "3.5": 5.0,
+    "4.5": 11.0,
+    "5.5": 21.0
+   }
   }
  ],
  "espn401912541__remates__Brian Aguirre": [
@@ -385312,6 +385361,22 @@
     "4.5": 10.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "5.5": 21.0,
+    "0.5": 1.142,
+    "1.5": 1.666,
+    "2.5": 2.75,
+    "3.5": 6.0,
+    "4.5": 13.0
+   }
   }
  ],
  "espn401912541__remates__Pedro Raul": [
@@ -385361,6 +385426,21 @@
     "2.5": 2.75,
     "3.5": 5.5,
     "4.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "1.5": 1.666,
+    "2.5": 3.0,
+    "3.5": 6.0,
+    "4.5": 15.0,
+    "0.5": 1.142
    }
   }
  ],
@@ -385455,6 +385535,21 @@
    "lado": "L",
    "lineas": {
     "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.25,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
     "1.5": 1.727,
     "2.5": 3.25,
     "3.5": 6.5,
@@ -385768,6 +385863,21 @@
     "3.5": 8.0,
     "4.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 21.0
+   }
   }
  ],
  "espn401912541__remates__Gui Negao": [
@@ -385829,6 +385939,20 @@
     "2.5": 4.333,
     "3.5": 11.0,
     "4.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0,
+    "0.5": 1.3
    }
   }
  ],
@@ -386762,6 +386886,19 @@
     "1.5": 3.5,
     "2.5": 10.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
   }
  ],
  "espn401912541__remates__Lucas Cornejo": [
@@ -386991,6 +387128,19 @@
     "1.5": 5.5,
     "2.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 19.0
+   }
   }
  ],
  "espn401912541__remates__Santiago Nunez": [
@@ -387034,6 +387184,19 @@
     "1.5": 5.5,
     "2.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 19.0
+   }
   }
  ],
  "espn401912541__remates__Matheus Pereira da Silva": [
@@ -387074,6 +387237,19 @@
     "0.5": 1.727,
     "1.5": 4.333,
     "2.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.0,
+    "2.5": 15.0
    }
   }
  ],
@@ -387924,6 +388100,19 @@
     "1.5": 5.0,
     "2.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 6.0,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401912541__al_arco__Adolfo Gaich": [
@@ -387964,6 +388153,19 @@
     "0.5": 1.833,
     "1.5": 5.5,
     "2.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "1.5": 6.0,
+    "2.5": 21.0,
+    "0.5": 1.833
    }
   }
  ],
@@ -388006,6 +388208,19 @@
     "1.5": 5.5,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.0,
+    "1.5": 6.5,
+    "2.5": 21.0
+   }
   }
  ],
  "espn401912541__al_arco__Pedro Raul": [
@@ -388046,6 +388261,19 @@
     "0.5": 1.833,
     "1.5": 5.5,
     "2.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "1.5": 6.0,
+    "2.5": 21.0,
+    "0.5": 1.833
    }
   }
  ],
@@ -388211,6 +388439,18 @@
     "0.5": 2.1,
     "1.5": 7.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 9.0
+   }
   }
  ],
  "espn401912541__al_arco__Joaquin Tobio Burgos": [
@@ -388368,6 +388608,18 @@
    "lineas": {
     "0.5": 2.25,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.5,
+    "1.5": 10.0
    }
   }
  ],
@@ -388901,6 +389153,18 @@
     "0.5": 3.25,
     "1.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.5,
+    "1.5": 19.0
+   }
   }
  ],
  "espn401912541__al_arco__Lucas Cornejo": [
@@ -389215,6 +389479,18 @@
     "0.5": 3.75,
     "1.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "1.5": 21.0,
+    "0.5": 3.75
+   }
   }
  ],
  "espn401912541__al_arco__Santiago Flores": [
@@ -389253,6 +389529,17 @@
     "0.5": 5.5,
     "1.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
+   }
   }
  ],
  "espn401912541__al_arco__Santiago Nunez": [
@@ -389290,6 +389577,17 @@
    "lineas": {
     "0.5": 5.5,
     "1.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 5.5
    }
   }
  ],
@@ -389425,6 +389723,17 @@
    "lado": "L",
    "lineas": {
     "1.5": 21.0,
+    "0.5": 6.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
     "0.5": 6.0
    }
   }
@@ -389661,6 +389970,17 @@
     "1.5": 21.0,
     "0.5": 6.0
    }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 6.0
+   }
   }
  ],
  "espn401912541__al_arco__Gustavo Henrique": [
@@ -389847,6 +390167,17 @@
    "lado": "L",
    "lineas": {
     "1.5": 21.0,
+    "0.5": 5.0
+   }
+  },
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
     "0.5": 5.0
    }
   }
@@ -550291,6 +550622,836 @@
    "lado": "V",
    "lineas": {
     "0.5": 5.5
+   }
+  }
+ ],
+ "espn401912541__faltas__Brian Aguirre": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.015,
+    "1.5": 1.125,
+    "2.5": 1.4,
+    "3.5": 2.0,
+    "4.5": 3.4,
+    "5.5": 6.0,
+    "6.5": 11.0,
+    "7.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Breno Bidon": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "2.5": 1.833,
+    "3.5": 3.0,
+    "4.5": 6.0,
+    "5.5": 13.0,
+    "6.5": 23.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Jose Sosa": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "2.5": 1.833,
+    "3.5": 3.0,
+    "4.5": 6.0,
+    "5.5": 13.0,
+    "6.5": 23.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Adolfo Gaich": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.071,
+    "1.5": 1.4,
+    "2.5": 2.2,
+    "3.5": 4.0,
+    "4.5": 8.0,
+    "5.5": 17.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Charles Mattos": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.071,
+    "1.5": 1.363,
+    "2.5": 2.1,
+    "3.5": 3.75,
+    "4.5": 8.0,
+    "5.5": 17.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Alexis Castro": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.444,
+    "2.5": 2.375,
+    "3.5": 4.333,
+    "4.5": 10.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Pedro Raul": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.25,
+    "3.5": 4.0,
+    "4.5": 9.0,
+    "5.5": 19.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Jesse Lingard": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.25,
+    "3.5": 4.0,
+    "4.5": 9.0,
+    "5.5": 19.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Allan Rodrigues": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.25,
+    "3.5": 4.0,
+    "4.5": 9.0,
+    "5.5": 19.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Alex Santana": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.1,
+    "1.5": 1.5,
+    "2.5": 2.5,
+    "3.5": 4.5,
+    "4.5": 11.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Raniele": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.1,
+    "1.5": 1.5,
+    "2.5": 2.5,
+    "3.5": 4.5,
+    "4.5": 11.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Kaio Cesar": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.1,
+    "1.5": 1.5,
+    "2.5": 2.5,
+    "3.5": 4.5,
+    "4.5": 11.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Andre Carrillo": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.1,
+    "1.5": 1.5,
+    "2.5": 2.5,
+    "3.5": 4.5,
+    "4.5": 11.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Gui Negao": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.1,
+    "1.5": 1.5,
+    "2.5": 2.5,
+    "3.5": 4.5,
+    "4.5": 11.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Bautista Kociubinski": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.111,
+    "1.5": 1.571,
+    "2.5": 2.625,
+    "3.5": 5.5,
+    "4.5": 13.0,
+    "5.5": 26.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Baltasar Rodriguez": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.666,
+    "2.5": 3.0,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Matheuzinho": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.666,
+    "2.5": 3.0,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Gustavo Henrique": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.666,
+    "2.5": 3.0,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Zakaria Labyad": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.727,
+    "2.5": 3.25,
+    "3.5": 7.0,
+    "4.5": 17.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Vitinho Coelho": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.8,
+    "2.5": 3.4,
+    "3.5": 8.0,
+    "4.5": 19.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Joaquin Pereyra": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Luiz Gustavo Carvalho": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Pedro Milans": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Andre Luiz Santos": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Thomas Palacios": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Leandro Gonzalez": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.222,
+    "1.5": 2.0,
+    "2.5": 4.0,
+    "3.5": 10.0,
+    "4.5": 23.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Hugo de Farias": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 26.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Eric Meza": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.2,
+    "2.5": 5.0,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Gaston Benedetti": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 26.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Joaquin Correa": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.2,
+    "2.5": 5.0,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Rodrigo Garro": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 26.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Andre Ramalho": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Eros Mancuso": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Fabricio Angeleri": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Gabriel Neves": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Lucas Piovi": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 15.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Matheus Pereira da Silva": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Santiago Nunez": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 15.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Fabricio Perez": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Kayke Guimaraes": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Matheus Bidu": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Joao Pedro Tchoca": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Guido Carrillo": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Edwuin Cetre": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 9.0,
+    "3.5": 23.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Iago Machado": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 11.0,
+    "3.5": 26.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Gabriel Paulista": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Dieguinho Lopes": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Memphis Depay": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.75,
+    "2.5": 7.0,
+    "3.5": 19.0
+   }
+  }
+ ],
+ "espn401912541__faltas__Tiago Palacios": [
+  {
+   "t": "2026-09-09T20:10",
+   "fecha": "2026-09-09",
+   "comp": "CONMEBOL Libertadores",
+   "home": "Estudiantes de La Plata",
+   "away": "Corinthians",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.75,
+    "2.5": 7.0,
+    "3.5": 19.0
    }
   }
  ]

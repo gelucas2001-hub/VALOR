@@ -231,6 +231,10 @@ GitHub escribe los datos en la rama `main`, y vos estás trabajando en
 `pronostic`: un `git pull` pelado te trae la rama tuya, que no cambió, y
 te quedás con los precios de antes creyendo que actualizaste.
 
+Ambas ramas (`main` y `pronostic`) están sincronizadas con el motor completo de 11 competiciones.
+Si en algún pull git reporta conflicto en `data/`, nunca descartes ciegamente
+la cartelera con `checkout --theirs`: combiná o corré `python actualizar.py`.
+
 Si te olvidás, no te miente: las herramientas le avisan al asesor que los
 datos son viejos y él te lo dice. Pero vas a estar mirando precios de
 ayer.

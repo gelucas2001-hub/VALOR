@@ -3871,7 +3871,10 @@
    5.25,
    13.0
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": null
@@ -3895,7 +3898,10 @@
    3.0,
    3.5
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": null
@@ -3919,7 +3925,10 @@
    2.95,
    3.6
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": null
@@ -4450,7 +4459,10 @@
    3.0,
    3.05
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5122,7 +5134,10 @@
    4.0,
    4.1
   ],
-  "resultado": null,
+  "resultado": [
+   3,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5146,7 +5161,10 @@
    4.1,
    1.67
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5170,7 +5188,10 @@
    3.5,
    3.2
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   3
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5194,7 +5215,10 @@
    4.4,
    5.0
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5218,7 +5242,10 @@
    13.0,
    20.0
   ],
-  "resultado": null,
+  "resultado": [
+   5,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5242,7 +5269,10 @@
    7.0,
    10.5
   ],
-  "resultado": null,
+  "resultado": [
+   3,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5266,7 +5296,10 @@
    4.1,
    4.5
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5290,7 +5323,10 @@
    3.75,
    1.74
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5314,7 +5350,10 @@
    16.0,
    36.0
   ],
-  "resultado": null,
+  "resultado": [
+   6,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5338,7 +5377,10 @@
    3.9,
    4.1
   ],
-  "resultado": null,
+  "resultado": [
+   3,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -6206,6 +6248,126 @@
   "modelo": {
    "vida_media": 300,
    "prior": null
+  }
+ },
+ "espn401841566": {
+  "fecha": "2026-09-14",
+  "comp": "Liga Profesional Argentina",
+  "home": "Instituto (Córdoba)",
+  "away": "Estudiantes de Río Cuarto",
+  "lh": 1.466,
+  "la": 0.611,
+  "rho": -0.05,
+  "mercado": [
+   0.6712,
+   0.2254,
+   0.1034
+  ],
+  "cuotas": [
+   1.42,
+   4.0,
+   8.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401882875": {
+  "fecha": "2026-09-16",
+  "comp": "Spanish LALIGA",
+  "home": "Atlético Madrid",
+  "away": "Osasuna",
+  "lh": 1.888,
+  "la": 0.881,
+  "rho": 0.0,
+  "mercado": [
+   0.6624,
+   0.2023,
+   0.1353
+  ],
+  "cuotas": [
+   1.45,
+   4.5,
+   6.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882873": {
+  "fecha": "2026-09-16",
+  "comp": "Spanish LALIGA",
+  "home": "Deportivo",
+  "away": "Sevilla",
+  "lh": 1.852,
+  "la": 1.035,
+  "rho": 0.0,
+  "mercado": [
+   0.3878,
+   0.3087,
+   0.3035
+  ],
+  "cuotas": [
+   2.45,
+   3.05,
+   3.1
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882871": {
+  "fecha": "2026-09-16",
+  "comp": "Spanish LALIGA",
+  "home": "Barcelona",
+  "away": "Racing Santander",
+  "lh": 3.064,
+  "la": 0.819,
+  "rho": 0.0,
+  "mercado": [
+   0.8967,
+   0.0662,
+   0.037
+  ],
+  "cuotas": [
+   1.08,
+   12.0,
+   19.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882870": {
+  "fecha": "2026-09-16",
+  "comp": "Spanish LALIGA",
+  "home": "Levante",
+  "away": "Athletic Club",
+  "lh": 1.377,
+  "la": 1.237,
+  "rho": 0.0,
+  "mercado": [
+   0.3006,
+   0.2734,
+   0.426
+  ],
+  "cuotas": [
+   3.15,
+   3.45,
+   2.25
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
   }
  }
 }

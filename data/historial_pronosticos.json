@@ -6369,5 +6369,29 @@
    "vida_media": 300,
    "prior": 8
   }
+ },
+ "espn401913071": {
+  "fecha": "2026-09-16",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Atlético-MG",
+  "away": "Santos",
+  "lh": 1.31,
+  "la": 0.936,
+  "rho": 0.0,
+  "mercado": [
+   0.4955,
+   0.2835,
+   0.221
+  ],
+  "cuotas": [
+   1.91,
+   3.25,
+   4.1
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
  }
 }

@@ -89,8 +89,8 @@ LIGAS = {
         "international-clubs-conmebol-libertadores-knockout-stage",
     "conmebol.sudamericana":
         "international-clubs-conmebol-sudamericana-knockout-stage",
-    "uefa.champions": ("uefa-champions-league",
-                       "international-clubs-uefa-champions-league"),
+    "uefa.champions": ("international-clubs-uefa-champions-league",
+                       "uefa-champions-league"),
 }
 
 # Ligas que odds-api lista, cuyo fixture cruza, y que Bet365 NO cotiza.

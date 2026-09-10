@@ -269,5 +269,91 @@ finally:
 
 prueba("api() tiene donde anotar los fallos", isinstance(A._fallos, list))
 
+print("\npoblar_mercados_extra() — ventana de horas y orden cronológico prioritario\n")
+
+import datetime
+
+AHORA_TEST = datetime.datetime(2026, 9, 10, 10, 0, tzinfo=A.ARG_TZ)
+HOY = "2026-09-10"
+MANANA = "2026-09-11"
+EN_3_DIAS = "2026-09-13"
+EN_5_DIAS = "2026-09-15"
+
+p_hoy = {"id": "espn_hoy", "liga": "uefa.champions", "date": HOY, "hora": "16:00", "home": "Bayern", "away": "Bodo", "mercadoExtra": {}}
+p_manana = {"id": "espn_manana", "liga": "ger.1", "date": MANANA, "hora": "15:30", "home": "Union Berlin", "away": "Schalke", "mercadoExtra": {}}
+p_5dias = {"id": "espn_5dias", "liga": "esp.1", "date": EN_5_DIAS, "hora": "16:00", "home": "Real Madrid", "away": "Elche", "mercadoExtra": {}}
+
+consultas = []
+def _mock_mercado_extra_de(partido, eventos, key):
+    consultas.append(partido["home"])
+    return {"1x2": {"local": 1.5, "empate": 4.0, "visitante": 6.0}}
+
+def _mock_eventos_extra(slug, key, cache):
+    return [{"id": 1, "date": "2026-09-10T20:00Z", "home": "Bayern", "away": "Bodo"}]
+
+_orig_me_de = A.mercado_extra_de
+_orig_ee = A.eventos_extra
+try:
+    A.mercado_extra_de = _mock_mercado_extra_de
+    A.eventos_extra = _mock_eventos_extra
+
+    # 1, 2 y 3: hoy antes que mañana, mañana antes que +5 días, fuera de 72h no consume
+    partidos_test = [dict(p_5dias), dict(p_manana), dict(p_hoy)]
+    consultas = []
+    A.poblar_mercados_extra(partidos_test, "clave-test", max_horas=72, ahora=AHORA_TEST)
+
+    prueba("un partido de hoy tiene prioridad sobre uno de mañana",
+           len(consultas) >= 2 and consultas[0] == "Bayern" and consultas[1] == "Union Berlin")
+    prueba("uno de mañana tiene prioridad sobre uno de dentro de 5 días",
+           "Union Berlin" in consultas and "Real Madrid" not in consultas)
+    prueba("los partidos fuera de la ventana de 72 horas no consumen peticiones",
+           "Real Madrid" not in consultas and partidos_test[0]["mercadoExtra"] == {})
+finally:
+    A.mercado_extra_de = _orig_me_de
+    A.eventos_extra = _orig_ee
+
+# 4. Alcanzar el límite no provoca una excepción que rompa y preserva lo obtenido
+try:
+    A.eventos_extra = _mock_eventos_extra
+    contador = {"n": 0}
+    def _mock_odds_429(partido, eventos, key):
+        contador["n"] += 1
+        if contador["n"] == 1:
+            return {"1x2": {"local": 1.5, "empate": 4.0, "visitante": 6.0}}
+        A._odds_rate_limited = True
+        return None
+
+    A.mercado_extra_de = _mock_odds_429
+    partidos_429 = [dict(p_hoy), dict(p_manana)]
+    n = A.poblar_mercados_extra(partidos_429, "clave-test", max_horas=72, ahora=AHORA_TEST)
+    prueba("alcanzar el límite no rompe y preserva lo ya obtenido",
+           partidos_429[0]["mercadoExtra"] != {} and partidos_429[1]["mercadoExtra"] == {} and n == 1)
+finally:
+    A.mercado_extra_de = _orig_me_de
+    A.eventos_extra = _orig_ee
+    A._odds_rate_limited = False
+
+# 5. Cobertura de Champions de hoy queda garantizada mientras haya cupo
+try:
+    A.mercado_extra_de = _mock_mercado_extra_de
+    A.eventos_extra = _mock_eventos_extra
+    champions_hoy = [
+        {"id": f"ch_{i}", "liga": "uefa.champions", "date": HOY, "hora": f"{13+i}:00", "home": f"EquipoCh_{i}", "away": "Rival", "mercadoExtra": {}}
+        for i in range(6)
+    ]
+    otras_ligas_despues = [
+        {"id": f"otra_{i}", "liga": "esp.1", "date": EN_3_DIAS, "hora": f"{12+i}:00", "home": f"EquipoEsp_{i}", "away": "Rival", "mercadoExtra": {}}
+        for i in range(10)
+    ]
+    mezcla = otras_ligas_despues + champions_hoy  # Champions al final en la entrada
+    consultas = []
+    A.poblar_mercados_extra(mezcla, "clave-test", max_horas=72, ahora=AHORA_TEST)
+    primeros_6 = consultas[:6]
+    prueba("cobertura de Champions de hoy garantizada al inicio de las consultas",
+           all(f"EquipoCh_{i}" in primeros_6 for i in range(6)))
+finally:
+    A.mercado_extra_de = _orig_me_de
+    A.eventos_extra = _orig_ee
+
 print(f"\n{ok} ok, {fallan} fallan")
 sys.exit(1 if fallan else 0)

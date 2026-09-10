@@ -11,7 +11,7 @@ historial directo y tabla de posiciones.
 Las cuotas NO se traen: se cargan a mano en la app.
 """
 
-import json, sys, datetime, time
+import json, sys, datetime, time, os
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
@@ -92,6 +92,12 @@ DISCIPLINA_N = 3           # últimos N partidos por equipo para córners/
 ARG_TZ = datetime.timezone(datetime.timedelta(hours=-3))
 DIAS_ADELANTE = 7          # próximos N días (incluye hoy) — coincide con
                             # los 7 días que muestra la tira en el frontend
+ODDS_WINDOW_HOURS = int(os.environ.get("ODDS_WINDOW_HOURS", 72))
+                            # ventana para pedir cuotas a Bet365 (horas desde
+                            # ahora). No pedir toda la semana junta ahorra cuota
+                            # de odds-api.io (100 req/h) y prioriza los partidos
+                            # con precio maduro y liquidez.
+_odds_rate_limited = False  # bandera de corte ordenado ante HTTP 429
 TEMPORADAS_H2H = 3         # temporadas hacia atrás para el historial directo
 RECENCY_ALPHA = 0.90       # peso por antigüedad en promedio_condicion()
                             # (competiciones sin red de cruces suficiente
@@ -759,11 +765,18 @@ def eventos_extra(slug, key, cache):
     Un pedido por liga, no por partido. Si falla la red, no tira: la
     liga queda sin eventos esta corrida y ningún partido suyo cruza,
     que es el mismo resultado que si no hubiera clave."""
+    global _odds_rate_limited
+    if _odds_rate_limited:
+        return []
     if slug not in cache:
         try:
             cache[slug] = ME.eventos_de(slug, key)
         except Exception as e:
-            print(f"  ! odds-api (eventos {slug}): {e}", file=sys.stderr)
+            if getattr(e, "code", None) == 429 or "429" in str(e) or "Too Many Requests" in str(e):
+                _odds_rate_limited = True
+                print(f"  ! odds-api (eventos {slug}): HTTP 429 Too Many Requests (límite alcanzado)", file=sys.stderr)
+            else:
+                print(f"  ! odds-api (eventos {slug}): {e}", file=sys.stderr)
             cache[slug] = []
     return cache[slug]
 
@@ -774,7 +787,8 @@ def mercado_extra_de(partido, eventos, key):
     None si falta la clave, no hay eventos, el fixture no cruza, o el
     pedido de odds falla — en los cuatro casos el partido queda igual
     que antes de que esta fuente existiera. Ver mercado_extra.py."""
-    if not key or not eventos:
+    global _odds_rate_limited
+    if not key or not eventos or _odds_rate_limited:
         return None
     eid = ME.cruzar_fixture(partido, eventos)
     if not eid:
@@ -782,9 +796,72 @@ def mercado_extra_de(partido, eventos, key):
     try:
         datos, _ = ME.odds_de(eid, key)
     except Exception as e:
-        print(f"  ! odds-api (odds {eid}): {e}", file=sys.stderr)
+        if getattr(e, "code", None) == 429 or "429" in str(e) or "Too Many Requests" in str(e):
+            _odds_rate_limited = True
+            print(f"  ! odds-api (odds {eid}): HTTP 429 Too Many Requests (límite alcanzado)", file=sys.stderr)
+        else:
+            print(f"  ! odds-api (odds {eid}): {e}", file=sys.stderr)
         return None
     return datos or None
+
+
+def poblar_mercados_extra(partidos, odds_key, max_horas=ODDS_WINDOW_HOURS, ahora=None):
+    """Puebla 'mercadoExtra' en los partidos dentro de la ventana de horas,
+    ordenados cronológicamente global para priorizar lo que se juega primero.
+
+    1. Filtra partidos cuya hora de inicio esté dentro de las próximas `max_horas`.
+    2. Los ordena cronológicamente por (fecha, hora).
+    3. Trae eventos de liga bajo demanda (cacheados por corrida).
+    4. Consulta cuotas de Bet365 en orden: hoy -> mañana -> después.
+    5. Si se alcanza el límite (HTTP 429), frena ordenadamente sin fallar la corrida,
+       garantizando que los partidos más próximos ya quedaron cubiertos.
+    """
+    global _odds_rate_limited
+    _odds_rate_limited = False
+    if not odds_key or not partidos:
+        return 0
+
+    if ahora is None:
+        ahora = datetime.datetime.now(ARG_TZ)
+    elif ahora.tzinfo is None:
+        ahora = ahora.replace(tzinfo=ARG_TZ)
+
+    candidatos = []
+    for p in partidos:
+        fecha_str = p.get("date")
+        hora_str = p.get("hora", "00:00")
+        try:
+            p_dt = datetime.datetime.strptime(f"{fecha_str} {hora_str}", "%Y-%m-%d %H:%M").replace(tzinfo=ARG_TZ)
+        except (ValueError, TypeError):
+            continue
+        delta_h = (p_dt - ahora).total_seconds() / 3600.0
+        # Incluir si arranca en las próximas max_horas (con 2h de gracia si está recién empezado)
+        if -2.0 <= delta_h <= max_horas:
+            candidatos.append((p_dt, p))
+
+    # Orden cronológico global: lo más próximo primero
+    candidatos.sort(key=lambda x: x[0])
+
+    cache_eventos_odds = {}
+    poblados = 0
+
+    for _, p in candidatos:
+        if _odds_rate_limited:
+            break
+        slug = p.get("liga")
+        if not slug:
+            continue
+        eventos_odds = eventos_extra(slug, odds_key, cache_eventos_odds)
+        if not eventos_odds:
+            continue
+        mx = mercado_extra_de(
+            {"date": p.get("date"), "home": p.get("home"), "away": p.get("away")},
+            eventos_odds, odds_key)
+        if mx:
+            p["mercadoExtra"] = mx
+            poblados += 1
+
+    return poblados
 
 
 def escudo(team):
@@ -2597,12 +2674,12 @@ def main():
 
     # Bet365 vía odds-api.io: agrega mercados que DraftKings no tiene
     # (córners, jugadores, más líneas de gol). Sin ODDS_API_KEY en el
-    # entorno, odds_key queda None y mercado_extra_de() no hace nada —
+    # entorno, odds_key queda None y poblar_mercados_extra() no hace nada —
     # la app anda igual que antes de que esta fuente existiera.
     odds_key = ME.clave()
-    cache_eventos_odds = {}
     if odds_key:
-        print("· odds-api.io: clave detectada, se agregan mercados de Bet365")
+        print(f"· odds-api.io: clave detectada, mercados Bet365 se pedirán "
+              f"ordenados por fecha/hora (ventana {ODDS_WINDOW_HOURS}h)")
 
     for slug, meta in COMPETICIONES.items():
         print(f"· {meta['nombre']} — scoreboard")
@@ -2626,11 +2703,6 @@ def main():
             loc_id, vis_id = loc["team"]["id"], vis["team"]["id"]
             loc_nombre, vis_nombre = loc["team"]["displayName"], vis["team"]["displayName"]
             mercado = mercado_referencia(comp)
-            eventos_odds = (eventos_extra(slug, odds_key, cache_eventos_odds)
-                             if odds_key else [])
-            mercado_extra = mercado_extra_de(
-                {"date": fecha, "home": loc_nombre, "away": vis_nombre},
-                eventos_odds, odds_key)
 
             # Estadio y ciudad: vienen en el propio scoreboard, sin pedido
             # extra. Verificado el 2026-08-18 contra arg.1: 15 de 15 eventos
@@ -2794,7 +2866,7 @@ def main():
                     or str(vis_id) in sin_ancla.get(slug, ())),
                 "estadio": estadio, "ciudad": ciudad,
                 "mercado": mercado,
-                "mercadoExtra": mercado_extra or {},
+                "mercadoExtra": {},
                 "preload": {},
             })
 
@@ -3001,6 +3073,13 @@ def main():
     abortar_si_falto_una_liga()
 
     partidos.sort(key=lambda p: (p["date"], p["hora"]))
+
+    # Bet365 vía odds-api.io: se consultan ordenados cronológicamente
+    # dentro de la ventana ODDS_WINDOW_HOURS. Los partidos de hoy van primero.
+    if odds_key:
+        n_poblados = poblar_mercados_extra(partidos, odds_key, max_horas=ODDS_WINDOW_HOURS)
+        print(f"· odds-api.io: mercados Bet365 agregados a {n_poblados} partidos (ventana {ODDS_WINDOW_HOURS}h)")
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     # Compacto, por el mismo motivo que planteles.json: el telefono lo
     # baja entero en cada carga y CLAUDE.md dice que no se edita a mano.

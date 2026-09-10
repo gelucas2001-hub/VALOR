@@ -423,6 +423,7 @@ def eventos_de(slug, key, avisar=True):
         return []
     ligas_slugs = (liga,) if isinstance(liga, str) else tuple(liga)
     evs = []
+    hit_429 = False
     for l in ligas_slugs:
         try:
             sub, rem = _pedir(f"events?sport=football&league={l}", key)
@@ -436,13 +437,16 @@ def eventos_de(slug, key, avisar=True):
             if avisar:
                 cuerpo = e.read().decode("utf-8", errors="ignore")[:200]
                 print(f"  ! odds-api ({slug} con candidato '{l}'): HTTP {e.code} ({e.reason}) -> {cuerpo}", file=sys.stderr)
+            if e.code == 429:
+                hit_429 = True
+                break
             continue
         except Exception as e:
             if avisar:
                 print(f"  ! odds-api ({slug} con candidato '{l}'): {e}", file=sys.stderr)
             continue
 
-    if not evs and avisar and len(ligas_slugs) > 1:
+    if not evs and avisar and len(ligas_slugs) > 1 and not hit_429:
         try:
             cands = ligas_disponibles(key, filtro="champions" if "champions" in slug else "")
             if cands:

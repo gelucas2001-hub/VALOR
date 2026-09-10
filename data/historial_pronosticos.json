@@ -6393,5 +6393,29 @@
    "vida_media": 300,
    "prior": null
   }
+ },
+ "espn401912540": {
+  "fecha": "2026-09-16",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Corinthians",
+  "away": "Estudiantes de La Plata",
+  "lh": 1.012,
+  "la": 0.648,
+  "rho": 0.0,
+  "mercado": [
+   0.5029,
+   0.3002,
+   0.1969
+  ],
+  "cuotas": [
+   1.87,
+   3.05,
+   4.5
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
  }
 }

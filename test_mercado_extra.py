@@ -327,6 +327,36 @@ with _ctx.redirect_stderr(_err2):
     ME.eventos_de(SIN_MAPA, "clave-falsa", avisar=False)
 prueba("y el aviso se puede apagar para los tests", _err2.getvalue() == "")
 
+# Múltiples slugs candidatos: si uno falla (ej. HTTP 404), no aborta la liga
+_orig_pedir = ME._pedir
+try:
+    def _pedir_mock(ruta, key, timeout=45):
+        if "league=slug-malo-404" in ruta:
+            import urllib.error
+            raise urllib.error.HTTPError("http://test", 404, "Not Found", {}, _io.BytesIO(b'{"error":"not found"}'))
+        if "league=slug-bueno" in ruta:
+            return [{"id": "ev1", "home": "A", "away": "B"}], "99"
+        if "league=slug-duplicado" in ruta:
+            return [{"id": "ev1", "home": "A", "away": "B"}, {"id": "ev2", "home": "C", "away": "D"}], "98"
+        return [], "100"
+
+    ME._pedir = _pedir_mock
+    ME.LIGAS["test.multi"] = ("slug-malo-404", "slug-bueno")
+    _err_multi = _io.StringIO()
+    with _ctx.redirect_stderr(_err_multi):
+        res_multi = ME.eventos_de("test.multi", "clave-falsa", avisar=True)
+    prueba("si el primer candidato devuelve 404, prueba el siguiente y no aborta",
+           len(res_multi) == 1 and res_multi[0]["id"] == "ev1")
+
+    ME.LIGAS["test.dup"] = ("slug-bueno", "slug-duplicado")
+    res_dup = ME.eventos_de("test.dup", "clave-falsa", avisar=False)
+    prueba("múltiples slugs deduplican eventos compartidos por id",
+           len(res_dup) == 2 and {e["id"] for e in res_dup} == {"ev1", "ev2"})
+finally:
+    ME._pedir = _orig_pedir
+    ME.LIGAS.pop("test.multi", None)
+    ME.LIGAS.pop("test.dup", None)
+
 # Y la guarda contra el olvido que causo todo esto: cada competicion que
 # el pipeline publica tiene que estar mapeada.
 import actualizar as _A

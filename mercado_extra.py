@@ -54,6 +54,7 @@ import datetime
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 
 sys.stdout.reconfigure(encoding="utf-8")
@@ -423,10 +424,43 @@ def eventos_de(slug, key, avisar=True):
     ligas_slugs = (liga,) if isinstance(liga, str) else tuple(liga)
     evs = []
     for l in ligas_slugs:
-        sub, _ = _pedir(f"events?sport=football&league={l}", key)
-        if sub and isinstance(sub, list):
-            evs.extend(sub)
-    return evs
+        try:
+            sub, rem = _pedir(f"events?sport=football&league={l}", key)
+            if sub and isinstance(sub, list):
+                if avisar:
+                    print(f"  · odds-api ({slug} vía '{l}'): {len(sub)} eventos encontrados (créditos restantes: {rem})")
+                evs.extend(sub)
+            elif avisar:
+                print(f"  · odds-api ({slug} vía '{l}'): respuesta sin eventos (créditos restantes: {rem})")
+        except urllib.error.HTTPError as e:
+            if avisar:
+                cuerpo = e.read().decode("utf-8", errors="ignore")[:200]
+                print(f"  ! odds-api ({slug} con candidato '{l}'): HTTP {e.code} ({e.reason}) -> {cuerpo}", file=sys.stderr)
+            continue
+        except Exception as e:
+            if avisar:
+                print(f"  ! odds-api ({slug} con candidato '{l}'): {e}", file=sys.stderr)
+            continue
+
+    if not evs and avisar and len(ligas_slugs) > 1:
+        try:
+            cands = ligas_disponibles(key, filtro="champions" if "champions" in slug else "")
+            if cands:
+                print(f"  ! odds-api ({slug}): ningún candidato devolvió eventos. Ligas disponibles: {cands[:5]}", file=sys.stderr)
+        except Exception:
+            pass
+
+    # Deduplicar por id de evento si dos slugs traen partidos compartidos
+    vistos = set()
+    evs_unicos = []
+    for e in evs:
+        eid = (e or {}).get("id")
+        if eid and eid in vistos:
+            continue
+        if eid:
+            vistos.add(eid)
+        evs_unicos.append(e)
+    return evs_unicos
 
 
 def ligas_disponibles(key, filtro=""):

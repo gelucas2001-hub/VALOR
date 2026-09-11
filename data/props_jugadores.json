@@ -429809,6 +429809,24 @@
     "6.5": 10.0,
     "7.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "L",
+   "lineas": {
+    "1.5": 1.142,
+    "2.5": 1.444,
+    "3.5": 2.0,
+    "6.5": 11.0,
+    "0.5": 1.02,
+    "4.5": 3.25,
+    "5.5": 5.5,
+    "7.5": 19.0
+   }
   }
  ],
  "espn401841557__remates__Leandro Paredes": [
@@ -429885,6 +429903,24 @@
     "4.5": 2.75,
     "5.5": 5.0,
     "6.5": 9.0,
+    "7.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.02,
+    "1.5": 1.125,
+    "2.5": 1.4,
+    "3.5": 1.909,
+    "4.5": 3.0,
+    "6.5": 10.0,
+    "5.5": 5.0,
     "7.5": 17.0
    }
   }
@@ -430805,6 +430841,22 @@
     "3.5": 8.0,
     "4.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "5.5": 21.0,
+    "0.5": 1.111,
+    "1.5": 1.533,
+    "2.5": 2.625,
+    "3.5": 5.0,
+    "4.5": 11.0
+   }
   }
  ],
  "espn401841557__remates__Horacio Tijanovich": [
@@ -430849,6 +430901,21 @@
     "1.5": 2.375,
     "2.5": 5.0,
     "3.5": 13.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "4.5": 21.0,
+    "0.5": 1.285,
+    "1.5": 2.2,
+    "2.5": 4.5,
+    "3.5": 11.0
    }
   }
  ],
@@ -430895,6 +430962,22 @@
     "2.5": 3.25,
     "3.5": 6.5,
     "4.5": 15.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "5.5": 21.0,
+    "0.5": 1.111,
+    "1.5": 1.533,
+    "2.5": 2.625,
+    "3.5": 5.0,
+    "4.5": 11.0
    }
   }
  ],
@@ -431375,6 +431458,20 @@
     "1.5": 3.75,
     "2.5": 11.0,
     "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "3.5": 21.0,
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0
    }
   }
  ],
@@ -432640,6 +432737,24 @@
     "6.5": 9.0,
     "7.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.02,
+    "1.5": 1.125,
+    "2.5": 1.4,
+    "3.5": 1.909,
+    "4.5": 3.0,
+    "6.5": 10.0,
+    "5.5": 5.0,
+    "7.5": 17.0
+   }
   }
  ],
  "espn401841557__remates__Leonel Flores": [
@@ -433373,6 +433488,20 @@
     "2.5": 7.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "2.5": 8.0,
+    "1.5": 2.75,
+    "3.5": 21.0
+   }
   }
  ],
  "espn401841557__al_arco__Carlos Palacios": [
@@ -433427,6 +433556,20 @@
    "lado": "L",
    "lineas": {
     "0.5": 1.4,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
     "1.5": 3.0,
     "2.5": 8.0,
     "3.5": 21.0
@@ -434185,6 +434328,19 @@
     "1.5": 7.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 1.833,
+    "1.5": 6.0
+   }
   }
  ],
  "espn401841557__al_arco__Agustin Heredia": [
@@ -434284,6 +434440,19 @@
    "lineas": {
     "0.5": 2.375,
     "1.5": 9.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.0,
+    "1.5": 6.5
    }
   }
  ],
@@ -434474,6 +434643,18 @@
    "lineas": {
     "1.5": 13.0,
     "0.5": 3.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "1.5": 13.0,
+    "0.5": 2.75
    }
   }
  ],
@@ -434702,6 +434883,18 @@
    "lineas": {
     "0.5": 3.4,
     "1.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Liga Profesional Argentina",
+   "home": "Boca Juniors",
+   "away": "Central Córdoba (Santiago del Estero)",
+   "lado": "V",
+   "lineas": {
+    "1.5": 17.0,
+    "0.5": 3.25
    }
   }
  ],
@@ -493392,6 +493585,22 @@
     "4.5": 6.5,
     "5.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.062,
+    "1.5": 1.333,
+    "2.5": 1.909,
+    "3.5": 3.4,
+    "4.5": 6.5,
+    "5.5": 13.0
+   }
   }
  ],
  "espn401841232__remates__Stiven Mendoza": [
@@ -494923,6 +495132,20 @@
     "2.5": 6.0,
     "3.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
   }
  ],
  "espn401841232__remates__Antonio Felipinho": [
@@ -495326,6 +495549,20 @@
     "0.5": 1.615,
     "1.5": 3.75,
     "2.5": 11.0,
+    "3.5": 21.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.5,
+    "2.5": 10.0,
     "3.5": 21.0
    }
   }
@@ -497950,6 +498187,18 @@
     "0.5": 3.0,
     "1.5": 13.0
    }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.75,
+    "1.5": 13.0
+   }
   }
  ],
  "espn401841232__al_arco__Antonio Felipinho": [
@@ -498338,6 +498587,18 @@
    "lado": "V",
    "lineas": {
     "0.5": 3.4,
+    "1.5": 17.0
+   }
+  },
+  {
+   "t": "2026-09-11T20:09",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 3.25,
     "1.5": 17.0
    }
   }

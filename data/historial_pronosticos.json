@@ -6585,5 +6585,53 @@
    "vida_media": 300,
    "prior": 8
   }
+ },
+ "espn401912526": {
+  "fecha": "2026-09-17",
+  "comp": "CONMEBOL Libertadores",
+  "home": "Flamengo",
+  "away": "Independiente del Valle",
+  "lh": 2.246,
+  "la": 0.472,
+  "rho": 0.0,
+  "mercado": [
+   0.7254,
+   0.1737,
+   0.1009
+  ],
+  "cuotas": [
+   1.31,
+   5.0,
+   8.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
+ },
+ "espn401913072": {
+  "fecha": "2026-09-17",
+  "comp": "CONMEBOL Sudamericana",
+  "home": "Montevideo City Torque",
+  "away": "Cienciano del Cusco",
+  "lh": 1.494,
+  "la": 1.044,
+  "rho": 0.0,
+  "mercado": [
+   0.6093,
+   0.214,
+   0.1767
+  ],
+  "cuotas": [
+   1.56,
+   4.2,
+   5.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": null
+  }
  }
 }

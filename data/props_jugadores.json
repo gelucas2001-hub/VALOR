@@ -492767,6 +492767,24 @@
     "5.5": 9.0,
     "6.5": 17.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "7.5": 21.0,
+    "2.5": 1.571,
+    "3.5": 2.375,
+    "0.5": 1.03,
+    "1.5": 1.2,
+    "4.5": 4.0,
+    "5.5": 8.0,
+    "6.5": 15.0
+   }
   }
  ],
  "espn401841232__remates__Pedro Rocha": [
@@ -493493,6 +493511,22 @@
     "4.5": 10.0,
     "5.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.2,
+    "3.5": 3.75,
+    "4.5": 8.0,
+    "5.5": 17.0
+   }
   }
  ],
  "espn401841232__remates__Renan Peixoto": [
@@ -494052,6 +494086,22 @@
     "3.5": 6.5,
     "4.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "5.5": 21.0,
+    "0.5": 1.142,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "4.5": 13.0
+   }
   }
  ],
  "espn401841232__remates__Bruno Zapelli": [
@@ -494211,6 +494261,22 @@
     "3.5": 7.0,
     "4.5": 15.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "5.5": 21.0,
+    "0.5": 1.142,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 5.5,
+    "4.5": 13.0
+   }
   }
  ],
  "espn401841232__remates__Josue Pesqueira": [
@@ -494334,6 +494400,21 @@
     "2.5": 3.75,
     "3.5": 8.0,
     "4.5": 19.0
+   }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.8,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 15.0
    }
   }
  ],
@@ -496088,6 +496169,20 @@
     "2.5": 8.0,
     "3.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "1.5": 2.625,
+    "3.5": 19.0,
+    "0.5": 1.363,
+    "2.5": 7.0
+   }
   }
  ],
  "espn401841232__al_arco__Pedro Rocha": [
@@ -496797,6 +496892,19 @@
     "1.5": 5.5,
     "2.5": 19.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.5,
+    "2.5": 17.0
+   }
   }
  ],
  "espn401841232__al_arco__Brian Ocampo": [
@@ -497134,6 +497242,19 @@
     "1.5": 6.0,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 19.0
+   }
   }
  ],
  "espn401841232__al_arco__Bruno Zapelli": [
@@ -497268,6 +497389,19 @@
     "1.5": 6.5,
     "2.5": 21.0
    }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 19.0
+   }
   }
  ],
  "espn401841232__al_arco__Josue Pesqueira": [
@@ -497371,6 +497505,19 @@
     "2.5": 21.0,
     "0.5": 2.1,
     "1.5": 7.0
+   }
+  },
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "2.5": 21.0,
+    "0.5": 2.0,
+    "1.5": 6.5
    }
   }
  ],
@@ -685612,6 +685759,1663 @@
     "0.5": 1.8,
     "1.5": 4.5,
     "2.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Renan Peixoto": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "2.5": 1.833,
+    "3.5": 3.0,
+    "4.5": 6.0,
+    "5.5": 13.0,
+    "6.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Isaac Rodrigues": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.05,
+    "1.5": 1.285,
+    "2.5": 1.833,
+    "3.5": 3.0,
+    "4.5": 6.0,
+    "5.5": 13.0,
+    "6.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Lucas Taverna": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.062,
+    "1.5": 1.3,
+    "2.5": 1.909,
+    "3.5": 3.4,
+    "4.5": 6.5,
+    "5.5": 13.0,
+    "6.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Juan Portilla": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.071,
+    "1.5": 1.363,
+    "2.5": 2.1,
+    "3.5": 3.75,
+    "4.5": 8.0,
+    "5.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Thiago Santos": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.071,
+    "1.5": 1.4,
+    "2.5": 2.2,
+    "3.5": 4.0,
+    "4.5": 8.0,
+    "5.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Antonio Felipinho": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.444,
+    "2.5": 2.375,
+    "3.5": 4.333,
+    "4.5": 10.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Kevin Viveros": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.1,
+    "1.5": 1.5,
+    "2.5": 2.5,
+    "3.5": 4.5,
+    "4.5": 11.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Luiz Gustavo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.111,
+    "1.5": 1.571,
+    "2.5": 2.625,
+    "3.5": 5.5,
+    "4.5": 13.0,
+    "5.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Tiago Coser": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.125,
+    "1.5": 1.615,
+    "2.5": 2.75,
+    "3.5": 6.0,
+    "4.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Sebastian Gomez": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.666,
+    "2.5": 3.0,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Carlos Teran": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.833,
+    "2.5": 3.5,
+    "3.5": 8.0,
+    "4.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Willian Oliveira": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.833,
+    "2.5": 3.5,
+    "3.5": 8.0,
+    "4.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Vitor Tissi": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.833,
+    "2.5": 3.5,
+    "3.5": 8.0,
+    "4.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Jadson": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Gilberto Junior Leite": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Juan Felipe Aguirre": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.2,
+    "1.5": 1.909,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Dudu Anastacio": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.333,
+    "3.5": 11.0,
+    "4.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Felipe Jonatan": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.1,
+    "2.5": 4.5,
+    "3.5": 11.0,
+    "4.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Chiqueti": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Bruno Zapelli": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Leo Conceicao": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Keno": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Joao Cruz": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Joao Dantas": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.25,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Pimentel Lucas Crepaldi": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Lucas Ronier": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.3,
+    "1.5": 2.375,
+    "2.5": 5.5,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas__JP Chermont": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Gustavo Oliveira": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Gilberto Moraes": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.363,
+    "1.5": 2.625,
+    "2.5": 6.5,
+    "3.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Pedro Rocha": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.4,
+    "1.5": 2.75,
+    "2.5": 7.0,
+    "3.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Bruno Melo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.25,
+    "2.5": 9.0,
+    "3.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Gaston Benavidez": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Joaquin Lavega": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.25,
+    "2.5": 9.0,
+    "3.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Jorge Rivaldo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Leo Derik": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Jacy Maranhao": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Stiven Mendoza": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Arthur Dias": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 9.0,
+    "3.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Josue Pesqueira": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 10.0,
+    "3.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Renato Marques": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.571,
+    "1.5": 3.75,
+    "2.5": 11.0,
+    "3.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Vini Paulista": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Breno Lopes": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Paulo Roberto": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Rodrigo Rodrigues": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Leozinho Silva": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Joao Almeida": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 4.0,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Khensane Machel": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Rodrigo Moledo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Maicon Roque": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.833,
+    "1.5": 5.5,
+    "2.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Kerwin Vargas": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Fabinho da Silva": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.1,
+    "1.5": 7.0,
+    "2.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas__Tinga": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.1,
+    "1.5": 7.0,
+    "2.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Kevin Viveros": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.04,
+    "1.5": 1.25,
+    "2.5": 1.727,
+    "3.5": 2.75,
+    "4.5": 5.5,
+    "5.5": 11.0,
+    "6.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Keno": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.062,
+    "1.5": 1.3,
+    "2.5": 1.909,
+    "3.5": 3.4,
+    "4.5": 6.5,
+    "5.5": 15.0,
+    "6.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Josue Pesqueira": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.062,
+    "1.5": 1.3,
+    "2.5": 1.909,
+    "3.5": 3.4,
+    "4.5": 6.5,
+    "5.5": 15.0,
+    "6.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Lucas Ronier": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.062,
+    "1.5": 1.333,
+    "2.5": 2.0,
+    "3.5": 3.5,
+    "4.5": 7.0,
+    "5.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Gustavo Oliveira": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.4,
+    "2.5": 2.2,
+    "3.5": 4.0,
+    "4.5": 9.0,
+    "5.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Isaac Rodrigues": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.083,
+    "1.5": 1.444,
+    "2.5": 2.375,
+    "3.5": 4.333,
+    "4.5": 10.0,
+    "5.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Breno Lopes": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.111,
+    "1.5": 1.533,
+    "2.5": 2.625,
+    "3.5": 5.5,
+    "4.5": 11.0,
+    "5.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Felipe Jonatan": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.666,
+    "2.5": 3.25,
+    "3.5": 6.5,
+    "4.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Joaquin Lavega": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.142,
+    "1.5": 1.615,
+    "2.5": 3.0,
+    "3.5": 6.0,
+    "4.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Chiqueti": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__JP Chermont": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Fabinho da Silva": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Vini Paulista": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Renan Peixoto": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.166,
+    "1.5": 1.727,
+    "2.5": 3.4,
+    "3.5": 7.0,
+    "4.5": 17.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Lucas Taverna": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.833,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Luiz Gustavo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.833,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Pedro Rocha": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.181,
+    "1.5": 1.833,
+    "2.5": 3.75,
+    "3.5": 9.0,
+    "4.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Jacy Maranhao": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.222,
+    "1.5": 2.0,
+    "2.5": 4.0,
+    "3.5": 10.0,
+    "4.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Sebastian Gomez": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.222,
+    "1.5": 2.0,
+    "2.5": 4.0,
+    "3.5": 10.0,
+    "4.5": 23.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Jadson": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.25,
+    "1.5": 2.2,
+    "2.5": 4.5,
+    "3.5": 11.0,
+    "4.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Thiago Santos": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.285,
+    "1.5": 2.2,
+    "2.5": 5.0,
+    "3.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Joao Cruz": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Stiven Mendoza": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Joao Almeida": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.333,
+    "1.5": 2.5,
+    "2.5": 6.0,
+    "3.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Bruno Zapelli": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Gilberto Junior Leite": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Juan Portilla": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Leozinho Silva": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.444,
+    "1.5": 3.0,
+    "2.5": 8.0,
+    "3.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Leo Derik": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.5,
+    "1.5": 3.4,
+    "2.5": 10.0,
+    "3.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Gaston Benavidez": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.533,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Rodrigo Moledo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.533,
+    "1.5": 3.5,
+    "2.5": 10.0,
+    "3.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Dudu Anastacio": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Antonio Felipinho": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Paulo Roberto": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Rodrigo Rodrigues": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Tiago Coser": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.615,
+    "1.5": 3.75,
+    "2.5": 11.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Willian Oliveira": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Kerwin Vargas": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.0,
+    "2.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Vitor Tissi": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.666,
+    "1.5": 4.333,
+    "2.5": 13.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Bruno Melo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.5,
+    "2.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Joao Dantas": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.5,
+    "2.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Jorge Rivaldo": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.5,
+    "2.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Juan Felipe Aguirre": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.727,
+    "1.5": 4.5,
+    "2.5": 15.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Gilberto Moraes": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 1.909,
+    "1.5": 5.5,
+    "2.5": 19.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Renato Marques": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.0,
+    "1.5": 6.0,
+    "2.5": 21.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Arthur Dias": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.2,
+    "1.5": 7.0,
+    "2.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Carlos Teran": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.2,
+    "1.5": 7.0,
+    "2.5": 26.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Tinga": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 8.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Maicon Roque": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "L",
+   "lineas": {
+    "0.5": 2.25,
+    "1.5": 8.0
+   }
+  }
+ ],
+ "espn401841232__faltas_recibidas__Leo Conceicao": [
+  {
+   "t": "2026-09-11T19:10",
+   "fecha": "2026-09-11",
+   "comp": "Brasileirão Série A",
+   "home": "Coritiba",
+   "away": "Athletico-PR",
+   "lado": "V",
+   "lineas": {
+    "0.5": 2.625,
+    "1.5": 10.0
    }
   }
  ]

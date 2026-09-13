@@ -4924,7 +4924,10 @@
    7.0,
    1.21
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   4
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -4948,7 +4951,10 @@
    4.1,
    1.62
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -4972,7 +4978,10 @@
    3.9,
    2.15
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -4996,7 +5005,10 @@
    2.85,
    3.75
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -5020,7 +5032,10 @@
    3.05,
    2.35
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -5044,7 +5059,10 @@
    2.8,
    2.85
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -6046,7 +6064,10 @@
    7.0,
    1.17
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -6070,7 +6091,10 @@
    3.5,
    4.6
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   0
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -7416,6 +7440,126 @@
    1.95,
    3.25,
    3.75
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882862": {
+  "fecha": "2026-09-18",
+  "comp": "Spanish LALIGA",
+  "home": "Espanyol",
+  "away": "Elche",
+  "lh": 1.604,
+  "la": 1.095,
+  "rho": 0.0,
+  "mercado": [
+   0.5135,
+   0.2762,
+   0.2103
+  ],
+  "cuotas": [
+   1.87,
+   3.4,
+   4.4
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882860": {
+  "fecha": "2026-09-19",
+  "comp": "Spanish LALIGA",
+  "home": "Osasuna",
+  "away": "Rayo Vallecano",
+  "lh": 1.389,
+  "la": 1.048,
+  "rho": 0.0,
+  "mercado": [
+   0.4312,
+   0.2821,
+   0.2867
+  ],
+  "cuotas": [
+   2.2,
+   3.3,
+   3.25
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882866": {
+  "fecha": "2026-09-19",
+  "comp": "Spanish LALIGA",
+  "home": "Athletic Club",
+  "away": "Alavés",
+  "lh": 1.51,
+  "la": 1.005,
+  "rho": 0.0,
+  "mercado": [
+   0.5702,
+   0.246,
+   0.1838
+  ],
+  "cuotas": [
+   1.69,
+   3.8,
+   5.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882864": {
+  "fecha": "2026-09-19",
+  "comp": "Spanish LALIGA",
+  "home": "Celta Vigo",
+  "away": "Racing Santander",
+  "lh": 1.764,
+  "la": 1.195,
+  "rho": 0.0,
+  "mercado": [
+   0.54,
+   0.23,
+   0.23
+  ],
+  "cuotas": [
+   1.77,
+   4.0,
+   4.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401882859": {
+  "fecha": "2026-09-19",
+  "comp": "Spanish LALIGA",
+  "home": "Sevilla",
+  "away": "Barcelona",
+  "lh": 1.018,
+  "la": 2.105,
+  "rho": 0.0,
+  "mercado": [
+   0.0836,
+   0.1559,
+   0.7605
+  ],
+  "cuotas": [
+   10.0,
+   5.75,
+   1.27
   ],
   "resultado": null,
   "modelo": {

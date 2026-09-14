@@ -5221,7 +5221,10 @@
    3.4,
    2.85
   ],
-  "resultado": null,
+  "resultado": [
+   4,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 5
@@ -5245,7 +5248,10 @@
    3.8,
    3.75
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -6187,7 +6193,10 @@
    5.5,
    10.5
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -6211,7 +6220,10 @@
    3.8,
    1.54
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   2
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -6235,7 +6247,10 @@
    5.25,
    9.0
   ],
-  "resultado": null,
+  "resultado": [
+   5,
+   3
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8

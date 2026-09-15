@@ -6274,7 +6274,10 @@
    2.95,
    3.15
   ],
-  "resultado": null,
+  "resultado": [
+   1,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -6298,7 +6301,10 @@
    2.75,
    2.7
   ],
-  "resultado": null,
+  "resultado": [
+   0,
+   3
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -6322,7 +6328,10 @@
    4.6,
    6.5
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 8
@@ -6490,7 +6499,10 @@
    4.0,
    8.0
   ],
-  "resultado": null,
+  "resultado": [
+   2,
+   1
+  ],
   "modelo": {
    "vida_media": 300,
    "prior": 12
@@ -8318,6 +8330,174 @@
   "cuotas": [
    2.2,
    2.95,
+   3.45
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841574": {
+  "fecha": "2026-09-19",
+  "comp": "Liga Profesional Argentina",
+  "home": "Gimnasia (Mendoza)",
+  "away": "Deportivo Riestra",
+  "lh": 1.221,
+  "la": 0.883,
+  "rho": -0.05,
+  "mercado": [
+   0.4278,
+   0.3322,
+   0.24
+  ],
+  "cuotas": [
+   2.2,
+   2.8,
+   3.8
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841573": {
+  "fecha": "2026-09-19",
+  "comp": "Liga Profesional Argentina",
+  "home": "Gimnasia La Plata",
+  "away": "Banfield",
+  "lh": 1.408,
+  "la": 0.889,
+  "rho": -0.05,
+  "mercado": [
+   0.5316,
+   0.2622,
+   0.2062
+  ],
+  "cuotas": [
+   1.77,
+   3.45,
+   4.3
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841244": {
+  "fecha": "2026-09-19",
+  "comp": "Brasileirão Série A",
+  "home": "Remo",
+  "away": "Santos",
+  "lh": 1.379,
+  "la": 1.233,
+  "rho": 0.0,
+  "mercado": [
+   0.349,
+   0.2718,
+   0.3792
+  ],
+  "cuotas": [
+   2.65,
+   3.35,
+   2.45
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 8
+  }
+ },
+ "espn401841571": {
+  "fecha": "2026-09-20",
+  "comp": "Liga Profesional Argentina",
+  "home": "Belgrano (Córdoba)",
+  "away": "Estudiantes de Río Cuarto",
+  "lh": 1.53,
+  "la": 0.547,
+  "rho": -0.05,
+  "mercado": [
+   0.6367,
+   0.2438,
+   0.1195
+  ],
+  "cuotas": [
+   1.49,
+   3.7,
+   7.0
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841569": {
+  "fecha": "2026-09-21",
+  "comp": "Liga Profesional Argentina",
+  "home": "Aldosivi",
+  "away": "Atlético Tucumán",
+  "lh": 1.092,
+  "la": 1.097,
+  "rho": -0.05,
+  "mercado": [
+   0.2981,
+   0.3199,
+   0.3821
+  ],
+  "cuotas": [
+   3.1,
+   2.9,
+   2.45
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841583": {
+  "fecha": "2026-09-21",
+  "comp": "Liga Profesional Argentina",
+  "home": "Barracas Central",
+  "away": "Independiente Rivadavia",
+  "lh": 1.127,
+  "la": 1.077,
+  "rho": -0.05,
+  "mercado": [
+   0.292,
+   0.3188,
+   0.3893
+  ],
+  "cuotas": [
+   3.15,
+   2.9,
+   2.4
+  ],
+  "resultado": null,
+  "modelo": {
+   "vida_media": 300,
+   "prior": 12
+  }
+ },
+ "espn401841582": {
+  "fecha": "2026-09-21",
+  "comp": "Liga Profesional Argentina",
+  "home": "Lanús",
+  "away": "Estudiantes de La Plata",
+  "lh": 1.181,
+  "la": 0.931,
+  "rho": -0.05,
+  "mercado": [
+   0.4354,
+   0.3009,
+   0.2637
+  ],
+  "cuotas": [
+   2.15,
+   3.05,
    3.45
   ],
   "resultado": null,
